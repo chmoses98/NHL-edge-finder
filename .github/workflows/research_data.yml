@@ -1,0 +1,110 @@
+name: research-data
+# V2 research data pull (RESEARCH_ONLY): historical Kalshi NHL markets + candlesticks for the market benchmark,
+# and MoneyPuck shot-level data for goalie game logs / score-state / empty-net / period research. Runs on a
+# network-capable runner (the dev container reaches none of these hosts) and commits compact outputs to the branch
+# it ran on -- never the default branch, never data-archive. Nothing here reads or writes the capture archive.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".trigger/research_data"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: research-data-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+  NHL_EDGE_LOG_LEVEL: INFO
+
+jobs:
+  gate:
+    # A push that DELETES the trigger file also matches `paths:`; only a push that leaves it in place runs the pull.
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.g.outputs.go }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: g
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] || [ -f .trigger/research_data ]; then echo "go=true" >> "$GITHUB_OUTPUT"; else echo "go=false" >> "$GITHUB_OUTPUT"; fi
+
+  kalshi-core:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 170
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: Settled NHL markets (core + extra families) and KXNHLGAME / KXNHLTOTAL candles
+        continue-on-error: true
+        run: >
+          python -m nhl_edge.research.kalshi_history --out data/history --history data/history
+          --candle-series KXNHLGAME,KXNHLTOTAL --tag core --max-minutes 140 --workers 6 --rate 12
+      - name: Summary
+        if: always()
+        run: |
+          head -c 6000 data/history/kalshi/MANIFEST.json || true
+          head -c 3000 data/history/kalshi/MANIFEST_candles_core.json || true
+      - name: Commit (never to the default branch)
+        if: always()
+        run: |
+          bash scripts/research_commit.sh "research: kalshi NHL markets + core candles (run ${{ github.run_id }})" data/history/kalshi
+
+  kalshi-ladders:
+    needs: [gate, kalshi-core]
+    if: always() && needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 170
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - run: git pull --ff-only origin "${GITHUB_REF_NAME}" || true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: KXNHLSPREAD / KXNHLTEAMTOTAL candles (markets reused from the core job)
+        continue-on-error: true
+        run: >
+          python -m nhl_edge.research.kalshi_history --out data/history --history data/history --skip-markets
+          --candle-series KXNHLSPREAD,KXNHLTEAMTOTAL --tag ladders --max-minutes 140 --workers 6 --rate 12
+      - name: Commit (never to the default branch)
+        if: always()
+        run: |
+          bash scripts/research_commit.sh "research: kalshi NHL spread/team-total candles (run ${{ github.run_id }})" data/history/kalshi
+
+  shots:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: MoneyPuck shots 2021-2025 -> slim Parquet
+        continue-on-error: true
+        run: python -m nhl_edge.data.shots --out data/history --seasons 2021,2022,2023,2024,2025
+      - name: Size guard
+        run: du -sh data/history/moneypuck/* || true
+      - name: Commit (never to the default branch)
+        if: always()
+        run: |
+          bash scripts/research_commit.sh "research: MoneyPuck shots 2021-2025 slim parquet (run ${{ github.run_id }})" data/history/moneypuck/shots_*.parquet data/history/SHOTS_MANIFEST.json

@@ -22,7 +22,14 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from nhl_edge import AUTHORITY, DATA_ONLY_MODEL_VERSION, FEATURE_VERSION, MARKET_ANCHORED_MODEL_VERSION, SIM_VERSION
+from nhl_edge import (
+    AUTHORITY,
+    DATA_ONLY_MODEL_VERSION,
+    DATA_ONLY_V2_MODEL_VERSION,
+    FEATURE_VERSION,
+    MARKET_ANCHORED_MODEL_VERSION,
+    SIM_VERSION,
+)
 from nhl_edge.archive.ledger import Ledger, entry_observed_at
 from nhl_edge.archive.reconstruct import DeltaChainError, reconstruct_at
 from nhl_edge.data.moneypuck import mp_season
@@ -163,6 +170,7 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
     contract_rows: list[dict[str, Any]] = []
     slate_games: list[dict[str, Any]] = []
     packet_games: list[dict[str, Any]] = []
+    v2_items: list[dict[str, Any]] = []  # handed to the DATA_ONLY_V2 shadow arm AFTER every V1 row exists
     for g in not_started:
         gid = g["game_id"]
         gi = build_game_inputs(g, now, team_games, goalie_stats, goalie_obs, season_id, mps)
@@ -238,6 +246,8 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
             "n_unsupported": sum(1 for r in rows_for_game if r["gate"] == "UNSUPPORTED"), "families": dict(Counter(r["family"] for r in rows_for_game)),
         }
         slate_games.append(gsum)
+        v2_items.append({"game": g, "gi": gi, "gsum": gsum, "contracts": contracts_by_game.get(gid, []), "v1_rows": rows_for_game, "seed": s,
+                         "minutes": mins, "horizon": horizon_label(mins)})
         packet_games.append({
             "identity": {"game_id": gid, "sport": "NHL", "league": "NHL", "event_id": gid, "season": g.get("season"), "season_type": g.get("season_type"), "date_et": target,
                          "start_time_utc": g["start_time_utc"], "home": gi.home_abbrev, "away": gi.away_abbrev, "home_team_id": gi.home_team_id, "away_team_id": gi.away_team_id, "venue": g.get("venue")},
@@ -269,16 +279,27 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
                      "by_family": dict(Counter(r["family"] for r in pred_rows)), "by_support": dict(Counter(r["support"] for r in pred_rows))},
         "games": slate_games, "contracts": pred_rows,
     }
+    v2 = _run_v2_shadow(ledger, v2_items, data_root, cfg.n_sims, now, market_ts, rosters) if v2_items else None
+    if v2 is not None:
+        slate["v2_shadow"] = {k: v for k, v in v2.items() if k != "rows"} | {"n_rows": len(v2.get("rows") or [])}
     if write:
         if pred_rows:
             ledger.append_rows("predictions", pred_rows, observed_at=now, meta={"date_et": target, "n_games": len(not_started)})
             ledger.append_rows("contracts", contract_rows, observed_at=now, meta={"date_et": target})
+        if v2 is not None and v2.get("rows"):
+            # a SEPARATE kind: V1's predictions partition is byte-for-byte what it was before V2 existed
+            try:
+                ledger.append_rows("predictions_v2", v2["rows"], observed_at=now, meta={"date_et": target, "role": "SHADOW", "model_version": DATA_ONLY_V2_MODEL_VERSION})
+            except Exception as e:  # noqa: BLE001 - never block V1's slate on the shadow arm
+                log.warning(kv(event="v2_shadow_archive_failed", err=str(e)[:300]))
+                slate["v2_shadow"]["archive_error"] = f"{type(e).__name__}: {str(e)[:200]}"
         stamp = now.strftime("%Y%m%dT%H%M%SZ")
         out_dir = out_root / "slates" / f"dt={target}" / f"{stamp}_{ledger.run_id}"
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "slate.json").write_text(json.dumps(slate, indent=1, default=str))
         (out_dir / "slate.md").write_text(slate_markdown(slate))
-        (out_dir / "packet.json").write_text(json.dumps({"slate": {k: v for k, v in slate.items() if k not in ("contracts", "games")}, "games": packet_games}, indent=1, default=str))
+        (out_dir / "packet.json").write_text(json.dumps({"slate": {k: v for k, v in slate.items() if k not in ("contracts", "games", "v2_shadow")}, "games": packet_games}
+                                                        | ({"v2_shadow": slate["v2_shadow"]} if "v2_shadow" in slate else {}), indent=1, default=str))
         latest = out_root / "slates" / "latest"
         latest.mkdir(parents=True, exist_ok=True)
         for name in ("slate.json", "slate.md", "packet.json"):
@@ -287,6 +308,28 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
                                                                     "out_dir": str(out_dir.relative_to(out_root)), "run_id": ledger.run_id, "by_gate": slate["coverage"]["by_gate"]}, indent=1))
         print(slate_markdown(slate))
     return 0
+
+
+def _run_v2_shadow(ledger: Ledger, items: list[dict[str, Any]], data_root: Path, n_sims: int, now: datetime, market_ts: datetime | None,
+                   rosters: list[dict[str, Any]] | None = None) -> dict[str, Any] | None:
+    """DATA_ONLY_V2 shadow arm (RESEARCH_ONLY). Never raises: a failure is recorded and V1 proceeds unchanged."""
+    from nhl_edge.workflows import shadow_v2
+
+    if not shadow_v2.enabled():
+        return None
+    try:
+        live_st, st_meta = _read_latest(ledger, "context/team_games_st", now)
+        out = shadow_v2.run_shadow(items, data_root, live_st, n_sims, now, market_ts, ledger.run_id, rosters)
+        out["context"]["team_games_st_snapshot"] = st_meta
+        out["model_version"] = DATA_ONLY_V2_MODEL_VERSION
+        out["role"] = "SHADOW"
+        out["authority"] = AUTHORITY
+        out["note"] = ("DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and "
+                       "carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT.")
+        return out
+    except Exception as e:  # noqa: BLE001 - the shadow arm must never take V1 down
+        log.warning(kv(event="v2_shadow_failed", err=str(e)[:300]))
+        return {"error": f"{type(e).__name__}: {str(e)[:300]}", "rows": [], "blocks": [], "model_version": DATA_ONLY_V2_MODEL_VERSION, "role": "SHADOW"}
 
 
 def _special_teams(goalie_stats: list[dict[str, Any]], team_games: list[dict[str, Any]], gi) -> dict[str, Any]:
@@ -312,5 +355,13 @@ def slate_markdown(s: dict[str, Any]) -> str:
         lines.append(f"| {r['ticker']} | {r['family']} | {f(r.get('p_data_only'))} | {f(r.get('p_market'))} | {f(r.get('p_market_anchored'))} | {r.get('market_yes_ask') or ''} | {r.get('market_no_ask') or ''} | {r.get('best_side') or ''} | {'' if ev == -9 else f'{ev:+.3f}'} | {r['gate']} |")
     if s["games"] == []:
         lines.append("(no not-started games on this date at run time)")
+    v2 = s.get("v2_shadow")
+    if v2:
+        try:
+            from nhl_edge.workflows.shadow_v2 import markdown as v2_markdown
+
+            lines.append(v2_markdown(v2.get("blocks") or [], v2.get("error") or v2.get("note")))
+        except Exception as e:  # noqa: BLE001 - the V1 slate renders regardless
+            lines.append(f"\n(DATA_ONLY_V2 shadow section failed to render: {type(e).__name__})")
     lines += ["", f"_{s['authority_note']}_"]
     return "\n".join(lines) + "\n"

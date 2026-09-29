@@ -1,0 +1,73 @@
+name: shadow-run
+# One-off DATA_ONLY_V1 + DATA_ONLY_V2 (shadow) RUN NHL against the PRODUCTION archive, read-only. The archive is
+# checked out into a throwaway worktree, `nhl simulate` runs at the true current instant, and only the resulting
+# slate / packet / predictions_v2 files are copied to docs/shadow/<UTC stamp>/ and committed to the branch this ran
+# on (never the default branch, never data-archive). The capture worker is not touched: this workflow neither
+# pushes data-archive nor shares its concurrency group. RESEARCH_ONLY.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".trigger/shadow_run"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: shadow-run-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+  NHL_EDGE_LOG_LEVEL: INFO
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.g.outputs.go }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: g
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] || [ -f .trigger/shadow_run ]; then echo "go=true" >> "$GITHUB_OUTPUT"; else echo "go=false" >> "$GITHUB_OUTPUT"; fi
+
+  shadow:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: Read-only copy of the production archive
+        run: |
+          set -euo pipefail
+          git fetch origin data-archive --depth=1
+          mkdir -p /tmp/archive
+          git archive FETCH_HEAD | tar -x -C /tmp/archive
+          echo "ARCHIVE_SHA=$(git rev-parse FETCH_HEAD)" >> "$GITHUB_ENV"
+      - name: RUN NHL (V1 + V2 shadow) at the true instant
+        run: nhl simulate --data data --out /tmp/archive
+      - name: Keep the outputs
+        run: |
+          set -euo pipefail
+          src=$(python -c "import json;print(json.load(open('/tmp/archive/STATUS_simulate.json'))['out_dir'])")
+          stamp=$(basename "$src")
+          dest="docs/shadow/${stamp}"
+          mkdir -p "$dest"
+          cp /tmp/archive/"$src"/slate.md /tmp/archive/"$src"/slate.json /tmp/archive/"$src"/packet.json "$dest"/
+          find /tmp/archive/predictions_v2 -name "*.jsonl.gz" -newer /tmp/archive/manifest.jsonl -exec cp {} "$dest"/ \; 2>/dev/null || true
+          find /tmp/archive/predictions_v2 -name "*.jsonl.gz" -exec cp {} "$dest"/ \; 2>/dev/null || true
+          printf '{"archive_sha": "%s", "workflow_run": "%s", "code_sha": "%s"}\n' "$ARCHIVE_SHA" "${{ github.run_id }}" "${{ github.sha }}" > "$dest"/PROVENANCE.json
+          ls -la "$dest"
+      - name: Commit (never to the default branch or data-archive)
+        run: |
+          bash scripts/research_commit.sh "shadow: opening-night V1+V2 RUN NHL on the production archive (read-only; run ${{ github.run_id }})" docs/shadow
