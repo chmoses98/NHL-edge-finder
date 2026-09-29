@@ -38,7 +38,7 @@ jobs:
         run: nhl capture --out out/archive --orderbook --max-orderbooks 300
       - name: RUN NHL (simulate + price)
         run: nhl simulate --data data --out out/archive
-      - name: Second run (idempotency: new instant appends, archive verifies)
+      - name: Second run - idempotency (new instant appends, archive verifies)
         run: |
           sleep 2
           nhl simulate --data data --out out/archive
