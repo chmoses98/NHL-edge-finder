@@ -1,0 +1,164 @@
+name: conductor
+# Schedule-aware orchestrator (decide job is stdlib-only and needs no install). Manual dispatch or a push touching
+# .trigger/conductor; the recurring cadence is owned by capture_worker.yml (a self-renewing worker that reuses
+# decide_now()), because GitHub cron delivered ~4% of ten-minute wakes on the NBA repository. This workflow is
+# the recovery path and the one-shot "RUN NHL now" button. Archive data lives on the `data-archive` branch.
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Comma list of jobs to force (capture,context,simulate,settle,evaluate,discover)"
+        default: ""
+  push:
+    paths:
+      - ".trigger/conductor"
+
+permissions:
+  contents: read
+
+concurrency:
+  # NOT keyed to github.ref: ARCHIVE_BRANCH is a constant, so two refs write the same branch. One group, one writer,
+  # shared with capture_worker.yml on purpose.
+  group: conductor-archive
+  cancel-in-progress: false
+
+env:
+  FORCE: ${{ inputs.force || '' }}
+  ARCHIVE_BRANCH: data-archive
+
+jobs:
+  decide:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      capture: ${{ steps.d.outputs.capture }}
+      context: ${{ steps.d.outputs.context }}
+      simulate: ${{ steps.d.outputs.simulate }}
+      settle: ${{ steps.d.outputs.settle }}
+      evaluate: ${{ steps.d.outputs.evaluate }}
+      discover: ${{ steps.d.outputs.discover }}
+      calendar_known: ${{ steps.d.outputs.calendar_known }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Fetch archive branch (read-only)
+        run: |
+          git fetch origin "$ARCHIVE_BRANCH" --depth=1 2>/dev/null && git worktree add data/archive "origin/$ARCHIVE_BRANCH" || mkdir -p data/archive
+      - id: d
+        name: Decide
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -uo pipefail
+          PYTHONPATH=src python -m nhl_edge.workflows.conductor --data data --github-output "$GITHUB_OUTPUT"
+          # Forcing via the trigger file is gated on the push event on purpose: a committed .trigger/conductor
+          # once forced a full capture on every scheduled wake of the NBA repository.
+          if [[ -z "$FORCE" && "$EVENT_NAME" == "push" && -f .trigger/conductor ]]; then
+            FORCE="$(grep -oE '[a-z,]+' .trigger/conductor | head -1)"
+          fi
+          for j in capture context simulate settle evaluate discover; do
+            if [[ ",$FORCE," == *",$j,"* ]]; then echo "$j=true" >> "$GITHUB_OUTPUT"; fi
+          done
+      - name: Alarm if the season calendar is exhausted
+        if: steps.d.outputs.calendar_known == 'false'
+        run: |
+          echo "::warning title=Season calendar exhausted::Past every announced NHL calendar; running on the fallback Sep-Jun rule. Add the new season to SEASON_CALENDAR in src/nhl_edge/workflows/conductor.py."
+
+  run:
+    needs: decide
+    if: >-
+      needs.decide.outputs.capture == 'true' || needs.decide.outputs.context == 'true' ||
+      needs.decide.outputs.simulate == 'true' || needs.decide.outputs.settle == 'true' ||
+      needs.decide.outputs.evaluate == 'true' || needs.decide.outputs.discover == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: Checkout archive branch (create orphan if missing)
+        run: |
+          set -uo pipefail
+          git config user.name "nhl-edge-bot"
+          git config user.email "nhl-edge-bot@users.noreply.github.com"
+          if git fetch origin "$ARCHIVE_BRANCH" --depth=1 2>/dev/null; then
+            git worktree add data/archive "origin/$ARCHIVE_BRANCH"
+            (cd data/archive && git checkout -B "$ARCHIVE_BRANCH")
+          else
+            mkdir -p data/archive && cd data/archive && git init -q && git checkout -q --orphan "$ARCHIVE_BRANCH" \
+              && git config user.name "nhl-edge-bot" && git config user.email "nhl-edge-bot@users.noreply.github.com" \
+              && git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+              && echo "# NHL Edge Finder immutable archive (RESEARCH_ONLY)" > README.md && git add README.md && git commit -qm "init archive"
+          fi
+      - name: Context refresh
+        if: needs.decide.outputs.context == 'true'
+        continue-on-error: true
+        run: nhl context --out data/archive
+      - name: Market capture
+        if: needs.decide.outputs.capture == 'true'
+        continue-on-error: true
+        run: nhl capture --out data/archive --orderbook --max-orderbooks 300
+      - name: Simulate + price (RUN NHL)
+        if: needs.decide.outputs.simulate == 'true'
+        continue-on-error: true
+        run: nhl simulate --data data --out data/archive
+      - name: Settle
+        if: needs.decide.outputs.settle == 'true'
+        continue-on-error: true
+        run: nhl settle --data data --out data/archive
+      - name: Evaluate
+        if: needs.decide.outputs.evaluate == 'true'
+        continue-on-error: true
+        run: nhl evaluate --data data --out data/archive/eval
+      - name: Discover market families (daily)
+        if: needs.decide.outputs.discover == 'true'
+        continue-on-error: true
+        run: nhl discover --out data/archive/catalog --statuses open,unopened --max-pages 10
+      - name: Verify archive immutability and push
+        id: push
+        run: |
+          set -uo pipefail
+          cd data/archive
+          python - <<'PY'
+          from pathlib import Path
+          from nhl_edge.archive.ledger import Ledger
+          problems = Ledger(Path('.')).verify()
+          assert not problems, problems
+          print('archive verified')
+          PY
+          cd ../..
+          bash scripts/archive_push.sh data/archive "$ARCHIVE_BRANCH" "archive: $(date -u +%Y-%m-%dT%H:%M:%SZ) run ${{ github.run_id }}"
+      - name: Preserve the snapshot if the push failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: archive-snapshot-${{ github.run_id }}
+          path: data/archive
+          retention-days: 14
+      - name: Surface coverage alarms
+        if: always() && needs.decide.outputs.capture == 'true'
+        run: |
+          set -uo pipefail
+          f=data/archive/STATUS_capture.json
+          [ -f "$f" ] || { echo "no capture status to check"; exit 0; }
+          python - "$f" <<'PY'
+          import json, sys
+          st = json.load(open(sys.argv[1]))
+          alarms = st.get("alarms") or []
+          for n in st.get("notes") or []:
+              print(f"::notice title=Capture note::{n}")
+          if not alarms:
+              print(f"coverage OK: {st.get('n_markets')} markets, by_support={st.get('by_support')}")
+              raise SystemExit(0)
+          for a in alarms:
+              print(f"::warning title=Coverage alarm::{a}")
+          print("::error title=Coverage invariant breached::" + f"{len(alarms)} alarm(s); see data/archive/STATUS_capture.json")
+          raise SystemExit(1)
+          PY

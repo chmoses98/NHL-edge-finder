@@ -1,0 +1,68 @@
+name: probe-sources
+# Source reachability probe from a network-capable runner. Runs on manual dispatch, or on a push that
+# touches .trigger/probe (so it can be started from a feature branch before the file exists on main).
+# It commits the SMALL results (status table + trimmed shape samples) back to the branch it ran on and
+# refuses to commit to the default branch: data never lands on main unattended.
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Game date to probe (YYYY-MM-DD)"
+        default: ""
+  push:
+    paths:
+      - ".trigger/probe"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: probe-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      PROBE_DATE: ${{ inputs.date }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Probe (stdlib only, no install)
+        run: |
+          set -uo pipefail
+          d="${PROBE_DATE:-}"
+          if [ -z "$d" ] && [ -f .trigger/probe ]; then d="$(grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' .trigger/probe | head -1 || true)"; fi
+          if [ -n "$d" ]; then python scripts/probe_sources.py out/probe --date "$d"; else python scripts/probe_sources.py out/probe; fi
+      - name: Upload raw probe output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: probe-${{ github.run_id }}
+          path: out/probe
+          retention-days: 30
+      - name: Commit results to this branch (never the default branch)
+        if: always()
+        run: |
+          set -uo pipefail
+          mkdir -p docs/probe
+          rm -rf docs/probe/samples
+          cp -r out/probe/. docs/probe/
+          git config user.name "nhl-edge-bot"
+          git config user.email "nhl-edge-bot@users.noreply.github.com"
+          git add docs/probe
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git commit -m "probe: source reachability results (run ${{ github.run_id }})"
+          if [ "${GITHUB_REF_NAME}" = "${DEFAULT_BRANCH}" ]; then
+            echo "::warning title=Refusing to push to the default branch::Results are in this run's artifact."
+            exit 0
+          fi
+          for i in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin HEAD:"${GITHUB_REF_NAME}" && exit 0
+            sleep $((2**i))
+          done
+          echo "::error::could not push probe results"; exit 1
