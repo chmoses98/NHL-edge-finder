@@ -140,3 +140,9 @@ noise of V1. No arm was tuned on the test seasons.
 `predictions_v2` and appends a V1 / V2 / market block to `slate.json`, `packet.json` (`v2_shadow`) and `slate.md`.
 `NHL_EDGE_V2_SHADOW=0` disables it. The worker picks up new `main` code only when a new generation starts; V2 rows
 start at the first timestamp V2 actually ran and are never backdated into earlier opening-night snapshots.
+
+## Market benchmark (summary; full tables in MARKET_BENCHMARK.md)
+
+On 1,312 regular-season 2025-26 games Kalshi's KXNHLGAME midpoint beats V1 and V2 at every horizon (T-60m Brier 0.2442
+vs 0.2459 / 0.2458), and KXNHLTOTAL beats both at 5.5 and 6.5. Conditional on the market, neither model's probability
+carries detectable information (logistic coefficient z <= 0.9 from T-12h on). V2 beats V1; it does not beat the market.

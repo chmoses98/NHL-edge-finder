@@ -4,7 +4,7 @@
 
 **PARTIAL V2 READY** — DATA_ONLY_V2 is merged, running as a SHADOW arm and archived with honest timestamps. Its
 clear gain is regulation-tie / OT calibration. Moneyline, totals, puck line and team totals are neutral against V1.
-__MARKET_VERDICT__
+**The market remains better than both models**: on 1,312 2025-26 games Kalshi's pregame moneyline and totals beat V1 and V2 at every horizon, and neither model shows detectable information beyond the market price.
 
 ## B. SHAs
 
@@ -30,7 +30,61 @@ __PR4_ROW__
 
 ## E. Historical Kalshi benchmark
 
-__BENCHMARK__
+**Sources:** `data/history/kalshi/` (research-data run 36587430636; historical host, with the live host for gaps).
+
+**Coverage**
+
+| series | settled markets | joined to official NHL games | notes |
+|---|---:|---:|---|
+| KXNHLGAME | 3,076 | 2,950 | the 126 unjoined are 2025 preseason plus 2 non-schedule games: refused, not guessed |
+| KXNHLTOTAL | 7,813 | 7,808 | |
+| KXNHLSPREAD | 5,138 | 5,134 | |
+| KXNHLOVERTIME | 49 | 49 | playoffs only |
+| KXNHLFIRSTGOAL | 24,006 | — | recorded only |
+
+- Kalshi NHL game markets begin in the **2025 playoffs**, so the regular-season benchmark covers **2025-26 only**: 1,312 games, 2025-10-07 .. 2026-04-16.
+- No settled history exists for KXNHLTEAMTOTAL or any period series.
+
+**Candles**
+- 1.47M candles, hourly and 1-minute windows aligned to official start times.
+- About 1% of fetches failed with HTTP 429 and were recorded as gaps.
+- Spread / team-total candles: a follow-up job.
+
+**Quote definition**
+- Candle-close best bid/ask midpoint at or before each horizon; median spread 1¢.
+- NOT executable history (no depth).
+
+**Moneyline (identical games and instants):**
+
+| horizon | n | V1 Brier | V2 Brier | Kalshi Brier | V1 log loss | V2 log loss | Kalshi log loss |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| T-24h (flag) | 1302 | 0.2458 | 0.2457 | 0.2450 | 0.6845 | 0.6843 | 0.6830 |
+| T-12h | 1312 | 0.2459 | 0.2458 | 0.2444 | 0.6847 | 0.6845 | 0.6818 |
+| T-6h | 1312 | 0.2459 | 0.2458 | 0.2445 | 0.6847 | 0.6845 | 0.6818 |
+| T-3h | 1312 | 0.2459 | 0.2458 | 0.2443 | 0.6847 | 0.6845 | 0.6814 |
+| T-90m | 1312 | 0.2459 | 0.2458 | 0.2443 | 0.6847 | 0.6845 | 0.6815 |
+| T-60m | 1312 | 0.2459 | 0.2458 | 0.2442 | 0.6847 | 0.6845 | 0.6812 |
+| T-30m | 1312 | 0.2459 | 0.2458 | 0.2443 | 0.6847 | 0.6845 | 0.6814 |
+| T-10m | 1312 | 0.2459 | 0.2458 | 0.2443 | 0.6847 | 0.6845 | 0.6815 |
+
+T-24h is flagged because the model's inputs run through the previous day, which the market had not fully seen.
+
+**Totals, T-60m (Brier):**
+
+| line | V1 | V2 | Kalshi |
+|---|---:|---:|---:|
+| O5.5 | 0.2444 | 0.2442 | 0.2419 |
+| O6.5 | 0.2501 | 0.2496 | 0.2466 |
+
+Kalshi's settled totals agree with the official final score (shootout = one goal) in 100% of 2,390 checks.
+
+**Answers**
+- **Does DATA_ONLY_V1 beat Kalshi pregame moneyline? No**, at every horizon.
+- **Does V2? No.** It is fractionally better than V1 but still behind the market.
+- **Does either add information conditional on the market?** Not detectably. In the logistic combination `y ~ logit(market) + logit(model)` the model coefficient is 0.19–0.39 with SE ≈ 0.40–0.46 (z ≤ 0.9 from T-12h on).
+- **Are large disagreements predictive?** The OLS slope of `outcome − market` on `model − market` is ≈ 0.3 (SE 0.23): mostly model error, with at most a weak signal indistinguishable from zero. Where V1/V2 exceed the market by more than 10 points (n ≈ 81–86), outcomes beat the market by +0.06–0.07 (SE 0.05); in the mirror bin, by −0.005 to −0.02. Not significant.
+- **Market-anchored arm** (MARKET_ANCHORED_V1 0.8 logit blend; not independent): T-60m Brier 0.2440 vs market 0.2442. That is noise-level, and no conclusion is drawn from it.
+- **Nothing was tuned on these results.** No ROI analysis was done.
 
 ## F. OT fix
 
@@ -205,7 +259,7 @@ DATA_ONLY_V2 is SHADOW: it never gates a contract. kalshi-bet-router was not mod
    - The OT winner model is V1's strength-shrink prior (not re-estimated).
 4. **Period markets.** Unsettleable here (no period settlement), so they stay PARTIAL.
 5. **Out of scope today.** Injuries and line combinations remain unmodelled.
-6. **Market benchmark.** __BENCH_LIMITS__
+6. **Market benchmark.** One season only (Kalshi NHL game history starts in the 2025 playoffs); candle midpoints are not executable prices; spread and team-total benchmarks are not built (no settled team-total history; spread candles pending); ~1% of candle fetches were rate-limited gaps; the walk-forward model uses information through the previous day, which flags the T-24h horizon.
 
 ## P. RUN NHL later today
 
@@ -223,4 +277,4 @@ DATA_ONLY_V2 is SHADOW: it never gates a contract. kalshi-bet-router was not mod
 - Flag any V1/V2 disagreement ≥ 0.04 (`flagged_for_review`).
 - Do not choose V2 because it is newer.
 
-__MARKET_RUN_NOTE__
+History says the Kalshi price is the better forecaster; treat any model-vs-market gap as more likely model error than edge. The market is the benchmark.
