@@ -125,3 +125,53 @@ class Provenance(Strict):
     model_version: str | None = None
     inputs: dict[str, Any] = Field(default_factory=dict)
     data_cutoff_utc: datetime | None = None
+
+
+class FinalResult(Strict):
+    """Official final result of one game, as the settlement engine needs it. Built from the NHL boxscore.
+
+    ``home_reg`` / ``away_reg`` are the scores at the end of the third period. For an OT or SO game they are equal;
+    the ``home_final`` / ``away_final`` include the one deciding goal the NHL credits to the winner.
+    """
+
+    game_id: str
+    status: GameStatus
+    home_team_id: int
+    away_team_id: int
+    home_final: int | None = None
+    away_final: int | None = None
+    home_reg: int | None = None
+    away_reg: int | None = None
+    last_period_type: FinalPeriodType | None = None
+    source: str = "nhl_api_boxscore"
+    fetched_at_utc: datetime | None = None
+    stat_correction_version: int = 0
+    home_starting_goalie_id: int | None = None
+    away_starting_goalie_id: int | None = None
+    home_empty_net_goals: int | None = None
+    away_empty_net_goals: int | None = None
+
+    @property
+    def is_final(self) -> bool:
+        return self.status == GameStatus.FINAL and self.home_final is not None and self.away_final is not None and self.last_period_type is not None
+
+    def opponent_of(self, team_id: int) -> int:
+        if team_id == self.home_team_id:
+            return self.away_team_id
+        if team_id == self.away_team_id:
+            return self.home_team_id
+        raise KeyError(f"team {team_id} not in game {self.game_id}")
+
+    def final_for(self, team_id: int) -> int:
+        return self.home_final if team_id == self.home_team_id else self.away_final  # type: ignore[return-value]
+
+    def reg_for(self, team_id: int) -> int:
+        return self.home_reg if team_id == self.home_team_id else self.away_reg  # type: ignore[return-value]
+
+    @property
+    def went_to_overtime(self) -> bool:
+        return self.last_period_type in (FinalPeriodType.OT, FinalPeriodType.SO)
+
+    @property
+    def went_to_shootout(self) -> bool:
+        return self.last_period_type == FinalPeriodType.SO
