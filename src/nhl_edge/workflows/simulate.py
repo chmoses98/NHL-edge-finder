@@ -279,7 +279,7 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
                      "by_family": dict(Counter(r["family"] for r in pred_rows)), "by_support": dict(Counter(r["support"] for r in pred_rows))},
         "games": slate_games, "contracts": pred_rows,
     }
-    v2 = _run_v2_shadow(ledger, v2_items, data_root, cfg.n_sims, now, market_ts) if v2_items else None
+    v2 = _run_v2_shadow(ledger, v2_items, data_root, cfg.n_sims, now, market_ts, rosters) if v2_items else None
     if v2 is not None:
         slate["v2_shadow"] = {k: v for k, v in v2.items() if k != "rows"} | {"n_rows": len(v2.get("rows") or [])}
     if write:
@@ -306,7 +306,8 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
     return 0
 
 
-def _run_v2_shadow(ledger: Ledger, items: list[dict[str, Any]], data_root: Path, n_sims: int, now: datetime, market_ts: datetime | None) -> dict[str, Any] | None:
+def _run_v2_shadow(ledger: Ledger, items: list[dict[str, Any]], data_root: Path, n_sims: int, now: datetime, market_ts: datetime | None,
+                   rosters: list[dict[str, Any]] | None = None) -> dict[str, Any] | None:
     """DATA_ONLY_V2 shadow arm (RESEARCH_ONLY). Never raises: a failure is recorded and V1 proceeds unchanged."""
     from nhl_edge.workflows import shadow_v2
 
@@ -314,7 +315,7 @@ def _run_v2_shadow(ledger: Ledger, items: list[dict[str, Any]], data_root: Path,
         return None
     try:
         live_st, st_meta = _read_latest(ledger, "context/team_games_st", now)
-        out = shadow_v2.run_shadow(items, data_root, live_st, n_sims, now, market_ts, ledger.run_id)
+        out = shadow_v2.run_shadow(items, data_root, live_st, n_sims, now, market_ts, ledger.run_id, rosters)
         out["context"]["team_games_st_snapshot"] = st_meta
         out["model_version"] = DATA_ONLY_V2_MODEL_VERSION
         out["role"] = "SHADOW"

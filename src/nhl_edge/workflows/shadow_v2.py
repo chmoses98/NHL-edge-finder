@@ -96,31 +96,53 @@ def build_context(data_root: Path, live_st_rows: list[dict[str, Any]] | None) ->
     return V2Context(st_rows, "; ".join(src) or "none", book, gsrc, load_params(), fparams)
 
 
-def v2_goalie_factor(state: GoalieState, book: gt.GoalieBook | None, as_of: str, team_abbrev: str) -> tuple[float, dict[str, Any]]:
-    """Confidence-weighted mixture (V1 ladder) of the named goalie's true talent and the START-SHARE-weighted talent of
-    the alternatives (V1 used a plain average). UNKNOWN -> start-share-weighted team goalies if known, else 1.0."""
+def v2_goalie_factor(state: GoalieState, book: gt.GoalieBook | None, as_of: str, team_abbrev: str,
+                     roster_goalies: list[int] | None = None) -> tuple[float, dict[str, Any]]:
+    """Confidence-weighted mixture (V1's status ladder) of the named goalie's true talent and the START-SHARE-weighted
+    talent of the plausible alternatives (V1 used a plain average of the observation's alternatives).
+
+    Alternatives, in order of preference: the observation's own alternatives; else the CURRENT roster goalies
+    (``context/rosters``); else last season's starters for this club from the goalie log (stale after trades, so only
+    a last resort). Start share = the goalie's starts in his previous 82 appearances (any club) + 1.
+    UNKNOWN -> the alternatives mixture alone (1.0 when nothing is known)."""
     if book is None:
         return 1.0, {"method": "no_goalie_data", "weight_named": 0.0}
     lr = book.league_ratio(as_of)
     alts = [int(a["player_id"]) for a in (state.alternatives or []) if a.get("player_id") is not None and a.get("player_id") != state.player_id]
-    recent = book.log[(book.log["game_date"].astype(str) < as_of) & (book.log["team"] == team_abbrev)].tail(82)
-    starts = Counter(int(x) for x in recent.loc[recent["starter"] == 1, "goalie_id"])
-    if not alts and starts:
-        alts = [g for g, _ in starts.most_common(3) if g != state.player_id]
-    alt_w = np.array([starts.get(a, 0) + 1.0 for a in alts]) if alts else np.array([])
+    source = "observation"
+    if not alts and roster_goalies:
+        alts = [int(g) for g in roster_goalies if int(g) != state.player_id]
+        source = "current_roster"
+    if not alts:
+        recent = book.log[(book.log["game_date"].astype(str) < as_of) & (book.log["team"] == team_abbrev)].tail(82)
+        starts_team = Counter(int(x) for x in recent.loc[recent["starter"] == 1, "goalie_id"])
+        alts = [g for g, _ in starts_team.most_common(3) if g != state.player_id]
+        source = "last_season_team_starters"
+
+    def starts(g: int) -> float:
+        d = book.by_goalie.get(g)
+        if d is None:
+            return 0.0
+        d = d[d["game_date"].astype(str) < as_of].tail(82)
+        return float(d["starter"].sum())
+
+    alt_w = np.array([starts(a) + 1.0 for a in alts]) if alts else np.array([])
     alt_f = np.array([book.factor(a, as_of, lr) for a in alts]) if alts else np.array([])
     alt = float((alt_w * alt_f).sum() / alt_w.sum()) if alts else 1.0
+    alt_detail = {str(a): {"factor": round(float(f), 4), "weight": round(float(w / alt_w.sum()), 3)} for a, f, w in zip(alts, alt_f, alt_w)} if alts else {}
     if state.status == GoalieStatus.UNKNOWN or state.player_id is None:
-        return alt, {"method": "unknown_starter_start_share_mixture", "alt_factor": alt, "alternatives": dict(zip(alts, alt_f.round(4).tolist())), "weight_named": 0.0}
+        return alt, {"method": "unknown_starter_start_share_mixture", "alt_factor": alt, "alternatives": alt_detail, "alternatives_source": source,
+                     "weight_named": 0.0}
     named_t = book.talent(state.player_id, as_of, lr)
     named = named_t.factor * named_t.workload_mult
     w = min(max(state.confidence, 0.0), 1.0)
     return w * named + (1 - w) * alt, {"method": "mixture_start_share_alternatives", "named_factor": named, "named_apps": named_t.apps_used,
                                        "named_rest_days": named_t.rest_days, "named_b2b": named_t.b2b, "alt_factor": alt, "weight_named": w,
-                                       "alternatives": dict(zip(alts, alt_f.round(4).tolist()))}
+                                       "alternatives": alt_detail, "alternatives_source": source}
 
 
-def simulate_game_shadow(gi: Any, game: dict[str, Any], ctx: V2Context, seed: int, n_sims: int) -> tuple[Any, dict[str, Any]]:
+def simulate_game_shadow(gi: Any, game: dict[str, Any], ctx: V2Context, seed: int, n_sims: int,
+                         roster_goalies: dict[int, list[int]] | None = None) -> tuple[Any, dict[str, Any]]:
     """V2 lambdas from V1's GameInputs + V2 features, then an nhl-sim-2.0 draw. Returns (result, detail)."""
     from nhl_edge.data.moneypuck import mp_season
 
@@ -131,8 +153,9 @@ def simulate_game_shadow(gi: Any, game: dict[str, Any], ctx: V2Context, seed: in
     ast = stm.team_st(ctx.st_rows, gi.away_abbrev, date, lst, season) if len(ctx.st_rows) else None
     use_st = bool(ctx.fparams.get("use_special_teams")) and hst is not None and ast is not None
     if ctx.fparams.get("goalie_model") == "true_talent":
-        hf, hdet = v2_goalie_factor(gi.home_goalie, ctx.book, date, gi.home_abbrev)
-        af, adet = v2_goalie_factor(gi.away_goalie, ctx.book, date, gi.away_abbrev)
+        rg = roster_goalies or {}
+        hf, hdet = v2_goalie_factor(gi.home_goalie, ctx.book, date, gi.home_abbrev, rg.get(gi.home_team_id))
+        af, adet = v2_goalie_factor(gi.away_goalie, ctx.book, date, gi.away_abbrev, rg.get(gi.away_team_id))
     else:
         hf, hdet, af, adet = gi.home_goalie_factor, {"method": "v1_factor"}, gi.away_goalie_factor, {"method": "v1_factor"}
     dummy = stm.TeamST("LG", lst.ev_xg60, lst.ev_xg60, lst.pp_xg60, lst.pp_xg60, lst.ppmin, lst.ppmin, 0.0, {})
@@ -208,16 +231,20 @@ def markdown(blocks: list[dict[str, Any]], note: str | None = None) -> str:
 
 
 def run_shadow(games: list[dict[str, Any]], data_root: Path, live_st_rows: list[dict[str, Any]] | None, n_sims: int, now: datetime, market_ts: datetime | None,
-               run_id: str) -> dict[str, Any]:
+               run_id: str, roster_rows: list[dict[str, Any]] | None = None) -> dict[str, Any]:
     """games: [{"game": g, "gi": GameInputs, "gsum": V1 slate summary, "contracts": [(market, contract)], "v1_rows": [...], "seed": int,
     "minutes": float, "horizon": str}] -> {"rows": [...], "blocks": [...], "context": {...}}"""
     ctx = build_context(data_root, live_st_rows)
+    roster_goalies: dict[int, list[int]] = {}
+    for r in roster_rows or []:
+        if r.get("position") == "G" and r.get("player_id") and r.get("team_id"):
+            roster_goalies.setdefault(int(r["team_id"]), []).append(int(r["player_id"]))
     rows_all: list[dict[str, Any]] = []
     blocks = []
     for item in games:
         gi = item["gi"]
         seed = int(item["seed"]) ^ 0x5F3759DF
-        res, detail = simulate_game_shadow(gi, item["game"], ctx, seed, n_sims)
+        res, detail = simulate_game_shadow(gi, item["game"], ctx, seed, n_sims, roster_goalies)
         v1_by_ticker = {r["ticker"]: r for r in item["v1_rows"]}
         rows = contract_rows(gi.game_id, res, item["contracts"], v1_by_ticker, gi.home_team_id, gi.away_team_id, now, market_ts, seed, item["minutes"],
                              item["horizon"], run_id)
