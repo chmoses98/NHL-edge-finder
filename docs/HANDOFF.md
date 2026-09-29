@@ -86,14 +86,15 @@ window, 3-minute goalie-pull window (leader x4.0, trailer x1.8, normalised so E[
 before a shootout), OT/SO winner from a shrunk strength ratio, winner credited +1 goal. Goalie handling: status
 ladder with 0.985 / 0.85 / 0.70 / 0 confidences. Known crude assumptions in `docs/SIMULATION.md`.
 
-## J. Historical evaluation (walk-forward, regular season 2024-25 and 2025-26, n = 2,624; `docs/research/WALK_FORWARD_V1.md`)
+## J. Historical evaluation (walk-forward, regular season 2024-25 and 2025-26, n = 2,624; `docs/research/WALK_FORWARD_V1.md`, sim 1.1, run 36570274279)
 
-Moneyline: DATA_ONLY_V1 Brier 0.2420 / log loss 0.6768 / ECE 0.026 vs league-Poisson 0.2483 / 0.6897 and
-constant-home 0.2483 / 0.6898. Overtime: model P(OT) 0.168 vs observed 0.2275 (Brier 0.1792, essentially tied with
-the baseline): the Poisson tie deficit. Totals: over 5.5 / 6.5 Brier 0.2496 / 0.2498 (baseline 0.2501 / 0.2503);
-expected total 6.51 vs actual 6.17 (+0.35 bias, structurally corrected in sim 1.1 by normalising the pull window;
-not re-run tonight). No market benchmark exists for these games (no historical Kalshi NHL prices ingested), so no
-model-vs-market claim is made. Goalie factor was 1.0 throughout. This is historical, not prospective.
+Moneyline: DATA_ONLY_V1 Brier 0.2419 / log loss 0.6766 / ECE 0.0225 vs league-Poisson 0.2483 / 0.6897 and
+constant-home 0.2483 / 0.6898 (hit rate 0.542 for all). Overtime: model P(OT) 0.174 vs observed 0.2275 (Brier
+0.1786, tied with the baseline): the Poisson tie deficit remains the clearest model weakness. Totals: expected total
+6.21 vs actual 6.17 (bias +0.04 after the sim 1.1 correction; sim 1.0 ran +0.35), MAE 1.87, over 5.5 / 6.5 Brier
+~0.250 (baseline ~0.250): no total information beyond the league average yet. No market benchmark exists for these
+games (no historical Kalshi NHL prices ingested), so no model-vs-market claim is made. Goalie factor was 1.0
+throughout. Historical, not prospective.
 
 ## K. Authority
 
