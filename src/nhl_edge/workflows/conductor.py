@@ -111,12 +111,13 @@ STATUS_KEYS = {
 }
 
 
-def decide_now(data_root: Path) -> dict[str, Any]:
+def decide_now(data_root: Path, now: datetime | None = None) -> dict[str, Any]:
+    """``now`` defaults to the wall clock; the worker passes its own clock so its gate and its cadence agree."""
     archive = data_root / "archive"
     ledger = Ledger(archive)
     rows = _latest_schedule(ledger) if archive.exists() else []
     age = lambda job: status_age_minutes(archive / STATUS_KEYS[job][0], STATUS_KEYS[job][1])  # noqa: E731
-    return decide(datetime.now(tz=UTC), rows, age("capture"), age("simulate"), age("settle"), age("evaluate"), age("context"), _discover_age(data_root))
+    return decide(now or datetime.now(tz=UTC), rows, age("capture"), age("simulate"), age("settle"), age("evaluate"), age("context"), _discover_age(data_root))
 
 
 def run_conductor(data_root: Path, github_output: str | None = None) -> int:

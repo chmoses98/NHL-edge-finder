@@ -350,3 +350,21 @@ def test_the_worker_still_does_not_capture_when_neither_gate_opens(tmp_path):
     res = w.run()
     assert not any(c.captured for c in res.cycles)
     assert ["nhl", "capture"] not in [c[:2] for c in w._calls]
+
+
+def test_the_conductor_gate_sees_the_workers_clock_not_the_wall_clock(tmp_path, monkeypatch):
+    """The off-window test above once depended on the real time of day: the gate read datetime.now()."""
+    import nhl_edge.workflows.conductor as conductor
+
+    seen = []
+    real = conductor.decide_now
+
+    def spy(data_root, now=None):
+        seen.append(now)
+        return real(data_root, now=now)
+
+    monkeypatch.setattr(conductor, "decide_now", spy)
+    clock = FakeClock(T0)
+    w = make_worker(tmp_path, clock, "run-1", dispatched=[], schedule=[], lifetime=30.0)
+    w._decide()
+    assert seen == [T0]
