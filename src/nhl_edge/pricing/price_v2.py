@@ -6,7 +6,8 @@ draw's per-period goals, which sum to regulation on every draw.
 
 Pricing a period contract is NOT the same as supporting it: the ontology keeps those families at RESEARCH until the
 contract rules and settlement are verified (docs/KALSHI_MARKET_MAP.md). Every period price therefore carries
-``v2_support`` = ``PARTIAL_NEEDS_RULE_REVIEW`` (or whatever the rule review recorded) and never a gate of its own.
+``v2_support`` = ``PARTIAL_RULES_VERIFIED_NO_SETTLEMENT`` (rule text reviewed 2026-09-29; the settlement engine does not
+read period line scores yet) and never a gate of its own.
 """
 
 from __future__ import annotations
@@ -16,7 +17,7 @@ from nhl_edge.schemas.market import Contract
 from nhl_edge.sim.engine_v2 import SimV2Result
 
 PERIOD_FAMILIES = ("period_winner", "period_spread", "period_total")
-PERIOD_SUPPORT = "PARTIAL_NEEDS_RULE_REVIEW"
+PERIOD_SUPPORT = "PARTIAL_RULES_VERIFIED_NO_SETTLEMENT"  # docs/KALSHI_MARKET_MAP.md: rules read 2026-09-29; settlement not built
 
 
 def _period_index(c: Contract) -> int | None:

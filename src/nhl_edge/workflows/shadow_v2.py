@@ -9,7 +9,7 @@ extra network request), this module:
    and point-in-time goalie true talent (repository goalie game logs, strictly before the game date), mixed over
    plausible starters with the same status confidences as V1 but start-share-weighted alternatives;
 3. simulates with nhl-sim-2.0 (``data/params/nhl-sim-2.0.json``) and prices every contract V1 priced plus the period
-   families (tagged PARTIAL_NEEDS_RULE_REVIEW);
+   families (tagged PARTIAL_RULES_VERIFIED_NO_SETTLEMENT);
 4. returns rows for the separate ``predictions_v2`` ledger kind and a comparison block (V1, V2, market, the three
    differences) for the slate / packet.
 

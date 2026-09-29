@@ -125,7 +125,7 @@ Regulation goals by period 2021-26: P1 1.77, P2 2.09, P3 2.15 per game (not thir
 goals; `pricing/price_v2.py` prices `period_winner` (incl. the TIE market), `period_spread` and `period_total` from the
 same draw. Held-out period scoring (2024-26): P1 tie Brier 0.2257 (p 0.342 vs 0.344 observed), P2 home-win Brier 0.2318,
 P3 over-1.5 Brier 0.2278. **Support:** the period families stay `RESEARCH` in the ontology; V2 prices them in the shadow
-block tagged `PARTIAL_NEEDS_RULE_REVIEW`. Settlement code for period results does not exist yet, so they cannot be
+block tagged `PARTIAL_RULES_VERIFIED_NO_SETTLEMENT`. Settlement code for period results does not exist yet, so they cannot be
 SUPPORTED regardless of the rule text.
 
 ## Overall V1 vs V2 (identical 2,624 games)

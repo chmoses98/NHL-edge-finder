@@ -325,7 +325,7 @@ def _run_v2_shadow(ledger: Ledger, items: list[dict[str, Any]], data_root: Path,
         out["role"] = "SHADOW"
         out["authority"] = AUTHORITY
         out["note"] = ("DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and "
-                       "carries no authority. Period prices are PARTIAL_NEEDS_RULE_REVIEW.")
+                       "carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT.")
         return out
     except Exception as e:  # noqa: BLE001 - the shadow arm must never take V1 down
         log.warning(kv(event="v2_shadow_failed", err=str(e)[:300]))
