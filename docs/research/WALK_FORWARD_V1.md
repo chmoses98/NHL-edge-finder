@@ -2,7 +2,7 @@
 
 > **HISTORICAL, NOT PROSPECTIVE. These numbers are a walk-forward replay on past seasons and use NO market data (no Kalshi NHL prices have been ingested). They say nothing about edge versus a market.**
 
-Run `36567059940` generated 2026-09-29T12:17:52Z -- authority `RESEARCH_ONLY` -- model `DATA_ONLY_V1` / features `nhl-features-1.0` / sim `nhl-sim-1.0` -- machine-readable: `walk_forward_36567059940.json`.
+Run `36567064829` generated 2026-09-29T12:19:05Z -- authority `RESEARCH_ONLY` -- model `DATA_ONLY_V1` / features `nhl-features-1.0` / sim `nhl-sim-1.0` -- machine-readable: `walk_forward_36567064829.json`.
 
 ## Setup
 
@@ -13,7 +13,7 @@ Run `36567059940` generated 2026-09-29T12:17:52Z -- authority `RESEARCH_ONLY` --
 - Markets: No market comparison: no historical Kalshi NHL prices have been ingested.
 - Baselines: constant_home = walk-forward home-win rate over prior final regular-season games; league_poisson = same simulator with league-average lambdas (as_of game date) and the home adjustment only.
 - Sample: **2624 regular-season games scored**; games with a team that had no prior MoneyPuck rows: 82. Skipped: not_regular_season=210, not_final=0, missing_score_or_period=0, unresolved_team=0.
-- Elapsed: 28.5 s.
+- Elapsed: 28.8 s.
 
 ## Moneyline (P(home win) incl. OT/SO)
 
