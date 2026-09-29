@@ -11,7 +11,8 @@ RESEARCH_ONLY, and nothing here reads or writes them.
    sends one `to_nhl_import_row` row.
 3. The router opens a delivery pull request into this repository's `accounting-data` branch, running this
    repository's importer (`scripts/accounting/import_routed_wagers.py`, code taken from `main`) and its validator
-   (`scripts/accounting/validate_routed_ledger.py`). It merges only when the gate passes.
+   (`scripts/accounting/validate_routed_ledger.py`). Auto-merge is currently OFF for NHL (see Status), so the
+   owner merges that pull request; once enabled, the router merges only when its gate passes.
 4. After Kalshi settles the market, the router's settlement job delivers the settlement the same way
    (`scripts/accounting/import_routed_settlements.py`, `router-settlement-economics.v2`).
 
@@ -40,3 +41,18 @@ There is no season partition, because an NHL season spans two calendar years and
 - **Rows that are refused:** model or recommendation provenance fields; unknown fields; estimated fees; a venue other than kalshi; non-positive contracts or stake; a price outside (0, 1); malformed timestamps.
 - **The validator** checks that every line decodes, both schemas, unique keys, that every settlement has its wager with the same ticker and side, and (with `--against <ref>`) that no existing line was removed or rewritten.
 - **Public Actions logs** carry counts and reasons only: never a ticker, stake, price, contract count, P&L or source key.
+
+## Status (2026-09-29)
+- **Live on router main `1dc65f3`.** Router PR #103; this repository's PR #6; `accounting-data` at `4a0e769` (empty ledger,
+  validator passes).
+- **Production runs.**
+  - The scheduled delivery run 36627519837 reported `ROUTER_COVERAGE sport=NHL eligible=0`.
+  - Every other destination reported DUPLICATE_NOOP, and 0 destinations failed.
+  - Those counts are identical to the pre-merge baseline.
+- **No NHL wager has been placed yet**, so nothing has been delivered.
+- **The settlement path is TESTED, not OBSERVED.** It is covered by the router's end-to-end test against these importers. No real NHL settlement exists.
+- **Blocker (owner-side): the router's `DOWNSTREAM_REPO_TOKEN` cannot open pull requests here.** The credential probe
+  (run 36624794314) returned 403. Read and push are fine. Until the token is granted *Pull requests: read and write*
+  on this repository, an NHL wager is pushed to the router's delivery branch but not proposed. The router's run shows
+  a named NHL error, and the wager is recorded automatically on the first run after the fix.
+- **Router auto-merge for NHL is `False`** until the first NHL delivery has been observed.
