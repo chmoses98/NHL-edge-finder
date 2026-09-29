@@ -38,9 +38,12 @@ def test_run_nhl_on_opening_night_fixture(tmp_path):
     assert pg["kalshi"]["coverage"]["n_contracts"] == 14
 
 
-def test_rerun_same_instant_is_refused_by_immutability_not_silently_duplicated(tmp_path):
+def test_rerun_same_instant_is_refused_by_immutability_not_silently_duplicated(tmp_path, monkeypatch):
     from nhl_edge.archive.ledger import ImmutabilityError
 
+    # one run id for both calls, as on a runner (GITHUB_RUN_ID); the local fallback id embeds the wall-clock second,
+    # so two calls straddling a second boundary would write different paths and the test would pass vacuously-or-fail
+    monkeypatch.setenv("GITHUB_RUN_ID", "rerun-test")
     root = tmp_path / "archive"
     build_archive(root)
     run_simulate(root, tmp_path, date="2026-09-29", n_sims=500, now=NOW)
