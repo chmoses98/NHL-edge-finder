@@ -1,0 +1,219 @@
+# NHL Kalshi market ontology (curated; discovery reports anything not covered here as UNRESOLVED).
+#
+# Series tickers below are the expected NHL analogues of the NBA/NFL naming convention (KXNBAGAME -> KXNHLGAME).
+# They are VERIFIED EMPIRICALLY by `nhl discover` on a network-capable runner: data/catalog/discovery_summary.json is
+# the source of truth for what exists, and every series it finds must map here (tests/test_ontology.py enforces
+# it against the committed summary). Exact tickers win over regex patterns.
+#
+# Support states are CONSERVATIVE and promoted only when the pricing path + settlement mapping + tests exist:
+#   MODELABLE   : the game simulator prices it and the settlement engine settles it, with contract semantics
+#                 (incl. OT/SO handling) confirmed from real market rules text
+#   BUILDABLE   : the simulator emits the quantity; semantics or settlement not yet confirmed against real markets
+#   RESEARCH    : semantics understood; no defensible model yet (player props, periods, futures)
+#   UNMODELABLE : not an on-ice hockey outcome (awards voting, business, media)
+#   NEEDS_RULE_REVIEW is expressed as BUILDABLE + settlement_notes saying so.
+version: "2026.09.29.1"
+families:
+  # ------------------------------------------------------------------ full game (MODELABLE)
+  game_winner:
+    scope: game
+    stat: winner
+    period: FULL
+    settles_on: FINAL_INCL_OT_SO
+    support: MODELABLE
+    description: "Which team wins the game, including overtime and shootout. YES on a team-specific market."
+    settlement_notes: "Settles on the official final result incl. OT and SO. Postponed games: Kalshi typically extends or voids; UNSETTLEABLE until the market result field says so."
+    series_tickers: [KXNHLGAME]
+  game_regulation_winner:
+    scope: game
+    stat: reg_winner
+    period: FULL
+    settles_on: REGULATION
+    support: BUILDABLE
+    description: "Team wins in regulation (3-way: home / away / tie-goes-to-OT). Simulator emits the regulation result directly."
+    settlement_notes: "NEEDS_RULE_REVIEW on first observation: confirm whether a regulation tie settles NO for both team markets or the family carries an explicit 'overtime' market."
+    series_tickers: [KXNHLREGWINNER, KXNHLREGULATION, KXNHL3WAY, KXNHLREGGAME]
+    series_patterns: ["^KXNHL(REG|3WAY|REGULATION)"]
+  game_spread:
+    scope: game
+    stat: margin
+    period: FULL
+    settles_on: FINAL_INCL_OT_SO
+    support: MODELABLE
+    description: "Puck line: team wins by more than X goals (X from floor_strike / yes_sub_title). Alternate puck lines are separate markets in the same event."
+    settlement_notes: "Margin on the official final score incl. OT/SO (a shootout win is a one-goal margin). Half-goal lines have no push."
+    series_tickers: [KXNHLSPREAD, KXNHLPUCKLINE]
+  game_total:
+    scope: game
+    stat: total
+    period: FULL
+    settles_on: FINAL_INCL_OT_SO
+    support: MODELABLE
+    description: "Combined goals over X, incl. OT/SO (shootout counts as exactly one goal to the winner). Alternate totals are separate markets."
+    settlement_notes: "Total incl. OT/SO. Half-goal lines have no push."
+    series_tickers: [KXNHLTOTAL]
+  team_total:
+    scope: game
+    stat: team_total
+    period: FULL
+    settles_on: FINAL_INCL_OT_SO
+    support: MODELABLE
+    description: "Single team goals over X, incl. OT/SO."
+    settlement_notes: "Team goals incl. OT/SO."
+    series_tickers: [KXNHLTEAMTOTAL]
+  game_win_margin:
+    scope: game
+    stat: margin_bucket
+    period: FULL
+    settles_on: FINAL_INCL_OT_SO
+    support: BUILDABLE
+    description: "Winning margin falls in a bucket (e.g. 'Toronto by 1', 'Toronto by 3+'). The sim margin distribution gives it directly; bucket parsing wired but unverified against live rules."
+    settlement_notes: "NEEDS_RULE_REVIEW: confirm bucket bounds are inclusive and how OT/SO one-goal wins are bucketed."
+    series_tickers: [KXNHLWINMARGIN, KXNHLMARGIN]
+  game_overtime:
+    scope: game
+    stat: overtime
+    period: FULL
+    settles_on: FINAL_INCL_OT_SO
+    support: BUILDABLE
+    description: "Game goes to overtime (yes/no). Sim emits the regulation-tie probability."
+    settlement_notes: "NEEDS_RULE_REVIEW: whether a shootout counts as 'overtime' (it should: SO follows OT)."
+    series_tickers: [KXNHLOT, KXNHLOVERTIME]
+  game_shootout:
+    scope: game
+    stat: shootout
+    period: FULL
+    settles_on: FINAL_INCL_OT_SO
+    support: BUILDABLE
+    description: "Game decided in a shootout (yes/no). Sim emits it."
+    series_tickers: [KXNHLSO, KXNHLSHOOTOUT]
+  game_both_teams_score:
+    scope: game
+    stat: btts
+    period: FULL
+    settles_on: FINAL_INCL_OT_SO
+    support: BUILDABLE
+    description: "Both teams score at least one goal."
+    series_tickers: [KXNHLBTTS]
+
+  # ------------------------------------------------------------------ period markets (RESEARCH: no period sim yet)
+  period_winner:
+    scope: game
+    stat: winner
+    period: PATTERN
+    settles_on: PERIOD
+    support: RESEARCH
+    description: "Team leads after a specific period (KXNHL1P, KXNHL1PWINNER ...). No period-level simulator yet (P2 roadmap)."
+    series_patterns: ["^KXNHL(1P|2P|3P|P1|P2|P3|1ST|2ND|3RD)(PERIOD)?(WINNER|GAME|ML|MONEYLINE)?$"]
+  period_total:
+    scope: game
+    stat: total
+    period: PATTERN
+    settles_on: PERIOD
+    support: RESEARCH
+    description: "Period combined goals threshold."
+    series_patterns: ["^KXNHL(1P|2P|3P|P1|P2|P3|1ST|2ND|3RD)(PERIOD)?TOTAL$"]
+  period_spread:
+    scope: game
+    stat: margin
+    period: PATTERN
+    settles_on: PERIOD
+    support: RESEARCH
+    description: "Period margin threshold."
+    series_patterns: ["^KXNHL(1P|2P|3P|P1|P2|P3|1ST|2ND|3RD)(PERIOD)?SPREAD$"]
+  first_goal:
+    scope: game
+    stat: first_goal
+    period: FULL
+    settles_on: EVENT
+    support: RESEARCH
+    description: "Which team scores first / first goal scorer. Requires event-level simulation."
+    series_tickers: [KXNHLFIRSTGOAL, KXNHLFIRSTSCORER, KXNHL1STGOAL]
+    series_patterns: ["^KXNHLFIRST", "^KXNHL1STGOAL"]
+
+  # ------------------------------------------------------------------ player props (RESEARCH)
+  player_goals:
+    scope: player
+    stat: goals
+    period: FULL
+    settles_on: FINAL_INCL_OT
+    support: RESEARCH
+    description: "Player scores X+ goals (anytime scorer at 1+). Needs a player-level shot model (P2)."
+    series_tickers: [KXNHLGOALS, KXNHLGOAL, KXNHLANYTIMEGOAL, KXNHLGOALSCORER]
+    series_patterns: ["^KXNHL(GOAL|GOALS|ANYTIME|SCORER)"]
+  player_points:
+    scope: player
+    stat: points
+    period: FULL
+    settles_on: FINAL_INCL_OT
+    support: RESEARCH
+    description: "Player records X+ points."
+    series_tickers: [KXNHLPTS, KXNHLPOINTS]
+  player_assists:
+    scope: player
+    stat: assists
+    period: FULL
+    settles_on: FINAL_INCL_OT
+    support: RESEARCH
+    description: "Player records X+ assists."
+    series_tickers: [KXNHLAST, KXNHLASSISTS]
+  player_shots:
+    scope: player
+    stat: shots
+    period: FULL
+    settles_on: FINAL_INCL_OT
+    support: RESEARCH
+    description: "Player records X+ shots on goal."
+    series_tickers: [KXNHLSOG, KXNHLSHOTS]
+  goalie_saves:
+    scope: player
+    stat: saves
+    period: FULL
+    settles_on: FINAL_INCL_OT
+    support: RESEARCH
+    description: "Goalie records X+ saves."
+    series_tickers: [KXNHLSAVES, KXNHLSV]
+  player_h2h:
+    scope: player
+    stat: h2h
+    period: FULL
+    settles_on: FINAL_INCL_OT
+    support: RESEARCH
+    description: "Player A records more of a stat than player B."
+    series_patterns: ["^KXNHLH2H"]
+  parlay_combo:
+    scope: other
+    stat: parlay
+    period: FULL
+    settles_on: FINAL_INCL_OT_SO
+    support: RESEARCH
+    description: "Pre-packaged combos / multivariate event contracts. Could be priced from the joint sim once legs are parsed."
+    series_patterns: ["^KXNHLPREPACK", "^KXMVENHL", "^KXNHLPARLAY"]
+
+  # ------------------------------------------------------------------ season / futures (RESEARCH or UNMODELABLE)
+  season_champion:
+    scope: season
+    stat: champion
+    period: SEASON
+    settles_on: SEASON
+    support: RESEARCH
+    description: "Stanley Cup / conference / division winner. Needs a season simulator."
+    series_tickers: [KXSTANLEYCUP, KXNHLCUP, KXNHLCHAMP, KXNHLEAST, KXNHLWEST, KXNHLCONF, KXNHLDIV, KXNHLDIVISION, KXNHLCONFERENCE, KXNHLPRESIDENTS]
+    series_patterns: ["^KXSTANLEY", "^KXNHL(CUP|CHAMP|EAST|WEST|CONF|DIV|PRESIDENT|PLAYOFF|MAKEPLAYOFF|WINTOTAL|POINTS|SEASONWINS|REGSEASON)"]
+  season_awards:
+    scope: season
+    stat: award
+    period: SEASON
+    settles_on: SEASON
+    support: UNMODELABLE
+    description: "Voted awards (Hart, Vezina, Calder, Norris ...), draft, transactions. Not an on-ice outcome we model."
+    series_tickers: [KXNHLMVP, KXHART, KXVEZINA, KXCALDER, KXNORRIS, KXNHLDRAFT, KXNHLROOKIE, KXNHLCOACH]
+    series_patterns: ["^KX(HART|VEZINA|CALDER|NORRIS|SELKE|LADYBYNG|JACKADAMS|CONNSMYTHE|ROCKET|ARTROSS)", "^KXNHL(MVP|AWARD|DRAFT|ROOKIE|COACH|TRADE|SIGN|FIRE|HIRE|ROY|ROCKET|ARTROSS)"]
+  non_hockey_or_office:
+    scope: other
+    stat: null
+    period: SEASON
+    settles_on: OTHER
+    support: UNMODELABLE
+    description: "NHL-adjacent but not an on-ice outcome (viewership, expansion, business, media, outdoor games)."
+    series_patterns: ["^KXNHL(VIEW|RATING|EXPAN|RELOC|ARENA|OUTDOOR|WINTERCLASSIC|STADIUM|ALLSTAR|OLYMPIC|WORLDCUP|4NATIONS)"]
