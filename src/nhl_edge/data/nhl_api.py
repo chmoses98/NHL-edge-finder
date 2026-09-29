@@ -87,7 +87,11 @@ def parse_game(g: dict[str, Any], source: str = "nhl_api_schedule") -> Game | No
 def parse_schedule(payload: dict[str, Any], source: str = "nhl_api_schedule") -> list[Game]:
     games: list[Game] = []
     for day in payload.get("gameWeek") or []:
+        if not isinstance(day, dict):
+            continue
         for g in day.get("games") or []:
+            if not isinstance(g, dict):
+                continue
             if not g.get("gameDate"):
                 g = {**g, "gameDate": day.get("date")}
             gm = parse_game(g, source)
@@ -95,6 +99,8 @@ def parse_schedule(payload: dict[str, Any], source: str = "nhl_api_schedule") ->
                 games.append(gm)
     # /v1/score/{date} carries games at the top level
     for g in payload.get("games") or []:
+        if not isinstance(g, dict):
+            continue
         gm = parse_game(g, source)
         if gm:
             games.append(gm)

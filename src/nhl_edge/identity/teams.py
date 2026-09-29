@@ -5,10 +5,11 @@ source resolves into it: the NHL API by id or abbreviation, MoneyPuck by abbrevi
 and by the team name in ``yes_sub_title``/``title``. Name matching is a *last resort* for sources that carry no
 code, never the primary mechanism, and it must hit exactly one team.
 
-Historical identity: Arizona (ARI, team_id 53) played through 2023-24; the franchise's hockey operations moved to Utah
-(UTA, team_id 59) for 2024-25 as a NEW franchise in NHL records (Arizona's history stayed inactive). Both rows exist
-so historical seasons resolve without renaming the past. ``current_team_for`` maps ARI -> UTA only when a caller
-explicitly asks for the "successor" relationship.
+Historical identity (verified against api-web 2026-09-29): Arizona (ARI, team_id 53) played through 2023-24; the
+hockey operations moved to Utah as "Utah Hockey Club" (team_id 59, our code UHC) for 2024-25, renamed Utah Mammoth
+with a NEW team_id 68 from 2025-26 (the current UTA). All three rows exist so historical seasons resolve without
+renaming the past; ``successor`` maps ARI/UHC -> UTA only when a caller explicitly asks for it. MoneyPuck labels
+all Utah seasons "UTA", which the alias table maps to the current club.
 """
 
 from __future__ import annotations
@@ -30,7 +31,7 @@ ABBREV_ALIASES = {
     "UTAH": "UTA", "NAS": "NSH", "TAM": "TBL", "NJ.": "NJD",
 }
 
-SUCCESSOR = {"ARI": "UTA"}
+SUCCESSOR = {"ARI": "UTA", "UHC": "UTA"}
 
 
 class TeamIdentityError(KeyError):
