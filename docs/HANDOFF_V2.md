@@ -2,7 +2,8 @@
 
 ## A. Executive verdict
 
-**PARTIAL V2 READY** — DATA_ONLY_V2 is merged, running as a SHADOW arm and archived with honest timestamps. Its
+**V2 READY FOR SHADOW USE TONIGHT** — DATA_ONLY_V2 is merged and, since 18:05:53Z, produced by the production capture
+worker itself as a SHADOW arm next to V1 for all five opening-night games (not an authority, not a gate). Its
 clear gain is regulation-tie / OT calibration. Moneyline, totals, puck line and team totals are neutral against V1.
 **The market remains better than both models**: on 1,312 2025-26 games Kalshi's pregame moneyline and totals beat V1 and V2 at every horizon, and neither model shows detectable information beyond the market price.
 
@@ -10,7 +11,7 @@ clear gain is regulation-tie / OT calibration. Moneyline, totals, puck line and 
 
 | ref | start | end |
 |---|---|---|
-| `main` | `b53b19a` (PR #2 merge) | __MAIN_END__ |
+| `main` | `b53b19a` (PR #2 merge) | PR #5 merge (this handoff; follows `3675a26` = PR #4) |
 | `data-archive` | `0bd03bf` (capture 14:42Z) at session start | still advancing (worker commits every ~10 min; see D). Never written by this session; no row rewritten |
 
 ## C. PRs
@@ -18,15 +19,25 @@ clear gain is regulation-tie / OT calibration. Moneyline, totals, puck line and 
 | # | purpose | status | CI |
 |---|---|---|---|
 | 3 | DATA_ONLY_V2 shadow arm: sim 2.0, special teams, goalie true talent, shadow integration, Kalshi/shots ingestion code, period rule review, goalie-status evaluator | merged (`1976790`) | green (push + PR; `main` green) |
-__PR4_ROW__
+| 4 | Historical Kalshi NHL data + market benchmark, opening-night shadow run, handoff draft, worker-clock fix for a wall-clock-dependent test | merged (`3675a26`) | green (push + PR; `main` green) |
+| 5 | Spread candles + puck-line benchmark, final handoff with production evidence | this PR | see PR |
 
 ## D. Capture health
 
-- Worker generation 1 (`36568142839`, SHA `a3b4390`) ran the whole session. Archive commits every ~10 min (e.g. 15:12,
-  15:22, 15:32Z …). Generation 2 (`36568193942`) waits in the pending slot, **pinned to `a3b4390` (pre-V2)**. It takes
-  over at ~17:27Z and dispatches generation 3 with `ref: main`, so the worker's own V2 rows start with generation 3
-  (~22:27Z). The worker was never stopped, restarted or duplicated.
-- __ARCHIVE_LATEST__
+- Generation 1 (`36568142839`, SHA `a3b4390`) captured every ~10 min all session and retired at ~17:13Z.
+- Its old pending successor (`36568193942`, pinned to pre-V2 `a3b4390`) was cancelled by the platform. Generation 1
+  dispatched a fresh successor with `ref: main`.
+- **Generation 2 (`36603459518`) runs `3675a26` (V2 on `main`)** and has captured since 17:14:21Z (17:24, 17:34, 17:44 …).
+  Its successor `36603520740` waits in the pending slot on the same SHA. The chain is healthy and was never stopped,
+  restarted or duplicated by this session.
+- **First production V2 simulate, 18:05:53Z (run `36603459518`):** `slates/latest` carries a `v2_shadow` block with no
+  error. `predictions_v2/dt=2026-09-29/predictions_v2_20260929T180553Z_36603459518.jsonl.gz` holds 1,089 rows
+  (DATA_ONLY_V2, RESEARCH_ONLY) for all five games, with zero ladder or period violations. V1's
+  `predictions_20260929T180553Z_36603459518` was written at the same instant, unchanged.
+- The new `context/team_games_st` kind was first written at 17:35:54Z, and V2 used it (656 rows beyond the historical
+  parquet). `STATUS_capture.json` alarms: [].
+- Earlier V1 rows and snapshots were never rewritten. V2 rows exist only from 15:40:38Z (read-only shadow run, research
+  branch) and 18:05:53Z (production archive) onward; nothing was backdated.
 
 ## E. Historical Kalshi benchmark
 
@@ -48,7 +59,6 @@ __PR4_ROW__
 **Candles**
 - 1.47M candles, hourly and 1-minute windows aligned to official start times.
 - About 1% of fetches failed with HTTP 429 and were recorded as gaps.
-- Spread / team-total candles: a follow-up job.
 
 **Quote definition**
 - Candle-close best bid/ask midpoint at or before each horizon; median spread 1¢.
@@ -77,6 +87,18 @@ T-24h is flagged because the model's inputs run through the previous day, which 
 | O6.5 | 0.2501 | 0.2496 | 0.2466 |
 
 Kalshi's settled totals agree with the official final score (shootout = one goal) in 100% of 2,390 checks.
+
+**Puck line (KXNHLSPREAD ±1.5, hourly candles; T-60m Brier):**
+
+| side | V1 | V2 | Kalshi |
+|---|---:|---:|---:|
+| home −1.5 | 0.2050 | 0.2047 | 0.2035 |
+| away −1.5 | 0.1939 | 0.1940 | 0.1926 |
+
+- Kalshi is narrowly better from T-12h onward.
+- At the flagged T-24h horizon the models score better (0.1953 vs 0.1999 away), consistent with their one-day information advantage there. It is not evidence of edge.
+- T-30m / T-10m have too few hourly quotes to read.
+- Settlement agreement: 100%.
 
 **Answers**
 - **Does DATA_ONLY_V1 beat Kalshi pregame moneyline? No**, at every horizon.
@@ -221,13 +243,15 @@ RESEARCH ONLY. Not recommendations.
 | CHI @ VGK | PROJECTED Hart / PROJECTED Knight | 0.626 | 0.672 | 0.705 | 6.04 | 6.25 | o5.5 @ 0.555 | KXNHLTEAMTOTAL-…-VGK4 +0.065 |
 
 V2 P(OT) is 0.20–0.23 per game (V1 0.16–0.18). Files: `docs/shadow/20260929T154038Z_36591929873/` (slate, packet,
-`predictions_v2` rows, provenance). __SECOND_SHADOW__
+`predictions_v2` rows, provenance). The production worker's own V2 rows (18:05:53Z onward) supersede the need for a
+second read-only run: 18:05Z V2 P(home) FLA@CAR 0.611, MTL@TOR 0.489, NYR@BOS 0.524, VAN@EDM 0.631, CHI@VGK 0.672;
+V2 P(OT) 0.201–0.226.
 
 ## M. Tests
 
 **Tests**
-- __TESTS__ passed; `ruff check src tests scripts` clean.
-- 28 new tests covering:
+- 329 passed; `ruff check src tests scripts` clean.
+- 29 new tests covering:
   - sim 2.0 invariants (hypothesis): periods sum to regulation, OT/SO semantics, ladders.
   - Hazard estimator: flat on state-free data.
   - Empty-net and tie mechanisms.
@@ -238,8 +262,10 @@ V2 P(OT) is 0.20–0.23 per game (V1 0.16–0.18). Files: `docs/shadow/20260929T
   - V1 identical with V2 on/off; V2 failure isolation.
   - Goalie-status evaluator.
 
-**Test fix**
-- One pre-existing test was made deterministic: the rerun-immutability test depended on the wall-clock second.
+**Test fixes**
+- The rerun-immutability test depended on the wall-clock second; it now pins its run id.
+- `test_outside_the_active_window_the_worker_captures_nothing` failed on the ORIGINAL `main` from ~16:30Z because the
+  worker's conductor gate read the wall clock. The gate now uses the worker's clock (identical in production); a new test pins it.
 
 ## N. Authority
 
@@ -248,7 +274,7 @@ DATA_ONLY_V2 is SHADOW: it never gates a contract. kalshi-bet-router was not mod
 
 ## O. Remaining limitations
 
-1. **Worker coverage.** The worker's own V2 rows start ~22:27Z (generation 3), so FLA@CAR has V2 only from the read-only shadow runs, not from the worker archive.
+1. **Prospective evidence.** V2 has been live for hours, not games: every claim above is historical until tonight's games settle and `nhl evaluate` / `goalie_status_eval` have rows.
 2. **Goalies.**
    - Historical goalie evaluation is oracle-style.
    - Live goalie workload uses history through 2025-26 only; current-season appearances are not yet ingested.
@@ -259,13 +285,13 @@ DATA_ONLY_V2 is SHADOW: it never gates a contract. kalshi-bet-router was not mod
    - The OT winner model is V1's strength-shrink prior (not re-estimated).
 4. **Period markets.** Unsettleable here (no period settlement), so they stay PARTIAL.
 5. **Out of scope today.** Injuries and line combinations remain unmodelled.
-6. **Market benchmark.** One season only (Kalshi NHL game history starts in the 2025 playoffs); candle midpoints are not executable prices; spread and team-total benchmarks are not built (no settled team-total history; spread candles pending); ~1% of candle fetches were rate-limited gaps; the walk-forward model uses information through the previous day, which flags the T-24h horizon.
+6. **Market benchmark.** One season only (Kalshi NHL game history starts in the 2025 playoffs); candle midpoints are not executable prices; spreads use hourly candles only; no settled team-total or period history exists; ~1% of candle fetches were rate-limited gaps; the walk-forward model uses information through the previous day, which flags the T-24h horizon.
 
 ## P. RUN NHL later today
 
 **Use:** BOTH, with V1 as the reference and V2 as a labelled second opinion. Neither is a recommendation.
-- The latest packet (`data-archive: slates/latest/packet.json`) has a `v2_shadow` block from generation 3 onward (~22:27Z).
-- Before that, read `docs/shadow/<stamp>/packet.json` on the research branch.
+- The latest packet (`data-archive: slates/latest/packet.json`) has a `v2_shadow` block (since 18:05:53Z). Each
+  `predictions_v2` row carries V1, V2 and the market midpoint with all three differences.
 
 **Prefer V2's numbers for:**
 - OT / regulation-tie / 3-way contracts (clearly better calibrated).
