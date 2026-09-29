@@ -1,7 +1,7 @@
 # NHL-edge-finder
 
 **CURRENT AUTHORITY: RESEARCH_ONLY.** Every model family in this repository (`DATA_ONLY_V1`, `MARKET_ANCHORED_V1`) is a
-research instrument. Nothing here places, sizes, recommends or routes a wager, and the Kalshi bet router has NHL
+research instrument, as is the SHADOW arm `DATA_ONLY_V2` (2026-09-29). Nothing here places, sizes, recommends or routes a wager, and the Kalshi bet router has NHL
 explicitly out of scope. Promotion to any wagering authority requires prospective evidence and a separate explicit
 decision (see `docs/AUTHORITY.md`).
 
@@ -77,3 +77,5 @@ No credentials are needed for anything in this repository.
 - `docs/AUTHORITY.md` the authority ladder and why everything is RESEARCH_ONLY
 - `docs/OPERATIONS.md` day-one checklist and runbook
 - `docs/research/RESEARCH_NOTES.md` findings, negative results, roadmap
+- `docs/research/V2_RESEARCH.md` DATA_ONLY_V2 shadow arm (sim 2.0, special teams, goalie true talent): evidence and limits
+- `docs/research/MARKET_BENCHMARK.md` historical Kalshi benchmark (V1 vs V2 vs market)

@@ -56,3 +56,12 @@ or league average). UNKNOWN uses the league average and is flagged in `input_rea
 - No period-level simulation; period markets are RESEARCH.
 - Home ice and back-to-back adjustments are league-wide priors.
 - Start-of-season ratings are last season's regressed values; the first weeks lean on the prior.
+
+## nhl-sim-2.0 (DATA_ONLY_V2 shadow arm, 2026-09-29)
+
+`nhl-sim-1.1` above is frozen as the DATA_ONLY_V1 control. `nhl-sim-2.0` (`src/nhl_edge/sim/engine_v2.py`) is a separate
+simulator used only by the DATA_ONLY_V2 shadow arm: half-minute steps, each team's rate multiplied by an estimated
+(time bucket x own score differential) table (score effects, late tied-game slowdown, empty net), per-period goals that
+sum to regulation on every draw, OT/SO as V1 with an estimated p(OT decided before SO). Parameters:
+`data/params/nhl-sim-2.0.json` (training seasons recorded in `provenance`). Evidence and estimator:
+`docs/research/V2_RESEARCH.md`, `docs/research/WALK_FORWARD_V2.md`.

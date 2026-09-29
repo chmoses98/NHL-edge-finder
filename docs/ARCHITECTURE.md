@@ -71,3 +71,13 @@ Slate/packet rows carry `sport`, `league`, `event_id`, `start_time_utc`, `home`,
 `edge_*_raw`, `edge_*_after_fee`, `authority`, `predicted_at_utc`, and settlement rows carry the outcome. A future
 multi-sport app can consume `packet.json` directly; the standardisation path is to publish a shared JSON schema
 (EdgeLab-style `sport`/`platform` discriminators) once a second sport adopts this packet shape.
+
+## DATA_ONLY_V2 shadow arm (2026-09-29)
+
+- `nhl simulate` runs V1 unchanged, then `workflows/shadow_v2.py` from the same snapshot (no extra network):
+  `features/special_teams.py`, `features/goalie_talent.py`, `sim/engine_v2.py`, `pricing/price_v2.py`.
+- New archive kinds: `predictions_v2` (one row per contract: V1, V2, market and their differences; role SHADOW) and
+  `context/team_games_st` (MoneyPuck 5on5/5on4/4on5/all rows, written only when the content hash changes).
+  `slate.json` / `packet.json` gain a `v2_shadow` block; `slate.md` a V1-vs-V2 table. `NHL_EDGE_V2_SHADOW=0` disables.
+- Research workflows (branch-only commits, never `main`, never `data-archive`): `research_data.yml` (historical Kalshi
+  NHL markets/candles, MoneyPuck shots) and `shadow_run.yml` (read-only V1+V2 RUN NHL on a copy of the archive).
