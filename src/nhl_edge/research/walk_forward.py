@@ -90,7 +90,8 @@ def build_gamelog(team_games: pd.DataFrame, include_playoffs: bool = False) -> p
         d = d[d["game_type"] == 2]
     d["team"] = d["team_abbrev"].where(d["team_abbrev"].notna(), d["mp_team"])
     d["opposingTeam"] = d["opp_abbrev"].where(d["opp_abbrev"].notna(), d["mp_opposing_team"])
-    return prepare_gamelog(d)
+    # prepare_gamelog derives game_id from the raw gameId column; drop the history copy so the rename cannot collide
+    return prepare_gamelog(d.drop(columns=["game_id"], errors="ignore"))
 
 
 def evaluation_games(nhl_games: pd.DataFrame, test_seasons: Iterable[int]) -> tuple[pd.DataFrame, dict[str, int]]:
@@ -255,11 +256,11 @@ def run_walk_forward(team_games: pd.DataFrame, nhl_games: pd.DataFrame, test_sea
     games, skipped = evaluation_games(nhl_games, test_seasons)
     if max_games is not None:
         games = games.iloc[: int(max_games)].copy()
-    const_home = constant_home_baseline(nhl_games)
+    const_home = dict(zip(nhl_games["game_id"].astype(int), constant_home_baseline(nhl_games).to_numpy()))  # keyed by id, not index
     team_logs = {t: d for t, d in log_df.groupby("team")}
     league_cache: dict[tuple[str, int], LeagueRates] = {}
     recs: list[dict[str, Any]] = []
-    for i, r in enumerate(games.itertuples(index=True)):
+    for i, r in enumerate(games.itertuples(index=False)):
         key = (str(r.game_date), int(r.season))
         lg = league_cache.get(key)
         if lg is None:
@@ -267,7 +268,7 @@ def run_walk_forward(team_games: pd.DataFrame, nhl_games: pd.DataFrame, test_sea
             league_cache[key] = lg
         rec = predict_game(log_df, str(r.home_abbrev), str(r.away_abbrev), str(r.game_date), int(r.season), int(r.game_id),
                            n_sims=n_sims, base_seed=base_seed, league=lg, team_logs=team_logs, total_lines=total_lines)
-        rec["constant_home_p_home_win"] = float(const_home.loc[r.Index])
+        rec["constant_home_p_home_win"] = float(const_home[int(r.game_id)])
         recs.append(rec)
         if (i + 1) % 250 == 0:
             log.info(kv(event="walk_forward_progress", done=i + 1, total=len(games), elapsed_s=round(time.time() - t0, 1)))

@@ -183,13 +183,20 @@ def test_parse_moneypuck_csv_normalises(mp_csv, games):
     # season / situation filters
     d23 = H.parse_moneypuck_csv(mp_csv, seasons=[2023], situations=("all",))
     assert set(d23["season"]) == {2023} and set(d23["situation"]) == {"all"}
-    # prepare_gamelog accepts the frame directly (the ratings' contract)
-    lg = prepare_gamelog(df)
+    # prepare_gamelog accepts the raw columns (the ratings' contract); it rebuilds game_id from gameId itself
+    lg = prepare_gamelog(df.drop(columns=["game_id"]))
     assert len(lg) == n_games * 2 and (lg["situation"] == "all").all()
 
 
+def _row_with_team(csv_text: str, team: str) -> str:
+    """Copy of the first data row with the team columns (team, name, playerTeam) set to ``team``."""
+    parts = csv_text.splitlines()[1].split(",")
+    parts[0] = parts[2] = parts[4] = team
+    return ",".join(parts) + "\n"
+
+
 def test_parse_moneypuck_csv_unknown_team_and_dupes(mp_csv):
-    extra = mp_csv + mp_csv.splitlines()[1].replace("TOR", "ZZZ", 1) + "\n"
+    extra = mp_csv + _row_with_team(mp_csv, "ZZZ")
     df = H.parse_moneypuck_csv(extra)
     assert H.unresolved_abbrevs(df) == {"ZZZ": 1}
     assert df.loc[df["mp_team"] == "ZZZ", "team_abbrev"].isna().all()
@@ -245,7 +252,7 @@ def test_parse_nhl_games_real_sample_and_empty():
     # unknown team id does not drop the row
     weird = H.parse_nhl_games([{"id": 2025020999, "gameDate": "2025-11-01", "homeTeamId": 999, "visitingTeamId": 10, "gameStateId": 7,
                                 "homeScore": 1, "visitingScore": 2, "period": 3, "gameType": 2, "season": 20252026}])
-    assert len(weird) == 1 and weird.iloc[0]["home_abbrev"] is None and weird.iloc[0]["away_abbrev"] == "TOR"
+    assert len(weird) == 1 and pd.isna(weird.iloc[0]["home_abbrev"]) and weird.iloc[0]["away_abbrev"] == "TOR"
 
 
 def test_run_history_writes_parquet_and_manifest(tmp_path: Path, monkeypatch, games, mp_csv):
@@ -306,7 +313,7 @@ def test_cli_main(tmp_path: Path, monkeypatch, games, mp_csv, capsys):
 
 
 def test_parquet_roundtrip_preserves_nullable_ids(tmp_path: Path, mp_csv):
-    df = H.parse_moneypuck_csv(mp_csv + mp_csv.splitlines()[1].replace("TOR", "ZZZ", 1) + "\n")
+    df = H.parse_moneypuck_csv(mp_csv + _row_with_team(mp_csv, "ZZZ"))
     p = tmp_path / "x.parquet"
     H.write_parquet(df, p)
     back = H.read_parquet(p)
