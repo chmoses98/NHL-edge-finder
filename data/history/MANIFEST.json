@@ -1,0 +1,247 @@
+{
+  "moneypuck": {
+    "seasons": {
+      "2022": {
+        "rows": 11200,
+        "games": 1400,
+        "teams": 32,
+        "situations": [
+          "4on5",
+          "5on4",
+          "5on5",
+          "all"
+        ],
+        "date_min": "2022-10-07",
+        "date_max": "2023-06-13",
+        "n_regular_team_games": 2624,
+        "n_playoff_team_games": 176,
+        "unresolved_abbrevs": {},
+        "file": "moneypuck/team_games_2022.parquet",
+        "bytes_on_disk": 1635152,
+        "retrieved_at_utc": "2026-09-29T12:17:19Z"
+      },
+      "2023": {
+        "rows": 11200,
+        "games": 1400,
+        "teams": 32,
+        "situations": [
+          "4on5",
+          "5on4",
+          "5on5",
+          "all"
+        ],
+        "date_min": "2023-10-10",
+        "date_max": "2024-06-24",
+        "n_regular_team_games": 2624,
+        "n_playoff_team_games": 176,
+        "unresolved_abbrevs": {},
+        "file": "moneypuck/team_games_2023.parquet",
+        "bytes_on_disk": 1632186,
+        "retrieved_at_utc": "2026-09-29T12:17:19Z"
+      },
+      "2024": {
+        "rows": 11184,
+        "games": 1398,
+        "teams": 32,
+        "situations": [
+          "4on5",
+          "5on4",
+          "5on5",
+          "all"
+        ],
+        "date_min": "2024-10-04",
+        "date_max": "2025-06-17",
+        "n_regular_team_games": 2624,
+        "n_playoff_team_games": 172,
+        "unresolved_abbrevs": {},
+        "file": "moneypuck/team_games_2024.parquet",
+        "bytes_on_disk": 1595225,
+        "retrieved_at_utc": "2026-09-29T12:17:19Z"
+      },
+      "2025": {
+        "rows": 11152,
+        "games": 1394,
+        "teams": 32,
+        "situations": [
+          "4on5",
+          "5on4",
+          "5on5",
+          "all"
+        ],
+        "date_min": "2025-10-07",
+        "date_max": "2026-06-14",
+        "n_regular_team_games": 2624,
+        "n_playoff_team_games": 164,
+        "unresolved_abbrevs": {},
+        "file": "moneypuck/team_games_2025.parquet",
+        "bytes_on_disk": 1606465,
+        "retrieved_at_utc": "2026-09-29T12:17:19Z"
+      }
+    },
+    "source_url": "https://moneypuck.com/moneypuck/playerData/careers/gameByGame/all_teams.csv",
+    "situations_kept": [
+      "all",
+      "5on5",
+      "5on4",
+      "4on5"
+    ],
+    "compression": "zstd",
+    "retrieved_at_utc": "2026-09-29T12:17:19Z",
+    "sha256": "d4ca191ccc57e54c56f46497f09240b3e7f2d80f66dc2c41fe635825d035dd8f",
+    "bytes": 126483024
+  },
+  "nhl": {
+    "seasons": {
+      "2022": {
+        "rows": 1417,
+        "n_final": 1400,
+        "game_types": {
+          "2": 1312,
+          "3": 105
+        },
+        "last_period_type": {
+          "REG": 1074,
+          "OT": 231,
+          "SO": 95
+        },
+        "date_min": "2022-10-07",
+        "date_max": "2023-06-19",
+        "file": "nhl/games_2022.parquet",
+        "bytes_on_disk": 26441,
+        "fetches": {
+          "2": {
+            "url": "https://api.nhle.com/stats/rest/en/game?cayenneExp=season=20222023%20and%20gameType=2&limit=-1",
+            "retrieved_at_utc": "2026-09-29T12:17:22Z",
+            "sha256": "b362d2cf3d425789b5b465873933d70d73f7c46ae04fbcd5d4fa600132087bfc",
+            "bytes": 327491,
+            "rows": 1312
+          },
+          "3": {
+            "url": "https://api.nhle.com/stats/rest/en/game?cayenneExp=season=20222023%20and%20gameType=3&limit=-1",
+            "retrieved_at_utc": "2026-09-29T12:17:22Z",
+            "sha256": "8641c42b45f7c9a31ad55bd3f500fb3c54220413392d604eb4e591d4b18f625b",
+            "bytes": 26288,
+            "rows": 105
+          }
+        }
+      },
+      "2023": {
+        "rows": 1417,
+        "n_final": 1400,
+        "game_types": {
+          "2": 1312,
+          "3": 105
+        },
+        "last_period_type": {
+          "REG": 1112,
+          "OT": 206,
+          "SO": 82
+        },
+        "date_min": "2023-10-10",
+        "date_max": "2024-06-24",
+        "file": "nhl/games_2023.parquet",
+        "bytes_on_disk": 26440,
+        "fetches": {
+          "2": {
+            "url": "https://api.nhle.com/stats/rest/en/game?cayenneExp=season=20232024%20and%20gameType=2&limit=-1",
+            "retrieved_at_utc": "2026-09-29T12:17:22Z",
+            "sha256": "4711a8bd9c07b2f5205403699f8f3904ddcbd4b5162f0ee604953bac11ea39d4",
+            "bytes": 327493,
+            "rows": 1312
+          },
+          "3": {
+            "url": "https://api.nhle.com/stats/rest/en/game?cayenneExp=season=20232024%20and%20gameType=3&limit=-1",
+            "retrieved_at_utc": "2026-09-29T12:17:22Z",
+            "sha256": "bf569e88089e5853d4496c64b513823d8486311196578ca0fa121d367ac7ea40",
+            "bytes": 26230,
+            "rows": 105
+          }
+        }
+      },
+      "2024": {
+        "rows": 1417,
+        "n_final": 1398,
+        "game_types": {
+          "2": 1312,
+          "3": 105
+        },
+        "last_period_type": {
+          "REG": 1107,
+          "OT": 214,
+          "SO": 77
+        },
+        "date_min": "2024-10-04",
+        "date_max": "2025-06-20",
+        "file": "nhl/games_2024.parquet",
+        "bytes_on_disk": 26471,
+        "fetches": {
+          "2": {
+            "url": "https://api.nhle.com/stats/rest/en/game?cayenneExp=season=20242025%20and%20gameType=2&limit=-1",
+            "retrieved_at_utc": "2026-09-29T12:17:22Z",
+            "sha256": "3ea9dceb4a984c869e438d9ca665d5935f45d1beb6682f5bc00b1fe2333d48f1",
+            "bytes": 327490,
+            "rows": 1312
+          },
+          "3": {
+            "url": "https://api.nhle.com/stats/rest/en/game?cayenneExp=season=20242025%20and%20gameType=3&limit=-1",
+            "retrieved_at_utc": "2026-09-29T12:17:23Z",
+            "sha256": "cb9fa4c27dec824594e51482a33d15766e1df04f0bd911800f0c75d4ce6a7a8b",
+            "bytes": 26251,
+            "rows": 105
+          }
+        }
+      },
+      "2025": {
+        "rows": 1417,
+        "n_final": 1394,
+        "game_types": {
+          "2": 1312,
+          "3": 105
+        },
+        "last_period_type": {
+          "REG": 1046,
+          "OT": 229,
+          "SO": 119
+        },
+        "date_min": "2025-10-07",
+        "date_max": "2026-06-17",
+        "file": "nhl/games_2025.parquet",
+        "bytes_on_disk": 26545,
+        "fetches": {
+          "2": {
+            "url": "https://api.nhle.com/stats/rest/en/game?cayenneExp=season=20252026%20and%20gameType=2&limit=-1",
+            "retrieved_at_utc": "2026-09-29T12:17:23Z",
+            "sha256": "329ed803412779a0cecea1dae60015aa1c254200efdb3c4231d4714d369d81b7",
+            "bytes": 327491,
+            "rows": 1312
+          },
+          "3": {
+            "url": "https://api.nhle.com/stats/rest/en/game?cayenneExp=season=20252026%20and%20gameType=3&limit=-1",
+            "retrieved_at_utc": "2026-09-29T12:17:23Z",
+            "sha256": "f157cf77d8a0105d8bfadb1035f64ed70d867786350097e5e90f90edf49ab06b",
+            "bytes": 26202,
+            "rows": 105
+          }
+        }
+      }
+    },
+    "source_url_template": "https://api.nhle.com/stats/rest/en/game?cayenneExp=season={season_id}%20and%20gameType={game_type}&limit=-1",
+    "game_types": [
+      2,
+      3
+    ],
+    "compression": "zstd"
+  },
+  "schema_version": "nhl-history-1.0",
+  "seasons_requested": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "season_convention": "start year (2025 == NHL 2025-26 == stats season 20252026)",
+  "generated_at_utc": "2026-09-29T12:17:23Z",
+  "elapsed_s": 13.5,
+  "errors": [],
+  "n_errors": 0
+}
