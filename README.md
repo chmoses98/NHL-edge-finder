@@ -69,6 +69,7 @@ No credentials are needed for anything in this repository.
 
 ## Docs
 - `docs/ACCOUNTING.md` routed-wager ACCOUNTING ledger (manually placed Kalshi bets, via kalshi-bet-router; `accounting-data` branch; no model involvement)
+- `docs/HANDOFF_ROUTER.md` NHL router handoff (2026-09-29): verdict, production runs, owner action
 - `docs/HANDOFF.md` overnight build handoff: verdict, SHAs, PRs, evidence, risks, next steps
 - `docs/ARCHITECTURE.md` modules, data flow, storage, scheduling
 - `docs/NHL_DATA_SOURCE_AUDIT.md` every source probed from a runner, with shapes and failure modes
