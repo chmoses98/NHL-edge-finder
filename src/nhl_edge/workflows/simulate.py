@@ -288,7 +288,11 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
             ledger.append_rows("contracts", contract_rows, observed_at=now, meta={"date_et": target})
         if v2 is not None and v2.get("rows"):
             # a SEPARATE kind: V1's predictions partition is byte-for-byte what it was before V2 existed
-            ledger.append_rows("predictions_v2", v2["rows"], observed_at=now, meta={"date_et": target, "role": "SHADOW", "model_version": DATA_ONLY_V2_MODEL_VERSION})
+            try:
+                ledger.append_rows("predictions_v2", v2["rows"], observed_at=now, meta={"date_et": target, "role": "SHADOW", "model_version": DATA_ONLY_V2_MODEL_VERSION})
+            except Exception as e:  # noqa: BLE001 - never block V1's slate on the shadow arm
+                log.warning(kv(event="v2_shadow_archive_failed", err=str(e)[:300]))
+                slate["v2_shadow"]["archive_error"] = f"{type(e).__name__}: {str(e)[:200]}"
         stamp = now.strftime("%Y%m%dT%H%M%SZ")
         out_dir = out_root / "slates" / f"dt={target}" / f"{stamp}_{ledger.run_id}"
         out_dir.mkdir(parents=True, exist_ok=True)
@@ -353,8 +357,11 @@ def slate_markdown(s: dict[str, Any]) -> str:
         lines.append("(no not-started games on this date at run time)")
     v2 = s.get("v2_shadow")
     if v2:
-        from nhl_edge.workflows.shadow_v2 import markdown as v2_markdown
+        try:
+            from nhl_edge.workflows.shadow_v2 import markdown as v2_markdown
 
-        lines.append(v2_markdown(v2.get("blocks") or [], v2.get("error") or v2.get("note")))
+            lines.append(v2_markdown(v2.get("blocks") or [], v2.get("error") or v2.get("note")))
+        except Exception as e:  # noqa: BLE001 - the V1 slate renders regardless
+            lines.append(f"\n(DATA_ONLY_V2 shadow section failed to render: {type(e).__name__})")
     lines += ["", f"_{s['authority_note']}_"]
     return "\n".join(lines) + "\n"
