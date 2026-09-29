@@ -111,7 +111,33 @@ has NHL out of scope and this repository ships no importer, ledger branch or pay
   every 45+ min and after each context refresh (every 55 min near games); settles ~3h after each start; evaluates
   after settlement; discovers daily; hands over to a successor every ~5h; the `*/5` cron restarts a dead chain.
 
-PRODUCTION_RUNS_PLACEHOLDER
+### Verified production runs on `main` (2026-09-29 UTC)
+
+| run | workflow | result |
+|---|---|---|
+| 36568131132 | ci (merge commit) | success |
+| 36568139041 | conductor (forced) | cancelled by design: the worker took the shared concurrency group first and ran the same jobs |
+| 36568142839 | capture_worker gen 1 | in progress (planned exit 17:27 UTC); successor 36568193942 queued in the pending slot |
+| 36567059802 | rehearsal (branch) | success: full pipeline against live sources |
+| 36567064829 | history-pull (branch) | success: dataset + walk-forward |
+
+Archive evidence (`data-archive`, commits `1ebf50f`, `3474ff4`, `08ce532`):
+1. NHL schedule fetch: `STATUS_context.json` n_games 55, five games today, errors [] .
+2. NHL context: team summary, goalie summary (98 goalies), rosters, ESPN injuries, DailyFaceoff 16 observations, all archived.
+3. MoneyPuck: `context/team_games` snapshot (2,788 rows, 0 unresolved teams), goalies 2025 (490 rows).
+4. Kalshi discovery: 75 NHL series / 3,355 markets (rehearsal); the worker re-scans series on every capture.
+5. Market capture: `kalshi/markets` 2,529 active markets + 300 order books at 12:42:10 UTC, coverage alarms [] .
+6. Identity: every game and contract resolved to official team ids (750 contracts joined by date + team set).
+7. Simulation: five games, 20,000 draws each, `nhl-sim-1.1`, ladder violations [] on every game.
+8. Slate: `slates/dt=2026-09-29/20260929T124343Z_36568142839/{slate.json,slate.md,packet.json}` + `slates/latest/`.
+9. Archive persists: `manifest.jsonl` 13 entries with sha256, `Ledger.verify()` clean before each push.
+10. Idempotency: the rehearsal ran simulate twice (second instant appended, archive verified); every worker cycle appends.
+11. Automation continues: successor queued, `*/5` bootstrap cron enabled on `main`, lease heartbeat every cycle.
+
+First production slate (12:43 UTC, T-6h): FLA @ CAR P(home) 0.651 (market mid 0.535), MTL @ TOR 0.462, NYR @ BOS 0.530,
+VAN @ EDM 0.645, CHI @ VGK 0.626; gates OK 76 / NO_EDGE 49 / UNSUPPORTED 625 (player props and periods, preserved).
+Settlement and evaluation have not yet had a final game to act on; they are exercised by tests and the rehearsal
+(0 candidates) and run automatically ~3h after each start.
 
 ## M. Testing
 
