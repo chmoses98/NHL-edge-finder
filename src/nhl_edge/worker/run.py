@@ -202,7 +202,9 @@ class Worker:
         try:
             from nhl_edge.workflows.conductor import decide_now
 
-            return decide_now(self.data_root)
+            # the worker's clock, not the wall clock: in production they are the same (utcnow), and under an
+            # injected clock the conductor gate must see the same instant the cadence does
+            return decide_now(self.data_root, now=self.now())
         except Exception as e:  # noqa: BLE001 - a bad breadcrumb must not stop capture
             print(f"worker: could not read the conductor decision ({e}); capture-only this cycle")
             return {}
