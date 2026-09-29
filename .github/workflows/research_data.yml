@@ -38,10 +38,13 @@ jobs:
           --candle-series KXNHLGAME,KXNHLTOTAL --tag core --max-minutes 140 --workers 6 --rate 12
       - name: Summary
         if: always()
-        run: cat data/history/kalshi/MANIFEST.json | head -120 || true; cat data/history/kalshi/MANIFEST_candles_core.json | head -60 || true
+        run: |
+          head -c 6000 data/history/kalshi/MANIFEST.json || true
+          head -c 3000 data/history/kalshi/MANIFEST_candles_core.json || true
       - name: Commit (never to the default branch)
         if: always()
-        run: bash scripts/research_commit.sh "research: kalshi NHL markets + core candles (run ${{ github.run_id }})" data/history/kalshi
+        run: |
+          bash scripts/research_commit.sh "research: kalshi NHL markets + core candles (run ${{ github.run_id }})" data/history/kalshi
 
   kalshi-ladders:
     needs: kalshi-core
@@ -65,7 +68,8 @@ jobs:
           --candle-series KXNHLSPREAD,KXNHLTEAMTOTAL --tag ladders --max-minutes 140 --workers 6 --rate 12
       - name: Commit (never to the default branch)
         if: always()
-        run: bash scripts/research_commit.sh "research: kalshi NHL spread/team-total candles (run ${{ github.run_id }})" data/history/kalshi
+        run: |
+          bash scripts/research_commit.sh "research: kalshi NHL spread/team-total candles (run ${{ github.run_id }})" data/history/kalshi
 
   shots:
     runs-on: ubuntu-latest
@@ -84,4 +88,5 @@ jobs:
         run: du -sh data/history/moneypuck/* || true
       - name: Commit (never to the default branch)
         if: always()
-        run: bash scripts/research_commit.sh "research: MoneyPuck shots 2021-2025 slim parquet (run ${{ github.run_id }})" data/history/moneypuck/shots_*.parquet data/history/SHOTS_MANIFEST.json
+        run: |
+          bash scripts/research_commit.sh "research: MoneyPuck shots 2021-2025 slim parquet (run ${{ github.run_id }})" data/history/moneypuck/shots_*.parquet data/history/SHOTS_MANIFEST.json
