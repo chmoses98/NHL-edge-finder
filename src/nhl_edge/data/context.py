@@ -16,6 +16,7 @@ A failure in any optional source is recorded in STATUS_context.json and the rest
 
 from __future__ import annotations
 
+import hashlib
 import json
 from datetime import timedelta
 from pathlib import Path
@@ -160,6 +161,7 @@ def run_context_refresh(out_root: Path, date_et: str | None = None, with_dfo: bo
             ledger.append_rows("context/team_games", recs, observed_at=now, meta={k: v for k, v in meta.items() if k != "url"})
         else:
             status["errors"].append(f"moneypuck_team_games: {meta.get('error')}")
+        _append_situation_rows(ledger, mp_season, now, status)
     if gs_rows:
         ledger.append_rows("context/goalie_stats", gs_rows, observed_at=now)
     # rosters for teams playing in the window
@@ -206,6 +208,35 @@ def run_context_refresh(out_root: Path, date_et: str | None = None, with_dfo: bo
     log.info(kv(event="context_refreshed", games=len(games), errors=len(status["errors"])))
     print(json.dumps({k: v for k, v in status.items() if k != "sources"}, indent=1, default=str))
     return 0
+
+
+ST_SITUATIONS = ("5on5", "5on4", "4on5", "all")
+ST_COLUMNS = ("team", "team_abbrev", "gameId", "season", "gameDate", "situation", "home_or_away", "opposingTeam", "xGoalsFor", "xGoalsAgainst",
+              "goalsFor", "goalsAgainst", "iceTime", "penaltiesFor", "penaltiesAgainst")
+
+
+def _append_situation_rows(ledger: Ledger, mp_season: int, now: Any, status: dict[str, Any]) -> None:
+    """``context/team_games_st``: slim situation rows (5on5 / 5on4 / 4on5 / all) for the DATA_ONLY_V2 special-teams
+    features. A NEW kind, written after and independently of ``context/team_games`` (whose rows are unchanged); the
+    all_teams.csv download is served from the 1h fetch cache, so this costs no extra request. Never fatal."""
+    try:
+        df, meta = moneypuck.fetch_team_game_log(mp_season - 1, situations=ST_SITUATIONS)
+        if df is None or not len(df):
+            status["errors"].append(f"moneypuck_team_games_st: {meta.get('error')}")
+            return
+        d = df[[c for c in ST_COLUMNS if c in df.columns]]
+        recs = [{k: (None if (isinstance(v, float) and v != v) else v) for k, v in r.items()} for r in d.to_dict("records")]
+        digest = hashlib.sha256(json.dumps(recs, sort_keys=True, default=str).encode()).hexdigest()
+        prev = [e for e in ledger.manifest() if e.kind == "context/team_games_st"]
+        if prev and (max(prev, key=lambda e: e.observed_at_utc or e.written_at_utc).meta or {}).get("content_sha256") == digest:
+            # MoneyPuck refreshes daily; an identical copy every refresh would only grow the archive
+            status["sources"]["moneypuck_team_games_st"] = {"n": len(recs), "unchanged_since_last_snapshot": True}
+            return
+        ledger.append_rows("context/team_games_st", recs, observed_at=now, meta={"situations": list(ST_SITUATIONS), "n": len(recs), "min_season": mp_season - 1,
+                                                                                  "content_sha256": digest, "role": "DATA_ONLY_V2 shadow input"})
+        status["sources"]["moneypuck_team_games_st"] = {"n": len(recs), "situations": list(ST_SITUATIONS)}
+    except Exception as e:  # noqa: BLE001 - a V2 research input must never break the V1 context refresh
+        status["errors"].append(f"moneypuck_team_games_st: {type(e).__name__}: {str(e)[:160]}")
 
 
 def parse_espn_injuries(payload: dict[str, Any]) -> list[dict[str, Any]]:

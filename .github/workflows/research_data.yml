@@ -21,7 +21,23 @@ env:
   NHL_EDGE_LOG_LEVEL: INFO
 
 jobs:
+  gate:
+    # A push that DELETES the trigger file also matches `paths:`; only a push that leaves it in place runs the pull.
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.g.outputs.go }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: g
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] || [ -f .trigger/research_data ]; then echo "go=true" >> "$GITHUB_OUTPUT"; else echo "go=false" >> "$GITHUB_OUTPUT"; fi
+
   kalshi-core:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 170
     steps:
@@ -47,8 +63,8 @@ jobs:
           bash scripts/research_commit.sh "research: kalshi NHL markets + core candles (run ${{ github.run_id }})" data/history/kalshi
 
   kalshi-ladders:
-    needs: kalshi-core
-    if: always()
+    needs: [gate, kalshi-core]
+    if: always() && needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 170
     steps:
@@ -72,6 +88,8 @@ jobs:
           bash scripts/research_commit.sh "research: kalshi NHL spread/team-total candles (run ${{ github.run_id }})" data/history/kalshi
 
   shots:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
