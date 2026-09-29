@@ -91,8 +91,8 @@ ladder with 0.985 / 0.85 / 0.70 / 0 confidences. Known crude assumptions in `doc
 Moneyline: DATA_ONLY_V1 Brier 0.2419 / log loss 0.6766 / ECE 0.0225 vs league-Poisson 0.2483 / 0.6897 and
 constant-home 0.2483 / 0.6898 (hit rate 0.542 for all). Overtime: model P(OT) 0.174 vs observed 0.2275 (Brier
 0.1786, tied with the baseline): the Poisson tie deficit remains the clearest model weakness. Totals: expected total
-6.21 vs actual 6.17 (bias +0.04 after the sim 1.1 correction; sim 1.0 ran +0.35), MAE 1.87, over 5.5 / 6.5 Brier
-~0.250 (baseline ~0.250): no total information beyond the league average yet. No market benchmark exists for these
+6.21 vs actual 6.17 (bias +0.04 after the sim 1.1 correction; sim 1.0 ran +0.35), MAE 1.87, over 5.5 / 6.5 Brier 0.2467 / 0.2472
+(baseline 0.2469 / 0.2475), calibrated (ECE 0.015 / 0.019): little total information beyond the league average yet. No market benchmark exists for these
 games (no historical Kalshi NHL prices ingested), so no model-vs-market claim is made. Goalie factor was 1.0
 throughout. Historical, not prospective.
 
