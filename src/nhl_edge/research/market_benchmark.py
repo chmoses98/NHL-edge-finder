@@ -89,7 +89,7 @@ def market_quotes(history: Path, series: str, want: Any) -> pd.DataFrame:
 
 
 def _side(m: dict[str, Any], g: dict[str, Any]) -> str | None:
-    suf = str(m.get("ticker", "")).rsplit("-", 1)[-1]
+    suf = str(m.get("ticker", "")).rsplit("-", 1)[-1].rstrip("0123456789")  # spread tickers carry the strike: '-ANA1'
     k = fkey(suf)
     if k == g["home"]:
         return "home"
@@ -199,7 +199,30 @@ def run(history: Path, wf_games_csv: Path) -> dict[str, Any]:
         rep["moneyline"][hl] = row
         rep["residuals"][hl] = {"V1": residual_study(h, "V1_"), "V2 (SIM2_ST)": residual_study(h, "SIM2_ST_")}
     rep["totals"] = totals_benchmark(history, wf)
+    rep["puck_line"] = puck_line_benchmark(history, wf)
     return rep
+
+
+def puck_line_benchmark(history: Path, wf: pd.DataFrame) -> dict[str, Any]:
+    """KXNHLSPREAD 'X wins by over 1.5' (final score incl. the OT/SO goal) vs the models' P(margin > 1.5) for that side."""
+    def want(m: dict[str, Any], g: dict[str, Any]) -> str | None:
+        side = _side(m, g)
+        return f"{side}_-1.5" if side and strike_of(m) == 1.5 else None
+
+    q = market_quotes(history, "KXNHLSPREAD", want)
+    if q.empty:
+        return {"note": "no KXNHLSPREAD quotes"}
+    d = q[q["mid"].notna()].merge(wf, on="game_id", how="inner")
+    out: dict[str, Any] = {}
+    for (hl, lab), h in d.groupby(["horizon", "label"]):
+        home = lab.startswith("home")
+        margin = (h["home_score"] - h["away_score"]).to_numpy() * (1 if home else -1)
+        y = (margin > 1.5).astype(float)
+        col = "p_home_minus_1_5" if home else "p_away_minus_1_5"
+        out.setdefault(hl, {})[lab] = {"n": int(len(h)), "MARKET": score(h["mid"].to_numpy(dtype=float), y), "V1": score(h[f"V1_{col}"].to_numpy(dtype=float), y),
+                                       "V2 (SIM2_ST)": score(h[f"SIM2_ST_{col}"].to_numpy(dtype=float), y),
+                                       "kalshi_result_agrees": float(np.mean((h["result"] == "yes").to_numpy() == (y == 1)))}
+    return out
 
 
 def totals_benchmark(history: Path, wf: pd.DataFrame) -> dict[str, Any]:
@@ -268,6 +291,14 @@ def render(rep: dict[str, Any]) -> str:
             for lab, r in sorted((tt.get(hl) or {}).items()):
                 L.append(f"| {hl} | {lab} | {r['n']} | {f(r['V1']['brier'])} | {f(r['V2 (SIM2_ST)']['brier'])} | {f(r['MARKET']['brier'])} | {f(r['V1']['log_loss'])} | "
                          f"{f(r['V2 (SIM2_ST)']['log_loss'])} | {f(r['MARKET']['log_loss'])} |")
+    pl = rep.get("puck_line") or {}
+    if pl and "note" not in pl:
+        L += ["", "## Puck line (KXNHLSPREAD, team wins by over 1.5; hourly candles only)", "",
+              "| horizon | side | n | V1 Brier | V2 Brier | Kalshi Brier | V1 LL | V2 LL | Kalshi LL | settlement agrees |", "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
+        for hl, _, _ in HORIZONS:
+            for lab, r in sorted((pl.get(hl) or {}).items()):
+                L.append(f"| {hl} | {lab} | {r['n']} | {f(r['V1']['brier'])} | {f(r['V2 (SIM2_ST)']['brier'])} | {f(r['MARKET']['brier'])} | {f(r['V1']['log_loss'])} | "
+                         f"{f(r['V2 (SIM2_ST)']['log_loss'])} | {f(r['MARKET']['log_loss'])} | {f(r['kalshi_result_agrees'], 3)} |")
     L += ["", f"> {rep['banner']}", ""]
     return "\n".join(L)
 

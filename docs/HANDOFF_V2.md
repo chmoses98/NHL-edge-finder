@@ -48,7 +48,6 @@ __PR4_ROW__
 **Candles**
 - 1.47M candles, hourly and 1-minute windows aligned to official start times.
 - About 1% of fetches failed with HTTP 429 and were recorded as gaps.
-- Spread / team-total candles: a follow-up job.
 
 **Quote definition**
 - Candle-close best bid/ask midpoint at or before each horizon; median spread 1¢.
@@ -77,6 +76,18 @@ T-24h is flagged because the model's inputs run through the previous day, which 
 | O6.5 | 0.2501 | 0.2496 | 0.2466 |
 
 Kalshi's settled totals agree with the official final score (shootout = one goal) in 100% of 2,390 checks.
+
+**Puck line (KXNHLSPREAD ±1.5, hourly candles; T-60m Brier):**
+
+| side | V1 | V2 | Kalshi |
+|---|---:|---:|---:|
+| home −1.5 | 0.2050 | 0.2047 | 0.2035 |
+| away −1.5 | 0.1939 | 0.1940 | 0.1926 |
+
+- Kalshi is narrowly better from T-12h onward.
+- At the flagged T-24h horizon the models score better (0.1953 vs 0.1999 away), consistent with their one-day information advantage there. It is not evidence of edge.
+- T-30m / T-10m have too few hourly quotes to read.
+- Settlement agreement: 100%.
 
 **Answers**
 - **Does DATA_ONLY_V1 beat Kalshi pregame moneyline? No**, at every horizon.
@@ -259,7 +270,7 @@ DATA_ONLY_V2 is SHADOW: it never gates a contract. kalshi-bet-router was not mod
    - The OT winner model is V1's strength-shrink prior (not re-estimated).
 4. **Period markets.** Unsettleable here (no period settlement), so they stay PARTIAL.
 5. **Out of scope today.** Injuries and line combinations remain unmodelled.
-6. **Market benchmark.** One season only (Kalshi NHL game history starts in the 2025 playoffs); candle midpoints are not executable prices; spread and team-total benchmarks are not built (no settled team-total history; spread candles pending); ~1% of candle fetches were rate-limited gaps; the walk-forward model uses information through the previous day, which flags the T-24h horizon.
+6. **Market benchmark.** One season only (Kalshi NHL game history starts in the 2025 playoffs); candle midpoints are not executable prices; spreads use hourly candles only; no settled team-total or period history exists; ~1% of candle fetches were rate-limited gaps; the walk-forward model uses information through the previous day, which flags the T-24h horizon.
 
 ## P. RUN NHL later today
 
