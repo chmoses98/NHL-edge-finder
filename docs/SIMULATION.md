@@ -1,4 +1,4 @@
-# Simulation (`nhl-sim-1.0`, `DATA_ONLY_V1`, `nhl-features-1.0`)
+# Simulation (`nhl-sim-1.1`, `DATA_ONLY_V1`, `nhl-features-1.0`)
 
 > RESEARCH_ONLY. This document says exactly what the simulator does, including what is crude.
 

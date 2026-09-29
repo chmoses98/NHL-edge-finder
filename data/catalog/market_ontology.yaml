@@ -12,7 +12,7 @@
 #   RESEARCH    : semantics understood; no defensible model yet (player props, periods, futures)
 #   UNMODELABLE : not an on-ice hockey outcome (awards voting, business, media)
 #   NEEDS_RULE_REVIEW is expressed as BUILDABLE + settlement_notes saying so.
-version: "2026.09.29.1"
+version: "2026.09.29.2"
 families:
   # ------------------------------------------------------------------ full game (MODELABLE)
   game_winner:
@@ -139,7 +139,7 @@ families:
     settles_on: FINAL_INCL_OT
     support: RESEARCH
     description: "Player scores X+ goals (anytime scorer at 1+). Needs a player-level shot model (P2)."
-    series_tickers: [KXNHLGOALS, KXNHLGOAL, KXNHLANYTIMEGOAL, KXNHLGOALSCORER]
+    series_tickers: [KXNHLGOALS, KXNHLGOAL, KXNHLANYTIMEGOAL, KXNHLGOALSCORER, KXNHLANYGOAL]
     series_patterns: ["^KXNHL(GOAL|GOALS|ANYTIME|SCORER)"]
   player_points:
     scope: player
@@ -172,7 +172,32 @@ families:
     settles_on: FINAL_INCL_OT
     support: RESEARCH
     description: "Goalie records X+ saves."
-    series_tickers: [KXNHLSAVES, KXNHLSV]
+    series_tickers: [KXNHLSAVES, KXNHLSV, KXNHLSAVE]
+  game_early_goal:
+    scope: game
+    stat: early_goal
+    period: FULL
+    settles_on: EVENT
+    support: RESEARCH
+    description: "A goal is scored in the first N minutes (KXNHLF10G). Needs event-time simulation."
+    series_tickers: [KXNHLF10G]
+    series_patterns: ["^KXNHLF\\d+G$"]
+  period_btts:
+    scope: game
+    stat: btts
+    period: PATTERN
+    settles_on: PERIOD
+    support: RESEARCH
+    description: "Both teams score in a given period."
+    series_patterns: ["^KXNHL(1P|2P|3P)BTTS$"]
+  game_multi_overtime:
+    scope: game
+    stat: overtime
+    period: FULL
+    settles_on: EVENT
+    support: RESEARCH
+    description: "Double overtime (playoff format)."
+    series_tickers: [KXNHL2OT]
   player_h2h:
     scope: player
     stat: h2h
@@ -198,8 +223,26 @@ families:
     settles_on: SEASON
     support: RESEARCH
     description: "Stanley Cup / conference / division winner. Needs a season simulator."
-    series_tickers: [KXSTANLEYCUP, KXNHLCUP, KXNHLCHAMP, KXNHLEAST, KXNHLWEST, KXNHLCONF, KXNHLDIV, KXNHLDIVISION, KXNHLCONFERENCE, KXNHLPRESIDENTS]
-    series_patterns: ["^KXSTANLEY", "^KXNHL(CUP|CHAMP|EAST|WEST|CONF|DIV|PRESIDENT|PLAYOFF|MAKEPLAYOFF|WINTOTAL|POINTS|SEASONWINS|REGSEASON)"]
+    series_tickers: [KXSTANLEYCUP, KXNHL, KXNHLCUP, KXNHLCHAMP, KXNHLEAST, KXNHLWEST, KXNHLCONF, KXNHLDIV, KXNHLDIVISION, KXNHLCONFERENCE, KXNHLPRESIDENTS, KXNHLPRES,
+                     KXNHLATLANTIC, KXNHLCENTRAL, KXNHLMETROPOLITAN, KXNHLPACIFIC, KXTEAMSINSC, KXCANADACUP, KXNHLWINS, KXNHLRECORDWORST, KXNHLWSTREAK, KXNHLFINALSEXACT, KXNHL30COMEBACK]
+    series_patterns: ["^KXSTANLEY", "^KXNHL(CUP|CHAMP|EAST|WEST|CONF|DIV|PRESIDENT|PRES|PLAYOFF|MAKEPLAYOFF|WINTOTAL|POINTS|SEASONWINS|REGSEASON|ATLANTIC|CENTRAL|METROPOLITAN|PACIFIC|RECORD|WSTREAK|FINALS|30COMEBACK)"]
+  playoff_series:
+    scope: season
+    stat: series
+    period: SEASON
+    settles_on: SEASON
+    support: RESEARCH
+    description: "Playoff series markets (winner, total games, exact score, series spread/totals/overtime). Needs a series simulator."
+    series_patterns: ["^KXNHLSERIES"]
+  season_player_stats:
+    scope: player
+    stat: season_stat
+    period: SEASON
+    settles_on: SEASON
+    support: RESEARCH
+    description: "Season-long player totals (goals, points) and season point totals for teams."
+    series_tickers: [KXNHLSEASONGOALS, KXNHLSEASONPPTS, KXNHLSEASONPTS, KXNHLPLAYOFFGOALS]
+    series_patterns: ["^KXNHLSEASON"]
   season_awards:
     scope: season
     stat: award
@@ -207,8 +250,9 @@ families:
     settles_on: SEASON
     support: UNMODELABLE
     description: "Voted awards (Hart, Vezina, Calder, Norris ...), draft, transactions. Not an on-ice outcome we model."
-    series_tickers: [KXNHLMVP, KXHART, KXVEZINA, KXCALDER, KXNORRIS, KXNHLDRAFT, KXNHLROOKIE, KXNHLCOACH]
-    series_patterns: ["^KX(HART|VEZINA|CALDER|NORRIS|SELKE|LADYBYNG|JACKADAMS|CONNSMYTHE|ROCKET|ARTROSS)", "^KXNHL(MVP|AWARD|DRAFT|ROOKIE|COACH|TRADE|SIGN|FIRE|HIRE|ROY|ROCKET|ARTROSS)"]
+    series_tickers: [KXNHLMVP, KXHART, KXVEZINA, KXCALDER, KXNORRIS, KXNHLDRAFT, KXNHLROOKIE, KXNHLCOACH, KXNHLHART, KXNHLVEZINA, KXNHLCALDER, KXNHLNORRIS, KXNHLADAMS,
+                     KXNHLRICHARD, KXNHLROSS, KXCONNSMYTHE, KXNHL1STTEAM, KXESPYNHL, KXNEXTTEAMNHL, KXNHLNEXTTEAM, KXNHLNEXTGM, KXNHLRETIRE]
+    series_patterns: ["^KX(HART|VEZINA|CALDER|NORRIS|SELKE|LADYBYNG|JACKADAMS|CONNSMYTHE|ROCKET|ARTROSS)", "^KXNHL(MVP|AWARD|DRAFT|ROOKIE|COACH|TRADE|SIGN|FIRE|HIRE|ROY|ROCKET|ARTROSS|HART|VEZINA|CALDER|NORRIS|ADAMS|RICHARD|ROSS|1STTEAM|NEXT|RETIRE)", "^KXNEXTTEAMNHL", "^KXESPYNHL"]
   non_hockey_or_office:
     scope: other
     stat: null
@@ -216,4 +260,5 @@ families:
     settles_on: OTHER
     support: UNMODELABLE
     description: "NHL-adjacent but not an on-ice outcome (viewership, expansion, business, media, outdoor games)."
-    series_patterns: ["^KXNHL(VIEW|RATING|EXPAN|RELOC|ARENA|OUTDOOR|WINTERCLASSIC|STADIUM|ALLSTAR|OLYMPIC|WORLDCUP|4NATIONS)"]
+    series_tickers: [KXNHLMENTION, KXNHLPRICE, KXNHL4NATIONS, KXNHLEXPANSION]
+    series_patterns: ["^KXNHL(VIEW|RATING|EXPAN|RELOC|ARENA|OUTDOOR|WINTERCLASSIC|STADIUM|ALLSTAR|OLYMPIC|WORLDCUP|4NATIONS|MENTION|PRICE)"]

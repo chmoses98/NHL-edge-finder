@@ -16,8 +16,11 @@ Scoring model (V1, deliberately simple and documented in docs/SIMULATION.md):
   because plain Poisson is the empirical baseline that has to be beaten, not assumed.
 * Late window: if the margin is 1 or 2 the trailing team is assumed to pull its goalie. The leader's rate is
   multiplied by ``EN_LEADER_MULT`` (empty net), the trailer's by ``PULL_ATTACK_MULT`` (6-on-5). Otherwise ordinary
-  rates apply. These multipliers are priors, not estimates, and are the first thing to calibrate from play-by-play
-  (the landing feed flags empty-net goals).
+  rates apply. The multipliers REDISTRIBUTE late goals rather than add them: the base late rate is divided by the
+  draw's own average multiplier so that E[goals] stays equal to ``lam`` (the input rates are all-goals rates that
+  already contain empty-net goals; sim 1.0 double-counted them and ran +0.35 goals/game hot in the walk-forward).
+  The multipliers are priors, not estimates, and are the first thing to calibrate from play-by-play (the landing
+  feed flags empty-net goals).
 * Regulation tie -> overtime. ``P(OT ends in a goal)`` is ``p_ot_goal`` (rest go to the shootout). The OT winner is
   drawn from the strength ratio shrunk toward 0.5 (3-on-3 is high variance); the shootout winner from a further
   shrunk ratio. Either way the winner's final score is regulation + 1.
@@ -190,8 +193,12 @@ def simulate_game(home: TeamParams, away: TeamParams, seed: int, config: SimConf
     away_trailing = (diff >= 1) & (diff <= 2)
     mult_h = np.where(home_trailing, config.pull_attack_mult, np.where(away_trailing, config.en_leader_mult, 1.0))
     mult_a = np.where(away_trailing, config.pull_attack_mult, np.where(home_trailing, config.en_leader_mult, 1.0))
-    h = h + rng.poisson(lam_h * late * mult_h)
-    a = a + rng.poisson(lam_a * late * mult_a)
+    # Normalise so the late window adds E[lam * late] goals per team on average across the draws: the pull
+    # mechanism changes WHO scores late and how margins spread, not how many goals a game contains.
+    norm_h = float(np.mean(mult_h)) or 1.0
+    norm_a = float(np.mean(mult_a)) or 1.0
+    h = h + rng.poisson(lam_h * late * mult_h / norm_h)
+    a = a + rng.poisson(lam_a * late * mult_a / norm_a)
 
     tied = h == a
     ot = tied.copy()
