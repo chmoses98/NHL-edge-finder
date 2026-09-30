@@ -6,7 +6,8 @@
 goals, saves and first-goal are validated and calibrated against simple baselines; assists and points are coherent and
 competitive on log loss but carry a measurable calibration error (compressed toward the middle) and do **not** beat a
 simple role-adjusted rate baseline on assists. Nothing here is edge evidence: where Kalshi shows a real two-sided price, the market is slightly
-better than the model on player points and the model adds nothing measurable beyond it (R).
+better than the model on points and assists. On goals the two tie, with a small signal from the model that is far
+below spreads and fees (R).
 
 ALL NHL MODEL FAMILIES REMAIN RESEARCH_ONLY. NO AUTOMATIC BETTING AUTHORITY WAS CREATED. NO BETS WERE PLACED.
 
@@ -14,8 +15,8 @@ ALL NHL MODEL FAMILIES REMAIN RESEARCH_ONLY. NO AUTOMATIC BETTING AUTHORITY WAS 
 
 | repo / ref | start | end |
 |---|---|---|
-| NHL-edge-finder `main` | `c555c1c` (PR #7 merge) | TBD_MAIN_END |
-| NHL-edge-finder `claude/nhl-player-prop-sim-l0ovd5` | branched from `c555c1c` | TBD_BRANCH_END |
+| NHL-edge-finder `main` | `c555c1c` (PR #7 merge) | `43e2a19` (PR #10 merge), then the PR #11 merge (docs + benchmark data only) |
+| NHL-edge-finder `claude/nhl-player-prop-sim-l0ovd5` | branched from `c555c1c` | `2b16227` + the PR #11 docs commit (the goal-candle runner job may append one data commit after it) |
 | NHL-edge-finder `data-archive` | `fae4ca7` (capture 05:07Z) at session start | still advancing (worker); never written by this session except through the merged code's own jobs |
 | NHL-edge-finder `accounting-data` / `kalshi-router/NHL` | `4a0e769` / `a80b586` | untouched (read only, for the opening-night ledger) |
 | kalshi-bet-router `main` | `984c7c1` | `984c7c1` (read only; no defect required a change) |
@@ -25,7 +26,8 @@ ALL NHL MODEL FAMILIES REMAIN RESEARCH_ONLY. NO AUTOMATIC BETTING AUTHORITY WAS 
 | PR | purpose | status | CI |
 |---|---|---|---|
 | #9 | PLAYER_SIM_V1 shadow arm, player + period settlement, player evaluation, evaluate `--out` fix, research harness, docs | merged `9850d89` | green |
-| #10 | market-benchmark fix (score only two-sided quotes, report spread bands, test), benchmark results, the runner's shadow outputs and Kalshi history, final handoff | TBD_PR10 | TBD_PR10_CI |
+| #10 | market-benchmark fix (score only two-sided quotes, report spread bands, test), benchmark results, the runner's shadow outputs and Kalshi history, final handoff | merged `43e2a19` | green |
+| #11 | goal / assist candle benchmark results (with game bootstrap), production evidence (T), SHAs / PR table | merged after green CI (this handoff's last change) | green before merge |
 
 ## D. OPENING-NIGHT ROOT CAUSE
 
@@ -212,20 +214,28 @@ ladder pooled: within ~2 points in every bucket. Full bucket tables in the resea
 
 ## R. MARKET BENCHMARK
 
-Historical 2025-26 Kalshi player props, points only so far (goal / assist candle pulls were still running; KXNHLSAVE had
-no settled history). Two-sided quotes with spread <= 10c, identical rows, 1+/2+/3+ points:
+Historical 2025-26 Kalshi player props: goals, assists and points (KXNHLSAVE had no settled history). Two-sided quotes
+with spread <= 10c, identical rows, all three families pooled:
 
-| horizon | n | PLAYER_SIM_V1 Brier / log loss | Kalshi mid | MARKET_ANCHORED_PLAYER_V1 | model adds info given market? |
-|---|---:|---|---|---|---|
-| T-90m | 647 | 0.1532 / 0.4552 | **0.1511 / 0.4493** | 0.1513 / 0.4497 | no (z = -0.1) |
-| T-60m | 762 | 0.1662 / 0.4867 | **0.1630 / 0.4786** | 0.1633 / 0.4794 | no (z = -0.7) |
-| T-10m | 810 | 0.1693 / 0.4953 | **0.1660 / 0.4874** | 0.1663 / 0.4882 | no (z = -0.7) |
+| horizon | n | PLAYER_SIM_V1 Brier | Kalshi mid | MARKET_ANCHORED_PLAYER_V1 | model adds info given market? |
+|---|---:|---:|---:|---:|---|
+| T-90m | 6,345 | 0.1921 | 0.1919 | **0.1916** | yes, small (game-bootstrap z = 3.1) |
+| T-10m | 7,438 | 0.1925 | 0.1915 | **0.1913** | marginal (z = 2.3) |
 
-**Where Kalshi has a real price, it is slightly better than the model and the model adds nothing measurable. No edge
-evidence exists for player props.** About two-thirds of historical quotes were empty books (0.01 / 0.99). A first pass
-that treated their 0.50 "midpoint" as a price showed a spurious large model advantage (z = 17). That was a benchmark
-bug, fixed and tested before anything was reported (`docs/research/PLAYER_SIM_V1.md` section 6). Limits: one family, 810
-rows, midpoints rather than executable asks, one season.
+Per family, T-10m:
+- **Goals**: model = market (0.1742 vs 0.1742; at T-90m 0.1754 vs 0.1762). The model carries some information the market
+  lacks (z = 2.2-3.7 by game bootstrap). The 20% blend beats the market by 0.0002-0.0004 Brier.
+- **Assists**: market better (0.2217 vs 0.2236).
+- **Points**: market better (0.1660 vs 0.1693).
+
+**Reading: no edge evidence for player props.**
+- The only signal is on goals, and it is tiny: about 0.0003 Brier, against a 3-10c spread plus fees, before executable
+  asks.
+- Several families and horizons were tested.
+- It is a hypothesis for the prospective shadow to test (goal props, market-anchored), not a finding to act on.
+- About 43% of quoted rows were empty books (0.01 / 0.99) or wider than 10c. A first pass that treated their 0.50 "midpoint" as a price
+  showed a spurious large model advantage (z = 17). That was a benchmark bug, fixed and tested before anything was
+  reported (`docs/research/PLAYER_SIM_V1.md` section 6).
 
 ## S. SETTLEMENT
 
@@ -254,9 +264,18 @@ New engines, both append-only, idempotent, Kalshi result compared but never allo
   `9850d89`, lease acquired 07:39:14Z; its first captures on the new code succeeded (07:39Z, 07:56Z). Generation 4
   (`36661757909`, old code) retired cleanly after 20 cycles. The conductor was not dispatched by hand, because it
   shares the worker's concurrency group and could cancel the queued successor.
-- LIVE_EVIDENCE_PENDING: at writing, the new code's context job (DailyFaceoff lines -> `context/lines`), settle job
-  (`player_events/*`, `nhl-player-settle-1.0`, `nhl-period-settle-1.0`) and simulate job (`predictions_player`) had
-  not yet run for 2026-09-30.
+- **First production simulate on the new code**: `slates/dt=2026-09-30/20260930T085553Z_36684879234` (worker gen 5).
+  It ran the `player_shadow` block for all 3 games with no error and 0 invariant violations, plus saves forecasts for
+  all six starters (expected saves 22.1-26.9). It had 0 player rows because Kalshi had not yet listed the props.
+  V1 gates were unchanged in kind (153 contracts: 28 OK, 47 NO_EDGE, 78 UNSUPPORTED).
+- Not yet run on the new code at writing (09:55Z):
+  - The context job (DailyFaceoff lines -> `context/lines`). It is next due when the 6-hour staleness rule fires
+    (~11:40Z) or the 13:00Z active window opens.
+  - The settle job (`player_events/*`, `nhl-player-settle-1.0`, `nhl-period-settle-1.0`). The conductor schedules
+    settle only for games in the latest schedule snapshot that have started (existing behaviour, unchanged), so it next
+    runs after tonight's first puck drop. The opening-night player and period contracts are settled then, since their
+    records do not exist yet.
+  - `eval/report_player.md` follows that settle.
 
 ## U. PERFORMANCE
 
@@ -314,8 +333,9 @@ them to gate, size, route or place anything. kalshi-bet-router was not modified.
 6. **Scratches.** P(player plays) is not modelled; probabilities are conditional on playing (Kalshi's fair-price rule
    makes that the right target), and a player missing from the projected lineup is left unpriced.
 7. **First goal / team-to-score-first**: calibrated but with little skill; "no goal before the shootout" is unsettleable.
-8. **Market benchmark**: where Kalshi shows a real two-sided price, it beats the model slightly on points and the model
-   adds nothing (R). The benchmark covers points only (goal / assist candles were still being pulled), 810 rows,
+8. **Market benchmark**: where Kalshi shows a real two-sided price, it beats the model slightly on points and assists. On
+   goals the two tie, and the model adds a small, statistically detectable but economically negligible signal (R). The
+   benchmark covers 7,438 rows,
    2025-26, hourly candle midpoints rather than executable asks. Most player books are empty (0.01 / 0.99), so the
    "model-market gaps" in the packet are mostly gaps against no price at all.
 9. **Prospective evidence**: none yet. Nothing here should be read as edge.

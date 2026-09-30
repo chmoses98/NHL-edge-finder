@@ -213,36 +213,54 @@ Final: PRIOR_HEAVY rows (1,000 / 1,113): predicted 1+ point 0.211 / 0.212 vs 0.2
 255): 0.242 / 0.236 vs 0.232 / 0.231; STANDARD: 0.355 / 0.358 vs 0.346 / 0.351. (Before the replacement-level prior
 PRIOR_HEAVY was 0.251 predicted.)
 
-## 6. Kalshi market benchmark (historical 2025-26; points only so far)
+## 6. Kalshi market benchmark (historical 2025-26; goals, assists, points)
 
-`python -m nhl_edge.research.player_market_benchmark` -> `player_sim_v1/market_benchmark.json`. Settled KXNHLPTS /
-KXNHLGOAL / KXNHLAST markets (Nov 2025 - Jun 2026; KXNHLSAVE had no settled history) joined to the official player and
-the walk-forward PLAYER_SIM_V1 probability: 89,399 contracts joined. The market price is the best bid/ask midpoint of the
-newest hourly candle that closed at or before the horizon (never a later one). Candles exist so far only for KXNHLPTS
-(28,652 of 40,000 requested before the job deadline); goal and assist candle pulls were still running at writing.
+`python -m nhl_edge.research.player_market_benchmark` -> `player_sim_v1/market_benchmark.json`. Settled KXNHLGOAL /
+KXNHLAST / KXNHLPTS markets (Nov 2025 - Jun 2026; KXNHLSAVE had no settled history) joined to the official player and
+the walk-forward PLAYER_SIM_V1 probability. The market price is the best bid/ask midpoint of the newest hourly candle that
+closed at or before the horizon (never a later one). Candle coverage: KXNHLPTS 28,652 of 40,000 requested, KXNHLGOAL
+33,408 of 37,957, KXNHLAST complete; the rest were cut off by the job deadline.
 
 **Only two-sided quotes count.** Most thin player books sit at 0.01 / 0.99. The first run scored those as a 0.50
 "midpoint", which made the market look worse than a constant (Brier 0.219) and the model look like it added large
 information (z = 17). That was a benchmark bug, not a finding. The benchmark now scores only quotes with spread <= 0.10
-and reports every spread band separately (test: `test_market_benchmark_scores_only_two_sided_quotes`).
+and reports every spread band separately (test: `test_market_benchmark_scores_only_two_sided_quotes`). About 57% of
+quoted rows pass this filter (43% are empty or wider than 10c).
 
-1+ / 2+ / 3+ points, identical rows, spread <= 0.10:
+Identical rows, spread <= 0.10, all three families pooled:
 
-| horizon | n | PLAYER_SIM_V1 Brier / log loss / ECE | Kalshi mid | MARKET_ANCHORED_PLAYER_V1 (0.8 market) | model coefficient given market (z) |
+| horizon | n (games) | PLAYER_SIM_V1 Brier / log loss | Kalshi mid | MARKET_ANCHORED_PLAYER_V1 (0.8 market) | model coefficient given market (game-bootstrap z) |
 |---|---:|---|---|---|---|
-| T-90m | 647 | 0.1532 / 0.4552 / 0.031 | **0.1511 / 0.4493** / 0.033 | 0.1513 / 0.4497 | -0.06 (-0.1) |
-| T-60m | 762 | 0.1662 / 0.4867 / 0.028 | **0.1630 / 0.4786** / 0.041 | 0.1633 / 0.4794 | -0.25 (-0.7) |
-| T-10m | 810 | 0.1693 / 0.4953 / 0.028 | **0.1660 / 0.4874** / 0.039 | 0.1663 / 0.4882 | -0.25 (-0.7) |
+| T-90m | 6,345 (384) | 0.1921 / 0.5635 | 0.1919 / 0.5632 | **0.1916 / 0.5623** | 0.50 (3.1) |
+| T-60m | 7,318 | 0.1918 / 0.5628 | 0.1909 / 0.5607 | **0.1907 / 0.5602** | 0.30 (2.4, model SE) |
+| T-10m | 7,438 (438) | 0.1925 / 0.5649 | 0.1915 / 0.5624 | **0.1913 / 0.5620** | 0.28 (2.3) |
+
+By family, T-10m (T-90m in brackets), model vs market Brier:
+
+| family | n | model | market |
+|---|---:|---:|---:|
+| goals | 3,783 | 0.1742 (0.1754) | 0.1742 (0.1762) |
+| assists | 2,845 | 0.2236 (0.2239) | **0.2217** (0.2227) |
+| points | 810 | 0.1693 (0.1532) | **0.1660** (0.1511) |
+
+Goals alone, game-bootstrap (300 resamples of whole games, because one game's rows are correlated):
+
+| horizon | model coefficient (z) | anchored minus market Brier (95% CI) |
+|---|---|---|
+| T-90m | 0.94 (3.7) | -0.00036 (-0.00056, -0.00017) |
+| T-10m | 0.48 (2.2) | -0.00022 (-0.00041, -0.00001) |
 
 (T-30m equals T-10m: same hourly candle. T-6h / T-3h: no candles, since the pull only requested the pre-game window.)
 
-By spread band at T-10m (all quoted rows): 0-3c (n 63) market 0.0485 vs model 0.0528; 3-6c (187) 0.1228 vs 0.1268;
-6-10c (560) 0.1936 vs 0.1966; 10-20c (685) 0.2057 vs 0.2061; wider than 20c (1,649): the "mid" is not a price.
-
-**Reading.** Where Kalshi shows a real two-sided price, it is slightly better than PLAYER_SIM_V1 on points, and the model
-adds no measurable information on top of it (its coefficient is negative and insignificant; the 0.8 market-anchored
-blend is marginally worse than the market alone). Disagreements of more than 10 points are rare on these rows (9 and 18)
-and show nothing. **No edge evidence exists for player points.** The model is still useful for what it was built for:
-coherent, calibrated probabilities on the ~2/3 of contracts that have no real quote, and a shadow record to test
-prospectively. Limits: 810 rows, one family, midpoints and not executable asks (fees and spread make any "edge"
-harder still), and 2025-26 only.
+**Reading.**
+- On points and assists the market is slightly better than the model and the model adds nothing.
+- On goals the model is as accurate as the market and carries a small amount of information the market does not. This
+  survives resampling by game. Blending the model in at 20% improves on the market by 0.0002-0.0004 Brier.
+- That improvement is tiny: roughly a one-point better probability on a small share of contracts. A two-sided player
+  book typically has a 3-10c spread, and fees come on top. Whether any of it is tradable after the executable ask and
+  fees is **untested**.
+- Several families and horizons were examined, so a nominal z of 2-3 on one of them is weaker than it looks.
+- **Conclusion: no edge evidence for player props.** At most, a hypothesis to test prospectively: goal props, with the
+  model blended into the market. The shadow rows record exactly what is needed to test it (model, mid, anchored, asks,
+  fees).
+- Limits: one season; hourly midpoints rather than executable asks; incomplete candle coverage.
