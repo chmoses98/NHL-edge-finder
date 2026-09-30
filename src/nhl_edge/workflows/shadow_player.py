@@ -266,7 +266,9 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
                 meta = {"team": ro.abbrev, "opponent": gi.away_abbrev if side == "home" else gi.home_abbrev, "expected_toi_min": round(pm.get("expected_toi_total_min", 0.0), 2),
                         "expected_pp_toi_min": round(pm.get("expected_toi_min", {}).get("pp", 0.0), 2), "expected_shots": round(pm.get("expected_sog", 0.0), 2),
                         "expected_goals": round(float(d.goals[:, i].mean()), 3), "expected_assists": round(float(d.assists[:, i].mean()), 3),
-                        "expected_points": round(float(d.points[:, i].mean()), 3), "projection_quality": pm.get("projection_quality"),
+                        "expected_points": round(float(d.points[:, i].mean()), 3),
+                        "toi_p10_p50_p90_min": [round(float(x), 1) for x in np.percentile(d.toi_mult[:, i] * pm.get("expected_toi_total_min", 0.0), [10, 50, 90])],
+                        "projection_quality": pm.get("projection_quality"),
                         "role_confidence": pm.get("role_confidence"), "uncertainty_flags": pm.get("uncertainty_flags"), "ev_slot": pm.get("ev_slot"),
                         "pp_unit": pm.get("pp_unit"), "deployment_source": pm.get("deployment_source"), "n_games_history": pm.get("n_games")}
                 if pr.p is not None:

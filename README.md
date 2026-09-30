@@ -1,7 +1,8 @@
 # NHL-edge-finder
 
 **CURRENT AUTHORITY: RESEARCH_ONLY.** Every model family in this repository (`DATA_ONLY_V1`, `MARKET_ANCHORED_V1`) is a
-research instrument, as is the SHADOW arm `DATA_ONLY_V2` (2026-09-29). Nothing here places, sizes, recommends or routes a wager, and the Kalshi bet router has NHL
+research instrument, as are the SHADOW arms `DATA_ONLY_V2` (2026-09-29) and `PLAYER_SIM_V1` / `MARKET_ANCHORED_PLAYER_V1`
+(2026-09-30, player goals / assists / points / saves / first goal). Nothing here places, sizes, recommends or routes a wager, and the Kalshi bet router has NHL
 explicitly out of scope. Promotion to any wagering authority requires prospective evidence and a separate explicit
 decision (see `docs/AUTHORITY.md`).
 
@@ -47,7 +48,10 @@ nhl simulate --out data/archive --data data       # pricing only, from the lates
 ```
 Outputs: `data/archive/slates/dt=YYYY-MM-DD/<ts>_<run>/{slate.json,slate.md,packet.json}` plus `slates/latest/`.
 `packet.json` carries one comprehensive block per game (identity, context, goaltending, team state, model,
-every Kalshi contract with executable prices and both edges, authority) for a downstream thesis builder.
+every Kalshi contract with executable prices and both edges, authority) for a downstream thesis builder, plus
+`v2_shadow` and `player_shadow` (every Kalshi player contract with PLAYER_SIM_V1 and market-anchored probabilities,
+executable asks, fee-adjusted edges, expected TOI / PP TOI / shots / goals / assists / points, projection quality,
+role confidence, uncertainty flags; per-net goalie saves distributions; per-game contract correlation matrix).
 
 On GitHub: Actions -> conductor -> Run workflow -> `force: context,capture,simulate`.
 
@@ -64,6 +68,9 @@ nhl settle   --out data/archive --data data
 nhl evaluate --out data/archive --data data
 python -m nhl_edge.data.history --out data/history --seasons 2022,2023,2024,2025
 python -m nhl_edge.research.walk_forward --history data/history --out docs/research
+python -m nhl_edge.data.player_history --out data/history --seasons 2024,2025      # official player events (network)
+python -m nhl_edge.players.fit --history data/history                             # data/params/player-sim-1.0.json
+python -m nhl_edge.research.player_walk_forward --mode simulate --seasons 2024,2025 # PLAYER_SIM_V1 walk-forward
 ```
 No credentials are needed for anything in this repository.
 
@@ -81,3 +88,5 @@ No credentials are needed for anything in this repository.
 - `docs/research/RESEARCH_NOTES.md` findings, negative results, roadmap
 - `docs/research/V2_RESEARCH.md` DATA_ONLY_V2 shadow arm (sim 2.0, special teams, goalie true talent): evidence and limits
 - `docs/research/MARKET_BENCHMARK.md` historical Kalshi benchmark (V1 vs V2 vs market)
+- `docs/research/PLAYER_SIM_V1.md` player/event simulation: architecture, data, walk-forward evidence, calibration, limits
+- `docs/HANDOFF_PLAYER_SIM.md` PLAYER_SIM_V1 overnight build handoff (A-Z)

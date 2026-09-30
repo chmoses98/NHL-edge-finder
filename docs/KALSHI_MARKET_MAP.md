@@ -21,9 +21,11 @@ these UNSETTLEABLE and defers to Kalshi's result).
 | game_regulation_winner | KXNHLREG*, KXNHL3WAY | REGULATION | PARTIAL / NEEDS_RULE_REVIEW | priced and settled (tie = NO); tie handling to confirm from rules |
 | game_win_margin | KXNHLWINMARGIN | FINAL_INCL_OT_SO | PARTIAL / NEEDS_RULE_REVIEW | bucket bounds to confirm |
 | game_overtime, game_shootout, game_both_teams_score | KXNHLOT, KXNHLSO, KXNHLBTTS | FINAL_INCL_OT_SO | PARTIAL | priced from the sim; series names unverified |
-| period_winner / period_total / period_spread | KXNHL1P... | PERIOD | V1: UNSUPPORTED (RESEARCH). V2 shadow: PARTIAL (rules verified, no settlement) | nhl-sim-2.0 prices them from per-period draws; period settlement not implemented (see below) |
-| first_goal | KXNHLFIRST* | EVENT | UNSUPPORTED (RESEARCH) | |
-| player_goals / points / assists / shots / goalie_saves / player_h2h | KXNHLGOALS... | FINAL_INCL_OT | UNSUPPORTED (RESEARCH) | player model is roadmap |
+| period_winner / period_total / period_spread | KXNHL1P... | PERIOD | V1: UNSUPPORTED (RESEARCH). V2 shadow: MODELLED_RESEARCH_ONLY, settled (nhl-period-settle-1.0, 2026-09-30) | nhl-sim-2.0 prices them from per-period draws; settled from official play-by-play period goals |
+| first_goal | KXNHLFIRSTGOAL | EVENT | V1: UNSUPPORTED. PLAYER_SIM_V1 shadow: MODELLED_RESEARCH_ONLY, settled | first scorer from simulated event order; no-goal-before-shootout left UNSETTLEABLE (rules silent) |
+| player_goals / player_points / player_assists | KXNHLGOAL, KXNHLPTS, KXNHLAST | FINAL_INCL_OT (official stat line) | V1: UNSUPPORTED. PLAYER_SIM_V1 shadow: MODELLED_RESEARCH_ONLY, settled | see "Player markets" below |
+| goalie_saves | KXNHLSAVE (singular; KXNHLSAVES never seen live) | FINAL_INCL_OT (official saves) | V1: UNSUPPORTED. PLAYER_SIM_V1 shadow: MODELLED_RESEARCH_ONLY, settled | ladder of N+ thresholds per goalie |
+| player_shots / player_h2h | (none listed live) | | UNSUPPORTED (no live series) | |
 | parlay_combo | KXNHLPREPACK*, KXMVENHL* | | UNSUPPORTED (RESEARCH) | |
 | season_champion | KXSTANLEYCUP, KXNHLCUP... | SEASON | UNSUPPORTED (RESEARCH) | |
 | season_awards, non_hockey_or_office | KXHART... | | UNSUPPORTED (UNMODELABLE) | |
@@ -63,3 +65,27 @@ played" (opening faceoff of OT taken) == regulation tie.
 **Status: PARTIAL, not SUPPORTED.** Contract semantics are confirmed and the simulator maps them, but the settlement
 engine does not yet read period line scores, so a period contract cannot be settled or evaluated by this repository.
 Promotion requires period settlement (boxscore/landing `linescore.byPeriod`) plus tests. V1 is unchanged (no periods).
+
+
+## Player markets (live rule text, 2026-09-29 production board; `docs/probe/samples/player_sources/`)
+
+| series | ticker example | title / strike | YES means (rules_primary) |
+|---|---|---|---|
+| KXNHLGOAL | `KXNHLGOAL-26SEP29CHIVGK-CHIAMANGIAPANE26-2` | "Andrew Mangiapane: 2+ goals", `strike_type=greater`, `floor_strike=1.5` | "If <player> records 2+ goals in the <A> vs <B> NHL game originally scheduled for <date>" |
+| KXNHLAST | `KXNHLAST-26SEP29CHIVGK-CHIBBYRAM24-1` | "Bowen Byram: 1+ assists", floor 0.5 | "... records 1+ assists ..." |
+| KXNHLPTS | `KXNHLPTS-26SEP29CHIVGK-CHIBBYRAM24-1` | "Bowen Byram: 1+ points", floor 0.5 | "... records 1+ points ..." |
+| KXNHLSAVE | `KXNHLSAVE-26SEP29CHIVGK-CHISKNIGHT30-26` | "Spencer Knight: 26+ saves", floor 25.5 | "... records 26+ saves ..." |
+| KXNHLFIRSTGOAL | `KXNHLFIRSTGOAL-26SEP29CHIVGK-CHIALEVSHUNOV55` | "Artyom Levshunov: First Goalscorer", `strike_type=structured` | "If <player> scores the 1st goal in ..." |
+
+`rules_secondary` (all five): "If a player is active but never enters the game, the market settles to the last fair
+market price before game start. Once a player enters the game, the market settles based on the player's <stat>
+recorded." Settlement source: NHL (nhl.com); series contract terms `HOCKEYENTITYSTAT.pdf`; fee_type `quadratic`, multiplier 1.
+
+Mapping (`players/pricing.py`, `settlement/player.py`): the official boxscore line (overtime counts, the shootout never
+does); a player absent from the boxscore or dressed with 00:00 TOI is UNSETTLEABLE (Kalshi's fair-price rule, never
+guessed); PLAYER_SIM_V1 probabilities are conditional on the player playing (goalies: starting). Player identity: the
+market suffix is `<Kalshi team code><first initial><LAST NAME, may be truncated><jersey>[-<N>]`; **Kalshi's jersey numbers
+are stale for players who changed teams** (73 of 832 opening-night contracts: e.g. Brady Tkachuk `FLABTKACHUK7`, roster #8),
+so resolution is team + jersey + name, falling back to team + first initial + full last name, and refusing ambiguity.
+Opening-night inventory (2026-09-29, 5 games): 297 goals, 207 points, 155 assists, 165 first-goal, 10 saves contracts
+(834 of 1,089 joined contracts = 77%).
