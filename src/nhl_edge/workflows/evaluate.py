@@ -189,4 +189,56 @@ def run_evaluate(out_root: Path, data_root: Path, now: datetime | None = None) -
     (out_root / "STATUS_evaluate.json").write_text(json.dumps({"evaluated_at_utc": iso(now), "n_rows": len(all_rows), "n_new": len(new_rows), "run_id": ledger.run_id}, indent=1))
     log.info(kv(event="evaluated", rows=len(all_rows), new=len(new_rows)))
     print(report_markdown(rep))
+    try:
+        run_evaluate_player(ledger, settlements, starts, obs_loader=lambda t: observations_by_ticker(ledger, t), now=now)
+    except Exception as e:  # noqa: BLE001 - the PLAYER_SIM_V1 report never blocks V1's evaluation
+        log.warning(kv(event="player_evaluation_failed", err=str(e)[:300]))
     return 0
+
+
+PLAYER_VIEWS = {"PLAYER_SIM_V1": "p_player", "MARKET_BASELINE": "p_market", "MARKET_ANCHORED_PLAYER_V1": "p_market_anchored"}
+
+
+def run_evaluate_player(ledger: Ledger, settlements: dict[str, SettlementRecord], starts: dict[str, datetime], obs_loader: Any, now: datetime) -> dict[str, Any]:
+    """PLAYER_SIM_V1 shadow rows x official player settlements -> ``evaluations_player`` (append-only) and
+    ``eval/report_player.{json,md}``. Same leak rules as V1: only rows predicted AND market-observed before the start."""
+    preds = list(ledger.iter_rows("predictions_player"))
+    seen = {(r.get("prediction_id"), r.get("settlement_key")) for r in ledger.iter_rows("evaluations_player")}
+    existing = list(ledger.iter_rows("evaluations_player"))
+    tickers = {p["ticker"] for p in preds if p.get("ticker") in settlements}
+    obs = obs_loader(tickers) if tickers else {}
+    new_rows: list[dict[str, Any]] = []
+    for p in preds:
+        rec = settlements.get(p.get("ticker"))
+        start = starts.get(str(p.get("game_id")))
+        if rec is None or start is None or (p.get("prediction_id"), rec.idempotency_key) in seen:
+            continue
+        row = build_evaluation_row(p | {"p_data_only": p.get("p_player")}, rec, start, obs.get(p["ticker"], []))
+        if row:
+            row.update({"p_player": p.get("p_player"), "projection_quality": p.get("meta_projection_quality"), "role_confidence": p.get("meta_role_confidence"),
+                        "deployment_source": p.get("meta_deployment_source"), "player_id": p.get("player_id")})
+            new_rows.append(row)
+            seen.add((row["prediction_id"], row["settlement_key"]))
+    if new_rows:
+        ledger.append_rows("evaluations_player", new_rows, observed_at=now)
+    rows = existing + new_rows
+    pre = [r for r in rows if r.get("pregame")]
+    fams = sorted({str(r.get("family")) for r in rows})
+    rep = {"evaluated_at_utc": iso(now), "authority": "RESEARCH_ONLY", "model_version": "PLAYER_SIM_V1", "n_rows": len(rows), "n_pregame": len(pre), "n_new_rows": len(new_rows),
+           "overall": {v: view_metrics(pre, k) for v, k in PLAYER_VIEWS.items()},
+           "families": {f: {v: view_metrics([r for r in pre if str(r.get("family")) == f], k) for v, k in PLAYER_VIEWS.items()} for f in fams},
+           "by_projection_quality": {q: view_metrics([r for r in pre if r.get("projection_quality") == q], "p_player")
+                                     for q in sorted({str(r.get("projection_quality")) for r in pre})},
+           "note": "Prospective SHADOW evidence only. The market is the benchmark; a handful of games proves nothing."}
+    d = ledger.root / "eval"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "report_player.json").write_text(json.dumps(rep, indent=1, default=str))
+    lines = [f"# PLAYER_SIM_V1 evaluation — {rep['authority']}", "", f"evaluated {rep['evaluated_at_utc']} · rows {rep['n_rows']} · pregame {rep['n_pregame']}", "",
+             "| scope | view | n | Brier | log loss | ECE | mean p | hit rate |", "|---|---|---:|---:|---:|---:|---:|---:|"]
+    for scope, views in [("ALL", rep["overall"])] + list(rep["families"].items()):
+        for v, m in views.items():
+            lines.append(f"| {scope} | {v} | {m.get('n', 0)} | {_fmt(m.get('brier'))} | {_fmt(m.get('log_loss'))} | {_fmt(m.get('ece'))} | {_fmt(m.get('mean_p'))} | {_fmt(m.get('hit_rate'))} |")
+    lines += ["", rep["note"], ""]
+    (d / "report_player.md").write_text("\n".join(lines))
+    log.info(kv(event="player_evaluated", rows=len(rows), new=len(new_rows)))
+    return rep

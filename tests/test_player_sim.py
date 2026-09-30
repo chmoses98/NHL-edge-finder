@@ -15,7 +15,14 @@ from hypothesis import strategies as st
 from nhl_edge.data.lines import fold, is_confirmed_source, line_rows, parse_line_page, resolve_line_rows
 from nhl_edge.data.player_events import check_game, derive_game, parse_situation, team_state
 from nhl_edge.players.engine import ALL_STATES, StrengthTable, TeamRoster, invariant_violations, simulate_players
-from nhl_edge.players.features import LeaguePriors, PlayerBook, PlayerParams, build_player_games, coice_fractions, league_priors
+from nhl_edge.players.features import (
+    LeaguePriors,
+    PlayerBook,
+    PlayerParams,
+    build_player_games,
+    coice_fractions,
+    league_priors,
+)
 from nhl_edge.players.identity import parse_player_market, resolve_player
 from nhl_edge.players.params import SavesModel
 from nhl_edge.players.pricing import ladder_violations, price_player

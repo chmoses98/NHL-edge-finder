@@ -35,7 +35,7 @@ class PlayerParams:
     rate_half_life: float = 60.0  # games; talent-rate memory
     max_games: int = 164
     prior_season_weight: float = 0.75  # extra multiplicative discount on rows from earlier seasons (rates)
-    share_prior_games: float = 1.5  # pseudo-games of the position-median share
+    share_prior_games: float = 0.5  # pseudo-games of the position-mean share (selected on 2023-24: 0.5 beat 1.5)
     k_ixg_min: dict[str, float] = field(default_factory=lambda: {"ev": 300.0, "pp": 60.0, "sh": 60.0, "ea": 10.0})  # minutes of prior
     k_finish_xg: float = 40.0  # expected goals of prior on the finishing ratio (heavy shrinkage)
     use_finishing: bool = True
@@ -43,7 +43,7 @@ class PlayerParams:
     k_a2: float = 45.0  # secondary assists are noisier: stronger shrinkage
     k_en: float = 6.0  # minutes of prior on empty-net scoring
     k_onice_goals: float = 12.0  # expected on-ice goals of prior on the on-ice goals-for ratio
-    onice_beta: float = 0.0  # exponent of the on-ice GF ratio in the scorer weight (0 = off; chosen on validation)
+    onice_beta: float = 1.0  # exponent of the on-ice GF ratio in the scorer weight (selected on 2023-24 over 0 and 0.5)
     toi_sigma: float = 0.14  # game-to-game log-sd of a player's ice time around its expectation
     p_early_exit: float = 0.008  # per player-game probability of leaving early (injury / ejection)
 

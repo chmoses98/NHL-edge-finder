@@ -200,19 +200,21 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
     lam_by_game = {str(b["game_id"]): b for b in v2_blocks or []}
     rows_all: list[dict[str, Any]] = []
     blocks: list[dict[str, Any]] = []
-    for it in items:
+    def _one_game(it: dict[str, Any]) -> None:
         gi = it["gi"]
         gid = str(gi.game_id)
         b = lam_by_game.get(gid)
         if b is None:
             blocks.append({"game_id": gid, "error": "no V2 lambdas for this game (V2 shadow failed or disabled)"})
-            continue
+            return
         di = _date_int(gi.game_date_et)
         detail = b.get("detail") or {}
         comp = detail.get("components") or {}
         teams = {}
         for side, tid, ab in (("home", gi.home_team_id, gi.home_abbrev), ("away", gi.away_team_id, gi.away_abbrev)):
             dressed, dep, notes, goalies = project_lineup(rt, int(tid), di, rosters, lines, injuries, now)
+            if len(dressed) < 12:
+                raise ValueError(f"{ab}: only {len(dressed)} projected skaters (no roster / lineup source): UNPRICEABLE")
             ev, pp, sh = comp.get(f"ev_{side}"), comp.get(f"pp_{side}"), comp.get(f"sh_{side}")
             p_pp = float(pp / (ev + pp + sh)) if ev and pp is not None and sh is not None and (ev + pp + sh) > 0 else 0.215
             p_sh = float(sh / (ev + pp + sh)) if ev and pp is not None and sh is not None and (ev + pp + sh) > 0 else 0.028
@@ -248,7 +250,7 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
         corr_cols: list[tuple[str, np.ndarray]] = []
         for m, c in it["contracts"]:
             if c.family not in PLAYER_FAMILIES:
-                continue
+                return
             ref = parse_player_market(m["ticker"], m.get("title"))
             pid, how = resolve_player(ref, rosters) if ref else (None, "ticker suffix not parsed")
             pr = price_player(c.family, c.comparator, c.threshold, pid, ps, saves, goalie_team)
@@ -295,7 +297,7 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
                 "pregame": (it.get("minutes") or 0) > 0, "role": "SHADOW", "authority": AUTHORITY, "support": "MODELLED_RESEARCH_ONLY" if pr.supported else "UNPRICED",
                 **{f"meta_{k}": v for k, v in meta.items()},
             })
-        rows_all += rows
+        rows_all.extend(rows)
         # correlation among this game's priced contracts with the most informative prices (for exposure research)
         corr_cols.sort(key=lambda kv: -float(kv[1].mean() * (1 - kv[1].mean())))
         corr_cols = corr_cols[:CORR_MAX_CONTRACTS]
@@ -329,6 +331,14 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
             "correlation": {"labels": [k for k, _ in allc], "matrix": cm, "note": "Pearson correlation of YES indicators across the joint draw (exposure research only)"},
         })
         log.info(kv(event="player_shadow_game", game=gid, priced=sum(1 for r in rows if r["priced"]), contracts=len(rows), violations=len(viol)))
+
+    for it in items:
+        try:
+            _one_game(it)
+        except Exception as e:  # noqa: BLE001 - one bad game never takes the other games down
+            gid = str(getattr(it.get("gi"), "game_id", "?"))
+            log.warning(kv(event="player_shadow_game_failed", game=gid, err=str(e)[:200]))
+            blocks.append({"game_id": gid, "error": f"{type(e).__name__}: {str(e)[:200]}"})
     return {"rows": rows_all, "blocks": blocks, "context": rt.sources}
 
 

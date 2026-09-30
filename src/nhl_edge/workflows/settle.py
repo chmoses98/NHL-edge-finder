@@ -43,6 +43,8 @@ from nhl_edge.settlement.engine import (
 from nhl_edge.timeutil import iso, parse_iso, utcnow
 
 PLAYER_FAMILIES = ("player_goals", "player_points", "player_assists", "goalie_saves", "first_goal")
+PERIOD_FAMILIES = ("period_winner", "period_spread", "period_total")
+OFFICIAL_EVENT_FAMILIES = PLAYER_FAMILIES + PERIOD_FAMILIES
 
 log = get_logger(__name__)
 
@@ -229,7 +231,7 @@ def run_settle(out_root: Path, data_root: Path, fetch_result: FetchResult | None
             d = res.model_dump(mode="json")
             new_results.append(d)
             new_goalie_obs += obs
-        cs = [c for c in contracts.values() if c.game_id == gid and c.family not in PLAYER_FAMILIES]
+        cs = [c for c in contracts.values() if c.game_id == gid and c.family not in OFFICIAL_EVENT_FAMILIES]
         recs = settle_many(cs, res, existing, kres, now=now)
         for r in recs:
             if r.idempotency_key not in existing:
@@ -272,20 +274,22 @@ def _settle_players(ledger: Ledger, candidates: list[str], finals: dict[str, Fin
                     new_records: list[SettlementRecord], disagreements: list[str]) -> dict[str, Any]:
     import pandas as pd
 
+    from nhl_edge.settlement.period import PERIOD_ENGINE_VERSION, settle_period_contract
     from nhl_edge.settlement.player import PLAYER_ENGINE_VERSION, settle_player_contract
 
-    status: dict[str, Any] = {"engine": PLAYER_ENGINE_VERSION, "games_ingested": [], "errors": [], "n_records": 0, "issues": {}}
+    status: dict[str, Any] = {"engine": [PLAYER_ENGINE_VERSION, PERIOD_ENGINE_VERSION], "games_ingested": [], "errors": [], "n_records": 0, "n_period_records": 0,
+                              "issues": {}}
     try:
         have = ingested_player_games(ledger)
     except Exception as e:  # noqa: BLE001
         status["errors"].append(f"reading ingested games: {str(e)[:160]}")
         return status
-    done_tickers = {r.ticker for r in existing.values() if r.engine_version == PLAYER_ENGINE_VERSION}
+    done_tickers = {r.ticker for r in existing.values() if r.engine_version in (PLAYER_ENGINE_VERSION, PERIOD_ENGINE_VERSION)}
     for gid in candidates:
         res = finals.get(gid)
         if res is None or not res.is_final:
             continue
-        pcs = [c for c in contracts.values() if c.game_id == gid and c.family in PLAYER_FAMILIES]
+        pcs = [c for c in contracts.values() if c.game_id == gid and c.family in OFFICIAL_EVENT_FAMILIES]
         if gid in have and all(c.ticker in done_tickers for c in pcs):
             continue  # already ingested and every player contract already has a record: no network
         g = schedule.get(gid) or {}
@@ -308,9 +312,14 @@ def _settle_players(ledger: Ledger, candidates: list[str], finals: dict[str, Fin
         if len(goals):
             goals = goals[goals["period_type"] != "SO"]
         for c in pcs:
-            rec = settle_player_contract(c, sk if len(sk) else pd.DataFrame(columns=["team_id", "sweater", "name"]),
-                                         gl if len(gl) else pd.DataFrame(columns=["team_id", "sweater", "name"]), goals, True, kres.get(c.ticker), now,
-                                         "nhl_boxscore+pbp", res.stat_correction_version)
+            if c.family in PERIOD_FAMILIES:
+                rec = settle_period_contract(c, goals, res.home_team_id, res.away_team_id, True, not [i for i in issues if not i.startswith("shifts")],
+                                             kres.get(c.ticker), now, res.stat_correction_version)
+                status["n_period_records"] += 1
+            else:
+                rec = settle_player_contract(c, sk if len(sk) else pd.DataFrame(columns=["team_id", "sweater", "name"]),
+                                             gl if len(gl) else pd.DataFrame(columns=["team_id", "sweater", "name"]), goals, True, kres.get(c.ticker), now,
+                                             "nhl_boxscore+pbp", res.stat_correction_version)
             if rec.idempotency_key not in existing:
                 existing[rec.idempotency_key] = rec
                 new_records.append(rec)

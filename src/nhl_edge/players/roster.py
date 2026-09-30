@@ -154,8 +154,11 @@ def build_roster(book: PlayerBook, team_id: int, abbrev: str, date_int: int, pla
         U = _uniform_F(np.maximum(share[s], 1e-4), ON_ICE_TEAMMATES[s])
         Fo = F_obs.get(s) if F_obs else None
         if Fo is not None:
-            good = ~np.isnan(Fo).all(axis=1)
-            Fm = np.where(good[:, None], 0.85 * np.nan_to_num(Fo) + 0.15 * U, U)
+            # a pair is observed only when BOTH players skated for this team in the window; a newcomer's pairs are
+            # unknown (not "never together") and take the share-proportional prior
+            known = ~np.isnan(Fo).all(axis=1)
+            pair = known[:, None] & known[None, :]
+            Fm = np.where(pair, 0.85 * np.nan_to_num(Fo) + 0.15 * U, U)
         else:
             Fm = U
         Fl = _lines_F(pids, dep, s) if dep.source != "RECENT_SHIFTS" else None
@@ -163,7 +166,10 @@ def build_roster(book: PlayerBook, team_id: int, abbrev: str, date_int: int, pla
             wl = 0.6 if dep.source == "LINES_CONFIRMED" else 0.4
             Fm = wl * Fl + (1 - wl) * Fm
         np.fill_diagonal(Fm, 0.0)
-        F[k] = Fm
+        # each row: the scorer shares the ice with ON_ICE_TEAMMATES[s] teammates on average -> rows sum to that
+        rs = Fm.sum(axis=1, keepdims=True)
+        Fm = np.where(rs > 0, Fm * ON_ICE_TEAMMATES[s] / np.maximum(rs, 1e-12), Fm)
+        F[k] = np.clip(Fm, 0.0, 1.0)
     meta = {}
     for i, p in enumerate(pids):
         pr = profs[p]
