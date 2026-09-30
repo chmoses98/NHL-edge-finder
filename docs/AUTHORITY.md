@@ -2,6 +2,10 @@
 
 **ALL NHL MODEL FAMILIES ARE RESEARCH_ONLY. NO BETTING AUTHORITY EXISTS. NO BETS ARE PLACED.**
 
+PLAYER_SIM_V1 and MARKET_ANCHORED_PLAYER_V1 (2026-09-30) are SHADOW research arms under the same rules: every
+`predictions_player` row carries `authority = RESEARCH_ONLY`, `role = SHADOW`; nothing reads them to gate, size or route
+anything. Historical walk-forward results never count toward authority; only prospective pregame rows would.
+
 ## Ladder
 
 `RESEARCH_ONLY` -> `SHADOW` -> `LIMITED` -> `TRUSTED` (`schemas/prediction.Authority`). Every prediction row is

@@ -354,7 +354,9 @@ class Worker:
         ("context", ["nhl", "context", "--out", "ARCHIVE"], 900.0),
         ("simulate", ["nhl", "simulate", "--data", "DATA", "--out", "ARCHIVE"], 1500.0),
         ("settle", ["nhl", "settle", "--data", "DATA", "--out", "ARCHIVE"], 900.0),
-        ("evaluate", ["nhl", "evaluate", "--data", "DATA", "--out", "ARCHIVE/eval"], 900.0),
+        # the evaluation ledger IS the archive (predictions + settlements live there); reports go to ARCHIVE/eval/. The
+        # original "ARCHIVE/eval" root read an empty sub-ledger, so production evaluation scored 0 rows (fixed 2026-09-30).
+        ("evaluate", ["nhl", "evaluate", "--data", "DATA", "--out", "ARCHIVE"], 900.0),
         ("discover", ["nhl", "discover", "--out", "ARCHIVE/catalog", "--statuses", "open,unopened", "--max-pages", "10"], 1200.0),
     )
 

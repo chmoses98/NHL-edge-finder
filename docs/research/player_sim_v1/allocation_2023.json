@@ -1,0 +1,242 @@
+{
+ "note": "2023-24 validation season, allocation test (given each real goal: log-likelihood of actual scorer / A1 / A2). Earlier rows used an older co-ice treatment; compare rows within a block.",
+ "block_1_initial": {
+  "PLAYER_SIM_V1": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6255529009967327,
+   "ll_a1": -2.372087809016819,
+   "ll_a2": -2.041544350614197,
+   "ll_total": -7.039185060627748
+  },
+  "no_finishing": {
+   "n_goals": 8085,
+   "ll_scorer": -2.630153968321667,
+   "ll_a1": -2.372087809016819,
+   "ll_a2": -2.041544350614197,
+   "ll_total": -7.043786127952683
+  },
+  "uniform_coice (no line effects)": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6255529009967327,
+   "ll_a1": -2.680574020226726,
+   "ll_a2": -2.339536693613818,
+   "ll_total": -7.645663614837277
+  },
+  "position_assist_rates": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6255529009967327,
+   "ll_a1": -2.3832678683342046,
+   "ll_a2": -2.0432556110143616,
+   "ll_total": -7.052076380345298
+  },
+  "deployment_share_only (no talent)": {
+   "n_goals": 8085,
+   "ll_scorer": -2.7774639273453814,
+   "ll_a1": -2.372087809016819,
+   "ll_a2": -2.041544350614197,
+   "ll_total": -7.191096086976397
+  },
+  "k_finish_15": {
+   "n_goals": 8085,
+   "ll_scorer": -2.624627745924894,
+   "ll_a1": -2.372087809016819,
+   "ll_a2": -2.041544350614197,
+   "ll_total": -7.038259905555909
+  },
+  "k_finish_100": {
+   "n_goals": 8085,
+   "ll_scorer": -2.627428166648133,
+   "ll_a1": -2.372087809016819,
+   "ll_a2": -2.041544350614197,
+   "ll_total": -7.0410603262791485
+  },
+  "k_a_small (a1 10, a2 20)": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6255529009967327,
+   "ll_a1": -2.3744776312734,
+   "ll_a2": -2.044090132825475,
+   "ll_total": -7.044120665095607
+  },
+  "k_a_large (a1 60, a2 100)": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6255529009967327,
+   "ll_a1": -2.373916126625204,
+   "ll_a2": -2.041264520324819,
+   "ll_total": -7.040733547946755
+  },
+  "k_ixg_small (ev 100)": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6237772414909015,
+   "ll_a1": -2.372087809016819,
+   "ll_a2": -2.041544350614197,
+   "ll_total": -7.037409401121918
+  },
+  "k_ixg_large (ev 800)": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6297186767427556,
+   "ll_a1": -2.372087809016819,
+   "ll_a2": -2.041544350614197,
+   "ll_total": -7.043350836373771
+  },
+  "share_hl_3": {
+   "n_goals": 8085,
+   "ll_scorer": -2.644290735959374,
+   "ll_a1": -2.373613021280813,
+   "ll_a2": -2.042770285421817,
+   "ll_total": -7.060674042662003
+  },
+  "share_hl_15": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6204563206600455,
+   "ll_a1": -2.3711051639770275,
+   "ll_a2": -2.0408643251978065,
+   "ll_total": -7.032425809834879
+  },
+  "rate_hl_30": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6286300085502488,
+   "ll_a1": -2.374278547550404,
+   "ll_a2": -2.0421123379783155,
+   "ll_total": -7.045020894078969
+  },
+  "rate_hl_120": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6242848726232415,
+   "ll_a1": -2.3710620368894255,
+   "ll_a2": -2.041271052596473,
+   "ll_total": -7.0366179621091405
+  }
+ },
+ "block_2_onice_share_prior": {
+  "base (beta 0)": {
+   "n_goals": 8085,
+   "ll_scorer": -2.619980758073374,
+   "ll_a1": -2.372214223306891,
+   "ll_a2": -2.0420157726642474,
+   "ll_total": -7.034210754044512
+  },
+  "onice_beta 0.5": {
+   "n_goals": 8085,
+   "ll_scorer": -2.615829293760881,
+   "ll_a1": -2.372214223306891,
+   "ll_a2": -2.0420157726642474,
+   "ll_total": -7.030059289732019
+  },
+  "onice_beta 1.0": {
+   "n_goals": 8085,
+   "ll_scorer": -2.615130794101818,
+   "ll_a1": -2.372214223306891,
+   "ll_a2": -2.0420157726642474,
+   "ll_total": -7.029360790072956
+  },
+  "onice_beta 1.0 k_onice 5": {
+   "n_goals": 8085,
+   "ll_scorer": -2.615722356017402,
+   "ll_a1": -2.372214223306891,
+   "ll_a2": -2.0420157726642474,
+   "ll_total": -7.02995235198854
+  },
+  "share_prior 0.5": {
+   "n_goals": 8085,
+   "ll_scorer": -2.612260126972621,
+   "ll_a1": -2.3711171207925195,
+   "ll_a2": -2.04103983924416,
+   "ll_total": -7.0244170870093
+  },
+  "onice 1.0 + share_prior 0.5": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6095602428998004,
+   "ll_a1": -2.3711171207925195,
+   "ll_a2": -2.04103983924416,
+   "ll_total": -7.021717202936479
+  }
+ },
+ "block_3_candidates_after_newcomer_fix": {
+  "base_newfix": {
+   "n_goals": 8085,
+   "ll_scorer": -2.619980758073374,
+   "ll_a1": -2.3712454316799976,
+   "ll_a2": -2.040623954528141,
+   "ll_total": -7.0318501442815124
+  },
+  "cand_A": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6095602428998004,
+   "ll_a1": -2.368996237433639,
+   "ll_a2": -2.038498424616844,
+   "ll_total": -7.0170549049502835
+  },
+  "cand_B": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6095602428998004,
+   "ll_a1": -2.369638812875838,
+   "ll_a2": -2.039390119286135,
+   "ll_total": -7.0185891750617735
+  },
+  "cand_B uniform coice": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6095602428998004,
+   "ll_a1": -2.6719943748860806,
+   "ll_a2": -2.332420276206445,
+   "ll_total": -7.613974893992325
+  }
+ },
+ "block_4_fringe_prior": {
+  "cand_A (no fringe)": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6095602428998004,
+   "ll_a1": -2.368996237433639,
+   "ll_a2": -2.038498424616844,
+   "ll_total": -7.0170549049502835
+  },
+  "cand_A + fringe": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6079376165259163,
+   "ll_a1": -2.3682528674760364,
+   "ll_a2": -2.038096644206468,
+   "ll_total": -7.014287128208421
+  }
+ },
+ "block_5_goal_copresence": {
+  "gcp_k3": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6079376165259163,
+   "ll_a1": -2.429104618988346,
+   "ll_a2": -2.0648660165494674,
+   "ll_total": -7.101908252063729
+  },
+  "gcp_k6": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6079376165259163,
+   "ll_a1": -2.3948208916548737,
+   "ll_a2": -2.049131796260636,
+   "ll_total": -7.051890304441426
+  },
+  "gcp_k12": {
+   "n_goals": 8085,
+   "ll_scorer": -2.6079376165259163,
+   "ll_a1": -2.3731404804870233,
+   "ll_a2": -2.039255625804727,
+   "ll_total": -7.020333722817667
+  }
+ },
+ "calibration_slope_diagnostics": {
+  "base (alloc_exp.log)": "base slope pts 1.122 ast 1.075 goals 1.096 top dec {'ep': 1.219, 'yp': 1.37, 'ea': 0.745, 'ya': 0.839} bottom {'ep': 0.03, 'yp': 0.024, 'ea': 0.018, 'ya': 0.018}",
+  "beta1 (alloc_exp.log)": "beta1 slope pts 1.091 ast 1.063 goals 1.03 top dec {'ep': 1.258, 'yp': 1.377, 'ea': 0.753, 'ya': 0.845} bottom {'ep': 0.028, 'yp': 0.022, 'ea': 0.017, 'ya': 0.016}",
+  "beta1_sp05 (alloc_exp.log)": "beta1_sp05 slope pts 1.073 ast 1.051 goals 1.005 top dec {'ep': 1.278, 'yp': 1.377, 'ea': 0.762, 'ya': 0.848} bottom {'ep': 0.026, 'yp': 0.019, 'ea': 0.016, 'ya': 0.013}",
+  "kixg100 (alloc_exp.log)": "kixg100 slope pts 1.113 ast 1.071 goals 1.074 top dec {'ep': 1.23, 'yp': 1.371, 'ea': 0.747, 'ya': 0.84} bottom {'ep': 0.029, 'yp': 0.024, 'ea': 0.018, 'ya': 0.018}",
+  "ka_small (alloc_exp.log)": "ka_small slope pts 1.113 ast 1.057 goals 1.096 top dec {'ep': 1.23, 'yp': 1.368, 'ea': 0.757, 'ya': 0.841} bottom {'ep': 0.029, 'yp': 0.024, 'ea': 0.017, 'ya': 0.018}",
+  "base_newfix (alloc_exp2.log)": "base_newfix slope pts 1.138 ast 1.109 goals 1.095 top dec {'ep': 1.202, 'yp': 1.367, 'ea': 0.726, 'ya': 0.835} bottom {'ep': 0.034, 'yp': 0.024, 'ea': 0.022, 'ya': 0.018}",
+  "cand_A (beta1 sp0.5) (alloc_exp2.log)": "cand_A (beta1 sp0.5) slope pts 1.086 ast 1.08 goals 1.005 top dec {'ep': 1.264, 'yp': 1.371, 'ea': 0.745, 'ya': 0.838} bottom {'ep': 0.029, 'yp': 0.021, 'ea': 0.019, 'ya': 0.014}",
+  "cand_B (A + ka 15/30) (alloc_exp2.log)": "cand_B (A + ka 15/30) slope pts 1.082 ast 1.074 goals 1.005 top dec {'ep': 1.268, 'yp': 1.368, 'ea': 0.75, 'ya': 0.836} bottom {'ep': 0.029, 'yp': 0.022, 'ea': 0.019, 'ya': 0.014}",
+  "cand_C (B + kixg ev150) (alloc_exp2.log)": "cand_C (B + kixg ev150) slope pts 1.077 ast 1.071 goals 0.993 top dec {'ep': 1.273, 'yp': 1.369, 'ea': 0.751, 'ya': 0.837} bottom {'ep': 0.028, 'yp': 0.021, 'ea': 0.019, 'ya': 0.014}",
+  "b15 (alloc_exp3_1.log)": "b15 slope pts 1.066 ast 1.071 goals 0.965 top dec {'ep': 1.284, 'yp': 1.369, 'ea': 0.75, 'ya': 0.837} bottom {'ep': 0.028, 'yp': 0.018, 'ea': 0.019, 'ya': 0.011}",
+  "k5 (alloc_exp3_2.log)": "k5 slope pts 1.076 ast 1.075 goals 0.986 top dec {'ep': 1.274, 'yp': 1.369, 'ea': 0.748, 'ya': 0.838} bottom {'ep': 0.028, 'yp': 0.019, 'ea': 0.019, 'ya': 0.012}",
+  "shl3 (alloc_exp3_3.log)": "shl3 slope pts 1.086 ast 1.081 goals 1.007 top dec {'ep': 1.261, 'yp': 1.372, 'ea': 0.744, 'ya': 0.838} bottom {'ep': 0.029, 'yp': 0.023, 'ea': 0.02, 'ya': 0.016}",
+  "rhl30_kixg150 (alloc_exp3_4.log)": "rhl30_kixg150 slope pts 1.092 ast 1.086 goals 1.011 top dec {'ep': 1.252, 'yp': 1.365, 'ea': 0.739, 'ya': 0.833} bottom {'ep': 0.029, 'yp': 0.02, 'ea': 0.02, 'ya': 0.013}",
+  "fringe (alloc_exp3_5.log)": "fringe slope pts 1.077 ast 1.074 goals 0.993 top dec {'ep': 1.274, 'yp': 1.373, 'ea': 0.749, 'ya': 0.84} bottom {'ep': 0.028, 'yp': 0.019, 'ea': 0.019, 'ya': 0.012}",
+  "gcp_k10 (alloc_exp4_1.log)": "gcp_k10 slope pts 1.034 ast 1.02 goals 0.993 top dec {'ep': 1.317, 'yp': 1.368, 'ea': 0.792, 'ya': 0.839} bottom {'ep': 0.025, 'yp': 0.021, 'ea': 0.016, 'ya': 0.013}",
+  "gcp_k30 (alloc_exp4_2.log)": "gcp_k30 slope pts 1.059 ast 1.057 goals 0.993 top dec {'ep': 1.294, 'yp': 1.374, 'ea': 0.769, 'ya': 0.844} bottom {'ep': 0.027, 'yp': 0.019, 'ea': 0.018, 'ya': 0.013}",
+  "gcp_k3 (alloc_exp4_3.log)": "gcp_k3 slope pts 0.998 ast 0.958 goals 0.993 top dec {'ep': 1.348, 'yp': 1.358, 'ea': 0.824, 'ya': 0.834} bottom {'ep': 0.023, 'yp': 0.024, 'ea': 0.013, 'ya': 0.015}"
+ }
+}

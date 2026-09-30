@@ -42,6 +42,10 @@ from nhl_edge.settlement.engine import (
 )
 from nhl_edge.timeutil import iso, parse_iso, utcnow
 
+PLAYER_FAMILIES = ("player_goals", "player_points", "player_assists", "goalie_saves", "first_goal")
+PERIOD_FAMILIES = ("period_winner", "period_spread", "period_total")
+OFFICIAL_EVENT_FAMILIES = PLAYER_FAMILIES + PERIOD_FAMILIES
+
 log = get_logger(__name__)
 
 SETTLE_GRACE = timedelta(hours=3)
@@ -50,6 +54,8 @@ MARKET_ONLY_REASON = "kalshi_result_only"
 _SKIP_STATUSES = {GameStatus.POSTPONED.value, GameStatus.CANCELED.value}
 
 FetchResult = Callable[[str], tuple[FinalResult, list[dict[str, Any]]]]
+FetchPlayerEvents = Callable[[str, dict[str, Any]], tuple[dict[str, Any], list[str]]]
+PLAYER_EVENT_TABLES = ("players", "goalies", "goals", "shots", "coice", "team_states")
 
 
 def strip_meta(row: dict[str, Any]) -> dict[str, Any]:
@@ -139,6 +145,36 @@ def default_fetch_result(game_id: str) -> tuple[FinalResult, list[dict[str, Any]
     return res, obs
 
 
+def default_fetch_player_events(game_id: str, meta: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
+    """Official boxscore + play-by-play + shift charts -> PLAYER_SIM_V1 tables (``data.player_events``) for one game."""
+    from nhl_edge.data.player_history import fetch_game
+
+    tables, rep = fetch_game(int(game_id), meta)
+    if tables is None:
+        raise RuntimeError(rep.get("error") or "player events unavailable")
+    return tables, list(rep.get("issues") or []) + ([f"shifts: {rep['shifts_error']}"] if rep.get("shifts_error") else [])
+
+
+def _jsonable(df: Any) -> list[dict[str, Any]]:
+    import math
+
+    out = []
+    for r in df.to_dict("records"):
+        rec = {}
+        for k, v in r.items():
+            if hasattr(v, "tolist"):
+                v = v.tolist()
+            if isinstance(v, float) and math.isnan(v):
+                v = None
+            rec[k] = v
+        out.append(rec)
+    return out
+
+
+def ingested_player_games(ledger: Ledger) -> set[str]:
+    return {str(r.get("game_id")) for r in ledger.iter_rows("player_events/players")}
+
+
 def market_only_record(ticker: str, result: str, game_id: str, now: datetime) -> SettlementRecord:
     k = _kalshi_outcome(result) or SettlementOutcome.UNSETTLEABLE
     return SettlementRecord(ticker=ticker, game_id=game_id, outcome=k, value=None, reason=f"{MARKET_ONLY_REASON}: kalshi_result={result}",
@@ -152,9 +188,11 @@ def _record_row(rec: SettlementRecord) -> dict[str, Any]:
     return d
 
 
-def run_settle(out_root: Path, data_root: Path, fetch_result: FetchResult | None = None, now: datetime | None = None) -> int:
+def run_settle(out_root: Path, data_root: Path, fetch_result: FetchResult | None = None, now: datetime | None = None,
+               fetch_player_events: FetchPlayerEvents | None = None) -> int:
     now = now or utcnow()
     fetch_result = fetch_result or default_fetch_result
+    fetch_player_events = fetch_player_events or default_fetch_player_events
     ledger = Ledger(out_root)
     schedule = latest_schedule(ledger)
     contracts = load_contracts(ledger)
@@ -193,7 +231,7 @@ def run_settle(out_root: Path, data_root: Path, fetch_result: FetchResult | None
             d = res.model_dump(mode="json")
             new_results.append(d)
             new_goalie_obs += obs
-        cs = [c for c in contracts.values() if c.game_id == gid]
+        cs = [c for c in contracts.values() if c.game_id == gid and c.family not in OFFICIAL_EVENT_FAMILIES]
         recs = settle_many(cs, res, existing, kres, now=now)
         for r in recs:
             if r.idempotency_key not in existing:
@@ -201,6 +239,9 @@ def run_settle(out_root: Path, data_root: Path, fetch_result: FetchResult | None
                 new_records.append(r)
                 if r.reason.startswith(DISAGREE_PREFIX):
                     disagreements.append(f"{r.ticker}: {r.reason[:160]}")
+    # PLAYER_SIM_V1: official player events for every final game (live point-in-time history for later games) and player
+    # prop settlement from the same official lines. Failures here are recorded and never block game settlement.
+    player_status = _settle_players(ledger, candidates, finals, contracts, existing, kres, now, fetch_player_events, schedule, new_records, disagreements)
     # market-only records for tickers with a Kalshi result and no contract (needs a game id from an archived contract's event)
     for tk, result in kres.items():
         if tk in contracts:
@@ -221,7 +262,68 @@ def run_settle(out_root: Path, data_root: Path, fetch_result: FetchResult | None
         "settled_at_utc": iso(now), "run_id": ledger.run_id, "n_candidates": len(candidates), "n_new_results": len(new_results), "n_new_records": len(new_records),
         "n_unsettleable": sum(1 for r in new_records if r.outcome == SettlementOutcome.UNSETTLEABLE), "n_market_only": sum(1 for r in new_records if r.engine_version == KALSHI_ENGINE_VERSION),
         "by_outcome": {o.value: sum(1 for r in new_records if r.outcome == o) for o in SettlementOutcome}, "not_final_yet": not_final, "errors": errors, "disagreements": disagreements,
+        "player": player_status,
     }
     (out_root / "STATUS_settle.json").write_text(json.dumps(status, indent=1, default=str))
     print(json.dumps(status, indent=1, default=str))
     return 0
+
+
+def _settle_players(ledger: Ledger, candidates: list[str], finals: dict[str, FinalResult], contracts: dict[str, Contract], existing: dict[str, SettlementRecord],
+                    kres: dict[str, str], now: datetime, fetch_player_events: FetchPlayerEvents, schedule: dict[str, dict[str, Any]],
+                    new_records: list[SettlementRecord], disagreements: list[str]) -> dict[str, Any]:
+    import pandas as pd
+
+    from nhl_edge.settlement.period import PERIOD_ENGINE_VERSION, settle_period_contract
+    from nhl_edge.settlement.player import PLAYER_ENGINE_VERSION, settle_player_contract
+
+    status: dict[str, Any] = {"engine": [PLAYER_ENGINE_VERSION, PERIOD_ENGINE_VERSION], "games_ingested": [], "errors": [], "n_records": 0, "n_period_records": 0,
+                              "issues": {}}
+    try:
+        have = ingested_player_games(ledger)
+    except Exception as e:  # noqa: BLE001
+        status["errors"].append(f"reading ingested games: {str(e)[:160]}")
+        return status
+    done_tickers = {r.ticker for r in existing.values() if r.engine_version in (PLAYER_ENGINE_VERSION, PERIOD_ENGINE_VERSION)}
+    for gid in candidates:
+        res = finals.get(gid)
+        if res is None or not res.is_final:
+            continue
+        pcs = [c for c in contracts.values() if c.game_id == gid and c.family in OFFICIAL_EVENT_FAMILIES]
+        if gid in have and all(c.ticker in done_tickers for c in pcs):
+            continue  # already ingested and every player contract already has a record: no network
+        g = schedule.get(gid) or {}
+        meta = {"season": int(str(gid)[:4]), "game_date": g.get("game_date_et") or str(getattr(res, "game_date", "") or "")[:10], "game_type": int(str(gid)[4:6])}
+        try:
+            tables, issues = fetch_player_events(gid, meta)
+        except Exception as e:  # noqa: BLE001
+            status["errors"].append(f"{gid}: {str(e)[:160]}")
+            continue
+        if issues:
+            status["issues"][gid] = issues[:5]
+        if gid not in have:
+            for t in PLAYER_EVENT_TABLES:
+                df = tables.get(t)
+                if df is not None and len(df):
+                    ledger.append_rows(f"player_events/{t}", _jsonable(df), observed_at=now, meta={"game_id": gid, "source": "nhl official boxscore+pbp+shiftcharts"})
+            have.add(gid)
+            status["games_ingested"].append(gid)
+        sk, gl, goals = tables["players"], tables["goalies"], tables["goals"]
+        if len(goals):
+            goals = goals[goals["period_type"] != "SO"]
+        for c in pcs:
+            if c.family in PERIOD_FAMILIES:
+                rec = settle_period_contract(c, goals, res.home_team_id, res.away_team_id, True, not [i for i in issues if not i.startswith("shifts")],
+                                             kres.get(c.ticker), now, res.stat_correction_version)
+                status["n_period_records"] += 1
+            else:
+                rec = settle_player_contract(c, sk if len(sk) else pd.DataFrame(columns=["team_id", "sweater", "name"]),
+                                             gl if len(gl) else pd.DataFrame(columns=["team_id", "sweater", "name"]), goals, True, kres.get(c.ticker), now,
+                                             "nhl_boxscore+pbp", res.stat_correction_version)
+            if rec.idempotency_key not in existing:
+                existing[rec.idempotency_key] = rec
+                new_records.append(rec)
+                status["n_records"] += 1
+                if rec.reason.startswith("DISAGREES_WITH_KALSHI"):
+                    disagreements.append(f"{rec.ticker}: {rec.reason[:160]}")
+    return status

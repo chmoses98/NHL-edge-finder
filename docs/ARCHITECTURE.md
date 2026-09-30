@@ -81,3 +81,27 @@ multi-sport app can consume `packet.json` directly; the standardisation path is 
   `slate.json` / `packet.json` gain a `v2_shadow` block; `slate.md` a V1-vs-V2 table. `NHL_EDGE_V2_SHADOW=0` disables.
 - Research workflows (branch-only commits, never `main`, never `data-archive`): `research_data.yml` (historical Kalshi
   NHL markets/candles, MoneyPuck shots) and `shadow_run.yml` (read-only V1+V2 RUN NHL on a copy of the archive).
+
+## PLAYER_SIM_V1 shadow arm (2026-09-30)
+
+RESEARCH_ONLY / SHADOW. Evidence and method: `docs/research/PLAYER_SIM_V1.md`; handoff: `docs/HANDOFF_PLAYER_SIM.md`.
+
+| module | role |
+|---|---|
+| `data/player_events.py` | pure parsers + one per-game derivation of the official boxscore, play-by-play and shift charts: per-skater official line + A1/A2 + TOI by strength state (EV/PP/SH/EA/EN/OT) + on-ice goals; per-goalie line; every goal (strength, score before, scorer, A1, A2, both teams' on-ice skaters); every shot attempt; same-team co-ice pairs; team seconds by state |
+| `data/player_history.py` | runner-side historical pull (2021-22 .. 2026-27) -> `data/history/players/*.parquet` + per-season manifest |
+| `data/lines.py` | DailyFaceoff line combinations (EV lines, D pairs, PP1/PP2, PK1/PK2, IR, source + updatedAt) -> `context/lines` |
+| `players/xg.py` | own shot-quality model on official coordinates (so live and history are scored identically) |
+| `players/features.py` | long player-game table; `PlayerBook` point-in-time profiles (deployment shares, shrunk xG/60, finishing, on-ice GF ratio, A1/A2 involvement); `coice_fractions` |
+| `players/roster.py` | profiles + deployment (tonight's lines or recent shifts) -> `TeamRoster` (scorer weights by state, assist involvement, co-ice matrices, uncertainty metadata) |
+| `players/engine.py` | per-goal strength state -> scorer -> A1 -> A2 on the nhl-sim-2.0 draw; first-goal order; goals against each net |
+| `players/saves.py` | goalie saves distribution per draw (NB on expected non-goal shots x game script, goalie-pull hazard) |
+| `players/params.py`, `players/fit.py` | league-level estimates, persisted in `data/params/player-sim-1.0.json` |
+| `players/identity.py`, `players/pricing.py` | Kalshi ticker -> NHL player id (fail-closed); contract probabilities from the joint draw |
+| `settlement/player.py`, `settlement/period.py` | official-stat settlement for player props and period markets |
+| `workflows/shadow_player.py` | the arm inside `nhl simulate`; `predictions_player` kind; packet/slate blocks |
+| `research/player_walk_forward.py`, `research/player_eval.py`, `research/player_market_benchmark.py` | offline evidence |
+
+New archive kinds: `context/lines` (context refresh), `player_events/{players,goalies,goals,shots,coice,team_states}` (settle job,
+one partition per finished game), `predictions_player` (simulate), `evaluations_player` + `eval/report_player.{json,md}` (evaluate).
+`NHL_EDGE_PLAYER_SHADOW=0` disables the arm. V1 and V2 rows are byte-identical with it on or off (tested).

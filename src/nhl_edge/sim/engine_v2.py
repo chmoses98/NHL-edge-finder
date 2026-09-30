@@ -87,6 +87,11 @@ class SimV2Result(SimResult):
     away_periods: np.ndarray | None = None
     params: SimV2Params | None = None
     step_min: float = 0.5
+    # PLAYER_SIM_V1: per-step regulation goals (n_sims, n_steps) int8, only when ``record_steps=True``. Recording
+    # draws nothing from the generator, so every other array is bit-identical with or without it (tested).
+    home_steps: np.ndarray | None = None
+    away_steps: np.ndarray | None = None
+    ot_goal: np.ndarray | None = None  # overtime decided by a goal (not the shootout)
 
     def period_goals(self, period: int, home: bool) -> np.ndarray:
         arr = self.home_periods if home else self.away_periods
@@ -119,7 +124,7 @@ class SimV2Result(SimResult):
 
 
 def simulate_game_v2(home: TeamParams, away: TeamParams, seed: int, n_sims: int = 20_000, params: SimV2Params | None = None,
-                     step_min: float = 0.5) -> SimV2Result:
+                     step_min: float = 0.5, record_steps: bool = False) -> SimV2Result:
     if home.lam <= 0 or away.lam <= 0:
         raise ValueError("expected goals must be positive")
     prm = params or load_params()
@@ -139,6 +144,8 @@ def simulate_game_v2(home: TeamParams, away: TeamParams, seed: int, n_sims: int 
     hp = np.zeros((n, 3), dtype=np.int64)
     ap = np.zeros((n, 3), dtype=np.int64)
     n_steps = int(round(60.0 / step_min))
+    hs_rec = np.zeros((n, n_steps), dtype=np.int8) if record_steps else None
+    as_rec = np.zeros((n, n_steps), dtype=np.int8) if record_steps else None
     for s in range(n_steps):
         t_mid = (s + 0.5) * step_min
         b = int(np.searchsorted(edges, t_mid, side="right") - 1)
@@ -149,6 +156,9 @@ def simulate_game_v2(home: TeamParams, away: TeamParams, seed: int, n_sims: int 
         ga = rng.poisson(base_a * mult[b, (dmax - dmin) - d])  # the away team's own differential is the mirror image
         h += gh
         a += ga
+        if record_steps:
+            hs_rec[:, s] = gh
+            as_rec[:, s] = ga
         hp[:, per] += gh
         ap[:, per] += ga
     tied = h == a
@@ -162,7 +172,8 @@ def simulate_game_v2(home: TeamParams, away: TeamParams, seed: int, n_sims: int 
     hf = h + (tied & home_wins_extra)
     af = a + (tied & ~home_wins_extra)
     return SimV2Result(home_reg=h, away_reg=a, overtime=tied.copy(), shootout=so, home_final=hf.astype(int), away_final=af.astype(int),
-                       seed=seed, n_sims=n, sim_version=SIM_V2_VERSION, home=home, away=away, home_periods=hp, away_periods=ap, params=prm, step_min=step_min)
+                       seed=seed, n_sims=n, sim_version=SIM_V2_VERSION, home=home, away=away, home_periods=hp, away_periods=ap, params=prm, step_min=step_min,
+                       home_steps=hs_rec, away_steps=as_rec, ot_goal=ot_goal if record_steps else None)
 
 
 def period_violations(res: SimV2Result) -> list[str]:

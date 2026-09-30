@@ -65,3 +65,15 @@ simulator used only by the DATA_ONLY_V2 shadow arm: half-minute steps, each team
 sum to regulation on every draw, OT/SO as V1 with an estimated p(OT decided before SO). Parameters:
 `data/params/nhl-sim-2.0.json` (training seasons recorded in `provenance`). Evidence and estimator:
 `docs/research/V2_RESEARCH.md`, `docs/research/WALK_FORWARD_V2.md`.
+
+## PLAYER_SIM_V1 (`player-sim-1.0`, shadow arm, 2026-09-30)
+
+Layered on the nhl-sim-2.0 draw, with the V2 shadow's own lambdas and seed, so the team outcomes are exactly V2's. The
+simulator records each team's goals per half-minute step (recording consumes no random numbers; V2 is bit-identical).
+For every simulated goal: strength state (EN / EA from an estimated time x score table, else PP / SH / EV from the
+matchup's special-teams expectation; OT = 3-on-3) -> scorer (deployment share x shrunk xG/60 x shrunk finishing x shrunk
+on-ice goals-for ratio x the draw's ice-time multiplier) -> primary assist (league unassisted rate; else co-ice with the
+scorer x shrunk P(A1 | on ice)) -> secondary assist (league rate; else mean co-ice with scorer and A1 x shrunk P(A2)).
+Goalie saves: negative binomial on expected non-goal shots faced, moved by the simulated game script, thinned by a
+goalie-pull hazard. Invariants checked on every game: player goals == team non-shootout goals; A2 <= A1 <= goals;
+nobody credited twice on a goal; ladders monotone. Full method and evidence: `docs/research/PLAYER_SIM_V1.md`.

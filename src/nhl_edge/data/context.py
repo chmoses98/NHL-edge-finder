@@ -25,7 +25,7 @@ from typing import Any
 from nhl_edge.archive.ledger import Ledger
 from nhl_edge.data import moneypuck, nhl_api
 from nhl_edge.data.goalies import fetch_dailyfaceoff
-from nhl_edge.data.http import FetchError, fetch
+from nhl_edge.data.http import BROWSER_HEADERS, FetchError, fetch
 from nhl_edge.identity.teams import registry
 from nhl_edge.log import get_logger, kv
 from nhl_edge.schemas.core import Game
@@ -104,7 +104,7 @@ def resolve_goalie_observations(obs_rows: list[dict[str, Any]], games: list[Game
 
 
 def run_context_refresh(out_root: Path, date_et: str | None = None, with_dfo: bool = True, with_injuries: bool = True,
-                        with_moneypuck: bool = True) -> int:
+                        with_moneypuck: bool = True, with_lines: bool = True) -> int:
     now = utcnow()
     today = date_et or et_date(now)
     ledger = Ledger(out_root)
@@ -194,6 +194,12 @@ def run_context_refresh(out_root: Path, date_et: str | None = None, with_dfo: bo
         if resolved:
             ledger.append_rows("context/goalie_observations", resolved, observed_at=now)
         ledger.write_blob("context/dailyfaceoff_raw", json.dumps(raw_pages, default=str).encode(), observed_at=now)
+    # line combinations / PP units (DailyFaceoff team pages, today's teams only; PLAYER_SIM_V1 deployment input)
+    if with_lines:
+        try:
+            _append_lines(ledger, [g for g in games if g.game_date_et == today], roster_rows, now, status)
+        except Exception as e:  # noqa: BLE001 - optional enrichment never breaks the refresh
+            status["errors"].append(f"lines: {type(e).__name__}: {str(e)[:160]}")
     # injuries (ESPN, optional)
     if with_injuries:
         try:
@@ -208,6 +214,36 @@ def run_context_refresh(out_root: Path, date_et: str | None = None, with_dfo: bo
     log.info(kv(event="context_refreshed", games=len(games), errors=len(status["errors"])))
     print(json.dumps({k: v for k, v in status.items() if k != "sources"}, indent=1, default=str))
     return 0
+
+
+def _append_lines(ledger: Ledger, games_today: list[Game], roster_rows: list[dict[str, Any]], now: Any, status: dict[str, Any]) -> None:
+    from nhl_edge.data.lines import DFO_SLUGS, line_rows, parse_line_page, resolve_line_rows
+
+    reg = registry()
+    rows: list[dict[str, Any]] = []
+    rep: dict[str, Any] = {}
+    for tid in sorted({t for g in games_today for t in (g.home_team_id, g.away_team_id)}):
+        ab = reg.by_id(tid).abbrev
+        slug = DFO_SLUGS.get(ab)
+        if not slug:
+            rep[ab] = "no slug"
+            continue
+        url = f"https://www.dailyfaceoff.com/teams/{slug}/line-combinations"
+        try:
+            f = fetch(url, headers=BROWSER_HEADERS, max_retries=1)
+        except FetchError as e:
+            rep[ab] = f"error: {str(e)[:80]}"
+            continue
+        combo = parse_line_page(f.content)
+        if combo is None:
+            rep[ab] = "page shape not recognised"
+            continue
+        rr = resolve_line_rows(line_rows(combo, ab, f.fetched_at_utc), roster_rows)
+        rows += [r | {"team_id": tid} for r in rr]
+        rep[ab] = {"n": len(rr), "unresolved": sum(1 for r in rr if r["player_id"] is None), "source": combo.get("sourceName"), "updated_at": combo.get("updatedAt")}
+    status["sources"]["dailyfaceoff_lines"] = rep
+    if rows:
+        ledger.append_rows("context/lines", rows, observed_at=now, meta={"source": "dailyfaceoff line combinations", "teams": len(rep)})
 
 
 ST_SITUATIONS = ("5on5", "5on4", "4on5", "all")
