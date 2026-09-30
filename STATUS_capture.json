@@ -1,40 +1,36 @@
 {
- "last_capture_utc": "2026-09-29T23:56:56Z",
- "n_markets": 2846,
+ "last_capture_utc": "2026-09-30T00:01:56Z",
+ "n_markets": 2812,
  "n_series": 75,
  "requests": 457,
  "run_id": "36637445489",
  "markets_written": {
-  "encoding": "delta",
-  "seq": 3,
-  "path": "kalshi/markets_delta/dt=2026-09-29/kalshi_markets_delta_20260929T235656Z_36637445489.json.gz",
-  "bytes": 14064,
-  "n_markets": 2846,
-  "n_changed": 733,
-  "changed_pct": 25.755,
-  "board_sha256": "27d2cfefa86d8ca3b2aa651ab761649e34690b3aa82c72d58507f87739a1df07"
+  "encoding": "checkpoint",
+  "reason": "UTC day rolled over; keeping day partitions self-contained",
+  "path": "kalshi/markets/dt=2026-09-30/kalshi_markets_20260930T000156Z_36637445489.jsonl.gz",
+  "bytes": 251938,
+  "n_markets": 2812,
+  "board_sha256": "6f0680438b2f8dd14d983a6ad6ecfc56b70d159958cf642c43725254723910cf"
  },
  "orderbooks_written": {
-  "encoding": "delta",
-  "seq": 3,
-  "path": "kalshi/orderbooks_delta/dt=2026-09-29/kalshi_orderbooks_delta_20260929T235656Z_36637445489.json.gz",
-  "bytes": 31469,
+  "encoding": "checkpoint",
+  "reason": "UTC day rolled over; keeping day partitions self-contained",
+  "path": "kalshi/orderbooks/dt=2026-09-30/kalshi_orderbooks_20260930T000156Z_36637445489.jsonl.gz",
+  "bytes": 43347,
   "n_markets": 300,
-  "n_changed": 214,
-  "changed_pct": 71.333,
-  "board_sha256": "486015b79d4221efdb1dedc131dca7cd87418c2da4b2cda54f6294f4e5915657"
+  "board_sha256": "22fca52dbf3b111286fc556d7b05e3f2b398bc4d3799f19944535c18429a6f97"
  },
  "by_status": {
-  "active": 2846
+  "active": 2812
  },
  "by_support": {
   "BUILDABLE": 8,
   "MODELABLE": 374,
-  "RESEARCH": 1957,
+  "RESEARCH": 1923,
   "UNMODELABLE": 507
  },
  "by_family": {
-  "first_goal": 130,
+  "first_goal": 96,
   "game_early_goal": 6,
   "game_overtime": 8,
   "game_spread": 64,
@@ -55,7 +51,7 @@
  },
  "alarms": [],
  "notes": [
-  "order books sampled by priority: 2846 live markets, cap 300"
+  "order books sampled by priority: 2812 live markets, cap 300"
  ],
  "alarm": false
 }
