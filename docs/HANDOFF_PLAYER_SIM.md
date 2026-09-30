@@ -6,7 +6,8 @@
 goals, saves and first-goal are validated and calibrated against simple baselines; assists and points are coherent and
 competitive on log loss but carry a measurable calibration error (compressed toward the middle) and do **not** beat a
 simple role-adjusted rate baseline on assists. Nothing here is edge evidence: where Kalshi shows a real two-sided price, the market is slightly
-better than the model on player points and assists, and the model adds nothing significant beyond it (R).
+better than the model on points and assists. On goals the two tie, with a small signal from the model that is far
+below spreads and fees (R).
 
 ALL NHL MODEL FAMILIES REMAIN RESEARCH_ONLY. NO AUTOMATIC BETTING AUTHORITY WAS CREATED. NO BETS WERE PLACED.
 
@@ -26,7 +27,7 @@ ALL NHL MODEL FAMILIES REMAIN RESEARCH_ONLY. NO AUTOMATIC BETTING AUTHORITY WAS 
 |---|---|---|---|
 | #9 | PLAYER_SIM_V1 shadow arm, player + period settlement, player evaluation, evaluate `--out` fix, research harness, docs | merged `9850d89` | green |
 | #10 | market-benchmark fix (score only two-sided quotes, report spread bands, test), benchmark results, the runner's shadow outputs and Kalshi history, final handoff | merged `43e2a19` | green |
-| #11 | assist-candle benchmark results, production evidence (T), SHAs / PR table | merged after green CI (this handoff's last change) | green before merge |
+| #11 | goal / assist candle benchmark results (with game bootstrap), production evidence (T), SHAs / PR table | merged after green CI (this handoff's last change) | green before merge |
 
 ## D. OPENING-NIGHT ROOT CAUSE
 
@@ -213,22 +214,28 @@ ladder pooled: within ~2 points in every bucket. Full bucket tables in the resea
 
 ## R. MARKET BENCHMARK
 
-Historical 2025-26 Kalshi player props, points and assists (the goal candle pull was still running; KXNHLSAVE had no
-settled history). Two-sided quotes with spread <= 10c, identical rows:
+Historical 2025-26 Kalshi player props: goals, assists and points (KXNHLSAVE had no settled history). Two-sided quotes
+with spread <= 10c, identical rows, all three families pooled:
 
-| horizon | n | PLAYER_SIM_V1 Brier / log loss | Kalshi mid | MARKET_ANCHORED_PLAYER_V1 | model adds info given market? |
-|---|---:|---|---|---|---|
-| T-90m | 3,132 | 0.2093 / 0.5979 | 0.2079 / 0.5943 | **0.2077 / 0.5938** | not significant (z = 1.7) |
-| T-60m | 3,590 | 0.2114 / 0.6033 | **0.2091** / 0.5979 | **0.2091 / 0.5978** | no (z = 0.9) |
-| T-10m | 3,655 | 0.2116 / 0.6039 | 0.2094 / 0.5987 | **0.2093 / 0.5985** | no (z = 1.1) |
+| horizon | n | PLAYER_SIM_V1 Brier | Kalshi mid | MARKET_ANCHORED_PLAYER_V1 | model adds info given market? |
+|---|---:|---:|---:|---:|---|
+| T-90m | 6,345 | 0.1921 | 0.1919 | **0.1916** | yes, small (game-bootstrap z = 3.1) |
+| T-10m | 7,438 | 0.1925 | 0.1915 | **0.1913** | marginal (z = 2.3) |
 
-Per family at T-10m: points model 0.1693 vs market **0.1660** (n 810); assists 0.2236 vs **0.2217** (n 2,845).
+Per family, T-10m:
+- **Goals**: model = market (0.1742 vs 0.1742; at T-90m 0.1754 vs 0.1762). The model carries some information the market
+  lacks (z = 2.2-3.7 by game bootstrap). The 20% blend beats the market by 0.0002-0.0004 Brier.
+- **Assists**: market better (0.2217 vs 0.2236).
+- **Points**: market better (0.1660 vs 0.1693).
 
-**Where Kalshi has a real price, it is slightly better than the model. Anchoring the model 80/20 on the market changes
-Brier by at most 0.0002, which is noise. No edge evidence exists for player props.** About 55% of quoted rows were
-empty books (0.01 / 0.99). A first pass that treated their 0.50 "midpoint" as a price showed a spurious large model
-advantage (z = 17). That was a benchmark bug, fixed and tested before anything was reported
-(`docs/research/PLAYER_SIM_V1.md` section 6).
+**Reading: no edge evidence for player props.**
+- The only signal is on goals, and it is tiny: about 0.0003 Brier, against a 3-10c spread plus fees, before executable
+  asks.
+- Several families and horizons were tested.
+- It is a hypothesis for the prospective shadow to test (goal props, market-anchored), not a finding to act on.
+- About 43% of quoted rows were empty books (0.01 / 0.99) or wider than 10c. A first pass that treated their 0.50 "midpoint" as a price
+  showed a spurious large model advantage (z = 17). That was a benchmark bug, fixed and tested before anything was
+  reported (`docs/research/PLAYER_SIM_V1.md` section 6).
 
 ## S. SETTLEMENT
 
@@ -326,8 +333,9 @@ them to gate, size, route or place anything. kalshi-bet-router was not modified.
 6. **Scratches.** P(player plays) is not modelled; probabilities are conditional on playing (Kalshi's fair-price rule
    makes that the right target), and a player missing from the projected lineup is left unpriced.
 7. **First goal / team-to-score-first**: calibrated but with little skill; "no goal before the shootout" is unsettleable.
-8. **Market benchmark**: where Kalshi shows a real two-sided price, it beats the model slightly on points and assists and
-   the model adds nothing significant (R). It covers points and assists (goal candles were still being pulled), 3,655 rows,
+8. **Market benchmark**: where Kalshi shows a real two-sided price, it beats the model slightly on points and assists. On
+   goals the two tie, and the model adds a small, statistically detectable but economically negligible signal (R). The
+   benchmark covers 7,438 rows,
    2025-26, hourly candle midpoints rather than executable asks. Most player books are empty (0.01 / 0.99), so the
    "model-market gaps" in the packet are mostly gaps against no price at all.
 9. **Prospective evidence**: none yet. Nothing here should be read as edge.
