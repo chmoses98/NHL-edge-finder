@@ -29,10 +29,10 @@ TBD_PRS
 
 | wager (all YES except the last) | executed | price | stake | PLAYER_SIM_V1 at bet time* | Kalshi mid then | result | game facts (official) |
 |---|---|---:|---:|---:|---:|---|---|
-| Brady Tkachuk 1+ point (FLA @ CAR) | 20:52Z | 0.550 | $50.00 | **0.387** (DEGRADED_ROLE, NEW_TEAM) | 0.540 | lost | 16.6 min incl. 6.1 PP; 4 attempts, 0.19 xG; FLA won **1-0 in OT**; on ice for the only goal, no point |
-| Nick Suzuki 1+ point (MTL @ TOR) | 23:00Z | 0.708 | $75.00 | **0.583** | 0.660 | lost | 18.7 min incl. 2.4 PP; 4 attempts, 0.01 xG; MTL won 3-2 with Suzuki **on the ice for none** of the 3 goals |
-| David Pastrnak 1+ point (NYR @ BOS) | 23:01Z | 0.670 | $50.00 | **0.656** | 0.660 | lost | 17.5 min incl. 1.5 PP; 8 attempts, 0.32 xG; BOS won 3-0 (all in the 3rd), on ice for one without a point |
-| Mark Stone 1+ point (CHI @ VGK) | 22:59Z | 0.639 | $100.00 | **0.598* ** | 0.605 | won | (settled YES) |
+| Brady Tkachuk 1+ point (FLA @ CAR) | 20:52Z | 0.550 | $50.00 | **0.363** (DEGRADED_ROLE, NEW_TEAM) | 0.540 | lost | 16.6 min incl. 6.1 PP; 4 attempts, 0.19 xG; FLA won **1-0 in OT**; on ice for the only goal, no point |
+| Nick Suzuki 1+ point (MTL @ TOR) | 23:00Z | 0.708 | $75.00 | **0.614** | 0.660 | lost | 18.7 min incl. 2.4 PP; 4 attempts, 0.01 xG; MTL won 3-2 with Suzuki **on the ice for none** of the 3 goals |
+| David Pastrnak 1+ point (NYR @ BOS) | 23:01Z | 0.670 | $50.00 | **0.682** | 0.660 | lost | 17.5 min incl. 1.5 PP; 8 attempts, 0.32 xG; BOS won 3-0 (all in the 3rd), on ice for one without a point |
+| Mark Stone 1+ point (CHI @ VGK) | 22:59Z | 0.639 | $100.00 | **0.644** | 0.605 | won | (settled YES) |
 | Nick Suzuki 1+ point, **NO**, 1 contract | 01:40Z | 0.640 | $0.66 | n/a (in-game) | | won | a post-start hedge-sized order |
 | Kevin Lankinen 29+ saves | — | — | **not wagered** | 0.354 | 0.39 | (hit) | discussed only; no ledger row |
 
@@ -46,13 +46,13 @@ Pastrnak's rows are from 22:58Z (their bets were placed at 23:00-23:01Z, at or j
   four point bets were priced by hand from hit rates and role. Stated as fair probabilities they had no validated chain
   underneath them.
 - **C. MANUAL HANDICAP OVERCONFIDENCE (material on 2 of 4).** Every wager was bought at or above the market midpoint
-  (Suzuki at 0.708 against a 0.66 mid). The event model is below the price paid on all four: by ~16 points for
-  Tkachuk (a new-team player whose role the model could not see), ~12 for Suzuki, ~1-4 for Pastrnak and Stone. Caveat
-  that cuts the other way: the model is biased DOWN for high-probability players (Q: its 55-65% bucket hits 61-70%), so
-  in this range its gap to the price overstates the overpayment by roughly 4-8 points. MARKET_ANCHORED_PLAYER_V1 (0.8
-  weight on the market) is below the price paid on all four as well.
+  (Suzuki at 0.708 against a 0.66 mid). The final event model is ~19 points below the price paid for Tkachuk (a new-team
+  player whose role the model could not see: treat that gap as role uncertainty, not a precise number) and ~9 below for
+  Suzuki; it is at the price for Stone (0.644 vs 0.639) and slightly above it for Pastrnak (0.682 vs 0.670). The model is
+  still mildly biased DOWN for the highest-probability players (Q), so its gaps in the 55-70% range lean conservative.
+  MARKET_ANCHORED_PLAYER_V1 (0.8 weight on the market) is below the price paid on all four.
 - **D. NORMAL VARIANCE (large).** 3 losses in 4 bets priced ~0.55-0.71 is not informative: if the prices paid had been
-  exactly fair, losing 3+ of 4 has probability 0.13; at the model's probabilities, 0.23. Two of the losing games were 1-0 OT and 3-0 shutouts; Suzuki was on the ice
+  exactly fair, losing 3+ of 4 has probability 0.13; at the final model's probabilities, 0.20. Two of the losing games were 1-0 OT and 3-0 shutouts; Suzuki was on the ice
   for none of his team's goals. These outcomes do not show the props were negative EV; four bets cannot.
 - **E. DATA / ROLE MISS (Tkachuk).** A player on a new team with no NHL games for it: the archived context had no line
   source at all. From today the context job archives DailyFaceoff lines (PP1 membership is exactly the information
@@ -123,6 +123,66 @@ flags), line/PP/PK templates from DailyFaceoff, per-draw TOI multiplier (log-sd 
 estimated), uncertainty metadata (`projection_quality` FULL / STANDARD / DEGRADED_ROLE / PRIOR_HEAVY, `role_confidence`,
 `uncertainty_flags` NO_HISTORY / SMALL_SAMPLE / NEW_TEAM / NO_CURRENT_SEASON_GAMES / ROLE_FROM_RECENT_SHIFTS /
 NOT_IN_TONIGHTS_LINES / PRIOR_HEAVY, `toi_p10_p50_p90_min`). Validation: see P (TOI MAE).
+
+## I. SHOT MODEL
+
+Own xG on official play-by-play (distance, angle, shot type, rebound, behind-net, strength), logistic by IRLS, fit on
+2021-23: held-out 2023-24 log loss 0.2204 vs 0.2448 constant; xG total 8,158 vs 8,105 goals; player-season ixG
+correlation with MoneyPuck 0.994. Player shot creation = shrunk ixG/60 by strength state (EV prior 300 min, PP/SH 60).
+Expected shots on goal per player are reported in the packet (not a Kalshi market today).
+
+## J. GOAL MODEL
+
+Goals are allocated from simulated team goals to scorers in proportion to deployment share x shrunk xG/60 x shrunk
+finishing x shrunk on-ice GF ratio, by strength state. Finishing persistence is weak (removing it costs 0.005 nats per
+goal; heavy 40-xG prior). Walk-forward 1+ goal Brier 0.11805 / 0.11988 vs role baseline 0.11922 / 0.12087, log loss
+0.3867 / 0.3919 vs 0.3917 / 0.3963, ECE 0.004 / 0.002. 2+ goals also better. Ladders from one draw.
+
+## K. ASSIST MODEL
+
+Primary and secondary modelled separately (different shrinkage: 25 vs 45 opportunities; different league
+unassisted / no-A2 rates by state). Given the scorer, assist opportunity = co-ice with the scorer, blended toward who was
+actually on the ice at his goals; x shrunk P(A | on ice for a teammate's goal). Evidence: line/co-ice effects are the
+single largest assist signal (per-goal A1 log-lik -2.672 -> -2.368; player-game assists 1+ Brier 0.1706/0.1730 ->
+0.1687/0.1711 with co-ice). Result vs baselines: better than both in 2024-25; ~tied with (marginally behind) the role
+baseline in held-out 2025-26. Secondary-assist involvement adds little beyond position rates (validated gain ~0.004 nats).
+
+## L. POINT MODEL
+
+Points = goals + A1 + A2 of each player in the same draw (never modelled separately). 1+ point Brier 0.20201 / 0.20351
+vs role baseline 0.20314 / 0.20405 (better in both seasons), log loss 0.5907 / 0.5942 vs 0.5934 / 0.5956. 2+/3+ points:
+better in 2024-25, marginally behind the role baseline in 2025-26.
+
+## M. GOALIE SAVES
+
+Negative binomial on point-in-time expected non-goal shots faced, moved by the simulated regulation margin, goals
+against and OT; goalie-pull hazard with time-thinning; EN goals excluded; OT included. Full ladders 14+..40+ for every
+net. Pooled ladder Brier 0.1722 / 0.1712 vs Poisson-shots 0.1774 / 0.1744, ECE 0.017 / 0.009 vs 0.062 / 0.052; mean
+predicted saves 25.10 / 24.08 vs 24.68 / 24.16 actual. The game script helps at common thresholds (<= 24+), neutral at 28+.
+
+## N. CORRELATION
+
+Structural: one draw produces team goals, each goal's strength / scorer / assisters, the goalie's goals against and
+saves, and the first goal. Tested invariants: player goals == team non-shootout goals in every draw; A2 <= A1 <= goals;
+nobody credited twice; points = G + A; ladders monotone; saves + GA = shots faced; EN goals never against a goalie.
+Each packet game block has a correlation matrix (YES indicators of up to 40 priced contracts + team goals + moneyline)
+for exposure research.
+
+## P. HISTORICAL VALIDATION
+
+Walk-forward, realistic point-in-time, 2024-25 and 2025-26 (2,624 games, 94,456 skater-games, 5,248 goalie starts); all
+league parameters refit on prior seasons; team lambdas = V2's own walk-forward lambdas; deployment from recent shifts
+only. Hyper-parameters chosen on 2023-24 (and one switch on 2024-25, see K); 2025-26 never used for a choice.
+Summary: **goals and saves beat simple baselines and are calibrated; first-goal scorer calibrated; 1+ point better than
+baselines; assists roughly tied with a role-rate baseline; TOI projection no better than a recent mean.** Full tables:
+`docs/research/PLAYER_SIM_V1.md` section 5, `docs/research/player_sim_v1/eval.json`.
+
+## Q. CALIBRATION
+
+1+ point by 5-point bucket (2025-26, held out): 20-25% -> 0.201 observed; 30-35% -> 0.296; 40-45% -> 0.421; 50-55% ->
+0.546; 55-60% -> 0.616; 60-65% -> 0.650; 65-70% -> 0.726. So "model says 68% for a point" historically hit ~73%, and
+"25%" hit ~22-25%: mild compression, ~1 point high on average. 1+ goal: within ~2 points in every populated bucket. Saves
+ladder pooled: within ~2 points in every bucket. Full bucket tables in the research doc.
 
 ## O. KALSHI MARKET COVERAGE
 

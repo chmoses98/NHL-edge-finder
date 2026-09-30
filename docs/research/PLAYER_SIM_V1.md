@@ -55,7 +55,7 @@ creates no player statistic; fixed seed reproduces every number.
 | Kalshi historical API | settled KXNHLGOAL / PTS / AST / SAVE / FIRSTGOAL markets + hourly candles (2025-26) | 2025-26 | market benchmark only | candle midpoints, not executable depth; ~1% of fetches rate-limited |
 | MoneyPuck shots (existing) | shot-level xG | 2021-26 | cross-check of our xG only | historical only |
 
-Consistency on 6,991 games (2021-22 .. 2025-26 + 3 opening-night games): **0** games where primary + secondary assists
+Consistency on 6,996 games (2021-22 .. 2025-26 + 3 opening-night games): **0** games where primary + secondary assists
 differ from the official assists, and 0 where play-by-play goals differ from official goals (per player and per team,
 shootout excluded).
 
@@ -143,9 +143,61 @@ By threshold (Brier; model / NB without game script / Poisson-shots): 2024-25 20
 the common thresholds (<= 24) and is neutral-to-slightly-worse at high thresholds (a mild under-dispersion at the top).
 The first version (free slope on expected shots, all-seasons league level) was biased ~1.2 saves low; section 4.6.
 
-### 5.3 Assists and points
+### 5.3 Assists and points (final configuration)
 
-(see the table below; the goal co-presence decision is documented here)
+| season | target | PLAYER_SIM_V1 Brier / log loss / ECE | SEASON_RATE | ROLE_RATE | base / mean pred |
+|---|---|---|---|---|---|
+| 2024-25 | 1+ assist | **0.16873** / **0.5154** / 0.0153 | 0.16922 / 0.5171 / 0.0066 | 0.16882 / 0.5157 / 0.0051 | 0.236 / 0.244 |
+| 2024-25 | 2+ assists | 0.03676 / 0.1524 / 0.0035 | 0.03669 / 0.1521 | **0.03666** / **0.1515** | 0.040 / 0.040 |
+| 2024-25 | 1+ point | **0.20201** / **0.5907** / 0.0195 | 0.20352 / 0.5943 / 0.0129 | 0.20314 / 0.5934 / 0.0135 | 0.342 / 0.352 |
+| 2024-25 | 2+ points | **0.07238** / **0.2587** / 0.0062 | 0.07265 / 0.2603 | 0.07256 / 0.2598 | 0.086 / 0.087 |
+| 2024-25 | 3+ points | **0.01682** / **0.0767** / 0.0004 | 0.01686 / 0.0773 | 0.01686 / 0.0771 | 0.018 / 0.018 |
+| 2025-26 (held out) | 1+ assist | 0.17111 / 0.5209 / 0.0140 | 0.17142 / 0.5222 / 0.0058 | **0.17090** / **0.5205** / 0.0060 | 0.241 / 0.246 |
+| 2025-26 | 2+ assists | 0.03834 / 0.1576 / 0.0038 | 0.03825 / 0.1572 | **0.03821** / **0.1566** | 0.042 / 0.040 |
+| 2025-26 | 1+ point | **0.20351** / **0.5942** / 0.0192 | 0.20465 / 0.5971 / 0.0144 | 0.20405 / 0.5956 / 0.0156 | 0.347 / 0.354 |
+| 2025-26 | 2+ points | 0.07514 / 0.2665 / 0.0074 | 0.07506 / 0.2669 | **0.07497** / **0.2662** | 0.090 / 0.088 |
+| 2025-26 | 3+ points | 0.01858 / 0.0838 / 0.0017 | 0.01853 / 0.0834 | **0.01852** / **0.0833** | 0.020 / 0.018 |
+
+Honest reading: 1+ point (the most traded threshold) beats both baselines in both seasons; 1+ assist beats them in
+2024-25 and is within noise of the role baseline (slightly worse) in the held-out 2025-26; 2+ assists and 2+/3+ points in
+2025-26 are marginally worse than the role baseline. Calibration error is larger than the baselines' (the event model's
+probabilities are sharper and still mildly compressed at the top: players predicted 60-70% for a point hit 65-76%;
+mean predictions run ~1 point high, inherited partly from V2's total-goals bias).
+
+**How we got here (each step chosen on the 2023-24 validation season, never on 2024-26):** the first version was
+strongly compressed (top-decile players 0.84 predicted vs 0.99 actual points/game; ECE 0.034). Fixes, each a hockey
+mechanism: (1) on-ice goals-for ratio in the scorer weight (line quality), (2) lighter deployment-share shrinkage,
+(3) newcomers' co-ice treated as unknown rather than zero, (4) replacement-level prior for players with little NHL
+history (PRIOR_HEAVY 1+ point: 0.251 -> 0.211 predicted vs 0.210 observed), (5) assist opportunities weighted by who was
+actually on the ice for the scorer's goals, not only by shared ice time (goals cluster when strong players are on).
+Step (5) improved the 2023-24 calibration slope (assists 1.074 -> 1.02) and the 2024-25 player-game log loss but made
+the per-goal A1 likelihood slightly worse (-7.014 -> -7.020 nats per goal); it was adopted on the player-game criterion
+because that is what the markets price, and 2025-26 was not used for the choice.
+
+Ablations on the same games: without co-ice (uniform linemates) assists 1+ Brier 0.17057 / 0.17299 (vs 0.16873 /
+0.17111): **line effects are real and large**. Without the on-ice factor: points 1+ 0.20360 / 0.20499. Allocation test on
+2023-24 (8,085 goals, given each real goal): co-ice lifts the A1 log-likelihood from -2.672 to -2.368 per goal and the A2
+from -2.332 to -2.038; talent (xG rate) lifts the scorer from -2.777 to -2.620; finishing adds only 0.005.
+
+Calibration by 5-point bucket, 1+ point (predicted -> observed):
+
+| bucket | 2024-25 n | pred | hit | 2025-26 n | pred | hit |
+|---|---:|---:|---:|---:|---:|---:|
+| 10-15% | 1,808 | 0.130 | 0.123 | 1,947 | 0.130 | 0.145 |
+| 15-20% | 4,634 | 0.177 | 0.165 | 4,292 | 0.177 | 0.164 |
+| 20-25% | 6,048 | 0.226 | 0.213 | 5,839 | 0.226 | 0.201 |
+| 25-30% | 6,655 | 0.274 | 0.244 | 6,540 | 0.274 | 0.253 |
+| 30-35% | 5,807 | 0.325 | 0.297 | 5,924 | 0.325 | 0.296 |
+| 35-40% | 5,025 | 0.374 | 0.350 | 5,078 | 0.374 | 0.348 |
+| 40-45% | 4,467 | 0.424 | 0.415 | 4,605 | 0.424 | 0.421 |
+| 45-50% | 3,862 | 0.475 | 0.470 | 4,105 | 0.474 | 0.483 |
+| 50-55% | 3,533 | 0.524 | 0.542 | 3,619 | 0.524 | 0.546 |
+| 55-60% | 2,947 | 0.573 | 0.589 | 2,709 | 0.574 | 0.616 |
+| 60-65% | 1,420 | 0.621 | 0.663 | 1,498 | 0.621 | 0.650 |
+| 65-70% | 436 | 0.670 | 0.759 | 525 | 0.669 | 0.726 |
+
+1+ goal: every bucket within ~2 points except 40-45% (0.418 vs 0.432 / 0.467, n ~ 250). 1+ assist: 0.20-0.30 buckets run
+2-3 points high; 0.40-0.50 run 3-7 points low. Full tables: `player_sim_v1/eval.json`.
 
 ### 5.4 First goal
 First-goal scorer: calibrated (ECE < 0.0001 in both seasons; mean 0.0278 vs 0.0278 observed), Brier skill vs a constant
@@ -157,5 +209,6 @@ Expected total TOI MAE 1.88 / 1.94 min vs 1.86 / 1.89 for a plain recent-mean: t
 simple mean (the allocation uses shares, which is what matters for scoring). EV MAE 1.81 / 1.85 min, PP MAE 0.76 / 0.79.
 
 ### 5.6 Projection quality
-PRIOR_HEAVY rows (1,000 / 1,113): predicted 1+ point 0.251 / 0.249 vs 0.210 / 0.226 observed; DEGRADED_ROLE (311 /
-255): 0.297 vs 0.232 / 0.231; STANDARD: 0.357 / 0.360 vs 0.346 / 0.351. The flags mark exactly the rows to trust less.
+Final: PRIOR_HEAVY rows (1,000 / 1,113): predicted 1+ point 0.211 / 0.212 vs 0.210 / 0.226 observed; DEGRADED_ROLE (311 /
+255): 0.242 / 0.236 vs 0.232 / 0.231; STANDARD: 0.355 / 0.358 vs 0.346 / 0.351. (Before the replacement-level prior
+PRIOR_HEAVY was 0.251 predicted.)

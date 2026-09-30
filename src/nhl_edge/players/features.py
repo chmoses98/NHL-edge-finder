@@ -46,7 +46,9 @@ class PlayerParams:
     onice_beta: float = 1.0  # exponent of the on-ice GF ratio in the scorer weight (selected on 2023-24 over 0 and 0.5)
     fringe_prior: bool = True  # (selected on 2023-24) shrink toward the rates of players new to the league (replacement level), not the average regular
     fringe_games: float = 60.0  # the fringe prior's weight fades as a player accumulates games: w = fringe_games / (fringe_games + n)
-    k_goal_copresence: float = -1.0  # goals of prior blending goal co-presence into time co-ice (< 0 = off; chosen on validation)
+    k_goal_copresence: float = 10.0  # goals of prior blending goal co-presence into time co-ice (< 0 = off). Selected: 2023-24
+    # calibration slope (assists 1.074 -> 1.02) and 2024-25 player-game log loss (assists 1+ 0.5167 -> 0.5154); per-goal
+    # A1 likelihood is slightly worse (-7.014 -> -7.020), recorded in docs/research/PLAYER_SIM_V1.md
     toi_sigma: float = 0.14  # game-to-game log-sd of a player's ice time around its expectation
     p_early_exit: float = 0.008  # per player-game probability of leaving early (injury / ejection)
 
