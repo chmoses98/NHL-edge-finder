@@ -342,3 +342,62 @@ def test_dailyfaceoff_line_page_parses_and_resolves_by_jersey_and_name():
     assert mcd and all(r["player_id"] == 8478402 for r in mcd) and {r["unit"] for r in mcd} >= {"f1", "pp1"}
     assert is_confirmed_source(combo["sourceName"]) and not is_confirmed_source("Projected lines")
     assert fold("Stützle") == "stutzle"
+
+
+# ------------------------------------------------------------------------------------------------ period + settle job
+def test_period_settlement_semantics():
+    from nhl_edge.settlement.period import settle_period_contract
+
+    box, pbp, shifts = synthetic_game()
+    goals = derive_game(box, pbp, shifts, {})["goals"]  # P1: home 1-0 (PP); P2: away 0-1; P3: away 1, home 1 (EN); OT none; SO dropped
+    mk = lambda tk, fam, per, team, thr: Contract(ticker=tk, family=fam, scope="game", stat="x", period=per, settles_on="PERIOD", game_id="2025020001",  # noqa: E731
+                                                  team_id=team, threshold=thr, comparator="gt" if thr is not None else None, support="RESEARCH", semantics_confidence="high")
+    s = lambda c, **k: settle_period_contract(c, goals, 13, 16, k.get("final", True), k.get("ok", True), k.get("kres"), NOW)  # noqa: E731
+    assert s(mk("KXNHL1P-X-FLA", "period_winner", "P1", 13, 0.0)).outcome == SettlementOutcome.YES
+    assert s(mk("KXNHL2P-X-FLA", "period_winner", "P2", 13, 0.0)).outcome == SettlementOutcome.NO
+    assert s(mk("KXNHL3P-X-TIE", "period_winner", "P3", None, None)).outcome == SettlementOutcome.YES  # 1-1 in the third (EN goal counts)
+    assert s(mk("KXNHL1PTOTAL-X-1", "period_total", "P1", None, 0.5)).outcome == SettlementOutcome.YES
+    assert s(mk("KXNHL3PTOTAL-X-2", "period_total", "P3", None, 1.5)).outcome == SettlementOutcome.YES
+    assert s(mk("KXNHL2PSPREAD-X-CHI2", "period_spread", "P2", 16, 1.5)).outcome == SettlementOutcome.NO
+    r = s(mk("KXNHL1P-X-FLA", "period_winner", "P1", 13, 0.0), kres="no")
+    assert r.reason.startswith("DISAGREES_WITH_KALSHI")
+    assert s(mk("KXNHL1P-X-FLA", "period_winner", "P1", 13, 0.0), ok=False).outcome == SettlementOutcome.UNSETTLEABLE
+    assert s(mk("KXNHL1P-X-FLA", "period_winner", "P1", 13, 0.0), final=False).outcome == SettlementOutcome.UNSETTLEABLE
+    assert s(mk("KXNHL1P-X-XXX", "period_winner", "P1", 99, 0.0)).outcome == SettlementOutcome.UNSETTLEABLE
+
+
+def test_settle_job_ingests_player_events_once_and_settles_player_and_period_contracts(tmp_path):
+    from datetime import timedelta
+
+    from nhl_edge.archive.ledger import Ledger
+    from nhl_edge.schemas.core import FinalPeriodType, FinalResult, GameStatus
+    from nhl_edge.workflows.settle import run_settle
+
+    box, pbp, shifts = synthetic_game()
+    led = Ledger(tmp_path, run_id="t")
+    start = NOW - timedelta(hours=6)
+    led.append_rows("context/schedule", [{"game_id": "2025020001", "game_date_et": "2025-10-07", "start_time_utc": start.isoformat().replace("+00:00", "Z"),
+                                          "status": "final", "home_team_id": 13, "away_team_id": 16}], observed_at=start - timedelta(hours=1))
+    cs = [_contract("KXNHLPTS-25OCT07CHIFLA-FLAAONE9-2", "player_points", 1.5, "A. One: 2+ points"),
+          Contract(ticker="KXNHL1P-25OCT07CHIFLA-FLA", family="period_winner", scope="game", stat="winner", period="P1", settles_on="PERIOD", game_id="2025020001",
+                   team_id=13, threshold=0.0, comparator="gt", support="RESEARCH", semantics_confidence="high")]
+    led.append_rows("contracts", [c.model_dump(mode="json") for c in cs], observed_at=start - timedelta(minutes=30))
+    calls = []
+
+    def fetch_result(gid):
+        return FinalResult(game_id=gid, status=GameStatus.FINAL, home_team_id=13, away_team_id=16, home_final=3, away_final=2, home_reg=2, away_reg=2,
+                           last_period_type=FinalPeriodType.SO), []
+
+    def fetch_events(gid, meta):
+        calls.append(gid)
+        return derive_game(box, pbp, shifts, meta), []
+
+    run_settle(tmp_path, tmp_path, fetch_result=fetch_result, now=NOW, fetch_player_events=fetch_events)
+    recs = {r["ticker"]: r for r in Ledger(tmp_path).iter_rows("settlements")}
+    assert recs["KXNHLPTS-25OCT07CHIFLA-FLAAONE9-2"]["outcome"] == "YES" and recs["KXNHLPTS-25OCT07CHIFLA-FLAAONE9-2"]["engine_version"] == "nhl-player-settle-1.0"
+    assert recs["KXNHL1P-25OCT07CHIFLA-FLA"]["outcome"] == "YES" and recs["KXNHL1P-25OCT07CHIFLA-FLA"]["engine_version"] == "nhl-period-settle-1.0"
+    assert {r["game_id"] for r in Ledger(tmp_path).iter_rows("player_events/players")} == {2025020001}
+    # a second run: nothing new, and no network (the game is ingested and every contract already has a record)
+    run_settle(tmp_path, tmp_path, fetch_result=fetch_result, now=NOW + timedelta(minutes=30), fetch_player_events=fetch_events)
+    assert calls == ["2025020001"]
+    assert len(list(Ledger(tmp_path).iter_rows("player_events/players"))) == len(derive_game(box, pbp, shifts, {})["players"])

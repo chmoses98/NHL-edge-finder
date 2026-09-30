@@ -44,6 +44,8 @@ class PlayerParams:
     k_en: float = 6.0  # minutes of prior on empty-net scoring
     k_onice_goals: float = 12.0  # expected on-ice goals of prior on the on-ice goals-for ratio
     onice_beta: float = 1.0  # exponent of the on-ice GF ratio in the scorer weight (selected on 2023-24 over 0 and 0.5)
+    fringe_prior: bool = True  # (selected on 2023-24) shrink toward the rates of players new to the league (replacement level), not the average regular
+    fringe_games: float = 60.0  # the fringe prior's weight fades as a player accumulates games: w = fringe_games / (fringe_games + n)
     toi_sigma: float = 0.14  # game-to-game log-sd of a player's ice time around its expectation
     p_early_exit: float = 0.008  # per player-game probability of leaving early (injury / ejection)
 
@@ -140,17 +142,19 @@ class LeaguePriors:
     finish: float
     unassisted: dict[str, float]
     no_a2: dict[str, float]
+    fringe: dict[str, dict[tuple[str, str], float]] = field(default_factory=dict)  # ixg60 / a1 / a2 / share of players new to the league
 
     def to_dict(self) -> dict[str, Any]:
         f = lambda d: {f"{k[0]}|{k[1]}" if isinstance(k, tuple) else k: v for k, v in d.items()}  # noqa: E731
         return {"ixg60": f(self.ixg60), "a1": f(self.a1), "a2": f(self.a2), "en60": self.en60, "share_median": f(self.share_median),
-                "finish": self.finish, "unassisted": self.unassisted, "no_a2": self.no_a2}
+                "finish": self.finish, "unassisted": self.unassisted, "no_a2": self.no_a2, "fringe": {k: f(v) for k, v in self.fringe.items()}}
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> LeaguePriors:
         g = lambda x: {tuple(k.split("|")): float(v) for k, v in x.items()}  # noqa: E731
         return cls(g(d["ixg60"]), g(d["a1"]), g(d["a2"]), {k: float(v) for k, v in d["en60"].items()}, g(d["share_median"]), float(d["finish"]),
-                   {k: float(v) for k, v in d["unassisted"].items()}, {k: float(v) for k, v in d["no_a2"].items()})
+                   {k: float(v) for k, v in d["unassisted"].items()}, {k: float(v) for k, v in d["no_a2"].items()},
+                   {k: g(v) for k, v in (d.get("fringe") or {}).items()})
 
 
 def league_priors(pg: pd.DataFrame, goals: pd.DataFrame) -> LeaguePriors:
@@ -180,7 +184,25 @@ def league_priors(pg: pd.DataFrame, goals: pd.DataFrame) -> LeaguePriors:
         un[s] = float(d["a1_id"].isna().mean())
         has1 = d[d["a1_id"].notna()]
         no2[s] = float(has1["a2_id"].isna().mean()) if len(has1) else 0.3
-    return LeaguePriors(ixg60, a1, a2, en60, share, float(gsum / xsum) if xsum > 0 else 1.0, un, no2)
+    # fringe / replacement-level prior: the first 20 NHL games of players who debuted after the data window opened
+    first_season = pg.groupby("player_id")["season"].transform("min")
+    order = pg.sort_values(["player_id", "date_int"]).groupby("player_id").cumcount()
+    fr = pg[(first_season > pg["season"].min()) & (order.reindex(pg.index) < 20)]
+    fringe: dict[str, dict[tuple[str, str], float]] = {"ixg60": {}, "a1": {}, "a2": {}, "share": {}}
+    for pos, d in fr.groupby("pos"):
+        for s in ("ev", "pp", "sh", "ea"):
+            t = d[f"toi_{s}"].sum() / 60.0
+            fringe["ixg60"][(pos, s)] = float(d[f"ixg_{s}"].sum() / t * 60.0) if t > 0 else ixg60.get((pos, s), 0.0)
+        for s in GOAL_STATES:
+            opp = d[f"gfo_{s}"].sum()
+            fringe["a1"][(pos, s)] = float(d[f"a1_{s}"].sum() / opp) if opp > 20 else a1.get((pos, s), 0.2)
+            fringe["a2"][(pos, s)] = float(d[f"a2_{s}"].sum() / opp) if opp > 20 else a2.get((pos, s), 0.15)
+        for s in ("ev", "pp", "sh", "ea", "en"):
+            x = (d[f"toi_{s}"] / d[f"tsec_{s}"].replace(0, np.nan)).dropna()
+            fringe["share"][(pos, s)] = float(x.mean()) if len(x) else share.get((pos, s), 0.0)
+        x = (d["toi_ot"] / d["tsec_ot"].replace(0, np.nan)).dropna()
+        fringe["share"][(pos, "ot")] = float(x.mean()) if len(x) else share.get((pos, "ot"), 0.0)
+    return LeaguePriors(ixg60, a1, a2, en60, share, float(gsum / xsum) if xsum > 0 else 1.0, un, no2, fringe)
 
 
 @dataclass
@@ -261,11 +283,18 @@ class PlayerBook:
         seasons = r.cols["season"][lo:hi] if n else np.zeros(0)
         cur_season = season if season is not None else (int(seasons[-1]) if n else None)
         n_season = int((seasons == cur_season).sum()) if n and cur_season is not None else 0
+        # prior targets: the average player, blended toward replacement level when the player has little NHL history
+        wf = prm.fringe_games / (prm.fringe_games + n) if (prm.fringe_prior and pri.fringe) else 0.0
+
+        def target(kind: str, key: tuple[str, str], base: float) -> float:
+            fv = pri.fringe.get(kind, {}).get(key) if wf else None
+            return base if fv is None else (1 - wf) * base + wf * fv
+
         # deployment shares: short memory, shrunk to the position mean with ``share_prior_games`` pseudo-games
         share = {}
         ws = _ew(n, prm.share_half_life)
         for s in ("ev", "pp", "sh", "ea", "en", "ot"):
-            med = pri.share_median.get((pos, s), 0.0)
+            med = target("share", (pos, s), pri.share_median.get((pos, s), 0.0))
             if n:
                 den, num = col(f"tsec_{s}"), col(f"toi_{s}")
                 ok = den > 0
@@ -283,7 +312,7 @@ class PlayerBook:
             k = prm.k_ixg_min.get(s, 60.0)
             mins = float((wr * col(f"toi_{s}")).sum() / 60.0) if n else 0.0
             xg = float((wr * col(f"ixg_{s}")).sum()) if n else 0.0
-            ixg60[s] = (xg + k * pri.ixg60.get((pos, s), 0.0) / 60.0) / (mins + k) * 60.0
+            ixg60[s] = (xg + k * target("ixg60", (pos, s), pri.ixg60.get((pos, s), 0.0)) / 60.0) / (mins + k) * 60.0
             so = float((wr * col(f"isog_{s}")).sum()) if n else 0.0
             sog60[s] = so / mins * 60.0 if mins > 1 else float("nan")
         gs = float(sum((wr * col(f"g_{s}")).sum() for s in ("ev", "pp", "sh", "ea"))) if n else 0.0
@@ -294,8 +323,8 @@ class PlayerBook:
             opp = float((wr * col(f"gfo_{s}")).sum()) if n else 0.0
             x1 = float((wr * col(f"a1_{s}")).sum()) if n else 0.0
             x2 = float((wr * col(f"a2_{s}")).sum()) if n else 0.0
-            p1 = pri.a1.get((pos, s), 0.2)
-            p2 = pri.a2.get((pos, s), 0.15)
+            p1 = target("a1", (pos, s), pri.a1.get((pos, s), 0.2))
+            p2 = target("a2", (pos, s), pri.a2.get((pos, s), 0.15))
             a1[s] = (x1 + prm.k_a1 * p1) / (opp + prm.k_a1)
             a2[s] = (x2 + prm.k_a2 * p2) / (opp + prm.k_a2)
         # OT / EA / EN opportunity sets are tiny: borrow half from the player's EV involvement, scaled to the state
