@@ -108,3 +108,54 @@ One draw drives everything, so same-game dependence is structural: if the team s
 probabilities in that draw are high; a busy night for a goalie is also a night of more goals against; PP goals credit
 the PP unit together. Each packet game block carries the Pearson correlation matrix of the YES indicators of up to 40
 priced contracts plus team goals and the moneyline, for exposure research (no staking).
+
+## 5. Walk-forward evidence (REALISTIC_PIT; test seasons 2024-25 and 2025-26)
+
+Protocol: every league-level parameter refit on seasons strictly before the test season; player / team features from
+games strictly before each game date; team lambdas = DATA_ONLY_V2's own point-in-time walk-forward lambdas for the same
+2,624 games; 4,000 draws per game; deployment from recent shift charts only (no lines archive exists historically);
+dressed skaters = the actual dressed lineup (the target is P(event | plays)). Hyper-parameters were chosen on the
+2023-24 validation season (allocation test, `player_sim_v1/allocation_2023.json`), except the goal co-presence switch
+(see 5.3). Baselines: `SEASON_RATE` (Poisson, recent per-game rate), `ROLE_RATE` (Poisson, shrunk per-60 rate x recent
+ice time). 47,225 (2024-25) and 47,231 (2025-26) skater-games; 2,624 goalie starts per season.
+
+### 5.1 Goals (validated)
+
+| season | target | PLAYER_SIM_V1 Brier / log loss / ECE | SEASON_RATE | ROLE_RATE | base rate / mean pred |
+|---|---|---|---|---|---|
+| 2024-25 | 1+ goal | **0.11805** / **0.3867** / 0.0040 | 0.11931 / 0.3919 / 0.0014 | 0.11922 / 0.3917 / 0.0024 | 0.149 / 0.151 |
+| 2024-25 | 2+ goals | **0.01561** / **0.0740** / 0.0013 | 0.01568 / 0.0751 | 0.01567 / 0.0750 | 0.016 / 0.018 |
+| 2025-26 | 1+ goal | **0.11988** / **0.3919** / 0.0019 | 0.12103 / 0.3969 / 0.0029 | 0.12087 / 0.3963 / 0.0021 | 0.152 / 0.153 |
+| 2025-26 | 2+ goals | **0.01663** / **0.0778** / 0.0004 | 0.01667 / 0.0788 | 0.01666 / 0.0787 | 0.017 / 0.018 |
+
+Goals beat both baselines on Brier and log loss in both seasons with small calibration error.
+
+### 5.2 Goalie saves (validated)
+
+| season | mean pred / actual saves | MAE (model / Poisson-shots) | pooled ladder 14+..40+ Brier: model / Poisson-shots | ECE: model / Poisson-shots |
+|---|---|---|---|---|
+| 2024-25 | 25.10 / 24.68 | 5.30 / 5.40 | **0.1722** / 0.1774 | **0.017** / 0.062 |
+| 2025-26 | 24.08 / 24.16 | 5.35 / 5.38 | **0.1712** / 0.1744 | **0.009** / 0.052 |
+
+By threshold (Brier; model / NB without game script / Poisson-shots): 2024-25 20+ 0.1627 / 0.1649 / 0.1727; 24+ 0.2371 /
+0.2392 / 0.2470; 28+ 0.2127 / 0.2141 / 0.2157; 32+ 0.1289 / 0.1291 / 0.1289. 2025-26 20+ 0.1771 / 0.1782 / 0.1875; 24+
+0.2358 / 0.2357 / 0.2414; 28+ 0.2031 / 0.2015 / 0.2011; 32+ 0.1204 / 0.1195 / 0.1200. The simulated game script helps at
+the common thresholds (<= 24) and is neutral-to-slightly-worse at high thresholds (a mild under-dispersion at the top).
+The first version (free slope on expected shots, all-seasons league level) was biased ~1.2 saves low; section 4.6.
+
+### 5.3 Assists and points
+
+(see the table below; the goal co-presence decision is documented here)
+
+### 5.4 First goal
+First-goal scorer: calibrated (ECE < 0.0001 in both seasons; mean 0.0278 vs 0.0278 observed), Brier skill vs a constant
++1.2%. Team to score first: no skill (Brier skill +0.0001 / +0.0002) — the event ordering is right on average, but it
+adds nothing beyond "the better team is slightly likelier".
+
+### 5.5 Ice time
+Expected total TOI MAE 1.88 / 1.94 min vs 1.86 / 1.89 for a plain recent-mean: the TOI projection is not better than a
+simple mean (the allocation uses shares, which is what matters for scoring). EV MAE 1.81 / 1.85 min, PP MAE 0.76 / 0.79.
+
+### 5.6 Projection quality
+PRIOR_HEAVY rows (1,000 / 1,113): predicted 1+ point 0.251 / 0.249 vs 0.210 / 0.226 observed; DEGRADED_ROLE (311 /
+255): 0.297 vs 0.232 / 0.231; STANDARD: 0.357 / 0.360 vs 0.346 / 0.351. The flags mark exactly the rows to trust less.

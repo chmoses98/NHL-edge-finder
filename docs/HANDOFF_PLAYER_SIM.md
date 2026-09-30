@@ -124,6 +124,28 @@ estimated), uncertainty metadata (`projection_quality` FULL / STANDARD / DEGRADE
 `uncertainty_flags` NO_HISTORY / SMALL_SAMPLE / NEW_TEAM / NO_CURRENT_SEASON_GAMES / ROLE_FROM_RECENT_SHIFTS /
 NOT_IN_TONIGHTS_LINES / PRIOR_HEAVY, `toi_p10_p50_p90_min`). Validation: see P (TOI MAE).
 
+## O. KALSHI MARKET COVERAGE
+
+Opening-night board (5 games) re-run on a copy of the production archive at 20:51:30Z with the merged code (no lines
+archive existed then, so every lineup came from the RECENT_SHIFTS fallback; with archived lines the unpriced count
+should fall further).
+
+| family | contracts | before: priced / state | after: priced by | after: state |
+|---|---:|---|---|---|
+| game_winner / game_spread / game_total / team_total | 10 / 20 / 45 / 50 | V1 (+V2 shadow) / SUPPORTED_MODELLED_SETTLED | unchanged (V1 and V2 byte-identical, tested) | SUPPORTED_MODELLED_SETTLED |
+| player_goals | 297 | 0 / DISCOVERED_UNMODELLED | PLAYER_SIM_V1: **283** (14 players not in the projected lineup) | MODELLED_RESEARCH_ONLY, settled |
+| player_points | 207 | 0 | **202** (5) | MODELLED_RESEARCH_ONLY, settled |
+| player_assists | 155 | 0 | **151** (4) | MODELLED_RESEARCH_ONLY, settled |
+| first_goal | 165 | 0 | **154** (11) | MODELLED_RESEARCH_ONLY, settled (no-goal-before-SO unsettleable) |
+| goalie_saves | 10 | 0 | **10** | MODELLED_RESEARCH_ONLY, settled |
+| period_winner / spread / total | 45 / 30 / 45 | V2 shadow prices / PARTIAL (no settlement) | V2 shadow (unchanged) | MODELLED_RESEARCH_ONLY, **settled** (new period engine) |
+| game_overtime | 5 | V2 shadow P(OT) / PARTIAL | unchanged | PARTIAL (settles as a game event in V1's engine: BUILDABLE) |
+| game_early_goal (KXNHLF10G) | 5 | 0 | none (the event order exists in the draw, but no rule-verified pricer / settlement was built) | DISCOVERED_UNMODELLED |
+| futures / awards / season player totals | (unjoined) | 0 | none | UNSUPPORTED |
+
+Player-driven contracts with a model probability: **0 of 834 -> 800 of 834 (96%)**. Contracts with no model at all on the
+opening-night card: 964 -> 44 (34 players missing from the fallback lineup, 5 first-10-minutes, 5 OT in V1's view).
+
 ## S. SETTLEMENT
 
 New engines, both append-only, idempotent, Kalshi result compared but never allowed to override:
