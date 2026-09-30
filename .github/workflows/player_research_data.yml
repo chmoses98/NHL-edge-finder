@@ -1,0 +1,147 @@
+name: player-research-data
+# PLAYER_SIM_V1 research data pull (RESEARCH_ONLY). Official NHL boxscore + play-by-play + shift charts per completed
+# game (-> data/history/players/*.parquet), historical settled Kalshi player-prop markets + hourly candles
+# (-> data/history/players_kalshi/), and raw line-combination / payload samples for parser fixtures
+# (-> docs/probe/samples/). Runs on a network-capable runner (the dev container reaches none of these hosts) and
+# commits compact outputs to the branch it ran on -- never the default branch, never data-archive.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".trigger/player_research"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: player-research-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+  NHL_EDGE_LOG_LEVEL: INFO
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.g.outputs.go }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: g
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] || [ -f .trigger/player_research ]; then echo "go=true" >> "$GITHUB_OUTPUT"; else echo "go=false" >> "$GITHUB_OUTPUT"; fi
+
+  nhl-players:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        season: [2021, 2022, 2023, 2024, 2025, 2026]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: Official boxscore + play-by-play + shift charts -> player tables
+        continue-on-error: true
+        run: |
+          SAMPLE=""
+          if [ "${{ matrix.season }}" = "2025" ]; then SAMPLE="--sample-dir docs/probe/samples/player_game"; fi
+          python -m nhl_edge.data.player_history --out data/history --history data/history --seasons ${{ matrix.season }} --workers 6 $SAMPLE
+      - name: Summary
+        if: always()
+        run: |
+          du -sh data/history/players/* || true
+          head -c 3000 data/history/players/MANIFEST_${{ matrix.season }}.json || true
+      - name: Commit (never to the default branch)
+        if: always()
+        run: |
+          bash scripts/research_commit.sh "research: official NHL player events season ${{ matrix.season }} (run ${{ github.run_id }})" "data/history/players/*_${{ matrix.season }}.parquet" data/history/players/MANIFEST_${{ matrix.season }}.json docs/probe/samples/player_game
+
+  kalshi-player-markets:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 170
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: Settled player-prop markets + hourly candles (saves, points first)
+        continue-on-error: true
+        run: |
+          python -m nhl_edge.research.kalshi_history --out data/history/players_kalshi --history data/history \
+            --series KXNHLSAVE,KXNHLPTS,KXNHLAST,KXNHLGOAL,KXNHLFIRSTGOAL --no-candles --rate 12
+          python -m nhl_edge.research.kalshi_history --out data/history/players_kalshi --history data/history --skip-markets \
+            --candle-series KXNHLSAVE,KXNHLPTS --tag pts_saves --max-minutes 120 --workers 6 --rate 12
+      - name: Summary
+        if: always()
+        run: |
+          ls -la data/history/players_kalshi/kalshi || true
+          head -c 4000 data/history/players_kalshi/kalshi/MANIFEST.json || true
+      - name: Commit (never to the default branch)
+        if: always()
+        run: |
+          bash scripts/research_commit.sh "research: kalshi NHL player-prop markets + points/saves candles (run ${{ github.run_id }})" data/history/players_kalshi
+
+  kalshi-player-candles:
+    needs: [gate, kalshi-player-markets]
+    if: always() && needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 170
+    strategy:
+      fail-fast: false
+      matrix:
+        series: [KXNHLAST, KXNHLGOAL]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - run: git pull --ff-only origin "${GITHUB_REF_NAME}" || true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: Hourly candles
+        continue-on-error: true
+        run: |
+          python -m nhl_edge.research.kalshi_history --out data/history/players_kalshi --history data/history --skip-markets \
+            --candle-series ${{ matrix.series }} --tag ${{ matrix.series }} --max-minutes 140 --workers 6 --rate 10
+      - name: Commit (never to the default branch)
+        if: always()
+        run: |
+          bash scripts/research_commit.sh "research: kalshi ${{ matrix.series }} candles (run ${{ github.run_id }})" "data/history/players_kalshi/kalshi/candles_${{ matrix.series }}.parquet" "data/history/players_kalshi/kalshi/MANIFEST_candles_${{ matrix.series }}.json"
+
+  probe-samples:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: Line-combination pages, live player-prop series metadata, current-season stats samples
+        continue-on-error: true
+        run: python scripts/probe_player_sources.py --out docs/probe/samples/player_sources
+      - name: Commit (never to the default branch)
+        if: always()
+        run: |
+          bash scripts/research_commit.sh "research: player source probe samples (run ${{ github.run_id }})" docs/probe/samples/player_sources
