@@ -59,7 +59,12 @@ def _player_fixture(root: Path, with_future_lines: bool = False) -> list[str]:
           _market("KXNHLFIRSTGOAL", code, f"{full}: First Goalscorer", None, 0.08, 0.10),
           _market("KXNHLSAVE", "FLASBOBROVSKY72-25", "Sergei Bobrovsky: 25+ saves", 24.5, 0.40, 0.44),
           _market("KXNHLSAVE", "FLASBOBROVSKY72-28", "Sergei Bobrovsky: 28+ saves", 27.5, 0.20, 0.24)]
-    led.append_rows("kalshi/markets", mk, observed_at=NOW - timedelta(minutes=4), meta={"encoding": "checkpoint"})
+    # interleave with the game-level markets of the same game (a non-player contract must never stop the player loop)
+    from tests.archive_fixture import opening_night_markets, sample_markets
+
+    game = opening_night_markets()
+    mixed = [x for pair in zip(game, mk) for x in pair] + game[len(mk):] + mk[len(game):]
+    led.append_rows("kalshi/markets", sample_markets() + mixed, observed_at=NOW - timedelta(minutes=4), meta={"encoding": "checkpoint"})
     if with_future_lines:
         led.append_rows("context/lines", [{"team_id": 13, "team_abbrev": "FLA", "category": "ev", "unit": "f1", "player_id": int(top["player_id"]),
                                            "lines_updated_at_utc": (NOW + timedelta(hours=3)).isoformat(), "lines_source": "Warmups"}],

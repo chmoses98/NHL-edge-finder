@@ -250,7 +250,7 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
         corr_cols: list[tuple[str, np.ndarray]] = []
         for m, c in it["contracts"]:
             if c.family not in PLAYER_FAMILIES:
-                return
+                continue
             ref = parse_player_market(m["ticker"], m.get("title"))
             pid, how = resolve_player(ref, rosters) if ref else (None, "ticker suffix not parsed")
             pr = price_player(c.family, c.comparator, c.threshold, pid, ps, saves, goalie_team)
