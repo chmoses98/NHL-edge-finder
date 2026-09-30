@@ -15,8 +15,8 @@ ALL NHL MODEL FAMILIES REMAIN RESEARCH_ONLY. NO AUTOMATIC BETTING AUTHORITY WAS 
 
 | repo / ref | start | end |
 |---|---|---|
-| NHL-edge-finder `main` | `c555c1c` (PR #7 merge) | `43e2a19` (PR #10 merge), then the PR #11 merge (docs + benchmark data only) |
-| NHL-edge-finder `claude/nhl-player-prop-sim-l0ovd5` | branched from `c555c1c` | `2b16227` + the PR #11 docs commit (the goal-candle runner job may append one data commit after it) |
+| NHL-edge-finder `main` | `c555c1c` (PR #7 merge) | `43e2a19` (PR #10), `94729c6` (PR #11), then the PR #12 merge (docs only) |
+| NHL-edge-finder `claude/nhl-player-prop-sim-l0ovd5` | branched from `c555c1c` | the PR #12 docs commit (all runner data commits merged) |
 | NHL-edge-finder `data-archive` | `fae4ca7` (capture 05:07Z) at session start | still advancing (worker); never written by this session except through the merged code's own jobs |
 | NHL-edge-finder `accounting-data` / `kalshi-router/NHL` | `4a0e769` / `a80b586` | untouched (read only, for the opening-night ledger) |
 | kalshi-bet-router `main` | `984c7c1` | `984c7c1` (read only; no defect required a change) |
@@ -27,7 +27,8 @@ ALL NHL MODEL FAMILIES REMAIN RESEARCH_ONLY. NO AUTOMATIC BETTING AUTHORITY WAS 
 |---|---|---|---|
 | #9 | PLAYER_SIM_V1 shadow arm, player + period settlement, player evaluation, evaluate `--out` fix, research harness, docs | merged `9850d89` | green |
 | #10 | market-benchmark fix (score only two-sided quotes, report spread bands, test), benchmark results, the runner's shadow outputs and Kalshi history, final handoff | merged `43e2a19` | green |
-| #11 | goal / assist candle benchmark results (with game bootstrap), production evidence (T), SHAs / PR table | merged after green CI (this handoff's last change) | green before merge |
+| #11 | goal / assist candle benchmark results (with game bootstrap), production evidence (T), SHAs / PR table | merged `94729c6` | green |
+| #12 | live production evidence in T (lines archive, 378 / 380 player contracts priced) | merged after green CI | green before merge |
 
 ## D. OPENING-NIGHT ROOT CAUSE
 
@@ -268,14 +269,31 @@ New engines, both append-only, idempotent, Kalshi result compared but never allo
   It ran the `player_shadow` block for all 3 games with no error and 0 invariant violations, plus saves forecasts for
   all six starters (expected saves 22.1-26.9). It had 0 player rows because Kalshi had not yet listed the props.
   V1 gates were unchanged in kind (153 contracts: 28 OK, 47 NO_EDGE, 78 UNSUPPORTED).
-- Not yet run on the new code at writing (09:55Z):
-  - The context job (DailyFaceoff lines -> `context/lines`). It is next due when the 6-hour staleness rule fires
-    (~11:40Z) or the 13:00Z active window opens.
-  - The settle job (`player_events/*`, `nhl-player-settle-1.0`, `nhl-period-settle-1.0`). The conductor schedules
-    settle only for games in the latest schedule snapshot that have started (existing behaviour, unchanged), so it next
-    runs after tonight's first puck drop. The opening-night player and period contracts are settled then, since their
-    records do not exist yet.
-  - `eval/report_player.md` follows that settle.
+- **Line archive live**: the first context run on the new code (11:40:53Z, run `36684879234`) archived DailyFaceoff lines
+  for all six teams playing tonight: 242 rows, 0 errors. Hourly refreshes followed (13:13Z, 14:13Z, 15:13Z). Only 4
+  names were unresolved: all injured-reserve / day-to-day / out players (Barzal, Merzlikins, Domi, Joshua), who do not
+  dress. Line sources are team reporters for five teams; TOR is DailyFaceoff's "Last Game" projection.
+- **Player props priced in production**: simulate at 15:43:05Z (run `36714678574`, slate
+  `slates/dt=2026-09-30/20260930T154305Z_36714678574`). Its `lines_snapshot` pointed at the 15:13Z observation (30
+  minutes old).
+  - **378 of 380** listed player contracts were priced: player goals 102/103, first goal 102/103, points 98/98,
+    assists 76/76 (no saves markets were listed yet).
+  - Every priced row has `deployment_source = LINES_PROJECTED`.
+  - 0 invariant violations in all 3 games.
+  - 0 ladder incoherences across 102 players: P(1+ pt) >= P(1+ G), P(1+ pt) >= P(1+ A) and P(1+ pt) <= P(1+ G) +
+    P(1+ A).
+  - The 2 unpriced contracts are Noah Juulsen (COL). He resolved correctly by team + jersey + name, but is not in
+    tonight's projected lineup, so the arm left him unpriced rather than guess (fail-closed, as designed).
+  - Flags: `NO_CURRENT_SEASON_GAMES` on most rows (game 2 of the season), `NEW_TEAM` on 34.
+  - None of the 378 had a two-sided quote of 10c or tighter at 15:43Z: the pre-game player books were still empty,
+    as in the historical data (R).
+  - `predictions_player` rows appended (11:55Z, 13:43Z, 15:43Z runs).
+  - V1: 533 contracts (40 OK, 35 NO_EDGE, 458 UNSUPPORTED). V1 does not model player families; PLAYER_SIM_V1 prices
+    them in shadow only.
+- **Still to run on the new code** (after tonight's first puck drop, by the conductor's existing rule):
+  - settle: `player_events/*`, `nhl-player-settle-1.0` and `nhl-period-settle-1.0` records, including the opening-night
+    contracts;
+  - then `eval/report_player.md`.
 
 ## U. PERFORMANCE
 
