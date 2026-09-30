@@ -42,6 +42,7 @@ from nhl_edge.players.features import (
     PlayerParams,
     build_player_games,
     coice_fractions,
+    goal_copresence,
     pos_group,
 )
 from nhl_edge.players.fit import PARAMS_PATH
@@ -76,6 +77,7 @@ class PlayerRuntime:
     players: pd.DataFrame
     goalies: pd.DataFrame
     coice: pd.DataFrame
+    goals: pd.DataFrame
     toi_games: pd.DataFrame
     rates: ShotRates
     strength: StrengthTable
@@ -109,7 +111,7 @@ def load_runtime(data_root: Path, live: dict[str, list[dict[str, Any]]] | None =
     rates = ShotRates(float(prm.get("league_shots_per_game") or tg["sa"].mean()), tg)
     src = {"history_seasons": sorted(int(s) for s in t["players"]["season"].dropna().unique()) if len(t["players"]) else [],
            "live_games_ingested": n_live, "params": prm.get("provenance"), "last_game_date": str(t["players"]["game_date"].max()) if len(t["players"]) else None}
-    return PlayerRuntime(prm, book, t["players"], t["goalies"], t["coice"], pg[["game_id", "player_id", "toi_ev", "toi_pp", "toi_sh"]], rates,
+    return PlayerRuntime(prm, book, t["players"], t["goalies"], t["coice"], goals, pg[["game_id", "player_id", "toi_ev", "toi_pp", "toi_sh"]], rates,
                          StrengthTable.from_dict(prm["strength"]), SavesModel.from_dict(prm["saves"]), src)
 
 
@@ -221,8 +223,9 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
             team_min = {"ev": 50.6, "pp": 4.4 * p_pp / 0.215, "sh": 4.4, "ea": 0.6, "en": 0.6, "ot": 1.2}
             pids = [p["player_id"] for p in dressed]
             F = coice_fractions(rt.coice, int(tid), di, pids, rt.toi_games)
+            G = goal_copresence(rt.goals, int(tid), di, pids) if rt.book.params.k_goal_copresence >= 0 else None
             rb = build_roster(rt.book, int(tid), ab, di, dressed, F, p_pp, p_sh, team_min, season=int(str(gi.game_date_et)[:4]) - (1 if int(str(gi.game_date_et)[5:7]) < 7 else 0),
-                              deployment=dep)
+                              deployment=dep, G_goal=G)
             teams[side] = {"rb": rb, "notes": notes, "goalies": goalies, "dep": dep}
         seed = int(it["seed"]) ^ 0x5F3759DF  # the V2 shadow's seed: identical team outcomes
         res = simulate_game_v2(TeamParams(gi.home_team_id, gi.home_abbrev, float(b["v2"]["lam_home"])), TeamParams(gi.away_team_id, gi.away_abbrev, float(b["v2"]["lam_away"])),

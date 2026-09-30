@@ -34,7 +34,14 @@ import pandas as pd
 from nhl_edge.data.player_history import load_player_tables
 from nhl_edge.players import xg as X
 from nhl_edge.players.engine import ALL_STATES, S_IDX, simulate_players
-from nhl_edge.players.features import PlayerBook, PlayerParams, build_player_games, coice_fractions, league_priors
+from nhl_edge.players.features import (
+    PlayerBook,
+    PlayerParams,
+    build_player_games,
+    coice_fractions,
+    goal_copresence,
+    league_priors,
+)
 from nhl_edge.players.params import fit_saves, shot_rates, strength_table, team_game_frame, toi_noise
 from nhl_edge.players.roster import build_roster, team_pp_shares
 from nhl_edge.players.saves import simulate_saves
@@ -80,7 +87,8 @@ def roster_for(data: Data, book: PlayerBook, game_id: int, team_id: int, date_in
     pl = dressed(data, game_id, team_id)
     pids = [p["player_id"] for p in pl]
     F = coice_fractions(data.coice, team_id, date_int, pids, data.toi_games) if coice_mode == "observed" else None
-    return build_roster(book, team_id, str(team_id), date_int, pl, F, p_pp, p_sh, TEAM_MIN, season=season)
+    G = goal_copresence(data.goals, team_id, date_int, pids) if (coice_mode == "observed" and book.params.k_goal_copresence >= 0) else None
+    return build_roster(book, team_id, str(team_id), date_int, pl, F, p_pp, p_sh, TEAM_MIN, season=season, G_goal=G)
 
 
 # ---------------------------------------------------------------------------------------------------------------------

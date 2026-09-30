@@ -113,7 +113,7 @@ class RosterBuild:
 
 def build_roster(book: PlayerBook, team_id: int, abbrev: str, date_int: int, players: list[dict[str, Any]], F_obs: dict[str, np.ndarray] | None,
                  p_pp: float, p_sh: float, team_minutes: dict[str, float], season: int | None = None, deployment: Deployment | None = None,
-                 params: PlayerParams | None = None) -> RosterBuild:
+                 params: PlayerParams | None = None, G_goal: dict[str, tuple[np.ndarray, np.ndarray]] | None = None) -> RosterBuild:
     """``players``: [{player_id, name, position}] dressed (or expected-to-dress) skaters, goalies excluded.
     ``F_obs``: output of :func:`features.coice_fractions` for exactly this player order, or None.
     ``team_minutes``: expected team minutes by state for this game (ev, pp, sh, ea, en, ot) for the TOI projection."""
@@ -166,6 +166,16 @@ def build_roster(book: PlayerBook, team_id: int, abbrev: str, date_int: int, pla
             wl = 0.6 if dep.source == "LINES_CONFIRMED" else 0.4
             Fm = wl * Fl + (1 - wl) * Fm
         np.fill_diagonal(Fm, 0.0)
+        rs0 = Fm.sum(axis=1, keepdims=True)
+        Fm = np.where(rs0 > 0, Fm * ON_ICE_TEAMMATES[s] / np.maximum(rs0, 1e-12), Fm)
+        # who was on the ice when this scorer's goals went in (goals cluster when strong players are on): blended in
+        # with k_goal_copresence goals of prior on the time-based fractions
+        if prm.k_goal_copresence >= 0 and G_goal and s in G_goal:
+            Gg, ng = G_goal[s]
+            Gg = np.nan_to_num(Gg)
+            np.fill_diagonal(Gg, 0.0)
+            wgt = (ng / (ng + prm.k_goal_copresence))[:, None] if prm.k_goal_copresence > 0 else (ng > 0)[:, None].astype(float)
+            Fm = wgt * Gg + (1 - wgt) * Fm
         # each row: the scorer shares the ice with ON_ICE_TEAMMATES[s] teammates on average -> rows sum to that
         rs = Fm.sum(axis=1, keepdims=True)
         Fm = np.where(rs > 0, Fm * ON_ICE_TEAMMATES[s] / np.maximum(rs, 1e-12), Fm)

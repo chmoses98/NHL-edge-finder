@@ -46,6 +46,7 @@ class PlayerParams:
     onice_beta: float = 1.0  # exponent of the on-ice GF ratio in the scorer weight (selected on 2023-24 over 0 and 0.5)
     fringe_prior: bool = True  # (selected on 2023-24) shrink toward the rates of players new to the league (replacement level), not the average regular
     fringe_games: float = 60.0  # the fringe prior's weight fades as a player accumulates games: w = fringe_games / (fringe_games + n)
+    k_goal_copresence: float = -1.0  # goals of prior blending goal co-presence into time co-ice (< 0 = off; chosen on validation)
     toi_sigma: float = 0.14  # game-to-game log-sd of a player's ice time around its expectation
     p_early_exit: float = 0.008  # per player-game probability of leaving early (injury / ejection)
 
@@ -391,4 +392,36 @@ def coice_fractions(coice: pd.DataFrame, team_id: int, date_int: int, players: l
         with np.errstate(invalid="ignore", divide="ignore"):
             f = np.where(den[:, None] > 0, num / den[:, None], np.nan)
         out[s] = np.clip(f, 0.0, 1.0)
+    return out
+
+
+def goal_copresence(goals: pd.DataFrame, team_id: int, date_int: int, players: list[int], half_life: float = 15.0,
+                    max_games: int = 60) -> dict[str, tuple[np.ndarray, np.ndarray]]:
+    """For the team's goals in its last ``max_games`` games strictly before ``date_int``: G[i, j] = share of the goals
+    scored with player i on the ice that ALSO had teammate j on the ice (EV / PP), and n[i] = the weighted number of
+    such goals. Goals happen disproportionately when strong players are on the ice, so this is the assist-opportunity
+    structure that time-on-ice co-presence understates. Requires ``goals`` rows with ``date_int`` and ``for_on_ice``."""
+    g = goals[(goals["team_id"] == team_id) & (goals["date_int"] < date_int) & goals["for_on_ice"].notna()]
+    n = len(players)
+    out = {}
+    if not len(g):
+        return out
+    gd = g.groupby("game_id")["date_int"].first().sort_values()
+    games = list(gd.index[-max_games:])
+    wmap = dict(zip(games, _ew(len(games), half_life)))
+    idx = {int(p): i for i, p in enumerate(players)}
+    for s in ("ev", "pp"):
+        gs = g[(g["game_id"].isin(games)) & (g["strength"].astype(str).str.lower() == s) & (g["period"] <= 3)]
+        num = np.zeros((n, n))
+        den = np.zeros(n)
+        for r in gs.itertuples(index=False):
+            on = [idx[int(p)] for p in r.for_on_ice if int(p) in idx]
+            w = wmap[r.game_id]
+            for i in on:
+                den[i] += w
+                for j in on:
+                    if j != i:
+                        num[i, j] += w
+        with np.errstate(invalid="ignore", divide="ignore"):
+            out[s] = (np.where(den[:, None] > 0, num / den[:, None], np.nan), den)
     return out

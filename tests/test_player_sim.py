@@ -401,3 +401,21 @@ def test_settle_job_ingests_player_events_once_and_settles_player_and_period_con
     run_settle(tmp_path, tmp_path, fetch_result=fetch_result, now=NOW + timedelta(minutes=30), fetch_player_events=fetch_events)
     assert calls == ["2025020001"]
     assert len(list(Ledger(tmp_path).iter_rows("player_events/players"))) == len(derive_game(box, pbp, shifts, {})["players"])
+
+
+def test_goal_copresence_counts_teammates_on_ice_at_goals_point_in_time():
+    from nhl_edge.players.features import goal_copresence
+
+    t = _pg_rows()
+    g = t["goals"].copy()
+    g["date_int"] = g["game_date"].str.replace("-", "").astype(int)
+    G = goal_copresence(g, 13, 20251011, [1, 2, 3])
+    Gev, nev = G["pp"]
+    assert nev[0] > 0 and Gev[0, 1] == pytest.approx(1.0) and Gev[0, 2] == pytest.approx(1.0)  # the PP goal: 1, 2, 3 all on
+    assert np.isnan(G["ev"][0]).all() or G["ev"][1].sum() == 0  # home EV goals: none in regulation (the 3rd-period goal is EN)
+    g2 = g.copy()
+    g2.loc[g2["date_int"] >= 20251011, "for_on_ice"] = pd.Series([[1, 2, 3, 4, 5]] * int((g2["date_int"] >= 20251011).sum()),
+                                                                   index=g2.index[g2["date_int"] >= 20251011])
+    G2 = goal_copresence(g2, 13, 20251011, [1, 2, 3])
+    assert np.allclose(np.nan_to_num(G["pp"][0]), np.nan_to_num(G2["pp"][0]))  # later games cannot change it
+    assert goal_copresence(g, 13, 20251007, [1, 2, 3]) == {}
