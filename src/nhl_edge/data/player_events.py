@@ -283,6 +283,8 @@ def derive_game(box: dict[str, Any], pbp: dict[str, Any], shifts_payload: Any, m
     row. Missing shifts never drop the official lines: TOI-by-strength / on-ice columns are then null and
     ``shifts_ok`` is False."""
     meta = dict(meta or {})
+    if not meta.get("game_date"):
+        meta["game_date"] = str(box.get("gameDate") or pbp.get("gameDate") or "")[:10] or None
     gid = int(box.get("id") or pbp.get("id"))
     home_id = (box.get("homeTeam") or {}).get("id") or (pbp.get("homeTeam") or {}).get("id")
     away_id = (box.get("awayTeam") or {}).get("id") or (pbp.get("awayTeam") or {}).get("id")

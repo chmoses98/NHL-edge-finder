@@ -70,30 +70,47 @@ def team_game_frame(goalies: pd.DataFrame, goals: pd.DataFrame) -> pd.DataFrame:
 
 @dataclass
 class ShotRates:
-    league_sog: float
+    league_sog: float  # fallback only (no team-games before the date at all)
     tg: pd.DataFrame
     half_life: float = 25.0
     prior_games: float = 15.0
+    league_window: int = 1200  # team-games: the league level is itself point-in-time (shots per game drift by season)
+
+    def __post_init__(self) -> None:
+        self.tg = self.tg.sort_values(["date_int", "game_id"]).reset_index(drop=True)
+        self._dates = self.tg["date_int"].to_numpy()
+        self._sa = self.tg["sa"].to_numpy(float)
+        self._by = {int(k): v for k, v in self.tg.groupby("team_id")}
+
+    def league_at(self, date_int: int) -> float:
+        hi = int(np.searchsorted(self._dates, date_int, side="left"))
+        if hi == 0:
+            return self.league_sog
+        return float(self._sa[max(0, hi - self.league_window):hi].mean())
 
     def rates(self, team_id: int, date_int: int) -> tuple[float, float, int]:
-        """(shots-for per game, shots-against per game, games used), shrunk to the league mean, strictly before date."""
-        d = self.tg[(self.tg["team_id"] == team_id) & (self.tg["date_int"] < date_int)].tail(82)
-        if not len(d):
-            return self.league_sog, self.league_sog, 0
+        """(shots-for per game, shots-against per game, games used), shrunk to the league level, strictly before date."""
+        lg = self.league_at(date_int)
+        d = self._by.get(int(team_id))
+        if d is not None:
+            d = d[d["date_int"] < date_int].tail(82)
+        if d is None or not len(d):
+            return lg, lg, 0
         w = 0.5 ** (np.arange(len(d))[::-1] / self.half_life)
-        sf = (np.sum(w * d["sf"].to_numpy(float)) + self.prior_games * self.league_sog) / (w.sum() + self.prior_games)
-        sa = (np.sum(w * d["sa"].to_numpy(float)) + self.prior_games * self.league_sog) / (w.sum() + self.prior_games)
+        sf = (np.sum(w * d["sf"].to_numpy(float)) + self.prior_games * lg) / (w.sum() + self.prior_games)
+        sa = (np.sum(w * d["sa"].to_numpy(float)) + self.prior_games * lg) / (w.sum() + self.prior_games)
         return float(sf), float(sa), int(len(d))
 
     def expected_faced(self, team_id: int, opp_id: int, date_int: int, home: bool) -> float:
+        lg = self.league_at(date_int)
         _, sa, _ = self.rates(team_id, date_int)
         sf_opp, _, _ = self.rates(opp_id, date_int)
-        venue = 0.985 if home else 1.015  # road teams face ~3% more shots (measured below in fit_saves diagnostics)
-        return self.league_sog * (sf_opp / self.league_sog) * (sa / self.league_sog) * venue
+        venue = 0.985 if home else 1.015  # road teams face ~3% more shots
+        return lg * (sf_opp / lg) * (sa / lg) * venue
 
 
 def shot_rates(tg: pd.DataFrame) -> ShotRates:
-    return ShotRates(float(tg["sa"].mean()), tg)
+    return ShotRates(float(tg["sa"].mean()), tg)  # the constant is only a fallback before any game exists
 
 
 @dataclass
@@ -119,7 +136,7 @@ class SavesModel:
 
 
 def starter_rows(goalies: pd.DataFrame, tg: pd.DataFrame) -> pd.DataFrame:
-    g = goalies.copy()
+    g = goalies.drop(columns=["date_int"], errors="ignore")
     n_used = g[g["toi_s"].fillna(0) > 0].groupby(["game_id", "team_id"]).size().rename("n_goalies")
     g = g.join(n_used, on=["game_id", "team_id"])
     s = g[g["starter"].astype(bool)].merge(tg[["game_id", "team_id", "opp_id", "reg_gf", "reg_ga", "max_period", "date_int"]], on=["game_id", "team_id"])
@@ -147,19 +164,23 @@ def fit_saves(goalies: pd.DataFrame, goals: pd.DataFrame, tg: pd.DataFrame, rate
     s = s[s["season"].isin(seasons) & ~s["replaced"] & (s["toi_s"].fillna(0) >= 3300)]
     base = np.array([rates.expected_faced(int(t), int(o), int(di), bool(h)) for t, o, di, h in zip(s["team_id"], s["opp_id"], s["date_int"], s["is_home"])])
     lg_sv = 1.0 - s["goals_against"].sum() / max(s["shots_against"].sum(), 1)
-    X = np.column_stack([np.ones(len(s)), np.log(np.maximum(base * lg_sv, 1.0)), s["margin"].to_numpy(float), s["goals_against"].to_numpy(float), s["ot"].to_numpy(float)])
+    # offset Poisson/NB mean: log mu = log(expected non-goal shots) + a + c margin + d GA + e OT. The slope on the
+    # expected-shots term is FIXED at 1: a free slope (1.37 when fitted) extrapolates league-wide shot-level drift badly.
+    off = np.log(np.maximum(base * lg_sv, 1.0))
+    X = np.column_stack([np.ones(len(s)), s["margin"].to_numpy(float), s["goals_against"].to_numpy(float), s["ot"].to_numpy(float)])
     y = s["saves"].to_numpy(float)
-    w = np.array([np.log(y.mean()) - np.log(max(base.mean() * lg_sv, 1.0)), 1.0, 0.0, 0.0, 0.0])
+    w = np.array([np.log(y.mean()) - np.log(max(base.mean() * lg_sv, 1.0)), 0.0, 0.0, 0.0])
     for _ in range(50):
-        mu = np.exp(X @ w)
+        mu = np.exp(X @ w + off)
         g = X.T @ (y - mu)
         H = (X * mu[:, None]).T @ X
         st = np.linalg.solve(H, g)
         w += st
         if np.abs(st).max() < 1e-9:
             break
-    mu = np.exp(X @ w)
+    mu = np.exp(X @ w + off)
     alpha = float(max(np.mean(((y - mu) ** 2 - mu) / mu**2), 0.0))
+    w = np.array([w[0], 1.0, w[1], w[2], w[3]])  # stored in the 5-term layout (slope 1 on log expected shots)
     return SavesModel(w, alpha, pull_hazards(goalies, goals, tg), int(len(s)), float(lg_sv))
 
 

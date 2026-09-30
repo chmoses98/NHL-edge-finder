@@ -42,6 +42,7 @@ from nhl_edge.kalshi.contracts import build_contract, game_key
 from nhl_edge.kalshi.fees import DEFAULT_SCHEDULE, FeeSchedule
 from nhl_edge.kalshi.ontology import Ontology
 from nhl_edge.log import get_logger, kv
+from nhl_edge.players import PLAYER_MODEL_VERSION
 from nhl_edge.pricing.price import price_contract
 from nhl_edge.schemas.core import GameStatus
 from nhl_edge.schemas.prediction import Authority, ContractPrediction, Gate
@@ -282,6 +283,11 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
     v2 = _run_v2_shadow(ledger, v2_items, data_root, cfg.n_sims, now, market_ts, rosters) if v2_items else None
     if v2 is not None:
         slate["v2_shadow"] = {k: v for k, v in v2.items() if k != "rows"} | {"n_rows": len(v2.get("rows") or [])}
+    player = _run_player_shadow(ledger, v2_items, v2, data_root, now, market_ts, rosters, injuries, series_rows) if (v2_items and v2 and not v2.get("error")) else None
+    if player is not None:
+        slate["player_shadow"] = {k: v for k, v in player.items() if k != "rows"} | {"n_rows": len(player.get("rows") or [])}
+        slate["_player_rows"] = player.get("rows") or []
+        slate["coverage"]["player_shadow"] = {"player_contracts": len(player.get("rows") or []), "priced": sum(1 for r in player.get("rows") or [] if r.get("priced"))}
     if write:
         if pred_rows:
             ledger.append_rows("predictions", pred_rows, observed_at=now, meta={"date_et": target, "n_games": len(not_started)})
@@ -293,13 +299,21 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
             except Exception as e:  # noqa: BLE001 - never block V1's slate on the shadow arm
                 log.warning(kv(event="v2_shadow_archive_failed", err=str(e)[:300]))
                 slate["v2_shadow"]["archive_error"] = f"{type(e).__name__}: {str(e)[:200]}"
+        if player is not None and player.get("rows"):
+            try:
+                ledger.append_rows("predictions_player", player["rows"], observed_at=now, meta={"date_et": target, "role": "SHADOW", "model_version": PLAYER_MODEL_VERSION})
+            except Exception as e:  # noqa: BLE001 - never block V1's slate on the shadow arm
+                log.warning(kv(event="player_shadow_archive_failed", err=str(e)[:300]))
+                slate["player_shadow"]["archive_error"] = f"{type(e).__name__}: {str(e)[:200]}"
         stamp = now.strftime("%Y%m%dT%H%M%SZ")
         out_dir = out_root / "slates" / f"dt={target}" / f"{stamp}_{ledger.run_id}"
         out_dir.mkdir(parents=True, exist_ok=True)
-        (out_dir / "slate.json").write_text(json.dumps(slate, indent=1, default=str))
+        (out_dir / "slate.json").write_text(json.dumps({k: v for k, v in slate.items() if k != "_player_rows"}, indent=1, default=str))
         (out_dir / "slate.md").write_text(slate_markdown(slate))
-        (out_dir / "packet.json").write_text(json.dumps({"slate": {k: v for k, v in slate.items() if k not in ("contracts", "games", "v2_shadow")}, "games": packet_games}
-                                                        | ({"v2_shadow": slate["v2_shadow"]} if "v2_shadow" in slate else {}), indent=1, default=str))
+        (out_dir / "packet.json").write_text(json.dumps({"slate": {k: v for k, v in slate.items() if k not in ("contracts", "games", "v2_shadow", "player_shadow", "_player_rows")}, "games": packet_games}
+                                                        | ({"v2_shadow": slate["v2_shadow"]} if "v2_shadow" in slate else {})
+                                                        | ({"player_shadow": slate["player_shadow"] | {"contracts": player.get("rows") or []}} if player is not None else {}),
+                                                        indent=1, default=str))
         latest = out_root / "slates" / "latest"
         latest.mkdir(parents=True, exist_ok=True)
         for name in ("slate.json", "slate.md", "packet.json"):
@@ -330,6 +344,36 @@ def _run_v2_shadow(ledger: Ledger, items: list[dict[str, Any]], data_root: Path,
     except Exception as e:  # noqa: BLE001 - the shadow arm must never take V1 down
         log.warning(kv(event="v2_shadow_failed", err=str(e)[:300]))
         return {"error": f"{type(e).__name__}: {str(e)[:300]}", "rows": [], "blocks": [], "model_version": DATA_ONLY_V2_MODEL_VERSION, "role": "SHADOW"}
+
+
+PLAYER_EVENT_KINDS = ("players", "goalies", "goals", "shots", "coice", "team_states")
+
+
+def _run_player_shadow(ledger: Ledger, items: list[dict[str, Any]], v2: dict[str, Any], data_root: Path, now: datetime, market_ts: datetime | None,
+                       rosters: list[dict[str, Any]], injuries: list[dict[str, Any]], series_rows: dict[str, dict[str, Any]]) -> dict[str, Any] | None:
+    """PLAYER_SIM_V1 shadow arm (RESEARCH_ONLY). Never raises: a failure is recorded and V1 / V2 proceed unchanged."""
+    from nhl_edge.workflows import shadow_player
+
+    if not shadow_player.enabled():
+        return None
+    try:
+        lines, lines_meta = _read_latest(ledger, "context/lines", now)
+        live = {k: _read_all(ledger, f"player_events/{k}", now) for k in PLAYER_EVENT_KINDS}
+        gstates = {}
+        for it in items:
+            gi = it["gi"]
+            gstates[f"{gi.game_id}|home"] = gi.home_goalie.to_dict()
+            gstates[f"{gi.game_id}|away"] = gi.away_goalie.to_dict()
+        out = shadow_player.run_player_shadow(items, v2.get("blocks") or [], data_root, now, market_ts, ledger.run_id, rosters, lines, injuries, live,
+                                              lambda m: _series_fee(series_rows, m), gstates)
+        out["context"]["lines_snapshot"] = lines_meta
+        out.update({"model_version": PLAYER_MODEL_VERSION, "role": "SHADOW", "authority": AUTHORITY,
+                    "note": ("PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. "
+                             "It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing.")})
+        return out
+    except Exception as e:  # noqa: BLE001 - the shadow arm must never take V1 down
+        log.warning(kv(event="player_shadow_failed", err=str(e)[:300]))
+        return {"error": f"{type(e).__name__}: {str(e)[:300]}", "rows": [], "blocks": [], "model_version": PLAYER_MODEL_VERSION, "role": "SHADOW"}
 
 
 def _special_teams(goalie_stats: list[dict[str, Any]], team_games: list[dict[str, Any]], gi) -> dict[str, Any]:
@@ -363,5 +407,13 @@ def slate_markdown(s: dict[str, Any]) -> str:
             lines.append(v2_markdown(v2.get("blocks") or [], v2.get("error") or v2.get("note")))
         except Exception as e:  # noqa: BLE001 - the V1 slate renders regardless
             lines.append(f"\n(DATA_ONLY_V2 shadow section failed to render: {type(e).__name__})")
+    ps = s.get("player_shadow")
+    if ps:
+        try:
+            from nhl_edge.workflows.shadow_player import markdown as player_markdown
+
+            lines.append(player_markdown(ps.get("blocks") or [], s.get("_player_rows") or [], ps.get("error") or ps.get("note")))
+        except Exception as e:  # noqa: BLE001 - the V1 slate renders regardless
+            lines.append(f"\n(PLAYER_SIM_V1 shadow section failed to render: {type(e).__name__})")
     lines += ["", f"_{s['authority_note']}_"]
     return "\n".join(lines) + "\n"

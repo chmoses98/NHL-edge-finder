@@ -141,8 +141,10 @@ def build_roster(book: PlayerBook, team_id: int, abbrev: str, date_int: int, pla
         pr = profs[p]
         fin = pr.finish if prm.use_finishing else 1.0
         rate = {"ev": pr.ixg60["ev"], "pp": pr.ixg60["pp"], "sh": pr.ixg60["sh"], "ea": pr.ixg60["ea"], "en": pr.en60 / max(fin, 1e-6), "ot": pr.ixg60["ev"]}
+        onr = {"ev": pr.onice_rel.get("ev", 1.0), "pp": pr.onice_rel.get("pp", 1.0)}
         for k, s in enumerate(ALL_STATES):
-            w_goal[k, i] = max(share[s][i], 0.0) * max(rate[s], 0.0) * fin
+            rel = onr.get(s, onr["ev"] if s in ("ea", "ot") else 1.0) ** prm.onice_beta
+            w_goal[k, i] = max(share[s][i], 0.0) * max(rate[s], 0.0) * fin * rel
             a1[k, i] = pr.a1[s]
             a2[k, i] = pr.a2[s]
     # co-ice: observed recent co-ice (rows with data), mixed 85/15 with the share-proportional uniform; tonight's lines

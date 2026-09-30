@@ -42,6 +42,8 @@ class PlayerParams:
     k_a1: float = 25.0  # teammate on-ice goals of prior on P(A1 | on ice)
     k_a2: float = 45.0  # secondary assists are noisier: stronger shrinkage
     k_en: float = 6.0  # minutes of prior on empty-net scoring
+    k_onice_goals: float = 12.0  # expected on-ice goals of prior on the on-ice goals-for ratio
+    onice_beta: float = 0.0  # exponent of the on-ice GF ratio in the scorer weight (0 = off; chosen on validation)
     toi_sigma: float = 0.14  # game-to-game log-sd of a player's ice time around its expectation
     p_early_exit: float = 0.008  # per player-game probability of leaving early (injury / ejection)
 
@@ -108,6 +110,12 @@ def build_player_games(players: pd.DataFrame, goals: pd.DataFrame, shots: pd.Dat
         for s in GOAL_STATES:
             c = f"{pre}_{s}"
             out[c] = pd.to_numeric(out[c], errors="coerce").fillna(0.0) if c in out.columns else 0.0
+    tgf = g.groupby(["game_id", "team_id", "st"]).size().unstack("st", fill_value=0)
+    tgf.columns = [f"tgf_{c}" for c in tgf.columns]
+    out = out.merge(tgf.reset_index(), on=["game_id", "team_id"], how="left")
+    for st_ in GOAL_STATES:
+        c = f"tgf_{st_}"
+        out[c] = pd.to_numeric(out[c], errors="coerce").fillna(0.0) if c in out.columns else 0.0
     ts = team_states.copy()
     ts = ts.rename(columns={f"sec_{s}": f"tsec_{s}" for s in STATES})
     ts["tsec_ot"] = 0.0
@@ -116,7 +124,7 @@ def build_player_games(players: pd.DataFrame, goals: pd.DataFrame, shots: pd.Dat
     out["date_int"] = out["game_date"].astype(str).str.replace("-", "").str[:8].astype(int)
     keep = ["game_id", "game_date", "date_int", "season", "game_type", "team_id", "player_id", "name", "sweater", "position", "pos", "toi_s",
             "goals", "assists", "points", "sog", "a1", "a2"] + [f"toi_{s}" for s in STATES] + ["toi_ot"] + \
-        [f"{p}_{s}" for p in ("g", "a1", "a2", "gfo", "ixg", "isog") for s in GOAL_STATES] + [f"tsec_{s}" for s in STATES] + ["tsec_ot"]
+        [f"{p}_{s}" for p in ("g", "a1", "a2", "gfo", "ixg", "isog") for s in GOAL_STATES] + [f"tsec_{s}" for s in STATES] + ["tsec_ot"] + [f"tgf_{s}" for s in GOAL_STATES]
     return out[[c for c in keep if c in out.columns]].sort_values(["player_id", "date_int", "game_id"]).reset_index(drop=True)
 
 
@@ -138,6 +146,12 @@ class LeaguePriors:
         return {"ixg60": f(self.ixg60), "a1": f(self.a1), "a2": f(self.a2), "en60": self.en60, "share_median": f(self.share_median),
                 "finish": self.finish, "unassisted": self.unassisted, "no_a2": self.no_a2}
 
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> LeaguePriors:
+        g = lambda x: {tuple(k.split("|")): float(v) for k, v in x.items()}  # noqa: E731
+        return cls(g(d["ixg60"]), g(d["a1"]), g(d["a2"]), {k: float(v) for k, v in d["en60"].items()}, g(d["share_median"]), float(d["finish"]),
+                   {k: float(v) for k, v in d["unassisted"].items()}, {k: float(v) for k, v in d["no_a2"].items()})
+
 
 def league_priors(pg: pd.DataFrame, goals: pd.DataFrame) -> LeaguePriors:
     ixg60, a1, a2, share = {}, {}, {}, {}
@@ -154,9 +168,9 @@ def league_priors(pg: pd.DataFrame, goals: pd.DataFrame) -> LeaguePriors:
         en60[pos] = float(d["g_en"].sum() / t * 60.0) if t > 0 else 0.0
         for s in ("ev", "pp", "sh", "ea", "en"):
             x = (d[f"toi_{s}"] / d[f"tsec_{s}"].replace(0, np.nan)).dropna()
-            share[(pos, s)] = float(x.median()) if len(x) else 0.0
+            share[(pos, s)] = float(x.mean()) if len(x) else 0.0
         x = (d["toi_ot"] / d["tsec_ot"].replace(0, np.nan)).dropna()
-        share[(pos, "ot")] = float(x.median()) if len(x) else 0.0
+        share[(pos, "ot")] = float(x.mean()) if len(x) else 0.0
     gsum = sum(pg[f"g_{s}"].sum() for s in ("ev", "pp", "sh", "ea"))
     xsum = sum(pg[f"ixg_{s}"].sum() for s in ("ev", "pp", "sh", "ea"))
     gg = goals.copy()
@@ -188,6 +202,7 @@ class PlayerProfile:
     toi_mean_s: float  # recent all-situation TOI per game (for the packet)
     sog60: dict[str, float]
     flags: list[str] = field(default_factory=list)
+    onice_rel: dict[str, float] = field(default_factory=lambda: {"ev": 1.0, "pp": 1.0})
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -199,6 +214,18 @@ def _ew(n: int, half_life: float) -> np.ndarray:
     return 0.5 ** (k / half_life)
 
 
+class _Rows:
+    """Column arrays of one player's rows, sorted by date, sliced by position (cheap point-in-time views)."""
+
+    def __init__(self, d: pd.DataFrame):
+        self.date = d["date_int"].to_numpy()
+        self.cols = {c: d[c].to_numpy() for c in d.columns if c not in ("name", "game_date", "position")}
+
+    def upto(self, date_int: int, max_games: int) -> tuple[int, int]:
+        hi = int(np.searchsorted(self.date, date_int, side="left"))
+        return max(0, hi - max_games), hi
+
+
 class PlayerBook:
     """Point-in-time player profiles from the long player-game table (rows strictly before ``as_of``)."""
 
@@ -206,80 +233,93 @@ class PlayerBook:
         self.params = params or PlayerParams()
         self.priors = priors
         self.pg = pg
-        self._by: dict[int, pd.DataFrame] = {int(k): v for k, v in pg.groupby("player_id", sort=False)}
-        self._cache: dict[tuple[int, int], PlayerProfile | None] = {}
+        self._by: dict[int, _Rows] = {int(k): _Rows(v.sort_values(["date_int", "game_id"])) for k, v in pg.groupby("player_id", sort=False)}
+        self._cache: dict[tuple[int, int], PlayerProfile] = {}
 
     def rows_before(self, pid: int, date_int: int) -> pd.DataFrame:
-        d = self._by.get(int(pid))
-        if d is None:
+        r = self._by.get(int(pid))
+        if r is None:
             return self.pg.iloc[0:0]
-        return d[d["date_int"] < date_int].tail(self.params.max_games)
+        lo, hi = r.upto(date_int, self.params.max_games)
+        return pd.DataFrame({k: v[lo:hi] for k, v in r.cols.items()})
 
     def profile(self, pid: int, date_int: int, pos_hint: str | None = None, season: int | None = None) -> PlayerProfile:
         key = (int(pid), int(date_int))
-        if key in self._cache and self._cache[key] is not None:
+        if key in self._cache:
             return self._cache[key]
         prm, pri = self.params, self.priors
-        d = self.rows_before(pid, date_int)
-        pos = str(d["pos"].iloc[-1]) if len(d) else pos_group(pos_hint)
+        r = self._by.get(int(pid))
+        lo, hi = r.upto(date_int, prm.max_games) if r is not None else (0, 0)
+        n = hi - lo
+        col = (lambda c: np.asarray(r.cols[c][lo:hi], dtype=float)) if n else (lambda c: np.zeros(0))
+        pos = str(r.cols["pos"][hi - 1]) if n else pos_group(pos_hint)
         flags: list[str] = []
-        n = len(d)
         if n == 0:
             flags.append("NO_HISTORY")
         elif n < 20:
             flags.append("SMALL_SAMPLE")
-        cur_season = season if season is not None else (int(d["season"].iloc[-1]) if n else None)
-        n_season = int((d["season"] == cur_season).sum()) if n and cur_season is not None else 0
-        # deployment shares: short memory, shrunk to the position median with ``share_prior_games`` pseudo-games
+        seasons = r.cols["season"][lo:hi] if n else np.zeros(0)
+        cur_season = season if season is not None else (int(seasons[-1]) if n else None)
+        n_season = int((seasons == cur_season).sum()) if n and cur_season is not None else 0
+        # deployment shares: short memory, shrunk to the position mean with ``share_prior_games`` pseudo-games
         share = {}
-        ws = _ew(n, prm.share_half_life) if n else np.zeros(0)
+        ws = _ew(n, prm.share_half_life)
         for s in ("ev", "pp", "sh", "ea", "en", "ot"):
             med = pri.share_median.get((pos, s), 0.0)
             if n:
-                den = d[f"tsec_{s}"].to_numpy(float)
-                num = d[f"toi_{s}"].to_numpy(float)
+                den, num = col(f"tsec_{s}"), col(f"toi_{s}")
                 ok = den > 0
                 w = ws[ok]
-                sh = (w * (num[ok] / den[ok])).sum() / (w.sum() + prm.share_prior_games) + med * prm.share_prior_games / (w.sum() + prm.share_prior_games) if ok.any() else med
+                sh = ((w * (num[ok] / den[ok])).sum() + med * prm.share_prior_games) / (w.sum() + prm.share_prior_games)
             else:
                 sh = med
             share[s] = float(sh)
         # talent rates: long memory, earlier seasons discounted, shrunk with pseudo-exposure
-        wr = _ew(n, prm.rate_half_life) if n else np.zeros(0)
+        wr = _ew(n, prm.rate_half_life)
         if n and cur_season is not None:
-            wr = wr * np.where(d["season"].to_numpy() == cur_season, 1.0, prm.prior_season_weight)
-        ixg60 = {}
-        sog60 = {}
+            wr = wr * np.where(seasons == cur_season, 1.0, prm.prior_season_weight)
+        ixg60, sog60 = {}, {}
         for s in ("ev", "pp", "sh", "ea"):
             k = prm.k_ixg_min.get(s, 60.0)
-            mins = float((wr * d[f"toi_{s}"].to_numpy(float)).sum() / 60.0) if n else 0.0
-            xg = float((wr * d[f"ixg_{s}"].to_numpy(float)).sum()) if n else 0.0
+            mins = float((wr * col(f"toi_{s}")).sum() / 60.0) if n else 0.0
+            xg = float((wr * col(f"ixg_{s}")).sum()) if n else 0.0
             ixg60[s] = (xg + k * pri.ixg60.get((pos, s), 0.0) / 60.0) / (mins + k) * 60.0
-            so = float((wr * d[f"isog_{s}"].to_numpy(float)).sum()) if n else 0.0
+            so = float((wr * col(f"isog_{s}")).sum()) if n else 0.0
             sog60[s] = so / mins * 60.0 if mins > 1 else float("nan")
-        gs = float(sum((wr * d[f"g_{s}"].to_numpy(float)).sum() for s in ("ev", "pp", "sh", "ea"))) if n else 0.0
-        xs = float(sum((wr * d[f"ixg_{s}"].to_numpy(float)).sum() for s in ("ev", "pp", "sh", "ea"))) if n else 0.0
+        gs = float(sum((wr * col(f"g_{s}")).sum() for s in ("ev", "pp", "sh", "ea"))) if n else 0.0
+        xs = float(sum((wr * col(f"ixg_{s}")).sum() for s in ("ev", "pp", "sh", "ea"))) if n else 0.0
         finish = (gs + prm.k_finish_xg * pri.finish) / (xs + prm.k_finish_xg) / max(pri.finish, 1e-6) if prm.use_finishing else 1.0
         a1, a2 = {}, {}
         for s in GOAL_STATES:
-            opp = float((wr * d[f"gfo_{s}"].to_numpy(float)).sum()) if n else 0.0
-            x1 = float((wr * d[f"a1_{s}"].to_numpy(float)).sum()) if n else 0.0
-            x2 = float((wr * d[f"a2_{s}"].to_numpy(float)).sum()) if n else 0.0
-            # OT / EA / EN opportunity sets are tiny: borrow the player's EV involvement as the prior there
+            opp = float((wr * col(f"gfo_{s}")).sum()) if n else 0.0
+            x1 = float((wr * col(f"a1_{s}")).sum()) if n else 0.0
+            x2 = float((wr * col(f"a2_{s}")).sum()) if n else 0.0
             p1 = pri.a1.get((pos, s), 0.2)
             p2 = pri.a2.get((pos, s), 0.15)
             a1[s] = (x1 + prm.k_a1 * p1) / (opp + prm.k_a1)
             a2[s] = (x2 + prm.k_a2 * p2) / (opp + prm.k_a2)
+        # OT / EA / EN opportunity sets are tiny: borrow half from the player's EV involvement, scaled to the state
         for s in ("ea", "en", "ot"):
             a1[s] = 0.5 * a1[s] + 0.5 * a1["ev"] * pri.a1.get((pos, s), 0.2) / max(pri.a1.get((pos, "ev"), 0.2), 1e-6)
             a2[s] = 0.5 * a2[s] + 0.5 * a2["ev"] * pri.a2.get((pos, s), 0.15) / max(pri.a2.get((pos, "ev"), 0.15), 1e-6)
-        en_min = float((wr * d["toi_en"].to_numpy(float)).sum() / 60.0) if n else 0.0
-        en_g = float((wr * d["g_en"].to_numpy(float)).sum()) if n else 0.0
+        en_min = float((wr * col("toi_en")).sum() / 60.0) if n else 0.0
+        en_g = float((wr * col("g_en")).sum()) if n else 0.0
         en60 = (en_g + prm.k_en * pri.en60.get(pos, 0.0) / 60.0) / (en_min + prm.k_en) * 60.0
-        toi_mean = float((ws * d["toi_s"].fillna(0).to_numpy(float)).sum() / ws.sum()) if n else float("nan")
-        last_team = int(d["team_id"].iloc[-1]) if n else None
-        prof = PlayerProfile(int(pid), pos, n, n_season, last_team, int(d["date_int"].iloc[-1]) if n else None, share, ixg60, float(finish), a1, a2,
-                             float(en60), toi_mean, sog60, flags)
+        # on-ice goals for, relative to what the team scored per minute in the same games (line / unit scoring effect)
+        onice_rel = {}
+        for s in ("ev", "pp"):
+            if n:
+                den = col(f"tsec_{s}")
+                exp = np.where(den > 0, col(f"toi_{s}") * col(f"tgf_{s}") / np.maximum(den, 1.0), 0.0)
+                onice = col(f"gfo_{s}") + col(f"g_{s}")
+                onice_rel[s] = float(((wr * onice).sum() + prm.k_onice_goals) / ((wr * exp).sum() + prm.k_onice_goals))
+            else:
+                onice_rel[s] = 1.0
+        toi = np.nan_to_num(col("toi_s")) if n else np.zeros(0)
+        toi_mean = float((ws * toi).sum() / ws.sum()) if n else float("nan")
+        last_team = int(r.cols["team_id"][hi - 1]) if n else None
+        prof = PlayerProfile(int(pid), pos, n, n_season, last_team, int(r.cols["date_int"][hi - 1]) if n else None, share, ixg60, float(finish), a1, a2,
+                             float(en60), toi_mean, sog60, flags, onice_rel)
         self._cache[key] = prof
         return prof
 
@@ -288,33 +328,37 @@ def coice_fractions(coice: pd.DataFrame, team_id: int, date_int: int, players: l
                     half_life: float = 2.0, max_games: int = 8) -> dict[str, np.ndarray] | None:
     """F_s[i, j] = expected share of player i's state-s ice time spent WITH teammate j, from the team's last ``max_games``
     games strictly before ``date_int`` (most recent heaviest: lines change). Needs ``coice`` rows carrying ``date_int``
-    and ``toi_by_game`` (game_id, player_id, toi_ev, toi_pp, toi_sh). None when the team has no prior games."""
+    and ``toi_by_game`` (game_id, player_id, toi_ev, toi_pp, toi_sh). Rows of players with no ice time in those games
+    are NaN (the caller falls back to a share-proportional prior). None when the team has no prior games."""
     c = coice[(coice["team_id"] == team_id) & (coice["date_int"] < date_int)]
     if not len(c):
         return None
-    games = sorted(c["game_id"].unique(), key=lambda g: c.loc[c["game_id"] == g, "date_int"].iloc[0])[-max_games:]
-    w_by_game = dict(zip(games, _ew(len(games), half_life)))
-    idx = {p: i for i, p in enumerate(players)}
+    gd = c.groupby("game_id")["date_int"].first().sort_values()
+    games = list(gd.index[-max_games:])
+    wmap = pd.Series(_ew(len(games), half_life), index=games)
+    idx = pd.Series(np.arange(len(players)), index=pd.Index([int(p) for p in players]))
     n = len(players)
-    out = {}
     cc = c[c["game_id"].isin(games)]
+    i = idx.reindex(cc["p1"].astype(int).to_numpy()).to_numpy()
+    j = idx.reindex(cc["p2"].astype(int).to_numpy()).to_numpy()
+    ok = ~(np.isnan(i) | np.isnan(j))
+    i, j = i[ok].astype(int), j[ok].astype(int)
+    w = wmap.reindex(cc["game_id"].to_numpy()).to_numpy()[ok]
+    out = {}
     tg = toi_by_game[toi_by_game["game_id"].isin(games)] if toi_by_game is not None else None
+    if tg is not None:
+        ti = idx.reindex(tg["player_id"].astype(int).to_numpy()).to_numpy()
+        tok = ~np.isnan(ti)
+        tw = wmap.reindex(tg["game_id"].to_numpy()).to_numpy()[tok]
+        ti = ti[tok].astype(int)
     for s, col in (("ev", "shared_ev_s"), ("pp", "shared_pp_s"), ("sh", "shared_sh_s")):
         num = np.zeros((n, n))
+        v = cc[col].to_numpy(float)[ok] * w
+        np.add.at(num, (i, j), v)
+        np.add.at(num, (j, i), v)
         den = np.zeros(n)
-        for r in cc.itertuples(index=False):
-            i, j = idx.get(int(r.p1)), idx.get(int(r.p2))
-            if i is None or j is None:
-                continue
-            w = w_by_game[r.game_id]
-            v = getattr(r, col)
-            num[i, j] += w * v
-            num[j, i] += w * v
         if tg is not None:
-            for r in tg.itertuples(index=False):
-                i = idx.get(int(r.player_id))
-                if i is not None:
-                    den[i] += w_by_game[r.game_id] * float(getattr(r, f"toi_{s}"))
+            np.add.at(den, ti, tw * tg[f"toi_{s}"].to_numpy(float)[tok])
         with np.errstate(invalid="ignore", divide="ignore"):
             f = np.where(den[:, None] > 0, num / den[:, None], np.nan)
         out[s] = np.clip(f, 0.0, 1.0)
