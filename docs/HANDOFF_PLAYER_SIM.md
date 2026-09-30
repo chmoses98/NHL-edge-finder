@@ -5,7 +5,8 @@
 **PLAYER_SIM_V1 READY FOR PROSPECTIVE SHADOW** — with a calibration caveat that the evidence below states plainly:
 goals, saves and first-goal are validated and calibrated against simple baselines; assists and points are coherent and
 competitive on log loss but carry a measurable calibration error (compressed toward the middle) and do **not** beat a
-simple role-adjusted rate baseline on assists. Nothing here is edge evidence; the market benchmark is in R.
+simple role-adjusted rate baseline on assists. Nothing here is edge evidence: where Kalshi shows a real two-sided price, the market is slightly
+better than the model on player points and the model adds nothing measurable beyond it (R).
 
 ALL NHL MODEL FAMILIES REMAIN RESEARCH_ONLY. NO AUTOMATIC BETTING AUTHORITY WAS CREATED. NO BETS WERE PLACED.
 
@@ -21,7 +22,10 @@ ALL NHL MODEL FAMILIES REMAIN RESEARCH_ONLY. NO AUTOMATIC BETTING AUTHORITY WAS 
 
 ## C. PRs
 
-TBD_PRS
+| PR | purpose | status | CI |
+|---|---|---|---|
+| #9 | PLAYER_SIM_V1 shadow arm, player + period settlement, player evaluation, evaluate `--out` fix, research harness, docs | merged `9850d89` | green |
+| #10 | market-benchmark fix (score only two-sided quotes, report spread bands, test), benchmark results, the runner's shadow outputs and Kalshi history, final handoff | TBD_PR10 | TBD_PR10_CI |
 
 ## D. OPENING-NIGHT ROOT CAUSE
 
@@ -168,22 +172,6 @@ nobody credited twice; points = G + A; ladders monotone; saves + GA = shots face
 Each packet game block has a correlation matrix (YES indicators of up to 40 priced contracts + team goals + moneyline)
 for exposure research.
 
-## P. HISTORICAL VALIDATION
-
-Walk-forward, realistic point-in-time, 2024-25 and 2025-26 (2,624 games, 94,456 skater-games, 5,248 goalie starts); all
-league parameters refit on prior seasons; team lambdas = V2's own walk-forward lambdas; deployment from recent shifts
-only. Hyper-parameters chosen on 2023-24 (and one switch on 2024-25, see K); 2025-26 never used for a choice.
-Summary: **goals and saves beat simple baselines and are calibrated; first-goal scorer calibrated; 1+ point better than
-baselines; assists roughly tied with a role-rate baseline; TOI projection no better than a recent mean.** Full tables:
-`docs/research/PLAYER_SIM_V1.md` section 5, `docs/research/player_sim_v1/eval.json`.
-
-## Q. CALIBRATION
-
-1+ point by 5-point bucket (2025-26, held out): 20-25% -> 0.201 observed; 30-35% -> 0.296; 40-45% -> 0.421; 50-55% ->
-0.546; 55-60% -> 0.616; 60-65% -> 0.650; 65-70% -> 0.726. So "model says 68% for a point" historically hit ~73%, and
-"25%" hit ~22-25%: mild compression, ~1 point high on average. 1+ goal: within ~2 points in every populated bucket. Saves
-ladder pooled: within ~2 points in every bucket. Full bucket tables in the research doc.
-
 ## O. KALSHI MARKET COVERAGE
 
 Opening-night board (5 games) re-run on a copy of the production archive at 20:51:30Z with the merged code (no lines
@@ -206,6 +194,39 @@ should fall further).
 Player-driven contracts with a model probability: **0 of 834 -> 800 of 834 (96%)**. Contracts with no model at all on the
 opening-night card: 964 -> 44 (34 players missing from the fallback lineup, 5 first-10-minutes, 5 OT in V1's view).
 
+## P. HISTORICAL VALIDATION
+
+Walk-forward, realistic point-in-time, 2024-25 and 2025-26 (2,624 games, 94,456 skater-games, 5,248 goalie starts); all
+league parameters refit on prior seasons; team lambdas = V2's own walk-forward lambdas; deployment from recent shifts
+only. Hyper-parameters chosen on 2023-24 (and one switch on 2024-25, see K); 2025-26 never used for a choice.
+Summary: **goals and saves beat simple baselines and are calibrated; first-goal scorer calibrated; 1+ point better than
+baselines; assists roughly tied with a role-rate baseline; TOI projection no better than a recent mean.** Full tables:
+`docs/research/PLAYER_SIM_V1.md` section 5, `docs/research/player_sim_v1/eval.json`.
+
+## Q. CALIBRATION
+
+1+ point by 5-point bucket (2025-26, held out): 20-25% -> 0.201 observed; 30-35% -> 0.296; 40-45% -> 0.421; 50-55% ->
+0.546; 55-60% -> 0.616; 60-65% -> 0.650; 65-70% -> 0.726. So "model says 68% for a point" historically hit ~73%, and
+"25%" hit ~22-25%: mild compression, ~1 point high on average. 1+ goal: within ~2 points in every populated bucket. Saves
+ladder pooled: within ~2 points in every bucket. Full bucket tables in the research doc.
+
+## R. MARKET BENCHMARK
+
+Historical 2025-26 Kalshi player props, points only so far (goal / assist candle pulls were still running; KXNHLSAVE had
+no settled history). Two-sided quotes with spread <= 10c, identical rows, 1+/2+/3+ points:
+
+| horizon | n | PLAYER_SIM_V1 Brier / log loss | Kalshi mid | MARKET_ANCHORED_PLAYER_V1 | model adds info given market? |
+|---|---:|---|---|---|---|
+| T-90m | 647 | 0.1532 / 0.4552 | **0.1511 / 0.4493** | 0.1513 / 0.4497 | no (z = -0.1) |
+| T-60m | 762 | 0.1662 / 0.4867 | **0.1630 / 0.4786** | 0.1633 / 0.4794 | no (z = -0.7) |
+| T-10m | 810 | 0.1693 / 0.4953 | **0.1660 / 0.4874** | 0.1663 / 0.4882 | no (z = -0.7) |
+
+**Where Kalshi has a real price, it is slightly better than the model and the model adds nothing measurable. No edge
+evidence exists for player props.** About two-thirds of historical quotes were empty books (0.01 / 0.99). A first pass
+that treated their 0.50 "midpoint" as a price showed a spurious large model advantage (z = 17). That was a benchmark
+bug, fixed and tested before anything was reported (`docs/research/PLAYER_SIM_V1.md` section 6). Limits: one family, 810
+rows, midpoints rather than executable asks, one season.
+
 ## S. SETTLEMENT
 
 New engines, both append-only, idempotent, Kalshi result compared but never allowed to override:
@@ -222,6 +243,21 @@ New engines, both append-only, idempotent, Kalshi result compared but never allo
   produces new records; old ones stay.
 - Opening-night player contracts (archived in `contracts` since 2026-09-29) settle on the first settle run after merge.
 
+## T. PRODUCTION
+
+- PR #9 merged to `main` at `9850d89` (CI green).
+- Read-only shadow of the merged code on a GitHub runner against the production archive (run `36679169553`, branch
+  commit `0489d07`, outputs in `docs/shadow/20260930T063755Z_36679169553`): 3 games simulated (PIT@PHI, NYI@TOR,
+  LAK@COL), 0 invariant violations, V1/V2 unchanged, goalie saves blocks for all six starters. 0 player contracts:
+  Kalshi had not listed the 2026-09-30 props yet.
+- The capture worker switched to the merged code at the planned handover: generation 5, run `36684879234`, `head_sha`
+  `9850d89`, lease acquired 07:39:14Z; its first captures on the new code succeeded (07:39Z, 07:56Z). Generation 4
+  (`36661757909`, old code) retired cleanly after 20 cycles. The conductor was not dispatched by hand, because it
+  shares the worker's concurrency group and could cancel the queued successor.
+- LIVE_EVIDENCE_PENDING: at writing, the new code's context job (DailyFaceoff lines -> `context/lines`), settle job
+  (`player_events/*`, `nhl-player-settle-1.0`, `nhl-period-settle-1.0`) and simulate job (`predictions_player`) had
+  not yet run for 2026-09-30.
+
 ## U. PERFORMANCE
 
 - Historical pull (runner): 6 seasons in parallel, 3-4 minutes each (3 requests per game, 6 workers).
@@ -233,6 +269,22 @@ New engines, both append-only, idempotent, Kalshi result compared but never allo
   ~3.7 MB (all player contracts + correlation matrices); slate.md adds ~6 lines per game. `player_events/*` ~0.2 MB per
   game-day. Repository: `data/history/players/` 20 MB (5 seasons, zstd Parquet), params 20 KB.
 - Walk-forward: ~0.15 s per game at 4,000 draws (2,624 games ~7 min per configuration).
+
+## V. TESTS
+
+408 tests collected (`pytest -n 2`, all pass; `ruff check src tests scripts` clean). 24 are new for this work
+(`tests/test_player_sim.py` 21, `tests/test_player_shadow.py` 3). They cover:
+- official parsing and a real sample game;
+- joint-draw invariants (hypothesis property test): player goals = team goals, A2 <= A1 <= G, no double credit,
+  opponents never assist, points = G + A, monotone ladders, saves + GA = shots faced, EN never against a goalie;
+- the saves distribution and pull hazard;
+- ticker -> player identity, including stale jerseys and ambiguity -> None;
+- player and period settlement semantics, and settle-job ingestion idempotency;
+- point-in-time poisoning: a future game or a future line observation must be invisible;
+- DailyFaceoff parsing and goal co-presence;
+- the market benchmark ignores empty books;
+- RUN NHL integration: V1/V2 rows byte-identical with the arm on or off, one bad game or a crashing arm never takes
+  V1/V2 down, and non-player contracts interleaved on the board.
 
 ## W. AUTHORITY
 
@@ -262,7 +314,10 @@ them to gate, size, route or place anything. kalshi-bet-router was not modified.
 6. **Scratches.** P(player plays) is not modelled; probabilities are conditional on playing (Kalshi's fair-price rule
    makes that the right target), and a player missing from the projected lineup is left unpriced.
 7. **First goal / team-to-score-first**: calibrated but with little skill; "no goal before the shootout" is unsettleable.
-8. **Market benchmark** covers 2025-26 only, from candle midpoints (not executable), hourly granularity (R).
+8. **Market benchmark**: where Kalshi shows a real two-sided price, it beats the model slightly on points and the model
+   adds nothing (R). The benchmark covers points only (goal / assist candles were still being pulled), 810 rows,
+   2025-26, hourly candle midpoints rather than executable asks. Most player books are empty (0.01 / 0.99), so the
+   "model-market gaps" in the packet are mostly gaps against no price at all.
 9. **Prospective evidence**: none yet. Nothing here should be read as edge.
 
 ## Y. NEXT RUN NHL
@@ -280,7 +335,8 @@ When the owner says "Run NHL" (conductor `force: context,capture,simulate`, or t
      goals + moneyline;
    - archive kind `predictions_player` (append-only).
 3. The same game can now be compared across ML / puck line / totals / team totals / periods / player goals / assists /
-   points / saves with model evidence instead of guesses. Read the player numbers with X.1 in mind.
+   points / saves with model evidence instead of guesses. Read the player numbers with X.1 and R in mind: a large
+   gap to a real two-sided Kalshi price is more likely model error than edge.
 4. After the games, `nhl settle` settles player props and period markets from official data and ingests the game's
    player events (tomorrow's projections then include tonight's usage); `nhl evaluate` now actually evaluates (it had
    been pointed at an empty sub-ledger) and writes `eval/report_player.md`.

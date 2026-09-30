@@ -419,3 +419,22 @@ def test_goal_copresence_counts_teammates_on_ice_at_goals_point_in_time():
     G2 = goal_copresence(g2, 13, 20251011, [1, 2, 3])
     assert np.allclose(np.nan_to_num(G["pp"][0]), np.nan_to_num(G2["pp"][0]))  # later games cannot change it
     assert goal_copresence(g, 13, 20251007, [1, 2, 3]) == {}
+
+
+def test_market_benchmark_scores_only_two_sided_quotes():
+    """An empty book (0.01 / 0.99) has a 0.50 'midpoint' that is not a price: it must not enter the market score."""
+    import numpy as np
+
+    from nhl_edge.research.player_market_benchmark import MAX_SPREAD, benchmark
+
+    rng = np.random.default_rng(0)
+    n = 400
+    p = rng.uniform(0.1, 0.6, n)
+    y = (rng.uniform(size=n) < p).astype(int)
+    mid = np.clip(p + rng.normal(0, 0.05, n), 0.02, 0.98)
+    tight = pd.DataFrame({"stat": "points", "y": y, "p_model": p, "mid_T-10m": mid, "spread_T-10m": 0.04})
+    empty = pd.DataFrame({"stat": "points", "y": y, "p_model": p, "mid_T-10m": 0.5, "spread_T-10m": 0.98})
+    r = benchmark(pd.concat([tight, empty], ignore_index=True))["T-10m"]
+    assert r["n"] == n and r["n_quoted_any_spread"] == 2 * n and r["max_spread"] == MAX_SPREAD
+    assert abs(r["KALSHI_MID"]["mean_pred"] - mid.mean()) < 1e-9
+    assert r["by_spread"]["(0.20,1.00]"]["n"] == n

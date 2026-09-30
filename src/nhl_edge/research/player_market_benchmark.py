@@ -33,6 +33,10 @@ from nhl_edge.settlement.player import _match
 SERIES = {"KXNHLPTS": "points", "KXNHLGOAL": "goals", "KXNHLAST": "assists", "KXNHLSAVE": "saves"}
 HORIZONS = ((360, "T-6h"), (180, "T-3h"), (90, "T-90m"), (60, "T-60m"), (30, "T-30m"), (10, "T-10m"))
 MAX_AGE_S = 3 * 3600
+# Most thin player books show 0.01 / 0.99 (nobody quoting): their "midpoint" 0.50 is not a price. Only two-sided quotes
+# at most this wide are scored; wider ones are counted and reported separately.
+MAX_SPREAD = 0.10
+SPREAD_BANDS = ((0.0, 0.03), (0.03, 0.06), (0.06, 0.10), (0.10, 0.20), (0.20, 1.0))
 
 
 def _logit(p: np.ndarray) -> np.ndarray:
@@ -122,10 +126,22 @@ def build_rows(history: Path, kalshi_root: Path, sk: pd.DataFrame, gl: pd.DataFr
 def benchmark(df: pd.DataFrame) -> dict[str, Any]:
     out: dict[str, Any] = {"n_joined": int(len(df))}
     for _mins, lab in HORIZONS:
-        col = f"mid_{lab}"
-        d = df[df[col].notna()] if len(df) and col in df.columns else df.iloc[0:0]
+        col, sc = f"mid_{lab}", f"spread_{lab}"
+        if not len(df) or col not in df.columns or sc not in df.columns:
+            out[lab] = {"n": 0, "note": "no quotes at this horizon"}
+            continue
+        quoted = df[df[col].notna()]
+        d = quoted[quoted[sc] <= MAX_SPREAD + 1e-9]
+        bands = {}
+        for lo, hi in SPREAD_BANDS:
+            g = quoted[(quoted[sc] > lo + 1e-9) & (quoted[sc] <= hi + 1e-9)]
+            if len(g):
+                bands[f"({lo:.2f},{hi:.2f}]"] = {"n": int(len(g)), "base_rate": float(g["y"].mean()), "mean_mid": float(g[col].mean()),
+                                                 "mean_model": float(g["p_model"].mean()), "brier_market": brier(g[col], g["y"]),
+                                                 "brier_model": brier(g["p_model"], g["y"])}
         if len(d) < 50:
-            out[lab] = {"n": int(len(d)), "note": "fewer than 50 quoted rows"}
+            out[lab] = {"n": int(len(d)), "n_quoted_any_spread": int(len(quoted)), "note": f"fewer than 50 rows with spread <= {MAX_SPREAD}",
+                        "by_spread": bands}
             continue
         y, pm, pk = d["y"].to_numpy(float), d["p_model"].to_numpy(float), d[col].to_numpy(float)
         pa = 1 / (1 + np.exp(-(0.8 * _logit(pk) + 0.2 * _logit(pm))))
@@ -133,7 +149,7 @@ def benchmark(df: pd.DataFrame) -> dict[str, Any]:
         w, se = logistic(X, y)
         big = (pm - pk) > 0.10
         small = (pk - pm) > 0.10
-        rec = {"n": int(len(d)), "PLAYER_SIM_V1": score(pm, y), "KALSHI_MID": score(pk, y), "MARKET_ANCHORED_PLAYER_V1": score(pa, y),
+        rec = {"n": int(len(d)), "n_quoted_any_spread": int(len(quoted)), "max_spread": MAX_SPREAD, "by_spread": bands, "PLAYER_SIM_V1": score(pm, y), "KALSHI_MID": score(pk, y), "MARKET_ANCHORED_PLAYER_V1": score(pa, y),
                "combo": {"b_market": float(w[1]), "se_market": float(se[1]), "c_model": float(w[2]), "se_model": float(se[2]), "z_model": float(w[2] / se[2])},
                "model_above_market_by_10pts": {"n": int(big.sum()), "outcome_minus_market": float((y[big] - pk[big]).mean()) if big.any() else None},
                "model_below_market_by_10pts": {"n": int(small.sum()), "outcome_minus_market": float((y[small] - pk[small]).mean()) if small.any() else None},
