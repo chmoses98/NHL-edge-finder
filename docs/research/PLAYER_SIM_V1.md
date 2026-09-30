@@ -212,3 +212,37 @@ simple mean (the allocation uses shares, which is what matters for scoring). EV 
 Final: PRIOR_HEAVY rows (1,000 / 1,113): predicted 1+ point 0.211 / 0.212 vs 0.210 / 0.226 observed; DEGRADED_ROLE (311 /
 255): 0.242 / 0.236 vs 0.232 / 0.231; STANDARD: 0.355 / 0.358 vs 0.346 / 0.351. (Before the replacement-level prior
 PRIOR_HEAVY was 0.251 predicted.)
+
+## 6. Kalshi market benchmark (historical 2025-26; points only so far)
+
+`python -m nhl_edge.research.player_market_benchmark` -> `player_sim_v1/market_benchmark.json`. Settled KXNHLPTS /
+KXNHLGOAL / KXNHLAST markets (Nov 2025 - Jun 2026; KXNHLSAVE had no settled history) joined to the official player and
+the walk-forward PLAYER_SIM_V1 probability: 89,399 contracts joined. The market price is the best bid/ask midpoint of the
+newest hourly candle that closed at or before the horizon (never a later one). Candles exist so far only for KXNHLPTS
+(28,652 of 40,000 requested before the job deadline); goal and assist candle pulls were still running at writing.
+
+**Only two-sided quotes count.** Most thin player books sit at 0.01 / 0.99. The first run scored those as a 0.50
+"midpoint", which made the market look worse than a constant (Brier 0.219) and the model look like it added large
+information (z = 17). That was a benchmark bug, not a finding. The benchmark now scores only quotes with spread <= 0.10
+and reports every spread band separately (test: `test_market_benchmark_scores_only_two_sided_quotes`).
+
+1+ / 2+ / 3+ points, identical rows, spread <= 0.10:
+
+| horizon | n | PLAYER_SIM_V1 Brier / log loss / ECE | Kalshi mid | MARKET_ANCHORED_PLAYER_V1 (0.8 market) | model coefficient given market (z) |
+|---|---:|---|---|---|---|
+| T-90m | 647 | 0.1532 / 0.4552 / 0.031 | **0.1511 / 0.4493** / 0.033 | 0.1513 / 0.4497 | -0.06 (-0.1) |
+| T-60m | 762 | 0.1662 / 0.4867 / 0.028 | **0.1630 / 0.4786** / 0.041 | 0.1633 / 0.4794 | -0.25 (-0.7) |
+| T-10m | 810 | 0.1693 / 0.4953 / 0.028 | **0.1660 / 0.4874** / 0.039 | 0.1663 / 0.4882 | -0.25 (-0.7) |
+
+(T-30m equals T-10m: same hourly candle. T-6h / T-3h: no candles, since the pull only requested the pre-game window.)
+
+By spread band at T-10m (all quoted rows): 0-3c (n 63) market 0.0485 vs model 0.0528; 3-6c (187) 0.1228 vs 0.1268;
+6-10c (560) 0.1936 vs 0.1966; 10-20c (685) 0.2057 vs 0.2061; wider than 20c (1,649): the "mid" is not a price.
+
+**Reading.** Where Kalshi shows a real two-sided price, it is slightly better than PLAYER_SIM_V1 on points, and the model
+adds no measurable information on top of it (its coefficient is negative and insignificant; the 0.8 market-anchored
+blend is marginally worse than the market alone). Disagreements of more than 10 points are rare on these rows (9 and 18)
+and show nothing. **No edge evidence exists for player points.** The model is still useful for what it was built for:
+coherent, calibrated probabilities on the ~2/3 of contracts that have no real quote, and a shadow record to test
+prospectively. Limits: 810 rows, one family, midpoints and not executable asks (fees and spread make any "edge"
+harder still), and 2025-26 only.
