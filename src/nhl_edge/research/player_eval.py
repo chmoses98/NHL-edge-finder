@@ -160,3 +160,66 @@ def evaluate_goalies(gl: pd.DataFrame, saves_alpha: float, lg_sv: float, mu_stat
     P, Y, PB = np.concatenate(allp), np.concatenate(ally), np.concatenate(allpb)
     out["pooled_ladder"] = {"PLAYER_SIM_V1": score(P, Y), "POISSON_SHOTS": score(PB, Y), "buckets": buckets(P, Y)}
     return out
+
+
+def evaluate_first_goal(sk: pd.DataFrame, games: pd.DataFrame | None) -> dict[str, Any]:
+    out: dict[str, Any] = {"first_scorer": score(sk["p_first"].to_numpy(), sk["y_first"].to_numpy()),
+                           "first_scorer_buckets": buckets(sk["p_first"].to_numpy(), sk["y_first"].to_numpy(), width=0.02)}
+    if games is not None and len(games):
+        out["home_scores_first"] = score(games["p_home_first"].to_numpy(), games["y_home_first"].to_numpy())
+    return out
+
+
+def evaluate_toi(sk: pd.DataFrame) -> dict[str, Any]:
+    d = sk[sk["toi_s"].notna()].copy()
+    act = pd.to_numeric(d["toi_s"], errors="coerce") / 60.0
+    out = {"n": int(len(d)), "mae_model_total_min": float((d["exp_toi"] - act).abs().mean()), "bias_model_total_min": float((d["exp_toi"] - act).mean())}
+    if "toi_recent_min" in d:
+        r = pd.to_numeric(d["toi_recent_min"], errors="coerce")
+        ok = r.notna()
+        out["mae_recent_mean_total_min"] = float((r[ok] - act[ok]).abs().mean())
+    for s in ("ev", "pp"):
+        if f"exp_toi_{s}" in d and f"toi_{s}_s" in d:
+            a = pd.to_numeric(d[f"toi_{s}_s"], errors="coerce") / 60.0
+            ok = a.notna()
+            out[f"mae_{s}_min"] = float((d.loc[ok, f"exp_toi_{s}"] - a[ok]).abs().mean())
+    return out
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+    import json
+    from pathlib import Path
+
+    from nhl_edge.players.features import PlayerParams
+    from nhl_edge.research import player_walk_forward as W
+
+    ap = argparse.ArgumentParser(prog="python -m nhl_edge.research.player_eval")
+    ap.add_argument("--history", default="data/history")
+    ap.add_argument("--wf", default="docs/research/player_sim_v1")
+    ap.add_argument("--seasons", default="2024,2025")
+    ap.add_argument("--out", default=None)
+    a = ap.parse_args(argv)
+    data = W.Data(Path(a.history))
+    res: dict[str, Any] = {}
+    for s in (int(x) for x in a.seasons.split(",")):
+        sk = pd.read_parquet(Path(a.wf) / f"skaters_{s}.parquet")
+        gl = pd.read_parquet(Path(a.wf) / f"goalies_{s}.parquet")
+        gp = Path(a.wf) / f"games_{s}.parquet"
+        games = pd.read_parquet(gp) if gp.exists() else None
+        base = skater_baselines(data.players, sk, {})
+        fp = W.fit_season_params(data, s, PlayerParams())
+        sm = fp["saves"]
+        mu_static = np.array([sm.mean(ef * sm.lg_sv, np.array([0.0]), np.array([ef * (1 - sm.lg_sv)]), np.array([0.2]))[0] for ef in gl["expected_faced"]])
+        res[str(s)] = {"skaters": evaluate_skaters(sk, base), "goalies": evaluate_goalies(gl, sm.alpha, sm.lg_sv, mu_static),
+                       "first_goal": evaluate_first_goal(sk, games) if "p_first" in sk else None, "toi": evaluate_toi(sk) if "exp_toi" in sk else None}
+    out = Path(a.out) if a.out else Path(a.wf) / "eval.json"
+    out.write_text(json.dumps(res, indent=1, default=float))
+    print(json.dumps({s: {k: (v.get("points 1+", {}).get("PLAYER_SIM_V1") if k == "skaters" else None) for k, v in r.items()} for s, r in res.items()}, indent=1, default=float))
+    return 0
+
+
+if __name__ == "__main__":
+    import sys
+
+    sys.exit(main())

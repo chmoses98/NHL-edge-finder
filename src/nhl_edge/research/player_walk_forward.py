@@ -167,7 +167,7 @@ def simulate(data: Data, wf_games: pd.DataFrame, test_season: int, n_sims: int =
     ppo = wf_games[["home_pp_off", "away_pp_off"]].stack().mean()
     pkd = wf_games[["home_pk_def", "away_pk_def"]].stack().mean()
     known_games = set(data.players["game_id"].unique())
-    sk_rows, g_rows = [], []
+    sk_rows, g_rows, game_rows = [], [], []
     t0 = time.time()
     for k, r in enumerate(wf.itertuples(index=False)):
         gid = int(r.game_id)
@@ -185,6 +185,10 @@ def simulate(data: Data, wf_games: pd.DataFrame, test_season: int, n_sims: int =
         res = simulate_game_v2(TeamParams(hid, "H", float(r.lam_st_home)), TeamParams(aid, "A", float(r.lam_st_away)), seed=seed, n_sims=n_sims, params=sp,
                                record_steps=True)
         ps = simulate_players(res, rb_h.roster, rb_a.roster, fp["strength"], seed + 1)
+        gg = data.goals[data.goals["game_id"] == gid].sort_values(["period", "t_s"])
+        first_scorer_actual = int(gg.iloc[0]["scorer_id"]) if len(gg) else 0
+        game_rows.append({"game_id": gid, "season": test_season, "p_home_first": float((ps.first_team == hid).mean()), "p_no_goal": float((ps.first_team == 0).mean()),
+                          "y_home_first": int(len(gg) > 0 and int(gg.iloc[0]["team_id"]) == hid), "y_no_goal": int(len(gg) == 0)})
         for d, ro, rb in ((ps.home, rb_h.roster, rb_h), (ps.away, rb_a.roster, rb_a)):
             act = box.set_index("player_id")
             pts = d.points
@@ -193,6 +197,9 @@ def simulate(data: Data, wf_games: pd.DataFrame, test_season: int, n_sims: int =
                 gi, ai, pi = d.goals[:, i], d.assists[:, i], pts[:, i]
                 m = rb.player_meta[int(pid)]
                 sk_rows.append({"game_id": gid, "season": test_season, "date_int": di, "player_id": int(pid), "team_id": ro.team_id, "pos": ro.pos[i],
+                                "p_first": float((ps.first_scorer == int(pid)).mean()), "y_first": int(first_scorer_actual == int(pid)),
+                                "exp_toi_ev": m["expected_toi_min"]["ev"], "exp_toi_pp": m["expected_toi_min"]["pp"], "toi_ev_s": a.get("toi_ev_s"), "toi_pp_s": a.get("toi_pp_s"),
+                                "toi_recent_min": m.get("toi_recent_mean_min"),
                                 "n_games": m["n_games"], "quality": m["projection_quality"], "role_conf": m["role_confidence"],
                                 "flags": ",".join(m["uncertainty_flags"]), "exp_toi": m["expected_toi_total_min"],
                                 "p_g1": float((gi >= 1).mean()), "p_g2": float((gi >= 2).mean()), "p_g3": float((gi >= 3).mean()),
@@ -214,6 +221,7 @@ def simulate(data: Data, wf_games: pd.DataFrame, test_season: int, n_sims: int =
             g_rows.append(row)
         if progress_every and (k + 1) % progress_every == 0:
             print(f"season {test_season}: {k + 1}/{len(wf)} games, {time.time() - t0:.0f}s", flush=True)
+    simulate.last_games = pd.DataFrame(game_rows)  # type: ignore[attr-defined]  # team-to-score-first rows of the last call
     return pd.DataFrame(sk_rows), pd.DataFrame(g_rows)
 
 

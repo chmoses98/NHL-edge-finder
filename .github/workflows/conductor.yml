@@ -116,7 +116,7 @@ jobs:
       - name: Evaluate
         if: needs.decide.outputs.evaluate == 'true'
         continue-on-error: true
-        run: nhl evaluate --data data --out data/archive/eval
+        run: nhl evaluate --data data --out data/archive
       - name: Discover market families (daily)
         if: needs.decide.outputs.discover == 'true'
         continue-on-error: true
