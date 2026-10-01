@@ -15,8 +15,8 @@ ALL NHL MODEL FAMILIES REMAIN RESEARCH_ONLY. NO AUTOMATIC BETTING AUTHORITY WAS 
 
 | repo / ref | start | end |
 |---|---|---|
-| NHL-edge-finder `main` | `c555c1c` (PR #7 merge) | `43e2a19` (PR #10), `94729c6` (PR #11), then the PR #12 merge (docs only) |
-| NHL-edge-finder `claude/nhl-player-prop-sim-l0ovd5` | branched from `c555c1c` | the PR #12 docs commit (all runner data commits merged) |
+| NHL-edge-finder `main` | `c555c1c` (PR #7 merge) | `43e2a19` (PR #10), `94729c6` (PR #11), `489a187` (PR #12), then the PR #13 merge (docs only) |
+| NHL-edge-finder `claude/nhl-player-prop-sim-l0ovd5` | branched from `c555c1c` | the PR #13 docs commit (all runner data commits merged) |
 | NHL-edge-finder `data-archive` | `fae4ca7` (capture 05:07Z) at session start | still advancing (worker); never written by this session except through the merged code's own jobs |
 | NHL-edge-finder `accounting-data` / `kalshi-router/NHL` | `4a0e769` / `a80b586` | untouched (read only, for the opening-night ledger) |
 | kalshi-bet-router `main` | `984c7c1` | `984c7c1` (read only; no defect required a change) |
@@ -28,7 +28,8 @@ ALL NHL MODEL FAMILIES REMAIN RESEARCH_ONLY. NO AUTOMATIC BETTING AUTHORITY WAS 
 | #9 | PLAYER_SIM_V1 shadow arm, player + period settlement, player evaluation, evaluate `--out` fix, research harness, docs | merged `9850d89` | green |
 | #10 | market-benchmark fix (score only two-sided quotes, report spread bands, test), benchmark results, the runner's shadow outputs and Kalshi history, final handoff | merged `43e2a19` | green |
 | #11 | goal / assist candle benchmark results (with game bootstrap), production evidence (T), SHAs / PR table | merged `94729c6` | green |
-| #12 | live production evidence in T (lines archive, 378 / 380 player contracts priced) | merged after green CI | green before merge |
+| #12 | live production evidence in T (lines archive, 378 / 380 player contracts priced) | merged `489a187` | green |
+| #13 | first production settle + evaluation in T; corrects the live-spread statement | merged after green CI | green before merge |
 
 ## D. OPENING-NIGHT ROOT CAUSE
 
@@ -285,15 +286,34 @@ New engines, both append-only, idempotent, Kalshi result compared but never allo
   - The 2 unpriced contracts are Noah Juulsen (COL). He resolved correctly by team + jersey + name, but is not in
     tonight's projected lineup, so the arm left him unpriced rather than guess (fail-closed, as designed).
   - Flags: `NO_CURRENT_SEASON_GAMES` on most rows (game 2 of the season), `NEW_TEAM` on 34.
-  - None of the 378 had a two-sided quote of 10c or tighter at 15:43Z: the pre-game player books were still empty,
-    as in the historical data (R).
+  - Live books are tight: 272 of the 274 quoted contracts had a two-sided quote 10c wide or narrower (median spread
+    3c). An earlier version of this section said the books were empty. That was wrong: the packet stores bid/ask in
+    cents, and they were compared against 0.10 as if in dollars. The empty-book problem in R applies to the historical
+    2025-26 candles, not to today's live board.
   - `predictions_player` rows appended (11:55Z, 13:43Z, 15:43Z runs).
   - V1: 533 contracts (40 OK, 35 NO_EDGE, 458 UNSUPPORTED). V1 does not model player families; PLAYER_SIM_V1 prices
     them in shadow only.
-- **Still to run on the new code** (after tonight's first puck drop, by the conductor's existing rule):
-  - settle: `player_events/*`, `nhl-player-settle-1.0` and `nhl-period-settle-1.0` records, including the opening-night
-    contracts;
-  - then `eval/report_player.md`.
+- **First production settle on the new code**: 2026-10-01 03:34:51Z, run `36800724756`. 0 errors, 0 disagreements
+  with Kalshi.
+  - Player events ingested once per final game (`player_events/*`, 14 team-games).
+  - `nhl-player-settle-1.0`: 1,181 records for games 001-006 and 008.
+  - `nhl-period-settle-1.0`: 168 records for the same games.
+  - Opening-night wagers settled exactly as the router ledger recorded: Tkachuk, Suzuki and Pastrnak 1+ point NO
+    (0 points each); Stone 1+ point YES (1). Lankinen 29+ saves (not wagered) settled YES with 32 saves.
+  - 11 UNSETTLEABLE, all players absent from the official boxscore, i.e. did not dress: Reilly (CAR, game 001),
+    Nugent-Hopkins (EDM, game 004) and MacEwen (TOR, game 008). Kalshi settles those at the pre-game fair price; we
+    never invent it.
+  - Game 007 (LAK@COL) was not yet past the settle grace period at 03:34Z. The conductor runs settle only when a game
+    in the latest schedule snapshot has started (existing rule, unchanged), so 007 settles on the next run, after the
+    2026-10-01 puck drop. This delays it but does not affect correctness.
+- **First player evaluation**: 03:35:01Z, `eval/report_player.md`. 3,518 pregame rows, from games 006 and 008 only:
+  the player arm was not live for opening night. Each contract is counted once per prediction snapshot, so this is
+  about 253 contracts.
+  - PLAYER_SIM_V1 scored better than the market midpoint in every family: Brier 0.0881 vs 0.1014 overall; points
+    0.104 vs 0.125; goals 0.120 vs 0.121.
+  - Both over-predicted two low-scoring games, the market more so (points: market 0.29, model 0.28, hit 0.12).
+  - Two games prove nothing; the report says so.
+  - The market baseline here is clean: only 4 rows sit at a 0.50 mid, because live books are tight.
 
 ## U. PERFORMANCE
 
@@ -354,8 +374,9 @@ them to gate, size, route or place anything. kalshi-bet-router was not modified.
 8. **Market benchmark**: where Kalshi shows a real two-sided price, it beats the model slightly on points and assists. On
    goals the two tie, and the model adds a small, statistically detectable but economically negligible signal (R). The
    benchmark covers 7,438 rows,
-   2025-26, hourly candle midpoints rather than executable asks. Most player books are empty (0.01 / 0.99), so the
-   "model-market gaps" in the packet are mostly gaps against no price at all.
+   2025-26, hourly candle midpoints rather than executable asks. About 43% of historical quotes were empty
+   (0.01 / 0.99). Live 2026-27 pre-game books are much tighter (median spread 3c on 2026-09-30, T), so the prospective
+   shadow record can test the model against real prices.
 9. **Prospective evidence**: none yet. Nothing here should be read as edge.
 
 ## Y. NEXT RUN NHL
