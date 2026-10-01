@@ -18,7 +18,8 @@ Method, evidence and limits in full: `docs/research/THESIS_ENGINE.md` (sections 
 |---|---|
 | start `main` | `489a187` (PR #12), then `fea6ea2`-based PR #13 merged by the owner during this work (docs only) |
 | PR | [chmoses98/NHL-edge-finder#14](https://github.com/chmoses98/NHL-edge-finder/pull/14): the thesis engine, RUN NHL wiring, postmortem, replay / audit tools, docs, sample |
-| merge SHA / production evidence | recorded in the follow-up section **P** below once merged and observed |
+| merge SHA | **`f0096e0`** (PR #14, merged 2026-10-01 06:04Z after green CI on head `7917361`) |
+| production evidence | section **P** below |
 | kalshi-bet-router | not touched: the card lives in this repo's packet and `card.md`; no router schema change was needed |
 
 ## C. ARCHITECTURE
@@ -158,3 +159,33 @@ This does not imply the card would have won, and nothing was tuned.
 **NONE.** The next capture-worker generation dispatched after the merge picks up the code automatically. Optional: set
 `NHL_EDGE_CARD_BANKROLL` in the workflow environment if a nominal bankroll other than $1,000 is wanted for the
 research stakes.
+
+## P. PRODUCTION (observed 2026-10-01)
+
+- **Worker on the new code.**
+  - The capture worker's old-code successor (run 25, dispatched 02:18Z on `489a187`) was cancelled at 07:04Z.
+  - Run **26** (`36828281267`) has been running on **`f0096e0`** since 07:04:52Z.
+  - Nothing was dispatched by hand.
+- **First production slate on the new code:** `slates/dt=2026-10-01/20261001T073709Z_36828281267` (8 games, 408 joined
+  contracts).
+  - `thesis_card`: status **COMPLETE**, gate **PASS**.
+    - 7 recommended bets, 0 gate failures, 0 UNKNOWN fields.
+    - Thesis layer time 0.69 s for 8 games.
+    - No thesis, V2 or player-shadow error.
+  - `card.md` was written next to `slate.md`.
+  - Ledger kinds `thesis_decisions` (11 rows) and `thesis_games` (8 rows) were appended.
+  - V1 gates are normal: 86 OK / 114 NO_EDGE / 208 UNSUPPORTED.
+  - Kalshi had not listed the day's player props yet at 07:37Z, so this card is game markets only. Player props join
+    the card automatically once they are listed.
+  - The sportsbook consensus was read from the 01:15Z snapshot (the latest at or before the cutoff).
+- **Card at 07:37Z (RESEARCH_ONLY suggestions; nothing placed):**
+  - PHI @ NJD: NJD −1.5 NO @63, PHI ML @40.
+  - TBL @ NYR: NYR ML @44.
+  - EDM @ VAN: VAN ML @36, VAN −2.5 @10.
+  - FLA @ SJS: SJS −1.5 @25, FLA −2.5 NO @78.
+  - Slate portfolio B: $56.21 staked, model EV +$7.18, confidence-adjusted EV +$2.26, P(profit) 0.63.
+- **Still to observe:**
+  - The first card with player props, later today.
+  - The first `thesis_postmortems` rows, once tonight's games are settled and evaluated (the evaluate job runs after
+    the settle job ingests official events).
+  - LAK@COL (2026-09-30) settlement.
