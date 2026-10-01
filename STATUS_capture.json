@@ -1,37 +1,41 @@
 {
- "last_capture_utc": "2026-10-01T23:35:30Z",
- "n_markets": 3355,
+ "last_capture_utc": "2026-10-01T23:40:30Z",
+ "n_markets": 3352,
  "n_series": 75,
  "requests": 451,
  "run_id": "36929294204",
  "markets_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/markets/dt=2026-10-01/kalshi_markets_20261001T233530Z_36929294204.jsonl.gz",
-  "bytes": 306722,
-  "n_markets": 3355,
-  "board_sha256": "75b77ddc6b7968a3b596cf39a484744a6c20cb0cc0847839c759fdddc2aad01e"
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/markets_delta/dt=2026-10-01/kalshi_markets_delta_20261001T234030Z_36929294204.json.gz",
+  "bytes": 22074,
+  "n_markets": 3352,
+  "n_changed": 1215,
+  "changed_pct": 36.247,
+  "board_sha256": "4682be72694ab074d5d102d51d0fd73a866c3ff62d650b8771635621b18e51b3"
  },
  "orderbooks_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/orderbooks/dt=2026-10-01/kalshi_orderbooks_20261001T233530Z_36929294204.jsonl.gz",
-  "bytes": 48241,
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/orderbooks_delta/dt=2026-10-01/kalshi_orderbooks_delta_20261001T234030Z_36929294204.json.gz",
+  "bytes": 42332,
   "n_markets": 300,
-  "board_sha256": "39ef8a2dde888d7c9e9cd8813fb9ee88385611a476f27353b115cf434da3eefe"
+  "n_changed": 260,
+  "changed_pct": 86.667,
+  "board_sha256": "79c30eee37bc57d743ced39c0bfd3068b0508d70cc14a687459c81190030f61a"
  },
  "by_status": {
-  "active": 3355
+  "active": 3352
  },
  "by_support": {
   "BUILDABLE": 13,
   "MODELABLE": 588,
-  "RESEARCH": 2207,
+  "RESEARCH": 2204,
   "UNMODELABLE": 547
  },
  "by_family": {
   "first_goal": 162,
-  "game_early_goal": 11,
+  "game_early_goal": 10,
   "game_overtime": 13,
   "game_spread": 112,
   "game_total": 252,
@@ -39,7 +43,7 @@
   "goalie_saves": 8,
   "non_hockey_or_office": 1,
   "period_spread": 78,
-  "period_total": 116,
+  "period_total": 114,
   "period_winner": 117,
   "player_assists": 208,
   "player_goals": 261,
@@ -51,7 +55,7 @@
  },
  "alarms": [],
  "notes": [
-  "order books sampled by priority: 3355 live markets, cap 300"
+  "order books sampled by priority: 3352 live markets, cap 300"
  ],
  "alarm": false
 }
