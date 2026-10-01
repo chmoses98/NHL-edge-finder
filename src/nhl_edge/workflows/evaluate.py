@@ -193,6 +193,12 @@ def run_evaluate(out_root: Path, data_root: Path, now: datetime | None = None) -
         run_evaluate_player(ledger, settlements, starts, obs_loader=lambda t: observations_by_ticker(ledger, t), now=now)
     except Exception as e:  # noqa: BLE001 - the PLAYER_SIM_V1 report never blocks V1's evaluation
         log.warning(kv(event="player_evaluation_failed", err=str(e)[:300]))
+    try:
+        from nhl_edge.workflows.thesis_postmortem import run_thesis_postmortem
+
+        run_thesis_postmortem(ledger, settlements, starts, obs_loader=lambda t: observations_by_ticker(ledger, t), now=now)
+    except Exception as e:  # noqa: BLE001 - the thesis postmortem never blocks V1's evaluation
+        log.warning(kv(event="thesis_postmortem_failed", err=str(e)[:300]))
     return 0
 
 

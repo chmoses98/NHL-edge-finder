@@ -41,37 +41,44 @@ def _cmp(x: np.ndarray, comparator: str | None, threshold: float | None) -> np.n
     return None
 
 
-def price_player(family: str, comparator: str | None, threshold: float | None, player_id: int | None, ps: PlayerSimResult,
-                 saves: dict[int, SavesDraws] | None = None, goalie_team: dict[int, int] | None = None) -> PlayerPrice:
-    """``saves``: team_id -> SavesDraws for that team's net; ``goalie_team``: goalie player id -> team id."""
+def player_outcome(family: str, comparator: str | None, threshold: float | None, player_id: int | None, ps: PlayerSimResult,
+                   saves: dict[int, SavesDraws] | None = None, goalie_team: dict[int, int] | None = None) -> tuple[np.ndarray | None, str]:
+    """(per-draw YES indicator, reason) for a player contract; ``None`` when the contract cannot be priced (fail closed).
+    ``price_player`` is the mean of exactly this vector, so the game-script layer and the price never diverge."""
     stat = PLAYER_FAMILIES.get(family)
     if stat is None:
-        return PlayerPrice(None, None, False, f"family {family} is not a PLAYER_SIM_V1 family")
+        return None, f"family {family} is not a PLAYER_SIM_V1 family"
     if player_id is None:
-        return PlayerPrice(None, None, False, "player not resolved to an NHL id")
-    n = ps.n_sims
+        return None, "player not resolved to an NHL id"
     if stat == "first_goal":
-        hit = ps.first_scorer == player_id
         if not (ps.player(player_id)):
-            return PlayerPrice(None, None, False, "player not in either projected lineup")
-        p = float(hit.mean())
-        return PlayerPrice(p, float(np.sqrt(max(p * (1 - p), 1e-12) / n)), True, "first goal from simulated event order")
+            return None, "player not in either projected lineup"
+        return ps.first_scorer == player_id, "first goal from simulated event order"
     if stat == "saves":
         tid = (goalie_team or {}).get(int(player_id))
         if tid is None or not saves or tid not in saves:
-            return PlayerPrice(None, None, False, "goalie not on either team's goalie list")
+            return None, "goalie not on either team's goalie list"
         x = saves[tid].saves
     else:
         found = ps.player(player_id)
         if found is None:
-            return PlayerPrice(None, None, False, "player not in either projected lineup (scratched / not dressed / unknown)")
+            return None, "player not in either projected lineup (scratched / not dressed / unknown)"
         d, _, i = found
         x = {"goals": d.goals[:, i], "assists": d.assists[:, i], "points": d.points[:, i]}[stat]
     y = _cmp(x, comparator, threshold)
     if y is None:
-        return PlayerPrice(None, None, False, f"unsupported comparator/threshold {comparator} {threshold}")
-    p = float(y.mean())
-    return PlayerPrice(p, float(np.sqrt(max(p * (1 - p), 1e-12) / n)), True, f"{stat} {comparator} {threshold} from the joint draw")
+        return None, f"unsupported comparator/threshold {comparator} {threshold}"
+    return y, f"{stat} {comparator} {threshold} from the joint draw"
+
+
+def price_player(family: str, comparator: str | None, threshold: float | None, player_id: int | None, ps: PlayerSimResult,
+                 saves: dict[int, SavesDraws] | None = None, goalie_team: dict[int, int] | None = None) -> PlayerPrice:
+    """``saves``: team_id -> SavesDraws for that team's net; ``goalie_team``: goalie player id -> team id."""
+    y, reason = player_outcome(family, comparator, threshold, player_id, ps, saves, goalie_team)
+    if y is None:
+        return PlayerPrice(None, None, False, reason)
+    p = float(np.mean(y))
+    return PlayerPrice(p, float(np.sqrt(max(p * (1 - p), 1e-12) / ps.n_sims)), True, reason)
 
 
 def ladder_violations(ps: PlayerSimResult) -> list[str]:

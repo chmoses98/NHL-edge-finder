@@ -202,6 +202,12 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
     lam_by_game = {str(b["game_id"]): b for b in v2_blocks or []}
     rows_all: list[dict[str, Any]] = []
     blocks: list[dict[str, Any]] = []
+    dists: list[Any] = []  # thesis.engine.GameDistribution per game (in memory only; never serialised)
+    dist_errors: list[dict[str, Any]] = []
+    from nhl_edge.workflows.thesis_card import enabled as thesis_enabled
+
+    build_dists = thesis_enabled()
+
     def _one_game(it: dict[str, Any]) -> None:
         gi = it["gi"]
         gid = str(gi.game_id)
@@ -251,11 +257,14 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
         # contracts
         rows = []
         corr_cols: list[tuple[str, np.ndarray]] = []
+        thesis_contracts: list[tuple[dict[str, Any], Any, int | None]] = []  # every joined contract, for the thesis card
         for m, c in it["contracts"]:
             if c.family not in PLAYER_FAMILIES:
+                thesis_contracts.append((m, c, None))
                 continue
             ref = parse_player_market(m["ticker"], m.get("title"))
             pid, how = resolve_player(ref, rosters) if ref else (None, "ticker suffix not parsed")
+            thesis_contracts.append((m, c, pid))
             pr = price_player(c.family, c.comparator, c.threshold, pid, ps, saves, goalie_team)
             mi = market_implied_probability(m)
             p_mkt = mi.p_mid
@@ -325,6 +334,15 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
                             "p_goal": round(float((d.goals[:, i] >= 1).mean()), 3), "exp_toi_min": round(pm["expected_toi_total_min"], 1),
                             "exp_pp_toi_min": round(pm["expected_toi_min"]["pp"], 2), "quality": pm["projection_quality"], "role_confidence": pm["role_confidence"],
                             "pp_unit": pm.get("pp_unit"), "ev_slot": pm.get("ev_slot")})
+        if build_dists:
+            try:
+                from nhl_edge.workflows.thesis_card import build_game_distribution
+
+                dists.append(build_game_distribution(gi, res, ps, saves, goalie_team, thesis_contracts, it.get("v1_rows") or [], fee_for, market_ts, now,
+                                                     it.get("minutes"), top, (it.get("game") or {}).get("start_time_utc"), rows))
+            except Exception as e:  # noqa: BLE001 - the thesis layer never breaks the player shadow
+                log.warning(kv(event="thesis_distribution_failed", game=gid, err=str(e)[:200]))
+                dist_errors.append({"game_id": gid, "error": f"{type(e).__name__}: {str(e)[:200]}"})
         fs = ps.first_team
         blocks.append({
             "game_id": gid, "home": gi.home_abbrev, "away": gi.away_abbrev, "model_version": PLAYER_MODEL_VERSION, "role": "SHADOW", "authority": AUTHORITY,
@@ -344,7 +362,7 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
             gid = str(getattr(it.get("gi"), "game_id", "?"))
             log.warning(kv(event="player_shadow_game_failed", game=gid, err=str(e)[:200]))
             blocks.append({"game_id": gid, "error": f"{type(e).__name__}: {str(e)[:200]}"})
-    return {"rows": rows_all, "blocks": blocks, "context": rt.sources}
+    return {"rows": rows_all, "blocks": blocks, "context": rt.sources, "distributions": dists, "distribution_errors": dist_errors}
 
 
 def markdown(blocks: list[dict[str, Any]], rows: list[dict[str, Any]], note: str | None = None, per_game: int = 6) -> str:
