@@ -105,3 +105,30 @@ RESEARCH_ONLY / SHADOW. Evidence and method: `docs/research/PLAYER_SIM_V1.md`; h
 New archive kinds: `context/lines` (context refresh), `player_events/{players,goalies,goals,shots,coice,team_states}` (settle job,
 one partition per finished game), `predictions_player` (simulate), `evaluations_player` + `eval/report_player.{json,md}` (evaluate).
 `NHL_EDGE_PLAYER_SHADOW=0` disables the arm. V1 and V2 rows are byte-identical with it on or off (tested).
+
+## Thesis card: game scripts, thesis mapping, joint matrix, portfolio, completion gate (2026-10-01)
+
+RESEARCH_ONLY. Method, evidence and limits: `docs/research/THESIS_ENGINE.md`; handoff: `docs/HANDOFF_THESIS.md`; portable
+abstraction for other sports: `docs/CROSS_SPORT_THESIS.md`.
+
+| module | role |
+|---|---|
+| `thesis/features.py` | per-draw game features from the joint draw (`from_simulation`) and from an official final (`from_actual`) |
+| `thesis/scripts.py` | deterministic script taxonomy (shot control x environment x margin; shape, net volume, overlays), frozen thresholds |
+| `thesis/events.py` | 27 named thesis events per game |
+| `thesis/outcomes.py` | per-draw settlement indicators from the production pricers (mask capture; fail closed) |
+| `thesis/mapping.py` | contributions by script (exact), concentration, breadth, phi to every thesis, primary / secondary / failure thesis |
+| `thesis/joint.py` | same-game joint outcome matrix and relationship labels |
+| `thesis/reliability.py` | family reliability from evaluation artifacts + PIT-safe prospective ledger; per-bet calibration buckets |
+| `thesis/benchmark.py` | sportsbook moneyline consensus (quarantined kind) and A/B/C/D categories |
+| `thesis/expression.py` | confidence-adjusted probability, candidate rules, best expression per thesis |
+| `thesis/portfolio.py` | simulated P/L, capped joint Kelly with greedy cardinality, metrics, diversifier test |
+| `thesis/card.py` | 18-field completion gate + JOINT CARD CHECK |
+| `thesis/engine.py` | per-game analysis, slate finalisation, proposed-card audit |
+| `thesis/postmortem.py`, `workflows/thesis_postmortem.py` | thesis / expression / price / model / portfolio results after settlement |
+| `workflows/thesis_card.py` | `GameDistribution` builder (called inside the player shadow), RUN NHL wiring, card.md |
+| `research/thesis_replay.py`, `research/thesis_model_audit.py` | replay at a past cutoff on an archive copy, audit a proposed card, Phase 12 audit |
+
+New archive kinds: `thesis_games`, `thesis_decisions` (simulate), `thesis_postmortems` + `eval/report_thesis.{json,md}` (evaluate).
+New slate outputs: `thesis_card` in slate.json (compact) / packet.json (full) and `card.md`. `NHL_EDGE_THESIS_CARD=0` disables it;
+`NHL_EDGE_CARD_BANKROLL` sets the nominal research bankroll. V1, V2 and PLAYER_SIM_V1 rows are byte-identical with it on or off (tested).

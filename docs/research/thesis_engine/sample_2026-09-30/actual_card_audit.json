@@ -1,0 +1,1132 @@
+{
+ "authority": "RESEARCH_ONLY",
+ "gate": {
+  "status": "PASS",
+  "n_entries": 4,
+  "failures": [],
+  "unknown_fields": [],
+  "games_with_joint_card_check": [
+   "2026020008"
+  ],
+  "required_fields": [
+   "market / exact contract",
+   "team and opponent",
+   "executable price",
+   "fair probability",
+   "estimated edge",
+   "bet-up-to price",
+   "recommended stake",
+   "market-family reliability",
+   "primary thesis",
+   "secondary thesis if relevant",
+   "best alternative expression considered",
+   "reason chosen over alternative",
+   "thesis concentration",
+   "relationship to every other same-game recommended bet",
+   "total same-game exposure",
+   "total thesis exposure",
+   "portfolio impact",
+   "opposing reasons / failure case"
+  ]
+ },
+ "games": [
+  {
+   "game_id": "2026020006",
+   "matchup": "PIT @ PHI",
+   "entries": [
+    {
+     "bet_id": "KXNHLGOAL-26SEP30PITPHI-PITRRAKELL67-1|yes",
+     "game_id": "2026020006",
+     "contract": {
+      "ticker": "KXNHLGOAL-26SEP30PITPHI-PITRRAKELL67-1",
+      "title": "Rickard Rakell: 1+ goals",
+      "side": "YES",
+      "family": "player_goals"
+     },
+     "team_opponent": {
+      "team": "PIT",
+      "opponent": "PHI",
+      "matchup": "PIT @ PHI"
+     },
+     "executable_price": {
+      "ask_cents": 27.0,
+      "fee_per_contract": 0.0138,
+      "cost_per_contract": 0.2838,
+      "observed_at_utc": "2026-09-30T23:17:09Z"
+     },
+     "fair_probability": {
+      "p_model_joint_draw": 0.327,
+      "p_confidence_adjusted": 0.3115,
+      "confidence_k": 0.75,
+      "confidence_notes": [],
+      "projection": {
+       "projection_quality": "STANDARD",
+       "uncertainty_flags": [
+        "NO_CURRENT_SEASON_GAMES"
+       ],
+       "role_confidence": "MEDIUM",
+       "deployment_source": "LINES_PROJECTED"
+      },
+      "p_kalshi_mid": 0.265,
+      "p_v1": null,
+      "p_sportsbook": null
+     },
+     "estimated_edge": {
+      "ev_raw_per_contract": 0.0432,
+      "ev_adjusted_per_contract": 0.0277,
+      "roi_adjusted": 0.0976,
+      "growth_bp": 8.203
+     },
+     "bet_up_to_price": {
+      "cents_raw": 31,
+      "cents_adjusted": 29
+     },
+     "recommended_stake": {
+      "dollars": 75.0,
+      "fraction_of_bankroll": 0.075,
+      "contracts": 264.27,
+      "nominal_bankroll": 1000.0,
+      "authority": "RESEARCH_ONLY (suggestion; never placed or routed)"
+     },
+     "family_reliability": {
+      "label": "EVIDENCE_STRONGER",
+      "family_label": "EVIDENCE_STRONGER",
+      "family_evidence": "held-out n 47231, ECE 0.0019 (noise floor 0.0058), beats simple baseline; vs Kalshi mid: Brier -0.0001 (model ties/better, n 3783); prospective: 0 games / 0 rows",
+      "flags": [
+       "SMALL_PROSPECTIVE_SAMPLE"
+      ],
+      "bucket_calibration": {
+       "bucket": "30-35%",
+       "n": 2522,
+       "mean_pred": 0.3222,
+       "hit_rate": 0.322,
+       "gap": -0.0003,
+       "z": -0.0,
+       "against_measured_bias": false,
+       "text": "held-out 2025-26 'player_goals 1+' bucket 30-35%: model 0.322 vs observed 0.322 (gap -0.000, z -0.0, n 2522)"
+      },
+      "benchmark_category": "D",
+      "benchmark_meaning": "no external benchmark available"
+     },
+     "primary_thesis": {
+      "key": "PIT:OFFENSE_4PLUS",
+      "label": "PIT offense succeeds (4+ goals)",
+      "category": "offense",
+      "phi": 0.261,
+      "p_thesis": 0.3479,
+      "p_bet_given_thesis": 0.4947,
+      "p_thesis_given_bet": 0.5263,
+      "p_bet_given_not_thesis": 0.2375
+     },
+     "secondary_thesis": {
+      "key": "PIT:WINS",
+      "label": "PIT wins (incl. OT/SO)",
+      "category": "result",
+      "phi": 0.185,
+      "p_thesis": 0.439,
+      "p_bet_given_thesis": 0.4251,
+      "p_thesis_given_bet": 0.5706,
+      "p_bet_given_not_thesis": 0.2503
+     },
+     "best_alternative": {
+      "bet_id": "KXNHLGOAL-26SEP30PITPHI-PITCDEWAR19-1|yes",
+      "title": "Connor Dewar: 1+ goals",
+      "price_cents": 11,
+      "p_model": 0.1571,
+      "p_adjusted": 0.1441,
+      "ev_raw": 0.0402,
+      "ev_adjusted": 0.0272,
+      "growth_bp": 15.344,
+      "thesis_fit_phi": 0.201,
+      "reliability": "EVIDENCE_STRONGER",
+      "breadth_rel": 0.871,
+      "eligible": true,
+      "reasons": []
+     },
+     "reason_chosen": "KXNHLGOAL-26SEP30PITPHI-PITCDEWAR19-1|yes has the higher standalone adjusted growth (15.34 vs 8.20 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.011)",
+     "thesis_concentration": {
+      "top1": 0.1217,
+      "top2": 0.2388,
+      "breadth_eff": 13.04,
+      "breadth_rel": 0.924,
+      "main_scripts": [
+       {
+        "script": "balanced shots \u00b7 normal event (5-7) \u00b7 decided (2+)",
+        "key": "CB|EN|MD",
+        "contribution_pp": 3.98,
+        "share": 0.122,
+        "p_win_in_script": 0.312,
+        "script_frequency": 0.1276
+       },
+       {
+        "script": "balanced shots \u00b7 high event (8+) \u00b7 decided (2+)",
+        "key": "CB|EH|MD",
+        "contribution_pp": 3.83,
+        "share": 0.117,
+        "p_win_in_script": 0.438,
+        "script_frequency": 0.0875
+       },
+       {
+        "script": "balanced shots \u00b7 normal event (5-7) \u00b7 tight (1-goal/OT)",
+        "key": "CB|EN|MT",
+        "contribution_pp": 3.76,
+        "share": 0.115,
+        "p_win_in_script": 0.33,
+        "script_frequency": 0.114
+       },
+       {
+        "script": "PIT shot control \u00b7 normal event (5-7) \u00b7 tight (1-goal/OT)",
+        "key": "CA|EN|MT",
+        "contribution_pp": 2.48,
+        "share": 0.076,
+        "p_win_in_script": 0.381,
+        "script_frequency": 0.0651
+       }
+      ],
+      "other_scripts_pp": 18.65,
+      "team_offense": {
+       "key": "PIT:OFFENSE_4PLUS",
+       "label": "PIT offense succeeds (4+ goals)",
+       "category": "offense",
+       "phi": 0.261,
+       "p_thesis": 0.3479,
+       "p_bet_given_thesis": 0.4947,
+       "p_thesis_given_bet": 0.5263,
+       "p_bet_given_not_thesis": 0.2375
+      }
+     },
+     "same_game_relationships": {
+      "status": "NOT_APPLICABLE",
+      "reason": "only recommended bet in this game"
+     },
+     "same_game_exposure": {
+      "dollars": 75.0,
+      "fraction_of_bankroll": 0.075,
+      "cap_fraction": 0.05
+     },
+     "thesis_exposure": {
+      "thesis": "PIT:OFFENSE_4PLUS",
+      "dollars": 75.0,
+      "fraction_of_bankroll": 0.075,
+      "cap_fraction": 0.03,
+      "duplicative_with": []
+     },
+     "portfolio_impact": {
+      "marginal_expected_profit": 11.42,
+      "marginal_log_growth_bp": 42.149,
+      "delta_p_profit": 0.327,
+      "delta_p10": -75.0
+     },
+     "failure_case": {
+      "p_lose": 0.673,
+      "failure_thesis": {
+       "key": "PIT:SUPPRESSED",
+       "label": "PIT offense suppressed (<= 2 goals)",
+       "category": "suppression",
+       "phi": -0.275,
+       "p_thesis": 0.437,
+       "p_bet_given_thesis": 0.1805,
+       "p_thesis_given_bet": 0.2413,
+       "p_bet_given_not_thesis": 0.4407
+      },
+      "worst_major_script": {
+       "script": "PHI shot control \u00b7 low event (<=4) \u00b7 decided (2+)",
+       "p_win_in_script": 0.165,
+       "script_frequency": 0.0303
+      },
+      "scripts_needed": [
+       "balanced shots \u00b7 normal event (5-7) \u00b7 decided (2+)",
+       "balanced shots \u00b7 high event (8+) \u00b7 decided (2+)"
+      ],
+      "note": "conditional on the player playing / goalie starting (Kalshi settles a no-show at the pre-game fair price); loses 67% of simulated games"
+     },
+     "audit": {
+      "positive_ev_raw": true,
+      "positive_ev_adjusted": true,
+      "engine_would_recommend": true,
+      "equivalent_engine_contract": null,
+      "violates_principle_1": false
+     }
+    }
+   ],
+   "joint_matrix": {
+    "bets": [
+     "KXNHLGOAL-26SEP30PITPHI-PITRRAKELL67-1|yes"
+    ],
+    "pairs": []
+   },
+   "proposed_portfolio": {
+    "n_bets": 1,
+    "total_stake": 75.0,
+    "expected_profit": 11.42,
+    "expected_roi": 0.1522,
+    "expected_profit_confidence_adjusted": 7.32,
+    "median_profit": -75.0,
+    "p_profit": 0.327,
+    "p_loss": 0.673,
+    "p_lose_more_than_50pct_of_allocation": 0.673,
+    "p05": -75.0,
+    "p10": -75.0,
+    "p25": -75.0,
+    "p75": 189.27,
+    "p95": 189.27,
+    "worst_draw": -75.0,
+    "best_draw": 189.27,
+    "expected_log_growth_bp": 42.149,
+    "adjusted_log_growth_bp": 0.997,
+    "worst_major_script": {
+     "script": "PHI shot control \u00b7 low event (<=4) \u00b7 decided (2+)",
+     "mean_profit": -31.39
+    },
+    "best_major_script": {
+     "script": "balanced shots \u00b7 high event (8+) \u00b7 tight (1-goal/OT)",
+     "mean_profit": 55.99
+    },
+    "concentration_by_thesis": {
+     "PIT:OFFENSE_4PLUS": 1.0
+    },
+    "concentration_by_family": {
+     "player_goals": 1.0
+    },
+    "stakes": {
+     "KXNHLGOAL-26SEP30PITPHI-PITRRAKELL67-1|yes": 75.0
+    }
+   },
+   "engine_portfolio_B": {
+    "n_bets": 4,
+    "total_stake": 44.24,
+    "expected_profit": 7.89,
+    "expected_roi": 0.1784,
+    "expected_profit_confidence_adjusted": 5.27,
+    "median_profit": -10.73,
+    "p_profit": 0.4832,
+    "p_loss": 0.5168,
+    "p_lose_more_than_50pct_of_allocation": 0.1013,
+    "p05": -44.24,
+    "p10": -44.24,
+    "p25": -16.25,
+    "p75": 39.33,
+    "p95": 77.69,
+    "worst_draw": -44.24,
+    "best_draw": 133.28,
+    "expected_log_growth_bp": 72.38,
+    "adjusted_log_growth_bp": 46.248,
+    "worst_major_script": {
+     "script": "PIT shot control \u00b7 low event (<=4) \u00b7 tight (1-goal/OT)",
+     "mean_profit": -3.22
+    },
+    "best_major_script": {
+     "script": "PIT shot control \u00b7 high event (8+) \u00b7 decided (2+)",
+     "mean_profit": 22.14
+    },
+    "concentration_by_thesis": {
+     "PHI:SUPPRESSED": 0.452,
+     "PIT:OFFENSE_4PLUS": 0.375,
+     "PHI:OFFENSE_4PLUS": 0.173
+    },
+    "concentration_by_family": {
+     "player_goals": 1.0
+    },
+    "stakes": {
+     "KXNHLGOAL-26SEP30PITPHI-PHIPMARTONE94-1|no": 20.0,
+     "KXNHLGOAL-26SEP30PITPHI-PITCDEWAR19-1|yes": 7.06,
+     "KXNHLGOAL-26SEP30PITPHI-PHISCOUTURIER14-1|yes": 7.67,
+     "KXNHLGOAL-26SEP30PITPHI-PITRRAKELL67-1|yes": 9.51
+    }
+   }
+  },
+  {
+   "game_id": "2026020008",
+   "matchup": "NYI @ TOR",
+   "entries": [
+    {
+     "bet_id": "KXNHLGAME-26SEP30NYITOR-NYI|yes",
+     "game_id": "2026020008",
+     "contract": {
+      "ticker": "KXNHLGAME-26SEP30NYITOR-NYI",
+      "title": "New York I wins",
+      "side": "YES",
+      "family": "game_winner"
+     },
+     "team_opponent": {
+      "team": "NYI",
+      "opponent": "TOR",
+      "matchup": "NYI @ TOR"
+     },
+     "executable_price": {
+      "ask_cents": 44.0,
+      "fee_per_contract": 0.0172,
+      "cost_per_contract": 0.4572,
+      "observed_at_utc": "2026-09-30T23:17:09Z"
+     },
+     "fair_probability": {
+      "p_model_joint_draw": 0.5196,
+      "p_confidence_adjusted": 0.4815,
+      "confidence_k": 0.55,
+      "confidence_notes": [],
+      "projection": {},
+      "p_kalshi_mid": 0.435,
+      "p_v1": 0.5855,
+      "p_sportsbook": 0.4429
+     },
+     "estimated_edge": {
+      "ev_raw_per_contract": 0.0624,
+      "ev_adjusted_per_contract": 0.0243,
+      "roi_adjusted": 0.0531,
+      "growth_bp": 5.192
+     },
+     "bet_up_to_price": {
+      "cents_raw": 50,
+      "cents_adjusted": 46
+     },
+     "recommended_stake": {
+      "dollars": 50.0,
+      "fraction_of_bankroll": 0.05,
+      "contracts": 109.35,
+      "nominal_bankroll": 1000.0,
+      "authority": "RESEARCH_ONLY (suggestion; never placed or routed)"
+     },
+     "family_reliability": {
+      "label": "EVIDENCE_MIXED",
+      "family_label": "EVIDENCE_MIXED",
+      "family_evidence": "held-out n 1312, ECE 0.0286 (noise floor 0.0348); vs Kalshi mid: Brier +0.0013 (market better, n 1312); prospective: 3 games / 72 rows, ECE 0.510",
+      "flags": [
+       "SMALL_PROSPECTIVE_SAMPLE"
+      ],
+      "bucket_calibration": "no held-out bucket table for this family / threshold",
+      "benchmark_category": "B",
+      "benchmark_meaning": "model disagrees with Kalshi; sportsbook leans the model's way"
+     },
+     "primary_thesis": {
+      "key": "NYI:WINS",
+      "label": "NYI wins (incl. OT/SO)",
+      "category": "result",
+      "phi": 1.0,
+      "p_thesis": 0.5196,
+      "p_bet_given_thesis": 1.0,
+      "p_thesis_given_bet": 1.0,
+      "p_bet_given_not_thesis": 0.0
+     },
+     "secondary_thesis": {
+      "key": "TOR:SUPPRESSED",
+      "label": "TOR offense suppressed (<= 2 goals)",
+      "category": "suppression",
+      "phi": 0.557,
+      "p_thesis": 0.4403,
+      "p_bet_given_thesis": 0.8333,
+      "p_thesis_given_bet": 0.7061,
+      "p_bet_given_not_thesis": 0.2728
+     },
+     "best_alternative": {
+      "bet_id": "KXNHLGAME-26SEP30NYITOR-TOR|no",
+      "title": "Toronto wins",
+      "price_cents": 44,
+      "p_model": 0.5196,
+      "p_adjusted": 0.4815,
+      "ev_raw": 0.0624,
+      "ev_adjusted": 0.0243,
+      "growth_bp": 5.192,
+      "thesis_fit_phi": 1.0,
+      "reliability": "EVIDENCE_MIXED",
+      "breadth_rel": 0.981,
+      "eligible": true,
+      "reasons": []
+     },
+     "reason_chosen": "best adjusted growth among the thesis's expressions",
+     "thesis_concentration": {
+      "top1": 0.1303,
+      "top2": 0.2411,
+      "breadth_eff": 12.61,
+      "breadth_rel": 0.981,
+      "main_scripts": [
+       {
+        "script": "NYI shot control \u00b7 normal event (5-7) \u00b7 decided (2+)",
+        "key": "CA|EN|MD",
+        "contribution_pp": 6.77,
+        "share": 0.13,
+        "p_win_in_script": 0.567,
+        "script_frequency": 0.1194
+       },
+       {
+        "script": "balanced shots \u00b7 normal event (5-7) \u00b7 decided (2+)",
+        "key": "CB|EN|MD",
+        "contribution_pp": 5.76,
+        "share": 0.111,
+        "p_win_in_script": 0.521,
+        "script_frequency": 0.1105
+       },
+       {
+        "script": "NYI shot control \u00b7 normal event (5-7) \u00b7 tight (1-goal/OT)",
+        "key": "CA|EN|MT",
+        "contribution_pp": 5.51,
+        "share": 0.106,
+        "p_win_in_script": 0.504,
+        "script_frequency": 0.1093
+       },
+       {
+        "script": "balanced shots \u00b7 normal event (5-7) \u00b7 tight (1-goal/OT)",
+        "key": "CB|EN|MT",
+        "contribution_pp": 5.03,
+        "share": 0.097,
+        "p_win_in_script": 0.467,
+        "script_frequency": 0.1076
+       }
+      ],
+      "other_scripts_pp": 28.89
+     },
+     "same_game_relationships": {
+      "KXNHLSAVE-26SEP30NYITOR-NYIISOROKIN30-25|no": {
+       "relationship": "MOSTLY_INDEPENDENT",
+       "phi": -0.125,
+       "p_both": 0.2954,
+       "p_both_lose": 0.1493,
+       "p_this_given_other": 0.4715,
+       "p_other_given_this": 0.5685,
+       "script_overlap": 0.852
+      }
+     },
+     "same_game_exposure": {
+      "dollars": 80.0,
+      "fraction_of_bankroll": 0.08,
+      "cap_fraction": 0.05
+     },
+     "thesis_exposure": {
+      "thesis": "NYI:WINS",
+      "dollars": 50.0,
+      "fraction_of_bankroll": 0.05,
+      "cap_fraction": 0.03,
+      "duplicative_with": []
+     },
+     "portfolio_impact": {
+      "marginal_expected_profit": 6.82,
+      "marginal_log_growth_bp": 54.832,
+      "delta_p_profit": -0.1069,
+      "delta_p10": -50.0
+     },
+     "failure_case": {
+      "p_lose": 0.4804,
+      "failure_thesis": {
+       "key": "TOR:WINS",
+       "label": "TOR wins (incl. OT/SO)",
+       "category": "result",
+       "phi": -1.0,
+       "p_thesis": 0.4804,
+       "p_bet_given_thesis": 0.0,
+       "p_thesis_given_bet": 0.0,
+       "p_bet_given_not_thesis": 1.0
+      },
+      "worst_major_script": {
+       "script": "TOR shot control \u00b7 normal event (5-7) \u00b7 decided (2+)",
+       "p_win_in_script": 0.445,
+       "script_frequency": 0.031
+      },
+      "scripts_needed": [
+       "NYI shot control \u00b7 normal event (5-7) \u00b7 decided (2+)",
+       "balanced shots \u00b7 normal event (5-7) \u00b7 decided (2+)"
+      ],
+      "note": "loses 48% of simulated games"
+     },
+     "audit": {
+      "positive_ev_raw": true,
+      "positive_ev_adjusted": true,
+      "engine_would_recommend": true,
+      "equivalent_engine_contract": "KXNHLGAME-26SEP30NYITOR-TOR|no",
+      "violates_principle_1": false
+     }
+    },
+    {
+     "bet_id": "KXNHLSAVE-26SEP30NYITOR-NYIISOROKIN30-25|no",
+     "game_id": "2026020008",
+     "contract": {
+      "ticker": "KXNHLSAVE-26SEP30NYITOR-NYIISOROKIN30-25",
+      "title": "Ilya Sorokin: 25+ saves",
+      "side": "NO",
+      "family": "goalie_saves"
+     },
+     "team_opponent": {
+      "team": "NYI",
+      "opponent": "TOR",
+      "matchup": "NYI @ TOR"
+     },
+     "executable_price": {
+      "ask_cents": 51.5,
+      "fee_per_contract": 0.0175,
+      "cost_per_contract": 0.5325,
+      "observed_at_utc": "2026-09-30T23:17:09Z"
+     },
+     "fair_probability": {
+      "p_model_joint_draw": 0.6265,
+      "p_confidence_adjusted": 0.528,
+      "confidence_k": 0.35,
+      "confidence_notes": [
+       "LARGE_DISAGREEMENT: model 0.626 vs reference 0.475; confidence capped at k=0.35"
+      ],
+      "projection": {},
+      "p_kalshi_mid": 0.475,
+      "p_v1": null,
+      "p_sportsbook": null
+     },
+     "estimated_edge": {
+      "ev_raw_per_contract": 0.094,
+      "ev_adjusted_per_contract": -0.0045,
+      "roi_adjusted": -0.0084,
+      "growth_bp": 0.0
+     },
+     "bet_up_to_price": {
+      "cents_raw": 60,
+      "cents_adjusted": 51
+     },
+     "recommended_stake": {
+      "dollars": 30.0,
+      "fraction_of_bankroll": 0.03,
+      "contracts": 56.34,
+      "nominal_bankroll": 1000.0,
+      "authority": "RESEARCH_ONLY (suggestion; never placed or routed)"
+     },
+     "family_reliability": {
+      "label": "EVIDENCE_MIXED",
+      "family_label": "EVIDENCE_MIXED",
+      "family_evidence": "held-out n 47232, ECE 0.0088 (noise floor 0.0058), beats simple baseline; no historical market benchmark; prospective: 0 games / 0 rows",
+      "flags": [
+       "SMALL_PROSPECTIVE_SAMPLE"
+      ],
+      "bucket_calibration": {
+       "bucket": "35-40%",
+       "n": 2182,
+       "mean_pred": 0.3753,
+       "hit_rate": 0.3886,
+       "gap": 0.0134,
+       "z": 1.3,
+       "against_measured_bias": false,
+       "text": "held-out 2025-26 'goalie_saves' bucket 35-40%: model 0.375 vs observed 0.389 (gap +0.013, z +1.3, n 2182)"
+      },
+      "benchmark_category": "D",
+      "benchmark_meaning": "no external benchmark available"
+     },
+     "primary_thesis": {
+      "key": "NYI:NET_LOW_VOLUME",
+      "label": "NYI net faces light volume (<= 25 shots; TOR suppressed)",
+      "category": "volume",
+      "phi": 0.746,
+      "p_thesis": 0.4917,
+      "p_bet_given_thesis": 0.9935,
+      "p_thesis_given_bet": 0.7797,
+      "p_bet_given_not_thesis": 0.2715
+     },
+     "secondary_thesis": {
+      "key": "NYI:SHOT_CONTROL",
+      "label": "NYI controls shots (share >= 0.55)",
+      "category": "control",
+      "phi": 0.461,
+      "p_thesis": 0.4552,
+      "p_bet_given_thesis": 0.8706,
+      "p_thesis_given_bet": 0.6326,
+      "p_bet_given_not_thesis": 0.4225
+     },
+     "best_alternative": {
+      "status": "NOT_APPLICABLE",
+      "reason": "no other contract in this game expresses this thesis (phi >= 0.20)"
+     },
+     "reason_chosen": "only expression of its thesis on the board",
+     "thesis_concentration": {
+      "top1": 0.1652,
+      "top2": 0.3208,
+      "breadth_eff": 10.2,
+      "breadth_rel": 0.793,
+      "main_scripts": [
+       {
+        "script": "NYI shot control \u00b7 normal event (5-7) \u00b7 decided (2+)",
+        "key": "CA|EN|MD",
+        "contribution_pp": 10.35,
+        "share": 0.165,
+        "p_win_in_script": 0.867,
+        "script_frequency": 0.1194
+       },
+       {
+        "script": "NYI shot control \u00b7 normal event (5-7) \u00b7 tight (1-goal/OT)",
+        "key": "CA|EN|MT",
+        "contribution_pp": 9.75,
+        "share": 0.156,
+        "p_win_in_script": 0.892,
+        "script_frequency": 0.1093
+       },
+       {
+        "script": "NYI shot control \u00b7 high event (8+) \u00b7 decided (2+)",
+        "key": "CA|EH|MD",
+        "contribution_pp": 5.97,
+        "share": 0.095,
+        "p_win_in_script": 0.86,
+        "script_frequency": 0.0694
+       },
+       {
+        "script": "NYI shot control \u00b7 low event (<=4) \u00b7 tight (1-goal/OT)",
+        "key": "CA|EL|MT",
+        "contribution_pp": 5.45,
+        "share": 0.087,
+        "p_win_in_script": 0.853,
+        "script_frequency": 0.0639
+       }
+      ],
+      "other_scripts_pp": 31.13
+     },
+     "same_game_relationships": {
+      "KXNHLGAME-26SEP30NYITOR-NYI|yes": {
+       "relationship": "MOSTLY_INDEPENDENT",
+       "phi": -0.125,
+       "p_both": 0.2954,
+       "p_both_lose": 0.1493,
+       "p_this_given_other": 0.5685,
+       "p_other_given_this": 0.4715,
+       "script_overlap": 0.852
+      }
+     },
+     "same_game_exposure": {
+      "dollars": 80.0,
+      "fraction_of_bankroll": 0.08,
+      "cap_fraction": 0.05
+     },
+     "thesis_exposure": {
+      "thesis": "NYI:NET_LOW_VOLUME",
+      "dollars": 30.0,
+      "fraction_of_bankroll": 0.03,
+      "cap_fraction": 0.03,
+      "duplicative_with": []
+     },
+     "portfolio_impact": {
+      "marginal_expected_profit": 5.3,
+      "marginal_log_growth_bp": 50.785,
+      "delta_p_profit": 0.0,
+      "delta_p10": -30.0
+     },
+     "failure_case": {
+      "p_lose": 0.3735,
+      "failure_thesis": {
+       "key": "NYI:NET_HIGH_VOLUME",
+       "label": "NYI net faces heavy volume (33+ shots; TOR pressure)",
+       "category": "volume",
+       "phi": -0.451,
+       "p_thesis": 0.131,
+       "p_bet_given_thesis": 0.0641,
+       "p_thesis_given_bet": 0.0134,
+       "p_bet_given_not_thesis": 0.7113
+      },
+      "worst_major_script": {
+       "script": "TOR shot control \u00b7 normal event (5-7) \u00b7 tight (1-goal/OT)",
+       "p_win_in_script": 0.188,
+       "script_frequency": 0.0309
+      },
+      "scripts_needed": [
+       "NYI shot control \u00b7 normal event (5-7) \u00b7 decided (2+)",
+       "NYI shot control \u00b7 normal event (5-7) \u00b7 tight (1-goal/OT)"
+      ],
+      "note": "conditional on the player playing / goalie starting (Kalshi settles a no-show at the pre-game fair price); loses 37% of simulated games"
+     },
+     "audit": {
+      "positive_ev_raw": true,
+      "positive_ev_adjusted": false,
+      "engine_would_recommend": true,
+      "equivalent_engine_contract": null,
+      "violates_principle_1": false
+     }
+    }
+   ],
+   "joint_matrix": {
+    "bets": [
+     "KXNHLGAME-26SEP30NYITOR-NYI|yes",
+     "KXNHLSAVE-26SEP30NYITOR-NYIISOROKIN30-25|no"
+    ],
+    "pairs": [
+     {
+      "a": "KXNHLGAME-26SEP30NYITOR-NYI|yes",
+      "b": "KXNHLSAVE-26SEP30NYITOR-NYIISOROKIN30-25|no",
+      "p_a": 0.5196,
+      "p_b": 0.6265,
+      "p_a_and_b": 0.2954,
+      "p_a_given_b": 0.4715,
+      "p_b_given_a": 0.5685,
+      "p_a_xor_b": 0.5553,
+      "p_both_lose": 0.1493,
+      "phi": -0.125,
+      "expected_profit_1usd_each": 0.3129,
+      "script_overlap": 0.852,
+      "relationship": "MOSTLY_INDEPENDENT"
+     }
+    ]
+   },
+   "proposed_portfolio": {
+    "n_bets": 2,
+    "total_stake": 80.0,
+    "expected_profit": 12.12,
+    "expected_roi": 0.1514,
+    "expected_profit_confidence_adjusted": 2.4,
+    "median_profit": 29.35,
+    "p_profit": 0.5196,
+    "p_loss": 0.4804,
+    "p_lose_more_than_50pct_of_allocation": 0.1493,
+    "p05": -80.0,
+    "p10": -80.0,
+    "p25": -23.66,
+    "p75": 85.69,
+    "p95": 85.69,
+    "worst_draw": -80.0,
+    "best_draw": 85.69,
+    "expected_log_growth_bp": 103.95,
+    "adjusted_log_growth_bp": 7.217,
+    "worst_major_script": {
+     "script": "TOR shot control \u00b7 normal event (5-7) \u00b7 tight (1-goal/OT)",
+     "mean_profit": -18.82
+    },
+    "best_major_script": {
+     "script": "NYI shot control \u00b7 high event (8+) \u00b7 tight (1-goal/OT)",
+     "mean_profit": 33.0
+    },
+    "concentration_by_thesis": {
+     "NYI:WINS": 0.625,
+     "NYI:NET_LOW_VOLUME": 0.375
+    },
+    "concentration_by_family": {
+     "game_winner": 0.625,
+     "goalie_saves": 0.375
+    },
+    "stakes": {
+     "KXNHLGAME-26SEP30NYITOR-NYI|yes": 50.0,
+     "KXNHLSAVE-26SEP30NYITOR-NYIISOROKIN30-25|no": 30.0
+    }
+   },
+   "engine_portfolio_B": {
+    "n_bets": 4,
+    "total_stake": 48.24,
+    "expected_profit": 8.99,
+    "expected_roi": 0.1865,
+    "expected_profit_confidence_adjusted": 3.45,
+    "median_profit": 3.83,
+    "p_profit": 0.7233,
+    "p_loss": 0.2767,
+    "p_lose_more_than_50pct_of_allocation": 0.152,
+    "p05": -24.15,
+    "p10": -24.15,
+    "p25": -20.26,
+    "p75": 31.14,
+    "p95": 69.3,
+    "worst_draw": -48.24,
+    "best_draw": 96.61,
+    "expected_log_growth_bp": 85.132,
+    "adjusted_log_growth_bp": 30.019,
+    "worst_major_script": {
+     "script": "TOR shot control \u00b7 normal event (5-7) \u00b7 tight (1-goal/OT)",
+     "mean_profit": -4.34
+    },
+    "best_major_script": {
+     "script": "NYI shot control \u00b7 normal event (5-7) \u00b7 decided (2+)",
+     "mean_profit": 17.7
+    },
+    "concentration_by_thesis": {
+     "TOR:SUPPRESSED": 0.358,
+     "NYI:WINS": 0.259,
+     "NYI:NET_LOW_VOLUME": 0.253,
+     "TOR:OFFENSE_4PLUS": 0.13
+    },
+    "concentration_by_family": {
+     "player_assists": 0.358,
+     "game_winner": 0.259,
+     "goalie_saves": 0.253,
+     "player_goals": 0.13
+    },
+    "stakes": {
+     "KXNHLGOAL-26SEP30NYITOR-TORTBLUEGER73-1|yes": 6.27,
+     "KXNHLAST-26SEP30NYITOR-TORAMATTHEWS34-1|no": 17.26,
+     "KXNHLGAME-26SEP30NYITOR-TOR|no": 12.48,
+     "KXNHLSAVE-26SEP30NYITOR-NYIISOROKIN30-25|no": 12.23
+    }
+   }
+  },
+  {
+   "game_id": "2026020007",
+   "matchup": "LAK @ COL",
+   "entries": [
+    {
+     "bet_id": "KXNHLTOTAL-26SEP30LACOL-7|no",
+     "game_id": "2026020007",
+     "contract": {
+      "ticker": "KXNHLTOTAL-26SEP30LACOL-7",
+      "title": "Full Game: Over 6.5 goals scored",
+      "side": "NO",
+      "family": "game_total"
+     },
+     "team_opponent": {
+      "team": "GAME (no single team)",
+      "opponent": "-",
+      "matchup": "LAK @ COL"
+     },
+     "executable_price": {
+      "ask_cents": 55.0,
+      "fee_per_contract": 0.0173,
+      "cost_per_contract": 0.5673,
+      "observed_at_utc": "2026-09-30T23:17:09Z"
+     },
+     "fair_probability": {
+      "p_model_joint_draw": 0.5874,
+      "p_confidence_adjusted": 0.5662,
+      "confidence_k": 0.5,
+      "confidence_notes": [],
+      "projection": {},
+      "p_kalshi_mid": 0.545,
+      "p_v1": 0.4041,
+      "p_sportsbook": null
+     },
+     "estimated_edge": {
+      "ev_raw_per_contract": 0.0201,
+      "ev_adjusted_per_contract": -0.0011,
+      "roi_adjusted": -0.002,
+      "growth_bp": 0.0
+     },
+     "bet_up_to_price": {
+      "cents_raw": 57,
+      "cents_adjusted": 54
+     },
+     "recommended_stake": {
+      "dollars": 50.0,
+      "fraction_of_bankroll": 0.05,
+      "contracts": 88.13,
+      "nominal_bankroll": 1000.0,
+      "authority": "RESEARCH_ONLY (suggestion; never placed or routed)"
+     },
+     "family_reliability": {
+      "label": "EVIDENCE_MIXED",
+      "family_label": "EVIDENCE_MIXED",
+      "family_evidence": "held-out n 2395, ECE 0.0177 (noise floor 0.0258); vs Kalshi mid: Brier +0.0025 (market better, n 2395); prospective: 3 games / 324 rows, ECE 0.339",
+      "flags": [
+       "SMALL_PROSPECTIVE_SAMPLE"
+      ],
+      "bucket_calibration": "no held-out bucket table for this family / threshold",
+      "benchmark_category": "D",
+      "benchmark_meaning": "no external benchmark available"
+     },
+     "primary_thesis": {
+      "key": "GAME:LOW_EVENT",
+      "label": "low-event game (<= 4 goals)",
+      "category": "environment",
+      "phi": 0.514,
+      "p_thesis": 0.2737,
+      "p_bet_given_thesis": 1.0,
+      "p_thesis_given_bet": 0.466,
+      "p_bet_given_not_thesis": 0.4319
+     },
+     "secondary_thesis": {
+      "key": "LAK:SUPPRESSED",
+      "label": "LAK offense suppressed (<= 2 goals)",
+      "category": "suppression",
+      "phi": 0.5,
+      "p_thesis": 0.4896,
+      "p_bet_given_thesis": 0.8386,
+      "p_thesis_given_bet": 0.699,
+      "p_bet_given_not_thesis": 0.3464
+     },
+     "best_alternative": {
+      "bet_id": "KXNHLTEAMTOTAL-26SEP30LACOL-COL4|no",
+      "title": "Colorado over 3.5 goals scored",
+      "price_cents": 50,
+      "p_model": 0.5802,
+      "p_adjusted": 0.5376,
+      "ev_raw": 0.0627,
+      "ev_adjusted": 0.0201,
+      "growth_bp": 3.541,
+      "thesis_fit_phi": 0.468,
+      "reliability": "EVIDENCE_MIXED",
+      "breadth_rel": 0.841,
+      "eligible": true,
+      "reasons": []
+     },
+     "reason_chosen": "KXNHLTEAMTOTAL-26SEP30LACOL-COL4|no has the higher standalone adjusted growth (3.54 vs 0.00 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.487)",
+     "thesis_concentration": {
+      "top1": 0.151,
+      "top2": 0.2831,
+      "breadth_eff": 9.5,
+      "breadth_rel": 0.752,
+      "main_scripts": [
+       {
+        "script": "COL shot control \u00b7 normal event (5-7) \u00b7 decided (2+)",
+        "key": "CH|EN|MD",
+        "contribution_pp": 8.87,
+        "share": 0.151,
+        "p_win_in_script": 0.701,
+        "script_frequency": 0.1265
+       },
+       {
+        "script": "balanced shots \u00b7 normal event (5-7) \u00b7 decided (2+)",
+        "key": "CB|EN|MD",
+        "contribution_pp": 7.76,
+        "share": 0.132,
+        "p_win_in_script": 0.709,
+        "script_frequency": 0.1095
+       },
+       {
+        "script": "COL shot control \u00b7 low event (<=4) \u00b7 tight (1-goal/OT)",
+        "key": "CH|EL|MT",
+        "contribution_pp": 6.89,
+        "share": 0.117,
+        "p_win_in_script": 1.0,
+        "script_frequency": 0.0689
+       },
+       {
+        "script": "COL shot control \u00b7 low event (<=4) \u00b7 decided (2+)",
+        "key": "CH|EL|MD",
+        "contribution_pp": 6.62,
+        "share": 0.113,
+        "p_win_in_script": 1.0,
+        "script_frequency": 0.0662
+       }
+      ],
+      "other_scripts_pp": 28.6
+     },
+     "same_game_relationships": {
+      "status": "NOT_APPLICABLE",
+      "reason": "only recommended bet in this game"
+     },
+     "same_game_exposure": {
+      "dollars": 50.0,
+      "fraction_of_bankroll": 0.05,
+      "cap_fraction": 0.05
+     },
+     "thesis_exposure": {
+      "thesis": "GAME:LOW_EVENT",
+      "dollars": 50.0,
+      "fraction_of_bankroll": 0.05,
+      "cap_fraction": 0.03,
+      "duplicative_with": []
+     },
+     "portfolio_impact": {
+      "marginal_expected_profit": 1.77,
+      "marginal_log_growth_bp": 8.191,
+      "delta_p_profit": 0.5874,
+      "delta_p10": -50.0
+     },
+     "failure_case": {
+      "p_lose": 0.4126,
+      "failure_thesis": {
+       "key": "GAME:HIGH_EVENT",
+       "label": "high-event game (8+ goals)",
+       "category": "environment",
+       "phi": -0.636,
+       "p_thesis": 0.2215,
+       "p_bet_given_thesis": 0.0,
+       "p_thesis_given_bet": 0.0,
+       "p_bet_given_not_thesis": 0.7545
+      },
+      "worst_major_script": {
+       "script": "COL shot control \u00b7 high event (8+) \u00b7 decided (2+)",
+       "p_win_in_script": 0.0,
+       "script_frequency": 0.0713
+      },
+      "scripts_needed": [
+       "COL shot control \u00b7 normal event (5-7) \u00b7 decided (2+)",
+       "balanced shots \u00b7 normal event (5-7) \u00b7 decided (2+)"
+      ],
+      "note": "loses 41% of simulated games"
+     },
+     "audit": {
+      "positive_ev_raw": true,
+      "positive_ev_adjusted": false,
+      "engine_would_recommend": false,
+      "equivalent_engine_contract": null,
+      "violates_principle_1": false
+     }
+    }
+   ],
+   "joint_matrix": {
+    "bets": [
+     "KXNHLTOTAL-26SEP30LACOL-7|no"
+    ],
+    "pairs": []
+   },
+   "proposed_portfolio": {
+    "n_bets": 1,
+    "total_stake": 50.0,
+    "expected_profit": 1.77,
+    "expected_roi": 0.0354,
+    "expected_profit_confidence_adjusted": -0.1,
+    "median_profit": 38.13,
+    "p_profit": 0.5874,
+    "p_loss": 0.4126,
+    "p_lose_more_than_50pct_of_allocation": 0.4126,
+    "p05": -50.0,
+    "p10": -50.0,
+    "p25": -50.0,
+    "p75": 38.13,
+    "p95": 38.13,
+    "worst_draw": -50.0,
+    "best_draw": 38.13,
+    "expected_log_growth_bp": 8.191,
+    "adjusted_log_growth_bp": -10.513,
+    "worst_major_script": {
+     "script": "COL shot control \u00b7 high event (8+) \u00b7 decided (2+)",
+     "mean_profit": -50.0
+    },
+    "best_major_script": {
+     "script": "COL shot control \u00b7 low event (<=4) \u00b7 tight (1-goal/OT)",
+     "mean_profit": 38.13
+    },
+    "concentration_by_thesis": {
+     "GAME:LOW_EVENT": 1.0
+    },
+    "concentration_by_family": {
+     "game_total": 1.0
+    },
+    "stakes": {
+     "KXNHLTOTAL-26SEP30LACOL-7|no": 50.0
+    }
+   },
+   "engine_portfolio_B": {
+    "n_bets": 4,
+    "total_stake": 50.0,
+    "expected_profit": 7.04,
+    "expected_roi": 0.1408,
+    "expected_profit_confidence_adjusted": 3.03,
+    "median_profit": 12.8,
+    "p_profit": 0.6196,
+    "p_loss": 0.3804,
+    "p_lose_more_than_50pct_of_allocation": 0.0502,
+    "p05": -39.84,
+    "p10": -21.56,
+    "p25": -11.4,
+    "p75": 22.96,
+    "p95": 48.92,
+    "worst_draw": -50.0,
+    "best_draw": 48.92,
+    "expected_log_growth_bp": 67.295,
+    "adjusted_log_growth_bp": 27.345,
+    "worst_major_script": {
+     "script": "COL shot control \u00b7 high event (8+) \u00b7 tight (1-goal/OT)",
+     "mean_profit": -3.84
+    },
+    "best_major_script": {
+     "script": "COL shot control \u00b7 low event (<=4) \u00b7 tight (1-goal/OT)",
+     "mean_profit": 17.83
+    },
+    "concentration_by_thesis": {
+     "COL:SUPPRESSED": 0.495,
+     "LAK:SUPPRESSED": 0.39,
+     "LAK:OFFENSE_4PLUS": 0.115
+    },
+    "concentration_by_family": {
+     "player_goals": 0.505,
+     "player_assists": 0.39,
+     "team_total": 0.105
+    },
+    "stakes": {
+     "KXNHLGOAL-26SEP30LACOL-COLNMACKINNON29-1|no": 19.49,
+     "KXNHLAST-26SEP30LACOL-LAMZUCCARELLO36-1|no": 19.49,
+     "KXNHLGOAL-26SEP30LACOL-LAALAFERRIERE14-1|yes": 5.75,
+     "KXNHLTEAMTOTAL-26SEP30LACOL-COL4|no": 5.26
+    }
+   }
+  }
+ ],
+ "missing": [],
+ "negative_ev_bets": [],
+ "negative_adjusted_ev_bets": [
+  "KXNHLSAVE-26SEP30NYITOR-NYIISOROKIN30-25|no",
+  "KXNHLTOTAL-26SEP30LACOL-7|no"
+ ],
+ "verdict": "PASSES the completeness / joint check, but 2 bet(s) are -EV after the confidence adjustment at the executed price (an engine card would not include them)"
+}

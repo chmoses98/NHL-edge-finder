@@ -90,6 +90,9 @@ class TeamDraws:
     a2: np.ndarray
     toi_mult: np.ndarray  # (n_sims, n) float32
     goal_state_counts: dict[str, float]  # mean goals per game by state (diagnostic)
+    # per-draw goals by strength state (n_sims, len(ALL_STATES)) int16; retained for the game-script layer
+    # (nhl_edge.thesis). Counting draws nothing from the generator, so every other array is unchanged.
+    state_goals: np.ndarray | None = None
 
     @property
     def assists(self) -> np.ndarray:
@@ -233,7 +236,8 @@ def simulate_players(res: SimV2Result, home: TeamRoster, away: TeamRoster, stren
         mult = _mult(rng, roster, n_sims)
         G, A1, A2, scorer, _, _ = _allocate(rng, roster, d, st, mult, n_sims)
         counts = {ALL_STATES[i]: float((st == i).sum() / n_sims) for i in range(len(ALL_STATES))}
-        out[side] = TeamDraws(G, A1, A2, mult.astype(np.float32), counts)
+        sg = np.bincount(d * len(ALL_STATES) + st, minlength=n_sims * len(ALL_STATES)).reshape(n_sims, len(ALL_STATES)).astype(np.int16)
+        out[side] = TeamDraws(G, A1, A2, mult.astype(np.float32), counts, sg)
         order_keys.append((d, t, roster.player_ids[scorer], np.full(len(d), roster.team_id)))
         # goals against the OTHER team's goalie: every goal except those into an empty net
         against = "away" if side == "home" else "home"

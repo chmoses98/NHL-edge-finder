@@ -284,6 +284,10 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
     if v2 is not None:
         slate["v2_shadow"] = {k: v for k, v in v2.items() if k != "rows"} | {"n_rows": len(v2.get("rows") or [])}
     player = _run_player_shadow(ledger, v2_items, v2, data_root, now, market_ts, rosters, injuries, series_rows) if (v2_items and v2 and not v2.get("error")) else None
+    dists = (player.pop("distributions", None) or []) if player is not None else []
+    thesis = _run_thesis_card(ledger, dists, now, player) if dists else None
+    if thesis is not None:
+        slate["thesis_card"] = thesis["slate_view"]
     if player is not None:
         slate["player_shadow"] = {k: v for k, v in player.items() if k != "rows"} | {"n_rows": len(player.get("rows") or [])}
         slate["_player_rows"] = player.get("rows") or []
@@ -305,6 +309,14 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
             except Exception as e:  # noqa: BLE001 - never block V1's slate on the shadow arm
                 log.warning(kv(event="player_shadow_archive_failed", err=str(e)[:300]))
                 slate["player_shadow"]["archive_error"] = f"{type(e).__name__}: {str(e)[:200]}"
+        if thesis is not None and thesis.get("ledger"):
+            for kind, rows in thesis["ledger"].items():
+                if rows:
+                    try:  # SEPARATE kinds: nothing V1 / V2 / PLAYER_SIM_V1 write changes
+                        ledger.append_rows(kind, rows, observed_at=now, meta={"date_et": target, "role": "RESEARCH_ONLY", "thesis_version": thesis["packet"].get("thesis_version")})
+                    except Exception as e:  # noqa: BLE001 - never block V1's slate on the thesis layer
+                        log.warning(kv(event="thesis_archive_failed", kind=kind, err=str(e)[:300]))
+                        slate["thesis_card"]["archive_error"] = f"{type(e).__name__}: {str(e)[:200]}"
         stamp = now.strftime("%Y%m%dT%H%M%SZ")
         out_dir = out_root / "slates" / f"dt={target}" / f"{stamp}_{ledger.run_id}"
         out_dir.mkdir(parents=True, exist_ok=True)
@@ -312,11 +324,16 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
         (out_dir / "slate.md").write_text(slate_markdown(slate))
         (out_dir / "packet.json").write_text(json.dumps({"slate": {k: v for k, v in slate.items() if k not in ("contracts", "games", "v2_shadow", "player_shadow", "_player_rows")}, "games": packet_games}
                                                         | ({"v2_shadow": slate["v2_shadow"]} if "v2_shadow" in slate else {})
-                                                        | ({"player_shadow": slate["player_shadow"] | {"contracts": player.get("rows") or []}} if player is not None else {}),
+                                                        | ({"player_shadow": slate["player_shadow"] | {"contracts": player.get("rows") or []}} if player is not None else {})
+                                                        | ({"thesis_card": thesis["packet"]} if thesis is not None else {}),
                                                         indent=1, default=str))
+        names = ["slate.json", "slate.md", "packet.json"]
+        if thesis is not None:
+            (out_dir / "card.md").write_text(thesis["markdown"])
+            names.append("card.md")
         latest = out_root / "slates" / "latest"
         latest.mkdir(parents=True, exist_ok=True)
-        for name in ("slate.json", "slate.md", "packet.json"):
+        for name in names:
             (latest / name).write_text((out_dir / name).read_text())
         (out_root / "STATUS_simulate.json").write_text(json.dumps({"simulated_at_utc": ts, "date_et": target, "n_games": len(not_started), "n_contracts": len(pred_rows),
                                                                     "out_dir": str(out_dir.relative_to(out_root)), "run_id": ledger.run_id, "by_gate": slate["coverage"]["by_gate"]}, indent=1))
@@ -376,6 +393,26 @@ def _run_player_shadow(ledger: Ledger, items: list[dict[str, Any]], v2: dict[str
         return {"error": f"{type(e).__name__}: {str(e)[:300]}", "rows": [], "blocks": [], "model_version": PLAYER_MODEL_VERSION, "role": "SHADOW"}
 
 
+def _run_thesis_card(ledger: Ledger, dists: list[Any], now: datetime, player: dict[str, Any] | None) -> dict[str, Any] | None:
+    """Thesis / portfolio card (RESEARCH_ONLY) on the PLAYER_SIM_V1 joint draws. Never raises: a failure is recorded."""
+    from nhl_edge.workflows import thesis_card
+
+    if not thesis_card.enabled():
+        return None
+    try:
+        odds, odds_meta = _read_latest(ledger, "context/sportsbook_odds", now)
+        card = thesis_card.run_thesis_card(dists, ledger, now, odds, ledger.run_id)
+        card["sportsbook_snapshot"] = odds_meta
+        if player and player.get("distribution_errors"):
+            card["distribution_errors"] = player["distribution_errors"]
+        sv = thesis_card.slate_view(card) | {"sportsbook_snapshot": odds_meta, "card_file": "card.md"}
+        return {"packet": thesis_card.packet_view(card), "slate_view": sv, "markdown": thesis_card.markdown(card), "ledger": card.get("_ledger") or {}}
+    except Exception as e:  # noqa: BLE001 - the thesis layer must never take V1 / V2 / PLAYER_SIM_V1 down
+        log.warning(kv(event="thesis_card_failed", err=str(e)[:300]))
+        err = {"status": "ERROR", "error": f"{type(e).__name__}: {str(e)[:300]}", "authority": AUTHORITY}
+        return {"packet": err, "slate_view": err, "markdown": f"# NHL THESIS CARD — ERROR\n\n{err['error']}\n", "ledger": {}}
+
+
 def _special_teams(goalie_stats: list[dict[str, Any]], team_games: list[dict[str, Any]], gi) -> dict[str, Any]:
     """PP/PK context from the team_games snapshot is not carried (situation 'all' only); reported from the packet's
     team_summary when available. V1 folds special teams into all-situation xG rates (documented simplification)."""
@@ -407,6 +444,12 @@ def slate_markdown(s: dict[str, Any]) -> str:
             lines.append(v2_markdown(v2.get("blocks") or [], v2.get("error") or v2.get("note")))
         except Exception as e:  # noqa: BLE001 - the V1 slate renders regardless
             lines.append(f"\n(DATA_ONLY_V2 shadow section failed to render: {type(e).__name__})")
+    tc = s.get("thesis_card")
+    if tc:
+        lines.append(f"\n## Thesis card (RESEARCH_ONLY): status {tc.get('status')} · gate {(tc.get('gate') or {}).get('status')} · "
+                     f"{len(tc.get('recommended') or [])} recommended · full analysis in card.md / packet.json `thesis_card`\n")
+        for r in tc.get("recommended") or []:
+            lines.append(f"- {r['title']} {r['side']} @ {r.get('ask')}c · p {r['p']} (adj {r['p_adj']}) · ${r['stake']} · thesis {r['primary_thesis']}")
     ps = s.get("player_shadow")
     if ps:
         try:

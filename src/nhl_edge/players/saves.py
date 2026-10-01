@@ -34,6 +34,9 @@ class SavesDraws:
     replaced: np.ndarray  # bool
     expected_faced: float
     mu_full: float
+    # full-game shots on goal against this NET (every goalie who played it; before the starter-replacement thinning),
+    # i.e. the opponent's shots on goal excluding empty-net goals. Used by the game-script layer; draws nothing extra.
+    net_shots_faced: np.ndarray | None = None
 
     def ladder(self, lo: int = 10, hi: int = 45) -> dict[str, float]:
         return {f"{k}+": float(np.mean(self.saves >= k)) for k in range(lo, hi + 1)}
@@ -53,6 +56,7 @@ def simulate_saves(res: SimV2Result, ps: PlayerSimResult, home_goalie: bool, mod
     else:
         lam = mu
     saves = rng.poisson(lam)
+    net_faced = saves + ga_full
     # replacement after the k-th goal against before 50:00
     kmax = max(model.pull_h) if model.pull_h else 0
     T = np.full((n, kmax), np.inf)
@@ -71,4 +75,4 @@ def simulate_saves(res: SimV2Result, ps: PlayerSimResult, home_goalie: bool, mod
     frac = np.where(replaced, np.clip(t_out / length, 0.0, 1.0), 1.0)
     saves = np.where(replaced, rng.binomial(saves, frac), saves)
     ga = np.where(replaced, k_out, ga_full)
-    return SavesDraws(saves.astype(np.int64), ga, saves + ga, replaced, float(expected_faced), float(np.mean(mu)))
+    return SavesDraws(saves.astype(np.int64), ga, saves + ga, replaced, float(expected_faced), float(np.mean(mu)), net_faced.astype(np.int64))
