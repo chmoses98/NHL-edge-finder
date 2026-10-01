@@ -129,7 +129,15 @@ def compare_expressions(event_key: str, event_label: str, bets: list[Bet], econ:
             "rows_truncated": max(0, len(rows) - max_rows)}
 
 
-def why_chosen(best: dict[str, Any], alt: dict[str, Any] | None) -> str:
+def why_chosen(best: dict[str, Any], alt: dict[str, Any] | None, alt_on_card: bool = False, phi_with_alt: float | None = None) -> str:
+    if alt is not None and alt.get("eligible") and (alt.get("growth_bp") or 0) > (best.get("growth_bp") or 0):
+        ph = "" if phi_with_alt is None else f" (phi with it {phi_with_alt:+.3f})"
+        if alt_on_card:
+            return (f"second expression of the same thesis: {alt['bet_id']} has the higher standalone adjusted growth ({alt['growth_bp']:.2f} vs "
+                    f"{best.get('growth_bp') or 0:.2f} bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly "
+                    f"independent{ph}; they share one thesis budget")
+        return (f"{alt['bet_id']} has the higher standalone adjusted growth ({alt['growth_bp']:.2f} vs {best.get('growth_bp') or 0:.2f} bp), but the joint "
+                f"optimum prefers this bet in combination with the rest of the card{ph}")
     if alt is None:
         return "no other eligible expression of this thesis (every alternative is -EV at its ask, unadjusted or adjusted, or not executable)"
     bits = []

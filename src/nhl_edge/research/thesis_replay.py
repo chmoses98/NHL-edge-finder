@@ -22,7 +22,7 @@ from typing import Any
 from nhl_edge.timeutil import parse_iso
 
 
-def replay(archive: Path, data_root: Path, now_iso: str, date: str, proposals: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+def replay(archive: Path, data_root: Path, now_iso: str, date: str, proposals: list[dict[str, Any]] | None = None, model_audit: bool = False) -> dict[str, Any]:
     from nhl_edge.archive.ledger import Ledger
     from nhl_edge.thesis.engine import analyze_game, audit_card
     from nhl_edge.thesis.reliability import reliability_table
@@ -45,6 +45,10 @@ def replay(archive: Path, data_root: Path, now_iso: str, date: str, proposals: l
     out: dict[str, Any] = {"rc": rc, "seconds_total_simulate": round(time.perf_counter() - t0, 2), "now": now_iso}
     slates = sorted((archive / "slates" / f"dt={date}").glob(f"{parse_iso(now_iso).strftime('%Y%m%dT%H%M%SZ')}_*"))
     out["slate_dir"] = str(slates[-1]) if slates else None
+    if model_audit and captured.get("dists"):
+        from nhl_edge.research.thesis_model_audit import run as audit_run
+
+        out["model_audit"] = audit_run(captured["dists"], archive)
     if proposals and captured.get("dists"):
         from nhl_edge.thesis.benchmark import consensus_moneyline
         from nhl_edge.workflows.thesis_card import _jsonable, portfolio_config
@@ -73,13 +77,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--date", required=True)
     ap.add_argument("--propose", action="append", default=[], help="'<ticker>|<yes|no>:<stake dollars>:<price cents>' (repeatable)")
     ap.add_argument("--out", default=None)
+    ap.add_argument("--model-audit", action="store_true", help="also run the Phase 12 model audit on the replayed joint draws")
     a = ap.parse_args(argv)
-    res = replay(Path(a.archive), Path(a.data), a.now, a.date, parse_proposals(a.propose))
+    res = replay(Path(a.archive), Path(a.data), a.now, a.date, parse_proposals(a.propose), a.model_audit)
     if a.out:
         d = Path(a.out)
         d.mkdir(parents=True, exist_ok=True)
         (d / "replay.json").write_text(json.dumps(res, indent=1, default=str))
-    print(json.dumps({k: v for k, v in res.items() if k != "audit"} | {"audit_verdict": (res.get("audit") or {}).get("verdict")}, indent=1, default=str))
+    print(json.dumps({k: v for k, v in res.items() if k not in ("audit", "model_audit")} | {"audit_verdict": (res.get("audit") or {}).get("verdict")}, indent=1, default=str))
     return 0 if res["rc"] == 0 else 1
 
 

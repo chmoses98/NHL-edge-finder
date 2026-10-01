@@ -240,3 +240,15 @@ def test_independent_baseline_ignores_joint_structure():
     naive = independent_stakes(bets, cfg)
     joint = optimize_game(bets, {b.bet_id: b.p for b in bets}, {b.bet_id: "HOM:WINS" for b in bets}, [], cfg)
     assert naive.sum() > joint.sum()  # the naive card triples the same risk; the joint one shares one budget
+
+
+def test_model_audit_attribution_reconciles_on_the_held_out_file():
+    from nhl_edge.research.thesis_model_audit import WF, attribution_walk_forward
+
+    if not (WF / "skaters_2025.parquet").exists():
+        pytest.skip("walk-forward skater file not present")
+    a = attribution_walk_forward()
+    exp = sum(r["goals_expected_given_G"] for r in a["by_predicted_share"])
+    act = sum(r["goals_actual"] for r in a["by_predicted_share"])
+    assert exp == pytest.approx(act, rel=1e-3)  # allocation given realised team goals conserves goals by construction
+    assert 0.8 < a["high_share_ratio"] < 1.25

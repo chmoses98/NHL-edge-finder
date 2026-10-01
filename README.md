@@ -2,7 +2,8 @@
 
 **CURRENT AUTHORITY: RESEARCH_ONLY.** Every model family in this repository (`DATA_ONLY_V1`, `MARKET_ANCHORED_V1`) is a
 research instrument, as are the SHADOW arms `DATA_ONLY_V2` (2026-09-29) and `PLAYER_SIM_V1` / `MARKET_ANCHORED_PLAYER_V1`
-(2026-09-30, player goals / assists / points / saves / first goal). Nothing here places, sizes, recommends or routes a wager, and the Kalshi bet router has NHL
+(2026-09-30, player goals / assists / points / saves / first goal), and the thesis / portfolio card layer (2026-10-01; its stakes are
+research suggestions for a nominal bankroll). Nothing here places or routes a wager, and the Kalshi bet router has NHL
 explicitly out of scope. Promotion to any wagering authority requires prospective evidence and a separate explicit
 decision (see `docs/AUTHORITY.md`).
 
@@ -51,7 +52,10 @@ Outputs: `data/archive/slates/dt=YYYY-MM-DD/<ts>_<run>/{slate.json,slate.md,pack
 every Kalshi contract with executable prices and both edges, authority) for a downstream thesis builder, plus
 `v2_shadow` and `player_shadow` (every Kalshi player contract with PLAYER_SIM_V1 and market-anchored probabilities,
 executable asks, fee-adjusted edges, expected TOI / PP TOI / shots / goals / assists / points, projection quality,
-role confidence, uncertainty flags; per-net goalie saves distributions; per-game contract correlation matrix).
+role confidence, uncertainty flags; per-net goalie saves distributions; per-game contract correlation matrix), plus
+`thesis_card` (RESEARCH_ONLY): game-script distribution, thesis events, every contract mapped to the scripts it wins in,
+best expression per thesis, same-game joint outcome matrix, portfolio A/B/C on the simulated P/L, and the card that passed
+the 18-field completion gate (`card.md` next to `slate.md`). See `docs/research/THESIS_ENGINE.md`.
 
 On GitHub: Actions -> conductor -> Run workflow -> `force: context,capture,simulate`.
 
@@ -71,10 +75,15 @@ python -m nhl_edge.research.walk_forward --history data/history --out docs/resea
 python -m nhl_edge.data.player_history --out data/history --seasons 2024,2025      # official player events (network)
 python -m nhl_edge.players.fit --history data/history                             # data/params/player-sim-1.0.json
 python -m nhl_edge.research.player_walk_forward --mode simulate --seasons 2024,2025 # PLAYER_SIM_V1 walk-forward
+python -m nhl_edge.research.thesis_replay --archive <ARCHIVE COPY> --now <cutoff> --date <ET date> \
+       --propose "<ticker>|yes:<stake>:<price cents>" --model-audit --out <dir>                # replay the thesis card / audit a proposed card
 ```
 No credentials are needed for anything in this repository.
 
 ## Docs
+- `docs/HANDOFF_THESIS.md` thesis / portfolio card handoff (2026-10-01): verdict, PRs, architecture, sample, limits
+- `docs/research/THESIS_ENGINE.md` game scripts, thesis mapping, expressions, joint matrix, portfolio, completion gate, model audit
+- `docs/CROSS_SPORT_THESIS.md` the portable card-construction abstraction for other sports
 - `docs/ACCOUNTING.md` routed-wager ACCOUNTING ledger (manually placed Kalshi bets, via kalshi-bet-router; `accounting-data` branch; no model involvement)
 - `docs/HANDOFF_ROUTER.md` NHL router handoff (2026-09-29): verdict, production runs, owner action
 - `docs/HANDOFF.md` overnight build handoff: verdict, SHAs, PRs, evidence, risks, next steps

@@ -1,0 +1,843 @@
+{
+ "authority": "RESEARCH_ONLY",
+ "note": "diagnostic only; no parameter was changed",
+ "A_attribution_walk_forward_2025": {
+  "n_skater_games": 45196,
+  "by_predicted_share": [
+   {
+    "predicted_share": "[0.0, 0.03)",
+    "n": 14006,
+    "goals_expected_given_G": 867.6,
+    "goals_actual": 864,
+    "ratio_actual_over_expected": 0.996,
+    "p1_expected_given_G": 0.06,
+    "p1_actual": 0.0597
+   },
+   {
+    "predicted_share": "[0.03, 0.05)",
+    "n": 10233,
+    "goals_expected_given_G": 1309.4,
+    "goals_actual": 1272,
+    "ratio_actual_over_expected": 0.971,
+    "p1_expected_given_G": 0.1204,
+    "p1_actual": 0.1162
+   },
+   {
+    "predicted_share": "[0.05, 0.07)",
+    "n": 7230,
+    "goals_expected_given_G": 1377.7,
+    "goals_actual": 1342,
+    "ratio_actual_over_expected": 0.974,
+    "p1_expected_given_G": 0.1743,
+    "p1_actual": 0.1693
+   },
+   {
+    "predicted_share": "[0.07, 0.09)",
+    "n": 5002,
+    "goals_expected_given_G": 1258.0,
+    "goals_actual": 1295,
+    "ratio_actual_over_expected": 1.029,
+    "p1_expected_given_G": 0.2236,
+    "p1_actual": 0.2271
+   },
+   {
+    "predicted_share": "[0.09, 0.11)",
+    "n": 4205,
+    "goals_expected_given_G": 1340.1,
+    "goals_actual": 1366,
+    "ratio_actual_over_expected": 1.019,
+    "p1_expected_given_G": 0.2749,
+    "p1_actual": 0.2761
+   },
+   {
+    "predicted_share": "[0.11, 0.13)",
+    "n": 2516,
+    "goals_expected_given_G": 978.3,
+    "goals_actual": 980,
+    "ratio_actual_over_expected": 1.002,
+    "p1_expected_given_G": 0.3251,
+    "p1_actual": 0.3315
+   },
+   {
+    "predicted_share": "[0.13, 0.16)",
+    "n": 1723,
+    "goals_expected_given_G": 802.5,
+    "goals_actual": 836,
+    "ratio_actual_over_expected": 1.042,
+    "p1_expected_given_G": 0.3766,
+    "p1_actual": 0.3964
+   },
+   {
+    "predicted_share": "[0.16, 1.0)",
+    "n": 281,
+    "goals_expected_given_G": 152.4,
+    "goals_actual": 131,
+    "ratio_actual_over_expected": 0.86,
+    "p1_expected_given_G": 0.424,
+    "p1_actual": 0.3843
+   }
+  ],
+  "top3_by_team_goals": [
+   {
+    "team_goals": 2,
+    "top3_predicted_players_expected_goals": 378.9,
+    "top3_actual_goals": 401,
+    "ratio": 1.058,
+    "n_team_games": 537
+   },
+   {
+    "team_goals": 3,
+    "top3_predicted_players_expected_goals": 638.5,
+    "top3_actual_goals": 667,
+    "ratio": 1.045,
+    "n_team_games": 597
+   },
+   {
+    "team_goals": 4,
+    "top3_predicted_players_expected_goals": 655.2,
+    "top3_actual_goals": 656,
+    "ratio": 1.001,
+    "n_team_games": 460
+   },
+   {
+    "team_goals": 5,
+    "top3_predicted_players_expected_goals": 516.8,
+    "top3_actual_goals": 522,
+    "ratio": 1.01,
+    "n_team_games": 290
+   }
+  ],
+  "high_share_ratio": 1.007,
+  "reading": "ratio < 1 for high predicted shares would mean the simulator OVER-concentrates goals in top players (they score less of the team's goals than allocated); > 1 under-concentrates. Binomial noise on ~1-3k goals per bucket is roughly +-3-5%."
+ },
+ "A_scorer_structure_history_league": {
+  "1": {
+   "n_team_games": 1159,
+   "mean_distinct_scorers": 1.0,
+   "p_someone_2plus": 0.0,
+   "mean_top_scorer_share": 1.0
+  },
+  "2": {
+   "n_team_games": 1615,
+   "mean_distinct_scorers": 1.914,
+   "p_someone_2plus": 0.0861,
+   "mean_top_scorer_share": 0.543
+  },
+  "3": {
+   "n_team_games": 1715,
+   "mean_distinct_scorers": 2.745,
+   "p_someone_2plus": 0.2397,
+   "mean_top_scorer_share": 0.4185
+  },
+  "4": {
+   "n_team_games": 1389,
+   "mean_distinct_scorers": 3.546,
+   "p_someone_2plus": 0.4024,
+   "mean_top_scorer_share": 0.3594
+  },
+  "5": {
+   "n_team_games": 861,
+   "mean_distinct_scorers": 4.259,
+   "p_someone_2plus": 0.5923,
+   "mean_top_scorer_share": 0.3375
+  },
+  "6": {
+   "n_team_games": 472,
+   "mean_distinct_scorers": 4.989,
+   "p_someone_2plus": 0.7076,
+   "mean_top_scorer_share": 0.3079
+  }
+ },
+ "A_scorer_structure_history_same_clubs": {
+  "1": {
+   "n_team_games": 220,
+   "mean_distinct_scorers": 1.0,
+   "p_someone_2plus": 0.0,
+   "mean_top_scorer_share": 1.0
+  },
+  "2": {
+   "n_team_games": 296,
+   "mean_distinct_scorers": 1.909,
+   "p_someone_2plus": 0.0912,
+   "mean_top_scorer_share": 0.5456
+  },
+  "3": {
+   "n_team_games": 314,
+   "mean_distinct_scorers": 2.71,
+   "p_someone_2plus": 0.2803,
+   "mean_top_scorer_share": 0.4299
+  },
+  "4": {
+   "n_team_games": 262,
+   "mean_distinct_scorers": 3.542,
+   "p_someone_2plus": 0.3855,
+   "mean_top_scorer_share": 0.3597
+  },
+  "5": {
+   "n_team_games": 176,
+   "mean_distinct_scorers": 4.233,
+   "p_someone_2plus": 0.6307,
+   "mean_top_scorer_share": 0.3386
+  },
+  "6": {
+   "n_team_games": 86,
+   "mean_distinct_scorers": 5.081,
+   "p_someone_2plus": 0.6512,
+   "mean_top_scorer_share": 0.2965
+  }
+ },
+ "A_scorer_structure_simulated": {
+  "1": {
+   "n_team_draws": 9077,
+   "mean_distinct_scorers": 1.0,
+   "p_someone_2plus": 0.0,
+   "mean_top_scorer_share": 1.0
+  },
+  "2": {
+   "n_team_draws": 12839,
+   "mean_distinct_scorers": 1.919,
+   "p_someone_2plus": 0.0812,
+   "mean_top_scorer_share": 0.5406
+  },
+  "3": {
+   "n_team_draws": 13284,
+   "mean_distinct_scorers": 2.775,
+   "p_someone_2plus": 0.2176,
+   "mean_top_scorer_share": 0.4084
+  },
+  "4": {
+   "n_team_draws": 10344,
+   "mean_distinct_scorers": 3.565,
+   "p_someone_2plus": 0.3901,
+   "mean_top_scorer_share": 0.3549
+  },
+  "5": {
+   "n_team_draws": 6441,
+   "mean_distinct_scorers": 4.295,
+   "p_someone_2plus": 0.5718,
+   "mean_top_scorer_share": 0.3268
+  },
+  "6": {
+   "n_team_draws": 3156,
+   "mean_distinct_scorers": 4.974,
+   "p_someone_2plus": 0.7269,
+   "mean_top_scorer_share": 0.3091
+  }
+ },
+ "A_conditional_player_goals": [
+  {
+   "player": "Trevor Zegras",
+   "team": "PHI",
+   "p_goal": 0.2584,
+   "sim_p_goal_given_team_3plus": 0.3324,
+   "sim_p_team_3plus_given_goal": 0.8313,
+   "hist_2025_p_goal_given_team_3plus": 0.3333,
+   "hist_2025_n_games_team_3plus": 45,
+   "sim_p_goal_given_team_4plus": 0.3734,
+   "sim_p_team_4plus_given_goal": 0.608,
+   "hist_2025_p_goal_given_team_4plus": 0.3704,
+   "hist_2025_n_games_team_4plus": 27
+  },
+  {
+   "player": "Owen Tippett",
+   "team": "PHI",
+   "p_goal": 0.2572,
+   "sim_p_goal_given_team_3plus": 0.3327,
+   "sim_p_team_3plus_given_goal": 0.8359,
+   "hist_2025_p_goal_given_team_3plus": 0.3778,
+   "hist_2025_n_games_team_3plus": 45,
+   "sim_p_goal_given_team_4plus": 0.3803,
+   "sim_p_team_4plus_given_goal": 0.6221,
+   "hist_2025_p_goal_given_team_4plus": 0.5185,
+   "hist_2025_n_games_team_4plus": 27
+  },
+  {
+   "player": "Travis Konecny",
+   "team": "PHI",
+   "p_goal": 0.2455,
+   "sim_p_goal_given_team_3plus": 0.3121,
+   "sim_p_team_3plus_given_goal": 0.8216,
+   "hist_2025_p_goal_given_team_3plus": 0.3409,
+   "hist_2025_n_games_team_3plus": 44,
+   "sim_p_goal_given_team_4plus": 0.3639,
+   "sim_p_team_4plus_given_goal": 0.6236,
+   "hist_2025_p_goal_given_team_4plus": 0.2593,
+   "hist_2025_n_games_team_4plus": 27
+  },
+  {
+   "player": "Tyson Foerster",
+   "team": "PHI",
+   "p_goal": 0.231,
+   "sim_p_goal_given_team_3plus": 0.3019,
+   "sim_p_team_3plus_given_goal": 0.8446,
+   "hist_2025_p_goal_given_team_3plus": 0.4375,
+   "hist_2025_n_games_team_3plus": 16,
+   "sim_p_goal_given_team_4plus": 0.3404,
+   "sim_p_team_4plus_given_goal": 0.6199,
+   "hist_2025_p_goal_given_team_4plus": 0.4545,
+   "hist_2025_n_games_team_4plus": 11
+  },
+  {
+   "player": "Rickard Rakell",
+   "team": "PIT",
+   "p_goal": 0.327,
+   "sim_p_goal_given_team_3plus": 0.4407,
+   "sim_p_team_3plus_given_goal": 0.7587,
+   "hist_2025_p_goal_given_team_3plus": 0.413,
+   "hist_2025_n_games_team_3plus": 46,
+   "sim_p_goal_given_team_4plus": 0.4947,
+   "sim_p_team_4plus_given_goal": 0.5263,
+   "hist_2025_p_goal_given_team_4plus": 0.3824,
+   "hist_2025_n_games_team_4plus": 34
+  },
+  {
+   "player": "Sidney Crosby",
+   "team": "PIT",
+   "p_goal": 0.3011,
+   "sim_p_goal_given_team_3plus": 0.4158,
+   "sim_p_team_3plus_given_goal": 0.7775,
+   "hist_2025_p_goal_given_team_3plus": 0.4167,
+   "hist_2025_n_games_team_3plus": 48,
+   "sim_p_goal_given_team_4plus": 0.4705,
+   "sim_p_team_4plus_given_goal": 0.5437,
+   "hist_2025_p_goal_given_team_4plus": 0.4595,
+   "hist_2025_n_games_team_4plus": 37
+  },
+  {
+   "player": "Evgeni Malkin",
+   "team": "PIT",
+   "p_goal": 0.2437,
+   "sim_p_goal_given_team_3plus": 0.3362,
+   "sim_p_team_3plus_given_goal": 0.7768,
+   "hist_2025_p_goal_given_team_3plus": 0.3158,
+   "hist_2025_n_games_team_3plus": 38,
+   "sim_p_goal_given_team_4plus": 0.3809,
+   "sim_p_team_4plus_given_goal": 0.5437,
+   "hist_2025_p_goal_given_team_4plus": 0.3226,
+   "hist_2025_n_games_team_4plus": 31
+  },
+  {
+   "player": "Egor Chinakhov",
+   "team": "PIT",
+   "p_goal": 0.2129,
+   "sim_p_goal_given_team_3plus": 0.2915,
+   "sim_p_team_3plus_given_goal": 0.7708,
+   "hist_2025_p_goal_given_team_3plus": 0.2941,
+   "hist_2025_n_games_team_3plus": 51,
+   "sim_p_goal_given_team_4plus": 0.3291,
+   "sim_p_team_4plus_given_goal": 0.5378,
+   "hist_2025_p_goal_given_team_4plus": 0.4,
+   "hist_2025_n_games_team_4plus": 35
+  },
+  {
+   "player": "Auston Matthews",
+   "team": "TOR",
+   "p_goal": 0.3209,
+   "sim_p_goal_given_team_3plus": 0.4345,
+   "sim_p_team_3plus_given_goal": 0.7579,
+   "hist_2025_p_goal_given_team_3plus": 0.5556,
+   "hist_2025_n_games_team_3plus": 36,
+   "sim_p_goal_given_team_4plus": 0.4994,
+   "sim_p_team_4plus_given_goal": 0.5251,
+   "hist_2025_p_goal_given_team_4plus": 0.6957,
+   "hist_2025_n_games_team_4plus": 23
+  },
+  {
+   "player": "William Nylander",
+   "team": "TOR",
+   "p_goal": 0.3049,
+   "sim_p_goal_given_team_3plus": 0.4179,
+   "sim_p_team_3plus_given_goal": 0.7671,
+   "hist_2025_p_goal_given_team_3plus": 0.5278,
+   "hist_2025_n_games_team_3plus": 36,
+   "sim_p_goal_given_team_4plus": 0.4778,
+   "sim_p_team_4plus_given_goal": 0.5287,
+   "hist_2025_p_goal_given_team_4plus": 0.6522,
+   "hist_2025_n_games_team_4plus": 23
+  },
+  {
+   "player": "John Tavares",
+   "team": "TOR",
+   "p_goal": 0.2802,
+   "sim_p_goal_given_team_3plus": 0.394,
+   "sim_p_team_3plus_given_goal": 0.7869,
+   "hist_2025_p_goal_given_team_3plus": 0.4681,
+   "hist_2025_n_games_team_3plus": 47,
+   "sim_p_goal_given_team_4plus": 0.444,
+   "sim_p_team_4plus_given_goal": 0.5346,
+   "hist_2025_p_goal_given_team_4plus": 0.4667,
+   "hist_2025_n_games_team_4plus": 30
+  },
+  {
+   "player": "Kirill Marchenko",
+   "team": "TOR",
+   "p_goal": 0.256,
+   "sim_p_goal_given_team_3plus": 0.3489,
+   "sim_p_team_3plus_given_goal": 0.7629,
+   "hist_2025_p_goal_given_team_3plus": 0.3696,
+   "hist_2025_n_games_team_3plus": 46,
+   "sim_p_goal_given_team_4plus": 0.3829,
+   "sim_p_team_4plus_given_goal": 0.5047,
+   "hist_2025_p_goal_given_team_4plus": 0.4138,
+   "hist_2025_n_games_team_4plus": 29
+  },
+  {
+   "player": "Bo Horvat",
+   "team": "NYI",
+   "p_goal": 0.3041,
+   "sim_p_goal_given_team_3plus": 0.397,
+   "sim_p_team_3plus_given_goal": 0.7659,
+   "hist_2025_p_goal_given_team_3plus": 0.4211,
+   "hist_2025_n_games_team_3plus": 38,
+   "sim_p_goal_given_team_4plus": 0.4479,
+   "sim_p_team_4plus_given_goal": 0.5301,
+   "hist_2025_p_goal_given_team_4plus": 0.5263,
+   "hist_2025_n_games_team_4plus": 19
+  },
+  {
+   "player": "Kyle Palmieri",
+   "team": "NYI",
+   "p_goal": 0.2484,
+   "sim_p_goal_given_team_3plus": 0.3327,
+   "sim_p_team_3plus_given_goal": 0.7858,
+   "hist_2025_p_goal_given_team_3plus": 0.3125,
+   "hist_2025_n_games_team_3plus": 16,
+   "sim_p_goal_given_team_4plus": 0.3829,
+   "sim_p_team_4plus_given_goal": 0.5548,
+   "hist_2025_p_goal_given_team_4plus": 0.2857,
+   "hist_2025_n_games_team_4plus": 7
+  },
+  {
+   "player": "Brayden Schenn",
+   "team": "NYI",
+   "p_goal": 0.2352,
+   "sim_p_goal_given_team_3plus": 0.316,
+   "sim_p_team_3plus_given_goal": 0.7883,
+   "hist_2025_p_goal_given_team_3plus": 0.275,
+   "hist_2025_n_games_team_3plus": 40,
+   "sim_p_goal_given_team_4plus": 0.3576,
+   "sim_p_team_4plus_given_goal": 0.5472,
+   "hist_2025_p_goal_given_team_4plus": 0.3529,
+   "hist_2025_n_games_team_4plus": 17
+  },
+  {
+   "player": "Simon Holmstrom",
+   "team": "NYI",
+   "p_goal": 0.2134,
+   "sim_p_goal_given_team_3plus": 0.2892,
+   "sim_p_team_3plus_given_goal": 0.7952,
+   "hist_2025_p_goal_given_team_3plus": 0.325,
+   "hist_2025_n_games_team_3plus": 40,
+   "sim_p_goal_given_team_4plus": 0.332,
+   "sim_p_team_4plus_given_goal": 0.56,
+   "hist_2025_p_goal_given_team_4plus": 0.3478,
+   "hist_2025_n_games_team_4plus": 23
+  },
+  {
+   "player": "Nathan MacKinnon",
+   "team": "COL",
+   "p_goal": 0.3562,
+   "sim_p_goal_given_team_3plus": 0.4647,
+   "sim_p_team_3plus_given_goal": 0.8206,
+   "hist_2025_p_goal_given_team_3plus": 0.5593,
+   "hist_2025_n_games_team_3plus": 59,
+   "sim_p_goal_given_team_4plus": 0.5175,
+   "sim_p_team_4plus_given_goal": 0.594,
+   "hist_2025_p_goal_given_team_4plus": 0.6757,
+   "hist_2025_n_games_team_4plus": 37
+  },
+  {
+   "player": "Martin Necas",
+   "team": "COL",
+   "p_goal": 0.2932,
+   "sim_p_goal_given_team_3plus": 0.3819,
+   "sim_p_team_3plus_given_goal": 0.8192,
+   "hist_2025_p_goal_given_team_3plus": 0.5,
+   "hist_2025_n_games_team_3plus": 58,
+   "sim_p_goal_given_team_4plus": 0.4231,
+   "sim_p_team_4plus_given_goal": 0.59,
+   "hist_2025_p_goal_given_team_4plus": 0.5833,
+   "hist_2025_n_games_team_4plus": 36
+  },
+  {
+   "player": "Gabriel Landeskog",
+   "team": "COL",
+   "p_goal": 0.2734,
+   "sim_p_goal_given_team_3plus": 0.352,
+   "sim_p_team_3plus_given_goal": 0.8098,
+   "hist_2025_p_goal_given_team_3plus": 0.2553,
+   "hist_2025_n_games_team_3plus": 47,
+   "sim_p_goal_given_team_4plus": 0.3977,
+   "sim_p_team_4plus_given_goal": 0.5947,
+   "hist_2025_p_goal_given_team_4plus": 0.3,
+   "hist_2025_n_games_team_4plus": 30
+  },
+  {
+   "player": "Artturi Lehkonen",
+   "team": "COL",
+   "p_goal": 0.2446,
+   "sim_p_goal_given_team_3plus": 0.3135,
+   "sim_p_team_3plus_given_goal": 0.8062,
+   "hist_2025_p_goal_given_team_3plus": 0.283,
+   "hist_2025_n_games_team_3plus": 53,
+   "sim_p_goal_given_team_4plus": 0.3483,
+   "sim_p_team_4plus_given_goal": 0.5822,
+   "hist_2025_p_goal_given_team_4plus": 0.3636,
+   "hist_2025_n_games_team_4plus": 33
+  },
+  {
+   "player": "Adrian Kempe",
+   "team": "LAK",
+   "p_goal": 0.2724,
+   "sim_p_goal_given_team_3plus": 0.3856,
+   "sim_p_team_3plus_given_goal": 0.7225,
+   "hist_2025_p_goal_given_team_3plus": 0.475,
+   "hist_2025_n_games_team_3plus": 40,
+   "sim_p_goal_given_team_4plus": 0.4279,
+   "sim_p_team_4plus_given_goal": 0.4585,
+   "hist_2025_p_goal_given_team_4plus": 0.5455,
+   "hist_2025_n_games_team_4plus": 22
+  },
+  {
+   "player": "Artemi Panarin",
+   "team": "LAK",
+   "p_goal": 0.2614,
+   "sim_p_goal_given_team_3plus": 0.3754,
+   "sim_p_team_3plus_given_goal": 0.733,
+   "hist_2025_p_goal_given_team_3plus": 0.475,
+   "hist_2025_n_games_team_3plus": 40,
+   "sim_p_goal_given_team_4plus": 0.4224,
+   "sim_p_team_4plus_given_goal": 0.4717,
+   "hist_2025_p_goal_given_team_4plus": 0.5714,
+   "hist_2025_n_games_team_4plus": 28
+  },
+  {
+   "player": "Quinton Byfield",
+   "team": "LAK",
+   "p_goal": 0.2515,
+   "sim_p_goal_given_team_3plus": 0.3558,
+   "sim_p_team_3plus_given_goal": 0.7221,
+   "hist_2025_p_goal_given_team_3plus": 0.35,
+   "hist_2025_n_games_team_3plus": 40,
+   "sim_p_goal_given_team_4plus": 0.4094,
+   "sim_p_team_4plus_given_goal": 0.4751,
+   "hist_2025_p_goal_given_team_4plus": 0.4091,
+   "hist_2025_n_games_team_4plus": 22
+  },
+  {
+   "player": "Alex Laferriere",
+   "team": "LAK",
+   "p_goal": 0.2507,
+   "sim_p_goal_given_team_3plus": 0.3613,
+   "sim_p_team_3plus_given_goal": 0.7355,
+   "hist_2025_p_goal_given_team_3plus": 0.3659,
+   "hist_2025_n_games_team_3plus": 41,
+   "sim_p_goal_given_team_4plus": 0.4128,
+   "sim_p_team_4plus_given_goal": 0.4807,
+   "hist_2025_p_goal_given_team_4plus": 0.3478,
+   "hist_2025_n_games_team_4plus": 23
+  }
+ ],
+ "B_saves": {
+  "held_out_calibration_2025": {
+   "n_starts": 2624,
+   "mean_expected_faced": 27.78,
+   "mean_actual_faced": 26.96,
+   "mean_expected_saves": 24.08,
+   "mean_actual_saves": 24.16,
+   "corr_expected_vs_actual_faced": 0.314,
+   "p_replaced_mean_pred": 0.0623,
+   "replaced_actual": 0.056,
+   "by_expected_faced_quintile": [
+    {
+     "bucket": "(22.674999999999997, 26.19]",
+     "n": 525,
+     "expected": 25.28,
+     "actual": 24.01
+    },
+    {
+     "bucket": "(26.19, 27.201]",
+     "n": 525,
+     "expected": 26.72,
+     "actual": 25.69
+    },
+    {
+     "bucket": "(27.201, 28.15]",
+     "n": 524,
+     "expected": 27.67,
+     "actual": 26.98
+    },
+    {
+     "bucket": "(28.15, 29.337]",
+     "n": 525,
+     "expected": 28.74,
+     "actual": 27.82
+    },
+    {
+     "bucket": "(29.337, 34.776]",
+     "n": 525,
+     "expected": 30.49,
+     "actual": 30.32
+    }
+   ]
+  },
+  "shots_against_by_goalie_team_reg_margin_history": {
+   "-3": 29.17,
+   "-2": 27.81,
+   "-1": 27.37,
+   "0": 29.74,
+   "1": 28.87,
+   "2": 28.68,
+   "3": 27.61
+  },
+  "history_deviation_from_mean": {
+   "-3": 0.56,
+   "-2": -0.8,
+   "-1": -1.24,
+   "0": 1.13,
+   "1": 0.26,
+   "2": 0.07,
+   "3": -1.0
+  },
+  "simulated_deviation_from_game_mean": {
+   "-3": 0.35,
+   "-2": -0.17,
+   "-1": -0.25,
+   "0": 0.33,
+   "1": -0.33,
+   "2": -0.06,
+   "3": -0.23
+  },
+  "reading": "history: a net whose team LEADS faces more shots (the trailing side presses); the simulated draws should show the same sign and similar size. Simulated values are deviations from each net's own simulated mean (matchup differences removed)."
+ },
+ "D_held_out_compression": {
+  "assists 1+": [
+   {
+    "bucket": "0-5%",
+    "n": 394,
+    "gap": 0.0596,
+    "z": 4.0
+   },
+   {
+    "bucket": "5-10%",
+    "n": 3073,
+    "gap": 0.0156,
+    "z": 2.9
+   },
+   {
+    "bucket": "10-15%",
+    "n": 6197,
+    "gap": 0.0034,
+    "z": 0.8
+   },
+   {
+    "bucket": "15-20%",
+    "n": 7677,
+    "gap": -0.0141,
+    "z": -3.4
+   },
+   {
+    "bucket": "20-25%",
+    "n": 7859,
+    "gap": -0.0259,
+    "z": -5.8
+   },
+   {
+    "bucket": "25-30%",
+    "n": 7506,
+    "gap": -0.0184,
+    "z": -3.7
+   },
+   {
+    "bucket": "30-35%",
+    "n": 6233,
+    "gap": -0.0015,
+    "z": -0.3
+   },
+   {
+    "bucket": "35-40%",
+    "n": 4463,
+    "gap": 0.0002,
+    "z": 0.0
+   },
+   {
+    "bucket": "40-45%",
+    "n": 2392,
+    "gap": 0.0287,
+    "z": 2.8
+   },
+   {
+    "bucket": "45-50%",
+    "n": 1013,
+    "gap": 0.0728,
+    "z": 4.7
+   },
+   {
+    "bucket": "50-55%",
+    "n": 318,
+    "gap": 0.0069,
+    "z": 0.2
+   }
+  ],
+  "points 1+": [
+   {
+    "bucket": "5-10%",
+    "n": 370,
+    "gap": 0.0344,
+    "z": 2.0
+   },
+   {
+    "bucket": "10-15%",
+    "n": 1947,
+    "gap": 0.0151,
+    "z": 1.9
+   },
+   {
+    "bucket": "15-20%",
+    "n": 4292,
+    "gap": -0.0132,
+    "z": -2.3
+   },
+   {
+    "bucket": "20-25%",
+    "n": 5839,
+    "gap": -0.0246,
+    "z": -4.7
+   },
+   {
+    "bucket": "25-30%",
+    "n": 6540,
+    "gap": -0.0216,
+    "z": -4.0
+   },
+   {
+    "bucket": "30-35%",
+    "n": 5924,
+    "gap": -0.0282,
+    "z": -4.7
+   },
+   {
+    "bucket": "35-40%",
+    "n": 5078,
+    "gap": -0.0264,
+    "z": -4.0
+   },
+   {
+    "bucket": "40-45%",
+    "n": 4605,
+    "gap": -0.0037,
+    "z": -0.5
+   },
+   {
+    "bucket": "45-50%",
+    "n": 4105,
+    "gap": 0.0087,
+    "z": 1.1
+   },
+   {
+    "bucket": "50-55%",
+    "n": 3619,
+    "gap": 0.0214,
+    "z": 2.6
+   },
+   {
+    "bucket": "55-60%",
+    "n": 2709,
+    "gap": 0.0422,
+    "z": 4.5
+   },
+   {
+    "bucket": "60-65%",
+    "n": 1498,
+    "gap": 0.0282,
+    "z": 2.3
+   },
+   {
+    "bucket": "65-70%",
+    "n": 525,
+    "gap": 0.0563,
+    "z": 2.9
+   }
+  ]
+ },
+ "C_toi_prospective": {
+  "n_player_games": 68,
+  "n_games": 2,
+  "ALL": {
+   "n": 68,
+   "mae_model_min": 1.815,
+   "bias_model_min": 0.409,
+   "mae_recent_mean_min_same_rows": 1.959,
+   "mae_model_min_same_rows": 1.815,
+   "n_with_recent_mean": 68
+  },
+  "LINES_CONFIRMED": {
+   "n": 17,
+   "mae_model_min": 1.699,
+   "bias_model_min": 0.459,
+   "mae_recent_mean_min_same_rows": 2.022,
+   "mae_model_min_same_rows": 1.699,
+   "n_with_recent_mean": 17
+  },
+  "LINES_PROJECTED": {
+   "n": 51,
+   "mae_model_min": 1.853,
+   "bias_model_min": 0.393,
+   "mae_recent_mean_min_same_rows": 1.938,
+   "mae_model_min_same_rows": 1.853,
+   "n_with_recent_mean": 51
+  }
+ },
+ "D_prospective_families": {
+  "first_goal": {
+   "n_contracts_last_pregame": 68,
+   "n_games": 2,
+   "brier_model": 0.0291,
+   "brier_model_on_market_rows": 0.0323,
+   "brier_market": 0.0322,
+   "n_market_rows": 61,
+   "mean_p_model": 0.0278,
+   "hit_rate": 0.0294
+  },
+  "goalie_saves": {
+   "n_contracts_last_pregame": 4,
+   "n_games": 2,
+   "brier_model": 0.1926,
+   "brier_model_on_market_rows": 0.1926,
+   "brier_market": 0.2404,
+   "n_market_rows": 4,
+   "mean_p_model": 0.4097,
+   "hit_rate": 0.25
+  },
+  "player_assists": {
+   "n_contracts_last_pregame": 48,
+   "n_games": 2,
+   "brier_model": 0.1004,
+   "brier_model_on_market_rows": 0.1004,
+   "brier_market": 0.1054,
+   "n_market_rows": 48,
+   "mean_p_model": 0.2076,
+   "hit_rate": 0.125
+  },
+  "player_goals": {
+   "n_contracts_last_pregame": 68,
+   "n_games": 2,
+   "brier_model": 0.1206,
+   "brier_model_on_market_rows": 0.1206,
+   "brier_market": 0.1213,
+   "n_market_rows": 68,
+   "mean_p_model": 0.1508,
+   "hit_rate": 0.1324
+  },
+  "player_points": {
+   "n_contracts_last_pregame": 65,
+   "n_games": 2,
+   "brier_model": 0.1044,
+   "brier_model_on_market_rows": 0.1234,
+   "brier_market": 0.1347,
+   "n_market_rows": 54,
+   "mean_p_model": 0.2548,
+   "hit_rate": 0.1077
+  }
+ }
+}

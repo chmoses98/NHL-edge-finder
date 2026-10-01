@@ -225,7 +225,9 @@ def finalize_slate(analyses: list[dict[str, Any]], cfg: PortfolioConfig, reliabi
         slate[key] = {"total_stake": round(tot, 2), "expected_profit": round(float(x.mean()), 2), "median_profit": round(float(q[3]), 2),
                       "p_profit": round(float((x > 0).mean()), 4), "p05": round(float(q[0]), 2), "p10": round(float(q[1]), 2), "p25": round(float(q[2]), 2),
                       "p95": round(float(q[5]), 2), "expected_log_growth_bp": round(1e4 * float(np.mean(np.log(np.maximum(1 + x / cfg.bankroll, 1e-12)))), 3),
-                      "note": "games are independent simulations; slate P/L sums per-game draws"}
+                      "adjusted_log_growth_bp_sum_of_games": round(sum(g["portfolios"][key].get("adjusted_log_growth_bp") or 0.0 for g in games_out), 3),
+                      "expected_profit_confidence_adjusted": round(sum(g["portfolios"][key].get("expected_profit_confidence_adjusted") or 0.0 for g in games_out), 2),
+                      "note": "games are independent simulations; slate P/L sums per-game draws; adjusted growth is the optimiser's objective (sum over games)"}
     n_rec = sum(len(e) for e in entries_by_game.values())
     status = "NO_BETS" if n_rec == 0 and gate["status"] == "PASS" else ("COMPLETE" if gate["status"] == "PASS" else "INCOMPLETE")
     return {"thesis_version": THESIS_VERSION, "card_version": CARD_VERSION, "portfolio_version": PORTFOLIO_VERSION, "authority": "RESEARCH_ONLY",
@@ -252,7 +254,14 @@ def card_entry(a: dict[str, Any], b: Bet, stake_frac: float, recs: list[tuple[Be
     if alt is not None:
         best_alt = {k: alt.get(k) for k in ("bet_id", "title", "price_cents", "p_model", "p_adjusted", "ev_raw", "ev_adjusted", "growth_bp", "thesis_fit_phi", "reliability",
                                             "breadth_rel", "eligible", "reasons")}
-        reason = why_chosen(self_row, alt)
+        on_card = any(o.bet_id == alt["bet_id"] for o, _ in recs)
+        ph_alt = None
+        if alt["bet_id"] in a["idx"]:
+            ya, yb = a["bets"][a["idx"][alt["bet_id"]]].y, b.y
+            pa_, pb_, pab_ = float(ya.mean()), float(yb.mean()), float((ya & yb).mean())
+            den = (pa_ * (1 - pa_) * pb_ * (1 - pb_)) ** 0.5
+            ph_alt = (pab_ - pa_ * pb_) / den if den > 0 else None
+        reason = why_chosen(self_row, alt, on_card, ph_alt)
     elif thesis.startswith("DIFFUSE:"):
         best_alt = not_applicable("diffuse bet (no thesis event with phi >= 0.10): there is no thesis to compare expressions of")
         reason = "diffuse script dependence; chosen on its own confidence-adjusted growth"
@@ -359,7 +368,7 @@ def audit_card(analyses: list[dict[str, Any]], proposals: list[dict[str, Any]], 
             b0 = a["bets"][a["idx"][pr["bet_id"]]]
             price = pr.get("price_cents") or b0.price_cents
             sched = b0.meta.get("_schedule") or DEFAULT_SCHEDULE
-            b = replace(b0, price_cents=int(round(price)), fee=fee_per_contract_dollars(price, sched)) if price is not None else b0
+            b = replace(b0, price_cents=float(price), fee=fee_per_contract_dollars(price, sched)) if price is not None else b0  # executed prices may be fractional
             bets.append(b)
             stakes.append(float(pr.get("stake_dollars") or 0.0) / cfg.bankroll)
             a["econ"][b.bet_id] = economics(b, a["rel"][b.bet_id], a["bench"][b.bet_id], min_ev_adj=0.0)

@@ -92,7 +92,8 @@ def build_game_distribution(gi: Any, res: Any, ps: Any, saves: dict[int, Any], g
             lift[f"{tp['name']} ({tp['team']})"] = d.points[:, i] >= 1
     meta = {"start_time_utc": start_time_utc, "minutes_to_start": None if minutes is None else round(minutes, 1), "seed": int(res.seed),
             "lam_home": float(res.home.lam) if res.home else None, "lam_away": float(res.away.lam) if res.away else None,
-            "source": "PLAYER_SIM_V1 joint draw (nhl-sim-2.0 team path + player allocation + saves); game markets priced on the same draw"}
+            "source": "PLAYER_SIM_V1 joint draw (nhl-sim-2.0 team path + player allocation + saves); game markets priced on the same draw",
+            "_ps": ps, "_saves": saves}  # in-memory only (research audits); "_" keys are never serialised
     return GameDistribution(str(gi.game_id), gi.home_abbrev, gi.away_abbrev, hid, aid, f, bets, unpriced, lift, meta)
 
 
@@ -205,11 +206,15 @@ def markdown(card: dict[str, Any], max_scripts: int = 6, max_board: int = 8) -> 
     if card["status"] == "INCOMPLETE":
         L += ["**CARD NOT EMITTED: the completion gate failed.**", ""] + [f"- {x}" for x in card["gate"]["failures"][:20]] + [""]
     sp = card["slate_portfolios"]
-    L += ["## Slate portfolios (simulated P/L on the joint draws)", "", "| portfolio | stake | EV | median | P(profit) | p10 | p05 | log growth bp |", "|---|---:|---:|---:|---:|---:|---:|---:|"]
+    L += ["## Slate portfolios (simulated P/L on the joint draws)", "",
+          "EV / median / P(profit) / percentiles use the MODEL's joint distribution at executable costs; 'EV adj' and 'adj growth' use the confidence-adjusted "
+          "probabilities (the optimiser's objective). A uses raw model probabilities and independent stakes, so its model EV can look larger.", "",
+          "| portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |", "|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for k, lab in (("A", "A highest edges (independent)"), ("B", "B thesis-diversified (joint) ← card"), ("C", "C best expression per thesis")):
         v = sp.get(k) or {}
-        L.append(f"| {lab} | {v.get('total_stake', 0):.2f} | {v.get('expected_profit', 0):+.2f} | {v.get('median_profit', 0):+.2f} | {v.get('p_profit', 0):.3f} | "
-                 f"{v.get('p10', 0):+.2f} | {v.get('p05', 0):+.2f} | {v.get('expected_log_growth_bp', 0):.2f} |")
+        L.append(f"| {lab} | {v.get('total_stake', 0):.2f} | {v.get('expected_profit', 0):+.2f} | {v.get('expected_profit_confidence_adjusted', 0):+.2f} | "
+                 f"{v.get('median_profit', 0):+.2f} | {v.get('p_profit', 0):.3f} | {v.get('p10', 0):+.2f} | {v.get('p05', 0):+.2f} | "
+                 f"{v.get('adjusted_log_growth_bp_sum_of_games', 0):.2f} |")
     for g in card["games"]:
         L += ["", f"## {g['matchup']}  ·  {g['n_sims']} joint draws  ·  {g['n_bets_mapped']} bet sides mapped, {g['n_candidates']} +EV candidates, {len(g['card'])} on card", ""]
         if g.get("sportsbook_consensus"):
@@ -240,6 +245,10 @@ def markdown(card: dict[str, Any], max_scripts: int = 6, max_board: int = 8) -> 
             L += ["", "_no bet on this game passes: +EV at the executable ask under both the model and the confidence-adjusted probability_"]
         pf = g["portfolios"]
         L.append("")
-        L.append("portfolios: " + " · ".join(f"{k} EV {pf[k].get('expected_profit', 0):+.2f} on ${pf[k].get('total_stake', 0):.2f}, P(profit) {pf[k].get('p_profit', 0)}" for k in ("A", "B", "C")))
+        L.append("portfolios: " + " · ".join(f"{k} EV {pf[k].get('expected_profit', 0):+.2f} (adj {pf[k].get('expected_profit_confidence_adjusted') or 0:+.2f}) on "
+                                             f"${pf[k].get('total_stake', 0):.2f}, P(profit) {pf[k].get('p_profit', 0)}, adj growth {pf[k].get('adjusted_log_growth_bp') or 0:.1f} bp"
+                                             for k in ("A", "B", "C")))
+        if g.get("equivalent_contracts"):
+            L.append("equivalent contracts collapsed: " + "; ".join(f"{q['dropped']} == {q['kept']}" for q in g["equivalent_contracts"]))
     L += ["", f"_{card['note']}_", ""]
     return "\n".join(L)
