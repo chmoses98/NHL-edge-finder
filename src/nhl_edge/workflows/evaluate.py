@@ -186,20 +186,38 @@ def run_evaluate(out_root: Path, data_root: Path, now: datetime | None = None) -
     eval_dir.mkdir(parents=True, exist_ok=True)
     (eval_dir / "report.json").write_text(json.dumps(rep, indent=1, default=str))
     (eval_dir / "report.md").write_text(report_markdown(rep))
-    (out_root / "STATUS_evaluate.json").write_text(json.dumps({"evaluated_at_utc": iso(now), "n_rows": len(all_rows), "n_new": len(new_rows), "run_id": ledger.run_id}, indent=1))
     log.info(kv(event="evaluated", rows=len(all_rows), new=len(new_rows)))
     print(report_markdown(rep))
+    status: dict[str, Any] = {"evaluated_at_utc": iso(now), "n_rows": len(all_rows), "n_new": len(new_rows), "run_id": ledger.run_id, "steps": {"v1": "OK"}}
     try:
         run_evaluate_player(ledger, settlements, starts, obs_loader=lambda t: observations_by_ticker(ledger, t), now=now)
+        status["steps"]["player"] = "OK"
     except Exception as e:  # noqa: BLE001 - the PLAYER_SIM_V1 report never blocks V1's evaluation
         log.warning(kv(event="player_evaluation_failed", err=str(e)[:300]))
+        status["steps"]["player"] = f"FAILED: {type(e).__name__}: {str(e)[:200]}"
     try:
         from nhl_edge.workflows.thesis_postmortem import run_thesis_postmortem
 
-        run_thesis_postmortem(ledger, settlements, starts, obs_loader=lambda t: observations_by_ticker(ledger, t), now=now)
+        trep = run_thesis_postmortem(ledger, settlements, starts, obs_loader=lambda t: observations_by_ticker(ledger, t), now=now)
+        status["steps"]["thesis_postmortem"] = "OK"
+        status["thesis_postmortem"] = {d: {"label": v.get("label"), **(v.get("completeness") or {})} for d, v in (trep.get("slates") or {}).items()}
     except Exception as e:  # noqa: BLE001 - the thesis postmortem never blocks V1's evaluation
         log.warning(kv(event="thesis_postmortem_failed", err=str(e)[:300]))
+        status["steps"]["thesis_postmortem"] = f"FAILED: {type(e).__name__}: {str(e)[:200]}"
+    write_evaluate_status(out_root, status)
     return 0
+
+
+def write_evaluate_status(out_root: Path, status: dict[str, Any]) -> None:
+    """The canonical breadcrumb is ``<archive>/STATUS_evaluate.json`` (the conductor reads it). It is written LAST, after
+    every evaluation step, so its timestamp means "the whole evaluate job finished". ``eval/STATUS_evaluate.json`` is a
+    legacy location (written there while the job's root was mistakenly ``ARCHIVE/eval``, until 2026-09-30) that kept
+    showing 2026-09-30 and misled readers; it is now overwritten with the same content plus a pointer, so both agree."""
+    text = json.dumps(status | {"canonical_path": "STATUS_evaluate.json"}, indent=1, default=str)
+    (out_root / "STATUS_evaluate.json").write_text(text)
+    legacy = out_root / "eval" / "STATUS_evaluate.json"
+    legacy.parent.mkdir(parents=True, exist_ok=True)
+    legacy.write_text(text)
 
 
 PLAYER_VIEWS = {"PLAYER_SIM_V1": "p_player", "MARKET_BASELINE": "p_market", "MARKET_ANCHORED_PLAYER_V1": "p_market_anchored"}

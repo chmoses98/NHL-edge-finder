@@ -135,3 +135,50 @@ def test_actual_classification_uses_the_pregame_functions():
     assert act["events"]["PIT:OFFENSE_4PLUS"] and act["events"]["PIT:WINS_BY_2PLUS"] and act["events"]["GAME:LOW_EVENT"] is False
     assert act["script_key"] == "CH|EN|MD"  # PIT 38 shots vs 22 -> PIT shot control, 7 goals -> normal, decided
     assert np.isfinite(act["summary"]["home_shots"])
+
+
+@pytest.mark.slow
+def test_replay_is_deterministic_and_rows_carry_snapshot_identity_and_research_state(tmp_path):
+    """Two independent RUN NHL replays at one cutoff give byte-identical thesis cards (seeded joint draws, point-in-time
+    inputs); every decision row of a generation carries its snapshot id, research status and a $0 stake unless funded."""
+    from nhl_edge.workflows.thesis_card import snapshot_id
+
+    cards = []
+    for k in ("a", "b"):
+        root = tmp_path / k
+        build_archive(root)
+        _player_fixture(root)
+        assert run_simulate(root, REPO_DATA, date="2026-09-29", n_sims=2000, now=NOW) == 0
+        tc = json.loads((root / "slates" / "latest" / "packet.json").read_text())["thesis_card"]
+        tc.pop("timings_ms", None)
+        for g in tc["games"]:
+            g.pop("timings_ms", None)
+        tc.pop("run_id", None)
+        tc.pop("snapshot_id", None)
+        cards.append(json.dumps(tc, sort_keys=True, default=str))
+        led = Ledger(root)
+        dec = list(led.iter_rows("thesis_decisions"))
+        games = list(led.iter_rows("thesis_games"))
+        sids = {d["snapshot_id"] for d in dec} | {g["snapshot_id"] for g in games}
+        assert sids == {snapshot_id(dec[0]["run_id"], dec[0]["decided_at_utc"])}
+        for d in dec:
+            assert d["research_status"] in ("FUNDED_RESEARCH", "SHADOW_ONLY", "REJECTED") and isinstance(d["research_stake_dollars"], int)
+            assert d["research_status"] == "FUNDED_RESEARCH" or d["research_stake_dollars"] == 0
+            assert d["research_stake_dollars"] <= 5 and d["expression_fidelity"]["fidelity_class"]
+        assert (root / "slates" / "latest" / "card.md").read_text().count("research") >= 1
+    assert cards[0] == cards[1]
+
+
+def test_link_copy_never_modifies_the_source_archive(tmp_path):
+    from nhl_edge.research.rules_replay import link_copy
+
+    src = tmp_path / "src"
+    led = Ledger(src, run_id="r")
+    led.append_rows("context/schedule", [{"game_id": "1"}], observed_at=NOW)
+    (src / "STATUS_settle.json").write_text("{}")
+    before = {p.relative_to(src): p.read_bytes() for p in src.rglob("*") if p.is_file()}
+    dst = link_copy(src, tmp_path / "dst")
+    Ledger(dst, run_id="replay").append_rows("context/schedule", [{"game_id": "2"}], observed_at=NOW + timedelta(minutes=1))
+    (dst / "STATUS_settle.json").write_text('{"changed": true}')
+    after = {p.relative_to(src): p.read_bytes() for p in src.rglob("*") if p.is_file()}
+    assert before == after

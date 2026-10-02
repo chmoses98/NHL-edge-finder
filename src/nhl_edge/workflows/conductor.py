@@ -9,8 +9,15 @@ Rules (v1):
 - context:  every wake within 30h of a start when its own snapshot is older than 55 min; always when older than 6h in
             season / 24h otherwise; always when no schedule snapshot exists (bootstrap)
 - simulate: if a not-started game starts within 26h and the last sim is older than 45 min (goalie news moves fast)
-- settle:   if any game started in the last 36h and settlement is older than 90 min
-- evaluate: after settlement, or daily at 10:00 UTC in season
+- settle:   if any game started in the last 36h and settlement is older than 90 min, OR any game in the settle backlog
+            (started 3-72h ago, not yet COMPLETE / terminal per ``STATUS_settle.json``) and settlement is older than 45 min
+- evaluate: after settlement, when the last evaluation is older than the last settlement (a failed evaluate is
+            retried), or daily at 10:00 UTC in season
+
+Schedule input: the UNION of every schedule snapshot observed in the last 4 days (latest row per game wins), not just the
+newest snapshot. The schedule feed is fetched for the current ET date, so after midnight ET the newest snapshot no longer
+lists yesterday's games; reading only it made late games invisible to settlement (2026-10-02: the 2026-10-01 slate's
+five late games were never settled).
 - discover: age-based, once a day
 """
 
@@ -58,9 +65,49 @@ def _latest_schedule(ledger: Ledger) -> list[dict[str, Any]]:
     return rows
 
 
+SCHEDULE_UNION_DAYS = 4
+SETTLE_GRACE_HOURS = 3.0  # == settle.SETTLE_GRACE (not imported: the conductor must stay stdlib-only)
+SETTLE_BACKLOG_HOURS = 72.0  # == settle.BACKLOG_LOOKBACK
+SETTLE_RETRY_MIN = 45.0
+
+
+def _recent_schedule(ledger: Ledger, now: datetime, days: int = SCHEDULE_UNION_DAYS) -> list[dict[str, Any]]:
+    """Latest row per game across every schedule snapshot of the last ``days`` days (partitions iterate in time order)."""
+    out: dict[str, dict[str, Any]] = {}
+    for row in ledger.iter_rows("context/schedule", dt_from=(now - timedelta(days=days)).date().isoformat()):
+        if row.get("game_id") is not None:
+            out[str(row["game_id"])] = row
+    return list(out.values())
+
+
+def _settle_terminal(archive: Path) -> set[str] | None:
+    """Games the settle job reported as terminal (COMPLETE / NO_ACTIVITY / SKIPPED_STATUS); None if it never said."""
+    try:
+        d = json.loads((archive / "STATUS_settle.json").read_text())
+    except (OSError, json.JSONDecodeError):
+        return None
+    t = d.get("games_terminal")
+    return None if t is None else {str(x) for x in t}
+
+
+def settle_backlog(now: datetime, schedule_rows: list[dict[str, Any]], terminal: set[str] | None) -> list[str]:
+    """Games that started 3-72h ago (not postponed / canceled) and that the settle job has not reported terminal."""
+    out = []
+    for g in schedule_rows:
+        try:
+            t = parse_iso(g["start_time_utc"])
+        except (KeyError, ValueError, TypeError):
+            continue
+        if g.get("status") in ("postponed", "canceled"):
+            continue
+        if now - timedelta(hours=SETTLE_BACKLOG_HOURS) <= t <= now - timedelta(hours=SETTLE_GRACE_HOURS) and str(g.get("game_id")) not in (terminal or set()):
+            out.append(str(g.get("game_id")))
+    return sorted(out)
+
+
 def decide(now: datetime, schedule_rows: list[dict[str, Any]], capture_age_min: float | None, last_sim_age_min: float | None,
            last_settle_age_min: float | None, last_eval_age_min: float | None, last_context_age_min: float | None = None,
-           last_discover_age_min: float | None = None) -> dict[str, Any]:
+           last_discover_age_min: float | None = None, settle_pending: list[str] | None = None) -> dict[str, Any]:
     in_season, season_label, calendar_known = season_window(now.date().isoformat())
     starts = []
     for g in schedule_rows:
@@ -85,15 +132,17 @@ def decide(now: datetime, schedule_rows: list[dict[str, Any]], capture_age_min: 
     if not schedule_rows:
         context = True
     simulate = in_season and next_h is not None and next_h <= 26 and (last_sim_age_min is None or last_sim_age_min > 45)
-    settle = bool(recent_started) and (last_settle_age_min is None or last_settle_age_min > 90)
-    evaluate = settle or (in_season and hour == 10 and (last_eval_age_min is None or last_eval_age_min > 23 * 60))
+    settle = (bool(recent_started) and (last_settle_age_min is None or last_settle_age_min > 90)) or (
+        bool(settle_pending) and (last_settle_age_min is None or last_settle_age_min > SETTLE_RETRY_MIN))
+    eval_behind_settle = last_settle_age_min is not None and (last_eval_age_min is None or last_eval_age_min > last_settle_age_min + 5)
+    evaluate = settle or eval_behind_settle or (in_season and hour == 10 and (last_eval_age_min is None or last_eval_age_min > 23 * 60))
     discover = last_discover_age_min is None or last_discover_age_min > 23 * 60
     return {
         "now_utc": iso(now), "in_season": in_season, "season": season_label, "calendar_known": calendar_known,
         "next_start_hours": None if next_h is None else round(next_h, 2), "n_upcoming": len(upcoming), "n_recent_started": len(recent_started),
         "capture": bool(capture), "context": bool(context), "simulate": bool(simulate), "settle": bool(settle), "evaluate": bool(evaluate), "discover": bool(discover),
         "capture_age_min": capture_age_min, "context_age_min": last_context_age_min, "sim_age_min": last_sim_age_min, "settle_age_min": last_settle_age_min,
-        "discover_age_min": last_discover_age_min,
+        "discover_age_min": last_discover_age_min, "eval_age_min": last_eval_age_min, "settle_pending": list(settle_pending or []),
     }
 
 
@@ -115,9 +164,13 @@ def decide_now(data_root: Path, now: datetime | None = None) -> dict[str, Any]:
     """``now`` defaults to the wall clock; the worker passes its own clock so its gate and its cadence agree."""
     archive = data_root / "archive"
     ledger = Ledger(archive)
-    rows = _latest_schedule(ledger) if archive.exists() else []
+    now = now or datetime.now(tz=UTC)
+    rows = _recent_schedule(ledger, now) if archive.exists() else []
+    if not rows and archive.exists():
+        rows = _latest_schedule(ledger)
     age = lambda job: status_age_minutes(archive / STATUS_KEYS[job][0], STATUS_KEYS[job][1])  # noqa: E731
-    return decide(now or datetime.now(tz=UTC), rows, age("capture"), age("simulate"), age("settle"), age("evaluate"), age("context"), _discover_age(data_root))
+    pending = settle_backlog(now, rows, _settle_terminal(archive))
+    return decide(now, rows, age("capture"), age("simulate"), age("settle"), age("evaluate"), age("context"), _discover_age(data_root), pending)
 
 
 def run_conductor(data_root: Path, github_output: str | None = None) -> int:

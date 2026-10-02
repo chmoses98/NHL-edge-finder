@@ -17,6 +17,6 @@ AUTHORITY: RESEARCH_ONLY. Nothing here places, routes or sizes a real wager; sta
 nominal bankroll, and every model family keeps its RESEARCH_ONLY authority.
 """
 
-THESIS_VERSION = "nhl-thesis-1.0"
-CARD_VERSION = "nhl-card-1.0"
+THESIS_VERSION = "nhl-thesis-1.1"
+CARD_VERSION = "nhl-card-1.1"
 PORTFOLIO_VERSION = "nhl-portfolio-1.0"

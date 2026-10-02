@@ -55,7 +55,9 @@ executable asks, fee-adjusted edges, expected TOI / PP TOI / shots / goals / ass
 role confidence, uncertainty flags; per-net goalie saves distributions; per-game contract correlation matrix), plus
 `thesis_card` (RESEARCH_ONLY): game-script distribution, thesis events, every contract mapped to the scripts it wins in,
 best expression per thesis, same-game joint outcome matrix, portfolio A/B/C on the simulated P/L, and the card that passed
-the 18-field completion gate (`card.md` next to `slate.md`). See `docs/research/THESIS_ENGINE.md`.
+the 18-field completion gate (`card.md` next to `slate.md`), with each bet's expression fidelity and its research status
+(FUNDED_RESEARCH / SHADOW_ONLY / REJECTED) and whole-dollar research stake ($250 research bankroll, $5 max; research
+governance, never placed). See `docs/research/THESIS_ENGINE.md` (section 16 for the 2026-10-02 repair pass).
 
 On GitHub: Actions -> conductor -> Run workflow -> `force: context,capture,simulate`.
 
@@ -77,10 +79,14 @@ python -m nhl_edge.players.fit --history data/history                           
 python -m nhl_edge.research.player_walk_forward --mode simulate --seasons 2024,2025 # PLAYER_SIM_V1 walk-forward
 python -m nhl_edge.research.thesis_replay --archive <ARCHIVE COPY> --now <cutoff> --date <ET date> \
        --propose "<ticker>|yes:<stake>:<price cents>" --model-audit --out <dir>                # replay the thesis card / audit a proposed card
+python -m nhl_edge.research.rules_replay --archive <ARCHIVE COPY> --date <ET date> --work <scratch> \
+       --old-src <old checkout>/src --out <dir>                                               # DIAGNOSTIC old-vs-new-rules replay at the final production cutoffs
 ```
 No credentials are needed for anything in this repository.
 
 ## Docs
+- `docs/HANDOFF_REPAIR_PASS.md` thesis-card repair pass (2026-10-02): snapshot-unique postmortem, settlement completeness, expression fidelity, research governance / staking, replays
+- `docs/research/PREREGISTERED_HYPOTHESES.md` model-defect leads registered with their tests BEFORE the evidence exists
 - `docs/HANDOFF_THESIS.md` thesis / portfolio card handoff (2026-10-01): verdict, PRs, architecture, sample, limits
 - `docs/research/THESIS_ENGINE.md` game scripts, thesis mapping, expressions, joint matrix, portfolio, completion gate, model audit
 - `docs/CROSS_SPORT_THESIS.md` the portable card-construction abstraction for other sports
