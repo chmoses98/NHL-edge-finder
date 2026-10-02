@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-01T23:02:18Z · games 0 · rows (all runs) 0
+evaluated 2026-10-02T00:37:35Z · games 0 · rows (all runs) 0
 
 ## Final card (chosen bets, last pregame run)
 
