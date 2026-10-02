@@ -1,32 +1,36 @@
 {
- "last_capture_utc": "2026-10-02T00:00:30Z",
- "n_markets": 3342,
+ "last_capture_utc": "2026-10-02T00:07:30Z",
+ "n_markets": 3321,
  "n_series": 75,
  "requests": 451,
  "run_id": "36929294204",
  "markets_written": {
-  "encoding": "checkpoint",
-  "reason": "UTC day rolled over; keeping day partitions self-contained",
-  "path": "kalshi/markets/dt=2026-10-02/kalshi_markets_20261002T000030Z_36929294204.jsonl.gz",
-  "bytes": 306321,
-  "n_markets": 3342,
-  "board_sha256": "0928733ae5abd5191b7077e5160fed5c5fb3024b2dad26a55d1678eb6bf947c4"
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/markets_delta/dt=2026-10-02/kalshi_markets_delta_20261002T000730Z_36929294204.json.gz",
+  "bytes": 26315,
+  "n_markets": 3321,
+  "n_changed": 1286,
+  "changed_pct": 38.723,
+  "board_sha256": "674727ba2dd713845512d7f31c31b4daa86897d8be08d1a6cc1b76f0f4509558"
  },
  "orderbooks_written": {
-  "encoding": "checkpoint",
-  "reason": "UTC day rolled over; keeping day partitions self-contained",
-  "path": "kalshi/orderbooks/dt=2026-10-02/kalshi_orderbooks_20261002T000030Z_36929294204.jsonl.gz",
-  "bytes": 47632,
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/orderbooks_delta/dt=2026-10-02/kalshi_orderbooks_delta_20261002T000730Z_36929294204.json.gz",
+  "bytes": 43386,
   "n_markets": 300,
-  "board_sha256": "40873721f222cbb3dd470d9eed8a0d77c789b924f34be18e02c39068588d6977"
+  "n_changed": 276,
+  "changed_pct": 92.0,
+  "board_sha256": "55cf267598e0918ec02ec70aecc5ea25f46b44614db98339cde880a2d45a3eb2"
  },
  "by_status": {
-  "active": 3342
+  "active": 3321
  },
  "by_support": {
   "BUILDABLE": 13,
-  "MODELABLE": 587,
-  "RESEARCH": 2195,
+  "MODELABLE": 585,
+  "RESEARCH": 2176,
   "UNMODELABLE": 547
  },
  "by_family": {
@@ -38,20 +42,20 @@
   "game_winner": 94,
   "goalie_saves": 8,
   "non_hockey_or_office": 1,
-  "period_spread": 78,
-  "period_total": 112,
-  "period_winner": 117,
+  "period_spread": 72,
+  "period_total": 108,
+  "period_winner": 108,
   "player_assists": 206,
   "player_goals": 260,
   "player_points": 266,
   "season_awards": 546,
   "season_champion": 481,
   "season_player_stats": 496,
-  "team_total": 129
+  "team_total": 127
  },
  "alarms": [],
  "notes": [
-  "order books sampled by priority: 3342 live markets, cap 300"
+  "order books sampled by priority: 3321 live markets, cap 300"
  ],
  "alarm": false
 }
