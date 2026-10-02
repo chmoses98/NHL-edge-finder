@@ -70,7 +70,20 @@ def score_decision(d: dict[str, Any], actual: dict[str, Any], outcome_yes: bool,
                          "logloss_model": round(ll(p), 5), "logloss_adjusted": round(ll(pa), 5)},
         "realized_profit": None if not cost or not d.get("stake_dollars") else round(d["stake_dollars"] * ((1.0 if won else 0.0) - cost) / cost, 2),
         "actual_game": actual["summary"],
+        # snapshot identity / research layer (absent on decisions logged before nhl-card-1.1; the report joins them from the decision row)
+        "snapshot_id": d.get("snapshot_id"), "research_status": d.get("research_status"), "research_stake_dollars": d.get("research_stake_dollars"),
+        "research_realized_profit": research_profit(d, won),
+        "fidelity_class": (d.get("expression_fidelity") or {}).get("fidelity_class"), "ev_raw": d.get("ev_raw"), "ev_adjusted": d.get("ev_adjusted"),
     }
+
+
+def research_profit(d: dict[str, Any], won: bool) -> float | None:
+    """P/L of the FUNDED research stake (0 for SHADOW_ONLY / REJECTED; None for decisions without a research layer)."""
+    st = d.get("research_stake_dollars")
+    cost = d.get("cost_per_contract")
+    if st is None or not cost:
+        return None
+    return round(float(st) * ((1.0 if won else 0.0) - float(cost)) / float(cost), 2) if st else 0.0
 
 
 def portfolio_result(scored: list[dict[str, Any]], game_row: dict[str, Any] | None) -> dict[str, Any]:

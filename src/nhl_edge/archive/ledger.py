@@ -64,14 +64,18 @@ class Ledger:
     def manifest_path(self) -> Path:
         return self.root / "manifest.jsonl"
 
-    def partition_path(self, kind: str, ts: datetime, suffix: str = "jsonl.gz") -> Path:
+    def partition_path(self, kind: str, ts: datetime, suffix: str = "jsonl.gz", part: str | None = None) -> Path:
+        """``part`` disambiguates several files of one kind written at one instant by one run (e.g. one per game in the
+        settle job). Without it a second same-second write of the same kind collides with the first and is refused."""
         d = ts.strftime("%Y-%m-%d")
-        fname = f"{kind.replace('/', '_')}_{ts.strftime('%Y%m%dT%H%M%SZ')}_{self.run_id}.{suffix}"
+        tag = "" if not part else "_" + "".join(c if c.isalnum() or c in "-." else "-" for c in str(part))
+        fname = f"{kind.replace('/', '_')}_{ts.strftime('%Y%m%dT%H%M%SZ')}_{self.run_id}{tag}.{suffix}"
         return self.root / kind / f"dt={d}" / fname
 
-    def append_rows(self, kind: str, rows: Iterable[dict[str, Any]], observed_at: datetime | None = None, meta: dict[str, Any] | None = None) -> ManifestEntry:
+    def append_rows(self, kind: str, rows: Iterable[dict[str, Any]], observed_at: datetime | None = None, meta: dict[str, Any] | None = None,
+                    part: str | None = None) -> ManifestEntry:
         observed_at = observed_at or utcnow()
-        path = self.partition_path(kind, observed_at)
+        path = self.partition_path(kind, observed_at, part=part)
         if path.exists():
             raise ImmutabilityError(f"refusing to overwrite existing archive file {path}")
         path.parent.mkdir(parents=True, exist_ok=True)

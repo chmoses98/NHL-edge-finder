@@ -20,8 +20,9 @@ from nhl_edge.thesis import CARD_VERSION, PORTFOLIO_VERSION, THESIS_VERSION
 from nhl_edge.thesis.benchmark import CATEGORY_TEXT, book_probability, categorize
 from nhl_edge.thesis.card import not_applicable, run_gate, unknown
 from nhl_edge.thesis.events import thesis_events
-from nhl_edge.thesis.expression import Econ, compare_expressions, economics, why_chosen
+from nhl_edge.thesis.expression import FIT_MIN, Econ, compare_expressions, economics, why_chosen
 from nhl_edge.thesis.features import DrawFeatures
+from nhl_edge.thesis.fidelity import CLASS_RANK, fidelity
 from nhl_edge.thesis.joint import (
     DUPLICATIVE,
     INTENTIONAL_DIVERSIFIER,
@@ -35,12 +36,13 @@ from nhl_edge.thesis.portfolio import (
     independent_stakes,
     log_growth,
     metrics,
+    optimize_game,
     pair_is_diversifier,
     pnl,
     returns,
     select_and_optimize,
 )
-from nhl_edge.thesis.reliability import THIN, WARNING, bucket_flag, bucket_tables
+from nhl_edge.thesis.reliability import MIXED, STRONGER, THIN, WARNING, bucket_flag, bucket_tables
 from nhl_edge.thesis.scripts import build_distribution
 
 SHORTLIST_MAX = 40  # per game; pairwise / portfolio work only. The full board is always mapped and reported.
@@ -126,9 +128,23 @@ def analyze_game(gd: GameDistribution, reliability: dict[str, dict[str, Any]], c
     short = cands[:SHORTLIST_MAX]
     profiles = {b.bet_id: thesis_profile(idx[b.bet_id], b, counts, dist, em, PHI, PAB) for b in short}
     thesis_of = {}
+    n_draws = f.n
+    CNT = np.rint(PAB * n_draws).astype(np.int64) if len(bets) else np.zeros((0, len(em.events)), np.int64)
+    n_ev = np.rint(em.p * n_draws).astype(np.int64)
+
+    def fid(b: Bet, key: str | None) -> dict[str, Any]:
+        j = em.index(key) if key and key != "DIFFUSE" else None
+        i = idx[b.bet_id]
+        if j is None:
+            return fidelity(n_draws, int(round(b.p * n_draws)), 0, 0, b.family, None)
+        return fidelity(n_draws, int(round(b.p * n_draws)), int(n_ev[j]), int(CNT[i, j]), b.family, key)
+
+    fidel: dict[str, dict[str, Any]] = {}
     for b in short:
         k = profiles[b.bet_id]["primary_thesis"]["key"]
         thesis_of[b.bet_id] = k if k != "DIFFUSE" else f"DIFFUSE:{b.bet_id}"
+        fidel[b.bet_id] = fid(b, k)
+        profiles[b.bet_id]["expression_fidelity"] = fidel[b.bet_id]
     # ---- expression comparison per thesis -----------------------------------------------------------------------
     expressions = {}
     for k in dict.fromkeys(v for v in thesis_of.values() if not v.startswith("DIFFUSE:")):
@@ -137,7 +153,22 @@ def analyze_game(gd: GameDistribution, reliability: dict[str, dict[str, Any]], c
         pe = float(em.p[j])
         purity = {b.bet_id: _r(PAB[i, j] / b.p) if b.p > 0 else None for i, b in enumerate(bets)}
         cond = {b.bet_id: _r(PAB[i, j] / pe) if pe > 0 else None for i, b in enumerate(bets)}
-        expressions[k] = compare_expressions(k, em.events[j].label, bets, econ, col, purity, cond, conc, rel, bench)
+        ex = compare_expressions(k, em.events[j].label, bets, econ, col, purity, cond, conc, rel, bench)
+        by_id = {b.bet_id: b for b in bets}
+        for r in ex["rows"]:
+            fr = fid(by_id[r["bet_id"]], k)
+            r.update({x: fr[x] for x in ("fidelity_class", "thesis_capture", "p_bet_given_not_thesis", "thesis_lift", "relation", "contract_scope", "expression_kind")})
+        elig = [b for b in bets if econ[b.bet_id].eligible and col.get(b.bet_id, 0.0) >= FIT_MIN]
+        if elig:
+            fe = {b.bet_id: fid(b, k) for b in elig}
+            hf = max(elig, key=lambda b: (CLASS_RANK[fe[b.bet_id]["fidelity_class"]], fe[b.bet_id]["thesis_capture"] or 0.0, econ[b.bet_id].ev_adj or 0.0, b.bet_id))
+            be = max(elig, key=lambda b: (econ[b.bet_id].ev_adj or 0.0, b.bet_id))
+            ex["highest_fidelity"] = {"bet_id": hf.bet_id, **{x: fe[hf.bet_id][x] for x in ("fidelity_class", "thesis_capture", "contract_scope")},
+                                      "ev_adjusted": _r(econ[hf.bet_id].ev_adj)}
+            ex["best_adjusted_ev"] = {"bet_id": be.bet_id, **{x: fe[be.bet_id][x] for x in ("fidelity_class", "thesis_capture", "contract_scope")},
+                                      "ev_adjusted": _r(econ[be.bet_id].ev_adj)}
+            ex["fidelity_and_ev_agree"] = hf.bet_id == be.bet_id
+        expressions[k] = ex
     t["expressions"] = time.perf_counter()
     # ---- joint matrix + portfolios --------------------------------------------------------------------------------
     joint = joint_matrix(short, counts[[idx[b.bet_id] for b in short]] if short else None)
@@ -145,6 +176,7 @@ def analyze_game(gd: GameDistribution, reliability: dict[str, dict[str, Any]], c
     t["joint"] = time.perf_counter()
     padj = {b.bet_id: econ[b.bet_id].p_adj for b in bets}
     fB, selection = select_and_optimize(short, padj, thesis_of, dup, cfg)
+    fB, overrides = prefer_expressions(short, fB, econ, rel, fid, thesis_of, dup, padj, PHI, em, idx, reliability, cfg)
     best_ids = {e["best"] for e in expressions.values() if e.get("best")} | {b.bet_id for b in short if thesis_of[b.bet_id].startswith("DIFFUSE:")}
     c_bets = [b for b in short if b.bet_id in best_ids]
     fC, _ = select_and_optimize(c_bets, padj, thesis_of, dup, cfg)
@@ -157,15 +189,118 @@ def analyze_game(gd: GameDistribution, reliability: dict[str, dict[str, Any]], c
     return {"gd": gd, "dist": dist, "em": em, "bets": bets, "idx": idx, "econ": econ, "rel": rel, "bench": bench, "book": book, "conc": conc, "profiles": profiles,
             "thesis_of": thesis_of, "expressions": expressions, "joint": joint, "dup": dup, "padj": padj, "short": short, "candidates": cands,
             "portfolios": {"A": (a_bets, fA), "B": (short, fB), "C": (c_bets, fC)}, "board": board, "events": events_out, "timings_ms": timings,
-            "consensus": consensus, "counts": counts, "reliability": reliability, "buckets": buckets, "equivalents": equivalents, "selection": selection}
+            "consensus": consensus, "counts": counts, "reliability": reliability, "buckets": buckets, "equivalents": equivalents, "selection": selection,
+            "fidelity": fidel, "overrides": overrides}
+
+
+# ------------------------------------------------------------------------------------------- expression preference
+# When two expressions of one thesis offer similar confidence-adjusted value, prefer the one that more directly cashes
+# when the thesis happens. "Similar" = the alternative's adjusted EV per contract is no more than ONE PRICE TICK (1c =
+# 1 probability point) below the incumbent's: differences smaller than a tick are inside execution noise. The preference
+# is lexicographic and fixed a priori (docs/research/THESIS_ENGINE.md section 15):
+#   1. positive confidence-adjusted EV at the executable ask (mandatory: only eligible candidates are considered)
+#   2. market-family reliability (EVIDENCE_STRONGER > MIXED > THIN > CALIBRATION_WARNING, per bet incl. bucket warnings)
+#   3. expression fidelity to the thesis (STRUCTURAL > DIRECT > FRAGILE)
+#   4. prospective calibration evidence (no SMALL_PROSPECTIVE_SAMPLE flag > flag)
+#   5. joint portfolio contribution (the swap is re-optimised jointly and must keep a stake)
+#   6. adjusted expected growth
+#   7. executable spread (narrower first)
+# An override happens only when the alternative is strictly better on 2 or 3 (reliability, then fidelity); ties on both
+# leave the optimiser's choice alone. Nothing is forced: a broad market that is not +EV after adjustment never enters.
+SIMILAR_EDGE = 0.01
+REL_TIER = {STRONGER: 3, MIXED: 2, THIN: 1, WARNING: 0}
+
+
+def _pref_key(b: Bet, econ: dict[str, Econ], rel: dict[str, str], fid_b: dict[str, Any], reliability: dict[str, dict[str, Any]]) -> tuple:
+    fl = (reliability.get(b.family) or {}).get("flags") or []
+    return (REL_TIER.get(rel.get(b.bet_id, THIN), 1), CLASS_RANK.get(fid_b["fidelity_class"], 0), 0 if "SMALL_PROSPECTIVE_SAMPLE" in fl else 1,
+            econ[b.bet_id].growth_bp or 0.0, -(b.meta.get("spread_cents") or 99), b.bet_id)
+
+
+def _kind_text(kind: str, family: str) -> str:
+    return {"BROAD": "broad", "FRAGILE_PLAYER": "goalie prop" if family == "goalie_saves" else "player prop"}.get(kind, family)
+
+
+def prefer_expressions(short: list[Bet], fB: np.ndarray, econ: dict[str, Econ], rel: dict[str, str], fid_fn: Any, thesis_of: dict[str, str],
+                       dup: list[tuple[str, str]], padj: dict[str, float], PHI: np.ndarray, em: Any, idx: dict[str, int], reliability: dict[str, dict[str, Any]],
+                       cfg: PortfolioConfig) -> tuple[np.ndarray, list[dict[str, Any]]]:
+    """Swap a recommended bet for a higher-fidelity (or more reliable) expression of the SAME thesis when their adjusted
+    value is similar; every swap is re-optimised jointly and documented. Returns (stakes aligned with ``short``, log)."""
+    fB = np.asarray(fB, dtype=float).copy()
+    log: list[dict[str, Any]] = []
+    pos = {b.bet_id: i for i, b in enumerate(short)}
+    considered: set[str] = set()
+    order = sorted([i for i in range(len(short)) if fB[i] > 0], key=lambda i: (-fB[i], short[i].bet_id))
+    for i in order:
+        b = short[i]
+        if fB[i] <= 0 or b.bet_id in considered:
+            continue
+        considered.add(b.bet_id)
+        T = thesis_of.get(b.bet_id, "")
+        if T.startswith("DIFFUSE"):
+            continue
+        j = em.index(T)
+        if j is None:
+            continue
+        fi = fid_fn(b, T)
+        kb = _pref_key(b, econ, rel, fi, reliability)
+        e_b = econ[b.bet_id].ev_adj or 0.0
+        alts = []
+        for a in short:
+            k = pos[a.bet_id]
+            if fB[k] > 0 or a.bet_id == b.bet_id or a.bet_id in considered or PHI[idx[a.bet_id], j] < FIT_MIN:
+                continue
+            if (econ[a.bet_id].ev_adj or 0.0) < e_b - SIMILAR_EDGE - 1e-12:
+                continue
+            fa_ = fid_fn(a, T)
+            ka = _pref_key(a, econ, rel, fa_, reliability)
+            if ka[:2] > kb[:2]:
+                alts.append((ka, a, fa_))
+        if not alts:
+            continue
+        alts.sort(key=lambda x: x[0], reverse=True)
+        a, fa = alts[0][1], alts[0][2]
+        chosen = [k for k in range(len(short)) if fB[k] > 0 and k != i] + [pos[a.bet_id]]
+        sub = [short[k] for k in chosen]
+        f_sub = optimize_game(sub, padj, thesis_of, dup, cfg)
+        d_pts = 100.0 * ((econ[a.bet_id].ev_adj or 0.0) - e_b)
+        ka = alts[0][0]
+        basis = "family reliability" if ka[0] > kb[0] else "expression fidelity"
+        diff_txt = f"differs by only {abs(d_pts):.1f} pts" if d_pts < 0 else f"is {d_pts:.1f} pts higher"
+        text = (f"{_kind_text(fa['expression_kind'], a.family).capitalize()} expression {a.bet_id} selected over {_kind_text(fi['expression_kind'], b.family)} "
+                f"{b.bet_id} because adjusted EV {diff_txt} while thesis capture is {fa['thesis_capture'] or 0:.2f} vs {fi['thesis_capture'] or 0:.2f} "
+                f"({fa['fidelity_class']} vs {fi['fidelity_class']}; reliability {rel.get(a.bet_id)} vs {rel.get(b.bet_id)}; decided on {basis})")
+        rec = {"thesis": T, "replaced": b.bet_id, "selected": a.bet_id, "ev_adjusted_replaced": _r(e_b), "ev_adjusted_selected": _r(econ[a.bet_id].ev_adj),
+               "edge_difference_pts": round(d_pts, 2), "thesis_capture_replaced": fi["thesis_capture"], "thesis_capture_selected": fa["thesis_capture"],
+               "fidelity_replaced": fi["fidelity_class"], "fidelity_selected": fa["fidelity_class"], "reliability_replaced": rel.get(b.bet_id),
+               "reliability_selected": rel.get(a.bet_id), "growth_bp_replaced": _r(econ[b.bet_id].growth_bp, 3), "growth_bp_selected": _r(econ[a.bet_id].growth_bp, 3),
+               "decided_on": basis, "rule": f"similar adjusted value (within {100 * SIMILAR_EDGE:.0f} pt) -> prefer reliability, then fidelity"}
+        ka_pos = chosen.index(pos[a.bet_id])
+        if f_sub[ka_pos] <= 0:
+            log.append(rec | {"applied": False, "text": f"override declined: the joint re-optimisation gives {a.bet_id} less than the minimum stake; {b.bet_id} kept"})
+            continue
+        fB[:] = 0.0
+        for k, fk in zip(chosen, f_sub):
+            fB[k] = fk
+        considered.add(a.bet_id)
+        log.append(rec | {"applied": True, "text": text})
+    return fB, log
 
 
 def _stake_fraction_total(analyses: list[dict[str, Any]], key: str) -> float:
     return float(sum(a["portfolios"][key][1].sum() for a in analyses))
 
 
-def finalize_slate(analyses: list[dict[str, Any]], cfg: PortfolioConfig, reliability: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    """Slate cap, card entries, pairwise labels, portfolio comparisons, completeness gate."""
+def finalize_slate(analyses: list[dict[str, Any]], cfg: PortfolioConfig, reliability: dict[str, dict[str, Any]], gov: Any = None,
+                   history: dict[str, dict[str, Any]] | None = None) -> dict[str, Any]:
+    """Slate cap, card entries, pairwise labels, portfolio comparisons, research governance + stakes, completeness gate.
+
+    ``gov``: :class:`thesis.governance.ResearchGovernance` (default from the environment); ``history``: bet_id ->
+    {first_mid} from decisions logged earlier today (point-in-time, for the market-movement corroboration check)."""
+    from nhl_edge.thesis.governance import governance_config
+    from nhl_edge.thesis.research_layer import apply_research_layer
+
+    gov = gov or governance_config()
     for key in ("A", "B", "C"):
         tot = _stake_fraction_total(analyses, key)
         if tot > cfg.max_slate_frac:
@@ -213,6 +348,7 @@ def finalize_slate(analyses: list[dict[str, Any]], cfg: PortfolioConfig, reliabi
             "expressions": a["expressions"], "equivalent_contracts": a["equivalents"], "greedy_selection": a["selection"], "joint_matrix_shortlist": a["joint"], "joint_card_check": rec_joint, "portfolios": comp,
             "card": entries, "timings_ms": a["timings_ms"],
         })
+    research = apply_research_layer(analyses, games_out, entries_by_game, cfg, gov, history)
     gate = run_gate(entries_by_game, joints)
     slate = {}
     for key in ("A", "B", "C"):
@@ -232,9 +368,11 @@ def finalize_slate(analyses: list[dict[str, Any]], cfg: PortfolioConfig, reliabi
     status = "NO_BETS" if n_rec == 0 and gate["status"] == "PASS" else ("COMPLETE" if gate["status"] == "PASS" else "INCOMPLETE")
     return {"thesis_version": THESIS_VERSION, "card_version": CARD_VERSION, "portfolio_version": PORTFOLIO_VERSION, "authority": "RESEARCH_ONLY",
             "status": status, "card_emitted": status == "COMPLETE", "gate": gate, "portfolio_config": cfg.to_dict(), "reliability": reliability,
-            "slate_portfolios": slate, "recommended_portfolio": "B", "games": games_out,
-            "note": ("RESEARCH_ONLY thesis card: stakes are suggestions for a nominal bankroll; nothing is placed or routed. Every recommended bet is +EV "
-                     "at its executable ask under the model AND the confidence-adjusted probability; the card is emitted only when the completion gate passes.")}
+            "slate_portfolios": slate | {"R": research["slate_portfolio_R"]}, "recommended_portfolio": "B", "games": games_out,
+            "research_governance": research["governance_config"],
+            "note": ("RESEARCH_ONLY thesis card: B stakes are optimiser suggestions for a nominal bankroll; R (FUNDED_RESEARCH) stakes are whole-dollar research "
+                     "stakes under research governance. Nothing is placed or routed. Every recommended bet is +EV at its executable ask under the model AND the "
+                     "confidence-adjusted probability; the card is emitted only when the completion gate passes.")}
 
 
 def card_entry(a: dict[str, Any], b: Bet, stake_frac: float, recs: list[tuple[Bet, float]], rec_joint: dict[str, Any], cfg: PortfolioConfig) -> dict[str, Any]:
@@ -262,6 +400,9 @@ def card_entry(a: dict[str, Any], b: Bet, stake_frac: float, recs: list[tuple[Be
             den = (pa_ * (1 - pa_) * pb_ * (1 - pb_)) ** 0.5
             ph_alt = (pab_ - pa_ * pb_) / den if den > 0 else None
         reason = why_chosen(self_row, alt, on_card, ph_alt)
+        ov = next((o for o in a.get("overrides") or [] if o.get("selected") == b.bet_id and o.get("applied")), None)
+        if ov:
+            reason = ov["text"]
     elif thesis.startswith("DIFFUSE:"):
         best_alt = not_applicable("diffuse bet (no thesis event with phi >= 0.10): there is no thesis to compare expressions of")
         reason = "diffuse script dependence; chosen on its own confidence-adjusted growth"
@@ -334,6 +475,8 @@ def card_entry(a: dict[str, Any], b: Bet, stake_frac: float, recs: list[tuple[Be
         "thesis_exposure": {"thesis": thesis, "dollars": round(th_stake, 2), "fraction_of_bankroll": round(th_stake / cfg.bankroll, 5), "cap_fraction": cfg.max_thesis_frac,
                             "duplicative_with": sorted(dup_ids)},
         "portfolio_impact": impact, "failure_case": failure,
+        "expression_fidelity": prof.get("expression_fidelity") or not_applicable("no fidelity computed (audit of a proposed bet)"),
+        "selection_override": next((o for o in a.get("overrides") or [] if o.get("selected") == b.bet_id and o.get("applied")), None),
     }
 
 

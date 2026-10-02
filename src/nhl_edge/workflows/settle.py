@@ -241,7 +241,11 @@ def run_settle(out_root: Path, data_root: Path, fetch_result: FetchResult | None
                     disagreements.append(f"{r.ticker}: {r.reason[:160]}")
     # PLAYER_SIM_V1: official player events for every final game (live point-in-time history for later games) and player
     # prop settlement from the same official lines. Failures here are recorded and never block game settlement.
-    player_status = _settle_players(ledger, candidates, finals, contracts, existing, kres, now, fetch_player_events, schedule, new_records, disagreements)
+    try:
+        player_status = _settle_players(ledger, candidates, finals, contracts, existing, kres, now, fetch_player_events, schedule, new_records, disagreements)
+    except Exception as e:  # noqa: BLE001 - player ingestion must never cost the game-level settlement of this run
+        log.warning(kv(event="player_settle_failed", err=str(e)[:300]))
+        player_status = {"errors": [f"player settlement aborted: {type(e).__name__}: {str(e)[:200]}"]}
     # market-only records for tickers with a Kalshi result and no contract (needs a game id from an archived contract's event)
     for tk, result in kres.items():
         if tk in contracts:
@@ -264,9 +268,51 @@ def run_settle(out_root: Path, data_root: Path, fetch_result: FetchResult | None
         "by_outcome": {o.value: sum(1 for r in new_records if r.outcome == o) for o in SettlementOutcome}, "not_final_yet": not_final, "errors": errors, "disagreements": disagreements,
         "player": player_status,
     }
+    status |= settlement_backlog(schedule, finals, ingested_player_games(ledger), game_ids_with_activity(ledger, contracts), now)
     (out_root / "STATUS_settle.json").write_text(json.dumps(status, indent=1, default=str))
     print(json.dumps(status, indent=1, default=str))
     return 0
+
+
+# How far back the settle backlog looks. Every game that started in this window and is past SETTLE_GRACE must end in a
+# terminal state (COMPLETE, NO_ACTIVITY, SKIPPED_STATUS) or it keeps the settle job due (see ``conductor.decide``).
+BACKLOG_LOOKBACK = timedelta(hours=72)
+TERMINAL_STATES = ("COMPLETE", "NO_ACTIVITY", "SKIPPED_STATUS")
+
+
+def settlement_backlog(schedule: dict[str, dict[str, Any]], finals: dict[str, FinalResult], ingested: set[str], activity: set[str],
+                       now: datetime) -> dict[str, Any]:
+    """Per game that started in the lookback window and is past the grace period: is it fully settled?
+
+    COMPLETE        official FINAL result held AND official player events ingested (what the thesis postmortem needs)
+    PENDING_RESULT  no FINAL result yet (still live, fetch failed, or never attempted): retried by the next settle run
+    PENDING_EVENTS  FINAL result held but official player events not ingested yet: retried
+    NO_ACTIVITY     nothing of ours references the game (no contract / prediction): nothing to settle
+    SKIPPED_STATUS  postponed / canceled
+    The conductor reads ``games_terminal`` and keeps settlement due while any recent game is not terminal, so a late
+    (e.g. West Coast) game that was still live at one settle run is retried automatically -- without depending on the
+    latest schedule snapshot, which stops listing a slate's games once the ET date rolls over."""
+    states: dict[str, str] = {}
+    for gid, g in schedule.items():
+        try:
+            start = parse_iso(g["start_time_utc"])
+        except (KeyError, ValueError, TypeError):
+            continue
+        if not (now - BACKLOG_LOOKBACK <= start <= now - SETTLE_GRACE):
+            continue
+        if g.get("status") in _SKIP_STATUSES:
+            states[gid] = "SKIPPED_STATUS"
+        elif gid not in activity:
+            states[gid] = "NO_ACTIVITY"
+        elif gid not in finals:
+            states[gid] = "PENDING_RESULT"
+        elif gid not in ingested:
+            states[gid] = "PENDING_EVENTS"
+        else:
+            states[gid] = "COMPLETE"
+    return {"backlog_window_hours": BACKLOG_LOOKBACK.total_seconds() / 3600, "backlog": dict(sorted(states.items())),
+            "games_terminal": sorted(g for g, s in states.items() if s in TERMINAL_STATES),
+            "games_pending": sorted(g for g, s in states.items() if s not in TERMINAL_STATES)}
 
 
 def _settle_players(ledger: Ledger, candidates: list[str], finals: dict[str, FinalResult], contracts: dict[str, Contract], existing: dict[str, SettlementRecord],
@@ -305,7 +351,10 @@ def _settle_players(ledger: Ledger, candidates: list[str], finals: dict[str, Fin
             for t in PLAYER_EVENT_TABLES:
                 df = tables.get(t)
                 if df is not None and len(df):
-                    ledger.append_rows(f"player_events/{t}", _jsonable(df), observed_at=now, meta={"game_id": gid, "source": "nhl official boxscore+pbp+shiftcharts"})
+                    # one file per (table, game): several games ingested in one run share ``now``, and without the per-game part the
+                    # second game's file collided with the first (ImmutabilityError), which aborted the whole settle job (2026-10-02)
+                    ledger.append_rows(f"player_events/{t}", _jsonable(df), observed_at=now, meta={"game_id": gid, "source": "nhl official boxscore+pbp+shiftcharts"},
+                                       part=gid)
             have.add(gid)
             status["games_ingested"].append(gid)
         sk, gl, goals = tables["players"], tables["goalies"], tables["goals"]

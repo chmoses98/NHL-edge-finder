@@ -80,7 +80,8 @@ def build_game_distribution(gi: Any, res: Any, ps: Any, saves: dict[int, Any], g
                 "market_observed_at_utc": iso(market_ts) if market_ts else None, "p_v1": v1.get(m["ticker"]), "player_id": pid, "_schedule": sched,
                 "contract_team": ab.get(c.team_id) if c.family == "game_winner" else None, "spread_cents": econ.spread_cents, "price_reason": reason, "threshold": c.threshold,
                 "projection_quality": prow.get(m["ticker"], {}).get("meta_projection_quality"), "uncertainty_flags": prow.get(m["ticker"], {}).get("meta_uncertainty_flags"),
-                "role_confidence": prow.get(m["ticker"], {}).get("meta_role_confidence"), "deployment_source": prow.get(m["ticker"], {}).get("meta_deployment_source")}
+                "role_confidence": prow.get(m["ticker"], {}).get("meta_role_confidence"), "deployment_source": prow.get(m["ticker"], {}).get("meta_deployment_source"),
+                "pp_unit": prow.get(m["ticker"], {}).get("meta_pp_unit"), "expected_toi_min": prow.get(m["ticker"], {}).get("meta_expected_toi_min")}
         for side, ys, se in (("yes", y, econ.yes), ("no", ~y, econ.no)):
             bets.append(Bet(f"{m['ticker']}|{side}", m["ticker"], side, m.get("title") or m["ticker"], c.family, str(gi.game_id), ys, float(ys.mean()), se.price_cents,
                             se.fee_per_contract, None if mid is None else (mid if side == "yes" else 1.0 - mid), team, opp, dict(meta)))
@@ -101,26 +102,67 @@ def _decision_id(ticker: str, side: str, ts: str, run_id: str) -> str:
     return hashlib.sha256(f"{ticker}|{side}|{ts}|{run_id}|{THESIS_VERSION}".encode()).hexdigest()[:32]
 
 
+def snapshot_id(run_id: str, ts: str) -> str:
+    """Immutable identity of ONE thesis-card generation (one ``nhl simulate`` invocation): every thesis_games /
+    thesis_decisions row of that generation carries it. A worker ``run_id`` spans many generations (one per simulate
+    cycle), so ``run_id`` alone is NOT a snapshot identity; (run_id, decided_at_utc) is, and this hashes exactly that
+    pair, so rows written before the field existed reconstruct to the same id (``thesis_postmortem.snapshot_key``)."""
+    return "snap-" + hashlib.sha256(f"{run_id}|{ts}".encode()).hexdigest()[:20]
+
+
+def decision_history(ledger: Any, now: datetime, hours: float = 24.0) -> dict[str, dict[str, Any]]:
+    """bet_id -> {first_mid, first_decided_at_utc} from thesis decisions logged in the ``hours`` before ``now`` (rows
+    observed strictly before ``now`` only: point-in-time safe on a full archive copy). Feeds the market-movement
+    corroboration check; an unreadable ledger simply means "no history" (the check reports UNAVAILABLE)."""
+    from datetime import timedelta
+
+    from nhl_edge.timeutil import parse_iso
+
+    out: dict[str, dict[str, Any]] = {}
+    if ledger is None:
+        return out
+    lo = now - timedelta(hours=hours)
+    try:
+        for r in ledger.iter_rows("thesis_decisions", dt_from=lo.date().isoformat(), dt_to=now.date().isoformat()):
+            try:
+                t = parse_iso(r["decided_at_utc"])
+                obs = parse_iso(r.get("_observed_at_utc") or r["decided_at_utc"])
+            except (KeyError, ValueError, TypeError):
+                continue
+            if not (lo <= t < now and obs < now) or r.get("p_kalshi_mid") is None:
+                continue
+            cur = out.get(r["bet_id"])
+            if cur is None or t < cur["_t"]:
+                out[r["bet_id"]] = {"first_mid": float(r["p_kalshi_mid"]), "first_decided_at_utc": r["decided_at_utc"], "_t": t}
+    except Exception:  # noqa: BLE001 - history is optional evidence, never a failure
+        return {}
+    return {k: {kk: vv for kk, vv in v.items() if kk != "_t"} for k, v in out.items()}
+
+
 def run_thesis_card(dists: list[GameDistribution], ledger: Any, now: datetime, sportsbook_rows: list[dict[str, Any]] | None, run_id: str,
-                    cfg: PortfolioConfig | None = None) -> dict[str, Any]:
+                    cfg: PortfolioConfig | None = None, gov: Any = None) -> dict[str, Any]:
     import time
 
     from nhl_edge.thesis.benchmark import consensus_moneyline
+    from nhl_edge.thesis.governance import governance_config
     from nhl_edge.thesis.reliability import reliability_table
     from nhl_edge.timeutil import iso
 
     t0 = time.perf_counter()
     cfg = cfg or portfolio_config()
+    gov = gov or governance_config()
     fams = sorted({b.family for d in dists for b in d.bets})
     rel = reliability_table(ledger, now, fams)
     analyses = []
     for d in dists:
         cons = consensus_moneyline(sportsbook_rows or [], d.game_id, d.home_team_id, d.away_team_id)
         analyses.append(analyze_game(d, rel, cons, cfg))
-    card = finalize_slate(analyses, cfg, rel)
+    card = finalize_slate(analyses, cfg, rel, gov, decision_history(ledger, now))
     ts = iso(now)
+    snap = snapshot_id(run_id, ts)
     card["generated_at_utc"] = ts
     card["run_id"] = run_id
+    card["snapshot_id"] = snap
     games_rows, decision_rows = [], []
     for a, g in zip(analyses, card["games"]):
         rec = {e["bet_id"]: e for e in g["card"]}
@@ -147,8 +189,10 @@ def run_thesis_card(dists: list[GameDistribution], ledger: Any, now: datetime, s
             cnt = a["counts"][a["idx"][b.bet_id]]
             dist = a["dist"]
             by_script = {dist.taxonomy.primary_key(k): round(float(cnt[k] / (dist.freq[k] * g["n_sims"])), 4) for k in range(len(dist.freq)) if dist.freq[k] > 0}
+            rs = a["research"][b.bet_id]
             decision_rows.append({
                 "decision_id": _decision_id(b.ticker, b.side, ts, run_id), "decided_at_utc": ts, "run_id": run_id, "thesis_version": THESIS_VERSION, "card_version": CARD_VERSION,
+                "snapshot_id": snap, "logical_wager_key": f"{g['game_id']}|{b.bet_id}",
                 "game_id": g["game_id"], "matchup": g["matchup"], "start_time_utc": g["meta"].get("start_time_utc"), "minutes_to_start": g["meta"].get("minutes_to_start"),
                 "ticker": b.ticker, "side": b.side, "bet_id": b.bet_id, "title": b.title, "family": b.family, "team": b.team, "opponent": b.opponent,
                 "executable_price_cents": b.price_cents, "cost_per_contract": b.cost, "market_observed_at_utc": b.meta.get("market_observed_at_utc"),
@@ -160,8 +204,15 @@ def run_thesis_card(dists: list[GameDistribution], ledger: Any, now: datetime, s
                                                                          for r in (exp.get("rows") or []) if r["bet_id"] != b.bet_id][:6],
                 "best_expression_of_thesis": exp.get("best"), "chosen": chosen, "stake_dollars": round(stake.get(b.bet_id, 0.0), 2),
                 "why_selected": rec[b.bet_id]["reason_chosen"] if chosen else None, "why_rejected": why_not, "card_status": card["status"], "authority": "RESEARCH_ONLY",
+                "expression_fidelity": a["fidelity"].get(b.bet_id), "research_status": rs["status"], "research_reasons": rs["reasons"],
+                "research_stake_dollars": int(rs["research_stake_dollars"]), "research_stake_detail": rs.get("research_stake"),
+                "market_disagreement": rs["market_disagreement"], "calibration_warning": rs["calibration_warning"], "corroboration": rs["corroboration"],
+                "selection_override": next((o for o in a.get("overrides") or [] if b.bet_id in (o.get("selected"), o.get("replaced"))), None),
+                "research_bankroll": gov.research_bankroll,
             })
-        games_rows.append({"game_id": g["game_id"], "decided_at_utc": ts, "run_id": run_id, "thesis_version": THESIS_VERSION, "matchup": g["matchup"], "meta": g["meta"],
+        games_rows.append({"game_id": g["game_id"], "decided_at_utc": ts, "run_id": run_id, "snapshot_id": snap, "thesis_version": THESIS_VERSION, "card_version": CARD_VERSION,
+                           "matchup": g["matchup"], "meta": g["meta"], "research_status": g.get("research_status"), "review": g.get("review"),
+                           "selection_overrides": a.get("overrides") or [], "research_governance": card.get("research_governance"),
                            "n_sims": g["n_sims"], "scripts": g["scripts"], "dimensions": g["dimensions"], "thesis_events": g["thesis_events"],
                            "sportsbook_consensus": g["sportsbook_consensus"], "portfolios": g["portfolios"], "joint_card_check": g["joint_card_check"],
                            "expressions": g["expressions"], "recommended": list(rec), "card_status": card["status"], "gate_status": card["gate"]["status"],
@@ -191,7 +242,11 @@ def slate_view(card: dict[str, Any]) -> dict[str, Any]:
     """Compact block for slate.json (the full analysis lives in packet.json)."""
     return _jsonable({"status": card["status"], "card_emitted": card["card_emitted"], "gate": card["gate"], "slate_portfolios": card["slate_portfolios"],
                       "timings_ms": card.get("timings_ms"), "thesis_version": card["thesis_version"], "authority": card["authority"],
+                      "snapshot_id": card.get("snapshot_id"), "research_governance": card.get("research_governance"),
                       "recommended": [{"bet_id": e["bet_id"], "title": e["contract"]["title"], "side": e["contract"]["side"], "stake": e["recommended_stake"]["dollars"],
+                                       "research_status": (e.get("research_governance") or {}).get("status"),
+                                       "research_stake": (e.get("research_governance") or {}).get("research_stake_dollars"),
+                                       "fidelity": (e.get("expression_fidelity") or {}).get("fidelity_class"),
                                        "p": e["fair_probability"]["p_model_joint_draw"], "p_adj": e["fair_probability"]["p_confidence_adjusted"],
                                        "ask": e["executable_price"].get("ask_cents") if isinstance(e["executable_price"], dict) else None,
                                        "primary_thesis": e["primary_thesis"].get("key")} for g in card["games"] for e in g["card"]]})
@@ -203,6 +258,12 @@ def markdown(card: dict[str, Any], max_scripts: int = 6, max_board: int = 8) -> 
          f"generated {card.get('generated_at_utc')} · {card['thesis_version']} · gate {card['gate']['status']} · nominal bankroll ${card['portfolio_config']['bankroll']:.0f} "
          f"(quarter Kelly; caps bet {card['portfolio_config']['max_bet_frac']:.0%} / game {card['portfolio_config']['max_game_frac']:.0%} / thesis "
          f"{card['portfolio_config']['max_thesis_frac']:.0%} / slate {card['portfolio_config']['max_slate_frac']:.0%})", ""]
+    gv = card.get("research_governance") or {}
+    if gv:
+        L += [f"**Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll ${gv['research_bankroll']:.0f}, whole-dollar stakes, max "
+              f"${gv['max_research_stake']:.0f} per wager; ≤ {gv['max_funded_player_props_per_game']} funded player prop per game; ≤ "
+              f"{gv['max_funded_low_prob_player_props_per_slate']} funded player props with adjusted p < {gv['low_prob_threshold']:.2f} per slate; player props "
+              f"{gv['disagreement_threshold'] * 100:.0f}+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.", ""]
     if card["status"] == "INCOMPLETE":
         L += ["**CARD NOT EMITTED: the completion gate failed.**", ""] + [f"- {x}" for x in card["gate"]["failures"][:20]] + [""]
     sp = card["slate_portfolios"]
@@ -210,8 +271,11 @@ def markdown(card: dict[str, Any], max_scripts: int = 6, max_board: int = 8) -> 
           "EV / median / P(profit) / percentiles use the MODEL's joint distribution at executable costs; 'EV adj' and 'adj growth' use the confidence-adjusted "
           "probabilities (the optimiser's objective). A uses raw model probabilities and independent stakes, so its model EV can look larger.", "",
           "| portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |", "|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
-    for k, lab in (("A", "A highest edges (independent)"), ("B", "B thesis-diversified (joint) ← card"), ("C", "C best expression per thesis")):
+    for k, lab in (("A", "A highest edges (independent)"), ("B", "B thesis-diversified (joint) ← optimiser card"), ("C", "C best expression per thesis"),
+                   ("R", "R FUNDED research stakes")):
         v = sp.get(k) or {}
+        if k == "R" and not v:
+            continue
         L.append(f"| {lab} | {v.get('total_stake', 0):.2f} | {v.get('expected_profit', 0):+.2f} | {v.get('expected_profit_confidence_adjusted', 0):+.2f} | "
                  f"{v.get('median_profit', 0):+.2f} | {v.get('p_profit', 0):.3f} | {v.get('p10', 0):+.2f} | {v.get('p05', 0):+.2f} | "
                  f"{v.get('adjusted_log_growth_bp_sum_of_games', 0):.2f} |")
@@ -228,12 +292,16 @@ def markdown(card: dict[str, Any], max_scripts: int = 6, max_board: int = 8) -> 
             L.append(f"| {s['name']} | {s['frequency']:.3f} | " + " | ".join(f"{s.get(k, 0):.2f}" for k in pk) +
                      f" | {s['total_goals']} | {s.get(home + '_shots')}/{s.get(away + '_shots')} | {s.get(home + '_starter_saves')}/{s.get(away + '_starter_saves')} | {s['driver']} |")
         if g["card"]:
-            L += ["", "**Card**", "", "| bet | ask | p model | p adj | EV raw | EV adj | stake | thesis | conc top2 | reliability | bench |", "|---|---:|---:|---:|---:|---:|---:|---|---:|---|---|"]
+            L += ["", "**Card**", "", "| bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |",
+                  "|---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|"]
             for e in g["card"]:
+                rg = e.get("research_governance") or {}
+                fd = e.get("expression_fidelity") or {}
+                cap = fd.get("thesis_capture")
                 L.append(f"| {e['contract']['title']} {e['contract']['side']} | {e['executable_price'].get('ask_cents')} | {f3(e['fair_probability']['p_model_joint_draw'])} | "
                          f"{f3(e['fair_probability']['p_confidence_adjusted'])} | {e['estimated_edge']['ev_raw_per_contract']:+.3f} | {e['estimated_edge']['ev_adjusted_per_contract']:+.3f} | "
-                         f"${e['recommended_stake']['dollars']:.2f} | {e['primary_thesis'].get('key')} | {e['thesis_concentration'].get('top2')} | "
-                         f"{e['family_reliability']['label']} | {e['family_reliability']['benchmark_category']} |")
+                         f"${e['recommended_stake']['dollars']:.2f} | {rg.get('label', '-')} | ${rg.get('research_stake_dollars', 0)} | {e['primary_thesis'].get('key')} | "
+                         f"{fd.get('fidelity_class', '-')}{'' if cap is None else f' ({cap:.2f})'} | {e['family_reliability']['label']} | {e['family_reliability']['benchmark_category']} |")
             for e in g["card"]:
                 rels = e["same_game_relationships"]
                 rel_txt = "; ".join(f"{k}: {v.get('relationship')} (phi {v.get('phi')})" for k, v in rels.items()) if "status" not in rels else rels["reason"]
@@ -243,11 +311,28 @@ def markdown(card: dict[str, Any], max_scripts: int = 6, max_board: int = 8) -> 
                       f"failure: {(e['failure_case'].get('failure_thesis') or {}).get('label', '-')}"]
         else:
             L += ["", "_no bet on this game passes: +EV at the executable ask under both the model and the confidence-adjusted probability_"]
+        rv = g.get("review") or {}
+        if rv:
+            L += ["", "**Review**: scripts " + ", ".join(f"{x['script']} {x['frequency']:.2f}" for x in rv.get("top_scripts", [])) + "."]
+            for t in rv.get("theses", [])[:3]:
+                hf, be = t.get("highest_fidelity") or {}, t.get("best_adjusted_ev") or {}
+                L.append(f"- thesis {t['thesis']} (p {t.get('p_thesis')}): highest fidelity {hf.get('bet_id', '-')} [{hf.get('fidelity_class', '-')}], "
+                         f"best adjusted EV {be.get('bet_id', '-')}" + (" (same contract)" if t.get("same_contract") else f" — {t['choice']}"))
+            for x in rv.get("bets", []):
+                flag = []
+                if x["large_disagreement"]:
+                    flag.append(f"LARGE MARKET DISAGREEMENT {x['market_disagreement_pts']} pts")
+                if x["expression_kind"] == "FRAGILE_PLAYER":
+                    flag.append("fragile player expression")
+                L.append(f"- {x['bet_id']}: {x['status_label']}; family {x['family_trust']}; {x['fails_even_if_thesis_right']}"
+                         + (f"; {'; '.join(flag)}" if flag else "") + (f"; opposing: {x['opposing_evidence'][0]}" if x["opposing_evidence"] else ""))
+            for o in rv.get("overrides", []):
+                L.append(f"- override: {o['text']}")
         pf = g["portfolios"]
         L.append("")
         L.append("portfolios: " + " · ".join(f"{k} EV {pf[k].get('expected_profit', 0):+.2f} (adj {pf[k].get('expected_profit_confidence_adjusted') or 0:+.2f}) on "
                                              f"${pf[k].get('total_stake', 0):.2f}, P(profit) {pf[k].get('p_profit', 0)}, adj growth {pf[k].get('adjusted_log_growth_bp') or 0:.1f} bp"
-                                             for k in ("A", "B", "C")))
+                                             for k in ("A", "B", "C", "R") if k in pf))
         if g.get("equivalent_contracts"):
             L.append("equivalent contracts collapsed: " + "; ".join(f"{q['dropped']} == {q['kept']}" for q in g["equivalent_contracts"]))
     L += ["", f"_{card['note']}_", ""]

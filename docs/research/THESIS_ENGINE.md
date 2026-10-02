@@ -1,4 +1,4 @@
-# NHL game-script / thesis engine and portfolio construction (`nhl-thesis-1.0`)
+# NHL game-script / thesis engine and portfolio construction (`nhl-thesis-1.1`, card `nhl-card-1.1`)
 
 **AUTHORITY: RESEARCH_ONLY.** This layer changes how the existing joint simulation is turned into a betting *card*. It
 places nothing, routes nothing and grants no staking authority. Stakes are research suggestions for a nominal bankroll.
@@ -308,7 +308,7 @@ about 3.5 MB of outcome vectors per game.
 | `thesis_card` | `slate.json` (compact) and `packet.json` (full) | the card plus everything above, including the full board |
 | `card.md` | next to `slate.md` (and `slates/latest/`) | the human card |
 | `thesis_postmortems` | data-archive ledger kind, written by `nhl evaluate` | per settled decision: THESIS result (primary / secondary event happened?), EXPRESSION result (`THESIS_{RIGHT,WRONG}_EXPRESSION_{WON,LOST}`, with the model's P(bet \| thesis outcome)), realised script and the model's P(win \| realised script), PRICE result (CLV vs the closing mid), MODEL result (Brier / log loss of p and p_adj vs the Kalshi mid), realised P/L |
-| `eval/report_thesis.{json,md}` | archive | card-level summary on each game's last pregame run, plus a per-game PORTFOLIO result: realised vs simulated percentile, largest thesis share, multiple losses on one thesis and whether that thesis happened ("expression risk" vs "concentration cost") |
+| `eval/report_thesis.{json,md}` | archive | per slate: completeness (`COMPLETE`/`PARTIAL — k/n games evaluated`), FINAL_CARD_UNIQUE (the ONE latest complete pregame snapshot per game; all P/L; THESIS / EXPRESSION / PRICE / MODEL / PORTFOLIO / GOVERNANCE sections) and ALL_PROSPECTIVE_DECISIONS (every generation; calibration only). See section 16. Before 2026-10-02 this view selected by worker run id and mixed generations. |
 
 Point-in-time: decisions are stamped at the cutoff and use the board observed before it; the postmortem scores only
 decisions made strictly before the scheduled start, and classifies the real game with the pregame functions.
@@ -363,3 +363,87 @@ after the confidence adjustment at the executed price**.
   price), as before.
 - The engine is one research layer on top of RESEARCH_ONLY models. Its card is a structured research view, not a
   recommendation with authority.
+
+## 16. Repair pass (2026-10-02): snapshot-unique postmortem, completeness, expression fidelity, research governance
+
+Nothing in this section changes a model probability, the confidence adjustment, the simulation, a family label, or a
+threshold of sections 3-11. It fixes reporting / infrastructure defects found on the first prospective slates and adds
+a research-execution layer on top of the optimiser. No rule below was fit to the 2026-10-01 results.
+
+### 16.1 Defects found and fixed
+
+1. **"Final card" mixed generations.** `eval/report_thesis.md` picked each game's latest (run_id, decided_at) and then
+   kept every row with that **run_id**. A capture-worker run id spans ~5 hours and one simulate generation every 45-60
+   min, so the "final card" summed every generation of the last worker: 23 chosen bets for 3 games (cap 12), Mercer and
+   Carlson counted twice at different stakes, P/L −$11.25 on $113.16. The unique final card for those 3 games is 11 bets,
+   $53.71 staked, +$4.14. Fix: snapshot identity = one generation = `snapshot_id` (new rows) = hash of (run_id,
+   decided_at_utc), which legacy rows reconstruct exactly; final snapshot chosen from `thesis_games` (so a generation
+   with no shortlisted bet still counts); every chosen decision must match the snapshot's `recommended` list; duplicates,
+   mismatches, two complete generations at one instant or more chosen bets than the game cap make the game
+   `AMBIGUOUS_FINAL_SNAPSHOT`, excluded from all P/L (fail closed). Historical rows are never rewritten.
+2. **Settlement stopped after the first three games.** Two independent defects:
+   - the settle job appended `player_events/<table>` once per game with the same timestamp and run id, so the second
+     game of a run collided with the first (`ImmutabilityError`) and the whole job failed (02:20Z and 04:20Z on
+     2026-10-02); only the 02:35Z run, with a single new game, succeeded. Fix: per-game file part
+     (`Ledger.append_rows(part=...)`) and player ingestion contained so it can never cost the game-level settlement.
+   - the conductor decided "settle?" from the NEWEST schedule snapshot only, which is fetched for the current ET date,
+     so after midnight ET the 2026-10-01 games vanished from its view and settlement was never due again. Fix: the union
+     of 4 days of schedule snapshots, and a settle backlog (`STATUS_settle.json` `backlog` / `games_pending` /
+     `games_terminal`): any game 3-72h past its start that is not COMPLETE (final result + official events) keeps
+     settlement due every 45 min. Evaluate follows every settle and re-runs when older than the last settle.
+3. **Stale STATUS_evaluate.json.** The canonical breadcrumb at the archive root was current (2026-10-02 04:20Z); the
+   file people read, `eval/STATUS_evaluate.json`, was a leftover from the job's old wrong root and still said
+   2026-09-30. Both are now written with identical content, last, after every evaluation step, including per-slate
+   thesis completeness.
+
+### 16.2 Expression fidelity (`thesis/fidelity.py`)
+
+Per bet and thesis, from integer draw counts of the joint simulation: thesis capture P(bet | thesis), P(bet | not
+thesis), lift, tracking, the logical relation (EQUIVALENT / IMPLIED_BY_THESIS / IMPLIES_THESIS / CORRELATED; zero
+tolerance on the draws) and the contract scope (GAME / TEAM broad; PLAYER / GOALIE fragile). Classes, with logical cut
+points fixed before any prospective profitability was looked at: STRUCTURAL (cannot lose when the thesis is right),
+DIRECT (capture ≥ 0.50), FRAGILE (< 0.50), NONE (diffuse). Every expression table row and every decision carries them.
+
+### 16.3 Expression preference (`thesis/engine.py` `prefer_expressions`)
+
+The optimiser (unchanged) chooses the card. Then, for each recommended bet, an eligible expression of the SAME thesis
+whose confidence-adjusted EV is no more than one price tick (1 point) below the bet's replaces it if it is strictly
+better on (1) market-family reliability, else (2) expression fidelity; prospective calibration flags, adjusted growth and
+spread only order the alternatives. The swap is re-optimised jointly with the rest of the game card and must keep a
+stake; otherwise it is declined and logged. Positive adjusted EV at the executable ask stays mandatory: no broad market
+is forced. Every override is in `card.md`, the card entry (`selection_override`, `reason_chosen`) and the decision log,
+e.g. "Broad expression … selected over player prop … because adjusted EV differs by only 0.6 pts while thesis capture is
+1.00 vs 0.45".
+
+### 16.4 Research governance (`thesis/governance.py`, `thesis/research_layer.py`)
+
+Each shortlisted decision is FUNDED_RESEARCH, SHADOW_ONLY ($0, still logged) or REJECTED (superseded by a
+higher-fidelity expression). Rules, configurable and labelled research governance: player props with a calibration
+warning (label, held-out bucket, or the assists / points compression documented before the slate) need stronger
+corroboration; the MARKET_DISAGREEMENT_REVIEW gate (|model − Kalshi mid| ≥ 10 pts, per-family override) needs 2 STRONG
+corroboration passes and no STRONG failure (3 and no failure at all under a calibration warning); ≤ 1 funded player prop
+per game; ≤ 2 funded player props with adjusted p < 0.30 per slate. Corroboration checks report PASS / FAIL / NEUTRAL /
+UNAVAILABLE and are never faked: confirmed lineup / role, held-out family calibration, an independent model arm
+(DATA_ONLY_V1, game markets only), sportsbook agreement (moneylines only), Kalshi mid movement since the first logged
+decision of the day; opponent-adjusted opportunity rates do not exist here and always report UNAVAILABLE.
+
+**Opponent adjustment.** Every evidence item carries `basis` / `label` / `authority`. No statistic in this system is
+opponent-adjusted (team ratings are EW raw xGF/xGA; player TOI / PP / rates are raw), so none is labelled so; raw
+statistics are `RAW / NOT OPPONENT ADJUSTED`, WEAK, and never count as corroboration.
+
+**Research stakes.** Optimiser fraction × $250 research bankroll, rounded UP to a whole dollar, never above $5 nor any
+existing cap (bet 2% / game 5% / thesis 3% / slate 15% of the research bankroll); if rounding up breaches a cap the
+largest valid whole dollar below it is used; below $1 → SHADOW_ONLY. Portfolio R in the card is the funded set.
+
+### 16.5 Review block and postmortem
+
+`games[].review` (packet / thesis_games) answers per game: top scripts, strongest theses, their expressions, highest
+fidelity vs best adjusted EV and why one was chosen, broad vs fragile, market disagreement, family trust
+(TRUSTED / MIXED / WARNING), status, how the bet fails even if the thesis is right, opposing evidence, and its
+relationship to every other card bet. `card.md` shows a short summary. The postmortem report is described in section 13.
+
+### 16.6 Diagnostic replays
+
+`python -m nhl_edge.research.rules_replay` re-runs RUN NHL at each game's final production decision instant on a
+link-copy of the archive (pregame data only), with this code and (optionally) the old code, and compares old vs new
+funded cards. Results: `docs/research/repair_pass/`. Diagnostic only; not evidence that the new rules are better.
