@@ -102,17 +102,40 @@ jobs:
           # this workflow chooses them, and the safe form costs nothing.
           SUCCESSOR_TOKEN: ${{ inputs.successor_token }}
           LIFETIME_MINUTES: ${{ inputs.lifetime_minutes }}
+          # Stream the worker's log live. Without it a five-hour shift printed nothing until retirement
+          # (run 36955011158: every line stamped 07:05:54Z although the shift began at 02:18Z).
+          PYTHONUNBUFFERED: "1"
         run: |
           set -uo pipefail
-          args=(worker --data data --out data/archive --workflow capture_worker.yml)
+          args=(worker --data data --out data/archive --workflow capture_worker.yml --report "$RUNNER_TEMP/worker_report.json")
           [ -n "${SUCCESSOR_TOKEN:-}" ] && args+=(--successor-token "$SUCCESSOR_TOKEN")
           [ -n "${LIFETIME_MINUTES:-}" ] && args+=(--lifetime-minutes "$LIFETIME_MINUTES")
           nhl "${args[@]}"
 
+      # Shape: work -> structured report (always) -> preserve -> ONE enforcement step. The worker exits 0 for
+      # every classified outcome (a crash still fails its step); the verdict lives in the report's `health`
+      # block (also in STATUS_worker.json on the archive branch). See src/nhl_edge/worker/health.py.
+      - name: Report shift health
+        id: health
+        if: always()
+        run: PYTHONPATH=src python -m nhl_edge.worker.health --report "$RUNNER_TEMP/worker_report.json"
+
       - name: Preserve the archive if the final push failed
-        if: failure()
+        if: failure() || steps.health.outputs.final_push_ok == 'false'
         uses: actions/upload-artifact@v4
         with:
           name: worker-archive-${{ github.run_id }}
           path: data/archive
           retention-days: 14
+
+      - name: Enforce (red only for FAILED)
+        # Default `if: success()`: a crashed worker step has already turned the run red once; this step must not
+        # add a second failure. HEALTHY / DEGRADED / NOT_APPLICABLE stay green (DEGRADED carries ::warning::).
+        env:
+          STATE: ${{ steps.health.outputs.state }}
+        run: |
+          echo "capture-worker shift health: ${STATE:-unknown}"
+          if [ "$STATE" = "FAILED" ] || [ -z "$STATE" ]; then
+            echo "failing the run: see the step summary and the 'Report shift health' annotations"
+            exit 1
+          fi

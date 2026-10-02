@@ -86,7 +86,13 @@ def cmd_worker(args: argparse.Namespace) -> int:
     w = Worker(data_root=Path(args.data), archive_root=Path(args.out), worker_id=str(worker_id), successor_token=args.successor_token or None,
                dispatch_fn=dispatch, lifetime_minutes=args.lifetime_minutes)
     result = w.run()
-    print(result.to_json())
+    payload = result.to_json()
+    print(payload)
+    if args.report:
+        # The workflow's report/enforcement steps read this; it carries final_push_ok, which STATUS_worker.json
+        # (written before that push) cannot. Exit 0 for every classified outcome: the single enforcement step
+        # turns a FAILED verdict red, so the archive-preservation step still runs first.
+        Path(args.report).write_text(payload)
     return 0
 
 
@@ -167,6 +173,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--successor-token", default=None)
     p.add_argument("--lifetime-minutes", type=float, default=None)
     p.add_argument("--no-successor", action="store_true")
+    p.add_argument("--report", default=None, help="write the final shift report (with health verdict) here")
     p.set_defaults(fn=cmd_worker)
     return ap
 
