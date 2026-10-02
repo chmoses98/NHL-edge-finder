@@ -286,7 +286,7 @@ def _sections(bets: list[dict[str, Any]], games: dict[str, dict[str, Any]]) -> d
                                   "basis": "optimiser stakes on the nominal bankroll (B)"},
                  "funded_research": {"n_funded": len(funded), "n_scored": len(fsc), "stake": round(stake_r, 2), "pl": round(pl_r, 2), "roi": round(pl_r / stake_r, 4) if stake_r else None,
                                      "basis": "whole-dollar FUNDED_RESEARCH stakes (research bankroll)"} if any(b["research_stake_dollars"] is not None for b in bets) else
-                 {"note": "no research layer on these decisions (logged before nhl-card-1.1)"},
+                 {"note": "no evaluated final-card bets yet" if not bets else "no research layer on these decisions (logged before nhl-card-1.1)"},
                  "n_funded": len(funded), "n_shadow_on_card": sum(1 for b in bets if b["research_status"] in ("SHADOW_ONLY", "REJECTED")),
                  "correlation_concentration": {"n_pairs": len(phis) // 2, "mean_abs_phi": _mean(phis), "max_abs_phi": round(max(phis), 3) if phis else None},
                  "thesis_concentration": {"mean_largest_thesis_share": _mean(th_share)},
