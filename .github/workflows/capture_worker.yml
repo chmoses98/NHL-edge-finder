@@ -89,6 +89,20 @@ jobs:
               && git add README.md && git commit -qm "init archive"
           fi
 
+      - name: Read the accounting-data branch (routed-wager ledger, read-only, for the app export)
+        # Never a failure of the worker job: a missing or unreadable ledger branch degrades to an empty
+        # wagers.json (the export's health says so) -- it must not hide behind continue-on-error either,
+        # which the worker-health tests forbid, so the whole block reports and moves on.
+        run: |
+          set -uo pipefail
+          if git fetch origin accounting-data --depth=1 2>/dev/null; then
+            { rm -rf data/accounting && mkdir -p data/accounting \
+                && git archive origin/accounting-data data/accounting | tar -x -C data/accounting --strip-components=2; } \
+              || echo "::warning::accounting-data could not be extracted; the app export will publish an empty ledger"
+          else
+            echo "no accounting-data branch yet; the app export will publish an empty ledger"
+          fi
+
       - name: Run the worker
         env:
           GITHUB_TOKEN: ${{ github.token }}
