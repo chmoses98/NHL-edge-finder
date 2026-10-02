@@ -42,8 +42,9 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
-from nhl_edge.timeutil import iso, utcnow
+from nhl_edge.timeutil import iso, parse_iso, utcnow
 from nhl_edge.worker import lease as lease_mod
+from nhl_edge.worker.health import assess as assess_health
 from nhl_edge.worker.plan import (
     plan_cycle,
     planned_exit,
@@ -76,6 +77,15 @@ class CycleRecord:
     cadence_s: float
     hours_to_next_tip: float | None
     reason: str
+    # Recorded so a failed job is visible in STATUS_worker.json and to the health verdict. Before 2026-10-02 only
+    # successes were kept, so a settle job that crashed every attempt left no trace outside the run log.
+    jobs_failed: list[str] = field(default_factory=list)
+    # False when the conductor decision could not be computed this cycle: "nothing was due" is then unproven.
+    decision_ok: bool = True
+    # Compact view of the STATUS_settle.json the settle job wrote in THIS cycle (None when settle did not run OK here).
+    # `nhl settle` exits 0 even when results or player events could not be fetched (it records them instead), so the
+    # exit code alone cannot show a settlement that has stopped progressing; this can.
+    settle: dict | None = None
 
 
 @dataclass
@@ -86,26 +96,34 @@ class WorkerResult:
     cycles: list[CycleRecord] = field(default_factory=list)
     successor_dispatched: bool = False
     fail_closed: bool = False
+    # Whether a dispatcher was configured at all (no token / --no-successor => no successor is expected).
+    successor_expected: bool = False
+    # Outcome of the push made AFTER STATUS_worker.json is written; None inside that file (not yet known).
+    final_push_ok: bool | None = None
+    # Coverage alarms of the shift's last capture (STATUS_capture.json), surfaced as DEGRADED, never as red.
+    capture_alarms: list[str] = field(default_factory=list)
+
+    def as_dict(self) -> dict:
+        d = {
+            "worker_id": self.worker_id,
+            "generation": self.generation,
+            "exit_reason": self.exit_reason,
+            "successor_dispatched": self.successor_dispatched,
+            "successor_expected": self.successor_expected,
+            "fail_closed": self.fail_closed,
+            "final_push_ok": self.final_push_ok,
+            "capture_alarms": list(self.capture_alarms),
+            "n_cycles": len(self.cycles),
+            "n_captured": sum(1 for c in self.cycles if c.captured),
+            "n_capture_failed": sum(1 for c in self.cycles if c.captured and not c.capture_ok),
+            "n_jobs_failed": sum(len(c.jobs_failed) for c in self.cycles),
+            "cycles": [vars(c) for c in self.cycles],
+        }
+        d["health"] = assess_health(d)
+        return d
 
     def to_json(self) -> str:
-        return (
-            json.dumps(
-                {
-                    "worker_id": self.worker_id,
-                    "generation": self.generation,
-                    "exit_reason": self.exit_reason,
-                    "successor_dispatched": self.successor_dispatched,
-                    "fail_closed": self.fail_closed,
-                    "n_cycles": len(self.cycles),
-                    "n_captured": sum(1 for c in self.cycles if c.captured),
-                    "n_capture_failed": sum(1 for c in self.cycles if c.captured and not c.capture_ok),
-                    "cycles": [vars(c) for c in self.cycles],
-                },
-                indent=2,
-                sort_keys=True,
-            )
-            + "\n"
-        )
+        return json.dumps(self.as_dict(), indent=2, sort_keys=True) + "\n"
 
 
 def _default_run(cmd: list[str], timeout: float) -> tuple[int, str]:
@@ -184,6 +202,7 @@ class Worker:
         self.decide_fn = decide_fn or self._decide
         self.lifetime_minutes = lifetime_minutes
         self.result: WorkerResult | None = None
+        self._decision_error: str | None = None
 
     # -- archive I/O -------------------------------------------------------------------------
     def _read_schedule(self) -> list[dict]:
@@ -207,6 +226,8 @@ class Worker:
             return decide_now(self.data_root, now=self.now())
         except Exception as e:  # noqa: BLE001 - a bad breadcrumb must not stop capture
             print(f"worker: could not read the conductor decision ({e}); capture-only this cycle")
+            # Recorded, not swallowed: the health verdict must not read "nothing due" into a missing decision.
+            self._decision_error = str(e) or e.__class__.__name__
             return {}
 
     def _push(self, message: str) -> bool:
@@ -242,7 +263,9 @@ class Worker:
         )
 
         ok, why, gen = self.acquire()
-        res = WorkerResult(worker_id=self.worker_id, generation=gen, exit_reason="")
+        res = WorkerResult(
+            worker_id=self.worker_id, generation=gen, exit_reason="", successor_expected=self.dispatch_fn is not None
+        )
         self.result = res
         if not ok:
             # Fail closed. Exit 0, not an error: another worker legitimately owns the archive and
@@ -282,7 +305,9 @@ class Worker:
     def _one_cycle(self, now: datetime) -> CycleRecord:
         starts = tip_times(self.schedule_fn())
         cyc = plan_cycle(now, starts)
+        self._decision_error = None
         decision = self.decide_fn() or {}
+        decision_ok = self._decision_error is None
         # The UNION of both gates, because the worker replaced the conductor's schedule and has to
         # be a genuine superset of it.
         #
@@ -311,7 +336,8 @@ class Worker:
         # do, the worker must therefore do itself -- otherwise simulate/settle/evaluate/discover
         # silently stop for as long as a worker is alive. Each is age-gated by decide(), so this is
         # the same cadence they had before, not extra work.
-        jobs_run = self._run_due_jobs(decision, capture_ok=capture_ok)
+        jobs_run, jobs_failed = self._run_jobs(decision, capture_ok=capture_ok)
+        settle_snapshot = self._settle_snapshot(now) if "settle" in jobs_run else None
 
         cur = lease_mod.read_lease(self.archive_root)
         if cur is not None:
@@ -341,7 +367,32 @@ class Worker:
             cadence_s=cyc.cadence_seconds,
             hours_to_next_tip=cyc.hours_to_next_tip,
             reason=cyc.reason if cyc.should_capture or not should_capture else "conductor gate: off-window capture due",
+            jobs_failed=jobs_failed,
+            decision_ok=decision_ok,
+            settle=settle_snapshot,
         )
+
+    def _settle_snapshot(self, cycle_started: datetime) -> dict:
+        """Read (never modify) the STATUS_settle.json that this cycle's settle run wrote.
+
+        Fresh only if its ``settled_at_utc`` is not older than the start of this cycle: a breadcrumb left by an
+        earlier run or another workflow must never be attributed to this shift (same rule as coverage alarms).
+        """
+        path = self.archive_root / "STATUS_settle.json"
+        try:
+            d = json.loads(path.read_text())
+            fresh = parse_iso(d["settled_at_utc"]) >= cycle_started
+        except (OSError, ValueError, KeyError, TypeError, AttributeError):
+            return {"fresh": False}
+        if not fresh:
+            return {"fresh": False}
+        player = d.get("player") if isinstance(d.get("player"), dict) else {}
+        return {
+            "fresh": True,
+            "games_pending": sorted(str(g) for g in (d.get("games_pending") or [])),
+            "n_result_errors": len(d.get("errors") or []),
+            "n_player_errors": len(player.get("errors") or []),
+        }
 
     # The capture command, as a constant rather than inline, so a test can compare it against
     # conductor.yml's production-proven invocation instead of against a copy of itself.
@@ -368,8 +419,16 @@ class Worker:
     DERIVED_JOBS = ("app_export",)
 
     def _run_due_jobs(self, decision: dict | None = None, *, capture_ok: bool = False) -> list[str]:
+        return self._run_jobs(decision, capture_ok=capture_ok)[0]
+
+    def _run_jobs(self, decision: dict | None = None, *, capture_ok: bool = False) -> tuple[list[str], list[str]]:
+        """Run every due slow job; returns (succeeded, failed) job names in run order.
+
+        ``capture_ok`` feeds the DERIVED_JOBS rule: app_export is due after a good capture or after any
+        other slow job ran, whatever the conductor decided."""
         decision = decision if decision is not None else (self.decide_fn() or {})
-        done = []
+        done: list[str] = []
+        failed: list[str] = []
         for name, template, budget in self.SLOW_JOBS:
             due = decision.get(name)
             if name in self.DERIVED_JOBS and due is None:
@@ -384,9 +443,11 @@ class Worker:
             if rc == 0:
                 done.append(name)
             else:
-                # Same reasoning as a failed capture: one bad job must never end the worker.
+                # Same reasoning as a failed capture: one bad job must never end the worker. The failure is
+                # recorded on the cycle so the shift's health verdict (worker/health.py) can see it.
+                failed.append(name)
                 print(f"worker: job {name} failed rc={rc}: {out[-400:]}")
-        return done
+        return done, failed
 
     def _dispatch_successor(self, res: WorkerResult, label: str) -> None:
         if self.dispatch_fn is None:
@@ -429,9 +490,22 @@ class Worker:
                     cur, self.now(), released_at=self.now(), note=f"retired: {res.exit_reason}"
                 ),
             )
+        if any(c.captured for c in res.cycles):
+            res.capture_alarms = self._capture_alarms()
         (self.archive_root / "STATUS_worker.json").write_text(res.to_json())
         # The Phase 12 dashboard, refreshed on every handover (~5x/day, comfortably "daily").
         # Retirement is the right moment: the worker has just finished a full shift, so the counts
         # describe a completed period rather than a half-finished one.
-        self._push(f"worker: {self.worker_id} retired after {len(res.cycles)} cycles")
+        res.final_push_ok = self._push(f"worker: {self.worker_id} retired after {len(res.cycles)} cycles")
         print(f"worker: {res.exit_reason}")
+        print(f"worker: health {res.as_dict()['health']['state']}")
+
+    def _capture_alarms(self) -> list[str]:
+        """Coverage alarms of the latest capture. Unreadable status is reported as an alarm, never ignored."""
+        path = self.archive_root / "STATUS_capture.json"
+        if not path.exists():
+            return []
+        try:
+            return [str(a) for a in (json.loads(path.read_text()).get("alarms") or [])]
+        except (OSError, ValueError, AttributeError) as e:
+            return [f"STATUS_capture.json unreadable ({e.__class__.__name__})"]
