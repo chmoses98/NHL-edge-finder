@@ -285,3 +285,92 @@ def test_capture_worker_has_one_enforcement_step_after_report_and_preserve():
     assert not any(s.get("continue-on-error") for s in steps), "no failure may be hidden in the worker job"
     worker_step = steps[names.index("Run the worker")]
     assert "--report" in worker_step["run"] and worker_step["env"]["PYTHONUNBUFFERED"] == "1"
+
+
+# -- settlement progress: `nhl settle` exits 0 while recording fetch errors and pending games ------------------------
+
+
+def _snap(pending=(), result_errors=0, player_errors=0, fresh=True):
+    if not fresh:
+        return {"fresh": False}
+    return {"fresh": True, "games_pending": list(pending), "n_result_errors": result_errors, "n_player_errors": player_errors}
+
+
+def _settle_cycles(*snaps):
+    return [_cycle(jobs_run=["settle"]) | {"settle": sn} for sn in snaps]
+
+
+def test_a_game_pending_within_the_retry_grace_is_degraded():
+    h = H.assess(_status(_settle_cycles(_snap(["2026020001"]), _snap(["2026020001"]))))
+    assert h["state"] == H.DEGRADED
+    assert h["components"]["settlement"]["games_pending"] == ["2026020001"]
+
+
+def test_a_game_pending_across_consecutive_settle_runs_is_red_although_settle_exited_zero():
+    snaps = [_snap(["2026020001", "2026020002"])] + [_snap(["2026020001"])] * (H.SETTLE_STALL_ATTEMPTS - 1)
+    h = H.assess(_status(_settle_cycles(*snaps)))
+    assert h["state"] == H.FAILED
+    assert h["components"]["settlement"]["stalled_games"] == ["2026020001"]
+    assert h["components"]["jobs"]["settle"]["disposition"] == "OK", "the exit code alone says everything is fine"
+
+
+def test_a_backlog_that_moves_is_not_a_stall():
+    """Different games pending in consecutive runs = settlement is progressing (new games entering the window)."""
+    snaps = [_snap(["a"]), _snap(["b"]), _snap(["c"])]
+    assert H.assess(_status(_settle_cycles(*snaps)))["state"] == H.DEGRADED
+    assert H.assess(_status(_settle_cycles(_snap(["a"]), _snap(["a"]), _snap([]))))["state"] == H.HEALTHY
+
+
+def test_player_phase_errors_are_degraded_then_red_once_the_grace_is_spent():
+    assert H.assess(_status(_settle_cycles(_snap(), _snap(player_errors=1))))["state"] == H.DEGRADED
+    snaps = [_snap(player_errors=1), _snap(result_errors=1), _snap(player_errors=2)]
+    assert H.assess(_status(_settle_cycles(*snaps)))["state"] == H.FAILED
+    recovered = [_snap(player_errors=1), _snap(player_errors=1), _snap()]
+    assert H.assess(_status(_settle_cycles(*recovered)))["state"] == H.HEALTHY
+
+
+def test_a_settle_run_that_did_not_refresh_its_status_is_degraded():
+    assert H.assess(_status(_settle_cycles(_snap(), _snap(fresh=False))))["state"] == H.DEGRADED
+
+
+def _settle_writer(w, clock, statuses, stale_by=None):
+    """settle exits 0 every time (as on main) and writes the next STATUS_settle.json in ``statuses``."""
+    it = iter(statuses)
+
+    def run_fn(cmd, timeout):
+        w._calls.append(cmd)
+        if cmd[:2] == ["nhl", "capture"]:
+            clock.t += timedelta(seconds=180)
+        elif cmd[:2] == ["nhl", "settle"]:
+            body = next(it)
+            at = clock.now() - (stale_by or timedelta(0))
+            body = {"settled_at_utc": at.isoformat().replace("+00:00", "Z"), **body}
+            (w.archive_root / "STATUS_settle.json").write_text(json.dumps(body))
+        return 0, ""
+
+    w.run_cmd = run_fn
+    return w
+
+
+def test_worker_reads_the_settle_status_it_produced_and_turns_a_stall_red(tmp_path):
+    clock = FakeClock(T0)
+    stuck = {"errors": [], "player": {"errors": ["2026020001: boom"]}, "games_pending": ["2026020001"]}
+    w = _settle_writer(make_worker(tmp_path, clock, "run-1", lifetime=60.0), clock, [stuck] * 50)
+    w.decide_fn = lambda: {"settle": True}
+    res = w.run()
+    assert len([c for c in res.cycles if c.settle]) >= H.SETTLE_STALL_ATTEMPTS
+    assert res.cycles[0].settle == {"fresh": True, "games_pending": ["2026020001"], "n_result_errors": 0, "n_player_errors": 1}
+    h = json.loads((tmp_path / "archive" / "STATUS_worker.json").read_text())["health"]
+    assert h["state"] == H.FAILED and h["components"]["jobs"]["settle"]["failed"] == 0
+
+
+def test_a_stale_settle_status_from_another_run_is_never_attributed_to_this_shift(tmp_path):
+    clock = FakeClock(T0)
+    stuck = {"errors": ["x"], "player": {"errors": ["y"]}, "games_pending": ["2026020001"]}
+    w = _settle_writer(make_worker(tmp_path, clock, "run-1", lifetime=60.0), clock, [stuck] * 50, stale_by=timedelta(hours=2))
+    w.decide_fn = lambda: {"settle": True}
+    res = w.run()
+    assert all(c.settle == {"fresh": False} for c in res.cycles)
+    h = res.as_dict()["health"]
+    assert h["state"] == H.DEGRADED, "stale breadcrumb: flagged as not refreshed, its pending games/errors ignored"
+    assert h["components"]["settlement"]["stalled_games"] == []

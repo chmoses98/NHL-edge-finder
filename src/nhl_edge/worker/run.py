@@ -42,7 +42,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
-from nhl_edge.timeutil import iso, utcnow
+from nhl_edge.timeutil import iso, parse_iso, utcnow
 from nhl_edge.worker import lease as lease_mod
 from nhl_edge.worker.health import assess as assess_health
 from nhl_edge.worker.plan import (
@@ -82,6 +82,10 @@ class CycleRecord:
     jobs_failed: list[str] = field(default_factory=list)
     # False when the conductor decision could not be computed this cycle: "nothing was due" is then unproven.
     decision_ok: bool = True
+    # Compact view of the STATUS_settle.json the settle job wrote in THIS cycle (None when settle did not run OK here).
+    # `nhl settle` exits 0 even when results or player events could not be fetched (it records them instead), so the
+    # exit code alone cannot show a settlement that has stopped progressing; this can.
+    settle: dict | None = None
 
 
 @dataclass
@@ -333,6 +337,7 @@ class Worker:
         # silently stop for as long as a worker is alive. Each is age-gated by decide(), so this is
         # the same cadence they had before, not extra work.
         jobs_run, jobs_failed = self._run_jobs(decision)
+        settle_snapshot = self._settle_snapshot(now) if "settle" in jobs_run else None
 
         cur = lease_mod.read_lease(self.archive_root)
         if cur is not None:
@@ -364,7 +369,30 @@ class Worker:
             reason=cyc.reason if cyc.should_capture or not should_capture else "conductor gate: off-window capture due",
             jobs_failed=jobs_failed,
             decision_ok=decision_ok,
+            settle=settle_snapshot,
         )
+
+    def _settle_snapshot(self, cycle_started: datetime) -> dict:
+        """Read (never modify) the STATUS_settle.json that this cycle's settle run wrote.
+
+        Fresh only if its ``settled_at_utc`` is not older than the start of this cycle: a breadcrumb left by an
+        earlier run or another workflow must never be attributed to this shift (same rule as coverage alarms).
+        """
+        path = self.archive_root / "STATUS_settle.json"
+        try:
+            d = json.loads(path.read_text())
+            fresh = parse_iso(d["settled_at_utc"]) >= cycle_started
+        except (OSError, ValueError, KeyError, TypeError, AttributeError):
+            return {"fresh": False}
+        if not fresh:
+            return {"fresh": False}
+        player = d.get("player") if isinstance(d.get("player"), dict) else {}
+        return {
+            "fresh": True,
+            "games_pending": sorted(str(g) for g in (d.get("games_pending") or [])),
+            "n_result_errors": len(d.get("errors") or []),
+            "n_player_errors": len(player.get("errors") or []),
+        }
 
     # The capture command, as a constant rather than inline, so a test can compare it against
     # conductor.yml's production-proven invocation instead of against a copy of itself.

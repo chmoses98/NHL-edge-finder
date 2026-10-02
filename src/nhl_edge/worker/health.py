@@ -21,8 +21,10 @@ conductor decision), never from the absence of a file or an empty directory:
                   (the cron bootstrap restarts the chain). Green run + warning annotation + step summary.
 * FAILED          actionable after bounded in-shift recovery: captures that kept failing to the end of
                   the shift, a production job (simulate / settle) that failed repeatedly and was still
-                  failing at retirement, an archive that could not be pushed, or a conductor decision that
-                  was never available (so "nothing due" cannot be claimed). Red run.
+                  failing at retirement, a settlement that stopped progressing (same game pending, or fetch
+                  errors, across SETTLE_STALL_ATTEMPTS consecutive settle runs -- settle itself exits 0 then), an
+                  archive that could not be pushed, or a conductor decision that was never available (so
+                  "nothing due" cannot be claimed). Red run.
 
 Stdlib only, like ``archive/status.py``: the workflow's report step must not need an install to run.
 """
@@ -52,6 +54,13 @@ CRITICAL_JOBS = ("simulate", "settle")
 # failing means the in-shift retry did not recover it.
 CAPTURE_TRAILING_FAILURES_FOR_FAILED = 3
 CRITICAL_JOB_FAILURES_FOR_FAILED = 2
+
+# Settlement progress. `nhl settle` exits 0 even when a result or the player events could not be fetched: it records
+# them in STATUS_settle.json (`errors`, `player.errors`) and keeps the game in `games_pending` (PENDING_RESULT /
+# PENDING_EVENTS) for games 3-72h past start. The conductor re-runs settle every SETTLE_RETRY_MIN (45) minutes while
+# anything is pending, so the same game pending -- or errors present -- in this many CONSECUTIVE settle runs means at
+# least 90 minutes of retries (a game >= 4.5h past its start) without progress: the grace is spent. Fewer: DEGRADED.
+SETTLE_STALL_ATTEMPTS = 3
 
 
 def _trailing_failures(outcomes: list[bool]) -> int:
@@ -140,6 +149,43 @@ def assess(status: dict[str, Any]) -> dict[str, Any]:
                 why = "retry pending" if name in CRITICAL_JOBS else "research/context job; retried by the conductor gate"
                 warnings.append(f"{name}: last attempt failed ({n_fail}/{len(outs)} failed; {why})")
     components["jobs"] = jobs
+
+    # -- settlement progress (STATUS_settle.json snapshots written by this shift's settle runs) -----------
+    snaps = [c["settle"] for c in cycles if isinstance(c.get("settle"), dict)]
+    fresh = [sn for sn in snaps if sn.get("fresh")]
+    if snaps:
+        last = fresh[-1] if fresh else {}
+        tail = fresh[-SETTLE_STALL_ATTEMPTS:]
+        stalled = set(tail[0].get("games_pending") or []) if len(tail) == SETTLE_STALL_ATTEMPTS else set()
+        for sn in tail[1:]:
+            stalled &= set(sn.get("games_pending") or [])
+        n_err = lambda sn: (sn.get("n_result_errors") or 0) + (sn.get("n_player_errors") or 0)  # noqa: E731
+        erroring = len(tail) == SETTLE_STALL_ATTEMPTS and all(n_err(sn) for sn in tail)
+        components["settlement"] = {
+            "settle_runs": len(snaps),
+            "fresh_status": len(fresh),
+            "games_pending": list(last.get("games_pending") or []),
+            "stalled_games": sorted(stalled),
+            "errors_last_run": n_err(last) if last else None,
+        }
+        if stalled:
+            failures.append(
+                f"settlement: game(s) {sorted(stalled)} still pending after {SETTLE_STALL_ATTEMPTS} consecutive settle runs "
+                "(retry grace spent)"
+            )
+        elif last.get("games_pending"):
+            warnings.append(f"settlement: {len(last['games_pending'])} game(s) pending, within the retry grace: {last['games_pending']}")
+        if erroring:
+            failures.append(
+                f"settlement: result/player-event fetch errors in {SETTLE_STALL_ATTEMPTS} consecutive settle runs "
+                f"(last run: {n_err(last)})"
+            )
+        elif last and n_err(last):
+            warnings.append(f"settlement: {n_err(last)} result/player-event fetch error(s) in the last settle run (retried)")
+        if len(fresh) < len(snaps):
+            warnings.append(
+                f"settlement: {len(snaps) - len(fresh)} settle run(s) exited 0 without refreshing STATUS_settle.json"
+            )
 
     # -- conductor decision (the evidence for "nothing was due") --------------------------------------
     n_dec_err = sum(1 for c in cycles if c.get("decision_ok") is False)
