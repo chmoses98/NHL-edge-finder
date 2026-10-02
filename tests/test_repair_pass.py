@@ -520,3 +520,11 @@ def test_no_new_code_can_place_or_route_a_wager():
                 assert (node.module or "") not in banned_imports and not (node.module or "").startswith(("httpx", "requests", "urllib")), p
         for word in ("create_order", "/portfolio/orders", "place_order", "submit_order"):
             assert word not in text, (p, word)
+
+
+def test_empty_slate_is_not_described_as_a_legacy_card():
+    run, t = "r1", T0 - timedelta(minutes=5)
+    dec = [_decision("G1", "A|yes", t, run, True)]
+    rep = build_report([], [_game_row("G1", t, run, ["A|yes"])], dec, {"G1": T0}, _ctx(["G1"], final=False), T0 + timedelta(hours=1))
+    fr = rep["slates"]["2026-10-01"]["FINAL_CARD_UNIQUE"]["PORTFOLIO"]["funded_research"]
+    assert fr["note"] == "no evaluated final-card bets yet"

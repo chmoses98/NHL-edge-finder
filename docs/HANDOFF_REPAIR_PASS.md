@@ -47,18 +47,34 @@ determinism and point-in-time behaviour.
 
 | slate | card | bets | stake | player props | settled | realized P/L (settled only) |
 |---|---|---:|---:|---:|---:|---:|
-| 2026-10-01 | OLD nominal card | 30 | $253.01 | 26 | 11 | +$4.15 |
-| 2026-10-01 | NEW optimiser card (nominal) | 30 | $254.10 | 25 | 11 | +$2.37 |
-| 2026-10-01 | NEW FUNDED research | 11 | $36 | 6 | 4 | +$2.36 |
+| 2026-10-01 | OLD nominal card | 30 | $253.01 | 26 | 30 | −$11.31 |
+| 2026-10-01 | NEW optimiser card (nominal) | 30 | $254.10 | 25 | 30 | −$13.47 |
+| 2026-10-01 | NEW FUNDED research | 11 | $36 | 6 | 11 | +$4.00 |
 | 2026-09-30 | OLD nominal card | 12 | $142.47 | 10 | 12 | −$33.35 |
 | 2026-09-30 | NEW FUNDED research | 5 | $18 | 3 | 5 | −$11.00 |
 
 2026-10-01: 19 card bets shadow-only, 1 removed by the expression-fidelity rule (BUF@CBJ: Thompson 1+ assist NO →
 BUF −2.5 NO, adjusted EV within 0.3 pts, capture 1.00 vs 0.83; on this night the BUF@CBJ nominal card made +$0.57 instead of +$2.38 — one outcome, not evidence either way),
-4 by the market-disagreement gate (McDavid 1+ / 2+ assist NO, Carlson assist NO, Trocheck assist NO). Five Oct 1 games
-were unsettled in the archive at replay time (the settlement bug). 2026-09-30 (no production thesis card existed; old
+4 by the market-disagreement gate (McDavid 1+ / 2+ assist NO, Carlson assist NO, Trocheck assist NO; of these, Carlson
+won and McDavid 1+, McDavid 2+ and Trocheck lost). All 30 Oct 1 bets are settled (re-run after production settled the
+late games). 2026-09-30 (no production thesis card existed; old
 code replayed at 23:20Z / 01:50Z): 2 removed by the gate (Sorokin saves NO, Zuccarello assist NO), 0 substitutions.
 Full tables: `docs/research/repair_pass/replay_2026-10-01/replay.md`, `.../replay_2026-09-30/replay.md`.
+
+## Production verification (2026-10-02, fetched 23:09Z)
+
+- The capture worker generation that took over after the merge (17:33Z card onward) runs the new code: every
+  `thesis_decisions` row since 2026-10-02T17:33:17Z is `nhl-card-1.1` with `snapshot_id`, research status, research
+  stake and expression fidelity. 2026-10-02's evening card funded 1 player prop per game; the rest are SHADOW_ONLY
+  (PLAYER_PROP_GAME_CAP or CALIBRATION_WARNING_UNCORROBORATED).
+- Settlement: STATUS_settle 21:40:54Z reports all 15 games of 2026-09-29 .. 2026-10-01 in the backlog window COMPLETE,
+  `games_pending` empty, no errors. No manual action was taken.
+- Evaluation: STATUS_evaluate.json (root) == eval/STATUS_evaluate.json, 21:41:19Z, steps v1 / player / thesis_postmortem OK.
+- eval/report_thesis.md: **2026-10-01 COMPLETE — 8/8 games evaluated**, final card 30 bets (≤ 32 cap sum), nominal P/L
+  −$11.32 on $253.01 (`docs/research/repair_pass/report_thesis_production_2026-10-02T2141Z.md`). The report before
+  the fix showed 23 bets for 3 games.
+- Follow-up fix: an empty slate was described as "no research layer (logged before nhl-card-1.1)"; it now reads "no
+  evaluated final-card bets yet".
 
 ## Still needs prospective evidence
 
