@@ -89,6 +89,17 @@ jobs:
               && git add README.md && git commit -qm "init archive"
           fi
 
+      - name: Read the accounting-data branch (routed-wager ledger, read-only, for the app export)
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          if git fetch origin accounting-data --depth=1 2>/dev/null; then
+            rm -rf data/accounting && mkdir -p data/accounting
+            git archive origin/accounting-data data/accounting | tar -x -C data/accounting --strip-components=2
+          else
+            echo "no accounting-data branch yet; the app export will publish an empty ledger"
+          fi
+
       - name: Run the worker
         env:
           GITHUB_TOKEN: ${{ github.token }}

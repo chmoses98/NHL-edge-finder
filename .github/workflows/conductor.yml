@@ -117,6 +117,20 @@ jobs:
         if: needs.decide.outputs.evaluate == 'true'
         continue-on-error: true
         run: nhl evaluate --data data --out data/archive
+      - name: App export (edge_finder.app.v1 -> data/archive/app/latest)
+        # Reads what the jobs above wrote; writes only app/latest (not a ledger kind, so the immutability verifier below
+        # ignores it). continue-on-error so the production outputs above still push; the job is then failed AFTER the push
+        # by the "Fail the job if the app export failed" step. On failure only app/latest/health.json is rewritten.
+        id: app_export
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          # The routed-wager ledger lives on the orphan accounting-data branch; read it (never written here).
+          if git fetch origin accounting-data --depth=1 2>/dev/null; then
+            rm -rf data/accounting && mkdir -p data/accounting
+            git archive origin/accounting-data data/accounting | tar -x -C data/accounting --strip-components=2
+          fi
+          nhl app-export --data-root data/archive --out data/archive/app/latest --accounting-dir data/accounting
       - name: Discover market families (daily)
         if: needs.decide.outputs.discover == 'true'
         continue-on-error: true
@@ -135,6 +149,11 @@ jobs:
           PY
           cd ../..
           bash scripts/archive_push.sh data/archive "$ARCHIVE_BRANCH" "archive: $(date -u +%Y-%m-%dT%H:%M:%SZ) run ${{ github.run_id }}"
+      - name: Fail the job if the app export failed
+        if: steps.app_export.outcome == 'failure'
+        run: |
+          echo "::error title=App export failed::the app export step exited non-zero; the archive was pushed, app/latest keeps its last-known-good payload and health.json says export_failed"
+          exit 1
       - name: Preserve the snapshot if the push failed
         if: failure()
         uses: actions/upload-artifact@v4

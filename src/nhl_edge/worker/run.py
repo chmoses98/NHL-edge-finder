@@ -311,7 +311,7 @@ class Worker:
         # do, the worker must therefore do itself -- otherwise simulate/settle/evaluate/discover
         # silently stop for as long as a worker is alive. Each is age-gated by decide(), so this is
         # the same cadence they had before, not extra work.
-        jobs_run = self._run_due_jobs(decision)
+        jobs_run = self._run_due_jobs(decision, capture_ok=capture_ok)
 
         cur = lease_mod.read_lease(self.archive_root)
         if cur is not None:
@@ -357,14 +357,24 @@ class Worker:
         # the evaluation ledger IS the archive (predictions + settlements live there); reports go to ARCHIVE/eval/. The
         # original "ARCHIVE/eval" root read an empty sub-ledger, so production evaluation scored 0 rows (fixed 2026-09-30).
         ("evaluate", ["nhl", "evaluate", "--data", "DATA", "--out", "ARCHIVE"], 900.0),
+        # The Edge Finder app export (edge_finder.app.v1) reads what the jobs above wrote and publishes ARCHIVE/app/latest,
+        # which archive_push.sh carries to the data-archive branch. Not conductor-gated: it is due whenever this cycle
+        # changed the archive (a capture or any slow job), so the app never shows a board older than the archive. A failed
+        # export rewrites only app/latest/health.json (export_failed=true) and, like every job here, never ends the cycle.
+        ("app_export", ["nhl", "app-export", "--data-root", "ARCHIVE", "--out", "ARCHIVE/app/latest", "--accounting-dir", "DATA/accounting"], 300.0),
         ("discover", ["nhl", "discover", "--out", "ARCHIVE/catalog", "--statuses", "open,unopened", "--max-pages", "10"], 1200.0),
     )
+    #: Jobs that are due by what happened in the cycle rather than by the conductor's decision.
+    DERIVED_JOBS = ("app_export",)
 
-    def _run_due_jobs(self, decision: dict | None = None) -> list[str]:
+    def _run_due_jobs(self, decision: dict | None = None, *, capture_ok: bool = False) -> list[str]:
         decision = decision if decision is not None else (self.decide_fn() or {})
         done = []
         for name, template, budget in self.SLOW_JOBS:
-            if not decision.get(name):
+            due = decision.get(name)
+            if name in self.DERIVED_JOBS and due is None:
+                due = capture_ok or bool(done)
+            if not due:
                 continue
             cmd = [
                 part.replace("ARCHIVE", str(self.archive_root)).replace("DATA", str(self.data_root))
