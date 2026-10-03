@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-02T23:16:17Z · thesis-postmortem-2.0 · rows (all generations) 1249
+evaluated 2026-10-03T00:52:03Z · thesis-postmortem-2.0 · rows (all generations) 1249
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -11,7 +11,7 @@ scheduled 5 · final 0 · settled 0 · events ingested 0 · thesis-evaluated 0 �
 missing / pending:
 - 2026020017: no official FINAL result yet
 - 2026020018: no official FINAL result yet
-- 2026020019: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020019: no official FINAL result yet
 - 2026020020: game not started: the snapshot shown is the latest so far, not yet final
 - 2026020021: game not started: the snapshot shown is the latest so far, not yet final
 
@@ -54,32 +54,32 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLAST-26OCT02WSHCAR-WSHATUCH89-1|no | SHADOW_ONLY | 0 | 20.00 | - | - | - | DIRECT | - | - |
 | KXNHLGOAL-26OCT02WSHCAR-CARWCARRIER28-1|yes | SHADOW_ONLY | 0 | 4.55 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020019 BOS @ WPG: NOT_STARTED · snapshot snap-f36fcf4ff7fc968f8611 @ 2026-10-02T22:31:35Z
+#### game 2026020019 BOS @ WPG: NOT_FINAL · snapshot snap-d894c0f94f16bf8871db @ 2026-10-02T23:22:37Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT02BOSWPG-BOSMKHUSNUTDINOV92-1|yes | SHADOW_ONLY | 0 | 8.21 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT02BOSWPG-BOSELINDHOLM28-1|yes | SHADOW_ONLY | 0 | 7.63 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT02BOSWPG-WPGMSCHEIFELE55-1|yes | FUNDED_RESEARCH | 2 | 7.68 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT02BOSWPG-BOSDPASTRNAK88-1|no | SHADOW_ONLY | 0 | 7.96 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT02BOSWPG-BOSMKHUSNUTDINOV92-1|yes | SHADOW_ONLY | 0 | 8.25 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT02BOSWPG-BOSELINDHOLM28-1|yes | SHADOW_ONLY | 0 | 8.21 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT02BOSWPG-BOSJPETERKA10-1|no | SHADOW_ONLY | 0 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT02BOSWPG-WPGMSCHEIFELE55-1|yes | FUNDED_RESEARCH | 2 | 5.00 | - | - | - | DIRECT | - | - |
 
-#### game 2026020020 STL @ DAL: NOT_STARTED · snapshot snap-f36fcf4ff7fc968f8611 @ 2026-10-02T22:31:35Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT02STLDAL-STLPSUTER22-1|yes | SHADOW_ONLY | 0 | 6.42 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT02STLDAL-DALMRANTANEN96-1|no | FUNDED_RESEARCH | 5 | 18.26 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT02STLDAL-STLMMCTAVISH83-1|no | SHADOW_ONLY | 0 | 18.26 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT02STLDAL-STLDHOLLOWAY81-1|yes | SHADOW_ONLY | 0 | 7.07 | - | - | - | FRAGILE | - | - |
-
-#### game 2026020021 ANA @ VGK: NOT_STARTED · snapshot snap-f36fcf4ff7fc968f8611 @ 2026-10-02T22:31:35Z
+#### game 2026020020 STL @ DAL: NOT_STARTED · snapshot snap-00c8bda1cdf35f5d39cf @ 2026-10-03T00:15:35Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT02ANAVGK-ANATWASHE42-1|yes | FUNDED_RESEARCH | 2 | 6.11 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT02ANAVGK-ANAAKILLORN17-1|yes | SHADOW_ONLY | 0 | 8.08 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT02ANAVGK-ANAAKILLORN17-1|yes | SHADOW_ONLY | 0 | 6.47 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT02ANAVGK-ANAJCAULFIELD28-1|yes | SHADOW_ONLY | 0 | 3.54 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT02STLDAL-STLPSUTER22-1|yes | SHADOW_ONLY | 0 | 6.75 | - | - | - | FRAGILE | - | - |
+| KXNHLGAME-26OCT02STLDAL-DAL|no | FUNDED_RESEARCH | 2 | 6.10 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT02STLDAL-DALMRANTANEN96-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT02STLDAL-STLDHOLLOWAY81-1|yes | SHADOW_ONLY | 0 | 6.92 | - | - | - | FRAGILE | - | - |
+
+#### game 2026020021 ANA @ VGK: NOT_STARTED · snapshot snap-00c8bda1cdf35f5d39cf @ 2026-10-03T00:15:35Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT02ANAVGK-ANATWASHE42-1|yes | FUNDED_RESEARCH | 2 | 6.14 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT02ANAVGK-ANAAKILLORN17-1|yes | SHADOW_ONLY | 0 | 8.41 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT02ANAVGK-ANAAKILLORN17-1|yes | SHADOW_ONLY | 0 | 8.01 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT02ANAVGK-VGKBBOWMAN42-1|yes | SHADOW_ONLY | 0 | 6.64 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-01: **COMPLETE — 8/8 games evaluated**
 
