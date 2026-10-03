@@ -196,6 +196,46 @@ def test_a_failing_publish_leaves_the_previous_tree_intact(tmp_path, published):
     assert rc == 1 and not (tmp_path / "nothing" / "explorer").exists()
 
 
+# ------------------------------------------------------------------------------------------- refresh gate
+def _cli(root: Path, out: Path, *extra: str) -> tuple[int, dict]:
+    import contextlib
+    import io
+
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        rc = research_export.main(["--data-root", str(root), "--out", str(out), *extra])
+    return rc, json.loads(buf.getvalue() or "{}")
+
+
+def test_a_second_export_within_the_interval_is_skipped_and_leaves_the_tree_untouched(tmp_path, published):
+    root, out, _ = published
+    work = tmp_path / "copy"
+    shutil.copytree(out, work)
+    before = research.digest_tree(work)
+    rc, res = _cli(root, work, "--min-interval-minutes", "60", "--now", "2026-10-03T07:00:00Z")
+    assert rc == 0 and res["skipped"] is True and "unchanged" in res["reason"]
+    assert research.digest_tree(work) == before
+    rc, res = _cli(root, work, "--min-interval-minutes", "60", "--now", "2026-10-03T08:00:00Z")
+    assert rc == 0 and not res.get("skipped") and research.read_index(work)["generated_at"] == "2026-10-03T08:00:00Z"
+    assert research.verify_explorer(work) == []
+
+
+def test_a_changed_v1_event_set_triggers_a_rebuild(tmp_path, published):
+    root, out, _ = published
+    work = tmp_path / "copy"
+    shutil.copytree(out, work)
+    events = _load(work, "events.json")
+    dropped = events["items"].pop()
+    events["count"] = len(events["items"])
+    (work / "events.json").write_text(json.dumps(events))
+    due, reason = research.refresh_due(work, now="2026-10-03T06:40:00Z", min_interval_seconds=3600)
+    assert due and "events changed" in reason
+    rc, res = _cli(root, work, "--min-interval-minutes", "60", "--now", "2026-10-03T06:40:00Z")
+    assert rc == 0 and not res.get("skipped") and res["counts"]["events"] == len(events["items"])
+    assert f"events/{dropped['event_id']}.json" not in research.read_index(work)["files"]
+    assert research.verify_explorer(work) == []
+
+
 # ----------------------------------------------------------------------------------------- CLI / workflow / worker
 def test_cli_workflow_and_worker_run_the_research_export_after_the_app_export(tmp_path):
     import yaml
@@ -215,8 +255,7 @@ def test_cli_workflow_and_worker_run_the_research_export_after_the_app_export(tm
     assert "GITHUB_STEP_SUMMARY" in steps[i_res]["run"]
     i_fail = next(i for i, s in enumerate(steps) if "steps.research_export.outcome" in str(s.get("if", "")))
     assert i_fail > i_push and "exit 1" in steps[i_fail]["run"]
-    # the capture worker publishes app/latest itself (publish.publish removes explorer/ files it does not list),
-    # so it re-publishes the explorer right after every successful app export and records failures
+    # the capture worker considers the explorer after every successful app export (gated by refresh_due) and records failures
     calls: list[list[str]] = []
     w = Worker.__new__(Worker)
     w.archive_root, w.data_root = tmp_path / "archive", tmp_path
@@ -224,6 +263,7 @@ def test_cli_workflow_and_worker_run_the_research_export_after_the_app_export(tm
     jobs_run, jobs_failed = ["app_export"], []
     w._run_research_export(jobs_run, jobs_failed)
     assert jobs_run == ["app_export", "research_export"] and calls[-1][:2] == ["nhl", "research-export"]
+    assert calls[-1][-2:] == ["--min-interval-minutes", "60"], "the worker rebuilds at most hourly unless the events change"
     w.run_cmd = lambda cmd, timeout: (calls.append(cmd), (2, "boom"))[1]
     jobs_run, jobs_failed = ["app_export"], []
     w._run_research_export(jobs_run, jobs_failed)

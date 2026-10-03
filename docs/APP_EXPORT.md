@@ -124,8 +124,8 @@ capability-checked, staged, swapped in with `index.json` last; any problem leave
 | | |
 |---|---|
 | Entry points | `nhl research-export --data-root data/archive --out data/archive/app/latest [--now] [--history-root] [--commit-sha]`, `python scripts/research_export.py ...` |
-| Runs | after every app export: the conductor step `research_export` (own command, `continue-on-error`, step summary, then "Fail the job if the research export failed" after the push) and the capture worker (`Worker._run_research_export`, after every successful `app_export`; a failure is recorded on the cycle as a non-critical job) |
-| Why after every app export | `publish.publish` removes every file under `app/latest` its manifest does not list, `explorer/` included, so the explorer must be re-published after each v1 publication |
+| Runs | the conductor step `research_export` after every app export (own command, `continue-on-error`, step summary, then "Fail the job if the research export failed" after the push); the capture worker (`Worker._run_research_export`) after every successful `app_export` with `--min-interval-minutes 60`, i.e. only when `research.refresh_due` says so (explorer missing, v1 event set changed, or tree older than 60 min); a skipped refresh exits 0 and leaves `explorer/` untouched; a failure is recorded on the cycle as a non-critical job |
+| Refresh gate | `--min-interval-minutes N` (default 0 = always rebuild). Since contract 1.1.1 `publish.publish` keeps `explorer/`, so between rebuilds (and after a failed rebuild) the last tree stands; its `run_id` is then an earlier v1 run's |
 | Identity | `run_id` = the v1 manifest's `run_id`; `generated_at` = the v1 manifest's `generated_at` (or `--now`); `as_of` = the newest data timestamp read. Team / player / event ids are the v1 `prt_` / `evt_` ids (same `build.participant` / `ids.event_id` sources: `nhl_team_id`, `nhl_player_id`, `nhl_game_id`) |
 | Inputs | the v1 publication (events, markets, model prices, wagers); `data/history` on `main` (MoneyPuck team game logs, official results, official player / goalie game logs: last complete season, plus the previous season and the current partial file for players); the archive (`context/team_games`, `team_games_st`, `team_summary`, `schedule`, `rosters`, `lines`, `injuries`, `goalie_observations`, `results`, `player_events/*`, `predictions`, `eval/report*.json`, `kalshi/markets` checkpoints + deltas via `archive/reconstruct.iter_board_ticks`, `slates/latest/packet.json`) |
 
@@ -152,7 +152,7 @@ capability-checked, staged, swapped in with `index.json` last; any problem leave
 - **Time series**: per-game xGF% and CF% (last 82 games, rolling L10) for the teams on the slate; DATA_ONLY_V1
   probability per run (x_axis RUN) for every priced ticker of the published events. Because `explorer/index.json`
   cannot be sharded, probability series are dropped lowest-priority first (team totals, then game totals, spreads;
-  moneylines last) when the index would pass 295 KB; the run's warnings and the `raw_projections` limitations say how
+  moneylines last) only if the (compact) index would pass 295 KB -- none were on 2026-10-03; the run's warnings and the `raw_projections` limitations say how
   many.
 - **Rankings, metric registry (33 metrics), capability manifest, search index** (teams, players, events, metrics,
   rankings).
@@ -172,9 +172,9 @@ source is absent from the archive being exported is downgraded to UNAVAILABLE wi
 ### Sizes (real archive, 2026-10-03T06:30Z: 13 events, 26 teams on the slate)
 
 `research.tree_bytes`: players 13.74 MB (620 files, ~25 KB each), market_history 4.38 MB (13, max 365 KB), teams
-3.24 MB (32, max 111 KB), series 2.06 MB (358), events 1.48 MB (13, max 115 KB), rankings 1.37 MB (58, max 157 KB),
-index.json 295 KB, search_index.json 234 KB, metrics.json 86 KB, capabilities.json 23 KB; total 26.9 MB. Build ~50 s
-(~25 s of it is replaying the 520 board ticks). Every file carries the run id, so every publication rewrites the tree.
+3.24 MB (32, max 111 KB), series 2.10 MB (377: 52 team + all 325 priced tickers), events 1.48 MB (13, max 115 KB), rankings 1.37 MB (58, max 157 KB),
+index.json 244 KB (compact since contract 1.1.1), search_index.json 234 KB, metrics.json 86 KB, capabilities.json 23 KB; total 26.9 MB. Build ~50 s
+(~25 s of it is replaying the 520 board ticks). Every file carries the run id, so every rebuild rewrites the tree; the worker therefore rebuilds at most hourly unless the event set changes.
 
 ### Deliberately not published
 

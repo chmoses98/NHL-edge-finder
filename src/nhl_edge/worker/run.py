@@ -419,10 +419,13 @@ class Worker:
     #: Jobs that are due by what happened in the cycle rather than by the conductor's decision.
     DERIVED_JOBS = ("app_export",)
 
-    # The research explorer (contract 1.1.0) lives inside app/latest, and publishing app/latest removes every file its
-    # manifest does not list -- explorer/ included. So it is re-published right after every successful app export, as its
-    # own command: a failure is recorded on the cycle (non-critical job) and never touches the v1 payload.
-    RESEARCH_EXPORT_JOB = ("research_export", ["nhl", "research-export", "--data-root", "ARCHIVE", "--out", "ARCHIVE/app/latest"], 600.0)
+    # The research explorer (contract 1.1.x) lives in app/latest/explorer. It is considered after every successful app
+    # export, as its own command, but rebuilt only when research.refresh_due says so (explorer missing, v1 events changed,
+    # or older than 60 min): every explorer file carries the run id, so a rebuild rewrites ~27 MB. A skipped refresh exits
+    # 0 and keeps the last tree (publish.publish no longer prunes explorer/ since contract 1.1.1). A failure is recorded on
+    # the cycle (non-critical job) and never touches the v1 payload.
+    RESEARCH_EXPORT_JOB = ("research_export", ["nhl", "research-export", "--data-root", "ARCHIVE", "--out", "ARCHIVE/app/latest",
+                                               "--min-interval-minutes", "60"], 600.0)
 
     def _run_research_export(self, jobs_run: list[str], jobs_failed: list[str]) -> None:
         if "app_export" not in jobs_run:

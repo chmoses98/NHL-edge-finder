@@ -595,7 +595,7 @@ def build_explorer(inp: ResearchInputs, *, run_id: str, generated_at: Any, index
     fam = {m["market_id"]: m["market_family"] for m in inp.markets}
     series.sort(key=lambda d: (MODEL_SERIES_PRIORITY.get(fam.get(d["entity_id"]), 9), d["entity_id"]))
     entry = {d["series_id"]: len(json.dumps({R.path_for(d): {"bytes": 1000, "entity_id": d["series_id"], "kind": "time_series",
-                                                               "sha256": "0" * 64}}, indent=2)) for d in series}
+                                                               "sha256": "0" * 64}}, separators=(",", ":"))) for d in series}
     keep = [d["entity_id"] for d in series]
     excess = size - budget
     while keep and excess > 0:
@@ -612,7 +612,7 @@ def _index_bytes(docs: list[dict], meta: dict, *, run_id: str, generated_at: Any
     texts = {k: dumps(v) for k, v in by_path.items()}
     index = R.build_index(sport=SPORT, run_id=run_id, generated_at=generated_at, documents=by_path, texts=texts, quality=meta["quality"],
                           as_of=meta["as_of"], base_manifest_run_id=run_id, windows=meta["windows"], warnings=meta["warnings"])
-    return len(dumps(index, compact=False).encode("utf-8"))
+    return len(dumps(index, compact=True).encode("utf-8"))  # contract 1.1.1 writes explorer/index.json compact
 
 
 def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_series: set[str] | None) -> tuple[list[dict], dict]:
@@ -1752,6 +1752,9 @@ def add_arguments(ap) -> None:
     ap.add_argument("--now", default=None, help="ISO-8601 UTC generation instant (default: the v1 manifest's generated_at)")
     ap.add_argument("--history-root", default=None, help="committed history (default <repo>/data/history)")
     ap.add_argument("--commit-sha", default=os.environ.get("GITHUB_SHA") or None)
+    ap.add_argument("--min-interval-minutes", type=float, default=0.0,
+                    help="rebuild only when research.refresh_due says so (explorer missing, v1 events changed, or older than this); "
+                         "0 = always rebuild")
 
 
 def run_from_args(a) -> int:
@@ -1759,6 +1762,12 @@ def run_from_args(a) -> int:
 
     root = Path(a.data_root)
     out = Path(a.out) if a.out else root / APP_ROOT_RELATIVE
+    if a.min_interval_minutes and a.min_interval_minutes > 0:
+        due, reason = R.refresh_due(out, now=a.now or timeutil.now_utc(), min_interval_seconds=a.min_interval_minutes * 60.0)
+        if not due:
+            print(json.dumps({"ok": True, "skipped": True, "out": str(out / R.EXPLORER_DIR), "reason": reason}, indent=1))
+            return 0
+        print(f"research-export: rebuilding ({reason})", file=sys.stderr)
     try:
         res = export_explorer(out, root, now=a.now, history_root=Path(a.history_root) if a.history_root else None, commit_sha=a.commit_sha)
     except Exception as exc:  # noqa: BLE001 - reported and turned into exit 1; the previous explorer tree stands

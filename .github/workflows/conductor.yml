@@ -132,8 +132,8 @@ jobs:
           fi
           nhl app-export --data-root data/archive --out data/archive/app/latest --accounting-dir data/accounting
       - name: Research explorer export (contract 1.1.0 -> data/archive/app/latest/explorer)
-        # Its own command right after the v1 export (which removes explorer/ files its manifest does not list), so a research
-        # failure can never block or alter the v1 payload. Same failure pattern: continue-on-error here so the archive still
+        # Its own command right after the v1 export, so a research failure can never block or alter the v1 payload (the v1
+        # publish keeps explorer/ since contract 1.1.1; the conductor always rebuilds, the worker gates on refresh_due). Same failure pattern: continue-on-error here so the archive still
         # pushes, then "Fail the job if the research export failed" after the push. A failed publish writes nothing.
         id: research_export
         continue-on-error: true
