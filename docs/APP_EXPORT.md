@@ -113,3 +113,73 @@ health `RESEARCH_ONLY`, `verify_published == []`.
 - `event.source_ids` is flat string/int; a per-event list of Kalshi event tickers (NHL has ~70 per game across
   period/player series) does not fit, so only the game-level `KXNHLGAME-...` ticker is recorded there.
 - `thesis` has one `scope` string; bet-level theses use the bet id as scope, which works but is implicit.
+
+## Research explorer (`app/latest/explorer`, contract 1.1.0)
+
+The research graph the app navigates (teams -> players -> games -> opponents -> metrics -> rankings -> trends ->
+markets), published beside the v1 files by a second adapter, `src/nhl_edge/research_export.py`
+(`build_explorer()` pure, `export_explorer()` publishes through `research.publish_explorer`: validated, graph- and
+capability-checked, staged, swapped in with `index.json` last; any problem leaves the previous tree untouched).
+
+| | |
+|---|---|
+| Entry points | `nhl research-export --data-root data/archive --out data/archive/app/latest [--now] [--history-root] [--commit-sha]`, `python scripts/research_export.py ...` |
+| Runs | after every app export: the conductor step `research_export` (own command, `continue-on-error`, step summary, then "Fail the job if the research export failed" after the push) and the capture worker (`Worker._run_research_export`, after every successful `app_export`; a failure is recorded on the cycle as a non-critical job) |
+| Why after every app export | `publish.publish` removes every file under `app/latest` its manifest does not list, `explorer/` included, so the explorer must be re-published after each v1 publication |
+| Identity | `run_id` = the v1 manifest's `run_id`; `generated_at` = the v1 manifest's `generated_at` (or `--now`); `as_of` = the newest data timestamp read. Team / player / event ids are the v1 `prt_` / `evt_` ids (same `build.participant` / `ids.event_id` sources: `nhl_team_id`, `nhl_player_id`, `nhl_game_id`) |
+| Inputs | the v1 publication (events, markets, model prices, wagers); `data/history` on `main` (MoneyPuck team game logs, official results, official player / goalie game logs: last complete season, plus the previous season and the current partial file for players); the archive (`context/team_games`, `team_games_st`, `team_summary`, `schedule`, `rosters`, `lines`, `injuries`, `goalie_observations`, `results`, `player_events/*`, `predictions`, `eval/report*.json`, `kalshi/markets` checkpoints + deltas via `archive/reconstruct.iter_board_ticks`, `slates/latest/packet.json`) |
+
+### What it publishes
+
+- **Team profiles** (all 32 active clubs): 2025-26 (history) and 2026-27 (live) regular-season xGF%, xGF/60, xGA/60,
+  CF%, FF%, HDxGF%, score/venue-adjusted xGF%, GF/GP, GA/GP; L10 (each team's last 10 stored games, computed by the
+  export); official points %, PP %, PK % (NHL team summary); point-in-time DATA_ONLY_V1 ratings (off/def xG60, finish,
+  stop) and the model's expected goals (lambda, RESEARCH) from the latest packet. Every value carries its league
+  rank / universe / average / best / worst from a published ranking. Splits: situation (5on5 / 5on4 / 4on5) and home/away.
+  Last-82-game log (`extensions.game_log`), game refs with official results, opponents, roster, injuries, the team's
+  markets and model prices for its next game.
+- **Player profiles** (every rostered skater and goalie of the teams in the v1 events): official season totals for
+  the last complete and the current season, L10, TOI per game by strength state, goalie save % / EV save % / GAA;
+  season rankings over skaters with >= 20 GP / goalies with >= 15 starts (current-season rankings only once 50
+  players reach 10 games); last-82-game official log; injury status (ESPN, name-matched) and goalie-start status.
+- **Event research** (one per v1 event): matchup rows (primary season, L10, run), every v1 market as a market ref,
+  DATA_ONLY_V1 model prices as projections (`research_only`, `RESEARCH_ONLY`), total-goals and margin quantiles from
+  the latest simulation, goalie status timeline and line combinations / PP-PK units (`context.lineups`), injuries,
+  venue, rest notes, per-family calibration and CLV, the simulation ladders and lambda decomposition (`extensions`).
+- **Market history** (one per v1 event): every ticker's quote-change series (bid / ask / last, volume and open
+  interest at the change) from checkpoints + deltas, plus the last observation; thinned to the most recent change
+  points only if a document would exceed 380 KB (none did on 2026-10-03).
+- **Time series**: per-game xGF% and CF% (last 82 games, rolling L10) for the teams on the slate; DATA_ONLY_V1
+  probability per run (x_axis RUN) for every priced ticker of the published events. Because `explorer/index.json`
+  cannot be sharded, probability series are dropped lowest-priority first (team totals, then game totals, spreads;
+  moneylines last) when the index would pass 295 KB; the run's warnings and the `raw_projections` limitations say how
+  many.
+- **Rankings, metric registry (33 metrics), capability manifest, search index** (teams, players, events, metrics,
+  rankings).
+
+### Capabilities (audit 2026-10-03, `scratchpad/phase2/audit_nhl.md` §4/§10)
+
+A mixed audit rating publishes the lower status unless only the higher-rated part is published. A capability whose
+source is absent from the archive being exported is downgraded to UNAVAILABLE with the reason.
+
+| status | capabilities | why |
+|---|---|---|
+| VERIFIED | usage, raw_projections, market_prices, market_price_history, player_props, team_props, game_markets, calibration, historical_accuracy, clv, search | production kinds on a cadence (actual TOI from shift charts, `predictions`, board captures, `eval/report.json`); player props are VERIFIED as captures only |
+| PARTIAL | team_profiles, player_profiles, event_research, team_metrics, player_metrics, team_game_logs, player_game_logs, historical_results, opponents, recent_form_windows, lineups, injuries, projection_distributions, advanced_stats, situational_splits, rankings, time_series, comparisons | history parquet is a one-off manual pull; ratings not opponent-adjusted; lines/injuries 4-5 days deep, injuries name-only; L10 and rankings are export arithmetic, not stored by the repository |
+| RESEARCH | matchup_metrics | lambda decomposition / expected goals per run (`model_expected_goals` stays RESEARCH inside profiles, matchup rows and packets) |
+| UNAVAILABLE | opponent_adjustment, schedule_strength, play_by_play, weather, venue_effects, wager_history | none computed (audit §6); shots/goals not exposed per play; indoor; constant home factor only; accounting ledger empty (PARTIAL automatically once wagers exist) |
+
+### Sizes (real archive, 2026-10-03T06:30Z: 13 events, 26 teams on the slate)
+
+`research.tree_bytes`: players 13.74 MB (620 files, ~25 KB each), market_history 4.38 MB (13, max 365 KB), teams
+3.24 MB (32, max 111 KB), series 2.06 MB (358), events 1.48 MB (13, max 115 KB), rankings 1.37 MB (58, max 157 KB),
+index.json 295 KB, search_index.json 234 KB, metrics.json 86 KB, capabilities.json 23 KB; total 26.9 MB. Build ~50 s
+(~25 s of it is replaying the 520 board ticks). Every file carries the run id, so every publication rewrites the tree.
+
+### Deliberately not published
+
+Opponent- or schedule-adjusted anything (none exists); per-play shots/goals rows; order-book depth; historical Kalshi
+candles (2025-26); DATA_ONLY_V2 and PLAYER_SIM_V1 per-contract probabilities and projected TOI (RESEARCH shadow arms;
+PLAYER_SIM_V1 calibration is in the registry as RESEARCH); thesis scripts / portfolios / postmortems; sportsbook
+consensus (quarantined); historical walk-forward datasets under `docs/research`; player time series (game logs are
+tables in the profiles); team series for teams not on the slate.

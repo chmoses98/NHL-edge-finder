@@ -337,6 +337,7 @@ class Worker:
         # silently stop for as long as a worker is alive. Each is age-gated by decide(), so this is
         # the same cadence they had before, not extra work.
         jobs_run, jobs_failed = self._run_jobs(decision, capture_ok=capture_ok)
+        self._run_research_export(jobs_run, jobs_failed)
         settle_snapshot = self._settle_snapshot(now) if "settle" in jobs_run else None
 
         cur = lease_mod.read_lease(self.archive_root)
@@ -417,6 +418,23 @@ class Worker:
     )
     #: Jobs that are due by what happened in the cycle rather than by the conductor's decision.
     DERIVED_JOBS = ("app_export",)
+
+    # The research explorer (contract 1.1.0) lives inside app/latest, and publishing app/latest removes every file its
+    # manifest does not list -- explorer/ included. So it is re-published right after every successful app export, as its
+    # own command: a failure is recorded on the cycle (non-critical job) and never touches the v1 payload.
+    RESEARCH_EXPORT_JOB = ("research_export", ["nhl", "research-export", "--data-root", "ARCHIVE", "--out", "ARCHIVE/app/latest"], 600.0)
+
+    def _run_research_export(self, jobs_run: list[str], jobs_failed: list[str]) -> None:
+        if "app_export" not in jobs_run:
+            return
+        name, template, budget = self.RESEARCH_EXPORT_JOB
+        cmd = [part.replace("ARCHIVE", str(self.archive_root)).replace("DATA", str(self.data_root)) for part in template]
+        rc, out = self.run_cmd(cmd, budget)
+        if rc == 0:
+            jobs_run.append(name)
+        else:
+            jobs_failed.append(name)
+            print(f"worker: job {name} failed rc={rc}: {out[-400:]}")
 
     def _run_due_jobs(self, decision: dict | None = None, *, capture_ok: bool = False) -> list[str]:
         return self._run_jobs(decision, capture_ok=capture_ok)[0]

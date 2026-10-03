@@ -103,6 +103,13 @@ def cmd_app_export(args: argparse.Namespace) -> int:
     return run_from_args(args)
 
 
+def cmd_research_export(args: argparse.Namespace) -> int:
+    """Publish the Edge Finder research explorer (contract 1.1.0) into <out>/explorer, after the app export."""
+    from nhl_edge.research_export import run_from_args
+
+    return run_from_args(args)
+
+
 def cmd_run(args: argparse.Namespace) -> int:
     """RUN NHL: context -> capture -> simulate for the target date, in one command."""
     from nhl_edge.archive.capture import run_capture
@@ -178,6 +185,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     add_arguments(p)
     p.set_defaults(fn=cmd_app_export)
+    p = sub.add_parser("research-export", help="publish the Edge Finder research explorer (app/latest/explorer) after the app export")
+    from nhl_edge.research_export import add_arguments as add_research_arguments
+
+    add_research_arguments(p)
+    p.set_defaults(fn=cmd_research_export)
     p = sub.add_parser("worker", help="long-lived capture worker (GitHub Actions)")
     p.add_argument("--data", default="data")
     p.add_argument("--out", default="data/archive")
