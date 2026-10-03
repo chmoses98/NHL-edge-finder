@@ -131,6 +131,20 @@ jobs:
             git archive origin/accounting-data data/accounting | tar -x -C data/accounting --strip-components=2
           fi
           nhl app-export --data-root data/archive --out data/archive/app/latest --accounting-dir data/accounting
+      - name: Research explorer export (contract 1.1.0 -> data/archive/app/latest/explorer)
+        # Its own command right after the v1 export, so a research failure can never block or alter the v1 payload (the v1
+        # publish keeps explorer/ since contract 1.1.1; the conductor always rebuilds, the worker gates on refresh_due). Same failure pattern: continue-on-error here so the archive still
+        # pushes, then "Fail the job if the research export failed" after the push. A failed publish writes nothing.
+        id: research_export
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          log="$RUNNER_TEMP/research_export.json"
+          nhl research-export --data-root data/archive --out data/archive/app/latest > "$log" 2>&1
+          rc=$?
+          { echo "### Research explorer export (exit $rc)"; echo '```json'; head -c 4000 "$log"; echo; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          cat "$log"
+          exit $rc
       - name: Discover market families (daily)
         if: needs.decide.outputs.discover == 'true'
         continue-on-error: true
@@ -153,6 +167,11 @@ jobs:
         if: steps.app_export.outcome == 'failure'
         run: |
           echo "::error title=App export failed::the app export step exited non-zero; the archive was pushed, app/latest keeps its last-known-good payload and health.json says export_failed"
+          exit 1
+      - name: Fail the job if the research export failed
+        if: steps.research_export.outcome == 'failure'
+        run: |
+          echo "::error title=Research export failed::the research explorer export exited non-zero; the archive and app/latest were pushed without a fresh explorer/ tree"
           exit 1
       - name: Preserve the snapshot if the push failed
         if: failure()
