@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-04T08:27:09Z · thesis-postmortem-2.0 · rows (all generations) 3836
+evaluated 2026-10-04T10:12:11Z · thesis-postmortem-2.0 · rows (all generations) 3836
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -36,34 +36,35 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020035 WPG @ DET: NOT_STARTED · snapshot snap-1c61667bddfeebf238da @ 2026-10-04T07:56:30Z
+#### game 2026020035 WPG @ DET: NOT_STARTED · snapshot snap-c818068402c60948d294 @ 2026-10-04T09:56:31Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT04WPGDET-WPGNPIONK4-1|no | SHADOW_ONLY | 0 | 16.83 | - | - | - | NONE | - | - |
-| KXNHLGOAL-26OCT04WPGDET-WPGCPERFETTI91-1|no | FUNDED_RESEARCH | 4 | 15.23 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT04WPGDET-WPGIROSEN27-1|no | SHADOW_ONLY | 0 | 14.77 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT04WPGDET-WPGCPERFETTI91-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT04WPGDET-WPGNPIONK4-1|no | SHADOW_ONLY | 0 | 20.00 | - | - | - | NONE | - | - |
+| KXNHLGOAL-26OCT04WPGDET-DETJCOMPHER37-1|yes | SHADOW_ONLY | 0 | 5.24 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020036 UTA @ NYR: NOT_STARTED · snapshot snap-1c61667bddfeebf238da @ 2026-10-04T07:56:30Z
+#### game 2026020036 UTA @ NYR: NOT_STARTED · snapshot snap-c818068402c60948d294 @ 2026-10-04T09:56:31Z
 
-#### game 2026020037 FLA @ ANA: NOT_STARTED · snapshot snap-1c61667bddfeebf238da @ 2026-10-04T07:56:30Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT04FLAANA-FLA3|no | FUNDED_RESEARCH | 5 | 18.57 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT04FLAANA-ANA3|yes | FUNDED_RESEARCH | 2 | 5.12 | - | - | - | DIRECT | - | - |
-| KXNHLTEAMTOTAL-26OCT04FLAANA-FLA5|no | FUNDED_RESEARCH | 2 | 5.41 | - | - | - | DIRECT | - | - |
-
-#### game 2026020038 CGY @ SEA: NOT_STARTED · snapshot snap-1c61667bddfeebf238da @ 2026-10-04T07:56:30Z
-
-#### game 2026020039 VGK @ VAN: NOT_STARTED · snapshot snap-1c61667bddfeebf238da @ 2026-10-04T07:56:30Z
+#### game 2026020037 FLA @ ANA: NOT_STARTED · snapshot snap-c818068402c60948d294 @ 2026-10-04T09:56:31Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT04VGKVAN-VAN2|yes | FUNDED_RESEARCH | 2 | 6.35 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN5|yes | FUNDED_RESEARCH | 1 | 1.81 | - | - | - | DIRECT | - | - |
-| KXNHLSPREAD-26OCT04VGKVAN-VGK2|no | FUNDED_RESEARCH | 1 | 1.68 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT04VGKVAN-VGK3|no | FUNDED_RESEARCH | 3 | 10.28 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT04FLAANA-ANA3|yes | FUNDED_RESEARCH | 1 | 3.87 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26OCT04FLAANA-FLA3|no | FUNDED_RESEARCH | 5 | 19.83 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT04FLAANA-ANA4|yes | FUNDED_RESEARCH | 1 | 2.39 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT04FLAANA-FLA5|no | FUNDED_RESEARCH | 2 | 7.77 | - | - | - | DIRECT | - | - |
+
+#### game 2026020038 CGY @ SEA: NOT_STARTED · snapshot snap-c818068402c60948d294 @ 2026-10-04T09:56:31Z
+
+#### game 2026020039 VGK @ VAN: NOT_STARTED · snapshot snap-c818068402c60948d294 @ 2026-10-04T09:56:31Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLSPREAD-26OCT04VGKVAN-VAN2|yes | FUNDED_RESEARCH | 2 | 6.89 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT04VGKVAN-VGK2|no | FUNDED_RESEARCH | 2 | 6.66 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT04VGKVAN-VGK3|no | FUNDED_RESEARCH | 1 | 3.90 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK6|no | FUNDED_RESEARCH | 2 | 7.94 | - | - | - | DIRECT | - | - |
 
 ## Slate 2026-10-03: **COMPLETE — 13/13 games evaluated**
 
