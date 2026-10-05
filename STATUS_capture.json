@@ -1,37 +1,39 @@
 {
- "last_capture_utc": "2026-10-05T15:24:57Z",
- "n_markets": 2820,
+ "last_capture_utc": "2026-10-05T15:39:57Z",
+ "n_markets": 2828,
  "n_series": 76,
  "requests": 453,
  "run_id": "37307563073",
  "markets_written": {
   "encoding": "delta",
-  "seq": 19,
-  "path": "kalshi/markets_delta/dt=2026-10-05/kalshi_markets_delta_20261005T152457Z_37307563073.json.gz",
-  "bytes": 15191,
-  "n_markets": 2820,
-  "n_changed": 831,
-  "changed_pct": 29.468,
-  "board_sha256": "6e8e743f74d600b96455128aab026449a96819901b0f5a2ac416be6f49070509"
+  "seq": 20,
+  "path": "kalshi/markets_delta/dt=2026-10-05/kalshi_markets_delta_20261005T153957Z_37307563073.json.gz",
+  "bytes": 16204,
+  "n_markets": 2828,
+  "n_changed": 1038,
+  "changed_pct": 36.704,
+  "board_sha256": "dd715c6ab1f23c74b4f9d382a505b3017549f12d49c1356ba75c21d0cc9c0f54"
  },
  "orderbooks_written": {
   "encoding": "delta",
-  "seq": 19,
-  "path": "kalshi/orderbooks_delta/dt=2026-10-05/kalshi_orderbooks_delta_20261005T152457Z_37307563073.json.gz",
-  "bytes": 30795,
+  "seq": 20,
+  "path": "kalshi/orderbooks_delta/dt=2026-10-05/kalshi_orderbooks_delta_20261005T153957Z_37307563073.json.gz",
+  "bytes": 29300,
   "n_markets": 300,
-  "n_changed": 212,
-  "changed_pct": 70.667,
-  "board_sha256": "a01318d9ef2961eb90708adc65efd55b8afe5eb65edc834ccf43ae1eed0ad483"
+  "n_changed": 208,
+  "changed_pct": 69.333,
+  "board_sha256": "ba8e3c6b762a8b89594589a24134ccad64270c1caa775bb093fa4ffee1c35a54"
  },
  "by_status": {
-  "active": 2820
+  "active": 2820,
+  "initialized": 8
  },
  "by_support": {
   "BUILDABLE": 13,
   "MODELABLE": 432,
   "RESEARCH": 1828,
-  "UNMODELABLE": 547
+  "UNMODELABLE": 547,
+  "UNRESOLVED": 8
  },
  "by_family": {
   "first_goal": 142,
@@ -50,11 +52,15 @@
   "season_awards": 546,
   "season_champion": 481,
   "season_player_stats": 496,
+  "season_unknown": 8,
   "team_total": 130
  },
- "alarms": [],
+ "alarms": [
+  "8 market(s) classified UNRESOLVED across series ['KXNHLPSEASONGOALS']: the ontology does not describe something on the board",
+  "series on the board with no ontology entry: ['KXNHLPSEASONGOALS']"
+ ],
  "notes": [
   "order books sampled by priority: 2820 live markets, cap 300"
  ],
- "alarm": false
+ "alarm": true
 }
