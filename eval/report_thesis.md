@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-04T23:15:59Z · thesis-postmortem-2.0 · rows (all generations) 3887
+evaluated 2026-10-05T00:50:00Z · thesis-postmortem-2.0 · rows (all generations) 3887
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -10,8 +10,8 @@ scheduled 5 · final 1 · settled 1 · events ingested 1 · thesis-evaluated 1 �
 
 missing / pending:
 - 2026020036: no official FINAL result yet
-- 2026020037: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020038: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020037: no official FINAL result yet
+- 2026020038: no official FINAL result yet
 - 2026020039: game not started: the snapshot shown is the latest so far, not yet final
 
 > INTERIM (PARTIAL — 1/5 games evaluated): covers evaluated games only; NOT the slate's final ROI
@@ -53,7 +53,7 @@ invariant final_card_n 4 <= sum(game card caps) 4: OK
 | KXNHLAST-26OCT04UTANYR-NYRPDOROFEYEV16-1|no | SHADOW_ONLY | 0 | 16.48 | - | - | - | DIRECT | - | - |
 | KXNHLGOAL-26OCT04UTANYR-UTALCROUSE67-1|yes | SHADOW_ONLY | 0 | 3.91 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020037 FLA @ ANA: NOT_STARTED · snapshot snap-5b13d0241d160ef1af86 @ 2026-10-04T22:40:13Z
+#### game 2026020037 FLA @ ANA: NOT_FINAL · snapshot snap-2bda04c0a8810b33e5b6 @ 2026-10-04T23:29:15Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
@@ -62,22 +62,23 @@ invariant final_card_n 4 <= sum(game card caps) 4: OK
 | KXNHLGOAL-26OCT04FLAANA-FLABTKACHUK8-1|no | SHADOW_ONLY | 0 | 15.00 | - | - | - | DIRECT | - | - |
 | KXNHLGOAL-26OCT04FLAANA-FLAELUOSTARINEN27-1|yes | SHADOW_ONLY | 0 | 2.98 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020038 CGY @ SEA: NOT_STARTED · snapshot snap-5b13d0241d160ef1af86 @ 2026-10-04T22:40:13Z
+#### game 2026020038 CGY @ SEA: NOT_FINAL · snapshot snap-2bda04c0a8810b33e5b6 @ 2026-10-04T23:29:15Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT04CGYSEA-SEARWINTERTON26-1|yes | SHADOW_ONLY | 0 | 7.74 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT04CGYSEA-SEABMONTOUR62-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT04CGYSEA-SEASWRIGHT51-1|yes | SHADOW_ONLY | 0 | 3.73 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT04CGYSEA-SEARWINTERTON26-1|yes | SHADOW_ONLY | 0 | 7.93 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT04CGYSEA-SEABMONTOUR62-1|no | FUNDED_RESEARCH | 5 | 19.78 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT04CGYSEA-CGYSNEMEC71-1|no | SHADOW_ONLY | 0 | 19.34 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT04CGYSEA-CGYBOTHMANN78-1|yes | SHADOW_ONLY | 0 | 2.95 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020039 VGK @ VAN: NOT_STARTED · snapshot snap-5b13d0241d160ef1af86 @ 2026-10-04T22:40:13Z
+#### game 2026020039 VGK @ VAN: NOT_STARTED · snapshot snap-1831873c6f7ad2e41c97 @ 2026-10-05T00:20:13Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT04VGKVAN-VANDOCONNOR18-1|yes | SHADOW_ONLY | 0 | 9.84 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT04VGKVAN-VANMROSSI23-1|yes | SHADOW_ONLY | 0 | 11.21 | - | - | - | FRAGILE | - | - |
-| KXNHLSPREAD-26OCT04VGKVAN-VGK2|no | FUNDED_RESEARCH | 3 | 9.49 | - | - | - | STRUCTURAL | - | - |
-| KXNHLGOAL-26OCT04VGKVAN-VGKMMARNER93-1|no | FUNDED_RESEARCH | 5 | 19.46 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT04VGKVAN-VANMROSSI23-1|yes | SHADOW_ONLY | 0 | 10.92 | - | - | - | FRAGILE | - | - |
+| KXNHLGAME-26OCT04VGKVAN-VAN|yes | FUNDED_RESEARCH | 2 | 5.30 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT04VGKVAN-VGK2|no | FUNDED_RESEARCH | 3 | 8.10 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT04VGKVAN-VGKTHERTL48-1|no | FUNDED_RESEARCH | 5 | 19.31 | - | - | - | DIRECT | - | - |
 
 ## Slate 2026-10-03: **COMPLETE — 13/13 games evaluated**
 

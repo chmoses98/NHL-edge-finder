@@ -1,5 +1,5 @@
 {
- "evaluated_at_utc": "2026-10-04T23:15:59Z",
+ "evaluated_at_utc": "2026-10-05T00:50:00Z",
  "authority": "RESEARCH_ONLY",
  "report_version": "thesis-postmortem-2.0",
  "n_rows_all_runs": 3887,
@@ -14396,8 +14396,8 @@
     "games_terminal": 1,
     "games_missing": {
      "2026020036": "no official FINAL result yet",
-     "2026020037": "game not started: the snapshot shown is the latest so far, not yet final",
-     "2026020038": "game not started: the snapshot shown is the latest so far, not yet final",
+     "2026020037": "no official FINAL result yet",
+     "2026020038": "no official FINAL result yet",
      "2026020039": "game not started: the snapshot shown is the latest so far, not yet final"
     },
     "games_ambiguous": [],
@@ -15169,17 +15169,17 @@
      ]
     },
     "2026020037": {
-     "state": "NOT_STARTED",
+     "state": "NOT_FINAL",
      "matchup": "FLA @ ANA",
      "final_snapshot": {
-      "snapshot_id": "snap-5b13d0241d160ef1af86",
-      "decided_at_utc": "2026-10-04T22:40:13Z",
+      "snapshot_id": "snap-2bda04c0a8810b33e5b6",
+      "decided_at_utc": "2026-10-04T23:29:15Z",
       "run_id": "37237041101",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
       "n_chosen": 4,
       "n_shortlisted": 29,
-      "n_pregame_snapshots": 22,
+      "n_pregame_snapshots": 23,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-05T00:00:00Z",
       "synthetic_game_row": false,
@@ -15211,7 +15211,7 @@
      ],
      "bets": [
       {
-       "decision_id": "00b583e700a0ec36a5c1d988413cbfd9",
+       "decision_id": "2f1ed38bfd9c95010a799deeb3eeffe2",
        "game_id": "2026020037",
        "bet_id": "KXNHLGOAL-26OCT04FLAANA-ANAAGREER18-1|yes",
        "family": "player_goals",
@@ -15274,6 +15274,11 @@
          "phi": 0.01,
          "p_both": 0.0396
         },
+        "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.086,
+         "p_both": 0.0714
+        },
         "KXNHLSPREAD-26OCT04FLAANA-FLA3|no": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.123,
@@ -15294,25 +15299,35 @@
          "phi": 0.191,
          "p_both": 0.1988
         },
-        "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-2|yes": {
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA3|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.236,
+         "p_both": 0.238
+        },
+        "KXNHLAST-26OCT04FLAANA-FLABTKACHUK8-2|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.086,
-         "p_both": 0.0714
+         "phi": -0.011,
+         "p_both": 0.2594
         },
         "KXNHLAST-26OCT04FLAANA-ANAAKILLORN17-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.065,
          "p_both": 0.1151
         },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA3|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.236,
-         "p_both": 0.238
-        },
-        "KXNHLGOAL-26OCT04FLAANA-ANATWASHE42-1|yes": {
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA2|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.02,
-         "p_both": 0.0372
+         "phi": -0.002,
+         "p_both": 0.052
+        },
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA6|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.19,
+         "p_both": 0.0684
+        },
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA3|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.029,
+         "p_both": 0.1161
         },
         "KXNHLAST-26OCT04FLAANA-FLACVERHAEGHE23-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -15324,10 +15339,10 @@
          "phi": 0.152,
          "p_both": 0.2384
         },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA6|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.19,
-         "p_both": 0.0684
+        "KXNHLAST-26OCT04FLAANA-FLASREINHART13-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.008,
+         "p_both": 0.1833
         },
         "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -15354,30 +15369,15 @@
          "phi": -0.017,
          "p_both": 0.0453
         },
-        "KXNHLAST-26OCT04FLAANA-ANAAGREER18-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.015,
-         "p_both": 0.2129
-        },
         "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA4|yes": {
          "relationship": "REINFORCING",
          "phi": 0.248,
          "p_both": 0.19
         },
-        "KXNHLAST-26OCT04FLAANA-FLASREINHART13-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.008,
-         "p_both": 0.1833
-        },
         "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA5|yes": {
          "relationship": "REINFORCING",
          "phi": 0.237,
          "p_both": 0.1277
-        },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA3|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.029,
-         "p_both": 0.1161
         },
         "KXNHLAST-26OCT04FLAANA-ANABSENNECKE45-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -15389,7 +15389,7 @@
        "outcome": null
       },
       {
-       "decision_id": "171f86e39ac425e47189d533df11b832",
+       "decision_id": "f56711ba37fa1a106d0167b1de6e9b3c",
        "game_id": "2026020037",
        "bet_id": "KXNHLGOAL-26OCT04FLAANA-FLAMTKACHUK19-1|no",
        "family": "player_goals",
@@ -15450,6 +15450,11 @@
          "phi": -0.014,
          "p_both": 0.1009
         },
+        "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.005,
+         "p_both": 0.1524
+        },
         "KXNHLSPREAD-26OCT04FLAANA-FLA3|no": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.143,
@@ -15470,25 +15475,35 @@
          "phi": 0.176,
          "p_both": 0.4642
         },
-        "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-2|yes": {
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA3|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.005,
-         "p_both": 0.1524
+         "phi": 0.026,
+         "p_both": 0.521
+        },
+        "KXNHLAST-26OCT04FLAANA-FLABTKACHUK8-2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.047,
+         "p_both": 0.7097
         },
         "KXNHLAST-26OCT04FLAANA-ANAAKILLORN17-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.003,
          "p_both": 0.2746
         },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA3|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.026,
-         "p_both": 0.521
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.215,
+         "p_both": 0.1794
         },
-        "KXNHLGOAL-26OCT04FLAANA-ANATWASHE42-1|yes": {
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA6|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.02,
-         "p_both": 0.0956
+         "phi": -0.01,
+         "p_both": 0.1038
+        },
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA3|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.25,
+         "p_both": 0.3518
         },
         "KXNHLAST-26OCT04FLAANA-FLACVERHAEGHE23-1|yes": {
          "relationship": "PARTIALLY_CONTRADICTORY",
@@ -15500,10 +15515,10 @@
          "phi": 0.158,
          "p_both": 0.5996
         },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA6|yes": {
+        "KXNHLAST-26OCT04FLAANA-FLASREINHART13-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.01,
-         "p_both": 0.1038
+         "phi": 0.094,
+         "p_both": 0.5121
         },
         "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -15530,30 +15545,15 @@
          "phi": -0.007,
          "p_both": 0.1295
         },
-        "KXNHLAST-26OCT04FLAANA-ANAAGREER18-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.02,
-         "p_both": 0.5806
-        },
         "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA4|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.018,
          "p_both": 0.3701
         },
-        "KXNHLAST-26OCT04FLAANA-FLASREINHART13-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.094,
-         "p_both": 0.5121
-        },
         "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA5|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.005,
          "p_both": 0.217
-        },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA3|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.25,
-         "p_both": 0.3518
         },
         "KXNHLAST-26OCT04FLAANA-ANABSENNECKE45-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -15565,7 +15565,7 @@
        "outcome": null
       },
       {
-       "decision_id": "7759621e795368c34ffed651c49d4b47",
+       "decision_id": "ef4f8220037a2114742d813139503a41",
        "game_id": "2026020037",
        "bet_id": "KXNHLGOAL-26OCT04FLAANA-FLABTKACHUK8-1|no",
        "family": "player_goals",
@@ -15628,6 +15628,11 @@
          "phi": -0.016,
          "p_both": 0.0986
         },
+        "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.019,
+         "p_both": 0.1453
+        },
         "KXNHLSPREAD-26OCT04FLAANA-FLA3|no": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.129,
@@ -15648,25 +15653,35 @@
          "phi": 0.162,
          "p_both": 0.4537
         },
-        "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-2|yes": {
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA3|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.019,
-         "p_both": 0.1453
+         "phi": 0.016,
+         "p_both": 0.5096
+        },
+        "KXNHLAST-26OCT04FLAANA-FLABTKACHUK8-2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.001,
+         "p_both": 0.6927
         },
         "KXNHLAST-26OCT04FLAANA-ANAAKILLORN17-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.001,
          "p_both": 0.2692
         },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA3|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.016,
-         "p_both": 0.5096
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.224,
+         "p_both": 0.1789
         },
-        "KXNHLGOAL-26OCT04FLAANA-ANATWASHE42-1|yes": {
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA6|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.007,
-         "p_both": 0.092
+         "phi": -0.03,
+         "p_both": 0.0986
+        },
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA3|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.251,
+         "p_both": 0.3474
         },
         "KXNHLAST-26OCT04FLAANA-FLACVERHAEGHE23-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -15678,10 +15693,10 @@
          "phi": 0.136,
          "p_both": 0.5855
         },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA6|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.03,
-         "p_both": 0.0986
+        "KXNHLAST-26OCT04FLAANA-FLASREINHART13-1|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.288,
+         "p_both": 0.5442
         },
         "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -15708,30 +15723,15 @@
          "phi": -0.001,
          "p_both": 0.1281
         },
-        "KXNHLAST-26OCT04FLAANA-ANAAGREER18-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.001,
-         "p_both": 0.5736
-        },
         "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA4|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.005,
          "p_both": 0.3604
         },
-        "KXNHLAST-26OCT04FLAANA-FLASREINHART13-1|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.288,
-         "p_both": 0.5442
-        },
         "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA5|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": -0.02,
          "p_both": 0.208
-        },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA3|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.251,
-         "p_both": 0.3474
         },
         "KXNHLAST-26OCT04FLAANA-ANABSENNECKE45-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -15743,7 +15743,7 @@
        "outcome": null
       },
       {
-       "decision_id": "f48d4174fe3ca2e168c31ab15dd5809c",
+       "decision_id": "2051e6e476639c0cec06c1bf65f768d4",
        "game_id": "2026020037",
        "bet_id": "KXNHLGOAL-26OCT04FLAANA-FLAELUOSTARINEN27-1|yes",
        "family": "player_goals",
@@ -15830,6 +15830,11 @@
          "phi": 0.014,
          "p_both": 0.027
         },
+        "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.005,
+         "p_both": 0.0378
+        },
         "KXNHLSPREAD-26OCT04FLAANA-FLA3|no": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": -0.111,
@@ -15850,25 +15855,35 @@
          "phi": -0.13,
          "p_both": 0.0793
         },
-        "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-2|yes": {
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA3|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.005,
-         "p_both": 0.0378
+         "phi": 0.003,
+         "p_both": 0.1264
+        },
+        "KXNHLAST-26OCT04FLAANA-FLABTKACHUK8-2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.001,
+         "p_both": 0.1723
         },
         "KXNHLAST-26OCT04FLAANA-ANAAKILLORN17-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.012,
          "p_both": 0.0691
         },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA3|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.003,
-         "p_both": 0.1264
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA2|no": {
+         "relationship": "PARTIALLY_CONTRADICTORY",
+         "phi": -0.164,
+         "p_both": 0.0098
         },
-        "KXNHLGOAL-26OCT04FLAANA-ANATWASHE42-1|yes": {
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA6|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.003,
-         "p_both": 0.023
+         "p_both": 0.0261
+        },
+        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA3|no": {
+         "relationship": "PARTIALLY_CONTRADICTORY",
+         "phi": -0.198,
+         "p_both": 0.0354
         },
         "KXNHLAST-26OCT04FLAANA-FLACVERHAEGHE23-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -15880,10 +15895,10 @@
          "phi": -0.127,
          "p_both": 0.1191
         },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA6|yes": {
+        "KXNHLAST-26OCT04FLAANA-FLASREINHART13-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.003,
-         "p_both": 0.0261
+         "phi": -0.053,
+         "p_both": 0.1106
         },
         "KXNHLAST-26OCT04FLAANA-ANAJLACOMBE2-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -15905,30 +15920,15 @@
          "phi": -0.02,
          "p_both": 0.13
         },
-        "KXNHLAST-26OCT04FLAANA-ANAAGREER18-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.001,
-         "p_both": 0.1424
-        },
         "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA4|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.006,
          "p_both": 0.0905
         },
-        "KXNHLAST-26OCT04FLAANA-FLASREINHART13-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.053,
-         "p_both": 0.1106
-        },
         "KXNHLTEAMTOTAL-26OCT04FLAANA-ANA5|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.009,
          "p_both": 0.0543
-        },
-        "KXNHLTEAMTOTAL-26OCT04FLAANA-FLA3|no": {
-         "relationship": "PARTIALLY_CONTRADICTORY",
-         "phi": -0.198,
-         "p_both": 0.0354
         },
         "KXNHLAST-26OCT04FLAANA-ANABSENNECKE45-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -15942,17 +15942,17 @@
      ]
     },
     "2026020038": {
-     "state": "NOT_STARTED",
+     "state": "NOT_FINAL",
      "matchup": "CGY @ SEA",
      "final_snapshot": {
-      "snapshot_id": "snap-5b13d0241d160ef1af86",
-      "decided_at_utc": "2026-10-04T22:40:13Z",
+      "snapshot_id": "snap-2bda04c0a8810b33e5b6",
+      "decided_at_utc": "2026-10-04T23:29:15Z",
       "run_id": "37237041101",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
-      "n_chosen": 3,
-      "n_shortlisted": 3,
-      "n_pregame_snapshots": 22,
+      "n_chosen": 4,
+      "n_shortlisted": 4,
+      "n_pregame_snapshots": 23,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-05T00:00:00Z",
       "synthetic_game_row": false,
@@ -15963,12 +15963,12 @@
      "overrides": [],
      "bets": [
       {
-       "decision_id": "df0d7667cb88c9969c1484c09ebc720e",
+       "decision_id": "1c1a83f47832e91f38ae6f143a70ecac",
        "game_id": "2026020038",
        "bet_id": "KXNHLGOAL-26OCT04CGYSEA-SEARWINTERTON26-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 7.74,
+       "stake_dollars": 7.93,
        "research_status": "SHADOW_ONLY",
        "research_stake_dollars": 0,
        "research_reasons": [
@@ -15982,15 +15982,15 @@
        "p_thesis": 0.4273,
        "entry_price_cents": 11,
        "ev_raw": 0.046246999999999996,
-       "ev_adjusted": 0.030471999999999985,
+       "ev_adjusted": 0.031722000000000014,
        "p_model": 0.1631,
-       "p_adjusted": 0.14732499999999998,
-       "p_kalshi_mid": 0.1,
+       "p_adjusted": 0.148575,
+       "p_kalshi_mid": 0.10500000000000001,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.1,
-        "gap": 0.0631,
-        "abs_gap_pts": 6.3,
+        "p_market": 0.105,
+        "gap": 0.0581,
+        "abs_gap_pts": 5.8,
         "threshold_pts": 10.0,
         "large": false
        },
@@ -16001,22 +16001,27 @@
          "phi": 0.003,
          "p_both": 0.1452
         },
-        "KXNHLGOAL-26OCT04CGYSEA-SEASWRIGHT51-1|yes": {
+        "KXNHLAST-26OCT04CGYSEA-CGYSNEMEC71-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.006,
-         "p_both": 0.032
+         "phi": 0.008,
+         "p_both": 0.1338
+        },
+        "KXNHLGOAL-26OCT04CGYSEA-CGYBOTHMANN78-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.005,
+         "p_both": 0.0232
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "61c75af988b5d5648325a69df3fae515",
+       "decision_id": "0864cd7919ff6c023d0b9e17f4b01873",
        "game_id": "2026020038",
        "bet_id": "KXNHLGOAL-26OCT04CGYSEA-SEABMONTOUR62-1|no",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 20.0,
+       "stake_dollars": 19.78,
        "research_status": "FUNDED_RESEARCH",
        "research_stake_dollars": 5,
        "research_reasons": [],
@@ -16047,44 +16052,49 @@
          "phi": 0.003,
          "p_both": 0.1452
         },
-        "KXNHLGOAL-26OCT04CGYSEA-SEASWRIGHT51-1|yes": {
+        "KXNHLAST-26OCT04CGYSEA-CGYSNEMEC71-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.002,
-         "p_both": 0.1787
+         "phi": 0.009,
+         "p_both": 0.7233
+        },
+        "KXNHLGOAL-26OCT04CGYSEA-CGYBOTHMANN78-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.012,
+         "p_both": 0.1214
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "adc407e202c46dcdaf145ad2db0d6547",
+       "decision_id": "35e74c63ca2186933513466f91534c35",
        "game_id": "2026020038",
-       "bet_id": "KXNHLGOAL-26OCT04CGYSEA-SEASWRIGHT51-1|yes",
-       "family": "player_goals",
+       "bet_id": "KXNHLAST-26OCT04CGYSEA-CGYSNEMEC71-1|no",
+       "family": "player_assists",
        "chosen": true,
-       "stake_dollars": 3.73,
+       "stake_dollars": 19.34,
        "research_status": "SHADOW_ONLY",
        "research_stake_dollars": 0,
        "research_reasons": [
-        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT04CGYSEA-SEABMONTOUR62-1|no)"
+        "CALIBRATION_WARNING_UNCORROBORATED"
        ],
-       "fidelity_class": "FRAGILE",
-       "thesis_capture": 0.3012,
+       "fidelity_class": "DIRECT",
+       "thesis_capture": 0.8995,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
-       "primary_thesis": "SEA:OFFENSE_4PLUS",
-       "p_thesis": 0.4273,
-       "entry_price_cents": 17,
-       "ev_raw": 0.021722999999999992,
-       "ev_adjusted": 0.012573,
-       "p_model": 0.2016,
-       "p_adjusted": 0.19245,
-       "p_kalshi_mid": 0.165,
+       "primary_thesis": "CGY:SUPPRESSED",
+       "p_thesis": 0.4794,
+       "entry_price_cents": 75,
+       "ev_raw": 0.05037499999999995,
+       "ev_adjusted": 0.016124999999999945,
+       "p_model": 0.8135,
+       "p_adjusted": 0.77925,
+       "p_kalshi_mid": 0.745,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.165,
-        "gap": 0.0366,
-        "abs_gap_pts": 3.7,
+        "p_market": 0.745,
+        "gap": 0.0685,
+        "abs_gap_pts": 6.9,
         "threshold_pts": 10.0,
         "large": false
        },
@@ -16092,13 +16102,71 @@
        "joint_relationships": {
         "KXNHLGOAL-26OCT04CGYSEA-SEARWINTERTON26-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.006,
-         "p_both": 0.032
+         "phi": 0.008,
+         "p_both": 0.1338
         },
         "KXNHLGOAL-26OCT04CGYSEA-SEABMONTOUR62-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.002,
-         "p_both": 0.1787
+         "phi": 0.009,
+         "p_both": 0.7233
+        },
+        "KXNHLGOAL-26OCT04CGYSEA-CGYBOTHMANN78-1|yes": {
+         "relationship": "INTENTIONAL_DIVERSIFIER",
+         "phi": -0.075,
+         "p_both": 0.1023
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "27bc97f957bba95a0754f1d5d8062eeb",
+       "game_id": "2026020038",
+       "bet_id": "KXNHLGOAL-26OCT04CGYSEA-CGYBOTHMANN78-1|yes",
+       "family": "player_goals",
+       "chosen": true,
+       "stake_dollars": 2.95,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT04CGYSEA-SEABMONTOUR62-1|no)"
+       ],
+       "fidelity_class": "FRAGILE",
+       "thesis_capture": 0.2325,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "CGY:OFFENSE_4PLUS",
+       "p_thesis": 0.3079,
+       "entry_price_cents": 11,
+       "ev_raw": 0.02134699999999999,
+       "ev_adjusted": 0.010546999999999987,
+       "p_model": 0.1382,
+       "p_adjusted": 0.12739999999999999,
+       "p_kalshi_mid": 0.095,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.095,
+        "gap": 0.0432,
+        "abs_gap_pts": 4.3,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLGOAL-26OCT04CGYSEA-SEARWINTERTON26-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.005,
+         "p_both": 0.0232
+        },
+        "KXNHLGOAL-26OCT04CGYSEA-SEABMONTOUR62-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.012,
+         "p_both": 0.1214
+        },
+        "KXNHLAST-26OCT04CGYSEA-CGYSNEMEC71-1|no": {
+         "relationship": "INTENTIONAL_DIVERSIFIER",
+         "phi": -0.075,
+         "p_both": 0.1023
         }
        },
        "scored": false,
@@ -16110,14 +16178,14 @@
      "state": "NOT_STARTED",
      "matchup": "VGK @ VAN",
      "final_snapshot": {
-      "snapshot_id": "snap-5b13d0241d160ef1af86",
-      "decided_at_utc": "2026-10-04T22:40:13Z",
+      "snapshot_id": "snap-1831873c6f7ad2e41c97",
+      "decided_at_utc": "2026-10-05T00:20:13Z",
       "run_id": "37237041101",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
       "n_chosen": 4,
-      "n_shortlisted": 29,
-      "n_pregame_snapshots": 22,
+      "n_shortlisted": 32,
+      "n_pregame_snapshots": 24,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-05T01:00:00Z",
       "synthetic_game_row": false,
@@ -16125,197 +16193,40 @@
      },
      "portfolio_result": null,
      "script_check": null,
-     "overrides": [],
+     "overrides": [
+      {
+       "thesis": "VAN:WINS",
+       "replaced": "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no",
+       "selected": "KXNHLGAME-26OCT04VGKVAN-VAN|yes",
+       "ev_adjusted_replaced": 0.0236,
+       "ev_adjusted_selected": 0.0371,
+       "edge_difference_pts": 1.35,
+       "thesis_capture_replaced": 0.9568,
+       "thesis_capture_selected": 1.0,
+       "fidelity_replaced": "DIRECT",
+       "fidelity_selected": "STRUCTURAL",
+       "reliability_replaced": "EVIDENCE_MIXED",
+       "reliability_selected": "EVIDENCE_MIXED",
+       "growth_bp_replaced": 5.582,
+       "growth_bp_selected": 14.377,
+       "decided_on": "expression fidelity",
+       "rule": "similar adjusted value (within 1 pt) -> prefer reliability, then fidelity",
+       "applied": true,
+       "text": "Broad expression KXNHLGAME-26OCT04VGKVAN-VAN|yes selected over broad KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no because adjusted EV is 1.4 pts higher while thesis capture is 1.00 vs 0.96 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)"
+      }
+     ],
      "bets": [
       {
-       "decision_id": "abb49544f8a796a3ee1405712fba3a33",
-       "game_id": "2026020039",
-       "bet_id": "KXNHLGOAL-26OCT04VGKVAN-VANDOCONNOR18-1|yes",
-       "family": "player_goals",
-       "chosen": true,
-       "stake_dollars": 9.84,
-       "research_status": "SHADOW_ONLY",
-       "research_stake_dollars": 0,
-       "research_reasons": [
-        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT04VGKVAN-VGKMMARNER93-1|no)"
-       ],
-       "fidelity_class": "FRAGILE",
-       "thesis_capture": 0.3141,
-       "expression_kind": "FRAGILE_PLAYER",
-       "is_player_prop": true,
-       "primary_thesis": "VAN:OFFENSE_4PLUS",
-       "p_thesis": 0.3419,
-       "entry_price_cents": 14,
-       "ev_raw": 0.056672,
-       "ev_adjusted": 0.03914699999999999,
-       "p_model": 0.2051,
-       "p_adjusted": 0.187575,
-       "p_kalshi_mid": 0.135,
-       "market_disagreement": {
-        "reference": "kalshi_mid",
-        "p_market": 0.135,
-        "gap": 0.0701,
-        "abs_gap_pts": 7.0,
-        "threshold_pts": 10.0,
-        "large": false
-       },
-       "selection_override": null,
-       "joint_relationships": {
-        "KXNHLGOAL-26OCT04VGKVAN-VANMROSSI23-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.021,
-         "p_both": 0.0518
-        },
-        "KXNHLSPREAD-26OCT04VGKVAN-VAN2|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.135,
-         "p_both": 0.068
-        },
-        "KXNHLGAME-26OCT04VGKVAN-VAN|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.133,
-         "p_both": 0.1159
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VANLKARLSSON94-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.014,
-         "p_both": 0.0462
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN5|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.168,
-         "p_both": 0.0625
-        },
-        "KXNHLSPREAD-26OCT04VGKVAN-VGK2|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.127,
-         "p_both": 0.1593
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VANBGALLAGHER7-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.001,
-         "p_both": 0.0307
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VANMSASSON63-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.004,
-         "p_both": 0.0277
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VANZBUIUM8-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.002,
-         "p_both": 0.19
-        },
-        "KXNHLSPREAD-26OCT04VGKVAN-VGK3|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.114,
-         "p_both": 0.1785
-        },
-        "KXNHLSPREAD-26OCT04VGKVAN-VAN3|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.108,
-         "p_both": 0.0411
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VGKMMARNER93-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.02,
-         "p_both": 0.1476
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VANARATY54-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.003,
-         "p_both": 0.0302
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VGKTHERTL48-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.013,
-         "p_both": 0.1524
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK3|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.004,
-         "p_both": 0.0691
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VGKJEICHEL9-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.009,
-         "p_both": 0.1466
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN2|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.181,
-         "p_both": 0.1915
-        },
-        "KXNHLAST-26OCT04VGKVAN-VANTWILLANDER5-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.095,
-         "p_both": 0.0795
-        },
-        "KXNHLAST-26OCT04VGKVAN-VGKMMARNER93-2|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.013,
-         "p_both": 0.1837
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.018,
-         "p_both": 0.1494
-        },
-        "KXNHLAST-26OCT04VGKVAN-VGKWKARLSSON71-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.011,
-         "p_both": 0.164
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK4|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.008,
-         "p_both": 0.1108
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN4|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.193,
-         "p_both": 0.1089
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK6|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.004,
-         "p_both": 0.1799
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VGKWKARLSSON71-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.006,
-         "p_both": 0.1665
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN3|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.205,
-         "p_both": 0.1586
-        },
-        "KXNHLAST-26OCT04VGKVAN-VGKTHERTL48-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.004,
-         "p_both": 0.1462
-        },
-        "KXNHLAST-26OCT04VGKVAN-VANFHRONEK17-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.087,
-         "p_both": 0.104
-        }
-       },
-       "scored": false,
-       "outcome": null
-      },
-      {
-       "decision_id": "0e765c4fac8538b5f0e613a0f9b59aff",
+       "decision_id": "1b03fa672b393e2542f8bc12fe62816c",
        "game_id": "2026020039",
        "bet_id": "KXNHLGOAL-26OCT04VGKVAN-VANMROSSI23-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 11.21,
+       "stake_dollars": 10.92,
        "research_status": "SHADOW_ONLY",
        "research_stake_dollars": 0,
        "research_reasons": [
-        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT04VGKVAN-VGKMMARNER93-1|no)"
+        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT04VGKVAN-VGKTHERTL48-1|no)"
        ],
        "fidelity_class": "FRAGILE",
        "thesis_capture": 0.4109,
@@ -16343,6 +16254,11 @@
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": -0.021,
          "p_both": 0.0518
+        },
+        "KXNHLSPREAD-26OCT04VGKVAN-VAN3|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.12,
+         "p_both": 0.053
         },
         "KXNHLSPREAD-26OCT04VGKVAN-VAN2|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -16379,20 +16295,15 @@
          "phi": -0.007,
          "p_both": 0.0363
         },
-        "KXNHLGOAL-26OCT04VGKVAN-VANZBUIUM8-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.002,
-         "p_both": 0.2514
-        },
         "KXNHLSPREAD-26OCT04VGKVAN-VGK3|no": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.129,
          "p_both": 0.2347
         },
-        "KXNHLSPREAD-26OCT04VGKVAN-VAN3|yes": {
+        "KXNHLAST-26OCT04VGKVAN-VGKMMARNER93-2|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.12,
-         "p_both": 0.053
+         "phi": -0.0,
+         "p_both": 0.245
         },
         "KXNHLGOAL-26OCT04VGKVAN-VGKMMARNER93-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -16409,15 +16320,25 @@
          "phi": -0.014,
          "p_both": 0.202
         },
+        "KXNHLGOAL-26OCT04VGKVAN-VGKJEICHEL9-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.008,
+         "p_both": 0.1901
+        },
         "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK3|no": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.021,
          "p_both": 0.0947
         },
-        "KXNHLGOAL-26OCT04VGKVAN-VGKJEICHEL9-1|no": {
+        "KXNHLAST-26OCT04VGKVAN-VGKWKARLSSON71-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.008,
-         "p_both": 0.1901
+         "phi": 0.002,
+         "p_both": 0.2196
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.005,
+         "p_both": 0.2007
         },
         "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN2|yes": {
          "relationship": "REINFORCING",
@@ -16429,30 +16350,20 @@
          "phi": 0.076,
          "p_both": 0.0973
         },
-        "KXNHLAST-26OCT04VGKVAN-VGKMMARNER93-2|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.0,
-         "p_both": 0.245
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN4|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.228,
+         "p_both": 0.1433
         },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no": {
+        "KXNHLGOAL-26OCT04VGKVAN-VANLOHGREN92-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.005,
-         "p_both": 0.2007
-        },
-        "KXNHLAST-26OCT04VGKVAN-VGKWKARLSSON71-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.002,
-         "p_both": 0.2196
+         "phi": -0.008,
+         "p_both": 0.0481
         },
         "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK4|no": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.008,
          "p_both": 0.1506
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN4|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.228,
-         "p_both": 0.1433
         },
         "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK6|no": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -16469,27 +16380,252 @@
          "phi": 0.244,
          "p_both": 0.2094
         },
-        "KXNHLAST-26OCT04VGKVAN-VGKTHERTL48-1|no": {
+        "KXNHLAST-26OCT04VGKVAN-VGKJEICHEL9-2|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.011,
-         "p_both": 0.1901
+         "phi": 0.009,
+         "p_both": 0.2427
         },
         "KXNHLAST-26OCT04VGKVAN-VANFHRONEK17-1|yes": {
          "relationship": "REINFORCING",
          "phi": 0.154,
          "p_both": 0.1486
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKTHERTL48-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.011,
+         "p_both": 0.1901
+        },
+        "KXNHLPTS-26OCT04VGKVAN-VGKJEICHEL9-2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.012,
+         "p_both": 0.2086
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKJEICHEL9-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.026,
+         "p_both": 0.1561
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "956fd65bf51d0e16262468a27c8bcf57",
+       "decision_id": "0d64506c23c98d9e0a6b4d5e4f1fc86e",
+       "game_id": "2026020039",
+       "bet_id": "KXNHLGAME-26OCT04VGKVAN-VAN|yes",
+       "family": "game_winner",
+       "chosen": true,
+       "stake_dollars": 5.3,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 2,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "VAN:WINS",
+       "p_thesis": 0.4356,
+       "entry_price_cents": 28,
+       "ev_raw": 0.14148799999999995,
+       "ev_adjusted": 0.037097999999999964,
+       "p_model": 0.4356,
+       "p_adjusted": 0.33121,
+       "p_kalshi_mid": 0.275,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.275,
+        "gap": 0.1606,
+        "abs_gap_pts": 16.1,
+        "threshold_pts": 10.0,
+        "large": true
+       },
+       "selection_override": {
+        "thesis": "VAN:WINS",
+        "replaced": "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no",
+        "selected": "KXNHLGAME-26OCT04VGKVAN-VAN|yes",
+        "ev_adjusted_replaced": 0.0236,
+        "ev_adjusted_selected": 0.0371,
+        "edge_difference_pts": 1.35,
+        "thesis_capture_replaced": 0.9568,
+        "thesis_capture_selected": 1.0,
+        "fidelity_replaced": "DIRECT",
+        "fidelity_selected": "STRUCTURAL",
+        "reliability_replaced": "EVIDENCE_MIXED",
+        "reliability_selected": "EVIDENCE_MIXED",
+        "growth_bp_replaced": 5.582,
+        "growth_bp_selected": 14.377,
+        "decided_on": "expression fidelity",
+        "rule": "similar adjusted value (within 1 pt) -> prefer reliability, then fidelity",
+        "applied": true,
+        "text": "Broad expression KXNHLGAME-26OCT04VGKVAN-VAN|yes selected over broad KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no because adjusted EV is 1.4 pts higher while thesis capture is 1.00 vs 0.96 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)"
+       },
+       "joint_relationships": {
+        "KXNHLGOAL-26OCT04VGKVAN-VANDOCONNOR18-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.133,
+         "p_both": 0.1159
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VANMROSSI23-1|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.18,
+         "p_both": 0.1578
+        },
+        "KXNHLSPREAD-26OCT04VGKVAN-VAN3|yes": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.438,
+         "p_both": 0.1292
+        },
+        "KXNHLSPREAD-26OCT04VGKVAN-VAN2|yes": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.607,
+         "p_both": 0.2214
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VANLKARLSSON94-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.135,
+         "p_both": 0.1319
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN5|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.43,
+         "p_both": 0.159
+        },
+        "KXNHLSPREAD-26OCT04VGKVAN-VGK2|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.633,
+         "p_both": 0.4356
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VANBGALLAGHER7-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.127,
+         "p_both": 0.0879
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VANMSASSON63-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.14,
+         "p_both": 0.0841
+        },
+        "KXNHLSPREAD-26OCT04VGKVAN-VGK3|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.471,
+         "p_both": 0.4356
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKMMARNER93-2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.155,
+         "p_both": 0.4161
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VGKMMARNER93-1|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.175,
+         "p_both": 0.3594
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VANARATY54-1|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.16,
+         "p_both": 0.0913
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VGKTHERTL48-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.117,
+         "p_both": 0.3535
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VGKJEICHEL9-1|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.153,
+         "p_both": 0.3423
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK3|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.558,
+         "p_both": 0.2755
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKWKARLSSON71-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.131,
+         "p_both": 0.3777
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.429,
+         "p_both": 0.4168
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN2|yes": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.429,
+         "p_both": 0.4301
+        },
+        "KXNHLAST-26OCT04VGKVAN-VANTWILLANDER5-1|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.193,
+         "p_both": 0.1752
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN4|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.54,
+         "p_both": 0.2802
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VANLOHGREN92-1|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.16,
+         "p_both": 0.1099
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK4|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.544,
+         "p_both": 0.3731
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK6|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.298,
+         "p_both": 0.4314
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VGKWKARLSSON71-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.147,
+         "p_both": 0.3837
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN3|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.555,
+         "p_both": 0.386
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKJEICHEL9-2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.183,
+         "p_both": 0.416
+        },
+        "KXNHLAST-26OCT04VGKVAN-VANFHRONEK17-1|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.212,
+         "p_both": 0.2361
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKTHERTL48-1|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.169,
+         "p_both": 0.3468
+        },
+        "KXNHLPTS-26OCT04VGKVAN-VGKJEICHEL9-2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.257,
+         "p_both": 0.3857
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKJEICHEL9-1|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.249,
+         "p_both": 0.3029
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "78daa7360173dfad338628bf43006652",
        "game_id": "2026020039",
        "bet_id": "KXNHLSPREAD-26OCT04VGKVAN-VGK2|no",
        "family": "game_spread",
        "chosen": true,
-       "stake_dollars": 9.49,
+       "stake_dollars": 8.1,
        "research_status": "FUNDED_RESEARCH",
        "research_stake_dollars": 3,
        "research_reasons": [],
@@ -16525,6 +16661,11 @@
          "phi": 0.15,
          "p_both": 0.2103
         },
+        "KXNHLSPREAD-26OCT04VGKVAN-VAN3|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.278,
+         "p_both": 0.1292
+        },
         "KXNHLSPREAD-26OCT04VGKVAN-VAN2|yes": {
          "relationship": "DUPLICATIVE",
          "phi": 0.384,
@@ -16555,20 +16696,15 @@
          "phi": 0.113,
          "p_both": 0.1093
         },
-        "KXNHLGOAL-26OCT04VGKVAN-VANZBUIUM8-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.083,
-         "p_both": 0.5989
-        },
         "KXNHLSPREAD-26OCT04VGKVAN-VGK3|no": {
          "relationship": "DUPLICATIVE",
          "phi": 0.744,
          "p_both": 0.6582
         },
-        "KXNHLSPREAD-26OCT04VGKVAN-VAN3|yes": {
+        "KXNHLAST-26OCT04VGKVAN-VGKMMARNER93-2|no": {
          "relationship": "REINFORCING",
-         "phi": 0.278,
-         "p_both": 0.1292
+         "phi": 0.183,
+         "p_both": 0.6201
         },
         "KXNHLGOAL-26OCT04VGKVAN-VGKMMARNER93-1|no": {
          "relationship": "REINFORCING",
@@ -16585,15 +16721,25 @@
          "phi": 0.116,
          "p_both": 0.52
         },
+        "KXNHLGOAL-26OCT04VGKVAN-VGKJEICHEL9-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.146,
+         "p_both": 0.4965
+        },
         "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK3|no": {
          "relationship": "DUPLICATIVE",
          "phi": 0.471,
          "p_both": 0.3244
         },
-        "KXNHLGOAL-26OCT04VGKVAN-VGKJEICHEL9-1|no": {
+        "KXNHLAST-26OCT04VGKVAN-VGKWKARLSSON71-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.146,
-         "p_both": 0.4965
+         "phi": 0.144,
+         "p_both": 0.5588
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.507,
+         "p_both": 0.5945
         },
         "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN2|yes": {
          "relationship": "REINFORCING",
@@ -16605,30 +16751,20 @@
          "phi": 0.177,
          "p_both": 0.2368
         },
-        "KXNHLAST-26OCT04VGKVAN-VGKMMARNER93-2|no": {
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN4|yes": {
          "relationship": "REINFORCING",
-         "phi": 0.183,
-         "p_both": 0.6201
+         "phi": 0.418,
+         "p_both": 0.3251
         },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.507,
-         "p_both": 0.5945
-        },
-        "KXNHLAST-26OCT04VGKVAN-VGKWKARLSSON71-1|no": {
+        "KXNHLGOAL-26OCT04VGKVAN-VANLOHGREN92-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.144,
-         "p_both": 0.5588
+         "phi": 0.137,
+         "p_both": 0.1449
         },
         "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK4|no": {
          "relationship": "REINFORCING",
          "phi": 0.546,
          "p_both": 0.49
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN4|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.418,
-         "p_both": 0.3251
         },
         "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK6|no": {
          "relationship": "DUPLICATIVE",
@@ -16645,47 +16781,62 @@
          "phi": 0.486,
          "p_both": 0.4917
         },
-        "KXNHLAST-26OCT04VGKVAN-VGKTHERTL48-1|no": {
+        "KXNHLAST-26OCT04VGKVAN-VGKJEICHEL9-2|no": {
          "relationship": "REINFORCING",
-         "phi": 0.178,
-         "p_both": 0.5049
+         "phi": 0.197,
+         "p_both": 0.615
         },
         "KXNHLAST-26OCT04VGKVAN-VANFHRONEK17-1|yes": {
          "relationship": "REINFORCING",
          "phi": 0.193,
          "p_both": 0.3235
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKTHERTL48-1|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.178,
+         "p_both": 0.5049
+        },
+        "KXNHLPTS-26OCT04VGKVAN-VGKJEICHEL9-2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.257,
+         "p_both": 0.5526
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKJEICHEL9-1|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.235,
+         "p_both": 0.4202
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "bbbc31da668d762e21acca06a45c9dcc",
+       "decision_id": "8b1b620df8c864ef3bc1b766d3f08e49",
        "game_id": "2026020039",
-       "bet_id": "KXNHLGOAL-26OCT04VGKVAN-VGKMMARNER93-1|no",
+       "bet_id": "KXNHLGOAL-26OCT04VGKVAN-VGKTHERTL48-1|no",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 19.46,
+       "stake_dollars": 19.31,
        "research_status": "FUNDED_RESEARCH",
        "research_stake_dollars": 5,
        "research_reasons": [],
        "fidelity_class": "DIRECT",
-       "thesis_capture": 0.8739,
+       "thesis_capture": 0.8815,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
        "primary_thesis": "VGK:SUPPRESSED",
        "p_thesis": 0.3442,
-       "entry_price_cents": 68,
-       "ev_raw": 0.04206799999999988,
-       "ev_adjusted": 0.026492999999999878,
-       "p_model": 0.7373,
-       "p_adjusted": 0.721725,
-       "p_kalshi_mid": 0.675,
+       "entry_price_cents": 70,
+       "ev_raw": 0.03939999999999999,
+       "ev_adjusted": 0.024625000000000008,
+       "p_model": 0.7541,
+       "p_adjusted": 0.739325,
+       "p_kalshi_mid": 0.6950000000000001,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.675,
-        "gap": 0.0623,
-        "abs_gap_pts": 6.2,
+        "p_market": 0.695,
+        "gap": 0.0591,
+        "abs_gap_pts": 5.9,
         "threshold_pts": 10.0,
         "large": false
        },
@@ -16693,143 +16844,158 @@
        "joint_relationships": {
         "KXNHLGOAL-26OCT04VGKVAN-VANDOCONNOR18-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.02,
-         "p_both": 0.1476
+         "phi": -0.013,
+         "p_both": 0.1524
         },
         "KXNHLGOAL-26OCT04VGKVAN-VANMROSSI23-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.001,
-         "p_both": 0.2003
-        },
-        "KXNHLSPREAD-26OCT04VGKVAN-VAN2|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.15,
-         "p_both": 0.1907
-        },
-        "KXNHLGAME-26OCT04VGKVAN-VAN|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.175,
-         "p_both": 0.3594
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VANLKARLSSON94-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.016,
-         "p_both": 0.1781
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN5|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.006,
-         "p_both": 0.1301
-        },
-        "KXNHLSPREAD-26OCT04VGKVAN-VGK2|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.167,
-         "p_both": 0.5202
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VANBGALLAGHER7-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.011,
-         "p_both": 0.1125
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VANMSASSON63-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.005,
-         "p_both": 0.1025
-        },
-        "KXNHLGOAL-26OCT04VGKVAN-VANZBUIUM8-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.024,
-         "p_both": 0.6797
-        },
-        "KXNHLSPREAD-26OCT04VGKVAN-VGK3|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.161,
-         "p_both": 0.6023
+         "phi": -0.014,
+         "p_both": 0.202
         },
         "KXNHLSPREAD-26OCT04VGKVAN-VAN3|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.124,
-         "p_both": 0.1136
+         "phi": 0.091,
+         "p_both": 0.1106
         },
-        "KXNHLGOAL-26OCT04VGKVAN-VANARATY54-1|yes": {
+        "KXNHLSPREAD-26OCT04VGKVAN-VAN2|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.004,
-         "p_both": 0.1078
+         "phi": 0.104,
+         "p_both": 0.1855
         },
-        "KXNHLGOAL-26OCT04VGKVAN-VGKTHERTL48-1|no": {
+        "KXNHLGAME-26OCT04VGKVAN-VAN|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.117,
+         "p_both": 0.3535
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VANLKARLSSON94-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.019,
+         "p_both": 0.1756
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN5|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.043,
+         "p_both": 0.127
+        },
+        "KXNHLSPREAD-26OCT04VGKVAN-VGK2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.116,
+         "p_both": 0.52
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VANBGALLAGHER7-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.011,
+         "p_both": 0.1115
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VANMSASSON63-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.004,
+         "p_both": 0.1034
+        },
+        "KXNHLSPREAD-26OCT04VGKVAN-VGK3|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.118,
+         "p_both": 0.607
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKMMARNER93-2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.123,
+         "p_both": 0.6968
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VGKMMARNER93-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.003,
          "p_both": 0.5565
         },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK3|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.221,
-         "p_both": 0.2913
+        "KXNHLGOAL-26OCT04VGKVAN-VANARATY54-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.018,
+         "p_both": 0.1069
         },
         "KXNHLGOAL-26OCT04VGKVAN-VGKJEICHEL9-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.003,
-         "p_both": 0.5214
+         "phi": 0.001,
+         "p_both": 0.5329
         },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN2|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.032,
-         "p_both": 0.5865
-        },
-        "KXNHLAST-26OCT04VGKVAN-VANTWILLANDER5-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.018,
-         "p_both": 0.2258
-        },
-        "KXNHLAST-26OCT04VGKVAN-VGKMMARNER93-2|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.011,
-         "p_both": 0.6673
-        },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no": {
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK3|no": {
          "relationship": "REINFORCING",
-         "phi": 0.219,
-         "p_both": 0.5904
+         "phi": 0.214,
+         "p_both": 0.2945
         },
         "KXNHLAST-26OCT04VGKVAN-VGKWKARLSSON71-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.14,
-         "p_both": 0.6201
+         "phi": 0.033,
+         "p_both": 0.615
         },
-        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK4|no": {
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK5|no": {
          "relationship": "REINFORCING",
-         "phi": 0.241,
-         "p_both": 0.4572
+         "phi": 0.183,
+         "p_both": 0.5952
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.028,
+         "p_both": 0.5891
+        },
+        "KXNHLAST-26OCT04VGKVAN-VANTWILLANDER5-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.023,
+         "p_both": 0.2227
         },
         "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN4|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.013,
-         "p_both": 0.2609
+         "phi": -0.036,
+         "p_both": 0.2567
+        },
+        "KXNHLGOAL-26OCT04VGKVAN-VANLOHGREN92-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.008,
+         "p_both": 0.136
+        },
+        "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK4|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.206,
+         "p_both": 0.4578
         },
         "KXNHLTEAMTOTAL-26OCT04VGKVAN-VGK6|no": {
          "relationship": "REINFORCING",
-         "phi": 0.177,
-         "p_both": 0.6741
+         "phi": 0.174,
+         "p_both": 0.688
         },
         "KXNHLGOAL-26OCT04VGKVAN-VGKWKARLSSON71-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.004,
-         "p_both": 0.601
+         "phi": -0.005,
+         "p_both": 0.6145
         },
         "KXNHLTEAMTOTAL-26OCT04VGKVAN-VAN3|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.024,
-         "p_both": 0.4283
+         "phi": -0.025,
+         "p_both": 0.4273
         },
-        "KXNHLAST-26OCT04VGKVAN-VGKTHERTL48-1|no": {
+        "KXNHLAST-26OCT04VGKVAN-VGKJEICHEL9-2|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.125,
-         "p_both": 0.5477
+         "phi": 0.11,
+         "p_both": 0.6859
         },
         "KXNHLAST-26OCT04VGKVAN-VANFHRONEK17-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.009,
-         "p_both": 0.3097
+         "phi": -0.028,
+         "p_both": 0.3129
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKTHERTL48-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.008,
+         "p_both": 0.533
+        },
+        "KXNHLPTS-26OCT04VGKVAN-VGKJEICHEL9-2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.095,
+         "p_both": 0.5908
+        },
+        "KXNHLAST-26OCT04VGKVAN-VGKJEICHEL9-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.134,
+         "p_both": 0.4467
         }
        },
        "scored": false,
