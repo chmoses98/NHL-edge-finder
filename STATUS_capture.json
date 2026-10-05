@@ -1,37 +1,41 @@
 {
- "last_capture_utc": "2026-10-05T23:36:56Z",
- "n_markets": 2839,
+ "last_capture_utc": "2026-10-05T23:41:56Z",
+ "n_markets": 2806,
  "n_series": 76,
- "requests": 460,
+ "requests": 457,
  "run_id": "37378400913",
  "markets_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/markets/dt=2026-10-05/kalshi_markets_20261005T233656Z_37378400913.jsonl.gz",
-  "bytes": 261333,
-  "n_markets": 2839,
-  "board_sha256": "7423c19a4514971488181941ee95651e9539873240313d161ab0388685871443"
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/markets_delta/dt=2026-10-05/kalshi_markets_delta_20261005T234156Z_37378400913.json.gz",
+  "bytes": 21144,
+  "n_markets": 2806,
+  "n_changed": 1033,
+  "changed_pct": 36.814,
+  "board_sha256": "41e22c33d06feb7407eed3702b25b94a4906557717ac1f3e3d8a4836d3e2fc00"
  },
  "orderbooks_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/orderbooks/dt=2026-10-05/kalshi_orderbooks_20261005T233656Z_37378400913.jsonl.gz",
-  "bytes": 49020,
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/orderbooks_delta/dt=2026-10-05/kalshi_orderbooks_delta_20261005T234156Z_37378400913.json.gz",
+  "bytes": 37948,
   "n_markets": 300,
-  "board_sha256": "4fafbf0f23bd6086acdf1f4c0273257bd42d0d35e4f092d9cffe984e4d2a8e7b"
+  "n_changed": 250,
+  "changed_pct": 83.333,
+  "board_sha256": "1bda4b3b27462b8a0cba82e51fcbf3e4979755fd83a94193bc6d0523a9f13c99"
  },
  "by_status": {
-  "active": 2839
+  "active": 2806
  },
  "by_support": {
   "BUILDABLE": 13,
   "MODELABLE": 438,
-  "RESEARCH": 1833,
+  "RESEARCH": 1800,
   "UNMODELABLE": 547,
   "UNRESOLVED": 8
  },
  "by_family": {
-  "first_goal": 139,
+  "first_goal": 106,
   "game_early_goal": 12,
   "game_overtime": 13,
   "game_spread": 68,
@@ -56,7 +60,7 @@
   "series on the board with no ontology entry: ['KXNHLPSEASONGOALS']"
  ],
  "notes": [
-  "order books sampled by priority: 2839 live markets, cap 300"
+  "order books sampled by priority: 2806 live markets, cap 300"
  ],
  "alarm": true
 }
