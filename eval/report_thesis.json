@@ -1,5 +1,5 @@
 {
- "evaluated_at_utc": "2026-10-05T04:06:12Z",
+ "evaluated_at_utc": "2026-10-05T05:51:15Z",
  "authority": "RESEARCH_ONLY",
  "report_version": "thesis-postmortem-2.0",
  "n_rows_all_runs": 4878,
@@ -17607,6 +17607,283 @@
        "realized_profit_research": 2.0
       }
      ]
+    }
+   }
+  },
+  "2026-10-05": {
+   "label": "PARTIAL \u2014 0/4 games evaluated",
+   "completeness": {
+    "games_scheduled": 4,
+    "games_final": 0,
+    "games_settled": 0,
+    "games_player_events_ingested": 0,
+    "games_with_final_card_snapshot": 4,
+    "games_thesis_evaluated": 0,
+    "games_terminal": 0,
+    "games_missing": {
+     "2026020040": "game not started: the snapshot shown is the latest so far, not yet final",
+     "2026020041": "game not started: the snapshot shown is the latest so far, not yet final",
+     "2026020042": "game not started: the snapshot shown is the latest so far, not yet final",
+     "2026020043": "game not started: the snapshot shown is the latest so far, not yet final"
+    },
+    "games_ambiguous": [],
+    "final_card_complete": false,
+    "postmortem_complete": false
+   },
+   "invariants": {
+    "final_card_n": 0,
+    "sum_game_card_caps": 0,
+    "holds": true
+   },
+   "FINAL_CARD_UNIQUE": {
+    "THESIS": {
+     "n_bets_with_thesis": 0,
+     "n_distinct_theses": 0,
+     "thesis_hit_rate": null,
+     "mean_p_thesis": null,
+     "thesis_brier": null,
+     "calibration_note": "few theses: hit rate vs mean predicted probability is descriptive only",
+     "realized_vs_projected_script": {}
+    },
+    "EXPRESSION": {
+     "thesis_right_expression_won": 0,
+     "thesis_right_expression_lost": 0,
+     "thesis_wrong_expression_won": 0,
+     "thesis_wrong_expression_lost": 0,
+     "no_thesis": {},
+     "by_fidelity_class": {},
+     "broad_vs_player": {}
+    },
+    "PRICE": {
+     "n": 0,
+     "mean_clv": null,
+     "n_clv": 0,
+     "mean_ev_raw_at_entry": null,
+     "mean_ev_adjusted_at_entry": null,
+     "bets": []
+    },
+    "MODEL": {
+     "n": 0,
+     "brier_model": null,
+     "brier_adjusted": null,
+     "brier_kalshi_mid": null,
+     "logloss_model": null,
+     "logloss_adjusted": null,
+     "by_family": {}
+    },
+    "PORTFOLIO": {
+     "nominal_card": {
+      "n_bets": 0,
+      "stake": 0,
+      "pl": 0,
+      "roi": null,
+      "basis": "optimiser stakes on the nominal bankroll (B)"
+     },
+     "funded_research": {
+      "note": "no evaluated final-card bets yet"
+     },
+     "n_funded": 0,
+     "n_shadow_on_card": 0,
+     "correlation_concentration": {
+      "n_pairs": 0,
+      "mean_abs_phi": null,
+      "max_abs_phi": null
+     },
+     "thesis_concentration": {
+      "mean_largest_thesis_share": null
+     },
+     "realized_vs_simulated": {}
+    },
+    "GOVERNANCE": {
+     "funded_player_props": [],
+     "shadow_player_props": [],
+     "large_disagreement_gates_triggered": 0,
+     "reason_counts": {},
+     "overrides": []
+    },
+    "interpretation": "INTERIM (PARTIAL \u2014 0/4 games evaluated): covers evaluated games only; NOT the slate's final ROI"
+   },
+   "games": {
+    "2026020040": {
+     "state": "NOT_STARTED",
+     "matchup": "PHI @ TBL",
+     "final_snapshot": {
+      "snapshot_id": "snap-56ba119443777dd9905d",
+      "decided_at_utc": "2026-10-05T05:20:17Z",
+      "run_id": "37255839422",
+      "card_status": "COMPLETE",
+      "game_card_cap": 4,
+      "n_chosen": 2,
+      "n_shortlisted": 3,
+      "n_pregame_snapshots": 2,
+      "later_incomplete_snapshots_skipped": [],
+      "start_utc": "2026-10-05T23:00:00Z",
+      "synthetic_game_row": false,
+      "status": "OK"
+     },
+     "portfolio_result": null,
+     "script_check": null,
+     "overrides": [],
+     "bets": [
+      {
+       "decision_id": "4986d4011ebb4270989b2e83ba5e3106",
+       "game_id": "2026020040",
+       "bet_id": "KXNHLSPREAD-26OCT05PHITB-TB3|no",
+       "family": "game_spread",
+       "chosen": true,
+       "stake_dollars": 11.62,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 3,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "GAME:TIGHT",
+       "p_thesis": 0.4558,
+       "entry_price_cents": 72,
+       "ev_raw": 0.05268800000000007,
+       "ev_adjusted": 0.016788000000000025,
+       "p_model": 0.7868,
+       "p_adjusted": 0.7509,
+       "p_kalshi_mid": 0.715,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.715,
+        "gap": 0.0718,
+        "abs_gap_pts": 7.2,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLSPREAD-26OCT05PHITB-TB2|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.733,
+         "p_both": 0.6647
+        },
+        "KXNHLTEAMTOTAL-26OCT05PHITB-TB3|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.405,
+         "p_both": 0.3765
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "89526faad86793c064eb2a74cfe5ba13",
+       "game_id": "2026020040",
+       "bet_id": "KXNHLSPREAD-26OCT05PHITB-TB2|no",
+       "family": "game_spread",
+       "chosen": true,
+       "stake_dollars": 5.26,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 2,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "GAME:TIGHT",
+       "p_thesis": 0.4558,
+       "entry_price_cents": 59,
+       "ev_raw": 0.05776700000000001,
+       "ev_adjusted": 0.01791699999999996,
+       "p_model": 0.6647,
+       "p_adjusted": 0.6248499999999999,
+       "p_kalshi_mid": 0.585,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.585,
+        "gap": 0.0797,
+        "abs_gap_pts": 8.0,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLSPREAD-26OCT05PHITB-TB3|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.733,
+         "p_both": 0.6647
+        },
+        "KXNHLTEAMTOTAL-26OCT05PHITB-TB3|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.496,
+         "p_both": 0.3636
+        }
+       },
+       "scored": false,
+       "outcome": null
+      }
+     ]
+    },
+    "2026020041": {
+     "state": "NOT_STARTED",
+     "matchup": "OTT @ BOS",
+     "final_snapshot": {
+      "snapshot_id": "snap-56ba119443777dd9905d",
+      "decided_at_utc": "2026-10-05T05:20:17Z",
+      "run_id": "37255839422",
+      "card_status": "COMPLETE",
+      "game_card_cap": 4,
+      "n_chosen": 0,
+      "n_shortlisted": 0,
+      "n_pregame_snapshots": 2,
+      "later_incomplete_snapshots_skipped": [],
+      "start_utc": "2026-10-05T23:30:00Z",
+      "synthetic_game_row": false,
+      "status": "OK"
+     },
+     "portfolio_result": null,
+     "script_check": null,
+     "overrides": [],
+     "bets": []
+    },
+    "2026020042": {
+     "state": "NOT_STARTED",
+     "matchup": "WPG @ PIT",
+     "final_snapshot": {
+      "snapshot_id": "snap-56ba119443777dd9905d",
+      "decided_at_utc": "2026-10-05T05:20:17Z",
+      "run_id": "37255839422",
+      "card_status": "COMPLETE",
+      "game_card_cap": 4,
+      "n_chosen": 0,
+      "n_shortlisted": 0,
+      "n_pregame_snapshots": 2,
+      "later_incomplete_snapshots_skipped": [],
+      "start_utc": "2026-10-05T23:30:00Z",
+      "synthetic_game_row": false,
+      "status": "OK"
+     },
+     "portfolio_result": null,
+     "script_check": null,
+     "overrides": [],
+     "bets": []
+    },
+    "2026020043": {
+     "state": "NOT_STARTED",
+     "matchup": "SJS @ DAL",
+     "final_snapshot": {
+      "snapshot_id": "snap-56ba119443777dd9905d",
+      "decided_at_utc": "2026-10-05T05:20:17Z",
+      "run_id": "37255839422",
+      "card_status": "COMPLETE",
+      "game_card_cap": 4,
+      "n_chosen": 0,
+      "n_shortlisted": 0,
+      "n_pregame_snapshots": 2,
+      "later_incomplete_snapshots_skipped": [],
+      "start_utc": "2026-10-06T00:00:00Z",
+      "synthetic_game_row": false,
+      "status": "OK"
+     },
+     "portfolio_result": null,
+     "script_check": null,
+     "overrides": [],
+     "bets": []
     }
    }
   }
