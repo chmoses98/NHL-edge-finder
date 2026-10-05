@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-05T05:51:15Z · thesis-postmortem-2.0 · rows (all generations) 4878
+evaluated 2026-10-05T07:23:58Z · thesis-postmortem-2.0 · rows (all generations) 4878
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,18 +35,19 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020040 PHI @ TBL: NOT_STARTED · snapshot snap-56ba119443777dd9905d @ 2026-10-05T05:20:17Z
+#### game 2026020040 PHI @ TBL: NOT_STARTED · snapshot snap-f411096fd3e3036bda4f @ 2026-10-05T07:20:19Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT05PHITB-TB3|no | FUNDED_RESEARCH | 3 | 11.62 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT05PHITB-TB2|no | FUNDED_RESEARCH | 2 | 5.26 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT05PHITB-TB3|no | FUNDED_RESEARCH | 3 | 11.20 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT05PHITB-TB2|no | FUNDED_RESEARCH | 2 | 5.03 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT05PHITB-TB4|no | FUNDED_RESEARCH | 1 | 1.30 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020041 OTT @ BOS: NOT_STARTED · snapshot snap-56ba119443777dd9905d @ 2026-10-05T05:20:17Z
+#### game 2026020041 OTT @ BOS: NOT_STARTED · snapshot snap-f411096fd3e3036bda4f @ 2026-10-05T07:20:19Z
 
-#### game 2026020042 WPG @ PIT: NOT_STARTED · snapshot snap-56ba119443777dd9905d @ 2026-10-05T05:20:17Z
+#### game 2026020042 WPG @ PIT: NOT_STARTED · snapshot snap-f411096fd3e3036bda4f @ 2026-10-05T07:20:19Z
 
-#### game 2026020043 SJS @ DAL: NOT_STARTED · snapshot snap-56ba119443777dd9905d @ 2026-10-05T05:20:17Z
+#### game 2026020043 SJS @ DAL: NOT_STARTED · snapshot snap-f411096fd3e3036bda4f @ 2026-10-05T07:20:19Z
 
 ## Slate 2026-10-04: **COMPLETE — 5/5 games evaluated**
 
