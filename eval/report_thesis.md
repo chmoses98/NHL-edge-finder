@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-05T23:59:25Z · thesis-postmortem-2.0 · rows (all generations) 4878
+evaluated 2026-10-06T01:35:24Z · thesis-postmortem-2.0 · rows (all generations) 4878
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -12,7 +12,7 @@ missing / pending:
 - 2026020040: no official FINAL result yet
 - 2026020041: no official FINAL result yet
 - 2026020042: no official FINAL result yet
-- 2026020043: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020043: no official FINAL result yet
 
 > INTERIM (PARTIAL — 0/4 games evaluated): covers evaluated games only; NOT the slate's final ROI
 
@@ -61,7 +61,7 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLGOAL-26OCT05WPGPIT-WPGMSCHEIFELE55-1|yes | SHADOW_ONLY | 0 | 5.13 | - | - | - | FRAGILE | - | - |
 | KXNHLGOAL-26OCT05WPGPIT-PITBKINDEL81-1|no | FUNDED_RESEARCH | 4 | 12.14 | - | - | - | DIRECT | - | - |
 
-#### game 2026020043 SJS @ DAL: NOT_STARTED · snapshot snap-277a9b1cc6e43761bcc6 @ 2026-10-05T23:28:36Z
+#### game 2026020043 SJS @ DAL: NOT_FINAL · snapshot snap-277a9b1cc6e43761bcc6 @ 2026-10-05T23:28:36Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
