@@ -120,6 +120,9 @@ def test_scripts_extension_is_explicit_when_a_game_is_not_simulated_and_notes_ar
     x = scripts_extension(None, generated_at=None, start_time_utc="2026-10-07T23:00:00Z", event_tickers=set())
     assert x["status"] == "NOT_SIMULATED" and "game day" in x["reason"]
     assert script_notes(x) == []
+    # A game simulated by a card written before the script layer existed is in the slate: say so, not "not simulated".
+    y = scripts_extension(None, generated_at=None, start_time_utc="2026-10-07T23:00:00Z", event_tickers=set(), in_slate=True)
+    assert y["status"] == "NOT_SIMULATED" and "predates the NHL_SCRIPT_V1 script layer" in y["reason"] and "not in the latest" not in y["reason"]
 
 
 def test_learning_extension_reports_a_failed_job_instead_of_looking_healthy():

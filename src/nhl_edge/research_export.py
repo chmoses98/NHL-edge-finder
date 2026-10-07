@@ -1342,7 +1342,7 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
         try:
             ev_tickers = {m["kalshi_ticker"] for m in ev_markets}
             sx = RS.scripts_extension((thesis_games.get(gid) or {}).get("scripts_v1"), generated_at=thesis_at, start_time_utc=e.get("start_time_utc"),
-                                      event_tickers=ev_tickers)
+                                      event_tickers=ev_tickers, in_slate=gid in thesis_games)
             if (thesis_games.get(gid) or {}).get("scripts_v1_error"):
                 sx = {"status": "FAILED", "script_version": "NHL_SCRIPT_V1", "reason": thesis_games[gid]["scripts_v1_error"]}
             ext["nhl_scripts_v1"] = sx
