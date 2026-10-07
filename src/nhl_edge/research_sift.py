@@ -172,7 +172,9 @@ def matchup_findings(*, home: str, away: str, home_tid: int | None, away_tid: in
                 continue
             score = (p_off + (1.0 - p_def)) / 2.0 - 0.5  # + = attack advantage
             word = "advantage" if score > 0.08 else ("disadvantage" if score < -0.08 else "even matchup")
-            add(f"oa_5v5_{att}", f"{att} 5v5 attack vs {dfn} defense",
+            title = (f"{att}'s 5v5 attack has the edge on {dfn}'s defense" if score > 0.08 else
+                     f"{dfn}'s defense has the edge on {att}'s 5v5 attack" if score < -0.08 else f"{att} 5v5 attack vs {dfn} defense: even")
+            add(f"oa_5v5_{att}", title,
                 f"{att}'s opponent-adjusted 5v5 chance creation ranks {r1} of {n1} ({o_off['value']:.2f} xGF/60); {dfn}'s adjusted 5v5 defense ranks "
                 f"{r2} of {n2} ({o_def['value']:.2f} xGA/60): {word} for {att}.", "OPPONENT_ADJUSTED", 0.35 + 1.3 * abs(score), team=att,
                 values={"att_rank": r1, "def_rank": r2, "att_value": o_off["value"], "def_value": o_def["value"], "score": round(score, 3)},
