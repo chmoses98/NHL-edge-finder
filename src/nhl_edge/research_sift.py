@@ -255,11 +255,16 @@ def _side_row(sd: dict | None) -> list | None:
             TIER_CODE.get(sd.get("tier"), "U"), sd.get("survives"), sd.get("failure_script")]
 
 
-def scripts_extension(gr: dict | None, *, generated_at: str | None, start_time_utc: str | None, event_tickers: set[str]) -> dict[str, Any]:
-    """Compact, versioned ``extensions.nhl_scripts_v1`` for one event (or an explicit status when there is none)."""
+def scripts_extension(gr: dict | None, *, generated_at: str | None, start_time_utc: str | None, event_tickers: set[str],
+                      in_slate: bool = False) -> dict[str, Any]:
+    """Compact, versioned ``extensions.nhl_scripts_v1`` for one event (or an explicit status when there is none).
+
+    ``in_slate``: the game IS in the latest simulated slate but its thesis card carries no script layer (a card
+    written before NHL_SCRIPT_V1 existed). The reason must say that, not that the game was never simulated."""
     if not gr:
-        return {"status": "NOT_SIMULATED", "script_version": "NHL_SCRIPT_V1",
-                "reason": "the NHL model simulates a game on its game day; this event is not in the latest simulated slate"}
+        reason = ("this game's latest simulation predates the NHL_SCRIPT_V1 script layer; the next simulation adds it" if in_slate
+                  else "the NHL model simulates a game on its game day; this event is not in the latest simulated slate")
+        return {"status": "NOT_SIMULATED", "script_version": "NHL_SCRIPT_V1", "reason": reason}
     pre = None
     if generated_at and start_time_utc:
         pre = generated_at < start_time_utc
