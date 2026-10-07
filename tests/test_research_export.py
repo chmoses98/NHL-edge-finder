@@ -24,7 +24,7 @@ NOW = "2026-10-03T06:30:00Z"  # after the newest row of the slice
 EXPECTED_CAPABILITIES = {
     "team_profiles": "PARTIAL", "player_profiles": "PARTIAL", "event_research": "PARTIAL", "team_metrics": "PARTIAL",
     "player_metrics": "PARTIAL", "team_game_logs": "PARTIAL", "player_game_logs": "PARTIAL", "historical_results": "PARTIAL",
-    "opponents": "PARTIAL", "opponent_adjustment": "UNAVAILABLE", "schedule_strength": "UNAVAILABLE",
+    "opponents": "PARTIAL", "opponent_adjustment": "RESEARCH", "schedule_strength": "RESEARCH",
     "recent_form_windows": "PARTIAL", "usage": "VERIFIED", "lineups": "PARTIAL", "injuries": "PARTIAL", "matchup_metrics": "RESEARCH",
     "projection_distributions": "PARTIAL", "raw_projections": "VERIFIED", "market_prices": "VERIFIED", "market_price_history": "VERIFIED",
     "advanced_stats": "PARTIAL", "situational_splits": "PARTIAL", "player_props": "VERIFIED", "team_props": "VERIFIED",
@@ -138,7 +138,12 @@ def test_capability_statuses_match_the_audit(published):
     for m in registry:
         if m["supports"]["rank"]:
             assert m["metric_id"] in rankings, f"{m['metric_id']} claims rank support without a ranking"
-        assert not m["supports"]["opponent_adjustment"] and not m["supports"]["schedule_adjustment"]
+        # only the met_nhl.oa_* metrics are opponent-adjusted, and they say so (category, basis, version); nothing raw claims it
+        if m["supports"]["opponent_adjustment"] or m["supports"]["schedule_adjustment"]:
+            assert m["metric_id"].startswith("met_nhl.oa_") and m["category"] == "opponent_adjusted", m["metric_id"]
+            assert m["extensions"]["basis"] == "OPPONENT_ADJUSTED" and m["extensions"]["version"] == "nhl-oppadj-1.0"
+        else:
+            assert not m["metric_id"].startswith("met_nhl.oa_")
 
 
 # ------------------------------------------------------------------------------------------------- 5. packet
@@ -150,7 +155,7 @@ def test_game_packet_has_markets_and_both_participants(published):
     evidence = {e["entity_id"] for e in pk["evidence"]}
     assert {p["participant_id"] for p in ev["participants"]} <= evidence
     assert pk["quality"]["missing"] == []
-    assert pk["quality"]["capabilities"]["opponent_adjustment"] == "UNAVAILABLE"
+    assert pk["quality"]["capabilities"]["opponent_adjustment"] == "RESEARCH"
     assert packet.build(app_root=out, scope_kind="GAME", event_id=ev["event_id"]) == pk
 
 

@@ -1,0 +1,82 @@
+{
+ "by_season": {
+  "2022-23": {
+   "frequency": {
+    "AWAY_CONTROL": 0.093,
+    "BACK_AND_FORTH": 0.2439,
+    "GOALIE_DRIVEN": 0.0808,
+    "HOME_CONTROL": 0.1166,
+    "OPEN_GAME": 0.234,
+    "SPECIAL_TEAMS": 0.1303,
+    "TIGHT_LOW_EVENT": 0.1014
+   },
+   "n_games": 1312
+  },
+  "2023-24": {
+   "frequency": {
+    "AWAY_CONTROL": 0.093,
+    "BACK_AND_FORTH": 0.2409,
+    "GOALIE_DRIVEN": 0.0892,
+    "HOME_CONTROL": 0.1242,
+    "OPEN_GAME": 0.2073,
+    "SPECIAL_TEAMS": 0.1456,
+    "TIGHT_LOW_EVENT": 0.0998
+   },
+   "n_games": 1312
+  },
+  "2024-25": {
+   "frequency": {
+    "AWAY_CONTROL": 0.0968,
+    "BACK_AND_FORTH": 0.2637,
+    "GOALIE_DRIVEN": 0.0823,
+    "HOME_CONTROL": 0.1258,
+    "OPEN_GAME": 0.2066,
+    "SPECIAL_TEAMS": 0.1235,
+    "TIGHT_LOW_EVENT": 0.1014
+   },
+   "n_games": 1312
+  },
+  "2025-26": {
+   "frequency": {
+    "AWAY_CONTROL": 0.0861,
+    "BACK_AND_FORTH": 0.2607,
+    "GOALIE_DRIVEN": 0.0938,
+    "HOME_CONTROL": 0.112,
+    "OPEN_GAME": 0.2081,
+    "SPECIAL_TEAMS": 0.128,
+    "TIGHT_LOW_EVENT": 0.1113
+   },
+   "n_games": 1312
+  }
+ },
+ "frequency": {
+  "AWAY_CONTROL": 0.0922,
+  "BACK_AND_FORTH": 0.2523,
+  "GOALIE_DRIVEN": 0.0865,
+  "HOME_CONTROL": 0.1197,
+  "OPEN_GAME": 0.214,
+  "SPECIAL_TEAMS": 0.1319,
+  "TIGHT_LOW_EVENT": 0.1035
+ },
+ "n_games": 5248,
+ "note": "postgame classification of real games; used as the league base rate and as the climatology benchmark for script forecasts",
+ "realized_version": "nhl-realized-script-1.0",
+ "script_version": "NHL_SCRIPT_V1",
+ "seasons": [
+  "2022-23",
+  "2023-24",
+  "2024-25",
+  "2025-26"
+ ],
+ "source": "official NHL finals (data/history/nhl games + data/history/players goals/goalies), completed regular seasons only",
+ "thresholds": {
+  "control_min_margin": 2,
+  "control_min_shot_share": 0.5,
+  "goalie_winner_max_shot_share": 0.42,
+  "major_min_frequency": 0.05,
+  "open_min_goals": 8,
+  "pp_driven_min_goals": 2,
+  "provenance": "a priori; aligned with thesis.scripts cut points; base rates 8-25% on 2022-23..2025-26 official finals; never fit to a slate",
+  "tight_low_max_goals": 4
+ }
+}

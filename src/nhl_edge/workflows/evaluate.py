@@ -204,6 +204,16 @@ def run_evaluate(out_root: Path, data_root: Path, now: datetime | None = None) -
     except Exception as e:  # noqa: BLE001 - the thesis postmortem never blocks V1's evaluation
         log.warning(kv(event="thesis_postmortem_failed", err=str(e)[:300]))
         status["steps"]["thesis_postmortem"] = f"FAILED: {type(e).__name__}: {str(e)[:200]}"
+    try:
+        from nhl_edge.workflows.learning import run_learning
+
+        lrep = run_learning(ledger, settlements, starts, obs_loader=lambda t: observations_by_ticker(ledger, t), now=now)
+        status["steps"]["learning"] = "OK"
+        status["learning"] = {"stage": (lrep.get("stage") or {}).get("stage"), "script_forecasts_settled": (lrep.get("counts") or {}).get("script_forecasts_settled"),
+                              "games_settled": (lrep.get("counts") or {}).get("games_settled")}
+    except Exception as e:  # noqa: BLE001 - the learning report never blocks V1's evaluation; the failure is visible in STATUS and health
+        log.warning(kv(event="learning_failed", err=str(e)[:300]))
+        status["steps"]["learning"] = f"FAILED: {type(e).__name__}: {str(e)[:200]}"
     write_evaluate_status(out_root, status)
     return 0
 
