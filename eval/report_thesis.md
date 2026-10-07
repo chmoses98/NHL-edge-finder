@@ -1,38 +1,37 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-07T02:03:42Z · thesis-postmortem-2.0 · rows (all generations) 6152
+evaluated 2026-10-07T02:51:19Z · thesis-postmortem-2.0 · rows (all generations) 6212
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
-## Slate 2026-10-06: **PARTIAL — 5/9 games evaluated**
+## Slate 2026-10-06: **PARTIAL — 6/9 games evaluated**
 
-scheduled 9 · final 5 · settled 5 · events ingested 5 · thesis-evaluated 5 · final_card_complete False · postmortem_complete False
+scheduled 9 · final 6 · settled 6 · events ingested 6 · thesis-evaluated 6 · final_card_complete False · postmortem_complete False
 
 missing / pending:
-- 2026020048: no official FINAL result yet
 - 2026020050: no official FINAL result yet
 - 2026020051: no official FINAL result yet
 - 2026020052: no official FINAL result yet
 
-> INTERIM (PARTIAL — 5/9 games evaluated): covers evaluated games only; NOT the slate's final ROI
+> INTERIM (PARTIAL — 6/9 games evaluated): covers evaluated games only; NOT the slate's final ROI
 
-invariant final_card_n 20 <= sum(game card caps) 20: OK
+invariant final_card_n 24 <= sum(game card caps) 24: OK
 
 ### FINAL_CARD_UNIQUE
 
 | view | bets | stake | P/L | ROI |
 |---|---:|---:|---:|---:|
-| nominal optimiser card (B) | 20 | 81.80 | -16.46 | -0.201 |
-| FUNDED research stakes | 4 | 8.00 | -0.43 | -0.054 |
+| nominal optimiser card (B) | 24 | 103.49 | -24.95 | -0.241 |
+| FUNDED research stakes | 5 | 11.00 | -3.43 | -0.312 |
 
-- THESIS: 16 distinct theses, hit rate 0.312 vs mean p 0.386 (Brier 0.224)
-- EXPRESSION: thesis right + won 2 · right + lost 5 · wrong + won 3 · wrong + lost 10
-  - by fidelity: DIRECT 4/9; FRAGILE 1/11
-  - broad vs player: FRAGILE_PLAYER 5/20 (P/L -16.46)
-- PRICE: mean CLV -0.0083 (n 20), mean adjusted EV at entry 0.0244
-- MODEL: Brier raw 0.1829 · adjusted 0.1658 · Kalshi mid 0.1591 (n 20)
-- PORTFOLIO: funded 4 · shadow on card 16 · mean |phi| among card pairs 0.017 · mean largest thesis share 0.533
-- GOVERNANCE: funded player props 4 · shadow player props 16 · large-disagreement gates 5 · overrides 0
+- THESIS: 19 distinct theses, hit rate 0.368 vs mean p 0.388 (Brier 0.224)
+- EXPRESSION: thesis right + won 3 · right + lost 7 · wrong + won 3 · wrong + lost 11
+  - by fidelity: DIRECT 4/10; FRAGILE 2/14
+  - broad vs player: FRAGILE_PLAYER 6/24 (P/L -24.95)
+- PRICE: mean CLV -0.0079 (n 24), mean adjusted EV at entry 0.0229
+- MODEL: Brier raw 0.1955 · adjusted 0.1826 · Kalshi mid 0.1769 (n 24)
+- PORTFOLIO: funded 5 · shadow on card 19 · mean |phi| among card pairs 0.018 · mean largest thesis share 0.525
+- GOVERNANCE: funded player props 5 · shadow player props 19 · large-disagreement gates 5 · overrides 0
 
 
 #### game 2026020044 NSH @ TOR: EVALUATED · snapshot snap-cf300b7bca1b98e8b48c @ 2026-10-06T22:37:02Z
@@ -71,14 +70,14 @@ invariant final_card_n 20 <= sum(game card caps) 20: OK
 | KXNHLAST-26OCT06UTANJ-NJLEVANGELISTA77-1|no | SHADOW_ONLY | 0 | 7.70 | True | False | THESIS_WRONG_EXPRESSION_WON | DIRECT | -0.0150 | 4.04 |
 | KXNHLGOAL-26OCT06UTANJ-NJCGLASS12-1|yes | SHADOW_ONLY | 0 | 1.70 | False | False | THESIS_WRONG_EXPRESSION_LOST | FRAGILE | -0.0050 | -1.70 |
 
-#### game 2026020048 NYI @ NYR: NOT_FINAL · snapshot snap-56fc96c3cba624894f4a @ 2026-10-06T23:27:05Z
+#### game 2026020048 NYI @ NYR: EVALUATED · snapshot snap-56fc96c3cba624894f4a @ 2026-10-06T23:27:05Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT06NYINYR-NYIOPALAT81-1|yes | SHADOW_ONLY | 0 | 3.75 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT06NYINYR-NYRTKARTYE24-1|yes | SHADOW_ONLY | 0 | 3.79 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT06NYINYR-NYRVGAVRIKOV44-1|yes | SHADOW_ONLY | 0 | 3.61 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT06NYINYR-NYIBHORVAT14-1|no | FUNDED_RESEARCH | 3 | 10.54 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT06NYINYR-NYIOPALAT81-1|yes | SHADOW_ONLY | 0 | 3.75 | False | False | THESIS_WRONG_EXPRESSION_LOST | FRAGILE | -0.0050 | -3.75 |
+| KXNHLGOAL-26OCT06NYINYR-NYRTKARTYE24-1|yes | SHADOW_ONLY | 0 | 3.79 | False | True | THESIS_RIGHT_EXPRESSION_LOST | FRAGILE | -0.0050 | -3.79 |
+| KXNHLAST-26OCT06NYINYR-NYRVGAVRIKOV44-1|yes | SHADOW_ONLY | 0 | 3.61 | True | True | THESIS_RIGHT_EXPRESSION_WON | FRAGILE | -0.0100 | 9.59 |
+| KXNHLGOAL-26OCT06NYINYR-NYIBHORVAT14-1|no | FUNDED_RESEARCH | 3 | 10.54 | False | True | THESIS_RIGHT_EXPRESSION_LOST | DIRECT | -0.0050 | -10.54 |
 
 #### game 2026020049 MIN @ BUF: EVALUATED · snapshot snap-cf300b7bca1b98e8b48c @ 2026-10-06T22:37:02Z
 
@@ -547,7 +546,7 @@ invariant final_card_n 30 <= sum(game card caps) 32: OK
 
 ## ALL_PROSPECTIVE_DECISIONS (calibration research; no P/L)
 
-6152 scored rows = 779 unique logical wagers (repeat factor 7.9). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
+6212 scored rows = 788 unique logical wagers (repeat factor 7.88). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
 
 | family | rows | unique | Brier all rows | Brier last obs | adjusted | Kalshi mid |
 |---|---:|---:|---:|---:|---:|---:|
@@ -557,8 +556,8 @@ invariant final_card_n 30 <= sum(game card caps) 32: OK
 | game_winner | 251 | 31 | 0.2201 | 0.2215 | 0.2327 | 0.2484 |
 | goalie_saves | 8 | 3 | 0.2587 | 0.2847 | 0.2477 | 0.2304 |
 | period_spread | 1 | 1 | 0.6434 | 0.6434 | 0.5365 | 0.4830 |
-| player_assists | 1427 | 201 | 0.2019 | 0.1866 | 0.1755 | 0.1746 |
-| player_goals | 2550 | 356 | 0.1422 | 0.1361 | 0.1351 | 0.1339 |
+| player_assists | 1452 | 204 | 0.2050 | 0.1895 | 0.1786 | 0.1778 |
+| player_goals | 2585 | 362 | 0.1446 | 0.1378 | 0.1367 | 0.1353 |
 | player_points | 206 | 40 | 0.2921 | 0.2383 | 0.1990 | 0.1965 |
 | team_total | 799 | 79 | 0.1846 | 0.1870 | 0.1886 | 0.1934 |
 
