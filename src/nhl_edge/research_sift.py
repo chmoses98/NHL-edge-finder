@@ -183,11 +183,18 @@ def matchup_findings(*, home: str, away: str, home_tid: int | None, away_tid: in
     oh, oa = _obs(team_obs, home_tid, mid("oa_xgf_pct_5v5")), _obs(team_obs, away_tid, mid("oa_xgf_pct_5v5"))
     if oh and oa:
         gap = oh["value"] - oa["value"]
-        lead = home if gap > 0 else away
-        add("oa_share_gap", "Adjusted 5v5 territorial edge",
-            f"{lead} holds the better opponent-adjusted 5v5 xG share ({max(oh['value'], oa['value']):.1%} vs {min(oh['value'], oa['value']):.1%}).",
-            "OPPONENT_ADJUSTED", 0.3 + 4.0 * abs(gap), team=lead, values={"home": oh["value"], "away": oa["value"]},
-            metric_ids=[mid("oa_xgf_pct_5v5")], source=f"{OPP_ADJ_VERSION} (RESEARCH)")
+        if abs(gap) < SHARE_EVEN:
+            # Within half a point the shares are level: never call one side "better" (51.1% vs 51.1%).
+            add("oa_share_gap", "Adjusted 5v5 territory: even",
+                f"{away} and {home} are level on opponent-adjusted 5v5 xG share ({oa['value']:.1%} vs {oh['value']:.1%}).",
+                "OPPONENT_ADJUSTED", 0.3, values={"home": oh["value"], "away": oa["value"]},
+                metric_ids=[mid("oa_xgf_pct_5v5")], source=f"{OPP_ADJ_VERSION} (RESEARCH)")
+        else:
+            lead = home if gap > 0 else away
+            add("oa_share_gap", "Adjusted 5v5 territorial edge",
+                f"{lead} holds the better opponent-adjusted 5v5 xG share ({max(oh['value'], oa['value']):.1%} vs {min(oh['value'], oa['value']):.1%}).",
+                "OPPONENT_ADJUSTED", 0.3 + 4.0 * abs(gap), team=lead, values={"home": oh["value"], "away": oa["value"]},
+                metric_ids=[mid("oa_xgf_pct_5v5")], source=f"{OPP_ADJ_VERSION} (RESEARCH)")
     pg = packet_game or {}
     gt = pg.get("goaltending") or {}
     for side, ab in (("home", home), ("away", away)):
@@ -242,6 +249,7 @@ def matchup_findings(*, home: str, away: str, home_tid: int | None, away_tid: in
 # ------------------------------------------------------------------------------------------------ scripts extension
 TIER_CODE = {"ROBUST": "R", "MODERATE": "M", "FRAGILE": "F", "DOES_NOT_SURVIVE": "X", "UNAVAILABLE": "U"}
 MAX_CANDIDATES = 12
+SHARE_EVEN = 0.005  # opponent-adjusted xG shares closer than half a point read as level
 
 
 def _q3(x: Any) -> float | None:
