@@ -1270,7 +1270,13 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
                 continue
             tl = obs_by_game_team.get((gid, tid), [])
             if tl:
-                last = tl[-1]
+                last = dict(tl[-1])
+                if last.get("player_id") is None and last.get("player_name"):
+                    # DailyFaceoff rows are name-only; resolve against this team's own roster snapshot (exact normalised name only)
+                    nm = _norm_name(last["player_name"])
+                    hit = [r for r in roster_by_team.get(tid, []) if _norm_name(f"{r.get('first_name') or ''} {r.get('last_name') or ''}") == nm]
+                    if len(hit) == 1:
+                        last["player_id"] = int(hit[0]["player_id"])
                 lineups.append({"kind": "goalie_status", "team_id": p["participant_id"], "team": abbrev.get(tid),
                                 "current": {k: last.get(k) for k in ("status", "player_id", "player_name", "confidence", "source")},
                                 "timeline": [{"observed_at": _ts(o.get("observed_at_utc") or o.get("_observed_at_utc")), "status": o.get("status"),
