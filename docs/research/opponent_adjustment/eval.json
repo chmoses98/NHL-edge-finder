@@ -1,0 +1,138 @@
+{
+ "methodology": {
+  "min_games": 10,
+  "model": "rate_for = mu + OFF_team + DEF_opponent + eta*home, weighted ridge",
+  "not_adjusted": [
+   "power play / penalty kill rates",
+   "save percentage",
+   "player rates"
+  ],
+  "prior_heavy_below_current_games": 15,
+  "ridge_hours": 12.0,
+  "situation": "5v5 (MoneyPuck situation 5on5)",
+  "status": "RESEARCH: walk-forward sanity-checked (docs/research/opponent_adjustment), not validated to VERIFIED; not a DATA_ONLY_V1 input",
+  "version": "nhl-oppadj-1.0",
+  "weights": "ice-time hours x 0.5^(days/60) x 0.6 for last season",
+  "window": "current season + previous season, games strictly before the cutoff"
+ },
+ "note": "walk-forward: each checkpoint refits on games strictly before it and is scored on the next 14 days; diagnostic only",
+ "results": [
+  {
+   "adj_vs_raw_mult_pct": -2.63,
+   "checkpoints": 39,
+   "forward_stability_corr": {
+    "adjusted_better_share": 0.778,
+    "adjusted_mean": 0.6635,
+    "n_checkpoints": 36,
+    "raw_mean": 0.6548
+   },
+   "metric": "xg",
+   "n_team_games": 7052,
+   "rate_wmse": {
+    "adj": 0.64356,
+    "league": 0.69368,
+    "raw_add": 0.66063,
+    "raw_mult": 0.66094
+   },
+   "seasons": [
+    "2023-24",
+    "2024-25",
+    "2025-26"
+   ],
+   "share_mse": {
+    "adjusted": 0.012949,
+    "n": 7052,
+    "raw": 0.013265
+   },
+   "situation": "5on5"
+  },
+  {
+   "adj_vs_raw_mult_pct": -1.8,
+   "checkpoints": 39,
+   "forward_stability_corr": {
+    "adjusted_better_share": 0.889,
+    "adjusted_mean": 0.7687,
+    "n_checkpoints": 36,
+    "raw_mean": 0.7565
+   },
+   "metric": "cf",
+   "n_team_games": 7052,
+   "rate_wmse": {
+    "adj": 119.7131,
+    "league": 142.74162,
+    "raw_add": 121.92758,
+    "raw_mult": 121.91235
+   },
+   "seasons": [
+    "2023-24",
+    "2024-25",
+    "2025-26"
+   ],
+   "share_mse": {
+    "adjusted": 0.005788,
+    "n": 7052,
+    "raw": 0.005897
+   },
+   "situation": "5on5"
+  },
+  {
+   "adj_vs_raw_mult_pct": -3.44,
+   "checkpoints": 39,
+   "forward_stability_corr": {
+    "adjusted_better_share": 0.722,
+    "adjusted_mean": 0.3119,
+    "n_checkpoints": 36,
+    "raw_mean": 0.3017
+   },
+   "metric": "hdxg",
+   "n_team_games": 7052,
+   "rate_wmse": {
+    "adj": 0.30865,
+    "league": 0.30912,
+    "raw_add": 0.31898,
+    "raw_mult": 0.31964
+   },
+   "seasons": [
+    "2023-24",
+    "2024-25",
+    "2025-26"
+   ],
+   "share_mse": {
+    "adjusted": 0.093692,
+    "n": 6856,
+    "raw": 0.096327
+   },
+   "situation": "5on5"
+  },
+  {
+   "adj_vs_raw_mult_pct": -3.16,
+   "checkpoints": 39,
+   "forward_stability_corr": {
+    "adjusted_better_share": 0.583,
+    "adjusted_mean": 0.4921,
+    "n_checkpoints": 36,
+    "raw_mean": 0.4878
+   },
+   "metric": "g",
+   "n_team_games": 7052,
+   "rate_wmse": {
+    "adj": 2.97061,
+    "league": 3.01026,
+    "raw_add": 3.07022,
+    "raw_mult": 3.0676
+   },
+   "seasons": [
+    "2023-24",
+    "2024-25",
+    "2025-26"
+   ],
+   "share_mse": {
+    "adjusted": 0.080397,
+    "n": 6934,
+    "raw": 0.082908
+   },
+   "situation": "5on5"
+  }
+ ],
+ "version": "nhl-oppadj-1.0"
+}

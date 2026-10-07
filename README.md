@@ -84,7 +84,19 @@ python -m nhl_edge.research.rules_replay --archive <ARCHIVE COPY> --date <ET dat
 ```
 No credentials are needed for anything in this repository.
 
+## SIFT research layer (2026-10-07)
+
+`NHL_SCRIPT_V1` turns each game's joint draw into seven mutually exclusive hockey game scripts (probabilities sum to 100%), prices every
+supported contract conditional on each script, measures **script survival** (probability mass where the bet stays +EV at its executable
+ask after fees and the confidence haircut), ranks the thesis engine's research candidates with robustness ahead of raw edge, groups
+candidates that are secretly the same bet, adds a RESEARCH opponent-adjusted 5v5 team-strength layer (`met_nhl.oa_*`), and scores every
+pregame snapshot once games settle (`eval/report_learning.json`, `script_postmortems`). Everything runs inside the existing
+simulate / evaluate / export jobs and is published additively for SIFT in `event_research.extensions.nhl_scripts_v1` /
+`nhl_matchup_v1` and the `met_nhl.model_learning_stage` metric. RESEARCH_ONLY; no stake, cap or authority changed.
+See `docs/research/SCRIPTS_V1.md`.
+
 ## Docs
+- `docs/research/SCRIPTS_V1.md` NHL_SCRIPT_V1 scripts, script survival, research candidates, opponent adjustment, learning loop, SIFT publication
 - `docs/HANDOFF_REPAIR_PASS.md` thesis-card repair pass (2026-10-02): snapshot-unique postmortem, settlement completeness, expression fidelity, research governance / staking, replays
 - `docs/research/PREREGISTERED_HYPOTHESES.md` model-defect leads registered with their tests BEFORE the evidence exists
 - `docs/HANDOFF_THESIS.md` thesis / portfolio card handoff (2026-10-01): verdict, PRs, architecture, sample, limits

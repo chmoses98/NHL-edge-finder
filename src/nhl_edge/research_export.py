@@ -46,6 +46,8 @@ if str(CONTRACT_DIR) not in sys.path:
 from edge_finder_contract import build, ids, timeutil  # noqa: E402
 from edge_finder_contract import research as R  # noqa: E402
 
+from nhl_edge import research_sift as RS  # noqa: E402
+
 SPORT = "NHL"
 METHODOLOGY_VERSION = "nhl-research-export-1.0"
 AUDIT_DATE = "2026-10-03"
@@ -82,7 +84,8 @@ LIM_TEAM_LOG_HISTORY = ("Team game logs: PARTIAL (history one-off) / VERIFIED (l
 LIM_PLAYER_LOG = ("Player game logs (official): VERIFIED (live) / PARTIAL (history one-off); `shifts_ok` flag (57 of 1,398 "
                   "games in 2024-25 lack shift charts)")
 LIM_RESULTS = "Historical opponents / results: PARTIAL; official scores, period count, last_period_type"
-LIM_NO_OPP_ADJ = "no opponent adjustment anywhere (ratings are raw EW-shrunk rates; opponent enters only as a multiplicative factor at game time)"
+LIM_NO_OPP_ADJ = ("raw metrics and DATA_ONLY_V1 ratings are NOT opponent-adjusted (opponent enters the model only as a multiplicative factor at game "
+                  "time); the only opponent-adjusted numbers are the met_nhl.oa_* 5v5 metrics (nhl-oppadj-1.0, RESEARCH)")
 LIM_SVA = "MoneyPuck provides score/venue-adjusted xG columns, not opponent-adjusted"
 LIM_LINES = "no historical source; backtests use shift-derived deployment (lines, injuries and goalie-status history are only 4-5 days deep)"
 LIM_INJURIES = "name-only; not modelled in V1; removes players from projected lineups"
@@ -196,6 +199,8 @@ class ResearchInputs:
     predictions: list[dict] = field(default_factory=list)
     eval_report: dict | None = None
     eval_report_player: dict | None = None
+    learning: dict | None = None
+    eval_status: dict | None = None
     ticks: dict[str, list[dict]] = field(default_factory=dict)
     ticks_last_at: str | None = None
     n_ticks: int = 0
@@ -402,6 +407,8 @@ def load_research_inputs(app_root: Path, archive_root: Path, *, history_root: Pa
 
     inp.eval_report = _read_json(archive_root / "eval" / "report.json")
     inp.eval_report_player = _read_json(archive_root / "eval" / "report_player.json")
+    inp.learning = _read_json(archive_root / "eval" / "report_learning.json")
+    inp.eval_status = _read_json(archive_root / "STATUS_evaluate.json")
 
     # -- market quote history from checkpoints + deltas (archive.reconstruct) ----------------------------------
     if ledger is not None and event_tickers:
@@ -1211,11 +1218,24 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
             mh_thinned[eid] = cap
         c.docs.append(doc)
 
+    # ------------------------------------------------------------------------------------ opponent adjustment (RESEARCH)
+    oa_fits: dict = {}
+    oa_ids: list[str] = []
+    try:
+        oa_fits = RS.adjusted_fits(inp.team_games, now, cur)
+        oa_ids = RS.publish_adjusted(c, oa_fits, reg_metric=reg_metric, make_ranking=make_ranking, team_obs=team_obs, team_rank_refs=team_rank_refs,
+                                     team_ids=team_ids, tname=tname, abbrev=abbrev, team_pid=_team_pid, now=now)
+    except Exception as e:  # noqa: BLE001 - a research layer never costs the explorer
+        warnings.append(f"opponent adjustment skipped: {type(e).__name__}: {str(e)[:160]}")
+        oa_fits, oa_ids = {}, []
+    thesis_games = {str(g.get("game_id")): g for g in ((packet.get("thesis_card") or {}).get("games") or []) if isinstance(g, dict)}
+    thesis_at = _ts((packet.get("thesis_card") or {}).get("generated_at_utc")) or slate_at
+
     # ------------------------------------------------------------------------------------ event research
     q_event = c.q("PARTIAL", "v1 publication + archive context + slate packet + committed history", data_as_of=None,
                   limitations=[LIM_NO_OPP_ADJ, LIM_INJURIES, LIM_LINES, LIM_DISTRIBUTIONS, LIM_MATCHUP])
     matchup_metrics = [c.mid(m[0]) for m in TEAM_LOG_METRICS] + [c.mid(m[0]) for m in SUMMARY_METRICS] + \
-        [c.mid(m[0]) for m in RATING_METRICS] + [c.mid("model_expected_goals")]
+        [c.mid(m[0]) for m in RATING_METRICS] + [c.mid("model_expected_goals")] + oa_ids
     event_players: dict[str, list[dict]] = {}
     n_distributions = 0
     for e in events:
@@ -1231,7 +1251,7 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
         if cur is not None and tid_of and all(sum(1 for r in by_team.get(t, []) if r["season"] == cur and r["game_type"] == 2) >= 5
                                                for t in tid_of.values()):
             primary = cur
-        want_windows = {_season_label(primary) if primary else None, w_form["label"], run_label}
+        want_windows = {_season_label(primary) if primary else None, w_form["label"], run_label, RS.OA_WINDOW_LABEL}
         rows = []
         for mid in matchup_metrics:
             if mid not in c.metrics:
@@ -1250,7 +1270,13 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
                 continue
             tl = obs_by_game_team.get((gid, tid), [])
             if tl:
-                last = tl[-1]
+                last = dict(tl[-1])
+                if last.get("player_id") is None and last.get("player_name"):
+                    # DailyFaceoff rows are name-only; resolve against this team's own roster snapshot (exact normalised name only)
+                    nm = _norm_name(last["player_name"])
+                    hit = [r for r in roster_by_team.get(tid, []) if _norm_name(f"{r.get('first_name') or ''} {r.get('last_name') or ''}") == nm]
+                    if len(hit) == 1:
+                        last["player_id"] = int(hit[0]["player_id"])
                 lineups.append({"kind": "goalie_status", "team_id": p["participant_id"], "team": abbrev.get(tid),
                                 "current": {k: last.get(k) for k in ("status", "player_id", "player_name", "confidence", "source")},
                                 "timeline": [{"observed_at": _ts(o.get("observed_at_utc") or o.get("_observed_at_utc")), "status": o.get("status"),
@@ -1313,6 +1339,22 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
             ext["model_quality"] = "RESEARCH (matchup decomposition) / PARTIAL (distribution)"
         if eid in mh_thinned:
             ext["market_history_thinned_to"] = mh_thinned[eid]
+        try:
+            ev_tickers = {m["kalshi_ticker"] for m in ev_markets}
+            sx = RS.scripts_extension((thesis_games.get(gid) or {}).get("scripts_v1"), generated_at=thesis_at, start_time_utc=e.get("start_time_utc"),
+                                      event_tickers=ev_tickers)
+            if (thesis_games.get(gid) or {}).get("scripts_v1_error"):
+                sx = {"status": "FAILED", "script_version": "NHL_SCRIPT_V1", "reason": thesis_games[gid]["scripts_v1_error"]}
+            ext["nhl_scripts_v1"] = sx
+            notes += RS.script_notes(sx)
+            inj_n = {abbrev.get(t): sum(1 for inj in injuries_by_team.get(t, []) if any(k in str(inj.get("status") or "").upper() for k in ("OUT", "IR", "DOUBT")))
+                     for t in tid_of.values()}
+            ext["nhl_matchup_v1"] = RS.matchup_findings(home=abbrev.get(tid_of.get(home)), away=abbrev.get(tid_of.get(away)), home_tid=tid_of.get(home),
+                                                        away_tid=tid_of.get(away), team_obs=team_obs, mid=c.mid, packet_game=pg,
+                                                        injuries={k: v for k, v in inj_n.items() if k}, scripts=sx if sx.get("status") == "OK" else None)
+        except Exception as e:  # noqa: BLE001 - a research layer never costs the event document
+            warnings.append(f"{eid}: NHL research layer skipped: {type(e).__name__}: {str(e)[:160]}")
+            ext["nhl_scripts_v1"] = {"status": "FAILED", "script_version": "NHL_SCRIPT_V1", "reason": f"{type(e).__name__}: {str(e)[:160]}"}
         links = [R.link(rel="TEAM", target_kind="entity_profile", label=p["display_name"], target_id=p["participant_id"],
                         path=R.team_path(p["participant_id"])) for p in e["participants"]]
         links.append(R.link(rel="MARKET_HISTORY", target_kind="market_history", label="quote history", target_id=eid,
@@ -1503,6 +1545,10 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
                                        secondary=f"{rk['universe']['label']} [{rk['window']['label']}{sp}]", path=R.ranking_path(rid), sport=SPORT,
                                        season=rk["universe"]["season"]))
 
+    try:
+        RS.register_learning(reg_metric, c, RS.learning_extension(inp.learning, inp.eval_status), now)
+    except Exception as e:  # noqa: BLE001
+        warnings.append(f"learning scorecard skipped: {type(e).__name__}: {str(e)[:160]}")
     as_of = max((a for a in data_as_of if a), default=now)
     docs_by_kind = defaultdict(list)
     for d in c.docs:
@@ -1510,7 +1556,7 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
     caps = _capabilities(c, inp, docs_by_kind=docs_by_kind, events=events, team_seasons=team_seasons, seasons=seasons,
                          split_dims=published_split_metrics, has_ratings=bool(team_state), has_lambdas=bool(lambdas),
                          lines_at=_ts(lines_at) if lines_at else None, fam_cal=fam_cal, first_date=first_date, player_first=player_first,
-                         mh_thinned=mh_thinned, n_distributions=n_distributions, n_model_dropped=n_model_dropped)
+                         mh_thinned=mh_thinned, n_distributions=n_distributions, n_model_dropped=n_model_dropped, oa_ids=oa_ids)
     windows = [season_windows[s] for s in seasons] + [w_form] + ([w_run] if team_state or lambdas else [])
     manifest = R.capability_manifest(
         sport=SPORT, run_id=c.run_id, generated_at=now, capabilities=caps, audit_date=AUDIT_DATE,
@@ -1521,7 +1567,9 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
         notes=[f"statuses follow the NHL research-data audit of {AUDIT_DATE} (§4 capability matrix, §10 recommendations); a mixed rating "
                "publishes the lower status unless only the higher-rated part is published",
                "every number is copied from a stored record or is plain arithmetic over stored records (totals, rates, shares, trailing "
-               "means, ranks); nothing is opponent- or schedule-adjusted",
+               "means, ranks), except the met_nhl.oa_* metrics, which are opponent-adjusted by a documented RESEARCH model (nhl-oppadj-1.0)",
+               "event_research.extensions.nhl_scripts_v1 carries NHL_SCRIPT_V1 game scripts, script-conditioned market pricing, script survival and "
+               "research candidates (RESEARCH_ONLY); extensions.nhl_matchup_v1 carries basis-labelled findings",
                "model prices, projections and distributions are research outputs (authority RESEARCH_ONLY), never recommendations"])
     registry_doc = R.metric_registry(sport=SPORT, run_id=c.run_id, generated_at=now, metrics=list(c.metrics.values()))
     search = R.search_index(sport=SPORT, run_id=c.run_id, generated_at=now, entries=c.search)
@@ -1538,7 +1586,7 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
 CAPABILITY_STATUS = {
     "team_profiles": "PARTIAL", "player_profiles": "PARTIAL", "event_research": "PARTIAL", "team_metrics": "PARTIAL",
     "player_metrics": "PARTIAL", "team_game_logs": "PARTIAL", "player_game_logs": "PARTIAL", "historical_results": "PARTIAL",
-    "opponents": "PARTIAL", "opponent_adjustment": "UNAVAILABLE", "schedule_strength": "UNAVAILABLE", "recent_form_windows": "PARTIAL",
+    "opponents": "PARTIAL", "opponent_adjustment": "RESEARCH", "schedule_strength": "RESEARCH", "recent_form_windows": "PARTIAL",
     "usage": "VERIFIED", "lineups": "PARTIAL", "injuries": "PARTIAL", "matchup_metrics": "RESEARCH", "projection_distributions": "PARTIAL",
     "raw_projections": "VERIFIED", "market_prices": "VERIFIED", "market_price_history": "VERIFIED", "advanced_stats": "PARTIAL",
     "situational_splits": "PARTIAL", "player_props": "VERIFIED", "team_props": "VERIFIED", "game_markets": "VERIFIED",
@@ -1550,7 +1598,8 @@ CAPABILITY_STATUS = {
 
 def _capabilities(c: _Ctx, inp: ResearchInputs, *, docs_by_kind: dict[str, list[str]], events: list[dict], team_seasons: list[int],
                   seasons: list[int], split_dims: dict, has_ratings: bool, has_lambdas: bool, lines_at: str | None, fam_cal: dict,
-                  first_date: str | None, player_first: str | None, mh_thinned: dict, n_distributions: int, n_model_dropped: int = 0) -> list[dict]:
+                  first_date: str | None, player_first: str | None, mh_thinned: dict, n_distributions: int, n_model_dropped: int = 0,
+                  oa_ids: list[str] | None = None) -> list[dict]:
     teams = sorted(docs_by_kind.get("entity_profile:TEAM", []))
     players = sorted(docs_by_kind.get("entity_profile:PLAYER", []))
     evs = sorted(docs_by_kind.get("event_research", []))
@@ -1566,8 +1615,8 @@ def _capabilities(c: _Ctx, inp: ResearchInputs, *, docs_by_kind: dict[str, list[
 
     def cap(name: str, summary: str, *, evidence: list[str], present: bool, absent_reason: str, limitations: list[str] | None = None,
             entity_types: list[str] | None = None, coverage: str | None = None, since: Any = None, metrics: list[str] | None = None,
-            windows: list[str] | None = None, splits: list[str] | None = None, reasons: list[str] | None = None) -> None:
-        status = CAPABILITY_STATUS[name]
+            windows: list[str] | None = None, splits: list[str] | None = None, reasons: list[str] | None = None, status: str | None = None) -> None:
+        status = status or CAPABILITY_STATUS[name]
         if status in ("VERIFIED", "PARTIAL", "RESEARCH") and (not present or not evidence):
             out.append(R.capability(capability=name, status="UNAVAILABLE", summary=summary, entity_types=entity_types,
                                     reasons=[absent_reason, f"audit {AUDIT_DATE} rates it {status}; nothing for it is in this publication"]))
@@ -1619,10 +1668,23 @@ def _capabilities(c: _Ctx, inp: ResearchInputs, *, docs_by_kind: dict[str, list[
         coverage=f"{n_final} final games (data/history/nhl + archive results)", since=first_date)
     cap("opponents", "opponent id, name and home/away on every game and series point; opponent lists per team", evidence=teams,
         present=n_team_rows > 0, absent_reason="no game logs", limitations=[LIM_RESULTS], entity_types=["TEAM"], since=first_date)
-    cap("opponent_adjustment", "not available", evidence=[], present=False, absent_reason=LIM_NO_OPP_ADJ,
-        reasons=[LIM_NO_OPP_ADJ, LIM_SVA, "any \"opponent-adjusted\" claim would be UNAVAILABLE (audit §6)"])
-    cap("schedule_strength", "not available", evidence=[], present=False, absent_reason="Schedule strength: not computed anywhere",
-        reasons=["Schedule strength: UNAVAILABLE, not computed anywhere (audit §4)"])
+    if oa_ids:
+        oa_lim = [RS.LIM_OA, "raw MoneyPuck metrics, official PP/PK and DATA_ONLY_V1 ratings remain raw and are labelled so",
+                  "walk-forward evidence: docs/research/opponent_adjustment/eval.json (adjusted beats raw by 1.8-3.4% rate MSE on 2023-26)"]
+        cap("opponent_adjustment", "opponent-adjusted 5v5 team metrics (met_nhl.oa_*): weighted ridge offense/defense effects fit on games before the "
+            "cutoff; raw same-games values kept in each observation's extensions.raw_value", evidence=teams, present=bool(teams),
+            absent_reason="no 5v5 team game logs", limitations=oa_lim, entity_types=["TEAM"], metrics=oa_ids, windows=[RS.OA_WINDOW_LABEL],
+            status="RESEARCH", reasons=["computed fresh by this export from per-game 5v5 rows with opponent ids (point in time, ridge-regularised)",
+                                        "RESEARCH, not VERIFIED: walk-forward sanity check only; not an input to DATA_ONLY_V1"])
+        cap("schedule_strength", "schedule effect per team and metric = raw rate - opponent-adjusted rate (extensions.schedule_effect on every "
+            "met_nhl.oa_* observation)", evidence=teams, present=bool(teams), absent_reason="no 5v5 team game logs", limitations=oa_lim,
+            entity_types=["TEAM"], metrics=oa_ids, status="RESEARCH",
+            reasons=["derived from the opponent adjustment (raw minus adjusted, same games and weights); RESEARCH like its source"])
+    else:
+        cap("opponent_adjustment", "not available", evidence=[], present=False, absent_reason=LIM_NO_OPP_ADJ,
+            reasons=[LIM_NO_OPP_ADJ, LIM_SVA, "no 5v5 team game logs to fit the opponent adjustment on"])
+        cap("schedule_strength", "not available", evidence=[], present=False, absent_reason="Schedule strength: not computed",
+            reasons=["Schedule strength: not computed (no opponent adjustment in this build)"])
     cap("recent_form_windows", f"L{FORM_N}: each team's / player's last {FORM_N} stored games, plain means and shares computed by this export, "
         "ranked for teams", evidence=teams + players[:1], present=n_team_rows > 0, absent_reason="no game logs",
         limitations=[LIM_FORM], entity_types=["TEAM", "PLAYER"], windows=[f"L{FORM_N}"])
@@ -1640,7 +1702,8 @@ def _capabilities(c: _Ctx, inp: ResearchInputs, *, docs_by_kind: dict[str, list[
         "rostered players", evidence=evs + teams[:1], present=bool(inp.injuries), absent_reason="no injury snapshot in this archive",
         limitations=[LIM_INJURIES, LIM_LINES], entity_types=["TEAM", "PLAYER", "EVENT"],
         coverage=f"{len(inp.injuries)} rows, snapshot {inp.injuries_at}")
-    cap("matchup_metrics", "home/away rows of the same metric per event, DATA_ONLY_V1 expected goals (lambda) and its decomposition",
+    cap("matchup_metrics", "home/away rows of the same metric per event (raw and opponent-adjusted), DATA_ONLY_V1 expected goals (lambda) and its "
+        "decomposition, NHL_SCRIPT_V1 game scripts with script-conditioned market pricing and survival (extensions.nhl_scripts_v1)",
         evidence=evs, present=bool(evs and (has_lambdas or team_seasons)), absent_reason="no events",
         limitations=[LIM_MATCHUP, LIM_NO_OPP_ADJ], entity_types=["EVENT", "TEAM"], metrics=[mid("model_expected_goals")])
     cap("projection_distributions", "total-goals and home-margin quantiles (p05..p95), mean and sd from the latest DATA_ONLY_V1 simulation; "

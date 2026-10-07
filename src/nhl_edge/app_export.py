@@ -141,11 +141,27 @@ class Inputs:
     status_capture: dict | None = None
     status_simulate: dict | None = None
     status_context: dict | None = None
+    status_evaluate: dict | None = None
     lease: dict | None = None
     wager_rows: list[dict] = field(default_factory=list)
     settlement_rows: list[dict] = field(default_factory=list)
     accounting_dir: Path | None = None
     warnings: list[str] = field(default_factory=list)
+
+
+LEARNING_THRESHOLDS = freshness.Thresholds(36 * 60 * 60, 96 * 60 * 60)
+
+
+def learning_component(status_evaluate: dict | None, now_iso: str) -> dict:
+    """Health of the evaluation / learning job (calibration, CLV, script postmortems). A failed step is DEGRADED with its
+    error in ``detail`` -- a broken script-evaluation job never looks healthy. Not required: the payload stays valid."""
+    st = status_evaluate or {}
+    steps = st.get("steps") or {}
+    failed = {k: v for k, v in steps.items() if isinstance(v, str) and v.startswith("FAILED")}
+    detail = ("; ".join(f"{k}: {v[:120]}" for k, v in sorted(failed.items())) if failed
+              else (f"steps OK: {', '.join(sorted(steps))}" if steps else None))
+    return health_mod.component(st.get("evaluated_at_utc"), thresholds=LEARNING_THRESHOLDS, now=now_iso, required=False, degraded=bool(failed),
+                                detail=detail)
 
 
 def load_inputs(root: Path, accounting_dir: Path | None = None) -> Inputs:
@@ -180,6 +196,7 @@ def load_inputs(root: Path, accounting_dir: Path | None = None) -> Inputs:
     inp.status_capture = _read_json(root / "STATUS_capture.json")
     inp.status_simulate = _read_json(root / "STATUS_simulate.json")
     inp.status_context = _read_json(root / "STATUS_context.json")
+    inp.status_evaluate = _read_json(root / "STATUS_evaluate.json")
     inp.lease = _read_json(root / "LEASE_capture.json")
     acc = resolve_accounting_dir(accounting_dir)
     inp.accounting_dir = acc
@@ -628,6 +645,7 @@ def build_documents(root: Path, *, accounting_dir: Path | None = None, now: date
         last_successful_run=now_iso, payload_run_id=run_id, payload_available=True, export_failed=False, commit_sha=commit_sha,
         next_scheduled_run=next_run, router_as_of=None, settlement_as_of=settlement_as_of, model_required=True,
         thresholds=THRESHOLDS, warnings=warnings, now=now_iso, generated_at=now_iso,
+        extra_components={"learning": learning_component(inp.status_evaluate, now_iso)},
     )
     model_price_list = list(model_prices)
     rec_list = list(recommendations)

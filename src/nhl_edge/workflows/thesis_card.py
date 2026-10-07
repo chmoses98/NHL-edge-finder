@@ -94,8 +94,28 @@ def build_game_distribution(gi: Any, res: Any, ps: Any, saves: dict[int, Any], g
     meta = {"start_time_utc": start_time_utc, "minutes_to_start": None if minutes is None else round(minutes, 1), "seed": int(res.seed),
             "lam_home": float(res.home.lam) if res.home else None, "lam_away": float(res.away.lam) if res.away else None,
             "source": "PLAYER_SIM_V1 joint draw (nhl-sim-2.0 team path + player allocation + saves); game markets priced on the same draw",
-            "_ps": ps, "_saves": saves}  # in-memory only (research audits); "_" keys are never serialised
+            "_ps": ps, "_saves": saves,  # in-memory only (research audits); "_" keys are never serialised
+            "context": pregame_context(gi)}
     return GameDistribution(str(gi.game_id), gi.home_abbrev, gi.away_abbrev, hid, aid, f, bets, unpriced, lift, meta)
+
+
+def pregame_context(gi: Any) -> dict[str, Any]:
+    """The pregame availability / environment facts the script layer cites as dependencies (GameInputs at the cutoff)."""
+    def goalie(st: Any) -> dict[str, Any] | None:
+        if st is None:
+            return None
+        status = getattr(getattr(st, "status", None), "value", None) or str(getattr(st, "status", "") or "") or None
+        return {"status": status, "name": getattr(st, "player_name", None), "player_id": getattr(st, "player_id", None),
+                "confidence": None if getattr(st, "confidence", None) is None else round(float(st.confidence), 3)}
+    try:
+        return {"goalies": {"home": goalie(getattr(gi, "home_goalie", None)), "away": goalie(getattr(gi, "away_goalie", None))},
+                "home_rest_days": getattr(gi, "home_rest_days", None), "away_rest_days": getattr(gi, "away_rest_days", None),
+                "home_b2b": getattr(gi, "home_b2b", None), "away_b2b": getattr(gi, "away_b2b", None),
+                "lam_home": None if getattr(gi, "lam_home", None) is None else round(float(gi.lam_home), 4),
+                "lam_away": None if getattr(gi, "lam_away", None) is None else round(float(gi.lam_away), 4),
+                "trusted": getattr(gi, "trusted", None), "input_reasons": list(getattr(gi, "reasons", None) or [])}
+    except Exception:  # noqa: BLE001 - context is descriptive; never a failure of the distribution
+        return {}
 
 
 def _decision_id(ticker: str, side: str, ts: str, run_id: str) -> str:
@@ -163,8 +183,10 @@ def run_thesis_card(dists: list[GameDistribution], ledger: Any, now: datetime, s
     card["generated_at_utc"] = ts
     card["run_id"] = run_id
     card["snapshot_id"] = snap
-    games_rows, decision_rows = [], []
+    games_rows, decision_rows, script_rows = [], [], []
+    scripts_by_game = _scripts_v1(analyses, card, ts=ts, run_id=run_id, snap=snap, rows=script_rows)
     for a, g in zip(analyses, card["games"]):
+        surv_by_bet = {c["bet_id"]: c for c in (scripts_by_game.get(g["game_id"]) or {}).get("candidates") or []}
         rec = {e["bet_id"]: e for e in g["card"]}
         short, fB = a["portfolios"]["B"]
         stake = {b.bet_id: float(s) * cfg.bankroll for b, s in zip(short, fB)}
@@ -209,6 +231,7 @@ def run_thesis_card(dists: list[GameDistribution], ledger: Any, now: datetime, s
                 "market_disagreement": rs["market_disagreement"], "calibration_warning": rs["calibration_warning"], "corroboration": rs["corroboration"],
                 "selection_override": next((o for o in a.get("overrides") or [] if b.bet_id in (o.get("selected"), o.get("replaced"))), None),
                 "research_bankroll": gov.research_bankroll,
+                "script_survival": _survival_fields(surv_by_bet.get(b.bet_id)),
             })
         games_rows.append({"game_id": g["game_id"], "decided_at_utc": ts, "run_id": run_id, "snapshot_id": snap, "thesis_version": THESIS_VERSION, "card_version": CARD_VERSION,
                            "matchup": g["matchup"], "meta": g["meta"], "research_status": g.get("research_status"), "review": g.get("review"),
@@ -219,9 +242,40 @@ def run_thesis_card(dists: list[GameDistribution], ledger: Any, now: datetime, s
                            "portfolio_config": cfg.to_dict(), "authority": "RESEARCH_ONLY"})
     card["timings_ms"] = {"total": round(1000 * (time.perf_counter() - t0), 1), "by_game": {g["game_id"]: g["timings_ms"] for g in card["games"]}}
     card["_ledger"] = {"thesis_games": _jsonable(games_rows), "thesis_decisions": _jsonable(decision_rows)}
+    if script_rows:
+        card["_ledger"]["script_forecasts"] = _jsonable(script_rows)
     log.info(kv(event="thesis_card", status=card["status"], games=len(card["games"]), recommended=sum(len(g["card"]) for g in card["games"]),
                 ms=card["timings_ms"]["total"]))
     return card
+
+
+def _scripts_v1(analyses: list[dict[str, Any]], card: dict[str, Any], *, ts: str, run_id: str, snap: str, rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    """NHL_SCRIPT_V1 per game (scripts, script-conditioned market matrix, survival, research candidates). Attached to each card
+    game as ``scripts_v1``; one immutable ``script_forecasts`` row per game. Contained per game: a failure is recorded on the
+    game (``scripts_v1_error``) and never touches the card, its gate, V1, V2 or PLAYER_SIM_V1."""
+    from nhl_edge.scripts_v1.build import forecast_row, game_research
+
+    out: dict[str, dict[str, Any]] = {}
+    for a, g in zip(analyses, card["games"]):
+        try:
+            gr = game_research(a)
+            g["scripts_v1"] = gr
+            out[g["game_id"]] = gr
+            rows.append(forecast_row(gr, decided_at=ts, run_id=run_id, snapshot_id=snap, start_time_utc=g["meta"].get("start_time_utc")))
+        except Exception as e:  # noqa: BLE001 - research layer; never a gate
+            g["scripts_v1_error"] = f"{type(e).__name__}: {str(e)[:200]}"
+            log.warning(kv(event="scripts_v1_failed", game=g.get("game_id"), err=str(e)[:300]))
+    return out
+
+
+def _survival_fields(c: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not c:
+        return None
+    sv = c["survival"]
+    return {"script_version": "NHL_SCRIPT_V1", "robustness": c["robustness"], "mass_survived": sv["mass_survived"],
+            "n_major_survived": sv["n_major_survived"], "n_major": sv["n_major"], "failure_script": sv["failure_script"],
+            "worst_major_ev": sv["worst_major_ev"], "research_rank": c["rank"], "exposure_group": c["exposure_group"],
+            "dependencies": [d["flag"] for d in c["dependencies"]]}
 
 
 def _jsonable(x: Any) -> Any:

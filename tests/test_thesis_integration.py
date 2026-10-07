@@ -48,6 +48,13 @@ def test_thesis_card_never_changes_model_rows_and_logs_decisions(tmp_path, monke
         assert g["scripts"] and abs(sum(s["frequency"] for s in g["scripts"]) - 1) < 1e-3
         assert g["full_board"] and {e["key"] for e in g["thesis_events"]} >= {"CAR:WINS", "FLA:WINS", "GAME:HIGH_EVENT"}
         assert (root / "slates" / "latest" / "card.md").exists()
+        # NHL_SCRIPT_V1 rides on the same draw: 7 scripts summing to 1, an immutable forecast row per game, survival on every decision
+        sv = g["scripts_v1"]
+        assert sv["script_version"] == "NHL_SCRIPT_V1" and sv["probability_check"]["sum"] == pytest.approx(1.0)
+        assert len(sv["scripts"]) == 7 and sv["authority"] == "RESEARCH_ONLY"
+        fc = list(led.iter_rows("script_forecasts"))
+        assert fc and {f["game_id"] for f in fc} == {gg["game_id"] for gg in packet["thesis_card"]["games"]}
+        assert all(parse_iso(f["decided_at_utc"]) < parse_iso(f["start_time_utc"]) for f in fc)
         dec = list(led.iter_rows("thesis_decisions"))
         games = list(led.iter_rows("thesis_games"))
         assert dec and games
@@ -59,7 +66,27 @@ def test_thesis_card_never_changes_model_rows_and_logs_decisions(tmp_path, monke
                 assert k in d
             assert (d["why_selected"] if d["chosen"] else d["why_rejected"])
             assert d["ev_raw"] > 0 and d["ev_adjusted"] > 0
+            assert d["script_survival"]["robustness"] in ("ROBUST", "MODERATE", "FRAGILE", "DOES_NOT_SURVIVE")
     assert out["0"] == out["1"]
+
+
+@pytest.mark.slow
+def test_script_layer_failure_is_contained_and_leaves_the_card_alone(tmp_path, monkeypatch):
+    from nhl_edge.scripts_v1 import build as sv_build
+
+    def boom(*a, **k):
+        raise RuntimeError("synthetic script failure")
+
+    monkeypatch.setattr(sv_build, "game_research", boom)
+    root = tmp_path / "a"
+    build_archive(root)
+    _player_fixture(root)
+    assert run_simulate(root, REPO_DATA, date="2026-09-29", n_sims=1000, now=NOW) == 0
+    packet = json.loads((root / "slates" / "latest" / "packet.json").read_text())
+    tc = packet["thesis_card"]
+    assert tc["status"] in ("COMPLETE", "NO_BETS") and tc["gate"]["status"] == "PASS"
+    assert all("synthetic script failure" in g["scripts_v1_error"] and "scripts_v1" not in g for g in tc["games"])
+    assert not list(Ledger(root).iter_rows("script_forecasts")) and list(Ledger(root).iter_rows("thesis_decisions"))
 
 
 @pytest.mark.slow
