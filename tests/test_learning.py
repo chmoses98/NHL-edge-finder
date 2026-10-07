@@ -116,6 +116,19 @@ def test_raw_statistics_are_never_betting_evidence():
     assert any(f["id"] == "goalie_status_away" for f in out["findings"])
 
 
+def test_level_adjusted_shares_are_never_called_an_edge():
+    obs = lambda mid, v: {"metric_id": mid, "value": v, "context": {"rank": 10, "universe_size": 32}}  # noqa: E731
+    mid = lambda s: f"met_nhl.{s}"  # noqa: E731
+    out = matchup_findings(home="LAK", away="FLA", home_tid=1, away_tid=2, mid=mid, packet_game=None, injuries={}, scripts=None,
+                           team_obs={1: [obs(mid("oa_xgf_pct_5v5"), 0.5112)], 2: [obs(mid("oa_xgf_pct_5v5"), 0.5108)]})
+    f = next(x for x in out["findings"] if x["id"] == "oa_share_gap")
+    assert f["title"] == "Adjusted 5v5 territory: even" and "level" in f["text"] and "better" not in f["text"] and f["team"] is None
+    out = matchup_findings(home="LAK", away="FLA", home_tid=1, away_tid=2, mid=mid, packet_game=None, injuries={}, scripts=None,
+                           team_obs={1: [obs(mid("oa_xgf_pct_5v5"), 0.53)], 2: [obs(mid("oa_xgf_pct_5v5"), 0.49)]})
+    f = next(x for x in out["findings"] if x["id"] == "oa_share_gap")
+    assert f["team"] == "LAK" and "LAK holds the better" in f["text"]
+
+
 def test_scripts_extension_is_explicit_when_a_game_is_not_simulated_and_notes_are_deterministic():
     x = scripts_extension(None, generated_at=None, start_time_utc="2026-10-07T23:00:00Z", event_tickers=set())
     assert x["status"] == "NOT_SIMULATED" and "game day" in x["reason"]
