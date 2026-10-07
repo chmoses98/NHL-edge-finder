@@ -23,7 +23,16 @@ from nhl_edge.scripts_v1.survival import (
     side_survival,
     tier_for,
 )
-from nhl_edge.scripts_v1.taxonomy import BY_ID, N_SCRIPTS, SCRIPTS, base_rates, classify, frequencies, realized, taxonomy_doc
+from nhl_edge.scripts_v1.taxonomy import (
+    BY_ID,
+    N_SCRIPTS,
+    SCRIPTS,
+    base_rates,
+    classify,
+    frequencies,
+    realized,
+    taxonomy_doc,
+)
 from nhl_edge.thesis.engine import GameDistribution
 from nhl_edge.thesis.expression import economics
 from nhl_edge.thesis.features import DrawFeatures

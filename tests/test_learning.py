@@ -4,7 +4,7 @@ maturity gates never promote on small samples; the SIFT publication layer keeps 
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
@@ -21,7 +21,7 @@ from nhl_edge.workflows.learning import (
 )
 
 ORDER = [s.id for s in SCRIPTS]
-START = datetime(2026, 10, 6, 23, 0, tzinfo=timezone.utc)
+START = datetime(2026, 10, 6, 23, 0, tzinfo=UTC)
 
 
 def test_multiclass_scores_and_base_rate():
@@ -81,7 +81,7 @@ def test_run_learning_scores_pregame_forecasts_once_and_never_rewrites_them(tmp_
                {"game_id": "2026020099", "team_id": 2, "shots_against": 33, "saves": 29, "starter": True}]
     led.append_rows("player_events/goals", goals, observed_at=START)
     led.append_rows("player_events/goalies", goalies, observed_at=START)
-    now = datetime(2026, 10, 7, 4, 0, tzinfo=timezone.utc)
+    now = datetime(2026, 10, 7, 4, 0, tzinfo=UTC)
     rep = run_learning(led, {}, {"2026020099": START}, obs_loader=lambda t: {}, now=now)
     pm = list(Ledger(tmp_path).iter_rows("script_postmortems"))
     assert len(pm) == 1 and pm[0]["snapshot_id"] == "snap-a" and pm[0]["realized_script"] == "HOME_CONTROL"
@@ -128,3 +128,14 @@ def test_learning_extension_reports_a_failed_job_instead_of_looking_healthy():
     bad = learning_extension(rep, {"evaluated_at_utc": "x", "steps": {"learning": "FAILED: RuntimeError: boom"}})
     assert ok["status"] == "OK" and bad["status"] == "STALE_LAST_RUN_FAILED" and bad["job"]["learning_step"].startswith("FAILED")
     assert learning_extension(None, None)["status"] == "UNAVAILABLE"
+
+
+def test_health_shows_a_broken_learning_job_as_degraded():
+    from nhl_edge.app_export import learning_component
+
+    now = "2026-10-07T00:00:00Z"
+    bad = learning_component({"evaluated_at_utc": "2026-10-06T23:28:24Z", "steps": {"v1": "OK", "learning": "FAILED: RuntimeError: boom"}}, now)
+    assert bad["status"] == "DEGRADED" and "boom" in bad["detail"]
+    assert learning_component({"evaluated_at_utc": "2026-10-06T23:28:24Z", "steps": {"learning": "OK"}}, now)["status"] == "OK"
+    assert learning_component({"evaluated_at_utc": "2026-10-01T00:00:00Z", "steps": {"learning": "OK"}}, now)["status"] == "STALE"
+    assert learning_component(None, now)["status"] == "UNKNOWN"
