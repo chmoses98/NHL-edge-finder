@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-07T09:15:07Z · thesis-postmortem-2.0 · rows (all generations) 6907
+evaluated 2026-10-07T11:00:03Z · thesis-postmortem-2.0 · rows (all generations) 6907
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -34,21 +34,21 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020053 PIT @ WSH: NOT_STARTED · snapshot snap-9493b28fd14cd80c00f1 @ 2026-10-07T08:29:00Z
+#### game 2026020053 PIT @ WSH: NOT_STARTED · snapshot snap-3b4abd921a0a6e22a0c6 @ 2026-10-07T10:28:59Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
 | KXNHLSPREAD-26OCT07PITWSH-WSH2|no | FUNDED_RESEARCH | 2 | 7.91 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020054 COL @ WPG: NOT_STARTED · snapshot snap-9493b28fd14cd80c00f1 @ 2026-10-07T08:29:00Z
+#### game 2026020054 COL @ WPG: NOT_STARTED · snapshot snap-3b4abd921a0a6e22a0c6 @ 2026-10-07T10:28:59Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT07COLWPG-COL3|no | FUNDED_RESEARCH | 3 | 10.86 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT07COLWPG-COL3|no | FUNDED_RESEARCH | 1 | 2.80 | - | - | - | DIRECT | - | - |
-| KXNHLTEAMTOTAL-26OCT07COLWPG-COL4|no | FUNDED_RESEARCH | 1 | 1.61 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT07COLWPG-COL4|no | FUNDED_RESEARCH | 2 | 7.81 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT07COLWPG-COL3|no | FUNDED_RESEARCH | 1 | 1.90 | - | - | - | DIRECT | - | - |
+| KXNHLTEAMTOTAL-26OCT07COLWPG-COL2|no | FUNDED_RESEARCH | 1 | 1.60 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020055 EDM @ ANA: NOT_STARTED · snapshot snap-9493b28fd14cd80c00f1 @ 2026-10-07T08:29:00Z
+#### game 2026020055 EDM @ ANA: NOT_STARTED · snapshot snap-3b4abd921a0a6e22a0c6 @ 2026-10-07T10:28:59Z
 
 ## Slate 2026-10-06: **COMPLETE — 9/9 games evaluated**
 
