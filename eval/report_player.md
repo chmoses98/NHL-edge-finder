@@ -1,6 +1,6 @@
 # PLAYER_SIM_V1 evaluation — RESEARCH_ONLY
 
-evaluated 2026-10-07T11:00:03Z · rows 80638 · pregame 80638
+evaluated 2026-10-07T12:32:33Z · rows 80638 · pregame 80638
 
 | scope | view | n | Brier | log loss | ECE | mean p | hit rate |
 |---|---|---:|---:|---:|---:|---:|---:|
