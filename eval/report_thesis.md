@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-07T22:29:17Z · thesis-postmortem-2.0 · rows (all generations) 6907
+evaluated 2026-10-08T00:04:41Z · thesis-postmortem-2.0 · rows (all generations) 6907
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -9,8 +9,8 @@ All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE 
 scheduled 3 · final 0 · settled 0 · events ingested 0 · thesis-evaluated 0 · final_card_complete False · postmortem_complete False
 
 missing / pending:
-- 2026020053: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020054: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020053: no official FINAL result yet
+- 2026020054: no official FINAL result yet
 - 2026020055: game not started: the snapshot shown is the latest so far, not yet final
 
 > INTERIM (PARTIAL — 0/3 games evaluated): covers evaluated games only; NOT the slate's final ROI
@@ -34,32 +34,32 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020053 PIT @ WSH: NOT_STARTED · snapshot snap-f8ccbe6347f063634a99 @ 2026-10-07T22:14:22Z
+#### game 2026020053 PIT @ WSH: NOT_FINAL · snapshot snap-79b2f449602ea92c7626 @ 2026-10-07T23:04:00Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT07PITWSH-PITRRAKELL67-1|yes | FUNDED_RESEARCH | 4 | 14.91 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT07PITWSH-WSHAPROTAS21-1|yes | SHADOW_ONLY | 0 | 11.06 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT07PITWSH-PITCDEWAR19-1|yes | SHADOW_ONLY | 0 | 7.32 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT07PITWSH-PITBLIZOTTE46-1|yes | SHADOW_ONLY | 0 | 5.87 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT07PITWSH-PITRRAKELL67-1|yes | FUNDED_RESEARCH | 4 | 15.06 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT07PITWSH-WSHAPROTAS21-1|yes | SHADOW_ONLY | 0 | 10.85 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT07PITWSH-PITCDEWAR19-1|yes | SHADOW_ONLY | 0 | 7.44 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT07PITWSH-WSHPDUBOIS80-1|yes | SHADOW_ONLY | 0 | 9.13 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020054 COL @ WPG: NOT_STARTED · snapshot snap-f8ccbe6347f063634a99 @ 2026-10-07T22:14:22Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT07COLWPG-WPGAIAFALLO9-1|yes | SHADOW_ONLY | 0 | 8.24 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT07COLWPG-COLNMACKINNON29-1|no | FUNDED_RESEARCH | 5 | 18.87 | - | - | - | DIRECT | - | - |
-| KXNHLSPREAD-26OCT07COLWPG-COL3|no | FUNDED_RESEARCH | 2 | 7.74 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT07COLWPG-COL4|no | FUNDED_RESEARCH | 1 | 3.39 | - | - | - | STRUCTURAL | - | - |
-
-#### game 2026020055 EDM @ ANA: NOT_STARTED · snapshot snap-f8ccbe6347f063634a99 @ 2026-10-07T22:14:22Z
+#### game 2026020054 COL @ WPG: NOT_FINAL · snapshot snap-79b2f449602ea92c7626 @ 2026-10-07T23:04:00Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT07EDMANA-ANAJCAULFIELD28-1|yes | FUNDED_RESEARCH | 2 | 7.00 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT07EDMANA-ANAAGREER18-1|yes | SHADOW_ONLY | 0 | 12.17 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT07EDMANA-ANAJMALOTT39-1|yes | SHADOW_ONLY | 0 | 5.68 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT07EDMANA-EDMCMCDAVID97-1|no | SHADOW_ONLY | 0 | 12.05 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT07COLWPG-WPGAIAFALLO9-1|yes | SHADOW_ONLY | 0 | 8.15 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT07COLWPG-WPGMBARRON36-1|yes | SHADOW_ONLY | 0 | 5.32 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT07COLWPG-COLNKADRI91-1|no | FUNDED_RESEARCH | 5 | 17.19 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT07COLWPG-COLNMACKINNON29-1|no | SHADOW_ONLY | 0 | 12.81 | - | - | - | DIRECT | - | - |
+
+#### game 2026020055 EDM @ ANA: NOT_STARTED · snapshot snap-3e7aa6201a9144141611 @ 2026-10-07T23:53:40Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT07EDMANA-EDMAFORMENTON26-1|yes | FUNDED_RESEARCH | 4 | 15.81 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT07EDMANA-ANAAGREER18-1|yes | SHADOW_ONLY | 0 | 12.15 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT07EDMANA-EDMCMCDAVID97-1|no | SHADOW_ONLY | 0 | 14.79 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT07EDMANA-ANAJCAULFIELD28-1|yes | SHADOW_ONLY | 0 | 5.14 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-06: **COMPLETE — 9/9 games evaluated**
 
