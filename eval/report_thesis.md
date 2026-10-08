@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-08T00:04:41Z · thesis-postmortem-2.0 · rows (all generations) 6907
+evaluated 2026-10-08T01:37:39Z · thesis-postmortem-2.0 · rows (all generations) 6907
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -52,14 +52,14 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLGOAL-26OCT07COLWPG-COLNKADRI91-1|no | FUNDED_RESEARCH | 5 | 17.19 | - | - | - | DIRECT | - | - |
 | KXNHLGOAL-26OCT07COLWPG-COLNMACKINNON29-1|no | SHADOW_ONLY | 0 | 12.81 | - | - | - | DIRECT | - | - |
 
-#### game 2026020055 EDM @ ANA: NOT_STARTED · snapshot snap-3e7aa6201a9144141611 @ 2026-10-07T23:53:40Z
+#### game 2026020055 EDM @ ANA: NOT_STARTED · snapshot snap-188f16ac035a0e11deae @ 2026-10-08T01:29:41Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT07EDMANA-EDMAFORMENTON26-1|yes | FUNDED_RESEARCH | 4 | 15.81 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT07EDMANA-ANAAGREER18-1|yes | SHADOW_ONLY | 0 | 12.15 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT07EDMANA-EDMCMCDAVID97-1|no | SHADOW_ONLY | 0 | 14.79 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT07EDMANA-ANAJCAULFIELD28-1|yes | SHADOW_ONLY | 0 | 5.14 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT07EDMANA-EDMAFORMENTON26-1|yes | FUNDED_RESEARCH | 4 | 15.26 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT07EDMANA-ANAAGREER18-1|yes | SHADOW_ONLY | 0 | 13.80 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT07EDMANA-ANAJCAULFIELD28-1|yes | SHADOW_ONLY | 0 | 6.79 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT07EDMANA-EDMCMCDAVID97-1|no | SHADOW_ONLY | 0 | 14.15 | - | - | - | DIRECT | - | - |
 
 ## Slate 2026-10-06: **COMPLETE — 9/9 games evaluated**
 
