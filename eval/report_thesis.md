@@ -1,8 +1,79 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-08T02:34:57Z · thesis-postmortem-2.0 · rows (all generations) 7302
+evaluated 2026-10-08T04:08:06Z · thesis-postmortem-2.0 · rows (all generations) 7302
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
+
+## Slate 2026-10-08: **PARTIAL — 0/10 games evaluated**
+
+scheduled 10 · final 0 · settled 0 · events ingested 0 · thesis-evaluated 0 · final_card_complete False · postmortem_complete False
+
+missing / pending:
+- 2026020056: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020057: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020058: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020059: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020060: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020061: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020062: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020063: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020064: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020065: game not started: the snapshot shown is the latest so far, not yet final
+
+> INTERIM (PARTIAL — 0/10 games evaluated): covers evaluated games only; NOT the slate's final ROI
+
+invariant final_card_n 0 <= sum(game card caps) 0: OK
+
+### FINAL_CARD_UNIQUE
+
+| view | bets | stake | P/L | ROI |
+|---|---:|---:|---:|---:|
+| nominal optimiser card (B) | 0 | 0.00 | +0.00 | - |
+| FUNDED research stakes | - | - | - | no evaluated final-card bets yet |
+
+- THESIS: 0 distinct theses, hit rate - vs mean p - (Brier -)
+- EXPRESSION: thesis right + won 0 · right + lost 0 · wrong + won 0 · wrong + lost 0
+  - by fidelity: 
+  - broad vs player: 
+- PRICE: mean CLV - (n 0), mean adjusted EV at entry -
+- MODEL: Brier raw - · adjusted - · Kalshi mid - (n 0)
+- PORTFOLIO: funded 0 · shadow on card 0 · mean |phi| among card pairs - · mean largest thesis share -
+- GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
+
+
+#### game 2026020056 UTA @ BOS: NOT_STARTED · snapshot snap-9da159619f9b3a2b9ccc @ 2026-10-08T04:06:41Z
+
+#### game 2026020057 DAL @ BUF: NOT_STARTED · snapshot snap-9da159619f9b3a2b9ccc @ 2026-10-08T04:06:41Z
+
+#### game 2026020058 NSH @ MTL: NOT_STARTED · snapshot snap-9da159619f9b3a2b9ccc @ 2026-10-08T04:06:41Z
+
+#### game 2026020059 PHI @ OTT: NOT_STARTED · snapshot snap-9da159619f9b3a2b9ccc @ 2026-10-08T04:06:41Z
+
+#### game 2026020060 MIN @ TBL: NOT_STARTED · snapshot snap-9da159619f9b3a2b9ccc @ 2026-10-08T04:06:41Z
+
+#### game 2026020061 VAN @ CAR: NOT_STARTED · snapshot snap-9da159619f9b3a2b9ccc @ 2026-10-08T04:06:41Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLSPREAD-26OCT08VANCAR-CAR3|no | FUNDED_RESEARCH | 5 | 18.59 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT08VANCAR-VAN2|yes | FUNDED_RESEARCH | 1 | 3.45 | - | - | - | DIRECT | - | - |
+
+#### game 2026020062 CHI @ NYI: NOT_STARTED · snapshot snap-9da159619f9b3a2b9ccc @ 2026-10-08T04:06:41Z
+
+#### game 2026020063 SJS @ STL: NOT_STARTED · snapshot snap-9da159619f9b3a2b9ccc @ 2026-10-08T04:06:41Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLTOTAL-26OCT08SJSTL-9|yes | FUNDED_RESEARCH | 1 | 3.28 | - | - | - | DIRECT | - | - |
+
+#### game 2026020064 COL @ CGY: NOT_STARTED · snapshot snap-9da159619f9b3a2b9ccc @ 2026-10-08T04:06:41Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLSPREAD-26OCT08COLCGY-COL3|no | FUNDED_RESEARCH | 3 | 11.67 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGAME-26OCT08COLCGY-COL|no | FUNDED_RESEARCH | 2 | 4.28 | - | - | - | STRUCTURAL | - | - |
+
+#### game 2026020065 TOR @ VGK: NOT_STARTED · snapshot snap-9da159619f9b3a2b9ccc @ 2026-10-08T04:06:41Z
 
 ## Slate 2026-10-07: **PARTIAL — 2/3 games evaluated**
 
