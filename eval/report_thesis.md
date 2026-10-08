@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-08T06:52:43Z · thesis-postmortem-2.0 · rows (all generations) 7486
+evaluated 2026-10-08T08:25:12Z · thesis-postmortem-2.0 · rows (all generations) 7486
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -41,40 +41,35 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020056 UTA @ BOS: NOT_STARTED · snapshot snap-333bdaf7855acaf9c977 @ 2026-10-08T06:06:34Z
+#### game 2026020056 UTA @ BOS: NOT_STARTED · snapshot snap-0a7d760aa0d41cc9d44a @ 2026-10-08T07:54:06Z
 
-#### game 2026020057 DAL @ BUF: NOT_STARTED · snapshot snap-333bdaf7855acaf9c977 @ 2026-10-08T06:06:34Z
+#### game 2026020057 DAL @ BUF: NOT_STARTED · snapshot snap-0a7d760aa0d41cc9d44a @ 2026-10-08T07:54:06Z
 
-#### game 2026020058 NSH @ MTL: NOT_STARTED · snapshot snap-333bdaf7855acaf9c977 @ 2026-10-08T06:06:34Z
+#### game 2026020058 NSH @ MTL: NOT_STARTED · snapshot snap-0a7d760aa0d41cc9d44a @ 2026-10-08T07:54:06Z
 
-#### game 2026020059 PHI @ OTT: NOT_STARTED · snapshot snap-333bdaf7855acaf9c977 @ 2026-10-08T06:06:34Z
+#### game 2026020059 PHI @ OTT: NOT_STARTED · snapshot snap-0a7d760aa0d41cc9d44a @ 2026-10-08T07:54:06Z
 
-#### game 2026020060 MIN @ TBL: NOT_STARTED · snapshot snap-333bdaf7855acaf9c977 @ 2026-10-08T06:06:34Z
+#### game 2026020060 MIN @ TBL: NOT_STARTED · snapshot snap-0a7d760aa0d41cc9d44a @ 2026-10-08T07:54:06Z
 
-#### game 2026020061 VAN @ CAR: NOT_STARTED · snapshot snap-333bdaf7855acaf9c977 @ 2026-10-08T06:06:34Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT08VANCAR-VAN2|yes | FUNDED_RESEARCH | 1 | 3.87 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT08VANCAR-VAN5|yes | FUNDED_RESEARCH | 1 | 1.74 | - | - | - | DIRECT | - | - |
-| KXNHLSPREAD-26OCT08VANCAR-CAR3|no | FUNDED_RESEARCH | 4 | 13.52 | - | - | - | STRUCTURAL | - | - |
-
-#### game 2026020062 CHI @ NYI: NOT_STARTED · snapshot snap-333bdaf7855acaf9c977 @ 2026-10-08T06:06:34Z
-
-#### game 2026020063 SJS @ STL: NOT_STARTED · snapshot snap-333bdaf7855acaf9c977 @ 2026-10-08T06:06:34Z
+#### game 2026020061 VAN @ CAR: NOT_STARTED · snapshot snap-0a7d760aa0d41cc9d44a @ 2026-10-08T07:54:06Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTOTAL-26OCT08SJSTL-9|yes | FUNDED_RESEARCH | 1 | 3.28 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26OCT08VANCAR-CAR2|no | FUNDED_RESEARCH | 3 | 9.05 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT08VANCAR-VAN2|yes | FUNDED_RESEARCH | 1 | 2.52 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT08VANCAR-VAN2|yes | FUNDED_RESEARCH | 1 | 3.48 | - | - | - | DIRECT | - | - |
 
-#### game 2026020064 COL @ CGY: NOT_STARTED · snapshot snap-333bdaf7855acaf9c977 @ 2026-10-08T06:06:34Z
+#### game 2026020062 CHI @ NYI: NOT_STARTED · snapshot snap-0a7d760aa0d41cc9d44a @ 2026-10-08T07:54:06Z
+
+#### game 2026020063 SJS @ STL: NOT_STARTED · snapshot snap-0a7d760aa0d41cc9d44a @ 2026-10-08T07:54:06Z
+
+#### game 2026020064 COL @ CGY: NOT_STARTED · snapshot snap-0a7d760aa0d41cc9d44a @ 2026-10-08T07:54:06Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT08COLCGY-COL2|no | FUNDED_RESEARCH | 3 | 8.37 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT08COLCGY-COL3|no | FUNDED_RESEARCH | 3 | 8.21 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT08COLCGY-COL2|no | FUNDED_RESEARCH | 4 | 12.98 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020065 TOR @ VGK: NOT_STARTED · snapshot snap-333bdaf7855acaf9c977 @ 2026-10-08T06:06:34Z
+#### game 2026020065 TOR @ VGK: NOT_STARTED · snapshot snap-0a7d760aa0d41cc9d44a @ 2026-10-08T07:54:06Z
 
 ## Slate 2026-10-07: **COMPLETE — 3/3 games evaluated**
 
