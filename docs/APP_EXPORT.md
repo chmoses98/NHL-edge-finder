@@ -146,6 +146,11 @@ capability-checked, staged, swapped in with `index.json` last; any problem leave
   DATA_ONLY_V1 model prices as projections (`research_only`, `RESEARCH_ONLY`), total-goals and margin quantiles from
   the latest simulation, goalie status timeline and line combinations / PP-PK units (`context.lineups`), injuries,
   venue, rest notes, per-family calibration and CLV, the simulation ladders and lambda decomposition (`extensions`).
+  A started game (LIVE/FINAL) that the latest packet no longer carries keeps its last PREGAME simulation, read from the
+  newest archived slate run generated strictly before puck drop: `extensions.sim_frozen = true` and
+  `extensions.nhl_scripts_v1.frozen = true` with `frozen_from_run` / `frozen_reason` (latest-packet games:
+  `false`). FINAL games with a learning-loop postmortem add `extensions.nhl_scripts_v1.outcome` (realised script,
+  final score, OT, forecast probability and rank of the realised script; see `docs/research/SCRIPTS_V1.md` §8).
 - **Market history** (one per v1 event): every ticker's quote-change series (bid / ask / last, volume and open
   interest at the change) from checkpoints + deltas, plus the last observation; thinned to the most recent change
   points only if a document would exceed 380 KB (none did on 2026-10-03).

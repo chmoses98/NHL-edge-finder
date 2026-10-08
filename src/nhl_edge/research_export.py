@@ -31,7 +31,7 @@ import sys
 import unicodedata
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -204,6 +204,11 @@ class ResearchInputs:
     ticks: dict[str, list[dict]] = field(default_factory=dict)
     ticks_last_at: str | None = None
     n_ticks: int = 0
+    #: game id -> the last PREGAME slate run that simulated it, for started games the latest packet no longer carries
+    #: (see :func:`load_frozen_pregame`); never feeds team ratings, lambdas or team_state metrics
+    frozen: dict[str, dict] = field(default_factory=dict)
+    #: game id -> ``script_postmortems`` rows (one per scored pregame forecast snapshot) of the published FINAL events
+    script_postmortems: dict[str, list[dict]] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
 
 
@@ -248,6 +253,102 @@ def _team_game_row(r: dict, *, season: int, game_id: str, date: str, game_type: 
     return out
 
 
+FROZEN_REASON = "pregame research frozen at the last simulation before puck drop"
+STARTED_STATUSES = ("LIVE", "FINAL")
+
+
+def _packet_games(pk: dict | None) -> tuple[dict[str, dict], dict[str, dict]]:
+    """(``games`` by game id, ``thesis_card.games`` by game id) of one slate packet."""
+    pk = pk or {}
+    games = {str((g.get("identity") or {}).get("game_id")): g for g in pk.get("games") or [] if isinstance(g, dict)}
+    thesis = {str(g.get("game_id")): g for g in ((pk.get("thesis_card") or {}).get("games") or []) if isinstance(g, dict)}
+    return games, thesis
+
+
+def _run_dir_at(name: str) -> str | None:
+    """``20261008T012941Z_37693816743`` -> ``2026-10-08T01:29:41Z`` (None when the name does not start with a stamp)."""
+    try:
+        return timeutil.to_iso(datetime.strptime(name[:16], "%Y%m%dT%H%M%SZ").replace(tzinfo=UTC))
+    except ValueError:
+        return None
+
+
+def _search_dates(e: dict) -> list[str]:
+    """ET slate dates whose runs may hold the event: ``game_date_et``, then the start's ET date, UTC date and the day before."""
+    out = []
+    d = (e.get("extensions") or {}).get("game_date_et")
+    if d:
+        out.append(str(d)[:10])
+    st = _ts(e.get("start_time_utc"))
+    if st:
+        dt = timeutil.parse_ts(st)
+        et = dt.astimezone(ET).date()
+        out += [et.isoformat(), dt.date().isoformat(), (et - timedelta(days=1)).isoformat()]
+    return list(dict.fromkeys(out))
+
+
+def load_frozen_pregame(archive_root: Path, events: list[dict], packet: dict | None, *, as_of: Any = None) -> tuple[dict[str, dict], list[str]]:
+    """Freeze the pregame research of started games at their last pregame simulation.
+
+    The simulate job only simulates games that have not started, so once a game starts it drops out of
+    ``slates/latest/packet.json``. For every published event whose game is in neither the latest packet's ``games`` nor
+    its ``thesis_card.games`` and which has started (status LIVE/FINAL, or its start is at/before ``as_of``), this finds
+    the LATEST archived slate run (``slates/dt=<ET date>/<stamp>_<run>/packet.json``) that carries the game and whose
+    generation time is STRICTLY before the event's ``start_time_utc``. Only that game's blocks are kept.
+
+    Returns (game id -> {run, generated_at, thesis_at, game, thesis_game}, warnings)."""
+    archive_root = Path(archive_root)
+    latest_games, latest_thesis = _packet_games(packet)
+    latest_ids = set(latest_games) | set(latest_thesis)
+    as_of = _ts(as_of)
+    want: dict[str, tuple[dict, str]] = {}
+    for e in events:
+        gid = str((e.get("source_ids") or {}).get(EVENT_SOURCE) or "")
+        st = _ts(e.get("start_time_utc"))
+        if not gid or gid in latest_ids or st is None or gid in want:
+            continue
+        if e.get("status") in STARTED_STATUSES or (as_of is not None and st <= as_of):
+            want[gid] = (e, st)
+    out: dict[str, dict] = {}
+    warnings: list[str] = []
+    cache: dict[Path, dict | None] = {}  # run dir -> generation stamps + only the wanted games' blocks
+    for gid, (e, st) in sorted(want.items()):
+        runs: set[Path] = set()
+        for d in _search_dates(e):
+            folder = archive_root / "slates" / f"dt={d}"
+            if folder.is_dir():
+                runs.update(p for p in folder.iterdir() if p.is_dir())
+        for run in sorted(runs, key=lambda p: p.name, reverse=True):  # run names start with the UTC stamp: newest first
+            run_at = _run_dir_at(run.name)
+            if run_at is not None and run_at >= st:
+                continue
+            if run not in cache:
+                try:
+                    pk = _read_json(run / "packet.json")
+                except (OSError, ValueError) as exc:
+                    warnings.append(f"frozen pregame: unreadable {run.name}/packet.json: {type(exc).__name__}")
+                    pk = None
+                if pk is None:
+                    cache[run] = None
+                else:
+                    games, thesis = _packet_games(pk)
+                    tc_at = _ts((pk.get("thesis_card") or {}).get("generated_at_utc"))
+                    gen = _ts((pk.get("slate") or {}).get("generated_at_utc")) or tc_at or run_at
+                    cache[run] = {"generated_at": gen, "thesis_at": tc_at or gen,
+                                  "games": {k: v for k, v in games.items() if k in want},
+                                  "thesis": {k: v for k, v in thesis.items() if k in want}}
+                del pk
+            hit = cache[run]
+            if not hit or not hit["generated_at"] or hit["generated_at"] >= st:
+                continue  # never a run generated at or after puck drop
+            if gid not in hit["games"] and gid not in hit["thesis"]:
+                continue
+            out[gid] = {"run": run.name, "generated_at": hit["generated_at"], "thesis_at": hit["thesis_at"],
+                        "game": hit["games"].get(gid), "thesis_game": hit["thesis"].get(gid)}
+            break
+    return out, warnings
+
+
 def load_research_inputs(app_root: Path, archive_root: Path, *, history_root: Path | None = None) -> ResearchInputs:
     """Read the v1 publication, the committed history and the archive. Raises when the v1 publication is absent."""
     from nhl_edge.archive.ledger import Ledger
@@ -267,6 +368,11 @@ def load_research_inputs(app_root: Path, archive_root: Path, *, history_root: Pa
                          events=items("events"), markets=items("markets"), model_prices=items("model_prices"), wagers=items("wagers"))
     inp.packet = _read_json(archive_root / "slates" / "latest" / "packet.json")
     inp.slate = _read_json(archive_root / "slates" / "latest" / "slate.json")
+    try:
+        inp.frozen, fz_warn = load_frozen_pregame(archive_root, inp.events, inp.packet, as_of=manifest.get("generated_at"))
+        inp.warnings += fz_warn
+    except Exception as exc:  # noqa: BLE001 - frozen pregame research is additive; it never costs the export
+        inp.warnings.append(f"frozen pregame lookup skipped: {type(exc).__name__}: {str(exc)[:160]}")
     reg = registry()
     ledger = Ledger(archive_root) if archive_root.is_dir() else None
     if ledger is None:
@@ -404,6 +510,14 @@ def load_research_inputs(app_root: Path, archive_root: Path, *, history_root: Pa
         if str(r.get("game_id")) in event_games and r.get("ticker") in event_tickers and r.get("p_data_only") is not None:
             inp.predictions.append({k: r.get(k) for k in ("ticker", "game_id", "predicted_at_utc", "p_data_only", "p_data_only_se",
                                                           "p_market", "gate", "model_version", "_run_id", "family")})
+
+    # -- realised scripts of the published FINAL games (learning loop postmortems; one row per scored forecast snapshot) --
+    final_games = {str(e["source_ids"].get(EVENT_SOURCE)) for e in inp.events
+                   if e.get("status") == "FINAL" and e.get("source_ids", {}).get(EVENT_SOURCE)}
+    if final_games:
+        for r in every("script_postmortems"):
+            if str(r.get("game_id")) in final_games:
+                inp.script_postmortems.setdefault(str(r["game_id"]), []).append(r)
 
     inp.eval_report = _read_json(archive_root / "eval" / "report.json")
     inp.eval_report_player = _read_json(archive_root / "eval" / "report_player.json")
@@ -1307,23 +1421,28 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
             dedup.setdefault(pl["participant_id"], pl)
         event_players[eid] = list(dedup.values())
         injuries = [avail_from_injury(inj, eid) for t in tid_of.values() for inj in injuries_by_team.get(t, [])]
-        pg = pk_games.get(gid, {})
+        # the latest packet first; a started game it no longer carries keeps its last PREGAME run (load_frozen_pregame)
+        fz = {} if gid in pk_games or gid in thesis_games else (inp.frozen.get(gid) or {})
+        pg = pk_games.get(gid) or fz.get("game") or {}
+        sim_frozen = gid not in pk_games and bool(fz.get("game"))
+        ev_at = fz["generated_at"] if sim_frozen else slate_at
+        ev_run_label = f"run {ev_at[:16]}Z, frozen pregame" if sim_frozen and ev_at else run_label
         ctx = pg.get("context") or {}
         notes = []
         for side in ("home", "away"):
             if ctx.get(f"{side}_rest_days") is not None:
                 notes.append(f"{side} rest days {ctx.get(f'{side}_rest_days')}{' (back-to-back)' if ctx.get(f'{side}_b2b') else ''} "
-                             f"(slate packet {run_label})")
+                             f"(slate packet {ev_run_label})")
         distributions = []
         sim = (pg.get("model") or {}).get("sim") or {}
         for key, label, mean_k, sd_k in (("total_quantiles", "total goals (DATA_ONLY_V1 simulation)", "total_mean", "total_sd"),
                                          ("margin_quantiles", "home margin, goals (DATA_ONLY_V1 simulation)", "margin_mean", "margin_sd")):
             qs = sim.get(key)
-            if isinstance(qs, dict) and qs and slate_at:
+            if isinstance(qs, dict) and qs and ev_at:
                 distributions.append({"market_id": None, "metric_id": None, "entity_id": None, "label": label,
                                       "quantiles": {f"p{int(round(float(k) * 100)):02d}": float(v) for k, v in sorted(qs.items(), key=lambda kv: float(kv[0]))},
                                       "mean": _r(_f(sim.get(mean_k))), "stdev": _r(_f(sim.get(sd_k))), "samples": int(sim.get("n_sims") or 0) or None,
-                                      "run_id": c.run_id, "generated_at": slate_at, "source": f"{SRC_SIM} {run_label}", "quality_status": "PARTIAL"})
+                                      "run_id": c.run_id, "generated_at": ev_at, "source": f"{SRC_SIM} {ev_run_label}", "quality_status": "PARTIAL"})
         n_distributions += len(distributions)
         ev_markets = markets_by_event.get(eid, [])
         fams = sorted({m["market_family"] for m in ev_markets})
@@ -1337,14 +1456,27 @@ def _build(inp: ResearchInputs, *, run_id: str, generated_at: Any, allow_model_s
                                    "home_puckline_ladder", "home_team_total_ladder", "away_team_total_ladder")}
             ext["model_components"] = (pg.get("model") or {}).get("components")
             ext["model_quality"] = "RESEARCH (matchup decomposition) / PARTIAL (distribution)"
+            ext["sim_frozen"] = sim_frozen
         if eid in mh_thinned:
             ext["market_history_thinned_to"] = mh_thinned[eid]
         try:
             ev_tickers = {m["kalshi_ticker"] for m in ev_markets}
-            sx = RS.scripts_extension((thesis_games.get(gid) or {}).get("scripts_v1"), generated_at=thesis_at, start_time_utc=e.get("start_time_utc"),
-                                      event_tickers=ev_tickers, in_slate=gid in thesis_games)
-            if (thesis_games.get(gid) or {}).get("scripts_v1_error"):
-                sx = {"status": "FAILED", "script_version": "NHL_SCRIPT_V1", "reason": thesis_games[gid]["scripts_v1_error"]}
+            tg = thesis_games.get(gid) or fz.get("thesis_game")
+            scripts_frozen = gid not in thesis_games and bool(fz.get("thesis_game"))
+            sx = RS.scripts_extension((tg or {}).get("scripts_v1"), generated_at=fz["thesis_at"] if scripts_frozen else thesis_at,
+                                      start_time_utc=e.get("start_time_utc"), event_tickers=ev_tickers, in_slate=tg is not None)
+            if (tg or {}).get("scripts_v1_error"):
+                sx = {"status": "FAILED", "script_version": "NHL_SCRIPT_V1", "reason": tg["scripts_v1_error"]}
+            if tg is not None and sx.get("status") in ("OK", "FAILED"):
+                sx["frozen"] = scripts_frozen
+                if scripts_frozen:
+                    sx["frozen_from_run"] = fz["run"]
+                    sx["frozen_reason"] = FROZEN_REASON
+            if sx.get("status") == "OK" and e.get("status") == "FINAL" and inp.script_postmortems.get(gid):
+                oc = RS.script_outcome(inp.script_postmortems[gid], forecast_at=sx.get("generated_at"), start_time_utc=_ts(e.get("start_time_utc")),
+                                       scripts=sx.get("scripts") or [])
+                if oc:
+                    sx["outcome"] = oc
             ext["nhl_scripts_v1"] = sx
             notes += RS.script_notes(sx)
             inj_n = {abbrev.get(t): sum(1 for inj in injuries_by_team.get(t, []) if any(k in str(inj.get("status") or "").upper() for k in ("OUT", "IR", "DOUBT")))
@@ -1707,7 +1839,7 @@ def _capabilities(c: _Ctx, inp: ResearchInputs, *, docs_by_kind: dict[str, list[
         evidence=evs, present=bool(evs and (has_lambdas or team_seasons)), absent_reason="no events",
         limitations=[LIM_MATCHUP, LIM_NO_OPP_ADJ], entity_types=["EVENT", "TEAM"], metrics=[mid("model_expected_goals")])
     cap("projection_distributions", "total-goals and home-margin quantiles (p05..p95), mean and sd from the latest DATA_ONLY_V1 simulation; "
-        "ladders in event extensions.sim", evidence=evs, present=n_distributions > 0,
+        "a started game keeps its last pregame simulation (extensions.sim_frozen); ladders in event extensions.sim", evidence=evs, present=n_distributions > 0,
         absent_reason="no simulated distribution for the published events in the slate packet", limitations=[LIM_DISTRIBUTIONS],
         entity_types=["EVENT"], coverage=f"{n_distributions} distributions")
     cap("raw_projections", "DATA_ONLY_V1 fair probability per contract per run: current values as projections, history as RUN series",
