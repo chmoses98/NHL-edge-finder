@@ -228,7 +228,24 @@ explorer still publishes atomically through the contract's `publish_explorer`.
   - the scripts;
   - the compact market matrix (`market_columns` / `side_columns`, P(YES | script) per market, per-side ask / cost /
     delta / adjusted EV / mass / tier / survives bitstring / failure script);
-  - the top 12 candidates and the rules.
+  - the top 12 candidates and the rules;
+  - `frozen` (bool). `false`: the block comes from the latest slate packet. `true`: the game has started (status
+    LIVE/FINAL, or its start has passed), so the simulate job no longer carries it, and the block is the game's LAST
+    PREGAME simulation: the newest archived run `slates/dt=<ET date>/<stamp>_<run>/packet.json` that carries the game
+    and was generated strictly before `start_time_utc` (a run at or after puck drop is never used). A frozen block adds
+    `frozen_from_run` (that run's folder name) and `frozen_reason`; its `generated_at` is that run's thesis-card time,
+    so `pregame` stays `true`. The event's `extensions.sim`, `model_components` and `distributions` come from the same
+    run (`extensions.sim_frozen` says so; the distributions' `generated_at` is that run's time). Frozen games never
+    feed the latest-packet team ratings, lambdas or `team_state` metrics.
+  - `outcome` (FINAL events only, when the learning loop has a `script_postmortems` row for the game): the realised
+    script of the forecast this block publishes (the row whose `decided_at_utc` equals `generated_at`; otherwise the
+    final pregame row, and then `scores_published_forecast = false`). Fields, all copied from the postmortem:
+    `realized_script`, `realized_label` (from this block's scripts), `final_score {home, away}`, `overtime`,
+    `shootout`, `p_realized` (the forecast probability of the realised script), `realized_rank` of `n_scripts`
+    (1 = the most likely script), `top_script`, `top_hit`, `brier`, `log_loss`, `base_rate_brier`,
+    `base_rate_log_loss`, `realized_metrics`, `forecast_decided_at`, `forecast_snapshot_id`,
+    `scores_published_forecast`, `realized_version`, `evaluated_at`, `authority`, `source`. A field the row does not
+    carry is omitted. No postmortem: no `outcome`.
 - `event_research.extensions.nhl_matchup_v1`: ranked, basis-labelled findings, plus the What Matters ids (never RAW).
 - `event_research.context.notes`: deterministic script and candidate one-liners. The handicap packet already carries
   context notes.
@@ -240,8 +257,8 @@ explorer still publishes atomically through the contract's `publish_explorer`.
 
 ## 9. Known limitations
 
-- Scripts exist only for games in the latest simulated slate. A game is simulated on its game day; later games show
-  `NOT_SIMULATED`.
+- Scripts exist only for games in the latest simulated slate or, once a game has started, in an archived pregame run
+  of its slate date (`frozen = true`). A game is simulated on its game day; later games show `NOT_SIMULATED`.
 - Script probabilities are simulation-derived and not yet calibrated against real games. The first script postmortems
   arrive with the first settled games after this release. A learned script classifier (pregame features -> realised
   script, walk-forward) is the documented next step once there are a few hundred settled forecasts.

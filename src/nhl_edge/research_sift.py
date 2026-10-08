@@ -302,12 +302,54 @@ def scripts_extension(gr: dict | None, *, generated_at: str | None, start_time_u
     }
 
 
+OUTCOME_SOURCE = "archive script_postmortems (learning loop, nhl-learning-1.0)"
+
+
+def script_outcome(rows: list[dict], *, forecast_at: str | None, start_time_utc: str | None, scripts: list[dict]) -> dict[str, Any] | None:
+    """The realised script of a FINAL game, from its ``script_postmortems`` rows (one per scored pregame forecast snapshot).
+
+    The row scored for the forecast this block publishes (``decided_at_utc == forecast_at``) is preferred; otherwise the
+    final pregame row (latest ``decided_at_utc`` strictly before ``start_time_utc``), the snapshot the learning loop scores.
+    Only fields the postmortem carries are published (plus the realised script's rank inside the scored forecast and its
+    label from this block's own scripts). None when no usable row exists."""
+    pre = [r for r in rows if r.get("decided_at_utc") and r.get("realized_script") and (not start_time_utc or str(r["decided_at_utc"]) < start_time_utc)]
+    if not pre:
+        return None
+    same = [r for r in pre if forecast_at and str(r["decided_at_utc"]) == forecast_at]
+    row = max(same or pre, key=lambda r: (str(r["decided_at_utc"]), str(r.get("evaluated_at_utc") or "")))
+    rid = row["realized_script"]
+    predicted = row.get("predicted") or {}
+    rank = None
+    if rid in predicted and predicted[rid] is not None:
+        rank = 1 + sum(1 for v in predicted.values() if v is not None and float(v) > float(predicted[rid]))
+    rm = row.get("realized_metrics") or {}
+    out: dict[str, Any] = {
+        "realized_script": rid, "realized_label": next((sc.get("label") for sc in scripts if sc.get("id") == rid), None),
+        "final_score": {"home": rm.get("home_final"), "away": rm.get("away_final")} if "home_final" in rm or "away_final" in rm else None,
+        "overtime": rm.get("overtime"), "shootout": rm.get("shootout"),
+        "p_realized": row.get("p_realized"), "realized_rank": rank, "n_scripts": len(predicted) or None,
+        "top_script": row.get("top_script"), "top_hit": row.get("top_hit"), "brier": row.get("brier"), "log_loss": row.get("log_loss"),
+        "base_rate_brier": row.get("base_rate_brier"), "base_rate_log_loss": row.get("base_rate_log_loss"),
+        "realized_metrics": rm or None, "forecast_decided_at": row.get("decided_at_utc"), "forecast_snapshot_id": row.get("snapshot_id"),
+        "scores_published_forecast": bool(same), "realized_version": row.get("realized_version"), "evaluated_at": row.get("evaluated_at_utc"),
+        "authority": row.get("authority") or "RESEARCH_ONLY", "source": OUTCOME_SOURCE,
+    }
+    return {k: v for k, v in out.items() if v is not None}
+
+
 def script_notes(ext: dict[str, Any]) -> list[str]:
     """Deterministic one-liners for event_research.context.notes (the handicap packet carries these)."""
     if ext.get("status") != "OK":
         return []
     sc = sorted(ext["scripts"], key=lambda s: (-s["probability"], s["code"]))
-    out = ["NHL_SCRIPT_V1 game scripts (simulated, sum 100%): " + "; ".join(f"{s['label']} {s['probability']:.0%}" for s in sc)]
+    pre = "; frozen at the last pregame simulation" if ext.get("frozen") else ""
+    out = [f"NHL_SCRIPT_V1 game scripts (simulated, sum 100%{pre}): " + "; ".join(f"{s['label']} {s['probability']:.0%}" for s in sc)]
+    oc = ext.get("outcome") or {}
+    if oc.get("realized_script"):
+        bits = [f"forecast {oc['p_realized']:.0%}" if oc.get("p_realized") is not None else None,
+                f"rank {oc['realized_rank']} of {oc['n_scripts']}" if oc.get("realized_rank") and oc.get("n_scripts") else None]
+        out.append(f"Realised script: {oc.get('realized_label') or oc['realized_script']}" +
+                   (f" ({', '.join(b for b in bits if b)})" if any(bits) else ""))
     for c in ext["candidates"][:3]:
         if c["governance"]["status"] == "REJECTED":
             continue
