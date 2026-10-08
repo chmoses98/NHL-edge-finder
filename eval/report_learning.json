@@ -4,19 +4,19 @@
  },
  "authority": "RESEARCH_ONLY",
  "counts": {
-  "candidate_clv_sample": 547,
-  "contract_evaluations_pregame": 150607,
-  "final_pregame_contracts_settled": 9852,
+  "candidate_clv_sample": 585,
+  "contract_evaluations_pregame": 153943,
+  "final_pregame_contracts_settled": 10056,
   "games_projected": 65,
-  "games_settled": 54,
-  "market_snapshots": 1180,
-  "projection_runs": 207,
+  "games_settled": 55,
+  "market_snapshots": 1184,
+  "projection_runs": 210,
   "research_decisions": 2225,
-  "research_decisions_settled_final": 512,
+  "research_decisions_settled_final": 531,
   "script_forecast_games": 13,
-  "script_forecasts": 76,
-  "script_forecasts_settled": 42,
-  "script_games_settled": 2,
+  "script_forecasts": 86,
+  "script_forecasts_settled": 66,
+  "script_games_settled": 3,
   "supported_families": [
    "first_goal",
    "game_spread",
@@ -32,43 +32,43 @@
    "team_total"
   ]
  },
- "generated_at_utc": "2026-10-08T04:08:06Z",
+ "generated_at_utc": "2026-10-08T05:08:19Z",
  "kind": "nhl_learning_report",
  "probability": {
-  "brier_diff_model_minus_market": 0.00174,
+  "brier_diff_model_minus_market": 0.00198,
   "by_family": {
    "game_spread": {
-    "market_brier": 0.16945,
-    "model_bias": -0.0137,
-    "model_brier": 0.17172,
-    "n": 216,
+    "market_brier": 0.17147,
+    "model_bias": -0.0182,
+    "model_brier": 0.17437,
+    "n": 220,
     "small_sample": false
    },
    "game_total": {
-    "market_brier": 0.12979,
-    "model_bias": 0.0064,
-    "model_brier": 0.13195,
-    "n": 486,
+    "market_brier": 0.12849,
+    "model_bias": 0.0058,
+    "model_brier": 0.13069,
+    "n": 495,
     "small_sample": false
    },
    "game_winner": {
-    "market_brier": 0.23411,
+    "market_brier": 0.23345,
     "model_bias": 0.0,
-    "model_brier": 0.23416,
-    "n": 108,
+    "model_brier": 0.23439,
+    "n": 110,
     "small_sample": false
    },
    "team_total": {
-    "market_brier": 0.18122,
-    "model_bias": -0.0059,
-    "model_brier": 0.18269,
-    "n": 540,
+    "market_brier": 0.18088,
+    "model_bias": -0.0061,
+    "model_brier": 0.18251,
+    "n": 550,
     "small_sample": false
    }
   },
   "market": {
-   "bias": 0.0028,
-   "brier": 0.16505,
+   "bias": 0.0016,
+   "brier": 0.16472,
    "calibration": [
     {
      "hi": 0.1,
@@ -80,44 +80,44 @@
     {
      "hi": 0.2,
      "lo": 0.1,
-     "mean_p": 0.1564,
-     "n": 212,
-     "observed": 0.1557
+     "mean_p": 0.156,
+     "n": 216,
+     "observed": 0.1528
     },
     {
      "hi": 0.3,
      "lo": 0.2,
-     "mean_p": 0.2473,
-     "n": 200,
-     "observed": 0.23
+     "mean_p": 0.2475,
+     "n": 205,
+     "observed": 0.2341
     },
     {
      "hi": 0.4,
      "lo": 0.3,
      "mean_p": 0.3475,
-     "n": 121,
-     "observed": 0.3636
+     "n": 123,
+     "observed": 0.3659
     },
     {
      "hi": 0.5,
      "lo": 0.4,
-     "mean_p": 0.4462,
-     "n": 132,
-     "observed": 0.4545
+     "mean_p": 0.4463,
+     "n": 135,
+     "observed": 0.4519
     },
     {
      "hi": 0.6,
      "lo": 0.5,
-     "mean_p": 0.5505,
-     "n": 146,
-     "observed": 0.5068
+     "mean_p": 0.5506,
+     "n": 148,
+     "observed": 0.5135
     },
     {
      "hi": 0.7,
      "lo": 0.6,
-     "mean_p": 0.6382,
-     "n": 71,
-     "observed": 0.6479
+     "mean_p": 0.6396,
+     "n": 74,
+     "observed": 0.6486
     },
     {
      "hi": 0.8,
@@ -129,38 +129,38 @@
     {
      "hi": 0.9,
      "lo": 0.8,
-     "mean_p": 0.8467,
-     "n": 129,
-     "observed": 0.8527
+     "mean_p": 0.847,
+     "n": 132,
+     "observed": 0.8561
     },
     {
      "hi": 1.0,
      "lo": 0.9,
-     "mean_p": 0.9715,
-     "n": 115,
-     "observed": 0.9739
+     "mean_p": 0.9713,
+     "n": 118,
+     "observed": 0.9746
     }
    ],
-   "hit_rate": 0.4519,
-   "log_loss": 0.49845,
-   "mean_p": 0.4546,
-   "n": 1350
+   "hit_rate": 0.4538,
+   "log_loss": 0.49749,
+   "mean_p": 0.4554,
+   "n": 1375
   },
   "market_moved_toward_model": {
    "ci95": [
-    0.1301,
-    0.1746
+    0.1318,
+    0.1761
    ],
    "ci_note": "treats observations as independent; same-game correlation makes the interval too narrow",
-   "mean": 0.1524,
-   "n": 1004,
+   "mean": 0.1539,
+   "n": 1020,
    "small_sample": false
   },
-  "mean_abs_disagreement": 0.0325,
-  "mean_signed_model_minus_market": -0.005,
+  "mean_abs_disagreement": 0.0323,
+  "mean_signed_model_minus_market": -0.0049,
   "model": {
-   "bias": -0.0022,
-   "brier": 0.16679,
+   "bias": -0.0033,
+   "brier": 0.1667,
    "calibration": [
     {
      "hi": 0.1,
@@ -172,44 +172,44 @@
     {
      "hi": 0.2,
      "lo": 0.1,
-     "mean_p": 0.1527,
-     "n": 229,
-     "observed": 0.1528
+     "mean_p": 0.1528,
+     "n": 234,
+     "observed": 0.1538
     },
     {
      "hi": 0.3,
      "lo": 0.2,
-     "mean_p": 0.2452,
-     "n": 187,
-     "observed": 0.2513
+     "mean_p": 0.2462,
+     "n": 192,
+     "observed": 0.2552
     },
     {
      "hi": 0.4,
      "lo": 0.3,
-     "mean_p": 0.3472,
-     "n": 147,
-     "observed": 0.3537
+     "mean_p": 0.3473,
+     "n": 148,
+     "observed": 0.3514
     },
     {
      "hi": 0.5,
      "lo": 0.4,
-     "mean_p": 0.4488,
-     "n": 122,
-     "observed": 0.4754
+     "mean_p": 0.4495,
+     "n": 125,
+     "observed": 0.472
     },
     {
      "hi": 0.6,
      "lo": 0.5,
-     "mean_p": 0.546,
-     "n": 144,
-     "observed": 0.5208
+     "mean_p": 0.5458,
+     "n": 146,
+     "observed": 0.5274
     },
     {
      "hi": 0.7,
      "lo": 0.6,
-     "mean_p": 0.6429,
-     "n": 76,
-     "observed": 0.6316
+     "mean_p": 0.6439,
+     "n": 79,
+     "observed": 0.6329
     },
     {
      "hi": 0.8,
@@ -221,22 +221,22 @@
     {
      "hi": 0.9,
      "lo": 0.8,
-     "mean_p": 0.8443,
-     "n": 118,
-     "observed": 0.8305
+     "mean_p": 0.8444,
+     "n": 121,
+     "observed": 0.8347
     },
     {
      "hi": 1.0,
      "lo": 0.9,
-     "mean_p": 0.9715,
-     "n": 111,
-     "observed": 0.973
+     "mean_p": 0.9711,
+     "n": 114,
+     "observed": 0.9737
     }
    ],
-   "hit_rate": 0.4519,
-   "log_loss": 0.50316,
-   "mean_p": 0.4496,
-   "n": 1350
+   "hit_rate": 0.4538,
+   "log_loss": 0.50282,
+   "mean_p": 0.4505,
+   "n": 1375
   },
   "model_side_clv": {
    "ci95": [
@@ -245,47 +245,47 @@
    ],
    "ci_note": "treats observations as independent; same-game correlation makes the interval too narrow",
    "mean": -0.0063,
-   "n": 1350,
+   "n": 1374,
    "small_sample": false
   },
-  "n": 1350,
+  "n": 1375,
   "population": "DATA_ONLY_V1 final pregame snapshot per contract (settled)"
  },
  "projection": {
-  "away_bias": 0.12,
-  "home_bias": -0.224,
-  "n_games": 46,
+  "away_bias": 0.083,
+  "home_bias": -0.19,
+  "n_games": 47,
   "population": "final pregame thesis snapshot per settled game (joint draw expected non-shootout goals)",
   "small_sample": false,
-  "team_goals_mae": 1.408,
-  "total_bias": -0.103,
-  "total_mae": 1.71,
-  "total_rmse": 2.315
+  "team_goals_mae": 1.41,
+  "total_bias": -0.107,
+  "total_mae": 1.679,
+  "total_rmse": 2.291
  },
  "research_candidates": {
   "by_edge_bucket": {
    "0-2c": {
-    "hit_rate": 0.478,
-    "mean_clv": -0.0047,
-    "mean_p": 0.4855,
-    "n": 318,
-    "shadow_return_per_cost": 0.04,
+    "hit_rate": 0.4697,
+    "mean_clv": -0.0048,
+    "mean_p": 0.4829,
+    "n": 330,
+    "shadow_return_per_cost": 0.0275,
     "small_sample": false
    },
    "2-4c": {
-    "hit_rate": 0.4855,
+    "hit_rate": 0.4802,
     "mean_clv": -0.0062,
-    "mean_p": 0.506,
-    "n": 173,
-    "shadow_return_per_cost": 0.039,
+    "mean_p": 0.5007,
+    "n": 177,
+    "shadow_return_per_cost": 0.0395,
     "small_sample": false
    },
    "4-7c": {
-    "hit_rate": 0.3333,
-    "mean_clv": -0.004,
-    "mean_p": 0.4806,
-    "n": 21,
-    "shadow_return_per_cost": -0.2054,
+    "hit_rate": 0.2917,
+    "mean_clv": -0.0042,
+    "mean_p": 0.468,
+    "n": 24,
+    "shadow_return_per_cost": -0.2828,
     "small_sample": true
    }
   },
@@ -323,27 +323,27 @@
     "small_sample": true
    },
    "player_assists": {
-    "hit_rate": 0.6479,
+    "hit_rate": 0.6309,
     "mean_clv": -0.0075,
-    "mean_p": 0.6417,
-    "n": 142,
-    "shadow_return_per_cost": 0.0665,
+    "mean_p": 0.6378,
+    "n": 149,
+    "shadow_return_per_cost": 0.0455,
     "small_sample": false
    },
    "player_goals": {
-    "hit_rate": 0.3403,
+    "hit_rate": 0.3347,
     "mean_clv": -0.0034,
-    "mean_p": 0.3943,
-    "n": 238,
-    "shadow_return_per_cost": -0.0662,
+    "mean_p": 0.3886,
+    "n": 248,
+    "shadow_return_per_cost": -0.0669,
     "small_sample": false
    },
    "player_points": {
-    "hit_rate": 0.6364,
-    "mean_clv": -0.003,
-    "mean_p": 0.5738,
-    "n": 22,
-    "shadow_return_per_cost": 0.1745,
+    "hit_rate": 0.5833,
+    "mean_clv": -0.0031,
+    "mean_p": 0.5574,
+    "n": 24,
+    "shadow_return_per_cost": 0.1094,
     "small_sample": true
    },
    "team_total": {
@@ -357,37 +357,37 @@
   },
   "by_robustness": {
    "FRAGILE": {
-    "hit_rate": 0.2,
-    "mean_clv": -0.009,
-    "mean_p": 0.2183,
-    "n": 5,
-    "shadow_return_per_cost": 0.0309,
+    "hit_rate": 0.25,
+    "mean_clv": -0.0075,
+    "mean_p": 0.189,
+    "n": 8,
+    "shadow_return_per_cost": 0.5152,
     "small_sample": true
    },
    "MODERATE": {
-    "hit_rate": 0.6897,
-    "mean_clv": -0.0029,
-    "mean_p": 0.4886,
-    "n": 29,
-    "shadow_return_per_cost": 0.5117,
-    "small_sample": true
+    "hit_rate": 0.5476,
+    "mean_clv": -0.0038,
+    "mean_p": 0.4861,
+    "n": 42,
+    "shadow_return_per_cost": 0.2048,
+    "small_sample": false
    },
    "ROBUST": {
     "hit_rate": 0.0,
     "mean_clv": -0.005,
-    "mean_p": 0.2883,
-    "n": 2,
+    "mean_p": 0.219,
+    "n": 5,
     "shadow_return_per_cost": -1.0,
     "small_sample": true
    }
   },
   "by_status": {
    "FUNDED_RESEARCH": {
-    "hit_rate": 0.439,
+    "hit_rate": 0.4286,
     "mean_clv": -0.0039,
-    "mean_p": 0.5011,
-    "n": 41,
-    "shadow_return_per_cost": -0.0446,
+    "mean_p": 0.4937,
+    "n": 42,
+    "shadow_return_per_cost": -0.0506,
     "small_sample": false
    },
    "REJECTED": {
@@ -399,11 +399,11 @@
     "small_sample": true
    },
    "SHADOW_ONLY": {
-    "hit_rate": 0.4828,
+    "hit_rate": 0.473,
     "mean_clv": -0.0054,
-    "mean_p": 0.4916,
-    "n": 464,
-    "shadow_return_per_cost": 0.0474,
+    "mean_p": 0.4878,
+    "n": 482,
+    "shadow_return_per_cost": 0.0349,
     "small_sample": false
    }
   },
@@ -414,19 +414,19 @@
    ],
    "ci_note": "treats observations as independent; same-game correlation makes the interval too narrow",
    "mean": -0.0052,
-   "n": 511,
+   "n": 530,
    "small_sample": false
   },
   "funded_research": {
-   "n": 41,
-   "nominal_profit_dollars": -4.96,
+   "n": 42,
+   "nominal_profit_dollars": -8.96,
    "note": "nominal research stakes (whole dollars, $250 research bankroll); never placed"
   },
-  "hit_rate": 0.4746,
-  "mean_p": 0.4922,
-  "n": 512,
+  "hit_rate": 0.4652,
+  "mean_p": 0.4882,
+  "n": 531,
   "population": "every shortlisted research candidate at the game's final pregame thesis snapshot (shadow: scored whether or not wagered)",
-  "shadow_return_per_cost": 0.0304,
+  "shadow_return_per_cost": 0.0191,
   "small_sample": false
  },
  "rules": {
@@ -452,27 +452,27 @@
     "small_sample": true
    },
    "player_assists": {
-    "hit_rate": 0.6667,
-    "mean_clv": 0.0,
-    "mean_p": 0.5961,
-    "n": 9,
-    "shadow_return_per_cost": 0.1593,
+    "hit_rate": 0.5,
+    "mean_clv": -0.0028,
+    "mean_p": 0.5797,
+    "n": 16,
+    "shadow_return_per_cost": -0.1029,
     "small_sample": true
    },
    "player_goals": {
-    "hit_rate": 0.3125,
-    "mean_clv": -0.0059,
-    "mean_p": 0.3039,
-    "n": 16,
-    "shadow_return_per_cost": 0.1148,
+    "hit_rate": 0.2692,
+    "mean_clv": -0.0056,
+    "mean_p": 0.2841,
+    "n": 26,
+    "shadow_return_per_cost": 0.0339,
     "small_sample": true
    },
    "player_points": {
-    "hit_rate": 1.0,
-    "mean_clv": -0.0,
-    "mean_p": 0.5409,
-    "n": 5,
-    "shadow_return_per_cost": 0.9072,
+    "hit_rate": 0.7143,
+    "mean_clv": -0.0014,
+    "mean_p": 0.4939,
+    "n": 7,
+    "shadow_return_per_cost": 0.492,
     "small_sample": true
    },
    "team_total": {
@@ -494,161 +494,177 @@
     "small_sample": true
    },
    "goalies confirmed": {
-    "hit_rate": 0.2667,
-    "mean_clv": -0.0053,
-    "mean_p": 0.3399,
-    "n": 15,
-    "shadow_return_per_cost": -0.158,
-    "small_sample": true
+    "hit_rate": 0.2353,
+    "mean_clv": -0.0054,
+    "mean_p": 0.3614,
+    "n": 34,
+    "shadow_return_per_cost": -0.3048,
+    "small_sample": false
    }
   },
   "by_robustness": {
    "FRAGILE": {
-    "hit_rate": 0.2,
-    "mean_clv": -0.009,
-    "mean_p": 0.2183,
-    "n": 5,
-    "shadow_return_per_cost": -0.0117,
+    "hit_rate": 0.25,
+    "mean_clv": -0.0075,
+    "mean_p": 0.189,
+    "n": 8,
+    "shadow_return_per_cost": 0.448,
     "small_sample": true
    },
    "MODERATE": {
-    "hit_rate": 0.6897,
-    "mean_clv": -0.0029,
-    "mean_p": 0.4886,
-    "n": 29,
-    "shadow_return_per_cost": 0.4714,
-    "small_sample": true
+    "hit_rate": 0.5476,
+    "mean_clv": -0.0038,
+    "mean_p": 0.4861,
+    "n": 42,
+    "shadow_return_per_cost": 0.173,
+    "small_sample": false
    },
    "ROBUST": {
     "hit_rate": 0.0,
     "mean_clv": -0.005,
-    "mean_p": 0.2883,
-    "n": 2,
+    "mean_p": 0.219,
+    "n": 5,
     "shadow_return_per_cost": -1.0,
     "small_sample": true
    }
   },
   "by_status": {
    "FUNDED_RESEARCH": {
-    "hit_rate": 0.5,
+    "hit_rate": 0.3333,
     "mean_clv": -0.005,
-    "mean_p": 0.5494,
-    "n": 2,
-    "shadow_return_per_cost": -0.0269,
+    "mean_p": 0.4294,
+    "n": 3,
+    "shadow_return_per_cost": -0.1342,
     "small_sample": true
    },
    "SHADOW_ONLY": {
-    "hit_rate": 0.5882,
-    "mean_clv": -0.0038,
-    "mean_p": 0.4335,
-    "n": 34,
-    "shadow_return_per_cost": 0.4213,
+    "hit_rate": 0.4615,
+    "mean_clv": -0.0044,
+    "mean_p": 0.418,
+    "n": 52,
+    "shadow_return_per_cost": 0.1594,
     "small_sample": false
    }
   },
   "by_survival": {
    "45-65%": {
-    "hit_rate": 0.6786,
-    "mean_clv": -0.0032,
-    "mean_p": 0.4723,
-    "n": 28,
-    "shadow_return_per_cost": 0.5,
-    "small_sample": true
+    "hit_rate": 0.5366,
+    "mean_clv": -0.004,
+    "mean_p": 0.475,
+    "n": 41,
+    "shadow_return_per_cost": 0.1775,
+    "small_sample": false
    },
    "65%+": {
-    "hit_rate": 0.3333,
-    "mean_clv": -0.0017,
-    "mean_p": 0.5071,
-    "n": 3,
-    "shadow_return_per_cost": -0.2959,
+    "hit_rate": 0.1667,
+    "mean_clv": -0.0033,
+    "mean_p": 0.34,
+    "n": 6,
+    "shadow_return_per_cost": -0.4418,
     "small_sample": true
    },
    "<45%": {
-    "hit_rate": 0.2,
-    "mean_clv": -0.009,
-    "mean_p": 0.2183,
-    "n": 5,
-    "shadow_return_per_cost": -0.0117,
+    "hit_rate": 0.25,
+    "mean_clv": -0.0075,
+    "mean_p": 0.189,
+    "n": 8,
+    "shadow_return_per_cost": 0.448,
     "small_sample": true
    }
   },
   "clv": {
    "ci95": [
-    -0.0066,
-    -0.0012
+    -0.0063,
+    -0.0026
    ],
    "ci_note": "treats observations as independent; same-game correlation makes the interval too narrow",
-   "mean": -0.0039,
-   "n": 36,
+   "mean": -0.0045,
+   "n": 55,
    "small_sample": false
   },
-  "n": 36,
+  "n": 55,
   "population": "NHL_SCRIPT_V1 research candidates at each game's final pregame snapshot, scored per contract at the executable ask",
   "small_sample": false
  },
  "scripts": {
-  "base_rate_brier": 0.8674,
-  "base_rate_log_loss": 1.9947,
+  "base_rate_brier": 0.8796,
+  "base_rate_log_loss": 2.005,
   "by_script": [
    {
     "id": "SPECIAL_TEAMS",
-    "mean_predicted": 0.1225,
-    "realized_n": 0,
-    "realized_share": 0.0
+    "mean_predicted": 0.1296,
+    "realized_n": 1,
+    "realized_share": 0.3333
    },
    {
     "id": "OPEN_GAME",
-    "mean_predicted": 0.2571,
+    "mean_predicted": 0.2651,
     "realized_n": 1,
-    "realized_share": 0.5
+    "realized_share": 0.3333
    },
    {
     "id": "TIGHT_LOW_EVENT",
-    "mean_predicted": 0.0959,
+    "mean_predicted": 0.0912,
     "realized_n": 0,
     "realized_share": 0.0
    },
    {
     "id": "GOALIE_DRIVEN",
-    "mean_predicted": 0.0747,
+    "mean_predicted": 0.0716,
     "realized_n": 1,
-    "realized_share": 0.5
+    "realized_share": 0.3333
    },
    {
     "id": "HOME_CONTROL",
-    "mean_predicted": 0.0708,
+    "mean_predicted": 0.0777,
     "realized_n": 0,
     "realized_share": 0.0
    },
    {
     "id": "AWAY_CONTROL",
-    "mean_predicted": 0.1147,
+    "mean_predicted": 0.1024,
     "realized_n": 0,
     "realized_share": 0.0
    },
    {
     "id": "BACK_AND_FORTH",
-    "mean_predicted": 0.2642,
+    "mean_predicted": 0.2623,
     "realized_n": 0,
     "realized_share": 0.0
    }
   ],
-  "calibration": [],
+  "calibration": [
+   {
+    "hi": 0.2,
+    "lo": 0.0,
+    "mean_p": 0.0945,
+    "n": 15,
+    "observed": 0.1333
+   },
+   {
+    "hi": 0.4,
+    "lo": 0.2,
+    "mean_p": 0.2637,
+    "n": 6,
+    "observed": 0.1667
+   }
+  ],
   "confusion": {
    "BACK_AND_FORTH": {
     "GOALIE_DRIVEN": 1
    },
    "OPEN_GAME": {
-    "OPEN_GAME": 1
+    "OPEN_GAME": 1,
+    "SPECIAL_TEAMS": 1
    }
   },
-  "log_loss": 1.9009,
-  "multiclass_brier": 0.8251,
-  "n_games": 2,
-  "n_snapshots": 42,
+  "log_loss": 1.9139,
+  "multiclass_brier": 0.8515,
+  "n_games": 3,
+  "n_snapshots": 66,
   "population": "final pregame NHL_SCRIPT_V1 forecast per settled game",
   "small_sample": true,
-  "top_script_accuracy": 0.5
+  "top_script_accuracy": 0.3333
  },
  "stage": {
   "checks": {
@@ -681,19 +697,19 @@
   "note": "maturity is a STATUS: it grants no betting authority, and ROI is never a criterion",
   "progress_to_next": {
    "contracts": {
-    "have": 9852,
+    "have": 10056,
     "need": 1000
    },
    "games": {
-    "have": 54,
+    "have": 55,
     "need": 100
    }
   },
   "stage": "EARLY_LEARNING"
  },
  "unknowns": [
-  "Whether the script probabilities are calibrated: 2 settled script forecasts (need 30+ to say anything, 200+ to rely on it).",
-  "Whether the projection model beats the market: 54 settled games; model vs market Brier difference 0.00174 is within early-season noise.",
+  "Whether the script probabilities are calibrated: 3 settled script forecasts (need 30+ to say anything, 200+ to rely on it).",
+  "Whether the projection model beats the market: 55 settled games; model vs market Brier difference 0.00198 is within early-season noise.",
   "Whether the opponent adjustment improves betting decisions: it is a RESEARCH layer (walk-forward sanity check only) and is not a model input."
  ],
  "version": "nhl-learning-1.0",
@@ -713,10 +729,10 @@
     18.0,
     30.0
    ],
-   "market_brier": 0.16516,
-   "mean_abs_disagreement": 0.0288,
-   "model_brier": 0.16671,
-   "n": 1175,
+   "market_brier": 0.16483,
+   "mean_abs_disagreement": 0.0286,
+   "model_brier": 0.16664,
+   "n": 1200,
    "window": "~24h"
   },
   {
@@ -724,10 +740,10 @@
     4.0,
     8.0
    ],
-   "market_brier": 0.16538,
-   "mean_abs_disagreement": 0.0315,
-   "model_brier": 0.16725,
-   "n": 1350,
+   "market_brier": 0.16506,
+   "mean_abs_disagreement": 0.0313,
+   "model_brier": 0.16716,
+   "n": 1375,
    "window": "~6h"
   },
   {
@@ -735,10 +751,10 @@
     1.0,
     2.0
    ],
-   "market_brier": 0.16513,
-   "mean_abs_disagreement": 0.0322,
-   "model_brier": 0.16733,
-   "n": 1350,
+   "market_brier": 0.1648,
+   "mean_abs_disagreement": 0.032,
+   "model_brier": 0.16724,
+   "n": 1375,
    "window": "~90m"
   },
   {
@@ -746,10 +762,10 @@
     0.25,
     0.75
    ],
-   "market_brier": 0.17358,
-   "mean_abs_disagreement": 0.0374,
-   "model_brier": 0.17354,
-   "n": 650,
+   "market_brier": 0.17259,
+   "mean_abs_disagreement": 0.0368,
+   "model_brier": 0.17313,
+   "n": 675,
    "window": "~30m"
   }
  ]
