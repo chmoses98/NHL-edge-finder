@@ -1,47 +1,47 @@
 # NHL evaluation report — RESEARCH_ONLY
 
-evaluated 2026-10-09T00:58:58Z · rows 153943 · pregame 153943 · new 0
+evaluated 2026-10-09T02:07:35Z · rows 169861 · pregame 169861 · new 15918
 
 | scope | view | n | Brier | log loss | ECE | mean p | hit rate |
 |---|---|---:|---:|---:|---:|---:|---:|
-| ALL | DATA_ONLY_V1 | 29050 | 0.1667 | 0.5017 | 0.0122 | 0.4501 | 0.4611 |
-| ALL | MARKET_BASELINE | 130847 | 0.1534 | 0.4702 | 0.0106 | 0.2958 | 0.3044 |
-| ALL | MARKET_ANCHORED_V1 | 29050 | 0.1648 | 0.4967 | 0.0097 | 0.4535 | 0.4611 |
+| ALL | DATA_ONLY_V1 | 32200 | 0.1678 | 0.5039 | 0.0108 | 0.4503 | 0.4590 |
+| ALL | MARKET_BASELINE | 144642 | 0.1530 | 0.4691 | 0.0100 | 0.2941 | 0.3022 |
+| ALL | MARKET_ANCHORED_V1 | 32193 | 0.1658 | 0.4988 | 0.0107 | 0.4534 | 0.4591 |
 | first_goal | DATA_ONLY_V1 | 0 |  |  |  |  |  |
-| first_goal | MARKET_BASELINE | 7448 | 0.0406 | 0.1736 | 0.0081 | 0.0366 | 0.0424 |
+| first_goal | MARKET_BASELINE | 8222 | 0.0409 | 0.1752 | 0.0077 | 0.0371 | 0.0427 |
 | first_goal | MARKET_ANCHORED_V1 | 0 |  |  |  |  |  |
-| game_spread | DATA_ONLY_V1 | 4648 | 0.1773 | 0.5335 | 0.0322 | 0.2310 | 0.2562 |
-| game_spread | MARKET_BASELINE | 4648 | 0.1746 | 0.5265 | 0.0229 | 0.2411 | 0.2562 |
-| game_spread | MARKET_ANCHORED_V1 | 4648 | 0.1747 | 0.5269 | 0.0369 | 0.2386 | 0.2562 |
-| game_total | DATA_ONLY_V1 | 10458 | 0.1277 | 0.4001 | 0.0273 | 0.5690 | 0.5731 |
-| game_total | MARKET_BASELINE | 10458 | 0.1255 | 0.3938 | 0.0258 | 0.5730 | 0.5731 |
-| game_total | MARKET_ANCHORED_V1 | 10458 | 0.1258 | 0.3947 | 0.0263 | 0.5722 | 0.5731 |
-| game_winner | DATA_ONLY_V1 | 2324 | 0.2326 | 0.6577 | 0.0812 | 0.5000 | 0.5000 |
-| game_winner | MARKET_BASELINE | 2324 | 0.2322 | 0.6564 | 0.0619 | 0.4993 | 0.5000 |
-| game_winner | MARKET_ANCHORED_V1 | 2324 | 0.2316 | 0.6553 | 0.0332 | 0.4995 | 0.5000 |
+| game_spread | DATA_ONLY_V1 | 5152 | 0.1828 | 0.5474 | 0.0395 | 0.2312 | 0.2638 |
+| game_spread | MARKET_BASELINE | 5152 | 0.1793 | 0.5385 | 0.0378 | 0.2413 | 0.2638 |
+| game_spread | MARKET_ANCHORED_V1 | 5152 | 0.1796 | 0.5393 | 0.0312 | 0.2388 | 0.2638 |
+| game_total | DATA_ONLY_V1 | 11592 | 0.1271 | 0.3977 | 0.0236 | 0.5693 | 0.5695 |
+| game_total | MARKET_BASELINE | 11592 | 0.1253 | 0.3923 | 0.0264 | 0.5725 | 0.5695 |
+| game_total | MARKET_ANCHORED_V1 | 11592 | 0.1255 | 0.3930 | 0.0256 | 0.5718 | 0.5695 |
+| game_winner | DATA_ONLY_V1 | 2576 | 0.2321 | 0.6567 | 0.0818 | 0.5000 | 0.5000 |
+| game_winner | MARKET_BASELINE | 2576 | 0.2307 | 0.6531 | 0.0431 | 0.4993 | 0.5000 |
+| game_winner | MARKET_ANCHORED_V1 | 2576 | 0.2304 | 0.6525 | 0.0234 | 0.4994 | 0.5000 |
 | goalie_saves | DATA_ONLY_V1 | 0 |  |  |  |  |  |
-| goalie_saves | MARKET_BASELINE | 499 | 0.2546 | 0.7030 | 0.0904 | 0.4042 | 0.4569 |
+| goalie_saves | MARKET_BASELINE | 556 | 0.2557 | 0.7057 | 0.0825 | 0.4118 | 0.4622 |
 | goalie_saves | MARKET_ANCHORED_V1 | 0 |  |  |  |  |  |
 | period_spread | DATA_ONLY_V1 | 0 |  |  |  |  |  |
-| period_spread | MARKET_BASELINE | 6641 | 0.1535 | 0.4890 | 0.0589 | 0.1306 | 0.1873 |
+| period_spread | MARKET_BASELINE | 7337 | 0.1541 | 0.4906 | 0.0591 | 0.1309 | 0.1881 |
 | period_spread | MARKET_ANCHORED_V1 | 0 |  |  |  |  |  |
 | period_total | DATA_ONLY_V1 | 0 |  |  |  |  |  |
-| period_total | MARKET_BASELINE | 10403 | 0.1807 | 0.5379 | 0.0310 | 0.5946 | 0.6166 |
+| period_total | MARKET_BASELINE | 11456 | 0.1841 | 0.5462 | 0.0294 | 0.5946 | 0.6163 |
 | period_total | MARKET_ANCHORED_V1 | 0 |  |  |  |  |  |
 | period_winner | DATA_ONLY_V1 | 0 |  |  |  |  |  |
-| period_winner | MARKET_BASELINE | 10446 | 0.2160 | 0.6227 | 0.0322 | 0.3283 | 0.3333 |
+| period_winner | MARKET_BASELINE | 11482 | 0.2164 | 0.6235 | 0.0301 | 0.3284 | 0.3333 |
 | period_winner | MARKET_ANCHORED_V1 | 0 |  |  |  |  |  |
 | player_assists | DATA_ONLY_V1 | 0 |  |  |  |  |  |
-| player_assists | MARKET_BASELINE | 17452 | 0.1591 | 0.4857 | 0.0152 | 0.2374 | 0.2404 |
+| player_assists | MARKET_BASELINE | 18960 | 0.1601 | 0.4892 | 0.0186 | 0.2373 | 0.2405 |
 | player_assists | MARKET_ANCHORED_V1 | 0 |  |  |  |  |  |
 | player_goals | DATA_ONLY_V1 | 0 |  |  |  |  |  |
-| player_goals | MARKET_BASELINE | 27667 | 0.1148 | 0.3770 | 0.0079 | 0.1387 | 0.1447 |
+| player_goals | MARKET_BASELINE | 31219 | 0.1113 | 0.3672 | 0.0089 | 0.1344 | 0.1395 |
 | player_goals | MARKET_ANCHORED_V1 | 0 |  |  |  |  |  |
 | player_points | DATA_ONLY_V1 | 0 |  |  |  |  |  |
-| player_points | MARKET_BASELINE | 21241 | 0.1768 | 0.5280 | 0.0188 | 0.3092 | 0.3086 |
+| player_points | MARKET_BASELINE | 23217 | 0.1762 | 0.5264 | 0.0218 | 0.3078 | 0.3075 |
 | player_points | MARKET_ANCHORED_V1 | 0 |  |  |  |  |  |
-| team_total | DATA_ONLY_V1 | 11620 | 0.1843 | 0.5492 | 0.0239 | 0.4208 | 0.4345 |
-| team_total | MARKET_BASELINE | 11620 | 0.1824 | 0.5443 | 0.0291 | 0.4244 | 0.4345 |
-| team_total | MARKET_ANCHORED_V1 | 11620 | 0.1825 | 0.5446 | 0.0257 | 0.4236 | 0.4345 |
+| team_total | DATA_ONLY_V1 | 12880 | 0.1855 | 0.5516 | 0.0282 | 0.4210 | 0.4295 |
+| team_total | MARKET_BASELINE | 12873 | 0.1834 | 0.5467 | 0.0321 | 0.4241 | 0.4297 |
+| team_total | MARKET_ANCHORED_V1 | 12873 | 0.1836 | 0.5470 | 0.0324 | 0.4234 | 0.4297 |
 
 The market is the benchmark. If MARKET_BASELINE scores better than DATA_ONLY_V1, that is the finding. Small samples prove nothing.
