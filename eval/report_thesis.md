@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-09T10:57:07Z · thesis-postmortem-2.0 · rows (all generations) 9184
+evaluated 2026-10-09T12:30:25Z · thesis-postmortem-2.0 · rows (all generations) 9184
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,13 +35,28 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020066 SEA @ DET: NOT_STARTED · snapshot snap-dd02fd928313ce994ad6 @ 2026-10-09T10:41:01Z
+#### game 2026020066 SEA @ DET: NOT_STARTED · snapshot snap-3527e680f17575371b46 @ 2026-10-09T12:28:42Z
 
-#### game 2026020067 NYR @ WSH: NOT_STARTED · snapshot snap-dd02fd928313ce994ad6 @ 2026-10-09T10:41:01Z
+#### game 2026020067 NYR @ WSH: NOT_STARTED · snapshot snap-3527e680f17575371b46 @ 2026-10-09T12:28:42Z
 
-#### game 2026020068 PIT @ CBJ: NOT_STARTED · snapshot snap-dd02fd928313ce994ad6 @ 2026-10-09T10:41:01Z
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT09NYRWSH-WSHAPROTAS21-1|yes | FUNDED_RESEARCH | 3 | 8.48 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT09NYRWSH-WSHBJENNER38-1|yes | SHADOW_ONLY | 0 | 2.95 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020069 ANA @ WPG: NOT_STARTED · snapshot snap-dd02fd928313ce994ad6 @ 2026-10-09T10:41:01Z
+#### game 2026020068 PIT @ CBJ: NOT_STARTED · snapshot snap-3527e680f17575371b46 @ 2026-10-09T12:28:42Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT09PITCBJ-CBJDHEINEN58-1|yes | SHADOW_ONLY | 0 | 2.85 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT09PITCBJ-CBJKJOHNSON91-1|no | FUNDED_RESEARCH | 4 | 14.60 | - | - | - | DIRECT | - | - |
+
+#### game 2026020069 ANA @ WPG: NOT_STARTED · snapshot snap-3527e680f17575371b46 @ 2026-10-09T12:28:42Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT09ANAWPG-WPGMBARRON36-1|yes | SHADOW_ONLY | 0 | 2.81 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT09ANAWPG-ANACGAUTHIER61-1|no | FUNDED_RESEARCH | 2 | 7.90 | - | - | - | DIRECT | - | - |
 
 ## Slate 2026-10-08: **COMPLETE — 10/10 games evaluated**
 
