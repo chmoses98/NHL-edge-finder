@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-09T05:54:43Z · thesis-postmortem-2.0 · rows (all generations) 9184
+evaluated 2026-10-09T07:26:59Z · thesis-postmortem-2.0 · rows (all generations) 9184
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,13 +35,13 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020066 SEA @ DET: NOT_STARTED · snapshot snap-9e91669ebddd036193cc @ 2026-10-09T05:53:33Z
+#### game 2026020066 SEA @ DET: NOT_STARTED · snapshot snap-6ae8d59dbd35987a55e8 @ 2026-10-09T06:53:37Z
 
-#### game 2026020067 NYR @ WSH: NOT_STARTED · snapshot snap-9e91669ebddd036193cc @ 2026-10-09T05:53:33Z
+#### game 2026020067 NYR @ WSH: NOT_STARTED · snapshot snap-6ae8d59dbd35987a55e8 @ 2026-10-09T06:53:37Z
 
-#### game 2026020068 PIT @ CBJ: NOT_STARTED · snapshot snap-9e91669ebddd036193cc @ 2026-10-09T05:53:33Z
+#### game 2026020068 PIT @ CBJ: NOT_STARTED · snapshot snap-6ae8d59dbd35987a55e8 @ 2026-10-09T06:53:37Z
 
-#### game 2026020069 ANA @ WPG: NOT_STARTED · snapshot snap-9e91669ebddd036193cc @ 2026-10-09T05:53:33Z
+#### game 2026020069 ANA @ WPG: NOT_STARTED · snapshot snap-6ae8d59dbd35987a55e8 @ 2026-10-09T06:53:37Z
 
 ## Slate 2026-10-08: **COMPLETE — 10/10 games evaluated**
 
