@@ -1,32 +1,36 @@
 {
- "last_capture_utc": "2026-10-09T23:16:09Z",
- "n_markets": 3451,
+ "last_capture_utc": "2026-10-09T23:23:09Z",
+ "n_markets": 3453,
  "n_series": 77,
- "requests": 456,
+ "requests": 457,
  "run_id": "37995919292",
  "markets_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/markets/dt=2026-10-09/kalshi_markets_20261009T231609Z_37995919292.jsonl.gz",
-  "bytes": 310095,
-  "n_markets": 3451,
-  "board_sha256": "83fd1065ee43f67163fdf074b3b8316b12e8b0677e21556bdb18ce1b32fce1ef"
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/markets_delta/dt=2026-10-09/kalshi_markets_delta_20261009T232309Z_37995919292.json.gz",
+  "bytes": 25042,
+  "n_markets": 3453,
+  "n_changed": 1209,
+  "changed_pct": 35.013,
+  "board_sha256": "3cf62629be4ab2a31111eff6ebe7aa229254f3afb1cac24ce52afd056564fb72"
  },
  "orderbooks_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/orderbooks/dt=2026-10-09/kalshi_orderbooks_20261009T231609Z_37995919292.jsonl.gz",
-  "bytes": 43240,
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/orderbooks_delta/dt=2026-10-09/kalshi_orderbooks_delta_20261009T232309Z_37995919292.json.gz",
+  "bytes": 31195,
   "n_markets": 300,
-  "board_sha256": "c3ce600a2917ec654c500ecd8dd68e08954415a761f3b2b61823d04a475c3aa0"
+  "n_changed": 216,
+  "changed_pct": 72.0,
+  "board_sha256": "6bd7eb0cc94437ce9eb394af22e84607e6868c03439d1fc77e7484331bf3ba1e"
  },
  "by_status": {
-  "active": 3451
+  "active": 3453
  },
  "by_support": {
   "BUILDABLE": 20,
   "MODELABLE": 598,
-  "RESEARCH": 2241,
+  "RESEARCH": 2243,
   "UNMODELABLE": 547,
   "UNRESOLVED": 45
  },
@@ -40,7 +44,7 @@
   "goalie_saves": 6,
   "non_hockey_or_office": 1,
   "period_spread": 120,
-  "period_total": 194,
+  "period_total": 196,
   "period_winner": 180,
   "player_assists": 146,
   "player_goals": 253,
@@ -56,7 +60,7 @@
   "series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']"
  ],
  "notes": [
-  "order books sampled by priority: 3451 live markets, cap 300"
+  "order books sampled by priority: 3453 live markets, cap 300"
  ],
  "alarm": true
 }
