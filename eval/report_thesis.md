@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-08T23:24:50Z · thesis-postmortem-2.0 · rows (all generations) 7486
+evaluated 2026-10-09T00:58:58Z · thesis-postmortem-2.0 · rows (all generations) 7486
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -15,8 +15,8 @@ missing / pending:
 - 2026020059: no official FINAL result yet
 - 2026020060: no official FINAL result yet
 - 2026020061: no official FINAL result yet
-- 2026020062: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020063: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020062: no official FINAL result yet
+- 2026020063: no official FINAL result yet
 - 2026020064: game not started: the snapshot shown is the latest so far, not yet final
 - 2026020065: game not started: the snapshot shown is the latest so far, not yet final
 
@@ -93,7 +93,7 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLAST-26OCT08VANCAR-CARSAHO20-1|no | SHADOW_ONLY | 0 | 6.26 | - | - | - | DIRECT | - | - |
 | KXNHLSPREAD-26OCT08VANCAR-CAR3|no | FUNDED_RESEARCH | 2 | 6.75 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020062 CHI @ NYI: NOT_STARTED · snapshot snap-980f5f9fc2fcc3b5f01e @ 2026-10-08T23:23:10Z
+#### game 2026020062 CHI @ NYI: NOT_FINAL · snapshot snap-980f5f9fc2fcc3b5f01e @ 2026-10-08T23:23:10Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
@@ -102,7 +102,7 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLAST-26OCT08CHINYI-CHIPKANE88-1|no | SHADOW_ONLY | 0 | 17.82 | - | - | - | DIRECT | - | - |
 | KXNHLGOAL-26OCT08CHINYI-NYICCIZIKAS53-1|yes | SHADOW_ONLY | 0 | 3.24 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020063 SJS @ STL: NOT_STARTED · snapshot snap-980f5f9fc2fcc3b5f01e @ 2026-10-08T23:23:10Z
+#### game 2026020063 SJS @ STL: NOT_FINAL · snapshot snap-980f5f9fc2fcc3b5f01e @ 2026-10-08T23:23:10Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
@@ -111,22 +111,22 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLGOAL-26OCT08SJSTL-STLPSUTER22-1|yes | SHADOW_ONLY | 0 | 4.59 | - | - | - | FRAGILE | - | - |
 | KXNHLAST-26OCT08SJSTL-SJDORLOV9-1|yes | SHADOW_ONLY | 0 | 6.62 | - | - | - | DIRECT | - | - |
 
-#### game 2026020064 COL @ CGY: NOT_STARTED · snapshot snap-980f5f9fc2fcc3b5f01e @ 2026-10-08T23:23:10Z
+#### game 2026020064 COL @ CGY: NOT_STARTED · snapshot snap-f7930d4de77414d736d6 @ 2026-10-09T00:16:54Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT08COLCGY-COLNMACKINNON29-1|no | FUNDED_RESEARCH | 4 | 14.18 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT08COLCGY-COLMNECAS88-1|no | SHADOW_ONLY | 0 | 14.18 | - | - | - | DIRECT | - | - |
-| KXNHLSAVE-26OCT08COLCGY-COLSWEDGEWOOD41-22|yes | SHADOW_ONLY | 0 | 9.85 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT08COLCGY-COLNMACKINNON29-1|no | FUNDED_RESEARCH | 5 | 16.62 | - | - | - | DIRECT | - | - |
+| KXNHLPTS-26OCT08COLCGY-COLNMACKINNON29-2|no | SHADOW_ONLY | 0 | 13.38 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26OCT08COLCGY-COL2|no | FUNDED_RESEARCH | 2 | 5.60 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020065 TOR @ VGK: NOT_STARTED · snapshot snap-980f5f9fc2fcc3b5f01e @ 2026-10-08T23:23:10Z
+#### game 2026020065 TOR @ VGK: NOT_STARTED · snapshot snap-f7930d4de77414d736d6 @ 2026-10-09T00:16:54Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT08TORVGK-VGKBMCNABB3-1|yes | SHADOW_ONLY | 0 | 3.55 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT08TORVGK-TORGMCKENNA92-1|no | FUNDED_RESEARCH | 5 | 18.91 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT08TORVGK-VGKBBOWMAN42-1|yes | SHADOW_ONLY | 0 | 4.45 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT08TORVGK-VGKMGATCOMB17-1|yes | SHADOW_ONLY | 0 | 3.52 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT08TORVGK-TORAMATTHEWS34-1|no | FUNDED_RESEARCH | 4 | 15.70 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT08TORVGK-TORAMATTHEWS34-1|no | SHADOW_ONLY | 0 | 14.30 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT08TORVGK-VGKIBARBASHEV49-1|yes | SHADOW_ONLY | 0 | 5.96 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT08TORVGK-VGKSTHEODORE27-1|yes | SHADOW_ONLY | 0 | 6.78 | - | - | - | DIRECT | - | - |
 
 ## Slate 2026-10-07: **COMPLETE — 3/3 games evaluated**
 
