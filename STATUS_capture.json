@@ -1,32 +1,35 @@
 {
- "last_capture_utc": "2026-10-10T18:52:31Z",
- "n_markets": 4829,
+ "last_capture_utc": "2026-10-10T18:59:31Z",
+ "n_markets": 4831,
  "n_series": 77,
- "requests": 455,
+ "requests": 456,
  "run_id": "38069948681",
  "markets_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/markets/dt=2026-10-10/kalshi_markets_20261010T185231Z_38069948681.jsonl.gz",
-  "bytes": 441386,
-  "n_markets": 4829,
-  "board_sha256": "80f46cc0da7d0646dcb30fbc1c36f856a8cb6883c43d3a90df46414a7a8aefa5"
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/markets_delta/dt=2026-10-10/kalshi_markets_delta_20261010T185931Z_38069948681.json.gz",
+  "bytes": 33856,
+  "n_markets": 4831,
+  "n_changed": 1876,
+  "changed_pct": 38.833,
+  "board_sha256": "6fec66ae3f19b9dd6d843ad2b9ad0393a5948de68c6b6ad143e71310c8f6d49f"
  },
  "orderbooks_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/orderbooks/dt=2026-10-10/kalshi_orderbooks_20261010T185231Z_38069948681.jsonl.gz",
-  "bytes": 48347,
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/orderbooks_delta/dt=2026-10-10/kalshi_orderbooks_delta_20261010T185931Z_38069948681.json.gz",
+  "bytes": 47673,
   "n_markets": 300,
-  "board_sha256": "1d7e4e42959a2b709da268272099ce4f99f5bb2faccdd826a05a179e8c7fada5"
+  "n_changed": 299,
+  "changed_pct": 99.667,
+  "board_sha256": "2c0bb21bf97e70a62bd42de7c298e5b8fe8aca3725224623e65c8d725c818f3b"
  },
  "by_status": {
-  "active": 4818,
-  "initialized": 11
+  "active": 4831
  },
  "by_support": {
   "BUILDABLE": 17,
-  "MODELABLE": 533,
+  "MODELABLE": 535,
   "RESEARCH": 3687,
   "UNMODELABLE": 547,
   "UNRESOLVED": 45
@@ -35,7 +38,7 @@
   "first_goal": 462,
   "game_early_goal": 16,
   "game_overtime": 17,
-  "game_spread": 82,
+  "game_spread": 84,
   "game_total": 180,
   "game_winner": 102,
   "goalie_saves": 18,
@@ -57,7 +60,7 @@
   "series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']"
  ],
  "notes": [
-  "order books sampled by priority: 4818 live markets, cap 300"
+  "order books sampled by priority: 4831 live markets, cap 300"
  ],
  "alarm": true
 }
