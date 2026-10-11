@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-11T07:26:50Z · thesis-postmortem-2.0 · rows (all generations) 12159
+evaluated 2026-10-11T09:09:06Z · thesis-postmortem-2.0 · rows (all generations) 12159
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -34,7 +34,7 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020084 SEA @ WSH: NOT_STARTED · snapshot snap-e547053fb285f3b072b4 @ 2026-10-11T07:24:51Z
+#### game 2026020084 SEA @ WSH: NOT_STARTED · snapshot snap-115af35df60464ed5dba @ 2026-10-11T08:22:53Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
@@ -42,16 +42,16 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLSPREAD-26OCT11SEAWSH-WSH3|no | FUNDED_RESEARCH | 2 | 4.06 | - | - | - | STRUCTURAL | - | - |
 | KXNHLSPREAD-26OCT11SEAWSH-SEA2|yes | FUNDED_RESEARCH | 1 | 1.41 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020085 VAN @ NYR: NOT_STARTED · snapshot snap-e547053fb285f3b072b4 @ 2026-10-11T07:24:51Z
+#### game 2026020085 VAN @ NYR: NOT_STARTED · snapshot snap-115af35df60464ed5dba @ 2026-10-11T08:22:53Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26OCT11VANNYR-VAN5|yes | FUNDED_RESEARCH | 1 | 3.23 | - | - | - | DIRECT | - | - |
-| KXNHLSPREAD-26OCT11VANNYR-VAN2|yes | FUNDED_RESEARCH | 1 | 2.47 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT11VANNYR-NYR3|no | FUNDED_RESEARCH | 2 | 6.58 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT11VANNYR-VAN2|yes | FUNDED_RESEARCH | 2 | 6.29 | - | - | - | DIRECT | - | - |
+| KXNHLTEAMTOTAL-26OCT11VANNYR-VAN5|yes | FUNDED_RESEARCH | 1 | 3.96 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26OCT11VANNYR-VAN2|yes | FUNDED_RESEARCH | 1 | 2.52 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT11VANNYR-NYR2|no | FUNDED_RESEARCH | 2 | 5.06 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT11VANNYR-NYR3|no | FUNDED_RESEARCH | 1 | 3.84 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020086 CAR @ PHI: NOT_STARTED · snapshot snap-e547053fb285f3b072b4 @ 2026-10-11T07:24:51Z
+#### game 2026020086 CAR @ PHI: NOT_STARTED · snapshot snap-115af35df60464ed5dba @ 2026-10-11T08:22:53Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
