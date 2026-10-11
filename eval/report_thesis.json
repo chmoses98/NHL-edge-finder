@@ -1,5 +1,5 @@
 {
- "evaluated_at_utc": "2026-10-11T02:56:33Z",
+ "evaluated_at_utc": "2026-10-11T04:41:34Z",
  "authority": "RESEARCH_ONLY",
  "report_version": "thesis-postmortem-2.0",
  "n_rows_all_runs": 11970,
@@ -43236,6 +43236,653 @@
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": -0.006,
          "p_both": 0.38
+        }
+       },
+       "scored": false,
+       "outcome": null
+      }
+     ]
+    }
+   }
+  },
+  "2026-10-11": {
+   "label": "PARTIAL \u2014 0/3 games evaluated",
+   "completeness": {
+    "games_scheduled": 3,
+    "games_final": 0,
+    "games_settled": 0,
+    "games_player_events_ingested": 0,
+    "games_with_final_card_snapshot": 3,
+    "games_thesis_evaluated": 0,
+    "games_terminal": 0,
+    "games_missing": {
+     "2026020084": "game not started: the snapshot shown is the latest so far, not yet final",
+     "2026020085": "game not started: the snapshot shown is the latest so far, not yet final",
+     "2026020086": "game not started: the snapshot shown is the latest so far, not yet final"
+    },
+    "games_ambiguous": [],
+    "final_card_complete": false,
+    "postmortem_complete": false
+   },
+   "invariants": {
+    "final_card_n": 0,
+    "sum_game_card_caps": 0,
+    "holds": true
+   },
+   "FINAL_CARD_UNIQUE": {
+    "THESIS": {
+     "n_bets_with_thesis": 0,
+     "n_distinct_theses": 0,
+     "thesis_hit_rate": null,
+     "mean_p_thesis": null,
+     "thesis_brier": null,
+     "calibration_note": "few theses: hit rate vs mean predicted probability is descriptive only",
+     "realized_vs_projected_script": {}
+    },
+    "EXPRESSION": {
+     "thesis_right_expression_won": 0,
+     "thesis_right_expression_lost": 0,
+     "thesis_wrong_expression_won": 0,
+     "thesis_wrong_expression_lost": 0,
+     "no_thesis": {},
+     "by_fidelity_class": {},
+     "broad_vs_player": {}
+    },
+    "PRICE": {
+     "n": 0,
+     "mean_clv": null,
+     "n_clv": 0,
+     "mean_ev_raw_at_entry": null,
+     "mean_ev_adjusted_at_entry": null,
+     "bets": []
+    },
+    "MODEL": {
+     "n": 0,
+     "brier_model": null,
+     "brier_adjusted": null,
+     "brier_kalshi_mid": null,
+     "logloss_model": null,
+     "logloss_adjusted": null,
+     "by_family": {}
+    },
+    "PORTFOLIO": {
+     "nominal_card": {
+      "n_bets": 0,
+      "stake": 0,
+      "pl": 0,
+      "roi": null,
+      "basis": "optimiser stakes on the nominal bankroll (B)"
+     },
+     "funded_research": {
+      "note": "no evaluated final-card bets yet"
+     },
+     "n_funded": 0,
+     "n_shadow_on_card": 0,
+     "correlation_concentration": {
+      "n_pairs": 0,
+      "mean_abs_phi": null,
+      "max_abs_phi": null
+     },
+     "thesis_concentration": {
+      "mean_largest_thesis_share": null
+     },
+     "realized_vs_simulated": {}
+    },
+    "GOVERNANCE": {
+     "funded_player_props": [],
+     "shadow_player_props": [],
+     "large_disagreement_gates_triggered": 0,
+     "reason_counts": {},
+     "overrides": []
+    },
+    "interpretation": "INTERIM (PARTIAL \u2014 0/3 games evaluated): covers evaluated games only; NOT the slate's final ROI"
+   },
+   "games": {
+    "2026020084": {
+     "state": "NOT_STARTED",
+     "matchup": "SEA @ WSH",
+     "final_snapshot": {
+      "snapshot_id": "snap-9440433f846dd4b5f67d",
+      "decided_at_utc": "2026-10-11T04:24:58Z",
+      "run_id": "38105659642",
+      "card_status": "COMPLETE",
+      "game_card_cap": 4,
+      "n_chosen": 3,
+      "n_shortlisted": 3,
+      "n_pregame_snapshots": 1,
+      "later_incomplete_snapshots_skipped": [],
+      "start_utc": "2026-10-11T21:00:00Z",
+      "synthetic_game_row": false,
+      "status": "OK"
+     },
+     "portfolio_result": null,
+     "script_check": null,
+     "overrides": [],
+     "bets": [
+      {
+       "decision_id": "1e46a1208d0b8d6951be397f23e28844",
+       "game_id": "2026020084",
+       "bet_id": "KXNHLSPREAD-26OCT11SEAWSH-WSH2|no",
+       "family": "game_spread",
+       "chosen": true,
+       "stake_dollars": 9.7,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 3,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "SEA:WINS",
+       "p_thesis": 0.4296,
+       "entry_price_cents": 57,
+       "ev_raw": 0.0648430000000001,
+       "ev_adjusted": 0.021343000000000112,
+       "p_model": 0.652,
+       "p_adjusted": 0.6085,
+       "p_kalshi_mid": 0.565,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.565,
+        "gap": 0.087,
+        "abs_gap_pts": 8.7,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLSPREAD-26OCT11SEAWSH-WSH3|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.755,
+         "p_both": 0.652
+        },
+        "KXNHLSPREAD-26OCT11SEAWSH-SEA2|yes": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.398,
+         "p_both": 0.2288
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "1933834dc514a8c54bd7fbda9f94ec43",
+       "game_id": "2026020084",
+       "bet_id": "KXNHLSPREAD-26OCT11SEAWSH-WSH3|no",
+       "family": "game_spread",
+       "chosen": true,
+       "stake_dollars": 4.06,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 2,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "SEA:WINS",
+       "p_thesis": 0.4296,
+       "entry_price_cents": 70,
+       "ev_raw": 0.052200000000000024,
+       "ev_adjusted": 0.016249999999999987,
+       "p_model": 0.7669,
+       "p_adjusted": 0.73095,
+       "p_kalshi_mid": 0.6950000000000001,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.695,
+        "gap": 0.0719,
+        "abs_gap_pts": 7.2,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLSPREAD-26OCT11SEAWSH-WSH2|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.755,
+         "p_both": 0.652
+        },
+        "KXNHLSPREAD-26OCT11SEAWSH-SEA2|yes": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.3,
+         "p_both": 0.2288
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "6639dafecfe6e29e73ef25d086063e1a",
+       "game_id": "2026020084",
+       "bet_id": "KXNHLSPREAD-26OCT11SEAWSH-SEA2|yes",
+       "family": "game_spread",
+       "chosen": true,
+       "stake_dollars": 1.41,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 1,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "SEA:WINS_BY_2PLUS",
+       "p_thesis": 0.2288,
+       "entry_price_cents": 18,
+       "ev_raw": 0.038468,
+       "ev_adjusted": 0.011567999999999995,
+       "p_model": 0.2288,
+       "p_adjusted": 0.2019,
+       "p_kalshi_mid": 0.175,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.175,
+        "gap": 0.0538,
+        "abs_gap_pts": 5.4,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLSPREAD-26OCT11SEAWSH-WSH2|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.398,
+         "p_both": 0.2288
+        },
+        "KXNHLSPREAD-26OCT11SEAWSH-WSH3|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.3,
+         "p_both": 0.2288
+        }
+       },
+       "scored": false,
+       "outcome": null
+      }
+     ]
+    },
+    "2026020085": {
+     "state": "NOT_STARTED",
+     "matchup": "VAN @ NYR",
+     "final_snapshot": {
+      "snapshot_id": "snap-9440433f846dd4b5f67d",
+      "decided_at_utc": "2026-10-11T04:24:58Z",
+      "run_id": "38105659642",
+      "card_status": "COMPLETE",
+      "game_card_cap": 4,
+      "n_chosen": 3,
+      "n_shortlisted": 8,
+      "n_pregame_snapshots": 1,
+      "later_incomplete_snapshots_skipped": [],
+      "start_utc": "2026-10-11T22:00:00Z",
+      "synthetic_game_row": false,
+      "status": "OK"
+     },
+     "portfolio_result": null,
+     "script_check": null,
+     "overrides": [
+      {
+       "thesis": "VAN:OFFENSE_4PLUS",
+       "replaced": "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN5|yes",
+       "selected": "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN3|yes",
+       "ev_adjusted_replaced": 0.0254,
+       "ev_adjusted_selected": 0.0193,
+       "edge_difference_pts": -0.61,
+       "thesis_capture_replaced": 0.5346,
+       "thesis_capture_selected": 1.0,
+       "fidelity_replaced": "DIRECT",
+       "fidelity_selected": "STRUCTURAL",
+       "reliability_replaced": "EVIDENCE_MIXED",
+       "reliability_selected": "EVIDENCE_MIXED",
+       "growth_bp_replaced": 13.376,
+       "growth_bp_selected": 3.27,
+       "decided_on": "expression fidelity",
+       "rule": "similar adjusted value (within 1 pt) -> prefer reliability, then fidelity",
+       "applied": true,
+       "text": "Broad expression KXNHLTEAMTOTAL-26OCT11VANNYR-VAN3|yes selected over broad KXNHLTEAMTOTAL-26OCT11VANNYR-VAN5|yes because adjusted EV differs by only 0.6 pts while thesis capture is 1.00 vs 0.53 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)"
+      }
+     ],
+     "bets": [
+      {
+       "decision_id": "545bc701357936802fa6fc95fb6f5c2e",
+       "game_id": "2026020085",
+       "bet_id": "KXNHLSPREAD-26OCT11VANNYR-VAN2|yes",
+       "family": "game_spread",
+       "chosen": true,
+       "stake_dollars": 4.8,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 2,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "VAN:WINS_BY_2PLUS",
+       "p_thesis": 0.2194,
+       "entry_price_cents": 15,
+       "ev_raw": 0.06047500000000003,
+       "ev_adjusted": 0.023275000000000046,
+       "p_model": 0.2194,
+       "p_adjusted": 0.18220000000000003,
+       "p_kalshi_mid": 0.14500000000000002,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.145,
+        "gap": 0.0744,
+        "abs_gap_pts": 7.4,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN5|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.488,
+         "p_both": 0.1188
+        },
+        "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN6|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.372,
+         "p_both": 0.0578
+        },
+        "KXNHLSPREAD-26OCT11VANNYR-NYR2|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.39,
+         "p_both": 0.2194
+        },
+        "KXNHLSPREAD-26OCT11VANNYR-NYR3|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.293,
+         "p_both": 0.2194
+        },
+        "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN3|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.422,
+         "p_both": 0.2121
+        },
+        "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN2|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.279,
+         "p_both": 0.2194
+        },
+        "KXNHLGAME-26OCT11VANNYR-NYR|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.614,
+         "p_both": 0.2194
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "6a92d13075120b3627c02659b22c033e",
+       "game_id": "2026020085",
+       "bet_id": "KXNHLSPREAD-26OCT11VANNYR-NYR3|no",
+       "family": "game_spread",
+       "chosen": true,
+       "stake_dollars": 9.69,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 3,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "GAME:TIGHT",
+       "p_thesis": 0.4294,
+       "entry_price_cents": 66,
+       "ev_raw": 0.09089199999999997,
+       "ev_adjusted": 0.018352000000000035,
+       "p_model": 0.7666,
+       "p_adjusted": 0.69406,
+       "p_kalshi_mid": 0.655,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.655,
+        "gap": 0.1116,
+        "abs_gap_pts": 11.2,
+        "threshold_pts": 10.0,
+        "large": true
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN5|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.242,
+         "p_both": 0.1812
+        },
+        "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN6|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.156,
+         "p_both": 0.0764
+        },
+        "KXNHLSPREAD-26OCT11VANNYR-VAN2|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.293,
+         "p_both": 0.2194
+        },
+        "KXNHLSPREAD-26OCT11VANNYR-NYR2|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.75,
+         "p_both": 0.6488
+        },
+        "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN3|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.427,
+         "p_both": 0.5287
+        },
+        "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN2|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.439,
+         "p_both": 0.6771
+        },
+        "KXNHLGAME-26OCT11VANNYR-NYR|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.476,
+         "p_both": 0.4269
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "a7a9dbc188a9847391c7e61b27947d19",
+       "game_id": "2026020085",
+       "bet_id": "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN3|yes",
+       "family": "team_total",
+       "chosen": true,
+       "stake_dollars": 2.0,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 1,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "VAN:OFFENSE_4PLUS",
+       "p_thesis": 0.3451,
+       "entry_price_cents": 45,
+       "ev_raw": 0.10587500000000005,
+       "ev_adjusted": 0.019295000000000007,
+       "p_model": 0.5732,
+       "p_adjusted": 0.48662,
+       "p_kalshi_mid": 0.44,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.44,
+        "gap": 0.1332,
+        "abs_gap_pts": 13.3,
+        "threshold_pts": 10.0,
+        "large": true
+       },
+       "selection_override": {
+        "thesis": "VAN:OFFENSE_4PLUS",
+        "replaced": "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN5|yes",
+        "selected": "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN3|yes",
+        "ev_adjusted_replaced": 0.0254,
+        "ev_adjusted_selected": 0.0193,
+        "edge_difference_pts": -0.61,
+        "thesis_capture_replaced": 0.5346,
+        "thesis_capture_selected": 1.0,
+        "fidelity_replaced": "DIRECT",
+        "fidelity_selected": "STRUCTURAL",
+        "reliability_replaced": "EVIDENCE_MIXED",
+        "reliability_selected": "EVIDENCE_MIXED",
+        "growth_bp_replaced": 13.376,
+        "growth_bp_selected": 3.27,
+        "decided_on": "expression fidelity",
+        "rule": "similar adjusted value (within 1 pt) -> prefer reliability, then fidelity",
+        "applied": true,
+        "text": "Broad expression KXNHLTEAMTOTAL-26OCT11VANNYR-VAN3|yes selected over broad KXNHLTEAMTOTAL-26OCT11VANNYR-VAN5|yes because adjusted EV differs by only 0.6 pts while thesis capture is 1.00 vs 0.53 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)"
+       },
+       "joint_relationships": {
+        "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN5|yes": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.41,
+         "p_both": 0.1845
+        },
+        "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN6|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.249,
+         "p_both": 0.0768
+        },
+        "KXNHLSPREAD-26OCT11VANNYR-VAN2|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.422,
+         "p_both": 0.2121
+        },
+        "KXNHLSPREAD-26OCT11VANNYR-NYR2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.496,
+         "p_both": 0.489
+        },
+        "KXNHLSPREAD-26OCT11VANNYR-NYR3|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.427,
+         "p_both": 0.5287
+        },
+        "KXNHLTEAMTOTAL-26OCT11VANNYR-VAN2|yes": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.609,
+         "p_both": 0.5732
+        },
+        "KXNHLGAME-26OCT11VANNYR-NYR|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.546,
+         "p_both": 0.3782
+        }
+       },
+       "scored": false,
+       "outcome": null
+      }
+     ]
+    },
+    "2026020086": {
+     "state": "NOT_STARTED",
+     "matchup": "CAR @ PHI",
+     "final_snapshot": {
+      "snapshot_id": "snap-9440433f846dd4b5f67d",
+      "decided_at_utc": "2026-10-11T04:24:58Z",
+      "run_id": "38105659642",
+      "card_status": "COMPLETE",
+      "game_card_cap": 4,
+      "n_chosen": 2,
+      "n_shortlisted": 3,
+      "n_pregame_snapshots": 1,
+      "later_incomplete_snapshots_skipped": [],
+      "start_utc": "2026-10-11T23:00:00Z",
+      "synthetic_game_row": false,
+      "status": "OK"
+     },
+     "portfolio_result": null,
+     "script_check": null,
+     "overrides": [],
+     "bets": [
+      {
+       "decision_id": "54220be4a9da636d7725012ea1dc6842",
+       "game_id": "2026020086",
+       "bet_id": "KXNHLSPREAD-26OCT11CARPHI-CAR3|no",
+       "family": "game_spread",
+       "chosen": true,
+       "stake_dollars": 19.91,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 5,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "PHI:WINS",
+       "p_thesis": 0.478,
+       "entry_price_cents": 75,
+       "ev_raw": 0.06107499999999999,
+       "ev_adjusted": 0.018974999999999964,
+       "p_model": 0.8242,
+       "p_adjusted": 0.7821,
+       "p_kalshi_mid": 0.74,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.74,
+        "gap": 0.0842,
+        "abs_gap_pts": 8.4,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLSPREAD-26OCT11CARPHI-PHI2|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.276,
+         "p_both": 0.2626
+        },
+        "KXNHLSPREAD-26OCT11CARPHI-CAR2|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.728,
+         "p_both": 0.7132
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "90b12a0486637b475c769f780dd3ce48",
+       "game_id": "2026020086",
+       "bet_id": "KXNHLSPREAD-26OCT11CARPHI-PHI2|yes",
+       "family": "game_spread",
+       "chosen": true,
+       "stake_dollars": 2.85,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 1,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "PHI:WINS_BY_2PLUS",
+       "p_thesis": 0.2626,
+       "entry_price_cents": 20,
+       "ev_raw": 0.0514,
+       "ev_adjusted": 0.015100000000000002,
+       "p_model": 0.2626,
+       "p_adjusted": 0.2263,
+       "p_kalshi_mid": 0.19,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.19,
+        "gap": 0.0726,
+        "abs_gap_pts": 7.3,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLSPREAD-26OCT11CARPHI-CAR3|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.276,
+         "p_both": 0.2626
+        },
+        "KXNHLSPREAD-26OCT11CARPHI-CAR2|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.378,
+         "p_both": 0.2626
         }
        },
        "scored": false,
