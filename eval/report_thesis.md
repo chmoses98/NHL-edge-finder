@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-11T15:53:26Z · thesis-postmortem-2.0 · rows (all generations) 12159
+evaluated 2026-10-11T17:27:24Z · thesis-postmortem-2.0 · rows (all generations) 12159
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -34,32 +34,32 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020084 SEA @ WSH: NOT_STARTED · snapshot snap-c036b2c536dc3df05d11 @ 2026-10-11T15:11:58Z
+#### game 2026020084 SEA @ WSH: NOT_STARTED · snapshot snap-e5233345ea7b4ca287b8 @ 2026-10-11T16:53:35Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT11SEAWSH-SEABMEYERS59-1|yes | FUNDED_RESEARCH | 2 | 5.92 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11SEAWSH-SEASWRIGHT51-1|yes | SHADOW_ONLY | 0 | 7.19 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11SEAWSH-WSHAPROTAS21-1|yes | SHADOW_ONLY | 0 | 8.52 | - | - | - | FRAGILE | - | - |
-| KXNHLSPREAD-26OCT11SEAWSH-WSH2|no | FUNDED_RESEARCH | 4 | 14.93 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT11SEAWSH-SEASWRIGHT51-1|yes | FUNDED_RESEARCH | 2 | 7.39 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11SEAWSH-WSHAPROTAS21-1|yes | SHADOW_ONLY | 0 | 8.30 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11SEAWSH-SEABMEYERS59-1|yes | SHADOW_ONLY | 0 | 3.83 | - | - | - | FRAGILE | - | - |
+| KXNHLSPREAD-26OCT11SEAWSH-WSH3|no | FUNDED_RESEARCH | 5 | 19.36 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020085 VAN @ NYR: NOT_STARTED · snapshot snap-c036b2c536dc3df05d11 @ 2026-10-11T15:11:58Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT11VANNYR-VANMSASSON63-1|yes | SHADOW_ONLY | 0 | 6.75 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11VANNYR-VANDOCONNOR18-1|yes | SHADOW_ONLY | 0 | 7.47 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11VANNYR-VANMROSSI23-1|yes | SHADOW_ONLY | 0 | 7.92 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11VANNYR-NYRPDOROFEYEV16-1|no | FUNDED_RESEARCH | 5 | 19.75 | - | - | - | DIRECT | - | - |
-
-#### game 2026020086 CAR @ PHI: NOT_STARTED · snapshot snap-c036b2c536dc3df05d11 @ 2026-10-11T15:11:58Z
+#### game 2026020085 VAN @ NYR: NOT_STARTED · snapshot snap-e5233345ea7b4ca287b8 @ 2026-10-11T16:53:35Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT11CARPHI-PHINACCIARI52-1|yes | SHADOW_ONLY | 0 | 4.90 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11CARPHI-CARSAHO20-1|no | FUNDED_RESEARCH | 4 | 15.73 | - | - | - | DIRECT | - | - |
-| KXNHLSPREAD-26OCT11CARPHI-CAR3|no | FUNDED_RESEARCH | 4 | 15.71 | - | - | - | STRUCTURAL | - | - |
-| KXNHLGOAL-26OCT11CARPHI-CARNEHLERS27-1|no | SHADOW_ONLY | 0 | 13.66 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT11VANNYR-VANDOCONNOR18-1|yes | SHADOW_ONLY | 0 | 7.99 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11VANNYR-NYRPDOROFEYEV16-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT11VANNYR-VANMROSSI23-1|yes | SHADOW_ONLY | 0 | 7.60 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11VANNYR-VANLKARLSSON94-1|yes | SHADOW_ONLY | 0 | 5.57 | - | - | - | FRAGILE | - | - |
+
+#### game 2026020086 CAR @ PHI: NOT_STARTED · snapshot snap-e5233345ea7b4ca287b8 @ 2026-10-11T16:53:35Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT11CARPHI-CARSAHO20-1|no | FUNDED_RESEARCH | 4 | 15.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT11CARPHI-PHICDVORAK22-1|yes | SHADOW_ONLY | 0 | 6.75 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11CARPHI-CARNEHLERS27-1|no | SHADOW_ONLY | 0 | 15.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT11CARPHI-PHISCOUTURIER14-1|yes | SHADOW_ONLY | 0 | 5.34 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-10: **COMPLETE — 14/14 games evaluated**
 
