@@ -1,15 +1,14 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-10T23:43:37Z · thesis-postmortem-2.0 · rows (all generations) 10203
+evaluated 2026-10-11T01:09:57Z · thesis-postmortem-2.0 · rows (all generations) 10546
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
-## Slate 2026-10-10: **PARTIAL — 3/14 games evaluated**
+## Slate 2026-10-10: **PARTIAL — 4/14 games evaluated**
 
-scheduled 14 · final 3 · settled 3 · events ingested 3 · thesis-evaluated 3 · final_card_complete False · postmortem_complete False
+scheduled 14 · final 4 · settled 4 · events ingested 4 · thesis-evaluated 4 · final_card_complete False · postmortem_complete False
 
 missing / pending:
-- 2026020073: no official FINAL result yet
 - 2026020074: no official FINAL result yet
 - 2026020075: no official FINAL result yet
 - 2026020076: no official FINAL result yet
@@ -21,25 +20,25 @@ missing / pending:
 - 2026020082: game not started: the snapshot shown is the latest so far, not yet final
 - 2026020083: game not started: the snapshot shown is the latest so far, not yet final
 
-> INTERIM (PARTIAL — 3/14 games evaluated): covers evaluated games only; NOT the slate's final ROI
+> INTERIM (PARTIAL — 4/14 games evaluated): covers evaluated games only; NOT the slate's final ROI
 
-invariant final_card_n 11 <= sum(game card caps) 12: OK
+invariant final_card_n 15 <= sum(game card caps) 16: OK
 
 ### FINAL_CARD_UNIQUE
 
 | view | bets | stake | P/L | ROI |
 |---|---:|---:|---:|---:|
-| nominal optimiser card (B) | 11 | 41.83 | +7.16 | 0.171 |
-| FUNDED research stakes | 5 | 7.00 | +2.90 | 0.414 |
+| nominal optimiser card (B) | 15 | 51.85 | -2.86 | -0.055 |
+| FUNDED research stakes | 6 | 8.00 | +1.90 | 0.237 |
 
-- THESIS: 7 distinct theses, hit rate 0.000 vs mean p 0.391 (Brier 0.157)
-- EXPRESSION: thesis right + won 0 · right + lost 0 · wrong + won 3 · wrong + lost 7
-  - by fidelity: DIRECT 2/4; FRAGILE 1/4; NONE 1/1; STRUCTURAL 0/2
-  - broad vs player: BROAD 0/2 (P/L -5.17); FRAGILE_PLAYER 4/9 (P/L +12.33)
-- PRICE: mean CLV -0.0027 (n 11), mean adjusted EV at entry 0.0345
-- MODEL: Brier raw 0.2473 · adjusted 0.2206 · Kalshi mid 0.2092 (n 11)
-- PORTFOLIO: funded 5 · shadow on card 6 · mean |phi| among card pairs 0.118 · mean largest thesis share 0.515
-- GOVERNANCE: funded player props 3 · shadow player props 6 · large-disagreement gates 2 · overrides 1
+- THESIS: 9 distinct theses, hit rate 0.111 vs mean p 0.393 (Brier 0.174)
+- EXPRESSION: thesis right + won 0 · right + lost 3 · wrong + won 3 · wrong + lost 8
+  - by fidelity: DIRECT 2/4; FRAGILE 1/8; NONE 1/1; STRUCTURAL 0/2
+  - broad vs player: BROAD 0/2 (P/L -5.17); FRAGILE_PLAYER 4/13 (P/L +2.31)
+- PRICE: mean CLV -0.0033 (n 15), mean adjusted EV at entry 0.0341
+- MODEL: Brier raw 0.1859 · adjusted 0.1654 · Kalshi mid 0.1549 (n 15)
+- PORTFOLIO: funded 6 · shadow on card 9 · mean |phi| among card pairs 0.086 · mean largest thesis share 0.575
+- GOVERNANCE: funded player props 4 · shadow player props 9 · large-disagreement gates 2 · overrides 1
 
   - override: Player prop expression KXNHLGOAL-26OCT10PHIBOS-BOSJPETERKA10-1|no selected over player prop KXNHLAST-26OCT10PHIBOS-BOSFBRUNET42-1|no because adjusted EV differs by only 1.0 pts while thesis capture is 0.90 vs 0.90 (DIRECT vs DIRECT; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability)
 
@@ -69,14 +68,14 @@ invariant final_card_n 11 <= sum(game card caps) 12: OK
 | KXNHLGOAL-26OCT10EDMSJ-SJCGRAF51-1|yes | SHADOW_ONLY | 0 | 2.99 | False | False | THESIS_WRONG_EXPRESSION_LOST | FRAGILE | -0.0050 | -2.99 |
 | KXNHLAST-26OCT10EDMSJ-EDMCMCDAVID97-1|no | SHADOW_ONLY | 0 | 3.82 | False | False | THESIS_WRONG_EXPRESSION_LOST | DIRECT | -0.0050 | -3.82 |
 
-#### game 2026020073 MIN @ FLA: NOT_FINAL · snapshot snap-edf5a1638f8b19b9a7bb @ 2026-10-10T21:30:58Z
+#### game 2026020073 MIN @ FLA: EVALUATED · snapshot snap-edf5a1638f8b19b9a7bb @ 2026-10-10T21:30:58Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT10MINFLA-MINYTRENIN13-1|yes | FUNDED_RESEARCH | 1 | 3.23 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT10MINFLA-MINNSTURM78-1|yes | SHADOW_ONLY | 0 | 2.08 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT10MINFLA-MINMMCCARRON47-1|yes | SHADOW_ONLY | 0 | 2.25 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT10MINFLA-FLASVILMANIS95-1|yes | SHADOW_ONLY | 0 | 2.46 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT10MINFLA-MINYTRENIN13-1|yes | FUNDED_RESEARCH | 1 | 3.23 | False | True | THESIS_RIGHT_EXPRESSION_LOST | FRAGILE | -0.0050 | -3.23 |
+| KXNHLGOAL-26OCT10MINFLA-MINNSTURM78-1|yes | SHADOW_ONLY | 0 | 2.08 | False | True | THESIS_RIGHT_EXPRESSION_LOST | FRAGILE | -0.0050 | -2.08 |
+| KXNHLGOAL-26OCT10MINFLA-MINMMCCARRON47-1|yes | SHADOW_ONLY | 0 | 2.25 | False | True | THESIS_RIGHT_EXPRESSION_LOST | FRAGILE | -0.0050 | -2.25 |
+| KXNHLGOAL-26OCT10MINFLA-FLASVILMANIS95-1|yes | SHADOW_ONLY | 0 | 2.46 | False | False | THESIS_WRONG_EXPRESSION_LOST | FRAGILE | -0.0050 | -2.46 |
 
 #### game 2026020074 UTA @ BUF: NOT_FINAL · snapshot snap-7e8d11030e6d80ae19bb @ 2026-10-10T22:21:31Z
 
@@ -149,23 +148,23 @@ invariant final_card_n 11 <= sum(game card caps) 12: OK
 | KXNHLSPREAD-26OCT10TBNYI-TB3|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | STRUCTURAL | - | - |
 | KXNHLGOAL-26OCT10TBNYI-TBJGUENTZEL59-1|no | FUNDED_RESEARCH | 2 | 5.11 | - | - | - | DIRECT | - | - |
 
-#### game 2026020082 ANA @ CGY: NOT_STARTED · snapshot snap-6b5cc48e89de468a1d4c @ 2026-10-10T23:12:09Z
+#### game 2026020082 ANA @ CGY: NOT_STARTED · snapshot snap-26a9d771d439c873f1cd @ 2026-10-11T00:54:14Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT10ANACGY-CGYASUNIEV61-1|yes | SHADOW_ONLY | 0 | 9.89 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT10ANACGY-ANAAGREER18-1|yes | SHADOW_ONLY | 0 | 10.41 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT10ANACGY-ANAJCAULFIELD28-1|yes | SHADOW_ONLY | 0 | 5.83 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT10ANACGY-ANACGAUTHIER61-1|no | FUNDED_RESEARCH | 3 | 9.37 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT10ANACGY-CGYASUNIEV61-1|yes | FUNDED_RESEARCH | 3 | 10.03 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT10ANACGY-ANAAGREER18-1|yes | SHADOW_ONLY | 0 | 10.27 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT10ANACGY-ANAJCAULFIELD28-1|yes | SHADOW_ONLY | 0 | 3.66 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT10ANACGY-ANALCARLSSON91-2|no | SHADOW_ONLY | 0 | 20.00 | - | - | - | DIRECT | - | - |
 
-#### game 2026020083 LAK @ VGK: NOT_STARTED · snapshot snap-6b5cc48e89de468a1d4c @ 2026-10-10T23:12:09Z
+#### game 2026020083 LAK @ VGK: NOT_STARTED · snapshot snap-26a9d771d439c873f1cd @ 2026-10-11T00:54:14Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT10LAVGK-VGKBMCNABB3-1|yes | SHADOW_ONLY | 0 | 4.12 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT10LAVGK-VGKBMCNABB3-1|yes | SHADOW_ONLY | 0 | 4.10 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT10LAVGK-LAAPANARIN10-1|no | SHADOW_ONLY | 0 | 19.75 | - | - | - | DIRECT | - | - |
 | KXNHLGOAL-26OCT10LAVGK-VGKMMARNER93-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT10LAVGK-LAAPANARIN10-1|no | SHADOW_ONLY | 0 | 17.03 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT10LAVGK-LATMOORE12-1|yes | SHADOW_ONLY | 0 | 5.86 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT10LAVGK-LATMOORE12-1|yes | SHADOW_ONLY | 0 | 3.73 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-09: **COMPLETE — 4/4 games evaluated**
 
@@ -922,20 +921,20 @@ invariant final_card_n 30 <= sum(game card caps) 32: OK
 
 ## ALL_PROSPECTIVE_DECISIONS (calibration research; no P/L)
 
-10203 scored rows = 1272 unique logical wagers (repeat factor 8.02). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
+10546 scored rows = 1306 unique logical wagers (repeat factor 8.08). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
 
 | family | rows | unique | Brier all rows | Brier last obs | adjusted | Kalshi mid |
 |---|---:|---:|---:|---:|---:|---:|
 | first_goal | 2 | 2 | 0.0012 | 0.0012 | 0.0010 | 0.0009 |
-| game_spread | 1356 | 87 | 0.1872 | 0.1926 | 0.1807 | 0.1764 |
-| game_total | 38 | 8 | 0.1791 | 0.1571 | 0.1505 | 0.1460 |
-| game_winner | 326 | 39 | 0.2140 | 0.2155 | 0.2104 | 0.2168 |
+| game_spread | 1417 | 91 | 0.1928 | 0.1973 | 0.1873 | 0.1846 |
+| game_total | 77 | 11 | 0.1679 | 0.1475 | 0.1370 | 0.1286 |
+| game_winner | 339 | 41 | 0.2144 | 0.2158 | 0.2129 | 0.2213 |
 | goalie_saves | 27 | 8 | 0.1633 | 0.1860 | 0.2046 | 0.2197 |
 | period_spread | 5 | 5 | 0.1472 | 0.1472 | 0.1341 | 0.1300 |
 | period_winner | 13 | 4 | 0.0997 | 0.1153 | 0.1081 | 0.1076 |
-| player_assists | 2432 | 330 | 0.2154 | 0.1987 | 0.1865 | 0.1842 |
-| player_goals | 4289 | 591 | 0.1451 | 0.1369 | 0.1358 | 0.1347 |
-| player_points | 369 | 72 | 0.2969 | 0.2511 | 0.2193 | 0.2176 |
-| team_total | 1346 | 126 | 0.1897 | 0.2035 | 0.1990 | 0.1989 |
+| player_assists | 2471 | 335 | 0.2135 | 0.1983 | 0.1864 | 0.1844 |
+| player_goals | 4427 | 605 | 0.1419 | 0.1354 | 0.1343 | 0.1331 |
+| player_points | 370 | 73 | 0.2968 | 0.2513 | 0.2185 | 0.2165 |
+| team_total | 1398 | 131 | 0.1887 | 0.1998 | 0.1963 | 0.1968 |
 
 _Prospective thesis-card evidence. All P/L is FINAL_CARD_UNIQUE (one latest complete pregame snapshot per game). THESIS / EXPRESSION / PRICE / MODEL / PORTFOLIO / GOVERNANCE are kept separate: a right thesis expressed through a contract that lost is not a wrong prediction. A handful of games proves nothing; never tune to one slate._
