@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-11T20:43:55Z · thesis-postmortem-2.0 · rows (all generations) 12159
+evaluated 2026-10-11T22:21:58Z · thesis-postmortem-2.0 · rows (all generations) 12159
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -9,8 +9,8 @@ All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE 
 scheduled 3 · final 0 · settled 0 · events ingested 0 · thesis-evaluated 0 · final_card_complete False · postmortem_complete False
 
 missing / pending:
-- 2026020084: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020085: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020084: no official FINAL result yet
+- 2026020085: no official FINAL result yet
 - 2026020086: game not started: the snapshot shown is the latest so far, not yet final
 
 > INTERIM (PARTIAL — 0/3 games evaluated): covers evaluated games only; NOT the slate's final ROI
@@ -34,7 +34,7 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020084 SEA @ WSH: NOT_STARTED · snapshot snap-1100c5cab2332d521481 @ 2026-10-11T20:18:48Z
+#### game 2026020084 SEA @ WSH: NOT_FINAL · snapshot snap-1100c5cab2332d521481 @ 2026-10-11T20:18:48Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
@@ -43,16 +43,16 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLGOAL-26OCT11SEAWSH-WSHAPROTAS21-1|yes | SHADOW_ONLY | 0 | 9.15 | - | - | - | FRAGILE | - | - |
 | KXNHLSPREAD-26OCT11SEAWSH-WSH3|no | FUNDED_RESEARCH | 4 | 15.62 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020085 VAN @ NYR: NOT_STARTED · snapshot snap-1100c5cab2332d521481 @ 2026-10-11T20:18:48Z
+#### game 2026020085 VAN @ NYR: NOT_FINAL · snapshot snap-5724c76db6bfaaea3bd6 @ 2026-10-11T21:58:07Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT11VANNYR-VANDOCONNOR18-1|yes | SHADOW_ONLY | 0 | 7.98 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11VANNYR-VANDOCONNOR18-1|yes | SHADOW_ONLY | 0 | 9.76 | - | - | - | FRAGILE | - | - |
 | KXNHLGOAL-26OCT11VANNYR-NYRPDOROFEYEV16-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT11VANNYR-VANMROSSI23-1|yes | SHADOW_ONLY | 0 | 7.59 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11VANNYR-VANLKARLSSON94-1|yes | SHADOW_ONLY | 0 | 5.96 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11VANNYR-VANMROSSI23-1|yes | SHADOW_ONLY | 0 | 7.58 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11VANNYR-VANLKARLSSON94-1|yes | SHADOW_ONLY | 0 | 5.90 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020086 CAR @ PHI: NOT_STARTED · snapshot snap-1100c5cab2332d521481 @ 2026-10-11T20:18:48Z
+#### game 2026020086 CAR @ PHI: NOT_STARTED · snapshot snap-5724c76db6bfaaea3bd6 @ 2026-10-11T21:58:07Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
