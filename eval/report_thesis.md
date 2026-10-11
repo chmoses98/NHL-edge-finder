@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-11T10:54:08Z · thesis-postmortem-2.0 · rows (all generations) 12159
+evaluated 2026-10-11T12:28:26Z · thesis-postmortem-2.0 · rows (all generations) 12159
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -34,30 +34,32 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020084 SEA @ WSH: NOT_STARTED · snapshot snap-7bb326517ec453ededdf @ 2026-10-11T10:22:50Z
+#### game 2026020084 SEA @ WSH: NOT_STARTED · snapshot snap-275fad490a74603eca19 @ 2026-10-11T12:22:49Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT11SEAWSH-SEASWRIGHT51-1|yes | FUNDED_RESEARCH | 3 | 9.60 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11SEAWSH-SEABMEYERS59-1|yes | SHADOW_ONLY | 0 | 6.08 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11SEAWSH-SEAMBENIERS10-1|yes | SHADOW_ONLY | 0 | 4.85 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11SEAWSH-SEAKKAKKO84-1|yes | SHADOW_ONLY | 0 | 3.77 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11SEAWSH-SEASWRIGHT51-1|yes | FUNDED_RESEARCH | 3 | 9.64 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11SEAWSH-SEABMEYERS59-1|yes | SHADOW_ONLY | 0 | 6.26 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11SEAWSH-WSHAPROTAS21-1|yes | SHADOW_ONLY | 0 | 6.78 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11SEAWSH-SEAFGAUDREAU89-1|yes | SHADOW_ONLY | 0 | 3.56 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020085 VAN @ NYR: NOT_STARTED · snapshot snap-7bb326517ec453ededdf @ 2026-10-11T10:22:50Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT11VANNYR-VANDOCONNOR18-1|yes | FUNDED_RESEARCH | 3 | 9.22 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11VANNYR-VANMSASSON63-1|yes | SHADOW_ONLY | 0 | 5.74 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11VANNYR-VANMROSSI23-1|yes | SHADOW_ONLY | 0 | 6.79 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT11VANNYR-VANLKARLSSON94-1|yes | SHADOW_ONLY | 0 | 4.12 | - | - | - | FRAGILE | - | - |
-
-#### game 2026020086 CAR @ PHI: NOT_STARTED · snapshot snap-7bb326517ec453ededdf @ 2026-10-11T10:22:50Z
+#### game 2026020085 VAN @ NYR: NOT_STARTED · snapshot snap-275fad490a74603eca19 @ 2026-10-11T12:22:49Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT11VANNYR-VANDOCONNOR18-1|yes | FUNDED_RESEARCH | 2 | 7.75 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11VANNYR-VANMROSSI23-1|yes | SHADOW_ONLY | 0 | 8.99 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11VANNYR-VANLKARLSSON94-1|yes | SHADOW_ONLY | 0 | 6.10 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11VANNYR-VANMSASSON63-1|yes | SHADOW_ONLY | 0 | 3.16 | - | - | - | FRAGILE | - | - |
+
+#### game 2026020086 CAR @ PHI: NOT_STARTED · snapshot snap-275fad490a74603eca19 @ 2026-10-11T12:22:49Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT11CARPHI-PHINACCIARI52-1|yes | SHADOW_ONLY | 0 | 4.41 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT11CARPHI-CARSAHO20-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
 | KXNHLSPREAD-26OCT11CARPHI-CAR3|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT11CARPHI-PHI2|yes | FUNDED_RESEARCH | 1 | 3.16 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT11CARPHI-PHINCATES27-1|yes | SHADOW_ONLY | 0 | 3.92 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-10: **COMPLETE — 14/14 games evaluated**
 
