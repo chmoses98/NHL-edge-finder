@@ -1,6 +1,6 @@
 # NHL slate 2026-10-11 — RESEARCH_ONLY
 
-generated 2026-10-11T19:26:35Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-11T20:18:48Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 3 · simulated (not started): 3 · markets on board: 2732 · contracts joined: 712 (unjoined to any game: 1569)
 gates: {'UNSUPPORTED': 637, 'OK': 40, 'NO_EDGE': 35}
@@ -8,9 +8,9 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| SEA @ WSH | 2026-10-11T21:00:00Z | T-90m | 0.604 | 0.396 | 0.172 | 5.92 | 3.29 | 2.63 | 259 (25/234) | CONFIRMED/PROJECTED |
+| SEA @ WSH | 2026-10-11T21:00:00Z | T-30m | 0.604 | 0.396 | 0.172 | 5.92 | 3.29 | 2.63 | 259 (25/234) | CONFIRMED/PROJECTED |
 | VAN @ NYR | 2026-10-11T22:00:00Z | T-90m | 0.698 | 0.302 | 0.152 | 6.43 | 3.87 | 2.56 | 210 (25/185) | CONFIRMED/PROBABLE |
-| CAR @ PHI | 2026-10-11T23:00:00Z | T-3h | 0.378 | 0.622 | 0.178 | 5.82 | 2.54 | 3.27 | 243 (25/218) | PROJECTED/PROJECTED |
+| CAR @ PHI | 2026-10-11T23:00:00Z | T-90m | 0.378 | 0.622 | 0.178 | 5.82 | 2.54 | 3.27 | 243 (25/218) | PROJECTED/PROJECTED |
 
 ## Contracts (research view; sorted by fee-adjusted EV of the best side; NOT recommendations)
 
@@ -37,7 +37,7 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLSPREAD-26OCT11CARPHI-CAR2 | game_spread | 0.384 | 0.425 | 0.417 | 43 | 58 | no | +0.019 | OK |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-CAR4 | team_total | 0.427 | 0.465 | 0.457 | 47 | 54 | no | +0.016 | OK |
 | KXNHLTOTAL-26OCT11CARPHI-7 | game_total | 0.379 | 0.415 | 0.408 | 42 | 59 | no | +0.014 | OK |
-| KXNHLTOTAL-26OCT11CARPHI-5 | game_total | 0.726 | 0.760 | 0.753 | 77 | 25 | no | +0.011 | OK |
+| KXNHLTOTAL-26OCT11CARPHI-5 | game_total | 0.726 | 0.755 | 0.749 | 76 | 25 | no | +0.011 | OK |
 | KXNHLTOTAL-26OCT11CARPHI-4 | game_total | 0.820 | 0.845 | 0.840 | 85 | 16 | no | +0.011 | OK |
 | KXNHLTOTAL-26OCT11SEAWSH-10 | game_total | 0.064 | 0.085 | 0.080 | 9 | 92 | no | +0.010 | OK |
 | KXNHLTOTAL-26OCT11VANNYR-8 | game_total | 0.294 | 0.265 | 0.271 | 27 | 74 | yes | +0.010 | OK |
@@ -46,7 +46,7 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTOTAL-26OCT11VANNYR-10 | game_total | 0.102 | 0.080 | 0.084 | 9 | 93 | yes | +0.006 | OK |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-CAR5 | team_total | 0.231 | 0.255 | 0.250 | 26 | 75 | no | +0.006 | OK |
 | KXNHLTEAMTOTAL-26OCT11VANNYR-VAN5 | team_total | 0.122 | 0.100 | 0.104 | 11 | 91 | yes | +0.005 | OK |
-| KXNHLTEAMTOTAL-26OCT11VANNYR-VAN3 | team_total | 0.473 | 0.440 | 0.447 | 45 | 57 | yes | +0.005 | OK |
+| KXNHLTEAMTOTAL-26OCT11VANNYR-VAN3 | team_total | 0.473 | 0.445 | 0.451 | 45 | 56 | yes | +0.005 | OK |
 | KXNHLSPREAD-26OCT11CARPHI-PHI2 | game_spread | 0.185 | 0.165 | 0.169 | 17 | 84 | yes | +0.005 | OK |
 | KXNHLTOTAL-26OCT11VANNYR-6 | game_total | 0.601 | 0.575 | 0.580 | 58 | 43 | yes | +0.004 | OK |
 | KXNHLSPREAD-26OCT11SEAWSH-SEA2 | game_spread | 0.194 | 0.175 | 0.179 | 18 | 83 | yes | +0.004 | OK |
@@ -56,6 +56,7 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTEAMTOTAL-26OCT11VANNYR-VAN2 | team_total | 0.716 | 0.695 | 0.699 | 70 | 31 | yes | +0.001 | OK |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-CAR2 | team_total | 0.841 | 0.860 | 0.856 | 87 | 15 | no | +0.001 | OK |
 | KXNHLSPREAD-26OCT11VANNYR-NYR3 | game_spread | 0.334 | 0.355 | 0.351 | 36 | 65 | no | +0.000 | OK |
+| KXNHLTOTAL-26OCT11CARPHI-8 | game_total | 0.209 | 0.225 | 0.222 | 23 | 78 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26OCT11VANNYR-5 | game_total | 0.800 | 0.785 | 0.788 | 79 | 22 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26OCT11SEAWSH-2 | game_total | 0.980 | 0.985 | 0.984 | 99 | 2 |  | -0.002 | NO_EDGE |
 | KXNHLGAME-26OCT11VANNYR-NYR | game_winner | 0.698 | 0.715 | 0.712 | 72 | 29 |  | -0.002 | NO_EDGE |
@@ -77,7 +78,6 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTOTAL-26OCT11VANNYR-4 | game_total | 0.877 | 0.870 | 0.872 | 88 | 14 |  | -0.010 | NO_EDGE |
 | KXNHLTOTAL-26OCT11CARPHI-9 | game_total | 0.142 | 0.150 | 0.148 | 16 | 86 |  | -0.010 | NO_EDGE |
 | KXNHLSPREAD-26OCT11VANNYR-NYR2 | game_spread | 0.482 | 0.495 | 0.492 | 50 | 51 |  | -0.010 | NO_EDGE |
-| KXNHLTOTAL-26OCT11CARPHI-8 | game_total | 0.209 | 0.220 | 0.218 | 23 | 79 |  | -0.010 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11SEAWSH-SEA5 | team_total | 0.133 | 0.135 | 0.134 | 14 | 87 |  | -0.010 | NO_EDGE |
 | KXNHLTOTAL-26OCT11CARPHI-2 | game_total | 0.980 | 0.980 | 0.980 | 99 | 3 |  | -0.011 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11SEAWSH-SEA6 | team_total | 0.049 | 0.050 | 0.050 | 6 | 96 |  | -0.011 | NO_EDGE |
@@ -89,13 +89,13 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTEAMTOTAL-26OCT11CARPHI-PHI2 | team_total | 0.713 | 0.715 | 0.715 | 72 | 29 |  | -0.017 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-PHI3 | team_total | 0.469 | 0.475 | 0.474 | 48 | 53 |  | -0.017 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11SEAWSH-SEA2 | team_total | 0.733 | 0.740 | 0.739 | 75 | 27 |  | -0.017 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT11VANNYR-NYR4 | team_total | 0.559 | 0.555 | 0.556 | 56 | 45 |  | -0.019 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-PHI4 | team_total | 0.263 | 0.260 | 0.261 | 27 | 75 |  | -0.021 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT11VANNYR-NYR4 | team_total | 0.559 | 0.560 | 0.560 | 57 | 45 |  | -0.026 | NO_EDGE |
-| KXNHL1P-26OCT11SEAWSH-SEA | period_winner |  | 0.260 |  | 28 | 76 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT11SEAWSH-SEA | period_winner |  | 0.265 |  | 28 | 75 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT11SEAWSH-TIE | period_winner |  | 0.320 |  | 34 | 70 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT11SEAWSH-WSH | period_winner |  | 0.400 |  | 41 | 61 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26OCT11SEAWSH-SEA2 | period_spread |  | 0.065 |  | 8 | 95 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT11SEAWSH-WSH2 | period_spread |  | 0.155 |  | 17 | 86 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT11SEAWSH-WSH2 | period_spread |  | 0.150 |  | 16 | 86 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -110,14 +110,14 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 ## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 11 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Shane Wright: 1+ goals YES @ 14c · p 0.1892 (adj 0.1757) · $7.5 · thesis SEA:OFFENSE_4PLUS
-- Aliaksei Protas: 1+ goals YES @ 19c · p 0.2447 (adj 0.2298) · $9.12 · thesis WSH:OFFENSE_4PLUS
-- Alex Tuch: 1+ assists NO @ 67c · p 0.7615 (adj 0.7132) · $20.0 · thesis WSH:SUPPRESSED
-- Kaapo Kakko: 1+ goals YES @ 14c · p 0.1746 (adj 0.1647) · $4.48 · thesis SEA:OFFENSE_4PLUS
-- Drew O'Connor: 1+ goals YES @ 13c · p 0.182 (adj 0.1678) · $7.64 · thesis VAN:OFFENSE_4PLUS
-- Pavel Dorofeyev: 1+ goals NO @ 60c · p 0.6749 (adj 0.6549) · $20.0 · thesis NYR:SUPPRESSED
-- Marco Rossi: 1+ goals YES @ 19c · p 0.2393 (adj 0.2257) · $7.08 · thesis VAN:OFFENSE_4PLUS
-- New York R wins by over 2.5 goals NO @ 65c · p 0.7432 (adj 0.6941) · $14.25 · thesis GAME:TIGHT
+- Shane Wright: 1+ goals YES @ 14c · p 0.1892 (adj 0.1757) · $6.97 · thesis SEA:OFFENSE_4PLUS
+- Ben Meyers: 1+ goals YES @ 9c · p 0.1278 (adj 0.1171) · $5.02 · thesis SEA:OFFENSE_4PLUS
+- Aliaksei Protas: 1+ goals YES @ 19c · p 0.2447 (adj 0.2285) · $9.15 · thesis WSH:OFFENSE_4PLUS
+- Washington wins by over 2.5 goals NO @ 70c · p 0.7675 (adj 0.7312) · $15.62 · thesis GAME:TIGHT
+- Drew O'Connor: 1+ goals YES @ 13c · p 0.182 (adj 0.1678) · $7.98 · thesis VAN:OFFENSE_4PLUS
+- Pavel Dorofeyev: 1+ goals NO @ 60c · p 0.6749 (adj 0.6537) · $20.0 · thesis NYR:SUPPRESSED
+- Marco Rossi: 1+ goals YES @ 19c · p 0.2393 (adj 0.2257) · $7.59 · thesis VAN:OFFENSE_4PLUS
+- Linus Karlsson: 1+ goals YES @ 17c · p 0.2132 (adj 0.2011) · $5.96 · thesis VAN:OFFENSE_4PLUS
 - Sebastian Aho: 1+ goals NO @ 67c · p 0.7507 (adj 0.7293) · $15.0 · thesis CAR:SUPPRESSED
 - David Jiricek: 1+ goals NO @ 92c · p 0.953 (adj 0.9435) · $16.67 · thesis PHI:SUPPRESSED
 - Nikolaj Ehlers: 1+ goals NO @ 75c · p 0.8066 (adj 0.7912) · $15.0 · thesis CAR:SUPPRESSED
@@ -130,8 +130,8 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Freddy Gaudreau: 1+ points | 0.299 | 0.140 | 27/99 | +0.015 | STANDARD |
-| Ryan Winterton: 1+ points | 0.276 | 0.120 | 23/99 | +0.033 | STANDARD |
+| Freddy Gaudreau: 1+ points | 0.299 | 0.125 | 24/99 | +0.046 | STANDARD |
+| Ryan Winterton: 1+ points | 0.276 | 0.125 | 24/99 | +0.023 | STANDARD |
 | Adam Larsson: 1+ assists | 0.240 | 0.095 | 17/98 | +0.060 | STANDARD |
 | Jordan Kyrou: 1+ assists | 0.167 | 0.290 | 30/72 | +0.099 | STANDARD |
 | Freddy Gaudreau: 1+ assists | 0.210 | 0.090 | 16/98 | +0.041 | STANDARD |
@@ -143,12 +143,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Dylan Garand: 21+ saves | 0.611 | 0.500 | 51/51 | +0.083 |  |
+| Dylan Garand: 21+ saves | 0.611 | 0.495 | 50/51 | +0.093 |  |
 | Pavel Dorofeyev: 1+ points | 0.496 | 0.600 | 62/42 | +0.067 | STANDARD |
 | Pavel Dorofeyev: 2+ points | 0.139 | 0.235 | 25/78 | +0.069 | STANDARD |
 | J.T. Miller: 1+ assists | 0.379 | 0.475 | 48/53 | +0.073 | STANDARD |
-| Adam Fox: 1+ assists | 0.482 | 0.570 | 58/44 | +0.061 | STANDARD |
-| Adam Fox: 1+ points | 0.551 | 0.635 | 65/38 | +0.053 | STANDARD |
+| Adam Fox: 1+ assists | 0.482 | 0.575 | 58/43 | +0.071 | STANDARD |
+| Adam Fox: 1+ points | 0.551 | 0.640 | 65/37 | +0.063 | STANDARD |
 
 **CAR @ PHI** · priced 192/192 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - PHI net: Joseph Woll (PROJECTED) exp shots 30.15, exp saves 26.02 (sd 6.92), pull risk 0.055
@@ -159,9 +159,9 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | Sebastian Aho: 1+ assists | 0.297 | 0.475 | 49/54 | +0.146 | STANDARD |
 | Sebastian Aho: 1+ points | 0.470 | 0.640 | 65/37 | +0.144 | STANDARD |
 | Sebastian Aho: 2+ points | 0.141 | 0.275 | 28/73 | +0.115 | STANDARD |
-| Denver Barkey: 1+ assists | 0.258 | 0.130 | 24/98 | +0.005 | STANDARD |
-| Joseph Woll: 29+ saves | 0.350 | 0.455 | 47/56 | +0.072 |  |
-| Andrei Svechnikov: 1+ points | 0.474 | 0.565 | 57/44 | +0.069 | STANDARD |
+| Denver Barkey: 1+ assists | 0.258 | 0.125 | 24/99 | +0.005 | STANDARD |
+| Andrei Svechnikov: 1+ points | 0.474 | 0.575 | 59/44 | +0.069 | STANDARD |
+| Jordan Martinook: 1+ assists | 0.205 | 0.115 | 20/97 | -0.006 | STANDARD |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
