@@ -1,0 +1,247 @@
+{
+  "certified": true,
+  "checks": {
+    "control_deterministic": true,
+    "control_normal_ok": true,
+    "control_responds_to_every_mutation": true,
+    "market_inputs_restored_unchanged": true,
+    "model_deterministic": true,
+    "model_identical_under_all_mutations": true,
+    "model_normal_ok": true,
+    "randomization_effective": true,
+    "sports_inputs_unchanged": true
+  },
+  "compare": "bytes",
+  "control_command": [
+    "<scratch>/venv/bin/python",
+    "-m",
+    "nhl_edge.research.shot_volume_v1",
+    "--mode",
+    "rerun",
+    "--season",
+    "2025",
+    "--game-ids",
+    "2025020853,2025020854,2025020876,2025020931,2025020946,2025020957",
+    "--n-sims",
+    "2000",
+    "--history",
+    "{sports[history]}",
+    "--wf-games",
+    "{sports[wf]}",
+    "--market",
+    "{market[kalshi_quotes]}",
+    "--out",
+    "{out}",
+    "--seed",
+    "{seed}",
+    "--use-market-center"
+  ],
+  "gate": "pure_gate 1.0.0",
+  "market_inputs": {
+    "kalshi_quotes": {
+      "path": "/home/user/NHL-edge-finder/docs/research/opportunity_efficiency/rerun/kalshi_player_quotes_T60.csv",
+      "sha256": "a863ce8522cd941bf349748602819f9b93f9af26cc87535ec18b19d1673857ad"
+    }
+  },
+  "mode": "placeholder",
+  "model_command": [
+    "<scratch>/venv/bin/python",
+    "-m",
+    "nhl_edge.research.shot_volume_v1",
+    "--mode",
+    "rerun",
+    "--season",
+    "2025",
+    "--game-ids",
+    "2025020853,2025020854,2025020876,2025020931,2025020946,2025020957",
+    "--n-sims",
+    "2000",
+    "--history",
+    "{sports[history]}",
+    "--wf-games",
+    "{sports[wf]}",
+    "--market",
+    "{market[kalshi_quotes]}",
+    "--out",
+    "{out}",
+    "--seed",
+    "{seed}"
+  ],
+  "mutation_seed": 20261011,
+  "note": "Each arm ran the actual command at identical seed, sports inputs and command-line paths. Model-owned outputs must be bit-identical with market inputs deleted or randomized; the market-reading negative control must change, proving the mutation reaches readers. This cannot detect market information baked into the sports snapshot itself or into frozen parameters; pair it with the source/dependency audit.",
+  "passed": true,
+  "per_arm": {
+    "control_responded": {
+      "deleted": "failed_or_invalid",
+      "randomized_0": "output_changed",
+      "randomized_1": "output_changed"
+    },
+    "model_identical": {
+      "deleted": true,
+      "randomized_0": true,
+      "randomized_1": true
+    }
+  },
+  "random_draws": 2,
+  "randomization_effective_by_input": {
+    "kalshi_quotes@20261011": true,
+    "kalshi_quotes@20261012": true
+  },
+  "runs": {
+    "control": {
+      "deleted": {
+        "arm": "deleted",
+        "exit_code": 1,
+        "kept_outputs": "<scratch>/rerun_work/results/control-deleted",
+        "ok": false,
+        "output_problem": null,
+        "outputs_sha256": {},
+        "role": "control",
+        "seconds": 24.1,
+        "stderr_tail": "-5e3a-aa08-a19f8744ad74/scratchpad/nhl/venv/lib/python3.13/site-packages/pandas/io/common.py\", line 930, in get_handle\n    handle = open(\n        handle,\n    ...<3 lines>...\n        newline=\"\",\n    )\nFileNotFoundError: [Errno 2] No such file or directory: '<scratch>/rerun_work/run/market/kalshi_quotes/kalshi_player_quotes_T60.csv'\n",
+        "stdout_tail": ""
+      },
+      "normal": {
+        "arm": "normal",
+        "exit_code": 0,
+        "kept_outputs": "<scratch>/rerun_work/results/control-normal",
+        "ok": true,
+        "output_problem": null,
+        "outputs_sha256": {
+          "pure_forecasts.jsonl": "8c3e48b5c83bd9dafd4539efa52548d8fe1062092e5153b6311b8c625c7624ca"
+        },
+        "role": "control",
+        "seconds": 24.852,
+        "stderr_tail": "",
+        "stdout_tail": ""
+      },
+      "normal_repeat": {
+        "arm": "normal_repeat",
+        "exit_code": 0,
+        "kept_outputs": "<scratch>/rerun_work/results/control-normal_repeat",
+        "ok": true,
+        "output_problem": null,
+        "outputs_sha256": {
+          "pure_forecasts.jsonl": "8c3e48b5c83bd9dafd4539efa52548d8fe1062092e5153b6311b8c625c7624ca"
+        },
+        "role": "control",
+        "seconds": 23.738,
+        "stderr_tail": "",
+        "stdout_tail": ""
+      },
+      "randomized_0": {
+        "arm": "randomized_0",
+        "exit_code": 0,
+        "kept_outputs": "<scratch>/rerun_work/results/control-randomized_0",
+        "ok": true,
+        "output_problem": null,
+        "outputs_sha256": {
+          "pure_forecasts.jsonl": "7f30aacca9490a555079bfc6bc16781056ee1f929214939cfaf21743d3a310c2"
+        },
+        "role": "control",
+        "seconds": 24.68,
+        "stderr_tail": "",
+        "stdout_tail": ""
+      },
+      "randomized_1": {
+        "arm": "randomized_1",
+        "exit_code": 0,
+        "kept_outputs": "<scratch>/rerun_work/results/control-randomized_1",
+        "ok": true,
+        "output_problem": null,
+        "outputs_sha256": {
+          "pure_forecasts.jsonl": "eb0f3b9a3129c02b55801ebe3ace09e79c1836d0c8fd53b86cf92b24393050c9"
+        },
+        "role": "control",
+        "seconds": 23.355,
+        "stderr_tail": "",
+        "stdout_tail": ""
+      }
+    },
+    "model": {
+      "deleted": {
+        "arm": "deleted",
+        "exit_code": 0,
+        "kept_outputs": "<scratch>/rerun_work/results/model-deleted",
+        "ok": true,
+        "output_problem": null,
+        "outputs_sha256": {
+          "pure_forecasts.jsonl": "9549031ff2f655150473f33961c8f7aa0bc712d29b3d07104238d543a154691b"
+        },
+        "role": "model",
+        "seconds": 24.088,
+        "stderr_tail": "",
+        "stdout_tail": ""
+      },
+      "normal": {
+        "arm": "normal",
+        "exit_code": 0,
+        "kept_outputs": "<scratch>/rerun_work/results/model-normal",
+        "ok": true,
+        "output_problem": null,
+        "outputs_sha256": {
+          "pure_forecasts.jsonl": "9549031ff2f655150473f33961c8f7aa0bc712d29b3d07104238d543a154691b"
+        },
+        "role": "model",
+        "seconds": 27.112,
+        "stderr_tail": "",
+        "stdout_tail": ""
+      },
+      "normal_repeat": {
+        "arm": "normal_repeat",
+        "exit_code": 0,
+        "kept_outputs": "<scratch>/rerun_work/results/model-normal_repeat",
+        "ok": true,
+        "output_problem": null,
+        "outputs_sha256": {
+          "pure_forecasts.jsonl": "9549031ff2f655150473f33961c8f7aa0bc712d29b3d07104238d543a154691b"
+        },
+        "role": "model",
+        "seconds": 24.872,
+        "stderr_tail": "",
+        "stdout_tail": ""
+      },
+      "randomized_0": {
+        "arm": "randomized_0",
+        "exit_code": 0,
+        "kept_outputs": "<scratch>/rerun_work/results/model-randomized_0",
+        "ok": true,
+        "output_problem": null,
+        "outputs_sha256": {
+          "pure_forecasts.jsonl": "9549031ff2f655150473f33961c8f7aa0bc712d29b3d07104238d543a154691b"
+        },
+        "role": "model",
+        "seconds": 23.395,
+        "stderr_tail": "",
+        "stdout_tail": ""
+      },
+      "randomized_1": {
+        "arm": "randomized_1",
+        "exit_code": 0,
+        "kept_outputs": "<scratch>/rerun_work/results/model-randomized_1",
+        "ok": true,
+        "output_problem": null,
+        "outputs_sha256": {
+          "pure_forecasts.jsonl": "9549031ff2f655150473f33961c8f7aa0bc712d29b3d07104238d543a154691b"
+        },
+        "role": "model",
+        "seconds": 23.598,
+        "stderr_tail": "",
+        "stdout_tail": ""
+      }
+    }
+  },
+  "seed": 7,
+  "sports_inputs": {
+    "history": {
+      "path": "/home/user/NHL-edge-finder/data/history",
+      "sha256": "899f0cf1567110832b0de29bbfd059fab2e6e4a86c7577769cef6fb4c5c1c784"
+    },
+    "wf": {
+      "path": "/home/user/NHL-edge-finder/docs/research/walk_forward_v2_wf2_20260929_games.csv",
+      "sha256": "8057331c10b2d822c6cddbc84bab5458c72a3c7632386942cc39827c63d89dd6"
+    }
+  },
+  "verdict": "PASS_RUNTIME_NONLEAKAGE",
+  "workdir": "<scratch>/rerun_work"
+}
