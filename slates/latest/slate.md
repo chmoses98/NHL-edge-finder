@@ -1,6 +1,6 @@
 # NHL slate 2026-10-11 — RESEARCH_ONLY
 
-generated 2026-10-11T07:24:51Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-11T08:22:53Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 3 · simulated (not started): 3 · markets on board: 2173 · contracts joined: 153 (unjoined to any game: 1569)
 gates: {'UNSUPPORTED': 78, 'OK': 39, 'NO_EDGE': 36}
@@ -30,21 +30,21 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLTEAMTOTAL-26OCT11SEAWSH-WSH5 | team_total | 0.245 | 0.315 | 0.300 | 33 | 70 | no | +0.041 | OK |
 | KXNHLGAME-26OCT11VANNYR-VAN | game_winner | 0.354 | 0.295 | 0.306 | 30 | 71 | yes | +0.040 | OK |
 | KXNHLGAME-26OCT11VANNYR-NYR | game_winner | 0.646 | 0.705 | 0.694 | 71 | 30 | no | +0.040 | OK |
-| KXNHLTEAMTOTAL-26OCT11SEAWSH-WSH3 | team_total | 0.657 | 0.725 | 0.712 | 74 | 29 | no | +0.039 | OK |
+| KXNHLSPREAD-26OCT11VANNYR-NYR2 | game_spread | 0.423 | 0.485 | 0.473 | 49 | 52 | no | +0.039 | OK |
+| KXNHLTEAMTOTAL-26OCT11SEAWSH-WSH3 | team_total | 0.657 | 0.720 | 0.708 | 73 | 29 | no | +0.039 | OK |
 | KXNHLTEAMTOTAL-26OCT11VANNYR-VAN2 | team_total | 0.763 | 0.700 | 0.713 | 71 | 31 | yes | +0.039 | OK |
 | KXNHLTOTAL-26OCT11VANNYR-7 | game_total | 0.502 | 0.445 | 0.456 | 45 | 56 | yes | +0.034 | OK |
 | KXNHLTOTAL-26OCT11SEAWSH-7 | game_total | 0.431 | 0.485 | 0.474 | 49 | 52 | no | +0.032 | OK |
-| KXNHLSPREAD-26OCT11VANNYR-NYR2 | game_spread | 0.423 | 0.475 | 0.465 | 48 | 53 | no | +0.029 | OK |
 | KXNHLTOTAL-26OCT11VANNYR-9 | game_total | 0.218 | 0.170 | 0.179 | 18 | 84 | yes | +0.028 | OK |
 | KXNHLTOTAL-26OCT11SEAWSH-5 | game_total | 0.762 | 0.805 | 0.797 | 81 | 20 | no | +0.027 | OK |
 | KXNHLTOTAL-26OCT11SEAWSH-4 | game_total | 0.846 | 0.885 | 0.878 | 89 | 12 | no | +0.026 | OK |
 | KXNHLTEAMTOTAL-26OCT11SEAWSH-WSH6 | team_total | 0.115 | 0.160 | 0.150 | 17 | 85 | no | +0.026 | OK |
 | KXNHLTEAMTOTAL-26OCT11VANNYR-VAN6 | team_total | 0.066 | 0.035 | 0.040 | 4 | 97 | yes | +0.024 | OK |
 | KXNHLTEAMTOTAL-26OCT11SEAWSH-WSH2 | team_total | 0.838 | 0.880 | 0.872 | 89 | 13 | no | +0.024 | OK |
+| KXNHLTOTAL-26OCT11VANNYR-10 | game_total | 0.108 | 0.070 | 0.076 | 8 | 94 | yes | +0.023 | OK |
 | KXNHLSPREAD-26OCT11SEAWSH-SEA2 | game_spread | 0.213 | 0.175 | 0.182 | 18 | 83 | yes | +0.022 | OK |
 | KXNHLSPREAD-26OCT11VANNYR-VAN2 | game_spread | 0.180 | 0.145 | 0.152 | 15 | 86 | yes | +0.022 | OK |
 | KXNHLTOTAL-26OCT11SEAWSH-6 | game_total | 0.544 | 0.585 | 0.577 | 59 | 42 | no | +0.019 | OK |
-| KXNHLTOTAL-26OCT11VANNYR-10 | game_total | 0.108 | 0.080 | 0.085 | 9 | 93 | yes | +0.012 | OK |
 | KXNHLTOTAL-26OCT11CARPHI-5 | game_total | 0.736 | 0.765 | 0.759 | 77 | 24 | no | +0.011 | OK |
 | KXNHLTOTAL-26OCT11SEAWSH-9 | game_total | 0.169 | 0.200 | 0.193 | 21 | 81 | no | +0.011 | OK |
 | KXNHLTOTAL-26OCT11SEAWSH-8 | game_total | 0.246 | 0.275 | 0.269 | 28 | 73 | no | +0.010 | OK |
@@ -64,20 +64,19 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLGAME-26OCT11CARPHI-PHI | game_winner | 0.393 | 0.375 | 0.379 | 38 | 63 |  | -0.003 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11SEAWSH-SEA5 | team_total | 0.154 | 0.140 | 0.143 | 15 | 87 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT11SEAWSH-2 | game_total | 0.984 | 0.985 | 0.985 | 99 | 2 |  | -0.005 | NO_EDGE |
-| KXNHLTOTAL-26OCT11CARPHI-10 | game_total | 0.069 | 0.065 | 0.066 | 7 | 94 |  | -0.006 | NO_EDGE |
 | KXNHLSPREAD-26OCT11CARPHI-CAR2 | game_spread | 0.380 | 0.395 | 0.392 | 40 | 61 |  | -0.006 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-CAR6 | team_total | 0.111 | 0.115 | 0.114 | 12 | 89 |  | -0.008 | NO_EDGE |
 | KXNHLTOTAL-26OCT11CARPHI-3 | game_total | 0.955 | 0.960 | 0.959 | 97 | 5 |  | -0.008 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-CAR2 | team_total | 0.839 | 0.850 | 0.848 | 86 | 16 |  | -0.008 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT11CARPHI-CAR3 | team_total | 0.653 | 0.670 | 0.667 | 68 | 34 |  | -0.009 | NO_EDGE |
 | KXNHLTOTAL-26OCT11CARPHI-7 | game_total | 0.402 | 0.415 | 0.412 | 42 | 59 |  | -0.009 | NO_EDGE |
 | KXNHLTOTAL-26OCT11CARPHI-4 | game_total | 0.831 | 0.835 | 0.834 | 84 | 17 |  | -0.011 | NO_EDGE |
 | KXNHLTOTAL-26OCT11CARPHI-2 | game_total | 0.980 | 0.980 | 0.980 | 99 | 3 |  | -0.011 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-PHI6 | team_total | 0.053 | 0.050 | 0.051 | 6 | 96 |  | -0.011 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-PHI2 | team_total | 0.728 | 0.740 | 0.738 | 75 | 27 |  | -0.012 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-CAR4 | team_total | 0.434 | 0.455 | 0.451 | 47 | 56 |  | -0.012 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT11VANNYR-NYR6 | team_total | 0.168 | 0.160 | 0.162 | 17 | 85 |  | -0.012 | NO_EDGE |
 | KXNHLTOTAL-26OCT11CARPHI-9 | game_total | 0.153 | 0.155 | 0.155 | 16 | 85 |  | -0.012 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT11CARPHI-PHI5 | team_total | 0.135 | 0.140 | 0.139 | 15 | 87 |  | -0.013 | NO_EDGE |
+| KXNHLTOTAL-26OCT11CARPHI-10 | game_total | 0.069 | 0.070 | 0.070 | 8 | 94 |  | -0.013 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11SEAWSH-SEA3 | team_total | 0.525 | 0.505 | 0.509 | 52 | 51 |  | -0.013 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11SEAWSH-SEA2 | team_total | 0.760 | 0.745 | 0.748 | 76 | 27 |  | -0.013 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11SEAWSH-SEA4 | team_total | 0.311 | 0.295 | 0.298 | 31 | 72 |  | -0.014 | NO_EDGE |
@@ -85,17 +84,18 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLSPREAD-26OCT11CARPHI-PHI2 | game_spread | 0.197 | 0.195 | 0.195 | 20 | 81 |  | -0.014 | NO_EDGE |
 | KXNHLTOTAL-26OCT11CARPHI-6 | game_total | 0.519 | 0.525 | 0.524 | 53 | 48 |  | -0.016 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-PHI4 | team_total | 0.284 | 0.290 | 0.289 | 30 | 72 |  | -0.018 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT11VANNYR-NYR4 | team_total | 0.531 | 0.540 | 0.538 | 55 | 47 |  | -0.018 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11CARPHI-PHI3 | team_total | 0.491 | 0.500 | 0.498 | 51 | 51 |  | -0.019 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT11CARPHI-CAR3 | team_total | 0.653 | 0.665 | 0.663 | 68 | 35 |  | -0.019 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11VANNYR-NYR2 | team_total | 0.887 | 0.885 | 0.885 | 90 | 13 |  | -0.020 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT11CARPHI-PHI5 | team_total | 0.135 | 0.135 | 0.135 | 15 | 88 |  | -0.022 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT11VANNYR-NYR6 | team_total | 0.168 | 0.165 | 0.166 | 18 | 85 |  | -0.022 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11VANNYR-NYR3 | team_total | 0.733 | 0.735 | 0.735 | 75 | 28 |  | -0.027 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT11VANNYR-NYR5 | team_total | 0.323 | 0.325 | 0.325 | 34 | 69 |  | -0.028 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT11VANNYR-NYR4 | team_total | 0.531 | 0.535 | 0.534 | 55 | 48 |  | -0.028 | NO_EDGE |
 | KXNHL1P-26OCT11SEAWSH-SEA | period_winner |  | 0.265 |  | 29 | 76 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT11SEAWSH-TIE | period_winner |  | 0.320 |  | 34 | 70 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT11SEAWSH-TIE | period_winner |  | 0.315 |  | 34 | 71 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT11SEAWSH-WSH | period_winner |  | 0.400 |  | 41 | 61 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT11SEAWSH-SEA2 | period_spread |  | 0.080 |  | 10 | 94 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT11SEAWSH-WSH2 | period_spread |  | 0.120 |  | 18 | 94 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT11SEAWSH-SEA2 | period_spread |  | 0.120 |  | 18 | 94 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT11SEAWSH-WSH2 | period_spread |  | 0.165 |  | 21 | 88 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -113,10 +113,10 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 - Washington wins by over 1.5 goals NO @ 57c · p 0.652 (adj 0.6085) · $9.7 · thesis SEA:WINS
 - Washington wins by over 2.5 goals NO @ 70c · p 0.7669 (adj 0.7309) · $4.06 · thesis SEA:WINS
 - Seattle wins by over 1.5 goals YES @ 18c · p 0.2288 (adj 0.2019) · $1.41 · thesis SEA:WINS_BY_2PLUS
-- Vancouver over 4.5 goals scored YES @ 11c · p 0.1845 (adj 0.1422) · $3.23 · thesis VAN:OFFENSE_4PLUS
-- Vancouver wins by over 1.5 goals YES @ 15c · p 0.2194 (adj 0.1822) · $2.47 · thesis VAN:WINS_BY_2PLUS
-- New York R wins by over 2.5 goals NO @ 66c · p 0.7666 (adj 0.6941) · $6.58 · thesis GAME:TIGHT
-- Vancouver over 1.5 goals scored YES @ 71c · p 0.7835 (adj 0.7417) · $6.29 · thesis VAN:WINS
+- Vancouver over 4.5 goals scored YES @ 11c · p 0.1845 (adj 0.1422) · $3.96 · thesis VAN:OFFENSE_4PLUS
+- Vancouver wins by over 1.5 goals YES @ 15c · p 0.2194 (adj 0.1822) · $2.52 · thesis VAN:WINS_BY_2PLUS
+- New York R wins by over 1.5 goals NO @ 52c · p 0.6488 (adj 0.5618) · $5.06 · thesis GAME:TIGHT
+- New York R wins by over 2.5 goals NO @ 66c · p 0.7666 (adj 0.6941) · $3.84 · thesis GAME:TIGHT
 - Carolina wins by over 2.5 goals NO @ 74c · p 0.8242 (adj 0.7796) · $20.0 · thesis PHI:WINS
 - Philadelphia wins by over 1.5 goals YES @ 20c · p 0.2626 (adj 0.2288) · $3.16 · thesis PHI:WINS_BY_2PLUS
 
