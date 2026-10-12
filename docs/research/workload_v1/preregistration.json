@@ -1,0 +1,157 @@
+{
+ "id": "WORKLOAD_V1_PREREG_2026-10-12",
+ "status": "PREREGISTERED (committed before any held-out 2025-26 evaluation of the challenger or the 2025-26 champion audit was run)",
+ "authority": "RESEARCH_ONLY. No promotion, no production wiring, no wagering change regardless of the verdict.",
+ "hypotheses": {
+  "H1_skaters": "WORKLOAD_V1 (repaired deployment-share workload x opponent-adjusted team PP/SH/EV/OT minutes, league-relative shrunk shot rates x opponent shots-against factor x venue, NegBin) forecasts 2025-26 regular-season skater shots on goal better than the production PLAYER_SIM_V1 expected_sog.",
+  "H2_goalies": "WORKLOAD_V1 (schedule-adjusted opponent SF x own SA, short memory, explicit OT shots, pull mixture, shrunk goalie save fraction, Binomial | NegBin) forecasts 2025-26 regular-season starter saves better than the production PLAYER_SIM_V1 saves simulation."
+ },
+ "held_out_season": 2025,
+ "held_out_definition": "2025-26 regular season (game_type 2): every dressed skater-game with a production champion row (official boxscore SOG target, OT shots included); every starting goalie (official saves; CONDITIONAL_ON_ACTUAL_STARTER, no point-in-time starter source exists historically).",
+ "chronology": {
+  "validation_season": 2024,
+  "validation_training_seasons": [
+   2021,
+   2022,
+   2023
+  ],
+  "held_out_training_seasons": [
+   2021,
+   2022,
+   2023,
+   2024
+  ],
+  "dispersion_fit_season": "the season immediately before the evaluated season (2024-25 for the held-out run), each arm on its own residuals",
+  "point_in_time": "every player / team / goalie feature for a game on date D uses rows dated strictly before D"
+ },
+ "arms": {
+  "skaters": {
+   "BASELINE": "Poisson(EW SOG per game, half-life 10 games, 5 pseudo-games of the position mean)",
+   "CHAMPION": "production PLAYER_SIM_V1 expected_sog (players.roster.build_roster, production team-minute template), Poisson (production emits only a mean)",
+   "CHAMPION_NB": "same mean, NegBin with alpha fit on the previous season (isolates the distribution shape)",
+   "WORKLOAD_ONLY": "WORKLOAD_V1 minutes x CHAMPION rates (ev/pp/sh), NegBin",
+   "EFFICIENCY_ONLY": "CHAMPION minutes x WORKLOAD_V1 rates and opponent/venue factor, NegBin",
+   "WORKLOAD_V1": "the challenger, NegBin"
+  },
+  "goalies": {
+   "BASELINE": "Poisson(own EW shots against x league save fraction)",
+   "CHAMPION": "production PLAYER_SIM_V1 saves draws (nhl-sim-2.0 + simulate_players + simulate_saves, walk-forward)",
+   "WORKLOAD_ONLY": "WORKLOAD_V1 shots-against x CHAMPION implied save fraction",
+   "EFFICIENCY_ONLY": "CHAMPION expected shots faced x WORKLOAD_V1 goalie save fraction",
+   "WORKLOAD_V1": "the challenger"
+  }
+ },
+ "frozen_params": {
+  "minutes_mode": "share",
+  "hl_share": 4.0,
+  "k_share": 0.5,
+  "hl_rate": 80.0,
+  "k_rate": {
+   "evreg": 200.0,
+   "pp": 30.0,
+   "sh": 30.0,
+   "ea": 5.0,
+   "en": 5.0
+  },
+  "league_rows": 10000,
+  "beta_opp": 1.0,
+  "hl_opp": 25.0,
+  "k_opp": 15.0,
+  "hl_team": 20.0,
+  "k_team": 10.0,
+  "hl_sa": 15.0,
+  "k_sa": 15.0,
+  "schedule_adjust": true,
+  "k_sv": 1000.0,
+  "league_window": 1200,
+  "league_window_sa": 400
+ },
+ "selection": {
+  "criterion": "lowest mean CRPS of WORKLOAD_V1 on the validation season",
+  "best_skater": {
+   "minutes_mode": "share",
+   "hl_share": 4.0,
+   "hl_rate": 80.0,
+   "beta_opp": 1.0,
+   "league_rows": 10000,
+   "mae": 1.026255,
+   "rmse": 1.321683,
+   "bias": 0.046786,
+   "crps": 0.688891,
+   "ladder_brier": 0.131919,
+   "coverage50": 0.494707,
+   "coverage80": 0.797681,
+   "n": 47225
+  },
+  "best_goalie": {
+   "hl_sa": 15.0,
+   "schedule_adjust": true,
+   "k_sv": 1000.0,
+   "league_window_sa": 400,
+   "mae": 5.288566,
+   "rmse": 6.847997,
+   "bias": 0.222958,
+   "crps": 3.794513,
+   "ladder_brier": 0.13137,
+   "coverage50": 0.47513,
+   "coverage80": 0.771288,
+   "n": 2624
+  },
+  "grid_file": "docs/research/workload_v1/validation_2024.json"
+ },
+ "metrics": {
+  "point": [
+   "MAE",
+   "RMSE",
+   "bias"
+  ],
+  "distribution": [
+   "CRPS (discrete, sum over integer thresholds)",
+   "ladder Brier (SOG 1+..5+; saves 14+..40+)",
+   "PIT coverage of central 50% and 80% intervals (exact for discrete forecasts)"
+  ],
+  "uncertainty": "game-clustered percentile bootstrap, 2000 resamples of games, seed 20261012, 95% CI of challenger minus reference",
+  "secondary_workload": "TOI MAE (total, PP, SH, EV incl OT) champion vs WORKLOAD_V1; shots-faced squared error champion vs WORKLOAD_V1",
+  "secondary_efficiency": "SOG given ACTUAL minutes (each arm's own rates); saves given ACTUAL shots faced (each arm's save fraction)"
+ },
+ "primary_objective": "CRPS",
+ "acceptance": {
+  "skaters_all_required": [
+   "CRPS(WORKLOAD_V1) - CRPS(CHAMPION): 95% CI upper < 0",
+   "CRPS(WORKLOAD_V1) - CRPS(CHAMPION_NB): 95% CI upper < 0",
+   "RMSE(WORKLOAD_V1) - RMSE(CHAMPION): 95% CI upper < 0",
+   "ladder Brier(WORKLOAD_V1) - ladder Brier(CHAMPION_NB): 95% CI upper < 0",
+   "|bias(WORKLOAD_V1)| <= 0.05 shots per skater-game",
+   "80% PIT coverage in [0.77, 0.83]",
+   "CRPS no worse than CHAMPION_NB for forwards AND for defencemen (point estimates)"
+  ],
+  "goalies_all_required": [
+   "CRPS(WORKLOAD_V1) - CRPS(CHAMPION): 95% CI upper < 0",
+   "RMSE(WORKLOAD_V1) - RMSE(CHAMPION): 95% CI upper < 0",
+   "ladder Brier(WORKLOAD_V1) - ladder Brier(CHAMPION): 95% CI upper < 0",
+   "|bias(WORKLOAD_V1)| <= 0.5 saves per start",
+   "80% PIT coverage in [0.77, 0.83]"
+  ],
+  "max_abs_bias_sog": 0.05,
+  "max_abs_bias_saves": 0.5,
+  "coverage80_band": [
+   0.77,
+   0.83
+  ],
+  "verdicts": "ACCEPTED only if every check passes for that target; otherwise REJECTED. Acceptance would mean 'eligible for a prospective shadow test', never promotion.",
+  "no_changes_after_seeing_results": true
+ },
+ "disclosures": [
+  "The 2024-25 champion decomposition (development audit) was examined before the challenger was designed; 2024-25 is the validation season, not the held-out season.",
+  "Validation-season behaviour: skater WORKLOAD_V1 bias was +0.047 shots (close to the 0.05 limit) and goalie 80% coverage 0.771 (at the edge of the band); the thresholds were set from first principles and are NOT relaxed.",
+  "The goalie grid optimum hl_sa = 15 sits at the edge of the grid; not extended.",
+  "2025-26 has been used as a held-out season by earlier PLAYER_SIM_V1 research (goals / assists / points / saves ladders); none of that work tuned anything on it, and this preregistration does not use it before the evaluation.",
+  "The production saves contract settles conditional on the named goalie entering; scoring here is conditional on the actual starter, and the goalie save-fraction term uses the actual starter's identity (labelled CONDITIONAL_ON_ACTUAL_STARTER).",
+  "Production PP-minute scaling uses DATA_ONLY_V2 component goals that are not stored historically; the champion's p_pp is the PLAYER_SIM_V1 walk-forward stand-in (team_pp_shares).",
+  "The team_states data-quality check (OT timelines of 4800 s, skater on-ice ratios) was run on the raw tables of every season including 2025-26; no forecast was scored on 2025-26."
+ ],
+ "commands": {
+  "evaluate": "python -m nhl_edge.research.workload_experiment evaluate --season 2025 --cache <cache> --out docs/research/workload_v1",
+  "audit": "python -m nhl_edge.research.workload_experiment audit --season 2025 --cache <cache> --out docs/research/workload_v1"
+ }
+}

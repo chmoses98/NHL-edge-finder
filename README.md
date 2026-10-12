@@ -96,6 +96,7 @@ simulate / evaluate / export jobs and is published additively for SIFT in `event
 See `docs/research/SCRIPTS_V1.md`.
 
 ## Docs
+- `docs/research/WORKLOAD_AUDIT.md` workload vs efficiency audit of PLAYER_SIM_V1 SOG / saves (TOI, PP, OT, starters, market inputs); `WORKLOAD_V1_PREREGISTRATION.md` / `WORKLOAD_V1_RESULTS.md` the preregistered sports-only challenger (RESEARCH_ONLY)
 - `docs/research/SCRIPTS_V1.md` NHL_SCRIPT_V1 scripts, script survival, research candidates, opponent adjustment, learning loop, SIFT publication
 - `docs/HANDOFF_REPAIR_PASS.md` thesis-card repair pass (2026-10-02): snapshot-unique postmortem, settlement completeness, expression fidelity, research governance / staking, replays
 - `docs/research/PREREGISTERED_HYPOTHESES.md` model-defect leads registered with their tests BEFORE the evidence exists
