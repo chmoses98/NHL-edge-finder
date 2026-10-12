@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-12T16:58:01Z · thesis-postmortem-2.0 · rows (all generations) 12957
+evaluated 2026-10-12T18:32:11Z · thesis-postmortem-2.0 · rows (all generations) 12957
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -9,7 +9,7 @@ All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE 
 scheduled 3 · final 0 · settled 0 · events ingested 0 · thesis-evaluated 0 · final_card_complete False · postmortem_complete False
 
 missing / pending:
-- 2026020087: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020087: no official FINAL result yet
 - 2026020088: game not started: the snapshot shown is the latest so far, not yet final
 - 2026020089: game not started: the snapshot shown is the latest so far, not yet final
 
@@ -34,7 +34,7 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020087 FLA @ BUF: NOT_STARTED · snapshot snap-0d2f9dd3e432861fda48 @ 2026-10-12T16:29:29Z
+#### game 2026020087 FLA @ BUF: NOT_FINAL · snapshot snap-0d2f9dd3e432861fda48 @ 2026-10-12T16:29:29Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
@@ -43,23 +43,23 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLGOAL-26OCT12FLABUF-FLABTKACHUK8-1|no | SHADOW_ONLY | 0 | 15.00 | - | - | - | DIRECT | - | - |
 | KXNHLGOAL-26OCT12FLABUF-BUFJNORRIS9-1|yes | SHADOW_ONLY | 0 | 5.12 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020088 OTT @ NJD: NOT_STARTED · snapshot snap-0d2f9dd3e432861fda48 @ 2026-10-12T16:29:29Z
+#### game 2026020088 OTT @ NJD: NOT_STARTED · snapshot snap-eef20496b27b82ba6c77 @ 2026-10-12T18:10:41Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT12OTTNJ-OTTMAMADIO22-1|yes | SHADOW_ONLY | 0 | 5.55 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT12OTTNJ-OTTJSPENCE10-1|yes | SHADOW_ONLY | 0 | 6.51 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT12OTTNJ-OTTABURAKOVSKY95-1|no | SHADOW_ONLY | 0 | 18.97 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT12OTTNJ-NJTMEIER28-1|no | FUNDED_RESEARCH | 5 | 18.97 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT12OTTNJ-NJJHUGHES86-1|no | FUNDED_RESEARCH | 5 | 19.05 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT12OTTNJ-OTTMAMADIO22-1|yes | SHADOW_ONLY | 0 | 5.12 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT12OTTNJ-OTTABURAKOVSKY95-1|no | SHADOW_ONLY | 0 | 19.05 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT12OTTNJ-OTTJSPENCE10-1|yes | SHADOW_ONLY | 0 | 6.79 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020089 VGK @ MIN: NOT_STARTED · snapshot snap-0d2f9dd3e432861fda48 @ 2026-10-12T16:29:29Z
+#### game 2026020089 VGK @ MIN: NOT_STARTED · snapshot snap-eef20496b27b82ba6c77 @ 2026-10-12T18:10:41Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT12VGKMIN-MINOMAATTA3-1|yes | SHADOW_ONLY | 0 | 3.17 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT12VGKMIN-VGKBMCNABB3-1|yes | SHADOW_ONLY | 0 | 3.68 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT12VGKMIN-VGKMMARNER93-1|no | SHADOW_ONLY | 0 | 15.66 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT12VGKMIN-VGKMMARNER93-1|no | FUNDED_RESEARCH | 4 | 12.23 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT12VGKMIN-VGKBMCNABB3-1|yes | FUNDED_RESEARCH | 2 | 4.41 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT12VGKMIN-MINOMAATTA3-1|yes | SHADOW_ONLY | 0 | 2.79 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT12VGKMIN-VGKBBOWMAN42-1|yes | SHADOW_ONLY | 0 | 3.66 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT12VGKMIN-VGKMMARNER93-1|no | SHADOW_ONLY | 0 | 11.71 | - | - | - | DIRECT | - | - |
 
 ## Slate 2026-10-11: **COMPLETE — 3/3 games evaluated**
 
