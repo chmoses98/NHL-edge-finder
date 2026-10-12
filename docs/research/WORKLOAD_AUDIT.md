@@ -70,12 +70,16 @@ Workload (minutes per skater-game, champion minus actual): total TOI MAE 1.93, b
 **-0.19** (predicted 1.22 vs actual 1.41, -14%); SH MAE 0.67, bias **-0.18**; EV incl. OT MAE 1.85, bias -0.01.
 2024-25 (45,176 rows): oracle minutes remove 4.2%; PP bias -0.14, SH -0.11, total TOI -0.22.
 
-**Why PP / SH minutes run low.** `team_states` (`data.player_events.state_timeline`) fills every period to its full
-20 minutes, so every regular-season OT game has `n_seconds = 4800` (all 1,459 regular-season OT games 2021-26) and the phantom
-(20 min - actual OT) is booked to the last strength state. The share denominators are inflated in a quarter of all games
-(EV on-ice ratio 4.51 skaters vs 4.99 in regulation games, 2025-26); the EV template 50.6 is itself the inflated mean, so
-EV roughly cancels, but PP and SH (template 4.4 vs 5.1 actual per team-game in regulation) do not. `tsec_ot` is the
-constant 1,200 s, so the OT share is ~15x too small (predicted OT TOI 0.038 min vs 0.578 actual in OT games).
+**Why PP / SH minutes run low (corrected 2026-10-12 after the rebuild in PR #29).** The cause is the production
+team-minute template: `pp 4.4 x p_pp / 0.215` averages 4.45 minutes against about 5.1 actual PP (and SH) minutes per
+regulation team-game, a ~12% shortfall that matches the -14% PP bias. A first version of this audit blamed the
+`team_states` overtime defect for it; the full re-derivation with the fix (PR #29, `docs/research/OT_TIMELINE_FIX.md`)
+shows that is wrong for PP / SH: PP bias moves only -0.193 -> -0.187. Of the phantom minutes, 32,490 sat in EN, 14,647 in
+EV and only 745 each in PP and SH. The defect is real: `state_timeline` fills every OT game to 80:00
+(`n_seconds = 4800` in all 1,459 regular-season OT games, 2021-26) and books the phantom to the last strength state.
+What it does cause is the OT under-count: `tsec_ot` is the constant 1,200 s, so the OT share is ~15x too small
+(predicted OT TOI 0.038 min vs 0.578 actual in OT games). It also distorts EN / EV shares in OT games, which the
+`ev 50.6` template (the inflated mean) partly absorbs.
 
 **Overtime.** 24.8% of 2025-26 games (326) went to OT. In OT games the champion's SOG bias is -0.119 (regulation games
 -0.066) and TOI bias -0.75 min (regulation -0.20): the 0.103 OT shots per skater are never counted, the EV rate's
@@ -114,6 +118,6 @@ DailyFaceoff statuses (from 2026-09-30) are the only way to measure real pregame
 ## 7. What this says to build
 
 Skater error is mostly irreducible count noise; of the reducible part about a third is workload (with clear, fixable
-biases in PP / SH / OT minutes caused by a data-construction defect) and the rest is rate quality (raw unshrunk rates,
+biases in PP / SH minutes from the production team-minute template and in OT minutes from a data-construction defect) and the rest is rate quality (raw unshrunk rates,
 league drift, no opponent term, no OT shots). Saves error is ~95% shots-faced volume, most of it game randomness and
 pulls. The preregistered challenger (`WORKLOAD_V1_PREREGISTRATION.md`) targets both; results in `WORKLOAD_V1_RESULTS.md`.

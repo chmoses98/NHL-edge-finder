@@ -103,3 +103,9 @@ Otherwise REJECTED. No threshold, arm, parameter or row filter changes after the
 ## Erratum (added after the held-out run; descriptive only, nothing in the design changed)
 
 "all 2,918 regular-season OT games" above counts team-game rows: it is 1,459 games (2,918 team rows), 2021-26.
+
+Second erratum (2026-10-12, after PR #29 re-derived 2021-26 with the timeline fixed; descriptive only, nothing in the
+design or the evaluation changed): the "root cause of the PP/SH bias" above is wrong. The OT-timeline defect put
+almost no phantom time in PP / SH (745 min each, vs 32,490 EN and 14,647 EV). Fixing it moves production PP bias only
+-0.193 -> -0.187. The PP / SH shortfall comes from the production template's PP minutes (mean 4.45 vs ~5.1 actual per
+team-game). The defect does cause the OT-share under-count and distorts EN / EV shares in OT games.

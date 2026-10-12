@@ -59,7 +59,7 @@ Honest reading:
 | SH TOI | 0.665 / 1.020 / -0.179 | 0.671 / **0.987 / -0.016** | +0.005 [+0.000, +0.011] |
 | EV incl. OT | 1.853 / 2.410 / -0.008 | **1.834 / 2.388** / -0.038 | -0.020 [-0.027, -0.012] |
 
-The repaired shares remove the PP / SH / total-TOI bias and lower RMSE everywhere, but PP and SH MAE do not improve
+The matchup team minutes (league-level PP / SH minutes from clean games, plus explicit OT minutes) remove the PP / SH / total-TOI bias and lower RMSE everywhere. Per PR #29, the PP / SH part comes from the team minutes, not from the OT-timeline repair. However, PP and SH MAE do not improve
 (SH is marginally worse): the bias fix trades a little median accuracy. PP unit membership is still learned only from
 recent shift shares; no historical line source exists to test tonight's PP1 / PP2 assignment.
 
