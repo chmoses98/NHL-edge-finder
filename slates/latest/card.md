@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-12T09:29:12Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-12T10:29:11Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,12 +10,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 60.00 | +3.83 | +1.17 | +20.46 | 0.580 | -31.23 | -35.91 | 9.21 |
+| A highest edges (independent) | 70.00 | +4.79 | +1.31 | +22.39 | 0.580 | -26.92 | -41.23 | 10.39 |
 | B thesis-diversified (joint) ← optimiser card | 31.60 | +2.24 | +0.69 | +12.32 | 0.580 | -12.66 | -28.40 | 6.10 |
 | C best expression per thesis | 30.34 | +2.23 | +0.69 | +12.30 | 0.580 | -11.39 | -30.33 | 6.08 |
 | R FUNDED research stakes | 9.00 | +0.63 | +0.20 | +3.48 | 0.580 | -3.25 | -7.80 | 0.00 |
 
-## FLA @ BUF  ·  10000 joint draws  ·  98 bet sides mapped, 2 +EV candidates, 2 on card
+## FLA @ BUF  ·  10000 joint draws  ·  98 bet sides mapped, 3 +EV candidates, 2 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -35,15 +35,16 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
 | Florida wins by over 1.5 goals NO | 71 | 0.778 | 0.742 | +0.054 | +0.017 | $15.78 | FUNDED_RESEARCH | $4 | BUF:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
 | Florida wins by over 2.5 goals NO | 82 | 0.868 | 0.841 | +0.037 | +0.011 | $2.65 | FUNDED_RESEARCH | $1 | BUF:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **Florida wins by over 1.5 goals NO** — thesis: BUF wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT12FLABUF-FLA3|no; why: higher confidence-adjusted growth (3.27 vs 1.91 bp); relationships: KXNHLSPREAD-26OCT12FLABUF-FLA3|no: DUPLICATIVE (phi 0.731); failure: FLA wins by 2+
-- **Florida wins by over 2.5 goals NO** — thesis: BUF wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT12FLABUF-FLA2|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT12FLABUF-FLA2|no has the higher standalone adjusted growth (3.27 vs 1.91 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.731); they share one thesis budget; relationships: KXNHLSPREAD-26OCT12FLABUF-FLA2|no: DUPLICATIVE (phi 0.731); failure: FLA wins by 2+
+- **Florida wins by over 1.5 goals NO** — thesis: BUF wins (incl. OT/SO); alternative: KXNHL3PSPREAD-26OCT12FLABUF-FLA2|no; why: higher confidence-adjusted growth (3.27 vs 2.26 bp); despite a smaller raw edge (+0.054 vs +0.066/contract); evidence EVIDENCE_MIXED vs EVIDENCE_THIN; relationships: KXNHLSPREAD-26OCT12FLABUF-FLA3|no: DUPLICATIVE (phi 0.731); failure: FLA wins by 2+
+- **Florida wins by over 2.5 goals NO** — thesis: BUF wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT12FLABUF-FLA2|no; why: Broad expression KXNHLSPREAD-26OCT12FLABUF-FLA3|no selected over period_spread KXNHL3PSPREAD-26OCT12FLABUF-FLA2|no because adjusted EV differs by only 0.1 pts while thesis capture is 1.00 vs 0.97 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_THIN; decided on family reliability); relationships: KXNHLSPREAD-26OCT12FLABUF-FLA2|no: DUPLICATIVE (phi 0.731); failure: FLA wins by 2+
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, BUF shot control · normal event (5-7) · decided (2+) 0.09.
 - thesis BUF:WINS (p 0.5797): highest fidelity KXNHLSPREAD-26OCT12FLABUF-FLA2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT12FLABUF-FLA2|no (same contract)
 - KXNHLSPREAD-26OCT12FLABUF-FLA2|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis FLA:WINS_BY_2PLUS (p 0.2217, phi -1.0)
 - KXNHLSPREAD-26OCT12FLABUF-FLA3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis FLA:WINS_BY_2PLUS (p 0.2217, phi -0.731)
+- override: Broad expression KXNHLSPREAD-26OCT12FLABUF-FLA3|no selected over period_spread KXNHL3PSPREAD-26OCT12FLABUF-FLA2|no because adjusted EV differs by only 0.1 pts while thesis capture is 1.00 vs 0.97 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_THIN; decided on family reliability)
 
-portfolios: A EV +2.39 (adj +0.74) on $40.00, P(profit) 0.7783, adj growth 5.7 bp · B EV +1.29 (adj +0.41) on $18.43, P(profit) 0.7783, adj growth 3.6 bp · C EV +1.28 (adj +0.41) on $17.17, P(profit) 0.7783, adj growth 3.6 bp · R EV +0.34 (adj +0.11) on $5.00, P(profit) 0.7783, adj growth 3.8 bp
+portfolios: A EV +3.35 (adj +0.88) on $50.00, P(profit) 0.7394, adj growth 6.9 bp · B EV +1.29 (adj +0.41) on $18.43, P(profit) 0.7783, adj growth 3.6 bp · C EV +1.28 (adj +0.41) on $17.17, P(profit) 0.7783, adj growth 3.6 bp · R EV +0.34 (adj +0.11) on $5.00, P(profit) 0.7783, adj growth 3.8 bp
 
 ## OTT @ NJD  ·  10000 joint draws  ·  98 bet sides mapped, 1 +EV candidates, 1 on card
 
