@@ -1,0 +1,35 @@
+name: ot-rebuild
+# TEMPORARY (scratch branch only): re-derive the official player-event tables with the fixed overtime timeline so the
+# effect can be QUANTIFIED offline. Outputs go to data/history_ot_fixed/ on this scratch branch; never to the default
+# branch, never to data/history/, never to data-archive. Nothing here is deployed.
+on:
+  push:
+    branches: [claude/sweet-hamilton-pvah5p-ot-fixture-fetch]
+    paths: [".github/workflows/ot_rebuild.yml"]
+permissions:
+  contents: write
+env:
+  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+  NHL_EDGE_LOG_LEVEL: INFO
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        season: [2021, 2022, 2023, 2024, 2025]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e .
+      - name: Re-derive with the fixed timeline
+        run: |
+          python -m nhl_edge.data.player_history --out data/history_ot_fixed --history data/history --seasons ${{ matrix.season }} --workers 6
+          head -c 1500 data/history_ot_fixed/players/MANIFEST_${{ matrix.season }}.json || true
+      - name: Commit to this scratch branch
+        run: |
+          bash scripts/research_commit.sh "scratch - OT-fixed player events season ${{ matrix.season }} (run ${{ github.run_id }})" "data/history_ot_fixed/players/*_${{ matrix.season }}.parquet" data/history_ot_fixed/players/MANIFEST_${{ matrix.season }}.json
