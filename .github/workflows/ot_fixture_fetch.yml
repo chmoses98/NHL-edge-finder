@@ -38,4 +38,5 @@ jobs:
           PY
           ls -la tests/fixtures/nhl_games
       - name: Commit to this scratch branch
-        run: bash scripts/research_commit.sh "fixtures: raw official payloads for OT-timeline tests (run ${{ github.run_id }})" tests/fixtures/nhl_games
+        run: |
+          bash scripts/research_commit.sh "fixtures - raw official payloads for OT-timeline tests (run ${{ github.run_id }})" tests/fixtures/nhl_games
