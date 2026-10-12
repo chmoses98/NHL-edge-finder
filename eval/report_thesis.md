@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-12T05:26:48Z · thesis-postmortem-2.0 · rows (all generations) 12957
+evaluated 2026-10-12T07:11:29Z · thesis-postmortem-2.0 · rows (all generations) 12957
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -34,7 +34,7 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020087 FLA @ BUF: NOT_STARTED · snapshot snap-cd83c3eef83196df9133 @ 2026-10-12T04:39:54Z
+#### game 2026020087 FLA @ BUF: NOT_STARTED · snapshot snap-395819b8215908b95d42 @ 2026-10-12T06:39:53Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
@@ -42,13 +42,13 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLSPREAD-26OCT12FLABUF-FLA3|no | FUNDED_RESEARCH | 1 | 2.65 | - | - | - | STRUCTURAL | - | - |
 | KXNHLSPREAD-26OCT12FLABUF-BUF2|yes | FUNDED_RESEARCH | 1 | 1.28 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020088 OTT @ NJD: NOT_STARTED · snapshot snap-cd83c3eef83196df9133 @ 2026-10-12T04:39:54Z
+#### game 2026020088 OTT @ NJD: NOT_STARTED · snapshot snap-395819b8215908b95d42 @ 2026-10-12T06:39:53Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26OCT12OTTNJ-NJ3|no | FUNDED_RESEARCH | 2 | 4.51 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26OCT12OTTNJ-NJ2|no | FUNDED_RESEARCH | 4 | 13.17 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020089 VGK @ MIN: NOT_STARTED · snapshot snap-cd83c3eef83196df9133 @ 2026-10-12T04:39:54Z
+#### game 2026020089 VGK @ MIN: NOT_STARTED · snapshot snap-395819b8215908b95d42 @ 2026-10-12T06:39:53Z
 
 ## Slate 2026-10-11: **COMPLETE — 3/3 games evaluated**
 
