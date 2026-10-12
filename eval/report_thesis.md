@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-12T20:06:36Z · thesis-postmortem-2.0 · rows (all generations) 13031
+evaluated 2026-10-12T21:39:47Z · thesis-postmortem-2.0 · rows (all generations) 13031
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -43,23 +43,23 @@ invariant final_card_n 4 <= sum(game card caps) 4: OK
 | KXNHLGOAL-26OCT12FLABUF-FLABTKACHUK8-1|no | SHADOW_ONLY | 0 | 15.00 | True | False | THESIS_WRONG_EXPRESSION_WON | DIRECT | 0.0050 | 6.28 |
 | KXNHLGOAL-26OCT12FLABUF-BUFJNORRIS9-1|yes | SHADOW_ONLY | 0 | 5.12 | False | True | THESIS_RIGHT_EXPRESSION_LOST | FRAGILE | -0.0100 | -5.12 |
 
-#### game 2026020088 OTT @ NJD: NOT_STARTED · snapshot snap-52743738ba8f4d282585 @ 2026-10-12T19:54:40Z
+#### game 2026020088 OTT @ NJD: NOT_STARTED · snapshot snap-28770e167892c2dada83 @ 2026-10-12T21:37:32Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT12OTTNJ-OTTMAMADIO22-1|yes | SHADOW_ONLY | 0 | 5.76 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT12OTTNJ-NJCGLASS12-1|yes | SHADOW_ONLY | 0 | 5.16 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT12OTTNJ-NJJHUGHES86-1|no | FUNDED_RESEARCH | 5 | 19.54 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT12OTTNJ-OTTABURAKOVSKY95-1|no | SHADOW_ONLY | 0 | 19.54 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT12OTTNJ-NJJHUGHES86-1|no | FUNDED_RESEARCH | 4 | 15.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT12OTTNJ-OTTMAMADIO22-1|yes | SHADOW_ONLY | 0 | 4.08 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT12OTTNJ-OTTABURAKOVSKY95-1|no | SHADOW_ONLY | 0 | 15.31 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT12OTTNJ-NJTMEIER28-1|no | SHADOW_ONLY | 0 | 15.00 | - | - | - | DIRECT | - | - |
 
-#### game 2026020089 VGK @ MIN: NOT_STARTED · snapshot snap-52743738ba8f4d282585 @ 2026-10-12T19:54:40Z
+#### game 2026020089 VGK @ MIN: NOT_STARTED · snapshot snap-28770e167892c2dada83 @ 2026-10-12T21:37:32Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT12VGKMIN-VGKBMCNABB3-1|yes | FUNDED_RESEARCH | 2 | 4.32 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT12VGKMIN-VGKBBOWMAN42-1|yes | SHADOW_ONLY | 0 | 5.65 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT12VGKMIN-MINRLORENZ61-1|yes | SHADOW_ONLY | 0 | 5.05 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT12VGKMIN-MINYTRENIN13-1|yes | SHADOW_ONLY | 0 | 3.41 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT12VGKMIN-MINRLORENZ61-1|yes | FUNDED_RESEARCH | 2 | 6.51 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT12VGKMIN-VGKBBOWMAN42-1|yes | SHADOW_ONLY | 0 | 5.77 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT12VGKMIN-VGKBMCNABB3-1|yes | SHADOW_ONLY | 0 | 3.24 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT12VGKMIN-VGKTCONNELLY24-1|no | SHADOW_ONLY | 0 | 20.00 | - | - | - | DIRECT | - | - |
 
 ## Slate 2026-10-11: **COMPLETE — 3/3 games evaluated**
 
