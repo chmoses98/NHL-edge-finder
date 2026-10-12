@@ -214,7 +214,7 @@ def _flat(d: Any, pre: str = "") -> dict[str, Any]:
             out |= _flat(v, f"{pre}.{k}" if pre else str(k))
         return out
     if isinstance(d, list):
-        return {pre: json.dumps(d)}
+        return {f"{pre}[{i}]": v for i, v in enumerate(d)} if all(isinstance(v, int | float) for v in d) else {pre: json.dumps(d)}
     return {pre: d}
 
 
@@ -226,8 +226,8 @@ def params_diff(old: Path, new: Path) -> dict[str, Any]:
     changed = {}
     for k in sorted(set(a) | set(b)):
         va, vb = a.get(k), b.get(k)
-        if isinstance(va, float) and isinstance(vb, float):
-            if abs(va - vb) > 1e-12 * max(1.0, abs(va)):
+        if isinstance(va, int | float) and isinstance(vb, int | float) and not isinstance(va, bool):
+            if abs(va - vb) > 1e-9 * max(1.0, abs(va)):  # below that: floating-point summation order, not a change
                 changed[k] = {"old": va, "new": vb, "rel_change": (vb - va) / va if va else None}
         elif va != vb:
             changed[k] = {"old": va, "new": vb}
