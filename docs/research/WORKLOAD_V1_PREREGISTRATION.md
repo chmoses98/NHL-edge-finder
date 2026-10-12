@@ -99,3 +99,7 @@ Otherwise REJECTED. No threshold, arm, parameter or row filter changes after the
 * 2025-26 was a held-out season for earlier PLAYER_SIM_V1 work (goals / assists / points / saves); nothing was tuned on it.
 * The champion's PP-minute scaling uses DATA_ONLY_V2 goal components that are not stored historically; the walk-forward
   stand-in (`team_pp_shares`) is used, as in `player_walk_forward`.
+
+## Erratum (added after the held-out run; descriptive only, nothing in the design changed)
+
+"all 2,918 regular-season OT games" above counts team-game rows: it is 1,459 games (2,918 team rows), 2021-26.

@@ -1,0 +1,297 @@
+{
+ "season": 2025,
+ "model": "PLAYER_SIM_V1 (production shadow arm), walk-forward",
+ "skaters": {
+  "n_skater_games": 47231,
+  "n_games": 1312,
+  "n_excluded_no_shift_charts": 0,
+  "mean_actual_sog": 1.546061,
+  "mean_pred_sog": 1.467094,
+  "total": {
+   "mae": 1.010956,
+   "rmse": 1.324913,
+   "bias": -0.078967,
+   "mse": 1.755394
+  },
+  "workload_component": {
+   "mae": 0.192358,
+   "rmse": 0.26921,
+   "bias": -0.039804,
+   "mse": 0.072474
+  },
+  "efficiency_component": {
+   "mae": 0.978222,
+   "rmse": 1.261158,
+   "bias": 0.031913,
+   "mse": 1.59052
+  },
+  "omitted_states_component": {
+   "mae": 0.071838,
+   "rmse": 0.308016,
+   "bias": -0.071076,
+   "mse": 0.094874
+  },
+  "oracle_toi_total_error": {
+   "mae": 0.992835,
+   "rmse": 1.293198,
+   "bias": -0.039163,
+   "mse": 1.672362
+  },
+  "poisson_floor_mse": 1.467094,
+  "mse_removed_by_oracle_toi": 0.047301,
+  "toi_minutes": {
+   "total": {
+    "mae": 1.934241,
+    "rmse": 2.544788,
+    "bias": -0.335624,
+    "mse": 6.475947
+   },
+   "ev": {
+    "mae": 1.853092,
+    "rmse": 2.409838,
+    "bias": -0.007725,
+    "mse": 5.807321
+   },
+   "pp": {
+    "mae": 0.789539,
+    "rmse": 1.203247,
+    "bias": -0.193096,
+    "mse": 1.447804
+   },
+   "sh": {
+    "mae": 0.665221,
+    "rmse": 1.019507,
+    "bias": -0.179292,
+    "mse": 1.039395
+   },
+   "ev_regulation_only": {
+    "mae": 1.795087,
+    "rmse": 2.336975,
+    "bias": 0.135997,
+    "mse": 5.461454
+   }
+  },
+  "pp": {
+   "team_pp_min_pred_mean": 4.445618,
+   "player_pp_toi_pred_mean": 1.216022,
+   "player_pp_toi_actual_mean": 1.409118
+  },
+  "overtime": {
+   "regulation_games": {
+    "n_skater_games": 35495,
+    "n_games": 986,
+    "sog_error": {
+     "mae": 1.00639,
+     "rmse": 1.318044,
+     "bias": -0.065874,
+     "mse": 1.73724
+    },
+    "toi_error": {
+     "mae": 1.852239,
+     "rmse": 2.445144,
+     "bias": -0.198664,
+     "mse": 5.978728
+    },
+    "mean_actual_sog": 1.533624,
+    "mean_ot_sog": 0.0,
+    "mean_actual_toi": 16.396273,
+    "mean_ot_toi": 0.0,
+    "mean_pred_ot_toi": 0.037796
+   },
+   "ot_games": {
+    "n_skater_games": 11736,
+    "n_games": 326,
+    "sog_error": {
+     "mae": 1.024766,
+     "rmse": 1.345473,
+     "bias": -0.118567,
+     "mse": 1.810298
+    },
+    "toi_error": {
+     "mae": 2.182252,
+     "rmse": 2.824848,
+     "bias": -0.749855,
+     "mse": 7.979764
+    },
+    "mean_actual_sog": 1.583674,
+    "mean_ot_sog": 0.102761,
+    "mean_actual_toi": 16.958693,
+    "mean_ot_toi": 0.578401,
+    "mean_pred_ot_toi": 0.037972
+   },
+   "share_of_games_with_ot": 0.248476,
+   "production_note": "production adds share_ot x 1.2 min to expected TOI but the EV-minute template (50.6) already contains overtime minutes, and expected_sog sums only ev/pp/sh with an EV rate whose numerator excludes OT shots"
+  },
+  "by_pos": {
+   "D": {
+    "n": 15861,
+    "sog": {
+     "mae": 0.902452,
+     "rmse": 1.170158,
+     "bias": -0.034284,
+     "mse": 1.369271
+    },
+    "toi": {
+     "mae": 2.127424,
+     "rmse": 2.824977,
+     "bias": -0.348538,
+     "mse": 7.980497
+    }
+   },
+   "F": {
+    "n": 31370,
+    "sog": {
+     "mae": 1.065817,
+     "rmse": 1.396647,
+     "bias": -0.10156,
+     "mse": 1.950622
+    },
+    "toi": {
+     "mae": 1.836566,
+     "rmse": 2.390655,
+     "bias": -0.329095,
+     "mse": 5.715231
+    }
+   }
+  }
+ },
+ "goalies": {
+  "label": "CONDITIONAL_ON_ACTUAL_STARTER",
+  "n_starts": 2624,
+  "n_games": 1312,
+  "mean_actual_saves": 24.161585,
+  "mean_pred_saves": 24.079672,
+  "mean_actual_sa": 26.961128,
+  "mean_pred_faced_starter": 26.948749,
+  "mean_expected_faced_net": 27.782833,
+  "total": {
+   "mae": 5.350276,
+   "rmse": 6.821868,
+   "bias": -0.081913,
+   "mse": 46.537883
+  },
+  "workload_component": {
+   "mae": 4.760023,
+   "rmse": 6.075742,
+   "bias": -0.010256,
+   "mse": 36.914646
+  },
+  "efficiency_component": {
+   "mae": 1.286558,
+   "rmse": 1.595474,
+   "bias": -0.071657,
+   "mse": 2.545537
+  },
+  "oracle_sa_total_error": {
+   "mae": 1.286558,
+   "rmse": 1.595474,
+   "bias": -0.071657,
+   "mse": 2.545537
+  },
+  "shots_faced_error": {
+   "mae": 5.327857,
+   "rmse": 6.799937,
+   "bias": -0.012379,
+   "mse": 46.239138
+  },
+  "net_shots_error": {
+   "mae": 4.887425,
+   "rmse": 6.07405,
+   "bias": 0.141827,
+   "mse": 36.894087
+  },
+  "implied_sv_mean": 0.893402,
+  "actual_sv_pooled": 0.896164,
+  "mse_removed_by_oracle_sa": 0.945302,
+  "full_game_starters": {
+   "n": 2480,
+   "total": {
+    "mae": 4.913037,
+    "rmse": 6.133078,
+    "bias": -0.788505,
+    "mse": 37.614644
+   },
+   "oracle_sa_total_error": {
+    "mae": 1.233037,
+    "rmse": 1.532274,
+    "bias": -0.186521,
+    "mse": 2.347863
+   }
+  },
+  "replaced_starters": {
+   "n": 144,
+   "rate_actual": 0.054878,
+   "rate_pred": 0.062314,
+   "total": {
+    "mae": 12.880503,
+    "rmse": 14.149767,
+    "bias": 12.087174,
+    "mse": 200.215893
+   }
+  },
+  "overtime": {
+   "regulation_games": {
+    "n": 1972,
+    "saves_error": {
+     "mae": 5.422824,
+     "rmse": 6.960012,
+     "bias": 0.335717,
+     "mse": 48.441768
+    },
+    "shots_faced_error": {
+     "mae": 5.369642,
+     "rmse": 6.89063,
+     "bias": 0.443782,
+     "mse": 47.480784
+    },
+    "mean_actual_saves": 23.747465,
+    "mean_pred_saves": 24.083181
+   },
+   "ot_games": {
+    "n": 652,
+    "saves_error": {
+     "mae": 5.130849,
+     "rmse": 6.385883,
+     "bias": -1.345052,
+     "mse": 40.779506
+    },
+    "shots_faced_error": {
+     "mae": 5.201476,
+     "rmse": 6.517955,
+     "bias": -1.392054,
+     "mse": 42.483731
+    },
+    "mean_actual_saves": 25.41411,
+    "mean_pred_saves": 24.069059
+   },
+   "mean_p_ot_pred": 0.216339,
+   "share_of_games_with_ot": 0.248476
+  }
+ },
+ "starting_goalie": {
+  "note": "no point-in-time starting-goalie source exists for 2021-26 (DailyFaceoff is archived only from 2026-09-30); this is a pregame-COMPUTABLE rule, a lower bound on what a confirmed-starter feed would know",
+  "n_team_games": 2623,
+  "heuristic_accuracy": 0.637819,
+  "accuracy_b2b": 0.788372,
+  "n_b2b": 430,
+  "accuracy_not_b2b": 0.608299,
+  "previous_starter_rule_accuracy": 0.407167,
+  "saves_error_when_heuristic_right": {
+   "mae": 5.322332,
+   "rmse": 6.788567,
+   "bias": 0.105677,
+   "mse": 46.084642,
+   "n": 1673
+  },
+  "saves_error_when_heuristic_wrong": {
+   "mae": 5.404282,
+   "rmse": 6.883632,
+   "bias": -0.413192,
+   "mse": 47.384386,
+   "n": 950
+  },
+  "actual_sv_when_right": 0.895999,
+  "actual_sv_when_wrong": 0.896418,
+  "production_note": "PLAYER_SIM_V1's saves mean does not depend on WHICH goalie starts (expected shots x league save fraction; the walk-forward team lambdas carry no goalie term), so a wrong starter changes only which contract is live (Kalshi settles a goalie who never enters at the pre-game fair price)"
+ }
+}
