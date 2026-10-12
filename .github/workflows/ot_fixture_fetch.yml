@@ -1,0 +1,41 @@
+name: ot-fixture-fetch
+# TEMPORARY (scratch branch only): fetch the raw official payloads of three real 2025-26 games for the OT-timeline
+# regression tests (the dev container cannot reach the NHL API). Commits to this scratch branch only.
+on:
+  push:
+    branches: [claude/sweet-hamilton-pvah5p-ot-fixture-fetch]
+    paths: [".github/workflows/ot_fixture_fetch.yml"]
+permissions:
+  contents: write
+env:
+  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e .
+      - name: Fetch boxscore / play-by-play / shift charts (3 games, 2 s apart)
+        run: |
+          python - <<'PY'
+          import gzip, json, time
+          from pathlib import Path
+          from nhl_edge.data.player_history import fetch_game
+          out = Path("tests/fixtures/nhl_games"); tmp = Path("/tmp/raw")
+          out.mkdir(parents=True, exist_ok=True)
+          for gid in (2025020008, 2025020099, 2025020006):
+              tables, rep = fetch_game(gid, {}, tmp)
+              print(gid, json.dumps(rep, default=str)[:400])
+              for k in ("boxscore", "pbp", "shiftcharts"):
+                  raw = (tmp / f"nhl_{k}_{gid}.json").read_bytes()
+                  with gzip.open(out / f"nhl_{k}_{gid}.json.gz", "wb", compresslevel=9) as f:
+                      f.write(raw)
+              time.sleep(2)
+          PY
+          ls -la tests/fixtures/nhl_games
+      - name: Commit to this scratch branch
+        run: bash scripts/research_commit.sh "fixtures: raw official payloads for OT-timeline tests (run ${{ github.run_id }})" tests/fixtures/nhl_games
