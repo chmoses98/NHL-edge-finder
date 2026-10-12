@@ -1,5 +1,5 @@
 {
- "evaluated_at_utc": "2026-10-12T12:06:02Z",
+ "evaluated_at_utc": "2026-10-12T13:42:09Z",
  "authority": "RESEARCH_ONLY",
  "report_version": "thesis-postmortem-2.0",
  "n_rows_all_runs": 12957,
@@ -46095,14 +46095,14 @@
      "state": "NOT_STARTED",
      "matchup": "FLA @ BUF",
      "final_snapshot": {
-      "snapshot_id": "snap-d829ba57ef4205015932",
-      "decided_at_utc": "2026-10-12T11:24:10Z",
-      "run_id": "38219177455",
+      "snapshot_id": "snap-701263f2f608efa5cd9b",
+      "decided_at_utc": "2026-10-12T13:10:54Z",
+      "run_id": "38249202463",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
-      "n_chosen": 3,
-      "n_shortlisted": 3,
-      "n_pregame_snapshots": 8,
+      "n_chosen": 2,
+      "n_shortlisted": 2,
+      "n_pregame_snapshots": 10,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-12T17:00:00Z",
       "synthetic_game_row": false,
@@ -46113,138 +46113,82 @@
      "overrides": [],
      "bets": [
       {
-       "decision_id": "d7469db5a7e7606fc2dd37d90358d741",
+       "decision_id": "0da152ef43cb654b50d829717d1648f7",
        "game_id": "2026020087",
        "bet_id": "KXNHLSPREAD-26OCT12FLABUF-FLA2|no",
        "family": "game_spread",
        "chosen": true,
-       "stake_dollars": 14.44,
+       "stake_dollars": 16.18,
        "research_status": "FUNDED_RESEARCH",
-       "research_stake_dollars": 4,
+       "research_stake_dollars": 5,
        "research_reasons": [],
        "fidelity_class": "STRUCTURAL",
        "thesis_capture": 1.0,
        "expression_kind": "BROAD",
        "is_player_prop": false,
        "primary_thesis": "BUF:WINS",
-       "p_thesis": 0.5797,
+       "p_thesis": 0.5824,
        "entry_price_cents": 71,
-       "ev_raw": 0.05388700000000002,
-       "ev_adjusted": 0.017237000000000058,
-       "p_model": 0.7783,
-       "p_adjusted": 0.74165,
+       "ev_raw": 0.05738700000000008,
+       "ev_adjusted": 0.018987000000000087,
+       "p_model": 0.7818,
+       "p_adjusted": 0.7434000000000001,
        "p_kalshi_mid": 0.7050000000000001,
        "market_disagreement": {
         "reference": "kalshi_mid",
         "p_market": 0.705,
-        "gap": 0.0733,
-        "abs_gap_pts": 7.3,
+        "gap": 0.0768,
+        "abs_gap_pts": 7.7,
         "threshold_pts": 10.0,
         "large": false
        },
        "selection_override": null,
        "joint_relationships": {
-        "KXNHLSPREAD-26OCT12FLABUF-FLA3|no": {
-         "relationship": "DUPLICATIVE",
-         "phi": 0.731,
-         "p_both": 0.7783
-        },
-        "KXNHLSPREAD-26OCT12FLABUF-BUF2|yes": {
-         "relationship": "DUPLICATIVE",
-         "phi": 0.388,
-         "p_both": 0.3453
+        "KXNHLTEAMTOTAL-26OCT12FLABUF-BUF3|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.475,
+         "p_both": 0.6086
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "d59a474cae385aa52f847ca88c12e0ca",
+       "decision_id": "03ead5dc8d15bd6b427965175244d0fd",
        "game_id": "2026020087",
-       "bet_id": "KXNHLSPREAD-26OCT12FLABUF-FLA3|no",
-       "family": "game_spread",
+       "bet_id": "KXNHLTEAMTOTAL-26OCT12FLABUF-BUF3|yes",
+       "family": "team_total",
        "chosen": true,
-       "stake_dollars": 2.65,
+       "stake_dollars": 4.34,
        "research_status": "FUNDED_RESEARCH",
-       "research_stake_dollars": 1,
+       "research_stake_dollars": 2,
        "research_reasons": [],
        "fidelity_class": "STRUCTURAL",
        "thesis_capture": 1.0,
        "expression_kind": "BROAD",
        "is_player_prop": false,
-       "primary_thesis": "BUF:WINS",
-       "p_thesis": 0.5797,
-       "entry_price_cents": 82,
-       "ev_raw": 0.03746800000000006,
-       "ev_adjusted": 0.011067999999999967,
-       "p_model": 0.8678,
-       "p_adjusted": 0.8413999999999999,
-       "p_kalshi_mid": 0.815,
+       "primary_thesis": "BUF:OFFENSE_4PLUS",
+       "p_thesis": 0.4297,
+       "entry_price_cents": 59,
+       "ev_raw": 0.05266700000000002,
+       "ev_adjusted": 0.01536700000000002,
+       "p_model": 0.6596,
+       "p_adjusted": 0.6223,
+       "p_kalshi_mid": 0.585,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.815,
-        "gap": 0.0528,
-        "abs_gap_pts": 5.3,
+        "p_market": 0.585,
+        "gap": 0.0746,
+        "abs_gap_pts": 7.5,
         "threshold_pts": 10.0,
         "large": false
        },
        "selection_override": null,
        "joint_relationships": {
         "KXNHLSPREAD-26OCT12FLABUF-FLA2|no": {
-         "relationship": "DUPLICATIVE",
-         "phi": 0.731,
-         "p_both": 0.7783
-        },
-        "KXNHLSPREAD-26OCT12FLABUF-BUF2|yes": {
          "relationship": "REINFORCING",
-         "phi": 0.283,
-         "p_both": 0.3453
-        }
-       },
-       "scored": false,
-       "outcome": null
-      },
-      {
-       "decision_id": "595bb139cea09108f0c3dca474803e44",
-       "game_id": "2026020087",
-       "bet_id": "KXNHLSPREAD-26OCT12FLABUF-BUF2|yes",
-       "family": "game_spread",
-       "chosen": true,
-       "stake_dollars": 1.28,
-       "research_status": "FUNDED_RESEARCH",
-       "research_stake_dollars": 1,
-       "research_reasons": [],
-       "fidelity_class": "STRUCTURAL",
-       "thesis_capture": 1.0,
-       "expression_kind": "BROAD",
-       "is_player_prop": false,
-       "primary_thesis": "BUF:WINS_BY_2PLUS",
-       "p_thesis": 0.3453,
-       "entry_price_cents": 29,
-       "ev_raw": 0.04088700000000001,
-       "ev_adjusted": 0.010737000000000052,
-       "p_model": 0.3453,
-       "p_adjusted": 0.31515000000000004,
-       "p_kalshi_mid": 0.28500000000000003,
-       "market_disagreement": {
-        "reference": "kalshi_mid",
-        "p_market": 0.285,
-        "gap": 0.0603,
-        "abs_gap_pts": 6.0,
-        "threshold_pts": 10.0,
-        "large": false
-       },
-       "selection_override": null,
-       "joint_relationships": {
-        "KXNHLSPREAD-26OCT12FLABUF-FLA2|no": {
-         "relationship": "DUPLICATIVE",
-         "phi": 0.388,
-         "p_both": 0.3453
-        },
-        "KXNHLSPREAD-26OCT12FLABUF-FLA3|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.283,
-         "p_both": 0.3453
+         "phi": 0.475,
+         "p_both": 0.6086
         }
        },
        "scored": false,
@@ -46256,14 +46200,14 @@
      "state": "NOT_STARTED",
      "matchup": "OTT @ NJD",
      "final_snapshot": {
-      "snapshot_id": "snap-d829ba57ef4205015932",
-      "decided_at_utc": "2026-10-12T11:24:10Z",
-      "run_id": "38219177455",
+      "snapshot_id": "snap-701263f2f608efa5cd9b",
+      "decided_at_utc": "2026-10-12T13:10:54Z",
+      "run_id": "38249202463",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
       "n_chosen": 4,
-      "n_shortlisted": 9,
-      "n_pregame_snapshots": 8,
+      "n_shortlisted": 14,
+      "n_pregame_snapshots": 10,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-12T23:00:00Z",
       "synthetic_game_row": false,
@@ -46271,134 +46215,138 @@
      },
      "portfolio_result": null,
      "script_check": null,
-     "overrides": [
-      {
-       "thesis": "NJD:SUPPRESSED",
-       "replaced": "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-1|no",
-       "selected": "KXNHLGOAL-26OCT12OTTNJ-NJTMEIER28-1|no",
-       "ev_adjusted_replaced": 0.0203,
-       "ev_adjusted_selected": 0.0176,
-       "edge_difference_pts": -0.27,
-       "thesis_capture_replaced": 0.7973,
-       "thesis_capture_selected": 0.8802,
-       "fidelity_replaced": "DIRECT",
-       "fidelity_selected": "DIRECT",
-       "reliability_replaced": "EVIDENCE_MIXED",
-       "reliability_selected": "EVIDENCE_STRONGER",
-       "growth_bp_replaced": 3.617,
-       "growth_bp_selected": 3.587,
-       "decided_on": "family reliability",
-       "rule": "similar adjusted value (within 1 pt) -> prefer reliability, then fidelity",
-       "applied": true,
-       "text": "Player prop expression KXNHLGOAL-26OCT12OTTNJ-NJTMEIER28-1|no selected over player prop KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-1|no because adjusted EV differs by only 0.3 pts while thesis capture is 0.88 vs 0.80 (DIRECT vs DIRECT; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability)"
-      }
-     ],
+     "overrides": [],
      "bets": [
       {
-       "decision_id": "da111a3cc2a6021864a28e9aa74d730c",
+       "decision_id": "36f3f111c25c27155767e7ed62f40c70",
        "game_id": "2026020088",
        "bet_id": "KXNHLGOAL-26OCT12OTTNJ-NJJHUGHES86-1|no",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 16.16,
+       "stake_dollars": 20.0,
        "research_status": "FUNDED_RESEARCH",
        "research_stake_dollars": 5,
        "research_reasons": [],
        "fidelity_class": "DIRECT",
-       "thesis_capture": 0.8324,
+       "thesis_capture": 0.8342,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
        "primary_thesis": "NJD:SUPPRESSED",
-       "p_thesis": 0.4523,
+       "p_thesis": 0.4506,
        "entry_price_cents": 63,
-       "ev_raw": 0.05838299999999996,
-       "ev_adjusted": 0.035957999999999934,
-       "p_model": 0.7047,
-       "p_adjusted": 0.682275,
-       "p_kalshi_mid": 0.615,
+       "ev_raw": 0.06228299999999998,
+       "ev_adjusted": 0.04138299999999995,
+       "p_model": 0.7086,
+       "p_adjusted": 0.6877,
+       "p_kalshi_mid": 0.625,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.615,
-        "gap": 0.0897,
-        "abs_gap_pts": 9.0,
+        "p_market": 0.625,
+        "gap": 0.0836,
+        "abs_gap_pts": 8.4,
         "threshold_pts": 10.0,
         "large": false
        },
        "selection_override": null,
        "joint_relationships": {
-        "KXNHLGOAL-26OCT12OTTNJ-OTTMAMADIO22-1|yes": {
+        "KXNHLGOAL-26OCT12OTTNJ-OTTWFOEGELE37-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.008,
-         "p_both": 0.1277
+         "phi": -0.001,
+         "p_both": 0.1138
         },
         "KXNHLAST-26OCT12OTTNJ-OTTABURAKOVSKY95-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.011,
-         "p_both": 0.6056
+         "phi": -0.013,
+         "p_both": 0.611
         },
-        "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-1|no": {
+        "KXNHLGOAL-26OCT12OTTNJ-OTTMAMADIO22-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.001,
-         "p_both": 0.4484
+         "phi": 0.004,
+         "p_both": 0.1257
         },
         "KXNHLGOAL-26OCT12OTTNJ-NJTMEIER28-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.007,
-         "p_both": 0.5461
+         "phi": -0.017,
+         "p_both": 0.5465
         },
-        "KXNHLSPREAD-26OCT12OTTNJ-NJ2|no": {
+        "KXNHLGOAL-26OCT12OTTNJ-OTTCYAKEMCHUK26-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.138,
-         "p_both": 0.5527
+         "phi": 0.008,
+         "p_both": 0.663
         },
-        "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-2|no": {
+        "KXNHLAST-26OCT12OTTNJ-OTTJSPENCE10-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.009,
-         "p_both": 0.6488
+         "phi": 0.006,
+         "p_both": 0.2293
+        },
+        "KXNHLAST-26OCT12OTTNJ-NJAMANTHA39-1|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.176,
+         "p_both": 0.618
+        },
+        "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.025,
+         "p_both": 0.443
         },
         "KXNHLAST-26OCT12OTTNJ-NJLEVANGELISTA77-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.082,
-         "p_both": 0.5659
+         "phi": 0.071,
+         "p_both": 0.5704
+        },
+        "KXNHLAST-26OCT12OTTNJ-OTTCGIROUX28-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.001,
+         "p_both": 0.2128
         },
         "KXNHLAST-26OCT12OTTNJ-NJNHISCHIER13-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.112,
-         "p_both": 0.5025
+         "phi": 0.098,
+         "p_both": 0.505
+        },
+        "KXNHLSPREAD-26OCT12OTTNJ-NJ2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.153,
+         "p_both": 0.5541
+        },
+        "KXNHLGOAL-26OCT12OTTNJ-NJNHISCHIER13-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.002,
+         "p_both": 0.5224
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "41ae299f5bc17da24faf6da13d23b18f",
+       "decision_id": "e2c1863c5b939af0ff48cc9367486492",
        "game_id": "2026020088",
-       "bet_id": "KXNHLGOAL-26OCT12OTTNJ-OTTMAMADIO22-1|yes",
+       "bet_id": "KXNHLGOAL-26OCT12OTTNJ-OTTWFOEGELE37-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 3.2,
+       "stake_dollars": 5.55,
        "research_status": "SHADOW_ONLY",
        "research_stake_dollars": 0,
        "research_reasons": [
         "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT12OTTNJ-NJJHUGHES86-1|no)"
        ],
        "fidelity_class": "FRAGILE",
-       "thesis_capture": 0.3039,
+       "thesis_capture": 0.2559,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
        "primary_thesis": "OTT:OFFENSE_4PLUS",
-       "p_thesis": 0.3514,
-       "entry_price_cents": 13,
-       "ev_raw": 0.041282999999999986,
-       "ev_adjusted": 0.01648299999999997,
-       "p_model": 0.1792,
-       "p_adjusted": 0.15439999999999998,
-       "p_kalshi_mid": 0.08,
+       "p_thesis": 0.3517,
+       "entry_price_cents": 12,
+       "ev_raw": 0.03350799999999998,
+       "ev_adjusted": 0.020782999999999996,
+       "p_model": 0.1609,
+       "p_adjusted": 0.148175,
+       "p_kalshi_mid": 0.11,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.08,
-        "gap": 0.0992,
-        "abs_gap_pts": 9.9,
+        "p_market": 0.11,
+        "gap": 0.0509,
+        "abs_gap_pts": 5.1,
         "threshold_pts": 10.0,
         "large": false
        },
@@ -46406,55 +46354,80 @@
        "joint_relationships": {
         "KXNHLGOAL-26OCT12OTTNJ-NJJHUGHES86-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.008,
-         "p_both": 0.1277
+         "phi": -0.001,
+         "p_both": 0.1138
         },
         "KXNHLAST-26OCT12OTTNJ-OTTABURAKOVSKY95-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.03,
-         "p_both": 0.1505
+         "phi": -0.014,
+         "p_both": 0.1374
         },
-        "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-1|no": {
+        "KXNHLGOAL-26OCT12OTTNJ-OTTMAMADIO22-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.013,
-         "p_both": 0.1164
+         "phi": -0.002,
+         "p_both": 0.0281
         },
         "KXNHLGOAL-26OCT12OTTNJ-NJTMEIER28-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.005,
-         "p_both": 0.1384
+         "phi": -0.006,
+         "p_both": 0.1239
         },
-        "KXNHLSPREAD-26OCT12OTTNJ-NJ2|no": {
+        "KXNHLGOAL-26OCT12OTTNJ-OTTCYAKEMCHUK26-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.136,
-         "p_both": 0.1563
+         "phi": -0.011,
+         "p_both": 0.1493
         },
-        "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-2|no": {
+        "KXNHLAST-26OCT12OTTNJ-OTTJSPENCE10-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.01,
-         "p_both": 0.1663
+         "phi": 0.092,
+         "p_both": 0.0676
+        },
+        "KXNHLAST-26OCT12OTTNJ-NJAMANTHA39-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.021,
+         "p_both": 0.1306
+        },
+        "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.011,
+         "p_both": 0.1038
         },
         "KXNHLAST-26OCT12OTTNJ-NJLEVANGELISTA77-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.008,
-         "p_both": 0.1413
+         "phi": 0.015,
+         "p_both": 0.1288
+        },
+        "KXNHLAST-26OCT12OTTNJ-OTTCGIROUX28-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.037,
+         "p_both": 0.0546
         },
         "KXNHLAST-26OCT12OTTNJ-NJNHISCHIER13-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.009,
-         "p_both": 0.1234
+         "phi": 0.001,
+         "p_both": 0.1102
+        },
+        "KXNHLSPREAD-26OCT12OTTNJ-NJ2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.111,
+         "p_both": 0.1368
+        },
+        "KXNHLGOAL-26OCT12OTTNJ-NJNHISCHIER13-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.007,
+         "p_both": 0.1197
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "6a04e15a88bad4ac1b218f66f362ed9e",
+       "decision_id": "1923209f802a2aad77d44d2ff95f39e5",
        "game_id": "2026020088",
        "bet_id": "KXNHLAST-26OCT12OTTNJ-OTTABURAKOVSKY95-1|no",
        "family": "player_assists",
        "chosen": true,
-       "stake_dollars": 16.39,
+       "stake_dollars": 20.0,
        "research_status": "SHADOW_ONLY",
        "research_stake_dollars": 0,
        "research_reasons": [
@@ -46462,22 +46435,22 @@
         "LARGE_MARKET_DISAGREEMENT_UNCORROBORATED"
        ],
        "fidelity_class": "DIRECT",
-       "thesis_capture": 0.9324,
+       "thesis_capture": 0.9278,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
        "primary_thesis": "OTT:SUPPRESSED",
-       "p_thesis": 0.4273,
-       "entry_price_cents": 73,
-       "ev_raw": 0.11800300000000008,
-       "ev_adjusted": 0.019333000000000045,
-       "p_model": 0.8618,
-       "p_adjusted": 0.76313,
-       "p_kalshi_mid": 0.71,
+       "p_thesis": 0.4255,
+       "entry_price_cents": 72,
+       "ev_raw": 0.130988,
+       "ev_adjusted": 0.02692299999999992,
+       "p_model": 0.8651,
+       "p_adjusted": 0.7610349999999999,
+       "p_kalshi_mid": 0.705,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.71,
-        "gap": 0.1518,
-        "abs_gap_pts": 15.2,
+        "p_market": 0.705,
+        "gap": 0.1601,
+        "abs_gap_pts": 16.0,
         "threshold_pts": 10.0,
         "large": true
        },
@@ -46485,140 +46458,171 @@
        "joint_relationships": {
         "KXNHLGOAL-26OCT12OTTNJ-NJJHUGHES86-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.011,
-         "p_both": 0.6056
+         "phi": -0.013,
+         "p_both": 0.611
+        },
+        "KXNHLGOAL-26OCT12OTTNJ-OTTWFOEGELE37-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.014,
+         "p_both": 0.1374
         },
         "KXNHLGOAL-26OCT12OTTNJ-OTTMAMADIO22-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.03,
-         "p_both": 0.1505
-        },
-        "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-1|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.015,
-         "p_both": 0.5456
+         "phi": -0.037,
+         "p_both": 0.1477
         },
         "KXNHLGOAL-26OCT12OTTNJ-NJTMEIER28-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.024,
-         "p_both": 0.6661
+         "phi": -0.001,
+         "p_both": 0.6709
         },
-        "KXNHLSPREAD-26OCT12OTTNJ-NJ2|no": {
+        "KXNHLGOAL-26OCT12OTTNJ-OTTCYAKEMCHUK26-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.116,
-         "p_both": 0.6249
+         "phi": 0.031,
+         "p_both": 0.811
         },
-        "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-2|no": {
+        "KXNHLAST-26OCT12OTTNJ-OTTJSPENCE10-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.011,
-         "p_both": 0.7937
+         "phi": -0.015,
+         "p_both": 0.276
+        },
+        "KXNHLAST-26OCT12OTTNJ-NJAMANTHA39-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.015,
+         "p_both": 0.7197
+        },
+        "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.018,
+         "p_both": 0.5446
         },
         "KXNHLAST-26OCT12OTTNJ-NJLEVANGELISTA77-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.014,
-         "p_both": 0.6713
+         "phi": -0.008,
+         "p_both": 0.6792
+        },
+        "KXNHLAST-26OCT12OTTNJ-OTTCGIROUX28-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.017,
+         "p_both": 0.2575
         },
         "KXNHLAST-26OCT12OTTNJ-NJNHISCHIER13-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.017,
-         "p_both": 0.5826
+         "phi": 0.004,
+         "p_both": 0.5919
+        },
+        "KXNHLSPREAD-26OCT12OTTNJ-NJ2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.104,
+         "p_both": 0.6237
+        },
+        "KXNHLGOAL-26OCT12OTTNJ-NJNHISCHIER13-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.015,
+         "p_both": 0.6351
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "d022390ce9a865b8697d705a8181fdf6",
+       "decision_id": "56b6fe3d4c769b66778706d194ad0404",
        "game_id": "2026020088",
-       "bet_id": "KXNHLGOAL-26OCT12OTTNJ-NJTMEIER28-1|no",
+       "bet_id": "KXNHLGOAL-26OCT12OTTNJ-OTTMAMADIO22-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 13.84,
+       "stake_dollars": 4.09,
        "research_status": "SHADOW_ONLY",
        "research_stake_dollars": 0,
        "research_reasons": [
         "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT12OTTNJ-NJJHUGHES86-1|no)"
        ],
-       "fidelity_class": "DIRECT",
-       "thesis_capture": 0.8802,
+       "fidelity_class": "FRAGILE",
+       "thesis_capture": 0.29,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
-       "primary_thesis": "NJD:SUPPRESSED",
-       "p_thesis": 0.4523,
-       "entry_price_cents": 73,
-       "ev_raw": 0.033103000000000105,
-       "ev_adjusted": 0.017628000000000088,
-       "p_model": 0.7769,
-       "p_adjusted": 0.761425,
-       "p_kalshi_mid": 0.715,
+       "primary_thesis": "OTT:OFFENSE_4PLUS",
+       "p_thesis": 0.3517,
+       "entry_price_cents": 13,
+       "ev_raw": 0.038383,
+       "ev_adjusted": 0.015558000000000016,
+       "p_model": 0.1763,
+       "p_adjusted": 0.15347500000000003,
+       "p_kalshi_mid": 0.085,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.715,
-        "gap": 0.0619,
-        "abs_gap_pts": 6.2,
+        "p_market": 0.085,
+        "gap": 0.0913,
+        "abs_gap_pts": 9.1,
         "threshold_pts": 10.0,
         "large": false
        },
-       "selection_override": {
-        "thesis": "NJD:SUPPRESSED",
-        "replaced": "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-1|no",
-        "selected": "KXNHLGOAL-26OCT12OTTNJ-NJTMEIER28-1|no",
-        "ev_adjusted_replaced": 0.0203,
-        "ev_adjusted_selected": 0.0176,
-        "edge_difference_pts": -0.27,
-        "thesis_capture_replaced": 0.7973,
-        "thesis_capture_selected": 0.8802,
-        "fidelity_replaced": "DIRECT",
-        "fidelity_selected": "DIRECT",
-        "reliability_replaced": "EVIDENCE_MIXED",
-        "reliability_selected": "EVIDENCE_STRONGER",
-        "growth_bp_replaced": 3.617,
-        "growth_bp_selected": 3.587,
-        "decided_on": "family reliability",
-        "rule": "similar adjusted value (within 1 pt) -> prefer reliability, then fidelity",
-        "applied": true,
-        "text": "Player prop expression KXNHLGOAL-26OCT12OTTNJ-NJTMEIER28-1|no selected over player prop KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-1|no because adjusted EV differs by only 0.3 pts while thesis capture is 0.88 vs 0.80 (DIRECT vs DIRECT; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability)"
-       },
+       "selection_override": null,
        "joint_relationships": {
         "KXNHLGOAL-26OCT12OTTNJ-NJJHUGHES86-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.007,
-         "p_both": 0.5461
+         "phi": 0.004,
+         "p_both": 0.1257
         },
-        "KXNHLGOAL-26OCT12OTTNJ-OTTMAMADIO22-1|yes": {
+        "KXNHLGOAL-26OCT12OTTNJ-OTTWFOEGELE37-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.005,
-         "p_both": 0.1384
+         "phi": -0.002,
+         "p_both": 0.0281
         },
         "KXNHLAST-26OCT12OTTNJ-OTTABURAKOVSKY95-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.024,
-         "p_both": 0.6661
+         "phi": -0.037,
+         "p_both": 0.1477
+        },
+        "KXNHLGOAL-26OCT12OTTNJ-NJTMEIER28-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.01,
+         "p_both": 0.1383
+        },
+        "KXNHLGOAL-26OCT12OTTNJ-OTTCYAKEMCHUK26-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.003,
+         "p_both": 0.165
+        },
+        "KXNHLAST-26OCT12OTTNJ-OTTJSPENCE10-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.086,
+         "p_both": 0.0721
+        },
+        "KXNHLAST-26OCT12OTTNJ-NJAMANTHA39-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.014,
+         "p_both": 0.1483
         },
         "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.066,
-         "p_both": 0.5072
-        },
-        "KXNHLSPREAD-26OCT12OTTNJ-NJ2|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.156,
-         "p_both": 0.6074
-        },
-        "KXNHLAST-26OCT12OTTNJ-NJJHUGHES86-2|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.045,
-         "p_both": 0.7215
+         "phi": -0.001,
+         "p_both": 0.1114
         },
         "KXNHLAST-26OCT12OTTNJ-NJLEVANGELISTA77-1|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.177,
-         "p_both": 0.6374
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.014,
+         "p_both": 0.1409
+        },
+        "KXNHLAST-26OCT12OTTNJ-OTTCGIROUX28-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.137,
+         "p_both": 0.077
         },
         "KXNHLAST-26OCT12OTTNJ-NJNHISCHIER13-1|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.244,
-         "p_both": 0.5751
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.003,
+         "p_both": 0.121
+        },
+        "KXNHLSPREAD-26OCT12OTTNJ-NJ2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.14,
+         "p_both": 0.1537
+        },
+        "KXNHLGOAL-26OCT12OTTNJ-NJNHISCHIER13-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.027,
+         "p_both": 0.1345
         }
        },
        "scored": false,
@@ -46630,14 +46634,14 @@
      "state": "NOT_STARTED",
      "matchup": "VGK @ MIN",
      "final_snapshot": {
-      "snapshot_id": "snap-d829ba57ef4205015932",
-      "decided_at_utc": "2026-10-12T11:24:10Z",
-      "run_id": "38219177455",
+      "snapshot_id": "snap-701263f2f608efa5cd9b",
+      "decided_at_utc": "2026-10-12T13:10:54Z",
+      "run_id": "38249202463",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
-      "n_chosen": 0,
-      "n_shortlisted": 0,
-      "n_pregame_snapshots": 8,
+      "n_chosen": 2,
+      "n_shortlisted": 2,
+      "n_pregame_snapshots": 10,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-13T00:00:00Z",
       "synthetic_game_row": false,
@@ -46646,7 +46650,95 @@
      "portfolio_result": null,
      "script_check": null,
      "overrides": [],
-     "bets": []
+     "bets": [
+      {
+       "decision_id": "78f2116090cba91fa5dfa6d503adfb78",
+       "game_id": "2026020089",
+       "bet_id": "KXNHLAST-26OCT12VGKMIN-VGKMMARNER93-2|no",
+       "family": "player_assists",
+       "chosen": true,
+       "stake_dollars": 19.98,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "CALIBRATION_WARNING_UNCORROBORATED"
+       ],
+       "fidelity_class": "DIRECT",
+       "thesis_capture": 0.9849,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "VGK:SUPPRESSED",
+       "p_thesis": 0.4241,
+       "entry_price_cents": 86,
+       "ev_raw": 0.04427199999999998,
+       "ev_adjusted": 0.010421999999999931,
+       "p_model": 0.9127,
+       "p_adjusted": 0.8788499999999999,
+       "p_kalshi_mid": 0.845,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.845,
+        "gap": 0.0677,
+        "abs_gap_pts": 6.8,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLAST-26OCT12VGKMIN-VGKMMARNER93-1|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.396,
+         "p_both": 0.6207
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "9caa044750d3e9c691a1c109d1d651af",
+       "game_id": "2026020089",
+       "bet_id": "KXNHLAST-26OCT12VGKMIN-VGKMMARNER93-1|no",
+       "family": "player_assists",
+       "chosen": true,
+       "stake_dollars": 5.14,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "CALIBRATION_WARNING_UNCORROBORATED",
+        "LARGE_MARKET_DISAGREEMENT_UNCORROBORATED"
+       ],
+       "fidelity_class": "DIRECT",
+       "thesis_capture": 0.7854,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "VGK:SUPPRESSED",
+       "p_thesis": 0.4241,
+       "entry_price_cents": 51,
+       "ev_raw": 0.09320700000000004,
+       "ev_adjusted": 0.014751999999999987,
+       "p_model": 0.6207,
+       "p_adjusted": 0.542245,
+       "p_kalshi_mid": 0.5,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.5,
+        "gap": 0.1207,
+        "abs_gap_pts": 12.1,
+        "threshold_pts": 10.0,
+        "large": true
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLAST-26OCT12VGKMIN-VGKMMARNER93-2|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.396,
+         "p_both": 0.6207
+        }
+       },
+       "scored": false,
+       "outcome": null
+      }
+     ]
     }
    }
   }
