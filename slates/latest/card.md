@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-12T06:39:53Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-12T07:39:53Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -68,7 +68,7 @@ portfolios: A EV +3.99 (adj +1.15) on $50.00, P(profit) 0.3453, adj growth 6.6 b
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
 | New Jersey wins by over 1.5 goals NO | 68 | 0.745 | 0.710 | +0.050 | +0.015 | $13.17 | FUNDED_RESEARCH | $4 | OTT:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **New Jersey wins by over 1.5 goals NO** — thesis: OTT wins (incl. OT/SO); alternative: KXNHLTEAMTOTAL-26OCT12OTTNJ-NJ3|no; why: higher confidence-adjusted growth (2.31 vs 0.69 bp); wins across more scripts (relative breadth 0.926 vs 0.793); alternative not eligible: confidence-adjusted EV +0.0087 below the 0.010/contract floor; relationships: only recommended bet in this game; failure: NJD wins by 2+
+- **New Jersey wins by over 1.5 goals NO** — thesis: OTT wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT12OTTNJ-NJ3|no; why: higher confidence-adjusted growth (2.31 vs 0.92 bp); alternative not eligible: confidence-adjusted EV +0.0080 below the 0.010/contract floor; relationships: only recommended bet in this game; failure: NJD wins by 2+
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.12, NJD shot control · normal event (5-7) · decided (2+) 0.08.
 - thesis OTT:WINS (p 0.5157): highest fidelity KXNHLSPREAD-26OCT12OTTNJ-NJ2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT12OTTNJ-NJ2|no (same contract)

@@ -1,9 +1,9 @@
 # NHL slate 2026-10-12 — RESEARCH_ONLY
 
-generated 2026-10-12T06:39:53Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-12T07:39:53Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 3 · simulated (not started): 3 · markets on board: 2626 · contracts joined: 153 (unjoined to any game: 1569)
-gates: {'UNSUPPORTED': 78, 'OK': 31, 'NO_EDGE': 44}
+gates: {'UNSUPPORTED': 78, 'OK': 32, 'NO_EDGE': 43}
 families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_early_goal': 3, 'game_winner': 6, 'game_overtime': 3, 'game_spread': 12, 'team_total': 30, 'game_total': 27}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -17,7 +17,7 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | ticker | family | P(data) | P(mkt mid) | P(anchored) | yes ask | no ask | best | EV after fee | gate |
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
 | KXNHLGAME-26OCT12FLABUF-BUF | game_winner | 0.615 | 0.495 | 0.519 | 50 | 51 | yes | +0.097 | OK |
-| KXNHLGAME-26OCT12FLABUF-FLA | game_winner | 0.386 | 0.505 | 0.481 | 51 | 50 | no | +0.097 | OK |
+| KXNHLGAME-26OCT12FLABUF-FLA | game_winner | 0.386 | 0.495 | 0.473 | 50 | 51 | no | +0.087 | OK |
 | KXNHLSPREAD-26OCT12FLABUF-BUF2 | game_spread | 0.389 | 0.285 | 0.305 | 29 | 72 | yes | +0.085 | OK |
 | KXNHLSPREAD-26OCT12FLABUF-FLA2 | game_spread | 0.196 | 0.295 | 0.273 | 30 | 71 | no | +0.080 | OK |
 | KXNHLTEAMTOTAL-26OCT12FLABUF-FLA3 | team_total | 0.520 | 0.610 | 0.592 | 62 | 40 | no | +0.063 | OK |
@@ -35,11 +35,12 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLTOTAL-26OCT12OTTNJ-4 | game_total | 0.827 | 0.855 | 0.850 | 86 | 15 | no | +0.014 | OK |
 | KXNHLSPREAD-26OCT12VGKMIN-VGK3 | game_spread | 0.146 | 0.175 | 0.169 | 18 | 83 | no | +0.014 | OK |
 | KXNHLTEAMTOTAL-26OCT12FLABUF-FLA6 | team_total | 0.061 | 0.095 | 0.087 | 11 | 92 | no | +0.014 | OK |
+| KXNHLSPREAD-26OCT12VGKMIN-VGK2 | game_spread | 0.254 | 0.285 | 0.279 | 29 | 72 | no | +0.012 | OK |
 | KXNHLTEAMTOTAL-26OCT12VGKMIN-VGK2 | team_total | 0.783 | 0.810 | 0.805 | 82 | 20 | no | +0.006 | OK |
 | KXNHLSPREAD-26OCT12VGKMIN-MIN2 | game_spread | 0.309 | 0.285 | 0.290 | 29 | 72 | yes | +0.005 | OK |
+| KXNHLSPREAD-26OCT12OTTNJ-OTT2 | game_spread | 0.243 | 0.265 | 0.260 | 27 | 74 | no | +0.004 | OK |
 | KXNHLSPREAD-26OCT12OTTNJ-OTT3 | game_spread | 0.138 | 0.155 | 0.151 | 16 | 85 | no | +0.003 | OK |
 | KXNHLTOTAL-26OCT12OTTNJ-3 | game_total | 0.954 | 0.965 | 0.963 | 97 | 4 | no | +0.003 | OK |
-| KXNHLSPREAD-26OCT12VGKMIN-VGK2 | game_spread | 0.254 | 0.275 | 0.271 | 28 | 73 | no | +0.003 | OK |
 | KXNHLTOTAL-26OCT12OTTNJ-7 | game_total | 0.401 | 0.425 | 0.420 | 43 | 58 | no | +0.002 | OK |
 | KXNHLTOTAL-26OCT12FLABUF-10 | game_total | 0.086 | 0.075 | 0.077 | 8 | 93 | yes | +0.001 | OK |
 | KXNHLTOTAL-26OCT12OTTNJ-10 | game_total | 0.064 | 0.080 | 0.077 | 9 | 93 | no | +0.001 | OK |
@@ -48,52 +49,51 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLTOTAL-26OCT12OTTNJ-6 | game_total | 0.512 | 0.535 | 0.530 | 54 | 47 | no | +0.000 | OK |
 | KXNHLTOTAL-26OCT12FLABUF-8 | game_total | 0.263 | 0.245 | 0.249 | 25 | 76 | yes | +0.000 | OK |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-NJ4 | team_total | 0.384 | 0.415 | 0.409 | 43 | 60 |  | -0.000 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT12VGKMIN-VGK5 | team_total | 0.180 | 0.205 | 0.200 | 22 | 81 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-3 | game_total | 0.958 | 0.965 | 0.964 | 97 | 4 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26OCT12OTTNJ-2 | game_total | 0.980 | 0.985 | 0.984 | 99 | 2 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26OCT12OTTNJ-9 | game_total | 0.153 | 0.165 | 0.162 | 17 | 84 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-2 | game_total | 0.982 | 0.985 | 0.984 | 99 | 2 |  | -0.003 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-NJ5 | team_total | 0.202 | 0.220 | 0.216 | 23 | 79 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-5 | game_total | 0.761 | 0.780 | 0.776 | 79 | 23 |  | -0.004 | NO_EDGE |
-| KXNHLSPREAD-26OCT12OTTNJ-NJ3 | game_spread | 0.193 | 0.210 | 0.206 | 22 | 80 |  | -0.004 | NO_EDGE |
+| KXNHLSPREAD-26OCT12OTTNJ-NJ3 | game_spread | 0.193 | 0.205 | 0.202 | 21 | 80 |  | -0.004 | NO_EDGE |
 | KXNHLGAME-26OCT12VGKMIN-MIN | game_winner | 0.533 | 0.515 | 0.519 | 52 | 49 |  | -0.004 | NO_EDGE |
 | KXNHLGAME-26OCT12VGKMIN-VGK | game_winner | 0.467 | 0.485 | 0.481 | 49 | 52 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26OCT12FLABUF-2 | game_total | 0.986 | 0.985 | 0.985 | 99 | 2 |  | -0.004 | NO_EDGE |
-| KXNHLTOTAL-26OCT12OTTNJ-8 | game_total | 0.222 | 0.235 | 0.232 | 24 | 77 |  | -0.005 | NO_EDGE |
+| KXNHLTOTAL-26OCT12OTTNJ-8 | game_total | 0.222 | 0.240 | 0.236 | 25 | 77 |  | -0.005 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-NJ6 | team_total | 0.089 | 0.100 | 0.098 | 11 | 91 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT12FLABUF-3 | game_total | 0.967 | 0.965 | 0.965 | 97 | 4 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT12FLABUF-5 | game_total | 0.774 | 0.785 | 0.783 | 79 | 22 |  | -0.006 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-NJ3 | team_total | 0.610 | 0.630 | 0.626 | 64 | 38 |  | -0.006 | NO_EDGE |
 | KXNHLTOTAL-26OCT12FLABUF-4 | game_total | 0.858 | 0.865 | 0.864 | 87 | 14 |  | -0.006 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT12VGKMIN-MIN5 | team_total | 0.215 | 0.200 | 0.203 | 21 | 81 |  | -0.007 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-OTT5 | team_total | 0.158 | 0.175 | 0.172 | 19 | 84 |  | -0.008 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT12VGKMIN-VGK4 | team_total | 0.352 | 0.370 | 0.366 | 38 | 64 |  | -0.008 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT12OTTNJ-OTT4 | team_total | 0.323 | 0.340 | 0.337 | 35 | 67 |  | -0.009 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT12OTTNJ-OTT3 | team_total | 0.542 | 0.560 | 0.556 | 57 | 45 |  | -0.009 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT12VGKMIN-VGK4 | team_total | 0.352 | 0.375 | 0.370 | 39 | 64 |  | -0.008 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT12OTTNJ-OTT4 | team_total | 0.323 | 0.345 | 0.341 | 36 | 67 |  | -0.009 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT12OTTNJ-OTT3 | team_total | 0.542 | 0.565 | 0.560 | 58 | 45 |  | -0.009 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-OTT6 | team_total | 0.065 | 0.070 | 0.069 | 8 | 94 |  | -0.009 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-OTT2 | team_total | 0.767 | 0.785 | 0.782 | 80 | 23 |  | -0.010 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT12VGKMIN-VGK5 | team_total | 0.180 | 0.195 | 0.192 | 21 | 82 |  | -0.010 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12VGKMIN-VGK6 | team_total | 0.076 | 0.080 | 0.079 | 9 | 93 |  | -0.011 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-10 | game_total | 0.076 | 0.080 | 0.079 | 9 | 93 |  | -0.011 | NO_EDGE |
 | KXNHLTOTAL-26OCT12FLABUF-6 | game_total | 0.564 | 0.575 | 0.573 | 58 | 43 |  | -0.011 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12VGKMIN-MIN6 | team_total | 0.095 | 0.085 | 0.087 | 10 | 93 |  | -0.011 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-6 | game_total | 0.544 | 0.555 | 0.553 | 56 | 45 |  | -0.012 | NO_EDGE |
 | KXNHLSPREAD-26OCT12OTTNJ-NJ2 | game_spread | 0.317 | 0.325 | 0.323 | 33 | 68 |  | -0.012 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT12VGKMIN-MIN2 | team_total | 0.818 | 0.815 | 0.816 | 82 | 19 |  | -0.013 | NO_EDGE |
 | KXNHLSPREAD-26OCT12VGKMIN-MIN3 | game_spread | 0.188 | 0.185 | 0.186 | 19 | 82 |  | -0.013 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-9 | game_total | 0.173 | 0.175 | 0.175 | 18 | 83 |  | -0.013 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT12VGKMIN-MIN4 | team_total | 0.403 | 0.385 | 0.389 | 40 | 63 |  | -0.014 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-4 | game_total | 0.845 | 0.850 | 0.849 | 86 | 16 |  | -0.014 | NO_EDGE |
-| KXNHLSPREAD-26OCT12OTTNJ-OTT2 | game_spread | 0.243 | 0.245 | 0.245 | 25 | 76 |  | -0.015 | NO_EDGE |
 | KXNHLTOTAL-26OCT12FLABUF-7 | game_total | 0.452 | 0.445 | 0.446 | 45 | 56 |  | -0.016 | NO_EDGE |
 | KXNHLTOTAL-26OCT12FLABUF-9 | game_total | 0.185 | 0.180 | 0.181 | 19 | 83 |  | -0.016 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-8 | game_total | 0.247 | 0.245 | 0.245 | 25 | 76 |  | -0.016 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT12VGKMIN-MIN5 | team_total | 0.215 | 0.205 | 0.207 | 22 | 81 |  | -0.017 | NO_EDGE |
-| KXNHLGAME-26OCT12OTTNJ-OTT | game_winner | 0.457 | 0.450 | 0.451 | 46 | 56 |  | -0.020 | NO_EDGE |
+| KXNHLGAME-26OCT12OTTNJ-OTT | game_winner | 0.457 | 0.455 | 0.455 | 46 | 55 |  | -0.020 | NO_EDGE |
 | KXNHLGAME-26OCT12OTTNJ-NJ | game_winner | 0.543 | 0.545 | 0.545 | 55 | 46 |  | -0.020 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-7 | game_total | 0.434 | 0.435 | 0.435 | 44 | 57 |  | -0.021 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT12VGKMIN-MIN3 | team_total | 0.614 | 0.610 | 0.611 | 62 | 40 |  | -0.022 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT12VGKMIN-MIN4 | team_total | 0.403 | 0.395 | 0.397 | 41 | 62 |  | -0.024 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT12VGKMIN-MIN2 | team_total | 0.818 | 0.815 | 0.816 | 83 | 20 |  | -0.022 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT12VGKMIN-MIN3 | team_total | 0.614 | 0.605 | 0.607 | 62 | 41 |  | -0.022 | NO_EDGE |
 | KXNHL1P-26OCT12FLABUF-BUF | period_winner |  | 0.320 |  | 34 | 70 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT12FLABUF-FLA | period_winner |  | 0.335 |  | 35 | 68 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT12FLABUF-TIE | period_winner |  | 0.320 |  | 33 | 69 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT12FLABUF-TIE | period_winner |  | 0.335 |  | 37 | 70 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26OCT12FLABUF-BUF2 | period_spread |  | 0.070 |  | 13 | 99 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26OCT12FLABUF-FLA2 | period_spread |  | 0.145 |  | 18 | 89 |  |  | UNSUPPORTED |
 
