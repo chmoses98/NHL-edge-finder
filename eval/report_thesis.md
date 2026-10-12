@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-12T02:04:14Z · thesis-postmortem-2.0 · rows (all generations) 12957
+evaluated 2026-10-12T03:41:44Z · thesis-postmortem-2.0 · rows (all generations) 12957
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
