@@ -1,9 +1,9 @@
 # NHL slate 2026-10-12 — RESEARCH_ONLY
 
-generated 2026-10-12T18:10:41Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-12T19:04:43Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
-games on date: 3 · simulated (not started): 2 · markets on board: 3110 · contracts joined: 447 (unjoined to any game: 1569)
-gates: {'UNSUPPORTED': 397, 'NO_EDGE': 33, 'OK': 17}
+games on date: 3 · simulated (not started): 2 · markets on board: 3101 · contracts joined: 447 (unjoined to any game: 1569)
+gates: {'UNSUPPORTED': 397, 'NO_EDGE': 32, 'OK': 18}
 families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player_assists': 60, 'game_early_goal': 2, 'first_goal': 72, 'game_winner': 4, 'player_goals': 127, 'game_overtime': 2, 'player_points': 83, 'goalie_saves': 3, 'game_spread': 8, 'team_total': 20, 'game_total': 18}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -15,7 +15,7 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 
 | ticker | family | P(data) | P(mkt mid) | P(anchored) | yes ask | no ask | best | EV after fee | gate |
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
-| KXNHLGAME-26OCT12VGKMIN-MIN | game_winner | 0.543 | 0.495 | 0.505 | 50 | 51 | yes | +0.026 | OK |
+| KXNHLGAME-26OCT12VGKMIN-MIN | game_winner | 0.543 | 0.485 | 0.497 | 49 | 52 | yes | +0.036 | OK |
 | KXNHLSPREAD-26OCT12VGKMIN-VGK2 | game_spread | 0.246 | 0.285 | 0.277 | 29 | 72 | no | +0.020 | OK |
 | KXNHLGAME-26OCT12VGKMIN-VGK | game_winner | 0.457 | 0.495 | 0.487 | 50 | 51 | no | +0.016 | OK |
 | KXNHLSPREAD-26OCT12VGKMIN-VGK3 | game_spread | 0.145 | 0.175 | 0.169 | 18 | 83 | no | +0.015 | OK |
@@ -23,6 +23,7 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHLTEAMTOTAL-26OCT12VGKMIN-VGK4 | team_total | 0.342 | 0.380 | 0.372 | 39 | 63 | no | +0.012 | OK |
 | KXNHLTEAMTOTAL-26OCT12VGKMIN-VGK3 | team_total | 0.562 | 0.595 | 0.588 | 60 | 41 | no | +0.011 | OK |
 | KXNHLTEAMTOTAL-26OCT12VGKMIN-VGK2 | team_total | 0.778 | 0.805 | 0.800 | 81 | 20 | no | +0.010 | OK |
+| KXNHLTOTAL-26OCT12VGKMIN-3 | game_total | 0.960 | 0.975 | 0.972 | 98 | 3 | no | +0.008 | OK |
 | KXNHLTEAMTOTAL-26OCT12VGKMIN-VGK5 | team_total | 0.173 | 0.200 | 0.194 | 21 | 81 | no | +0.007 | OK |
 | KXNHLTEAMTOTAL-26OCT12VGKMIN-MIN4 | team_total | 0.403 | 0.375 | 0.381 | 38 | 63 | yes | +0.006 | OK |
 | KXNHLTOTAL-26OCT12OTTNJ-10 | game_total | 0.080 | 0.065 | 0.068 | 7 | 94 | yes | +0.005 | OK |
@@ -33,18 +34,17 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHLTEAMTOTAL-26OCT12VGKMIN-MIN6 | team_total | 0.098 | 0.080 | 0.083 | 9 | 93 | yes | +0.002 | OK |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-NJ6 | team_total | 0.096 | 0.085 | 0.087 | 9 | 92 | yes | +0.000 | OK |
 | KXNHLTOTAL-26OCT12VGKMIN-4 | game_total | 0.843 | 0.860 | 0.857 | 87 | 15 |  | -0.002 | NO_EDGE |
-| KXNHLTOTAL-26OCT12VGKMIN-3 | game_total | 0.960 | 0.965 | 0.964 | 97 | 4 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26OCT12OTTNJ-3 | game_total | 0.961 | 0.965 | 0.964 | 97 | 4 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-2 | game_total | 0.983 | 0.985 | 0.985 | 99 | 2 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26OCT12OTTNJ-2 | game_total | 0.983 | 0.985 | 0.985 | 99 | 2 |  | -0.004 | NO_EDGE |
-| KXNHLSPREAD-26OCT12OTTNJ-NJ3 | game_spread | 0.184 | 0.200 | 0.197 | 21 | 81 |  | -0.005 | NO_EDGE |
+| KXNHLSPREAD-26OCT12OTTNJ-NJ3 | game_spread | 0.184 | 0.195 | 0.193 | 20 | 81 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-6 | game_total | 0.538 | 0.555 | 0.552 | 56 | 45 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT12OTTNJ-4 | game_total | 0.847 | 0.855 | 0.853 | 86 | 15 |  | -0.006 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-OTT6 | team_total | 0.079 | 0.070 | 0.072 | 8 | 94 |  | -0.006 | NO_EDGE |
 | KXNHLSPREAD-26OCT12VGKMIN-MIN3 | game_spread | 0.194 | 0.185 | 0.187 | 19 | 82 |  | -0.007 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-9 | game_total | 0.168 | 0.175 | 0.174 | 18 | 83 |  | -0.008 | NO_EDGE |
 | KXNHLSPREAD-26OCT12OTTNJ-NJ2 | game_spread | 0.303 | 0.315 | 0.313 | 32 | 69 |  | -0.008 | NO_EDGE |
-| KXNHLTOTAL-26OCT12OTTNJ-8 | game_total | 0.245 | 0.235 | 0.237 | 24 | 77 |  | -0.008 | NO_EDGE |
+| KXNHLTOTAL-26OCT12OTTNJ-8 | game_total | 0.245 | 0.230 | 0.233 | 24 | 78 |  | -0.008 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-NJ5 | team_total | 0.213 | 0.205 | 0.207 | 21 | 80 |  | -0.008 | NO_EDGE |
 | KXNHLTOTAL-26OCT12OTTNJ-9 | game_total | 0.171 | 0.160 | 0.162 | 17 | 85 |  | -0.009 | NO_EDGE |
 | KXNHLTOTAL-26OCT12VGKMIN-10 | game_total | 0.074 | 0.075 | 0.075 | 8 | 93 |  | -0.009 | NO_EDGE |
@@ -60,7 +60,7 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHLSPREAD-26OCT12OTTNJ-OTT2 | game_spread | 0.261 | 0.265 | 0.264 | 27 | 74 |  | -0.015 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-OTT5 | team_total | 0.184 | 0.180 | 0.181 | 19 | 83 |  | -0.017 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-NJ2 | team_total | 0.812 | 0.810 | 0.810 | 82 | 20 |  | -0.019 | NO_EDGE |
-| KXNHLTOTAL-26OCT12OTTNJ-6 | game_total | 0.546 | 0.545 | 0.545 | 55 | 46 |  | -0.021 | NO_EDGE |
+| KXNHLTOTAL-26OCT12OTTNJ-6 | game_total | 0.546 | 0.540 | 0.541 | 55 | 47 |  | -0.021 | NO_EDGE |
 | KXNHLGAME-26OCT12OTTNJ-NJ | game_winner | 0.526 | 0.525 | 0.525 | 53 | 48 |  | -0.021 | NO_EDGE |
 | KXNHLGAME-26OCT12OTTNJ-OTT | game_winner | 0.474 | 0.475 | 0.475 | 48 | 53 |  | -0.021 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT12OTTNJ-OTT3 | team_total | 0.575 | 0.575 | 0.575 | 58 | 43 |  | -0.022 | NO_EDGE |
@@ -68,12 +68,12 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHL1P-26OCT12OTTNJ-NJ | period_winner |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT12OTTNJ-OTT | period_winner |  | 0.305 |  | 32 | 71 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT12OTTNJ-TIE | period_winner |  | 0.335 |  | 35 | 68 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT12OTTNJ-NJ2 | period_spread |  | 0.095 |  | 11 | 92 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT12OTTNJ-NJ2 | period_spread |  | 0.090 |  | 10 | 92 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26OCT12OTTNJ-OTT2 | period_spread |  | 0.080 |  | 9 | 93 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT12OTTNJ-1 | period_total |  | 0.815 |  | 82 | 19 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT12OTTNJ-2 | period_total |  | 0.515 |  | 52 | 49 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT12OTTNJ-3 | period_total |  | 0.240 |  | 25 | 77 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT12OTTNJ-NJ | period_winner |  | 0.345 |  | 36 | 67 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT12OTTNJ-NJ | period_winner |  | 0.350 |  | 36 | 66 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT12OTTNJ-OTT | period_winner |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT12OTTNJ-TIE | period_winner |  | 0.305 |  | 32 | 71 |  |  | UNSUPPORTED |
 | KXNHL2PSPREAD-26OCT12OTTNJ-NJ2 | period_spread |  | 0.125 |  | 13 | 88 |  |  | UNSUPPORTED |
@@ -83,7 +83,7 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHL2PTOTAL-26OCT12OTTNJ-3 | period_total |  | 0.305 |  | 32 | 71 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT12OTTNJ-NJ | period_winner |  | 0.375 |  | 39 | 64 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT12OTTNJ-OTT | period_winner |  | 0.335 |  | 35 | 68 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT12OTTNJ-TIE | period_winner |  | 0.265 |  | 27 | 74 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT12OTTNJ-TIE | period_winner |  | 0.260 |  | 27 | 75 |  |  | UNSUPPORTED |
 | KXNHL3PSPREAD-26OCT12OTTNJ-NJ2 | period_spread |  | 0.170 |  | 18 | 84 |  |  | UNSUPPORTED |
 | KXNHL3PSPREAD-26OCT12OTTNJ-OTT2 | period_spread |  | 0.155 |  | 16 | 85 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26OCT12OTTNJ-1 | period_total |  | 0.905 |  | 92 | 11 |  |  | UNSUPPORTED |
@@ -91,8 +91,8 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHL3PTOTAL-26OCT12OTTNJ-3 | period_total |  | 0.370 |  | 38 | 64 |  |  | UNSUPPORTED |
 | KXNHLAST-26OCT12OTTNJ-NJAMANTHA39-1 | player_assists |  | 0.250 |  | 26 | 76 |  |  | UNSUPPORTED |
 | KXNHLAST-26OCT12OTTNJ-NJDHAMILTON7-1 | player_assists |  | 0.305 |  | 31 | 70 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT12OTTNJ-NJDHAMILTON7-2 | player_assists |  | 0.055 |  | 7 | 96 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT12OTTNJ-NJERODRIGUES17-1 | player_assists |  | 0.125 |  | 23 | 98 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT12OTTNJ-NJDHAMILTON7-2 | player_assists |  | 0.050 |  | 6 | 96 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT12OTTNJ-NJERODRIGUES17-1 | player_assists |  | 0.135 |  | 23 | 96 |  |  | UNSUPPORTED |
 | KXNHLAST-26OCT12OTTNJ-NJJBRATT63-1 | player_assists |  | 0.445 |  | 45 | 56 |  |  | UNSUPPORTED |
 | KXNHLAST-26OCT12OTTNJ-NJJBRATT63-2 | player_assists |  | 0.110 |  | 13 | 91 |  |  | UNSUPPORTED |
 
@@ -112,10 +112,10 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 - Michael Amadio: 1+ goals YES @ 13c · p 0.1715 (adj 0.1599) · $5.12 · thesis OTT:OFFENSE_4PLUS
 - Andre Burakovsky: 1+ assists NO @ 72c · p 0.8634 (adj 0.7604) · $19.05 · thesis OTT:SUPPRESSED
 - Jordan Spence: 1+ assists YES @ 24c · p 0.322 (adj 0.2785) · $6.79 · thesis OTT:OFFENSE_4PLUS
-- Brayden McNabb: 1+ goals YES @ 5c · p 0.0742 (adj 0.0707) · $4.41 · thesis VGK:OFFENSE_4PLUS
-- Olli Maatta: 1+ goals YES @ 4c · p 0.0595 (adj 0.0546) · $2.79 · thesis MIN:OFFENSE_4PLUS
-- Braeden Bowman: 1+ goals YES @ 13c · p 0.1596 (adj 0.151) · $3.66 · thesis VGK:OFFENSE_4PLUS
-- Mitch Marner: 1+ assists NO @ 53c · p 0.6065 (adj 0.5657) · $11.71 · thesis VGK:SUPPRESSED
+- Brayden McNabb: 1+ goals YES @ 5c · p 0.0742 (adj 0.0707) · $4.32 · thesis VGK:OFFENSE_4PLUS
+- Braeden Bowman: 1+ goals YES @ 12c · p 0.1596 (adj 0.1484) · $5.65 · thesis VGK:OFFENSE_4PLUS
+- Rieger Lorenz: 1+ goals YES @ 10c · p 0.1342 (adj 0.1257) · $5.05 · thesis MIN:OFFENSE_4PLUS
+- Yakov Trenin: 1+ goals YES @ 9c · p 0.1206 (adj 0.1092) · $3.41 · thesis MIN:OFFENSE_4PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -125,12 +125,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Nico Daws: 23+ saves | 0.544 | 0.300 | 54/94 | -0.013 |  |
 | Andre Burakovsky: 1+ points | 0.266 | 0.425 | 44/59 | +0.127 | STANDARD |
 | Andre Burakovsky: 1+ assists | 0.137 | 0.295 | 31/72 | +0.129 | STANDARD |
 | Jack Hughes: 1+ assists | 0.363 | 0.520 | 53/49 | +0.129 | STANDARD |
 | Jack Hughes: 2+ points | 0.189 | 0.335 | 35/68 | +0.115 | STANDARD |
-| Luke Evangelista: 1+ assists | 0.210 | 0.355 | 38/67 | +0.105 | STANDARD |
+| Luke Evangelista: 1+ assists | 0.210 | 0.350 | 37/67 | +0.105 | STANDARD |
+| Jack Hughes: 1+ points | 0.545 | 0.685 | 69/32 | +0.120 | STANDARD |
 
 **VGK @ MIN** · priced 170/172 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - MIN net: Jesper Wallstedt (CONFIRMED) exp shots 29.04, exp saves 25.33 (sd 6.81), pull risk 0.054
@@ -138,12 +138,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Jesper Wallstedt: 27+ saves | 0.424 | 0.280 | 50/94 | -0.094 |  |
 | Jack Eichel: 1+ assists | 0.416 | 0.545 | 55/46 | +0.107 | STANDARD |
-| Trevor Connelly: 1+ assists | 0.177 | 0.280 | 29/73 | +0.079 | PRIOR_HEAVY |
 | Jack Eichel: 2+ points | 0.216 | 0.315 | 32/69 | +0.079 | STANDARD |
-| Trevor Connelly: 1+ points | 0.325 | 0.415 | 43/60 | +0.059 | PRIOR_HEAVY |
-| Jack Eichel: 1+ points | 0.580 | 0.670 | 68/34 | +0.064 | STANDARD |
+| Ryan Hartman: 1+ assists | 0.318 | 0.230 | 25/79 | +0.055 | STANDARD |
+| Trevor Connelly: 1+ points | 0.325 | 0.410 | 42/60 | +0.059 | PRIOR_HEAVY |
+| Jack Eichel: 1+ points | 0.580 | 0.665 | 67/34 | +0.064 | STANDARD |
+| Mitch Marner: 1+ assists | 0.394 | 0.475 | 48/53 | +0.059 | STANDARD |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
