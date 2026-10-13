@@ -1,0 +1,73 @@
+{
+ "invariants": {
+  "games": 1312,
+  "draws_checked": 5248000,
+  "violations": 0,
+  "incumbent_invariant_violations": 0
+ },
+ "violation_examples": [],
+ "excluded": {
+  "game_not_in_player_tables": 0,
+  "team_without_starter_row": 0
+ },
+ "saves_model_challenger": {
+  "coef": [
+   0.001719788658320029,
+   1.0,
+   0.013653159128526673,
+   -0.004381372056572119,
+   0.03292949473527802
+  ],
+  "alpha": 0.016822983210981277,
+  "pull_h": {
+   "1": 0.0049699298362846644,
+   "2": 0.009055982436882546,
+   "3": 0.03,
+   "4": 0.08600746268656717,
+   "5": 0.15543259557344064,
+   "6": 0.2381818181818182,
+   "7": 0.21
+  },
+  "n_fit": 5234,
+  "lg_sv": 0.9082895946850504,
+  "terms": [
+   "intercept",
+   "log(expected shots faced - expected GA)",
+   "regulation margin (goalie team, clipped +-3)",
+   "goals against",
+   "overtime"
+  ]
+ },
+ "saves_model_incumbent": {
+  "coef": [
+   -0.005231838913782632,
+   1.0,
+   0.013672081938927966,
+   -0.004304419748331881,
+   0.03276901901526941
+  ],
+  "alpha": 0.016884797063719925,
+  "pull_h": {
+   "1": 0.0049699298362846644,
+   "2": 0.009055982436882546,
+   "3": 0.03,
+   "4": 0.08600746268656717,
+   "5": 0.15543259557344064,
+   "6": 0.2381818181818182,
+   "7": 0.21
+  },
+  "n_fit": 5234,
+  "lg_sv": 0.9082895946850504,
+  "terms": [
+   "intercept",
+   "log(expected shots faced - expected GA)",
+   "regulation margin (goalie team, clipped +-3)",
+   "goals against",
+   "overtime"
+  ]
+ },
+ "baseline_meta": {
+  "toi_resid_sd_min": 2.5831747402023018
+ },
+ "model_frozen_hash": "sha256:14dc08c0cd234c6d9f226ba7c6e9ae1312f6dd923b0d2254ebfc78bd062855fa"
+}
