@@ -1,5 +1,5 @@
 {
- "evaluated_at_utc": "2026-10-14T14:41:10Z",
+ "evaluated_at_utc": "2026-10-14T16:26:40Z",
  "authority": "RESEARCH_ONLY",
  "report_version": "thesis-postmortem-2.0",
  "n_rows_all_runs": 15338,
@@ -56916,14 +56916,14 @@
      "state": "NOT_STARTED",
      "matchup": "MTL @ WSH",
      "final_snapshot": {
-      "snapshot_id": "snap-97d8ef60d139d47c53c0",
-      "decided_at_utc": "2026-10-14T14:24:08Z",
+      "snapshot_id": "snap-be0d2a9a50cddcb9a5bc",
+      "decided_at_utc": "2026-10-14T16:24:05Z",
       "run_id": "38566885229",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
-      "n_chosen": 2,
-      "n_shortlisted": 2,
-      "n_pregame_snapshots": 11,
+      "n_chosen": 4,
+      "n_shortlisted": 4,
+      "n_pregame_snapshots": 13,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-14T23:30:00Z",
       "synthetic_game_row": false,
@@ -56934,12 +56934,118 @@
      "overrides": [],
      "bets": [
       {
-       "decision_id": "e9e428f97d8434f946b49e3842e2a5f5",
+       "decision_id": "0c18334b72ac86313c23a42c55ea758b",
+       "game_id": "2026020106",
+       "bet_id": "KXNHLAST-26OCT14MTLWSH-WSHRLEONARD9-1|yes",
+       "family": "player_assists",
+       "chosen": true,
+       "stake_dollars": 7.64,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "CALIBRATION_WARNING_UNCORROBORATED"
+       ],
+       "fidelity_class": "DIRECT",
+       "thesis_capture": 0.5636,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "WSH:OFFENSE_4PLUS",
+       "p_thesis": 0.4077,
+       "entry_price_cents": 32,
+       "ev_raw": 0.06386799999999998,
+       "ev_adjusted": 0.016817999999999944,
+       "p_model": 0.3991,
+       "p_adjusted": 0.35205,
+       "p_kalshi_mid": 0.305,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.305,
+        "gap": 0.0941,
+        "abs_gap_pts": 9.4,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLAST-26OCT14MTLWSH-WSHJKYROU25-1|no": {
+         "relationship": "INTENTIONAL_DIVERSIFIER",
+         "phi": -0.075,
+         "p_both": 0.2914
+        },
+        "KXNHLGOAL-26OCT14MTLWSH-WSHJCHYCHRUN6-1|no": {
+         "relationship": "INTENTIONAL_DIVERSIFIER",
+         "phi": -0.111,
+         "p_both": 0.3067
+        },
+        "KXNHLTOTAL-26OCT14MTLWSH-6|no": {
+         "relationship": "INTENTIONAL_DIVERSIFIER",
+         "phi": -0.203,
+         "p_both": 0.1267
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "7fb1df75e7683c6da62257c1c4109af8",
+       "game_id": "2026020106",
+       "bet_id": "KXNHLAST-26OCT14MTLWSH-WSHJKYROU25-1|no",
+       "family": "player_assists",
+       "chosen": true,
+       "stake_dollars": 11.11,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "CALIBRATION_WARNING_UNCORROBORATED"
+       ],
+       "fidelity_class": "DIRECT",
+       "thesis_capture": 0.8789,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "WSH:SUPPRESSED",
+       "p_thesis": 0.3766,
+       "entry_price_cents": 70,
+       "ev_raw": 0.05400000000000005,
+       "ev_adjusted": 0.012149999999999994,
+       "p_model": 0.7687,
+       "p_adjusted": 0.72685,
+       "p_kalshi_mid": 0.685,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.685,
+        "gap": 0.0837,
+        "abs_gap_pts": 8.4,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLAST-26OCT14MTLWSH-WSHRLEONARD9-1|yes": {
+         "relationship": "INTENTIONAL_DIVERSIFIER",
+         "phi": -0.075,
+         "p_both": 0.2914
+        },
+        "KXNHLGOAL-26OCT14MTLWSH-WSHJCHYCHRUN6-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.038,
+         "p_both": 0.6371
+        },
+        "KXNHLTOTAL-26OCT14MTLWSH-6|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.153,
+         "p_both": 0.3711
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "099120abb64858d5e41b4f2dcd7a953b",
        "game_id": "2026020106",
        "bet_id": "KXNHLGOAL-26OCT14MTLWSH-WSHJCHYCHRUN6-1|no",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 12.06,
+       "stake_dollars": 13.71,
        "research_status": "FUNDED_RESEARCH",
        "research_stake_dollars": 4,
        "research_reasons": [],
@@ -56965,6 +57071,16 @@
        },
        "selection_override": null,
        "joint_relationships": {
+        "KXNHLAST-26OCT14MTLWSH-WSHRLEONARD9-1|yes": {
+         "relationship": "INTENTIONAL_DIVERSIFIER",
+         "phi": -0.111,
+         "p_both": 0.3067
+        },
+        "KXNHLAST-26OCT14MTLWSH-WSHJKYROU25-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.038,
+         "p_both": 0.6371
+        },
         "KXNHLTOTAL-26OCT14MTLWSH-6|no": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.134,
@@ -56975,12 +57091,12 @@
        "outcome": null
       },
       {
-       "decision_id": "8b285220d41d3cb3dac03d351536e93e",
+       "decision_id": "54aa08749f116799e034986b979d7046",
        "game_id": "2026020106",
        "bet_id": "KXNHLTOTAL-26OCT14MTLWSH-6|no",
        "family": "game_total",
        "chosen": true,
-       "stake_dollars": 4.01,
+       "stake_dollars": 4.85,
        "research_status": "FUNDED_RESEARCH",
        "research_stake_dollars": 2,
        "research_reasons": [],
@@ -57006,6 +57122,16 @@
        },
        "selection_override": null,
        "joint_relationships": {
+        "KXNHLAST-26OCT14MTLWSH-WSHRLEONARD9-1|yes": {
+         "relationship": "INTENTIONAL_DIVERSIFIER",
+         "phi": -0.203,
+         "p_both": 0.1267
+        },
+        "KXNHLAST-26OCT14MTLWSH-WSHJKYROU25-1|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.153,
+         "p_both": 0.3711
+        },
         "KXNHLGOAL-26OCT14MTLWSH-WSHJCHYCHRUN6-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": 0.134,
@@ -57021,14 +57147,14 @@
      "state": "NOT_STARTED",
      "matchup": "DAL @ COL",
      "final_snapshot": {
-      "snapshot_id": "snap-97d8ef60d139d47c53c0",
-      "decided_at_utc": "2026-10-14T14:24:08Z",
+      "snapshot_id": "snap-be0d2a9a50cddcb9a5bc",
+      "decided_at_utc": "2026-10-14T16:24:05Z",
       "run_id": "38566885229",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
-      "n_chosen": 1,
-      "n_shortlisted": 1,
-      "n_pregame_snapshots": 11,
+      "n_chosen": 4,
+      "n_shortlisted": 7,
+      "n_pregame_snapshots": 13,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-15T00:30:00Z",
       "synthetic_game_row": false,
@@ -57039,37 +57165,272 @@
      "overrides": [],
      "bets": [
       {
-       "decision_id": "89d4d94f259ef6df6cc5978db0d18dbc",
+       "decision_id": "ed33118c286c3e3edee44f6e7c1980f1",
        "game_id": "2026020107",
-       "bet_id": "KXNHLGOAL-26OCT14DALCOL-COLNMACKINNON29-1|no",
+       "bet_id": "KXNHLGOAL-26OCT14DALCOL-COLALEHKONEN62-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 11.55,
+       "stake_dollars": 8.67,
        "research_status": "FUNDED_RESEARCH",
        "research_stake_dollars": 3,
        "research_reasons": [],
-       "fidelity_class": "DIRECT",
-       "thesis_capture": 0.7977,
+       "fidelity_class": "FRAGILE",
+       "thesis_capture": 0.3974,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
-       "primary_thesis": "COL:SUPPRESSED",
-       "p_thesis": 0.3357,
-       "entry_price_cents": 55,
-       "ev_raw": 0.03387499999999988,
-       "ev_adjusted": 0.01982499999999987,
-       "p_model": 0.6012,
-       "p_adjusted": 0.58715,
-       "p_kalshi_mid": 0.5449999999999999,
+       "primary_thesis": "COL:OFFENSE_4PLUS",
+       "p_thesis": 0.4441,
+       "entry_price_cents": 23,
+       "ev_raw": 0.04220300000000002,
+       "ev_adjusted": 0.027302999999999994,
+       "p_model": 0.2846,
+       "p_adjusted": 0.2697,
+       "p_kalshi_mid": 0.225,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.545,
-        "gap": 0.0562,
-        "abs_gap_pts": 5.6,
+        "p_market": 0.225,
+        "gap": 0.0596,
+        "abs_gap_pts": 6.0,
         "threshold_pts": 10.0,
         "large": false
        },
        "selection_override": null,
-       "joint_relationships": {},
+       "joint_relationships": {
+        "KXNHLGOAL-26OCT14DALCOL-COLNROY10-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.004,
+         "p_both": 0.0386
+        },
+        "KXNHLAST-26OCT14DALCOL-DALJROBERTSON21-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.004,
+         "p_both": 0.1852
+        },
+        "KXNHLAST-26OCT14DALCOL-DALJROBERTSON21-2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.018,
+         "p_both": 0.263
+        },
+        "KXNHLGOAL-26OCT14DALCOL-COLGLANDESKOG92-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.016,
+         "p_both": 0.0666
+        },
+        "KXNHLAST-26OCT14DALCOL-DALRHINTZ24-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.006,
+         "p_both": 0.1976
+        },
+        "KXNHLAST-26OCT14DALCOL-COLTHUGHES13-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.024,
+         "p_both": 0.2206
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "28bf2b79244b357d239823301620626b",
+       "game_id": "2026020107",
+       "bet_id": "KXNHLGOAL-26OCT14DALCOL-COLNROY10-1|yes",
+       "family": "player_goals",
+       "chosen": true,
+       "stake_dollars": 4.53,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT14DALCOL-COLALEHKONEN62-1|yes)"
+       ],
+       "fidelity_class": "FRAGILE",
+       "thesis_capture": 0.1952,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "COL:OFFENSE_4PLUS",
+       "p_thesis": 0.4441,
+       "entry_price_cents": 10,
+       "ev_raw": 0.027400000000000008,
+       "ev_adjusted": 0.017725000000000005,
+       "p_model": 0.1337,
+       "p_adjusted": 0.12402500000000001,
+       "p_kalshi_mid": 0.095,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.095,
+        "gap": 0.0387,
+        "abs_gap_pts": 3.9,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLGOAL-26OCT14DALCOL-COLALEHKONEN62-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.004,
+         "p_both": 0.0386
+        },
+        "KXNHLAST-26OCT14DALCOL-DALJROBERTSON21-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.002,
+         "p_both": 0.0878
+        },
+        "KXNHLAST-26OCT14DALCOL-DALJROBERTSON21-2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.002,
+         "p_both": 0.1247
+        },
+        "KXNHLGOAL-26OCT14DALCOL-COLGLANDESKOG92-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.005,
+         "p_both": 0.0334
+        },
+        "KXNHLAST-26OCT14DALCOL-DALRHINTZ24-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.013,
+         "p_both": 0.0902
+        },
+        "KXNHLAST-26OCT14DALCOL-COLTHUGHES13-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.052,
+         "p_both": 0.0985
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "de02ef4037562694b19e6ff9d13e7cd1",
+       "game_id": "2026020107",
+       "bet_id": "KXNHLAST-26OCT14DALCOL-DALJROBERTSON21-1|no",
+       "family": "player_assists",
+       "chosen": true,
+       "stake_dollars": 12.5,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "CALIBRATION_WARNING_UNCORROBORATED"
+       ],
+       "fidelity_class": "DIRECT",
+       "thesis_capture": 0.8009,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "DAL:SUPPRESSED",
+       "p_thesis": 0.4873,
+       "entry_price_cents": 57,
+       "ev_raw": 0.0668430000000001,
+       "ev_adjusted": 0.019843000000000055,
+       "p_model": 0.654,
+       "p_adjusted": 0.607,
+       "p_kalshi_mid": 0.56,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.56,
+        "gap": 0.094,
+        "abs_gap_pts": 9.4,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLGOAL-26OCT14DALCOL-COLALEHKONEN62-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.004,
+         "p_both": 0.1852
+        },
+        "KXNHLGOAL-26OCT14DALCOL-COLNROY10-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.002,
+         "p_both": 0.0878
+        },
+        "KXNHLAST-26OCT14DALCOL-DALJROBERTSON21-2|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.374,
+         "p_both": 0.654
+        },
+        "KXNHLGOAL-26OCT14DALCOL-COLGLANDESKOG92-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.0,
+         "p_both": 0.1601
+        },
+        "KXNHLAST-26OCT14DALCOL-DALRHINTZ24-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.091,
+         "p_both": 0.4713
+        },
+        "KXNHLAST-26OCT14DALCOL-COLTHUGHES13-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.006,
+         "p_both": 0.5181
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "8c0295d8da94f3f679e78c18745aeabf",
+       "game_id": "2026020107",
+       "bet_id": "KXNHLGOAL-26OCT14DALCOL-COLGLANDESKOG92-1|yes",
+       "family": "player_goals",
+       "chosen": true,
+       "stake_dollars": 4.16,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT14DALCOL-COLALEHKONEN62-1|yes)"
+       ],
+       "fidelity_class": "FRAGILE",
+       "thesis_capture": 0.3551,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "COL:OFFENSE_4PLUS",
+       "p_thesis": 0.4441,
+       "entry_price_cents": 21,
+       "ev_raw": 0.023186999999999985,
+       "ev_adjusted": 0.013236999999999999,
+       "p_model": 0.2448,
+       "p_adjusted": 0.23485,
+       "p_kalshi_mid": 0.20500000000000002,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.205,
+        "gap": 0.0398,
+        "abs_gap_pts": 4.0,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLGOAL-26OCT14DALCOL-COLALEHKONEN62-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.016,
+         "p_both": 0.0666
+        },
+        "KXNHLGOAL-26OCT14DALCOL-COLNROY10-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.005,
+         "p_both": 0.0334
+        },
+        "KXNHLAST-26OCT14DALCOL-DALJROBERTSON21-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.0,
+         "p_both": 0.1601
+        },
+        "KXNHLAST-26OCT14DALCOL-DALJROBERTSON21-2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.008,
+         "p_both": 0.2288
+        },
+        "KXNHLAST-26OCT14DALCOL-DALRHINTZ24-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.003,
+         "p_both": 0.1694
+        },
+        "KXNHLAST-26OCT14DALCOL-COLTHUGHES13-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.015,
+         "p_both": 0.1908
+        }
+       },
        "scored": false,
        "outcome": null
       }
