@@ -1,9 +1,9 @@
 # NHL slate 2026-10-14 — RESEARCH_ONLY
 
-generated 2026-10-14T09:34:21Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-14T10:34:54Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 2 · simulated (not started): 2 · markets on board: 2324 · contracts joined: 102 (unjoined to any game: 1569)
-gates: {'UNSUPPORTED': 52, 'OK': 29, 'NO_EDGE': 21}
+gates: {'UNSUPPORTED': 52, 'OK': 30, 'NO_EDGE': 20}
 families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_early_goal': 2, 'game_winner': 4, 'game_overtime': 2, 'game_spread': 8, 'team_total': 20, 'game_total': 18}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -21,16 +21,16 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTEAMTOTAL-26OCT14MTLWSH-MTL4 | team_total | 0.310 | 0.390 | 0.373 | 40 | 62 | no | +0.054 | OK |
 | KXNHLTOTAL-26OCT14MTLWSH-5 | game_total | 0.762 | 0.825 | 0.814 | 83 | 18 | no | +0.048 | OK |
 | KXNHLTEAMTOTAL-26OCT14MTLWSH-MTL2 | team_total | 0.753 | 0.820 | 0.808 | 83 | 19 | no | +0.047 | OK |
+| KXNHLSPREAD-26OCT14MTLWSH-MTL2 | game_spread | 0.208 | 0.265 | 0.253 | 27 | 74 | no | +0.038 | OK |
 | KXNHLTOTAL-26OCT14MTLWSH-8 | game_total | 0.248 | 0.305 | 0.293 | 31 | 70 | no | +0.037 | OK |
 | KXNHLSPREAD-26OCT14MTLWSH-MTL3 | game_spread | 0.115 | 0.165 | 0.154 | 17 | 84 | no | +0.036 | OK |
 | KXNHLTOTAL-26OCT14MTLWSH-4 | game_total | 0.847 | 0.895 | 0.887 | 90 | 11 | no | +0.036 | OK |
 | KXNHLTEAMTOTAL-26OCT14MTLWSH-MTL5 | team_total | 0.155 | 0.210 | 0.198 | 22 | 80 | no | +0.034 | OK |
-| KXNHLTOTAL-26OCT14MTLWSH-9 | game_total | 0.175 | 0.225 | 0.214 | 23 | 78 | no | +0.033 | OK |
+| KXNHLTOTAL-26OCT14MTLWSH-9 | game_total | 0.175 | 0.230 | 0.218 | 24 | 78 | no | +0.033 | OK |
 | KXNHLGAME-26OCT14MTLWSH-MTL | game_winner | 0.404 | 0.455 | 0.445 | 46 | 55 | no | +0.029 | OK |
 | KXNHLGAME-26OCT14MTLWSH-WSH | game_winner | 0.596 | 0.545 | 0.555 | 55 | 46 | yes | +0.029 | OK |
-| KXNHLSPREAD-26OCT14MTLWSH-MTL2 | game_spread | 0.208 | 0.255 | 0.245 | 26 | 75 | no | +0.029 | OK |
 | KXNHLTOTAL-26OCT14DALCOL-5 | game_total | 0.738 | 0.775 | 0.768 | 78 | 23 | no | +0.019 | OK |
-| KXNHLTEAMTOTAL-26OCT14DALCOL-DAL2 | team_total | 0.741 | 0.785 | 0.777 | 80 | 23 | no | +0.016 | OK |
+| KXNHLTEAMTOTAL-26OCT14DALCOL-DAL2 | team_total | 0.741 | 0.780 | 0.773 | 79 | 23 | no | +0.016 | OK |
 | KXNHLTEAMTOTAL-26OCT14MTLWSH-MTL6 | team_total | 0.062 | 0.085 | 0.080 | 9 | 92 | no | +0.012 | OK |
 | KXNHLSPREAD-26OCT14MTLWSH-WSH2 | game_spread | 0.367 | 0.335 | 0.341 | 34 | 67 | yes | +0.011 | OK |
 | KXNHLTOTAL-26OCT14DALCOL-6 | game_total | 0.522 | 0.555 | 0.548 | 56 | 45 | no | +0.011 | OK |
@@ -40,61 +40,61 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTOTAL-26OCT14DALCOL-4 | game_total | 0.834 | 0.860 | 0.855 | 87 | 15 | no | +0.007 | OK |
 | KXNHLTEAMTOTAL-26OCT14DALCOL-DAL3 | team_total | 0.516 | 0.550 | 0.543 | 56 | 46 | no | +0.007 | OK |
 | KXNHLSPREAD-26OCT14DALCOL-DAL3 | game_spread | 0.117 | 0.135 | 0.131 | 14 | 87 | no | +0.005 | OK |
+| KXNHLSPREAD-26OCT14MTLWSH-WSH3 | game_spread | 0.237 | 0.215 | 0.219 | 22 | 79 | yes | +0.005 | OK |
 | KXNHLTOTAL-26OCT14MTLWSH-10 | game_total | 0.081 | 0.105 | 0.100 | 12 | 91 | no | +0.003 | OK |
 | KXNHLTOTAL-26OCT14DALCOL-3 | game_total | 0.954 | 0.965 | 0.963 | 97 | 4 | no | +0.003 | OK |
 | KXNHLTEAMTOTAL-26OCT14DALCOL-DAL5 | team_total | 0.148 | 0.165 | 0.162 | 17 | 84 | no | +0.002 | OK |
 | KXNHLTEAMTOTAL-26OCT14DALCOL-COL4 | team_total | 0.421 | 0.445 | 0.440 | 45 | 56 | no | +0.002 | OK |
 | KXNHLTEAMTOTAL-26OCT14DALCOL-DAL4 | team_total | 0.305 | 0.335 | 0.329 | 35 | 68 |  | -0.000 | NO_EDGE |
-| KXNHLTOTAL-26OCT14DALCOL-2 | game_total | 0.980 | 0.985 | 0.984 | 99 | 2 |  | -0.002 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT14DALCOL-DAL6 | team_total | 0.059 | 0.065 | 0.064 | 7 | 94 |  | -0.003 | NO_EDGE |
 | KXNHLTOTAL-26OCT14DALCOL-8 | game_total | 0.231 | 0.245 | 0.242 | 25 | 76 |  | -0.004 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT14MTLWSH-WSH2 | team_total | 0.846 | 0.860 | 0.857 | 87 | 15 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT14MTLWSH-2 | game_total | 0.984 | 0.985 | 0.985 | 99 | 2 |  | -0.005 | NO_EDGE |
-| KXNHLSPREAD-26OCT14MTLWSH-WSH3 | game_spread | 0.237 | 0.225 | 0.227 | 23 | 78 |  | -0.006 | NO_EDGE |
 | KXNHLSPREAD-26OCT14DALCOL-COL3 | game_spread | 0.223 | 0.235 | 0.233 | 24 | 77 |  | -0.006 | NO_EDGE |
 | KXNHLSPREAD-26OCT14DALCOL-DAL2 | game_spread | 0.214 | 0.225 | 0.223 | 23 | 78 |  | -0.006 | NO_EDGE |
 | KXNHLTOTAL-26OCT14DALCOL-10 | game_total | 0.072 | 0.080 | 0.078 | 9 | 93 |  | -0.007 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT14DALCOL-COL3 | team_total | 0.641 | 0.655 | 0.652 | 66 | 35 |  | -0.007 | NO_EDGE |
 | KXNHLTOTAL-26OCT14DALCOL-9 | game_total | 0.161 | 0.165 | 0.164 | 17 | 84 |  | -0.010 | NO_EDGE |
+| KXNHLTOTAL-26OCT14DALCOL-2 | game_total | 0.980 | 0.980 | 0.980 | 99 | 3 |  | -0.010 | NO_EDGE |
 | KXNHLGAME-26OCT14DALCOL-COL | game_winner | 0.587 | 0.575 | 0.577 | 58 | 43 |  | -0.011 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT14MTLWSH-WSH4 | team_total | 0.444 | 0.465 | 0.461 | 48 | 55 |  | -0.011 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT14DALCOL-COL5 | team_total | 0.232 | 0.245 | 0.242 | 26 | 77 |  | -0.014 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT14DALCOL-COL6 | team_total | 0.109 | 0.110 | 0.110 | 12 | 90 |  | -0.015 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT14MTLWSH-WSH6 | team_total | 0.122 | 0.120 | 0.120 | 13 | 89 |  | -0.016 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT14MTLWSH-WSH3 | team_total | 0.661 | 0.670 | 0.668 | 68 | 34 |  | -0.016 | NO_EDGE |
 | KXNHLSPREAD-26OCT14DALCOL-COL2 | game_spread | 0.359 | 0.355 | 0.356 | 36 | 65 |  | -0.017 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT14MTLWSH-WSH5 | team_total | 0.256 | 0.265 | 0.263 | 28 | 75 |  | -0.019 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT14DALCOL-COL6 | team_total | 0.109 | 0.105 | 0.106 | 12 | 91 |  | -0.019 | NO_EDGE |
 | KXNHLGAME-26OCT14DALCOL-DAL | game_winner | 0.413 | 0.415 | 0.415 | 42 | 59 |  | -0.020 | NO_EDGE |
-| KXNHL1P-26OCT14MTLWSH-MTL | period_winner |  | 0.305 |  | 32 | 71 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT14MTLWSH-TIE | period_winner |  | 0.315 |  | 33 | 70 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT14MTLWSH-MTL | period_winner |  | 0.310 |  | 33 | 71 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT14MTLWSH-TIE | period_winner |  | 0.315 |  | 34 | 71 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT14MTLWSH-WSH | period_winner |  | 0.345 |  | 36 | 67 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT14MTLWSH-MTL2 | period_spread |  | 0.080 |  | 9 | 93 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT14MTLWSH-MTL2 | period_spread |  | 0.085 |  | 10 | 93 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26OCT14MTLWSH-WSH2 | period_spread |  | 0.110 |  | 12 | 90 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT14MTLWSH-1 | period_total |  | 0.845 |  | 85 | 16 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT14MTLWSH-2 | period_total |  | 0.565 |  | 57 | 44 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT14MTLWSH-1 | period_total |  | 0.840 |  | 85 | 17 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT14MTLWSH-2 | period_total |  | 0.550 |  | 56 | 46 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT14MTLWSH-3 | period_total |  | 0.285 |  | 30 | 73 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT14MTLWSH-MTL | period_winner |  | 0.325 |  | 35 | 70 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT14MTLWSH-TIE | period_winner |  | 0.305 |  | 34 | 73 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT14MTLWSH-WSH | period_winner |  | 0.370 |  | 39 | 65 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT14MTLWSH-MTL | period_winner |  | 0.330 |  | 35 | 69 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT14MTLWSH-TIE | period_winner |  | 0.290 |  | 31 | 73 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT14MTLWSH-WSH | period_winner |  | 0.365 |  | 39 | 66 |  |  | UNSUPPORTED |
 | KXNHL2PSPREAD-26OCT14MTLWSH-MTL2 | period_spread |  | 0.115 |  | 13 | 90 |  |  | UNSUPPORTED |
 | KXNHL2PSPREAD-26OCT14MTLWSH-WSH2 | period_spread |  | 0.140 |  | 16 | 88 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT14MTLWSH-1 | period_total |  | 0.895 |  | 92 | 13 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT14MTLWSH-1 | period_total |  | 0.900 |  | 92 | 12 |  |  | UNSUPPORTED |
 | KXNHL2PTOTAL-26OCT14MTLWSH-2 | period_total |  | 0.635 |  | 65 | 38 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT14MTLWSH-3 | period_total |  | 0.395 |  | 43 | 64 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT14MTLWSH-3 | period_total |  | 0.390 |  | 42 | 64 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT14MTLWSH-MTL | period_winner |  | 0.335 |  | 36 | 69 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT14MTLWSH-TIE | period_winner |  | 0.255 |  | 27 | 76 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT14MTLWSH-TIE | period_winner |  | 0.245 |  | 27 | 78 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT14MTLWSH-WSH | period_winner |  | 0.380 |  | 41 | 65 |  |  | UNSUPPORTED |
 | KXNHL3PSPREAD-26OCT14MTLWSH-MTL2 | period_spread |  | 0.140 |  | 16 | 88 |  |  | UNSUPPORTED |
-| KXNHL3PSPREAD-26OCT14MTLWSH-WSH2 | period_spread |  | 0.185 |  | 21 | 84 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT14MTLWSH-1 | period_total |  | 0.930 |  | 98 | 12 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT14MTLWSH-2 | period_total |  | 0.680 |  | 71 | 35 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT14MTLWSH-3 | period_total |  | 0.410 |  | 42 | 60 |  |  | UNSUPPORTED |
+| KXNHL3PSPREAD-26OCT14MTLWSH-WSH2 | period_spread |  | 0.175 |  | 19 | 84 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT14MTLWSH-1 | period_total |  | 0.935 |  | 98 | 11 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT14MTLWSH-2 | period_total |  | 0.665 |  | 71 | 38 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT14MTLWSH-3 | period_total |  | 0.405 |  | 42 | 61 |  |  | UNSUPPORTED |
 | KXNHLF10G-26OCT14MTLWSH-Y | game_early_goal |  | 0.595 |  | 61 | 42 |  |  | UNSUPPORTED |
-| KXNHLOT-26OCT14MTLWSH-1 | game_overtime |  | 0.220 |  | 23 | 79 |  |  | UNSUPPORTED |
+| KXNHLOT-26OCT14MTLWSH-1 | game_overtime |  | 0.225 |  | 24 | 79 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT14DALCOL-COL | period_winner |  | 0.335 |  | 34 | 67 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT14DALCOL-DAL | period_winner |  | 0.275 |  | 29 | 74 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT14DALCOL-DAL | period_winner |  | 0.270 |  | 28 | 74 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT14DALCOL-TIE | period_winner |  | 0.350 |  | 36 | 66 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT14DALCOL-COL2 | period_spread |  | 0.105 |  | 12 | 91 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT14DALCOL-COL2 | period_spread |  | 0.100 |  | 11 | 91 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
