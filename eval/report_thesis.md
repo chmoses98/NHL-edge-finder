@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-14T11:22:23Z · thesis-postmortem-2.0 · rows (all generations) 15338
+evaluated 2026-10-14T12:55:11Z · thesis-postmortem-2.0 · rows (all generations) 15338
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,14 +33,13 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020106 MTL @ WSH: NOT_STARTED · snapshot snap-270a55811dd1cefc9b6f @ 2026-10-14T10:34:54Z
+#### game 2026020106 MTL @ WSH: NOT_STARTED · snapshot snap-88b0729b7834338f2a86 @ 2026-10-14T12:35:11Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTOTAL-26OCT14MTLWSH-6|no | FUNDED_RESEARCH | 2 | 4.33 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTOTAL-26OCT14MTLWSH-7|no | FUNDED_RESEARCH | 1 | 1.06 | - | - | - | STRUCTURAL | - | - |
+| KXNHLAST-26OCT14MTLWSH-WSHRLEONARD9-1|yes | SHADOW_ONLY | 0 | 4.61 | - | - | - | DIRECT | - | - |
 
-#### game 2026020107 DAL @ COL: NOT_STARTED · snapshot snap-270a55811dd1cefc9b6f @ 2026-10-14T10:34:54Z
+#### game 2026020107 DAL @ COL: NOT_STARTED · snapshot snap-88b0729b7834338f2a86 @ 2026-10-14T12:35:11Z
 
 ## Slate 2026-10-13: **COMPLETE — 16/16 games evaluated**
 
