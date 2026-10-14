@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-14T16:26:40Z · thesis-postmortem-2.0 · rows (all generations) 15338
+evaluated 2026-10-14T18:08:33Z · thesis-postmortem-2.0 · rows (all generations) 15338
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,23 +33,23 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020106 MTL @ WSH: NOT_STARTED · snapshot snap-be0d2a9a50cddcb9a5bc @ 2026-10-14T16:24:05Z
+#### game 2026020106 MTL @ WSH: NOT_STARTED · snapshot snap-fc32dbf337cb21c6c147 @ 2026-10-14T18:05:44Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLAST-26OCT14MTLWSH-WSHRLEONARD9-1|yes | SHADOW_ONLY | 0 | 7.64 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT14MTLWSH-WSHJKYROU25-1|no | SHADOW_ONLY | 0 | 11.11 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT14MTLWSH-WSHJCHYCHRUN6-1|no | FUNDED_RESEARCH | 4 | 13.71 | - | - | - | DIRECT | - | - |
-| KXNHLTOTAL-26OCT14MTLWSH-6|no | FUNDED_RESEARCH | 2 | 4.85 | - | - | - | STRUCTURAL | - | - |
+| KXNHLAST-26OCT14MTLWSH-WSHRLEONARD9-1|yes | SHADOW_ONLY | 0 | 9.22 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT14MTLWSH-WSHJKYROU25-1|no | SHADOW_ONLY | 0 | 16.27 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT14MTLWSH-WSHAPROTAS21-1|yes | SHADOW_ONLY | 0 | 4.20 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT14MTLWSH-WSHJCHYCHRUN6-1|no | FUNDED_RESEARCH | 4 | 13.73 | - | - | - | DIRECT | - | - |
 
-#### game 2026020107 DAL @ COL: NOT_STARTED · snapshot snap-be0d2a9a50cddcb9a5bc @ 2026-10-14T16:24:05Z
+#### game 2026020107 DAL @ COL: NOT_STARTED · snapshot snap-fc32dbf337cb21c6c147 @ 2026-10-14T18:05:44Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT14DALCOL-COLALEHKONEN62-1|yes | FUNDED_RESEARCH | 3 | 8.67 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT14DALCOL-COLNROY10-1|yes | SHADOW_ONLY | 0 | 4.53 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT14DALCOL-DALJROBERTSON21-1|no | SHADOW_ONLY | 0 | 12.50 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT14DALCOL-COLGLANDESKOG92-1|yes | SHADOW_ONLY | 0 | 4.16 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT14DALCOL-COLALEHKONEN62-1|yes | FUNDED_RESEARCH | 3 | 8.55 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT14DALCOL-DALJROBERTSON21-1|no | SHADOW_ONLY | 0 | 12.97 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT14DALCOL-COLFSVECHKOV9-1|yes | SHADOW_ONLY | 0 | 3.15 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT14DALCOL-DALAHYRY25-1|yes | SHADOW_ONLY | 0 | 2.83 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-13: **COMPLETE — 16/16 games evaluated**
 
