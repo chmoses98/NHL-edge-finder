@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-14T13:24:05Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-14T14:24:08Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,10 +10,10 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 59.57 | +5.34 | +1.74 | -0.12 | 0.397 | -34.62 | -34.62 | 11.60 |
-| B thesis-diversified (joint) ← optimiser card | 33.14 | +2.06 | +0.83 | +2.81 | 0.670 | -12.78 | -17.63 | 7.33 |
-| C best expression per thesis | 16.16 | +1.53 | +0.58 | +4.20 | 0.601 | -16.17 | -16.17 | 5.10 |
-| R FUNDED research stakes | 8.00 | +0.31 | +0.17 | -1.76 | 0.497 | -2.71 | -8.00 | 0.00 |
+| A highest edges (independent) | 58.01 | +3.72 | +1.47 | +1.44 | 0.683 | -33.06 | -58.01 | 9.91 |
+| B thesis-diversified (joint) ← optimiser card | 27.62 | +1.43 | +0.67 | +2.85 | 0.529 | -12.58 | -27.63 | 5.92 |
+| C best expression per thesis | 16.21 | +1.21 | +0.54 | +4.16 | 0.601 | -16.21 | -16.21 | 4.72 |
+| R FUNDED research stakes | 9.00 | +0.50 | +0.21 | +1.28 | 0.683 | -4.01 | -9.00 | 0.00 |
 
 ## MTL @ WSH  ·  10000 joint draws  ·  426 bet sides mapped, 2 +EV candidates, 2 on card
 
@@ -33,18 +33,18 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Jakob Chychrun: 1+ goals NO | 79 | 0.822 | 0.813 | +0.021 | +0.011 | $16.39 | FUNDED_RESEARCH | $5 | WSH:SUPPRESSED | DIRECT (0.91) | EVIDENCE_STRONGER | D |
-| Ryan Leonard: 1+ assists YES | 32 | 0.397 | 0.348 | +0.061 | +0.013 | $5.20 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED | $0 | WSH:OFFENSE_4PLUS | DIRECT (0.56) | EVIDENCE_MIXED | D |
-- **Jakob Chychrun: 1+ goals NO** — thesis: WSH offense suppressed (<= 2 goals); alternative: KXNHLTOTAL-26OCT14MTLWSH-4|no; why: higher confidence-adjusted growth (1.76 vs 1.11 bp); despite a smaller raw edge (+0.021 vs +0.026/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; wins across more scripts (relative breadth 1.004 vs 0.355); alternative not eligible: confidence-adjusted EV +0.0072 below the 0.010/contract floor; relationships: KXNHLAST-26OCT14MTLWSH-WSHRLEONARD9-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.105); failure: WSH offense succeeds (4+ goals)
-- **Ryan Leonard: 1+ assists YES** — thesis: WSH offense succeeds (4+ goals); alternative: KXNHLPTS-26OCT14MTLWSH-WSHRLEONARD9-1|yes; why: higher confidence-adjusted growth (1.66 vs 0.00 bp); evidence EVIDENCE_MIXED vs CALIBRATION_WARNING; alternative not eligible: confidence-adjusted EV <= 0; relationships: KXNHLGOAL-26OCT14MTLWSH-WSHJCHYCHRUN6-1|no: INTENTIONAL_DIVERSIFIER (phi -0.105); failure: WSH offense suppressed (<= 2 goals)
+| Jakob Chychrun: 1+ goals NO | 79 | 0.821 | 0.812 | +0.019 | +0.010 | $12.06 | FUNDED_RESEARCH | $4 | WSH:SUPPRESSED | DIRECT (0.91) | EVIDENCE_STRONGER | D |
+| Full Game: Over 5.5 goals scored NO | 38 | 0.441 | 0.408 | +0.044 | +0.011 | $4.01 | FUNDED_RESEARCH | $2 | GAME:LOW_EVENT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Jakob Chychrun: 1+ goals NO** — thesis: WSH offense suppressed (<= 2 goals); alternative: KXNHLTOTAL-26OCT14MTLWSH-6|no; why: higher confidence-adjusted growth (1.47 vs 1.21 bp); despite a smaller raw edge (+0.019 vs +0.044/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; wins across more scripts (relative breadth 1.003 vs 0.777); relationships: KXNHLTOTAL-26OCT14MTLWSH-6|no: MOSTLY_INDEPENDENT (phi 0.134); failure: WSH offense succeeds (4+ goals)
+- **Full Game: Over 5.5 goals scored NO** — thesis: low-event game (<= 4 goals); alternative: KXNHLTOTAL-26OCT14MTLWSH-4|no; why: higher confidence-adjusted growth (1.21 vs 1.11 bp); wins across more scripts (relative breadth 0.777 vs 0.355); alternative not eligible: confidence-adjusted EV +0.0072 below the 0.010/contract floor; relationships: KXNHLGOAL-26OCT14MTLWSH-WSHJCHYCHRUN6-1|no: MOSTLY_INDEPENDENT (phi 0.134); failure: high-event game (8+ goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, WSH shot control · normal event (5-7) · decided (2+) 0.09.
-- thesis WSH:OFFENSE_4PLUS (p 0.4077): highest fidelity KXNHLAST-26OCT14MTLWSH-WSHRLEONARD9-1|yes [DIRECT], best adjusted EV KXNHLAST-26OCT14MTLWSH-WSHRLEONARD9-1|yes (same contract)
-- thesis WSH:SUPPRESSED (p 0.3766): highest fidelity - [-], best adjusted EV - — no eligible expression
-- KXNHLGOAL-26OCT14MTLWSH-WSHJCHYCHRUN6-1|no: FUNDED_RESEARCH; family TRUSTED; loses 9% of the draws where the thesis happens; fragile player expression; opposing: failure thesis WSH:OFFENSE_4PLUS (p 0.4077, phi -0.175)
-- KXNHLAST-26OCT14MTLWSH-WSHRLEONARD9-1|yes: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; family MIXED; loses 44% of the draws where the thesis happens; fragile player expression; opposing: failure thesis WSH:SUPPRESSED (p 0.3766, phi -0.293)
+- thesis WSH:SUPPRESSED (p 0.3766): highest fidelity KXNHLTOTAL-26OCT14MTLWSH-6|no [DIRECT], best adjusted EV KXNHLTOTAL-26OCT14MTLWSH-6|no (same contract)
+- thesis GAME:LOW_EVENT (p 0.2339): highest fidelity KXNHLTOTAL-26OCT14MTLWSH-6|no [STRUCTURAL], best adjusted EV KXNHLTOTAL-26OCT14MTLWSH-6|no (same contract)
+- KXNHLGOAL-26OCT14MTLWSH-WSHJCHYCHRUN6-1|no: FUNDED_RESEARCH; family TRUSTED; loses 9% of the draws where the thesis happens; fragile player expression; opposing: failure thesis WSH:OFFENSE_4PLUS (p 0.4077, phi -0.18)
+- KXNHLTOTAL-26OCT14MTLWSH-6|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis GAME:HIGH_EVENT (p 0.2602, phi -0.527)
 
-portfolios: A EV +4.17 (adj +1.06) on $40.00, P(profit) 0.3965, adj growth 6.2 bp · B EV +1.37 (adj +0.43) on $21.59, P(profit) 0.3064, adj growth 3.8 bp · C EV +0.84 (adj +0.18) on $4.61, P(profit) 0.3965, adj growth 1.6 bp · R EV +0.13 (adj +0.07) on $5.00, P(profit) 0.8222, adj growth 2.4 bp
+portfolios: A EV +2.55 (adj +0.79) on $38.44, P(profit) 0.441, adj growth 4.5 bp · B EV +0.74 (adj +0.27) on $16.07, P(profit) 0.3875, adj growth 2.4 bp · C EV +0.52 (adj +0.14) on $4.66, P(profit) 0.441, adj growth 1.2 bp · R EV +0.32 (adj +0.11) on $6.00, P(profit) 0.3875, adj growth 3.5 bp
 
 ## DAL @ COL  ·  10000 joint draws  ·  390 bet sides mapped, 1 +EV candidates, 1 on card
 
