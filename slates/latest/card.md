@@ -1,6 +1,6 @@
-# NHL THESIS CARD — RESEARCH_ONLY — status **NO_BETS**
+# NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-14T06:33:56Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-14T07:33:57Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,12 +10,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 0.00 | +0.00 | +0.00 | +0.00 | 0.000 | +0.00 | +0.00 | 0.00 |
-| B thesis-diversified (joint) ← optimiser card | 0.00 | +0.00 | +0.00 | +0.00 | 0.000 | +0.00 | +0.00 | 0.00 |
-| C best expression per thesis | 0.00 | +0.00 | +0.00 | +0.00 | 0.000 | +0.00 | +0.00 | 0.00 |
-| R FUNDED research stakes | 0.00 | +0.00 | +0.00 | +0.00 | 0.000 | +0.00 | +0.00 | 0.00 |
+| A highest edges (independent) | 19.14 | +2.23 | +0.60 | -19.14 | 0.443 | -19.14 | -19.14 | 3.10 |
+| B thesis-diversified (joint) ← optimiser card | 5.00 | +0.58 | +0.16 | -5.00 | 0.443 | -5.00 | -5.00 | 1.36 |
+| C best expression per thesis | 5.00 | +0.58 | +0.16 | -5.00 | 0.443 | -5.00 | -5.00 | 1.36 |
+| R FUNDED research stakes | 2.00 | +0.23 | +0.06 | -2.00 | 0.443 | -2.00 | -2.00 | 0.00 |
 
-## MTL @ WSH  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
+## MTL @ WSH  ·  10000 joint draws  ·  98 bet sides mapped, 1 +EV candidates, 1 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -29,11 +29,18 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 | WSH shot control · normal event (5-7) · tight (1-goal/OT) | 0.076 | 0.54 | 0.46 | 0.46 | 5.93 | 32.1/21.6 | 18.5/28.7 | even strength |
 | WSH shot control · high event (8+) · decided (2+) | 0.055 | 0.66 | 0.34 | 0.00 | 9.36 | 34.0/23.0 | 18.0/26.6 | even strength |
 
-_no bet on this game passes: +EV at the executable ask under both the model and the confidence-adjusted probability_
+**Card**
+
+| bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
+|---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
+| Full Game: Over 5.5 goals scored NO | 38 | 0.443 | 0.409 | +0.046 | +0.012 | $5.00 | FUNDED_RESEARCH | $2 | GAME:LOW_EVENT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Full Game: Over 5.5 goals scored NO** — thesis: low-event game (<= 4 goals); alternative: KXNHLTOTAL-26OCT14MTLWSH-4|no; why: higher confidence-adjusted growth (1.39 vs 1.38 bp); wins across more scripts (relative breadth 0.769 vs 0.349); alternative not eligible: confidence-adjusted EV +0.0081 below the 0.010/contract floor; relationships: only recommended bet in this game; failure: WSH offense succeeds (4+ goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.12, WSH shot control · normal event (5-7) · decided (2+) 0.09.
+- thesis GAME:LOW_EVENT (p 0.2398): highest fidelity KXNHLTOTAL-26OCT14MTLWSH-6|no [STRUCTURAL], best adjusted EV KXNHLTOTAL-26OCT14MTLWSH-6|no (same contract)
+- KXNHLTOTAL-26OCT14MTLWSH-6|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis WSH:OFFENSE_4PLUS (p 0.4165, phi -0.525)
 
-portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp
+portfolios: A EV +2.23 (adj +0.60) on $19.14, P(profit) 0.4427, adj growth 3.1 bp · B EV +0.58 (adj +0.16) on $5.00, P(profit) 0.4427, adj growth 1.4 bp · C EV +0.58 (adj +0.16) on $5.00, P(profit) 0.4427, adj growth 1.4 bp · R EV +0.23 (adj +0.06) on $2.00, P(profit) 0.4427, adj growth 2.0 bp
 
 ## DAL @ COL  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
