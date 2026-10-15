@@ -14,7 +14,6 @@ import numpy as np
 
 from nhl_edge.thesis.fidelity import fidelity
 from nhl_edge.thesis.mapping import MIN_THESIS_PHI, associations
-from nhl_edge.scripts_v1.survival import ROBUST, MODERATE
 
 VERSION = "NHL_EXPRESSION_CHALLENGER_V1"
 BROAD_FAMILIES = frozenset((
@@ -101,7 +100,7 @@ def build_expression_challenger(a: dict[str, Any], survival: dict[str, Any], lim
     for row in rows:
         grouped.setdefault(row["thesis_key"], []).append(row)
     leaders = []
-    for key, members in grouped.items():
+    for members in grouped.values():
         m = members[0].copy()
         alt = members[1] if len(members) > 1 else None
         m["best_alternative"] = None if alt is None else {
