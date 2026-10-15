@@ -1,41 +1,45 @@
 {
- "last_capture_utc": "2026-10-15T00:01:39Z",
- "n_markets": 2765,
+ "last_capture_utc": "2026-10-15T00:06:39Z",
+ "n_markets": 2766,
  "n_series": 77,
- "requests": 456,
+ "requests": 457,
  "run_id": "38648579687",
  "markets_written": {
-  "encoding": "checkpoint",
-  "reason": "UTC day rolled over; keeping day partitions self-contained",
-  "path": "kalshi/markets/dt=2026-10-15/kalshi_markets_20261015T000139Z_38648579687.jsonl.gz",
-  "bytes": 254009,
-  "n_markets": 2765,
-  "board_sha256": "45d25784865e0bb427ba0713ef4ff8e860a8e34370e47b093e5ca8fd53cea354"
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/markets_delta/dt=2026-10-15/kalshi_markets_delta_20261015T000639Z_38648579687.json.gz",
+  "bytes": 15411,
+  "n_markets": 2766,
+  "n_changed": 670,
+  "changed_pct": 24.223,
+  "board_sha256": "fcf6bacaf22cbc01536fbc922ff0a598aa951c0d9a2f21ea22aeb6671d48306d"
  },
  "orderbooks_written": {
-  "encoding": "checkpoint",
-  "reason": "UTC day rolled over; keeping day partitions self-contained",
-  "path": "kalshi/orderbooks/dt=2026-10-15/kalshi_orderbooks_20261015T000139Z_38648579687.jsonl.gz",
-  "bytes": 48551,
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/orderbooks_delta/dt=2026-10-15/kalshi_orderbooks_delta_20261015T000639Z_38648579687.json.gz",
+  "bytes": 31145,
   "n_markets": 300,
-  "board_sha256": "d61cd730fdc8e8adbba6e000f86c3b24895c914a210f2b90d0f90bacca6cba05"
+  "n_changed": 195,
+  "changed_pct": 65.0,
+  "board_sha256": "880d76dbc849dd152fcbfcfea5609a8cddaf6bff243bd4b07495e6a32c07c84c"
  },
  "by_status": {
-  "active": 2765
+  "active": 2766
  },
  "by_support": {
   "BUILDABLE": 13,
-  "MODELABLE": 473,
-  "RESEARCH": 1686,
+  "MODELABLE": 475,
+  "RESEARCH": 1685,
   "UNMODELABLE": 548,
   "UNRESOLVED": 45
  },
  "by_family": {
   "first_goal": 38,
-  "game_early_goal": 13,
+  "game_early_goal": 12,
   "game_overtime": 13,
   "game_spread": 80,
-  "game_total": 171,
+  "game_total": 173,
   "game_winner": 92,
   "goalie_saves": 4,
   "non_hockey_or_office": 1,
@@ -56,7 +60,7 @@
   "series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']"
  ],
  "notes": [
-  "order books sampled by priority: 2765 live markets, cap 300"
+  "order books sampled by priority: 2766 live markets, cap 300"
  ],
  "alarm": true
 }
