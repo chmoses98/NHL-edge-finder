@@ -47,6 +47,15 @@ def build_expression_challenger(a: dict[str, Any], survival: dict[str, Any], lim
     SAME joint draws. No model probabilities, optimizer, research governance, or
     published wagers are altered. Never infer an edge from unpriced contracts.
     """
+    # Old replay fixtures and frozen archives may lack the full eligibility board.
+    # Fail closed instead of treating a narrow shortlist as the full market universe.
+    if "candidates" not in a:
+        return {
+            "version": VERSION, "authority": "RESEARCH_ONLY", "status": "NOT_EVALUATED_LEGACY",
+            "n_full_board_eligible": 0, "n_compared": 0,
+            "n_player_candidates_excluded": 0, "selected": [], "alternatives": [],
+            "selection_method": "full eligible market universe unavailable; no shadow selection",
+        }
     candidates = [b for b in a["candidates"]
                   if b.family in BROAD_FAMILIES
                   and a["econ"][b.bet_id].eligible
