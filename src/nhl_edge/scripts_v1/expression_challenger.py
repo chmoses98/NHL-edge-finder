@@ -20,7 +20,7 @@ BROAD_FAMILIES = frozenset((
     "game_winner", "game_spread", "game_total", "team_total",
     "game_overtime", "period_winner", "period_spread", "period_total",
 ))
-UNVALIDATED_PERIOD_FAMILIES = frozenset(("period_winner", "period_spread", "period_total"))
+UNVALIDATED_PERIOD_FAMILIES = frozenset(("period_winner", "period_spread", "period_total", "game_overtime"))
 MAX_ROWS = 8
 
 
@@ -126,7 +126,7 @@ def build_expression_challenger(a: dict[str, Any], survival: dict[str, Any], lim
         ),
         "caveats": [
             "No goal-scorer or other single-player bets eligible for selection.",
-            "Unvalidated period-contract settlement stays shadow-only.",
+            "Unvalidated period and overtime contract settlement stays shadow-only.",
             "Existing optimizer/card/governance/stakes remain unchanged.",
             "All model inputs are matchup-conditioned; opponent-adjusted research is not a projection-model input.",
             "One top expression per thesis is a research ranking, not a diversified portfolio.",
