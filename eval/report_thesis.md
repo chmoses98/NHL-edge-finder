@@ -1,35 +1,30 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-15T03:07:58Z · thesis-postmortem-2.0 · rows (all generations) 15402
+evaluated 2026-10-15T04:09:34Z · thesis-postmortem-2.0 · rows (all generations) 15498
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
-## Slate 2026-10-14: **PARTIAL — 1/2 games evaluated**
+## Slate 2026-10-14: **COMPLETE — 2/2 games evaluated**
 
-scheduled 2 · final 1 · settled 1 · events ingested 1 · thesis-evaluated 1 · final_card_complete False · postmortem_complete False
+scheduled 2 · final 2 · settled 2 · events ingested 2 · thesis-evaluated 2 · final_card_complete True · postmortem_complete True
 
-missing / pending:
-- 2026020107: no official FINAL result yet
-
-> INTERIM (PARTIAL — 1/2 games evaluated): covers evaluated games only; NOT the slate's final ROI
-
-invariant final_card_n 4 <= sum(game card caps) 4: OK
+invariant final_card_n 8 <= sum(game card caps) 8: OK
 
 ### FINAL_CARD_UNIQUE
 
 | view | bets | stake | P/L | ROI |
 |---|---:|---:|---:|---:|
-| nominal optimiser card (B) | 4 | 31.55 | -31.55 | -1.000 |
-| FUNDED research stakes | 2 | 6.00 | -6.00 | -1.000 |
+| nominal optimiser card (B) | 8 | 54.76 | -54.76 | -1.000 |
+| FUNDED research stakes | 3 | 8.00 | -8.00 | -1.000 |
 
-- THESIS: 2 distinct theses, hit rate 0.500 vs mean p 0.320 (Brier 0.204)
-- EXPRESSION: thesis right + won 0 · right + lost 3 · wrong + won 0 · wrong + lost 1
-  - by fidelity: DIRECT 0/1; FRAGILE 0/2; STRUCTURAL 0/1
-  - broad vs player: BROAD 0/1 (P/L -9.68); FRAGILE_PLAYER 0/3 (P/L -21.87)
-- PRICE: mean CLV -0.0075 (n 4), mean adjusted EV at entry 0.0200
-- MODEL: Brier raw 0.1057 · adjusted 0.0878 · Kalshi mid 0.0674 (n 4)
-- PORTFOLIO: funded 2 · shadow on card 2 · mean |phi| among card pairs 0.109 · mean largest thesis share 0.693
-- GOVERNANCE: funded player props 1 · shadow player props 2 · large-disagreement gates 0 · overrides 1
+- THESIS: 3 distinct theses, hit rate 0.333 vs mean p 0.361 (Brier 0.202)
+- EXPRESSION: thesis right + won 0 · right + lost 3 · wrong + won 0 · wrong + lost 5
+  - by fidelity: DIRECT 0/1; FRAGILE 0/6; STRUCTURAL 0/1
+  - broad vs player: BROAD 0/1 (P/L -9.68); FRAGILE_PLAYER 0/7 (P/L -45.08)
+- PRICE: mean CLV -0.0044 (n 8), mean adjusted EV at entry 0.0214
+- MODEL: Brier raw 0.0681 · adjusted 0.0573 · Kalshi mid 0.0425 (n 8)
+- PORTFOLIO: funded 3 · shadow on card 5 · mean |phi| among card pairs 0.059 · mean largest thesis share 0.847
+- GOVERNANCE: funded player props 2 · shadow player props 5 · large-disagreement gates 0 · overrides 1
 
   - override: Broad expression KXNHLTOTAL-26OCT14MTLWSH-6|no selected over broad KXNHLTOTAL-26OCT14MTLWSH-5|no because adjusted EV differs by only 0.2 pts while thesis capture is 1.00 vs 0.90 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)
 
@@ -42,14 +37,14 @@ invariant final_card_n 4 <= sum(game card caps) 4: OK
 | KXNHLGOAL-26OCT14MTLWSH-WSHJSOURDIF34-1|yes | SHADOW_ONLY | 0 | 3.99 | False | True | THESIS_RIGHT_EXPRESSION_LOST | FRAGILE | -0.0100 | -3.99 |
 | KXNHLTOTAL-26OCT14MTLWSH-6|no | FUNDED_RESEARCH | 3 | 9.68 | False | False | THESIS_WRONG_EXPRESSION_LOST | STRUCTURAL | -0.0050 | -9.68 |
 
-#### game 2026020107 DAL @ COL: NOT_FINAL · snapshot snap-55ed0382dcf53df60c47 @ 2026-10-15T00:13:15Z
+#### game 2026020107 DAL @ COL: EVALUATED · snapshot snap-55ed0382dcf53df60c47 @ 2026-10-15T00:13:15Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT14DALCOL-COLJMANSON42-1|yes | FUNDED_RESEARCH | 2 | 5.40 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT14DALCOL-COLFSVECHKOV9-1|yes | SHADOW_ONLY | 0 | 6.26 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT14DALCOL-COLPKELLY17-1|yes | SHADOW_ONLY | 0 | 5.14 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT14DALCOL-COLALEHKONEN62-1|yes | SHADOW_ONLY | 0 | 6.41 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT14DALCOL-COLJMANSON42-1|yes | FUNDED_RESEARCH | 2 | 5.40 | False | False | THESIS_WRONG_EXPRESSION_LOST | FRAGILE | 0.0100 | -5.40 |
+| KXNHLGOAL-26OCT14DALCOL-COLFSVECHKOV9-1|yes | SHADOW_ONLY | 0 | 6.26 | False | False | THESIS_WRONG_EXPRESSION_LOST | FRAGILE | -0.0050 | -6.26 |
+| KXNHLGOAL-26OCT14DALCOL-COLPKELLY17-1|yes | SHADOW_ONLY | 0 | 5.14 | False | False | THESIS_WRONG_EXPRESSION_LOST | FRAGILE | -0.0050 | -5.14 |
+| KXNHLGOAL-26OCT14DALCOL-COLALEHKONEN62-1|yes | SHADOW_ONLY | 0 | 6.41 | False | False | THESIS_WRONG_EXPRESSION_LOST | FRAGILE | -0.0050 | -6.41 |
 
 ## Slate 2026-10-13: **COMPLETE — 16/16 games evaluated**
 
@@ -1229,7 +1224,7 @@ invariant final_card_n 30 <= sum(game card caps) 32: OK
 
 ## ALL_PROSPECTIVE_DECISIONS (calibration research; no P/L)
 
-15402 scored rows = 1967 unique logical wagers (repeat factor 7.83). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
+15498 scored rows = 1990 unique logical wagers (repeat factor 7.79). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
 
 | family | rows | unique | Brier all rows | Brier last obs | adjusted | Kalshi mid |
 |---|---:|---:|---:|---:|---:|---:|
@@ -1240,8 +1235,8 @@ invariant final_card_n 30 <= sum(game card caps) 32: OK
 | goalie_saves | 41 | 15 | 0.1738 | 0.1854 | 0.2089 | 0.2287 |
 | period_spread | 6 | 6 | 0.1252 | 0.1252 | 0.1170 | 0.1153 |
 | period_winner | 13 | 4 | 0.0997 | 0.1153 | 0.1081 | 0.1076 |
-| player_assists | 3850 | 544 | 0.2119 | 0.2024 | 0.1916 | 0.1900 |
-| player_goals | 6372 | 912 | 0.1395 | 0.1318 | 0.1307 | 0.1313 |
+| player_assists | 3902 | 555 | 0.2100 | 0.1999 | 0.1894 | 0.1880 |
+| player_goals | 6416 | 924 | 0.1394 | 0.1320 | 0.1310 | 0.1316 |
 | player_points | 487 | 101 | 0.2808 | 0.2421 | 0.2063 | 0.2021 |
 | team_total | 1986 | 184 | 0.1930 | 0.2033 | 0.1974 | 0.1960 |
 
