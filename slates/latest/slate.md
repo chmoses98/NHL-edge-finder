@@ -1,9 +1,9 @@
 # NHL slate 2026-10-15 — RESEARCH_ONLY
 
-generated 2026-10-15T07:43:39Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-15T08:44:45Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 11 · simulated (not started): 11 · markets on board: 2482 · contracts joined: 561 (unjoined to any game: 1571)
-gates: {'UNSUPPORTED': 286, 'OK': 158, 'NO_EDGE': 117}
+gates: {'UNSUPPORTED': 286, 'OK': 127, 'NO_EDGE': 148}
 families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_early_goal': 11, 'game_winner': 22, 'game_overtime': 11, 'game_spread': 44, 'team_total': 110, 'game_total': 99}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -24,86 +24,86 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 
 | ticker | family | P(data) | P(mkt mid) | P(anchored) | yes ask | no ask | best | EV after fee | gate |
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
-| KXNHLTEAMTOTAL-26OCT15VANFLA-VAN3 | team_total | 0.574 | 0.430 | 0.459 | 44 | 58 | yes | +0.117 | OK |
-| KXNHLTEAMTOTAL-26OCT15VANFLA-VAN4 | team_total | 0.354 | 0.230 | 0.252 | 24 | 78 | yes | +0.101 | OK |
-| KXNHLGAME-26OCT15VANFLA-FLA | game_winner | 0.609 | 0.725 | 0.704 | 73 | 28 | no | +0.097 | OK |
+| KXNHLGAME-26OCT15VANFLA-FLA | game_winner | 0.609 | 0.730 | 0.708 | 74 | 28 | no | +0.097 | OK |
 | KXNHLGAME-26OCT15VANFLA-VAN | game_winner | 0.391 | 0.270 | 0.292 | 28 | 74 | yes | +0.097 | OK |
-| KXNHLSPREAD-26OCT15VANFLA-FLA3 | game_spread | 0.262 | 0.375 | 0.351 | 38 | 63 | no | +0.091 | OK |
 | KXNHLSPREAD-26OCT15VANFLA-FLA2 | game_spread | 0.395 | 0.505 | 0.483 | 51 | 50 | no | +0.087 | OK |
-| KXNHLSPREAD-26OCT15CGYVGK-VGK3 | game_spread | 0.295 | 0.395 | 0.374 | 40 | 61 | no | +0.079 | OK |
-| KXNHLSPREAD-26OCT15VANFLA-VAN2 | game_spread | 0.207 | 0.120 | 0.134 | 13 | 89 | yes | +0.069 | OK |
-| KXNHLTEAMTOTAL-26OCT15SEATB-TB4 | team_total | 0.450 | 0.545 | 0.526 | 56 | 47 | no | +0.063 | OK |
-| KXNHLGAME-26OCT15SEATB-SEA | game_winner | 0.386 | 0.305 | 0.321 | 31 | 70 | yes | +0.061 | OK |
+| KXNHLSPREAD-26OCT15VANFLA-FLA3 | game_spread | 0.262 | 0.375 | 0.351 | 39 | 64 | no | +0.082 | OK |
+| KXNHLSPREAD-26OCT15CGYVGK-VGK3 | game_spread | 0.295 | 0.390 | 0.370 | 40 | 62 | no | +0.069 | OK |
+| KXNHLTEAMTOTAL-26OCT15VANFLA-VAN3 | team_total | 0.574 | 0.445 | 0.471 | 49 | 60 | yes | +0.066 | OK |
+| KXNHLGAME-26OCT15SEATB-SEA | game_winner | 0.386 | 0.295 | 0.312 | 31 | 72 | yes | +0.061 | OK |
 | KXNHLGAME-26OCT15SEATB-TB | game_winner | 0.614 | 0.695 | 0.679 | 70 | 31 | no | +0.061 | OK |
 | KXNHLTEAMTOTAL-26OCT15VANFLA-VAN2 | team_total | 0.785 | 0.695 | 0.715 | 71 | 32 | yes | +0.061 | OK |
 | KXNHLSPREAD-26OCT15SEATB-TB2 | game_spread | 0.383 | 0.470 | 0.452 | 48 | 54 | no | +0.060 | OK |
-| KXNHLSPREAD-26OCT15CGYVGK-VGK2 | game_spread | 0.443 | 0.530 | 0.513 | 54 | 48 | no | +0.059 | OK |
-| KXNHLTEAMTOTAL-26OCT15NYRNJ-NJ4 | team_total | 0.354 | 0.445 | 0.426 | 46 | 57 | no | +0.059 | OK |
+| KXNHLSPREAD-26OCT15CGYVGK-VGK2 | game_spread | 0.443 | 0.535 | 0.517 | 55 | 48 | no | +0.059 | OK |
 | KXNHLSPREAD-26OCT15SEATB-TB3 | game_spread | 0.246 | 0.330 | 0.312 | 34 | 68 | no | +0.059 | OK |
-| KXNHLSPREAD-26OCT15NYRNJ-NJ3 | game_spread | 0.160 | 0.235 | 0.218 | 24 | 77 | no | +0.058 | OK |
+| KXNHLSPREAD-26OCT15VANFLA-VAN2 | game_spread | 0.207 | 0.125 | 0.139 | 14 | 89 | yes | +0.058 | OK |
+| KXNHLSPREAD-26OCT15NYRNJ-NJ3 | game_spread | 0.160 | 0.240 | 0.222 | 25 | 77 | no | +0.058 | OK |
+| KXNHLTEAMTOTAL-26OCT15SEATB-TB4 | team_total | 0.450 | 0.540 | 0.522 | 56 | 48 | no | +0.053 | OK |
 | KXNHLTEAMTOTAL-26OCT15CGYVGK-VGK4 | team_total | 0.511 | 0.595 | 0.578 | 61 | 42 | no | +0.052 | OK |
-| KXNHLGAME-26OCT15CGYVGK-VGK | game_winner | 0.665 | 0.735 | 0.722 | 74 | 27 | no | +0.052 | OK |
-| KXNHLGAME-26OCT15CGYVGK-CGY | game_winner | 0.335 | 0.265 | 0.278 | 27 | 74 | yes | +0.052 | OK |
+| KXNHLGAME-26OCT15CGYVGK-VGK | game_winner | 0.665 | 0.740 | 0.726 | 75 | 27 | no | +0.052 | OK |
+| KXNHLGAME-26OCT15CGYVGK-CGY | game_winner | 0.335 | 0.260 | 0.274 | 27 | 75 | yes | +0.052 | OK |
 | KXNHLGAME-26OCT15NYRNJ-NYR | game_winner | 0.508 | 0.435 | 0.450 | 44 | 57 | yes | +0.051 | OK |
-| KXNHLTEAMTOTAL-26OCT15NYRNJ-NJ3 | team_total | 0.573 | 0.650 | 0.635 | 66 | 36 | no | +0.051 | OK |
-| KXNHLTEAMTOTAL-26OCT15SEATB-TB5 | team_total | 0.255 | 0.335 | 0.318 | 35 | 68 | no | +0.050 | OK |
-| KXNHLTEAMTOTAL-26OCT15WPGCHI-WPG3 | team_total | 0.575 | 0.650 | 0.635 | 66 | 36 | no | +0.049 | OK |
-| KXNHLTEAMTOTAL-26OCT15SEATB-TB3 | team_total | 0.668 | 0.740 | 0.726 | 75 | 27 | no | +0.048 | OK |
 | KXNHLTOTAL-26OCT15VANFLA-8 | game_total | 0.329 | 0.265 | 0.277 | 27 | 74 | yes | +0.045 | OK |
 | KXNHLSPREAD-26OCT15NYRNJ-NYR2 | game_spread | 0.286 | 0.225 | 0.236 | 23 | 78 | yes | +0.043 | OK |
 | KXNHLGAME-26OCT15BUFTOR-BUF | game_winner | 0.550 | 0.485 | 0.498 | 49 | 52 | yes | +0.043 | OK |
 | KXNHLGAME-26OCT15BUFTOR-TOR | game_winner | 0.450 | 0.515 | 0.502 | 52 | 49 | no | +0.043 | OK |
 | KXNHLTEAMTOTAL-26OCT15WPGCHI-WPG4 | team_total | 0.351 | 0.430 | 0.414 | 45 | 59 | no | +0.042 | OK |
 | KXNHLGAME-26OCT15NYRNJ-NJ | game_winner | 0.491 | 0.555 | 0.542 | 56 | 45 | no | +0.041 | OK |
+| KXNHLTEAMTOTAL-26OCT15NYRNJ-NJ3 | team_total | 0.573 | 0.650 | 0.635 | 67 | 37 | no | +0.041 | OK |
 | KXNHLTOTAL-26OCT15WPGCHI-7 | game_total | 0.392 | 0.460 | 0.446 | 47 | 55 | no | +0.040 | OK |
-| KXNHLTEAMTOTAL-26OCT15WPGCHI-WPG5 | team_total | 0.178 | 0.245 | 0.230 | 26 | 77 | no | +0.039 | OK |
+| KXNHLTEAMTOTAL-26OCT15SEATB-TB5 | team_total | 0.255 | 0.330 | 0.314 | 35 | 69 | no | +0.040 | OK |
+| KXNHLTEAMTOTAL-26OCT15VANFLA-VAN4 | team_total | 0.354 | 0.255 | 0.273 | 30 | 79 | yes | +0.040 | OK |
+| KXNHLTEAMTOTAL-26OCT15NYRNJ-NJ4 | team_total | 0.354 | 0.435 | 0.418 | 46 | 59 | no | +0.039 | OK |
 | KXNHLSPREAD-26OCT15NYRNJ-NJ2 | game_spread | 0.276 | 0.345 | 0.330 | 36 | 67 | no | +0.039 | OK |
-| KXNHLSPREAD-26OCT15NYIOTT-OTT3 | game_spread | 0.190 | 0.245 | 0.233 | 25 | 76 | no | +0.038 | OK |
+| KXNHLSPREAD-26OCT15NYIOTT-OTT3 | game_spread | 0.190 | 0.250 | 0.237 | 26 | 76 | no | +0.038 | OK |
 | KXNHLTEAMTOTAL-26OCT15NYRNJ-NJ5 | team_total | 0.180 | 0.250 | 0.235 | 27 | 77 | no | +0.037 | OK |
 | KXNHLGAME-26OCT15NYIOTT-OTT | game_winner | 0.536 | 0.595 | 0.583 | 60 | 41 | no | +0.037 | OK |
 | KXNHLGAME-26OCT15NYIOTT-NYI | game_winner | 0.464 | 0.405 | 0.417 | 41 | 60 | yes | +0.037 | OK |
 | KXNHLTEAMTOTAL-26OCT15CGYVGK-VGK5 | team_total | 0.307 | 0.380 | 0.365 | 40 | 64 | no | +0.037 | OK |
 | KXNHLTOTAL-26OCT15WPGCHI-6 | game_total | 0.506 | 0.570 | 0.557 | 58 | 44 | no | +0.037 | OK |
-| KXNHLSPREAD-26OCT15SEATB-SEA2 | game_spread | 0.194 | 0.145 | 0.154 | 15 | 86 | yes | +0.035 | OK |
-| KXNHLSPREAD-26OCT15BUFTOR-BUF2 | game_spread | 0.338 | 0.280 | 0.291 | 29 | 73 | yes | +0.033 | OK |
-| KXNHLSPREAD-26OCT15BUFTOR-TOR3 | game_spread | 0.155 | 0.205 | 0.194 | 21 | 80 | no | +0.033 | OK |
-| KXNHLSPREAD-26OCT15VANFLA-VAN3 | game_spread | 0.118 | 0.065 | 0.073 | 8 | 95 | yes | +0.033 | OK |
+| KXNHLSPREAD-26OCT15BUFTOR-TOR3 | game_spread | 0.155 | 0.210 | 0.198 | 22 | 80 | no | +0.033 | OK |
 | KXNHLTOTAL-26OCT15VANFLA-7 | game_total | 0.521 | 0.460 | 0.472 | 47 | 55 | yes | +0.033 | OK |
 | KXNHLGAME-26OCT15WPGCHI-WPG | game_winner | 0.510 | 0.565 | 0.554 | 57 | 44 | no | +0.033 | OK |
-| KXNHLTEAMTOTAL-26OCT15NYRNJ-NJ2 | team_total | 0.788 | 0.840 | 0.830 | 85 | 17 | no | +0.032 | OK |
 | KXNHLSPREAD-26OCT15BUFTOR-TOR2 | game_spread | 0.253 | 0.310 | 0.298 | 32 | 70 | no | +0.032 | OK |
-| KXNHLTEAMTOTAL-26OCT15NYIOTT-NYI3 | team_total | 0.559 | 0.500 | 0.512 | 51 | 51 | yes | +0.032 | OK |
+| KXNHLTEAMTOTAL-26OCT15NYIOTT-NYI3 | team_total | 0.559 | 0.495 | 0.508 | 51 | 52 | yes | +0.032 | OK |
 | KXNHLTEAMTOTAL-26OCT15PHIDET-PHI3 | team_total | 0.481 | 0.545 | 0.532 | 56 | 47 | no | +0.031 | OK |
-| KXNHLTEAMTOTAL-26OCT15VANFLA-FLA3 | team_total | 0.717 | 0.770 | 0.760 | 78 | 24 | no | +0.031 | OK |
-| KXNHLTEAMTOTAL-26OCT15PHIDET-PHI4 | team_total | 0.275 | 0.335 | 0.322 | 35 | 68 | no | +0.030 | OK |
 | KXNHLTOTAL-26OCT15VANFLA-9 | game_total | 0.241 | 0.185 | 0.195 | 20 | 83 | yes | +0.030 | OK |
-| KXNHLSPREAD-26OCT15NYIOTT-NYI2 | game_spread | 0.252 | 0.205 | 0.214 | 21 | 80 | yes | +0.030 | OK |
+| KXNHLSPREAD-26OCT15NYIOTT-NYI2 | game_spread | 0.252 | 0.200 | 0.210 | 21 | 81 | yes | +0.030 | OK |
 | KXNHLSPREAD-26OCT15CGYVGK-CGY2 | game_spread | 0.157 | 0.115 | 0.122 | 12 | 89 | yes | +0.029 | OK |
-| KXNHLSPREAD-26OCT15WPGCHI-WPG3 | game_spread | 0.169 | 0.215 | 0.205 | 22 | 79 | no | +0.029 | OK |
+| KXNHLSPREAD-26OCT15WPGCHI-WPG3 | game_spread | 0.169 | 0.220 | 0.209 | 23 | 79 | no | +0.029 | OK |
 | KXNHLTEAMTOTAL-26OCT15CGYVGK-VGK3 | team_total | 0.718 | 0.775 | 0.764 | 79 | 24 | no | +0.029 | OK |
-| KXNHLTOTAL-26OCT15WPGCHI-4 | game_total | 0.823 | 0.870 | 0.861 | 88 | 14 | no | +0.029 | OK |
 | KXNHLTOTAL-26OCT15WPGCHI-5 | game_total | 0.729 | 0.785 | 0.775 | 80 | 23 | no | +0.028 | OK |
 | KXNHLSPREAD-26OCT15STLMIN-MIN2 | game_spread | 0.306 | 0.355 | 0.345 | 36 | 65 | no | +0.028 | OK |
 | KXNHLTOTAL-26OCT15SEATB-6 | game_total | 0.536 | 0.585 | 0.575 | 59 | 42 | no | +0.027 | OK |
 | KXNHLTEAMTOTAL-26OCT15PHIDET-PHI2 | team_total | 0.721 | 0.775 | 0.765 | 79 | 24 | no | +0.026 | OK |
-| KXNHLTEAMTOTAL-26OCT15NYIOTT-NYI4 | team_total | 0.341 | 0.290 | 0.300 | 30 | 72 | yes | +0.026 | OK |
+| KXNHLTEAMTOTAL-26OCT15NYIOTT-NYI4 | team_total | 0.341 | 0.285 | 0.296 | 30 | 73 | yes | +0.026 | OK |
 | KXNHLSPREAD-26OCT15PHIDET-PHI3 | game_spread | 0.106 | 0.150 | 0.140 | 16 | 86 | no | +0.026 | OK |
 | KXNHLTOTAL-26OCT15NYRNJ-6 | game_total | 0.517 | 0.565 | 0.556 | 57 | 44 | no | +0.025 | OK |
-| KXNHLTOTAL-26OCT15WPGCHI-9 | game_total | 0.145 | 0.190 | 0.180 | 20 | 82 | no | +0.025 | OK |
 | KXNHLTOTAL-26OCT15WPGCHI-8 | game_total | 0.212 | 0.255 | 0.246 | 26 | 75 | no | +0.025 | OK |
-| KXNHLTOTAL-26OCT15VANFLA-6 | game_total | 0.632 | 0.580 | 0.591 | 59 | 43 | yes | +0.025 | OK |
 | KXNHLGAME-26OCT15STLMIN-STL | game_winner | 0.472 | 0.425 | 0.434 | 43 | 58 | yes | +0.025 | OK |
 | KXNHLGAME-26OCT15STLMIN-MIN | game_winner | 0.528 | 0.575 | 0.566 | 58 | 43 | no | +0.025 | OK |
 | KXNHLTOTAL-26OCT15PHIDET-4 | game_total | 0.816 | 0.855 | 0.848 | 86 | 15 | no | +0.025 | OK |
-| KXNHLTEAMTOTAL-26OCT15VANFLA-FLA4 | team_total | 0.518 | 0.575 | 0.564 | 59 | 44 | no | +0.024 | OK |
-| KXNHLTEAMTOTAL-26OCT15SEATB-TB2 | team_total | 0.849 | 0.890 | 0.883 | 90 | 12 | no | +0.024 | OK |
 | KXNHLTOTAL-26OCT15SEATB-5 | game_total | 0.755 | 0.800 | 0.792 | 81 | 21 | no | +0.023 | OK |
-| KXNHLGAME-26OCT15PHIDET-PHI | game_winner | 0.400 | 0.445 | 0.436 | 45 | 56 | no | +0.023 | OK |
+| KXNHLSPREAD-26OCT15BUFTOR-BUF2 | game_spread | 0.338 | 0.285 | 0.295 | 30 | 73 | yes | +0.023 | OK |
 | KXNHLGAME-26OCT15PHIDET-DET | game_winner | 0.600 | 0.555 | 0.564 | 56 | 45 | yes | +0.023 | OK |
-| KXNHLGAME-26OCT15WPGCHI-CHI | game_winner | 0.490 | 0.445 | 0.454 | 45 | 56 | yes | +0.023 | OK |
 | KXNHLTOTAL-26OCT15NYRNJ-7 | game_total | 0.401 | 0.450 | 0.440 | 46 | 56 | no | +0.022 | OK |
 | KXNHLSPREAD-26OCT15STLMIN-MIN3 | game_spread | 0.186 | 0.230 | 0.221 | 24 | 78 | no | +0.022 | OK |
+| KXNHLTEAMTOTAL-26OCT15NYRNJ-NJ2 | team_total | 0.788 | 0.835 | 0.826 | 85 | 18 | no | +0.022 | OK |
 | KXNHLTOTAL-26OCT15SEATB-7 | game_total | 0.421 | 0.465 | 0.456 | 47 | 54 | no | +0.022 | OK |
+| KXNHLSPREAD-26OCT15NYIOTT-OTT2 | game_spread | 0.312 | 0.360 | 0.350 | 37 | 65 | no | +0.022 | OK |
+| KXNHLTOTAL-26OCT15NYIOTT-8 | game_total | 0.233 | 0.195 | 0.202 | 20 | 81 | yes | +0.021 | OK |
+| KXNHLTEAMTOTAL-26OCT15VANFLA-VAN6 | team_total | 0.085 | 0.035 | 0.042 | 6 | 99 | yes | +0.021 | OK |
+| KXNHLTEAMTOTAL-26OCT15WPGCHI-WPG5 | team_total | 0.178 | 0.240 | 0.227 | 27 | 79 | no | +0.020 | OK |
+| KXNHLTOTAL-26OCT15PHIDET-7 | game_total | 0.373 | 0.425 | 0.414 | 44 | 59 | no | +0.020 | OK |
+| KXNHLTEAMTOTAL-26OCT15CGYVGK-VGK6 | team_total | 0.160 | 0.205 | 0.195 | 22 | 81 | no | +0.019 | OK |
+| KXNHLTEAMTOTAL-26OCT15VANFLA-VAN5 | team_total | 0.189 | 0.115 | 0.127 | 16 | 93 | yes | +0.019 | OK |
+| KXNHLTEAMTOTAL-26OCT15CGYVGK-CGY3 | team_total | 0.476 | 0.425 | 0.435 | 44 | 59 | yes | +0.018 | OK |
+| KXNHLTOTAL-26OCT15WPGCHI-4 | game_total | 0.823 | 0.865 | 0.857 | 88 | 15 | no | +0.018 | OK |
+| KXNHLTEAMTOTAL-26OCT15PHIDET-PHI5 | team_total | 0.123 | 0.195 | 0.178 | 24 | 85 | no | +0.018 | OK |
+| KXNHLSPREAD-26OCT15WPGCHI-WPG2 | game_spread | 0.287 | 0.330 | 0.321 | 34 | 68 | no | +0.018 | OK |
+| KXNHLTEAMTOTAL-26OCT15CGYVGK-CGY4 | team_total | 0.269 | 0.225 | 0.233 | 24 | 79 | yes | +0.016 | OK |
+| KXNHLTOTAL-26OCT15PHIDET-5 | game_total | 0.721 | 0.760 | 0.753 | 77 | 25 | no | +0.016 | OK |
+| KXNHLTEAMTOTAL-26OCT15CGYVGK-VGK2 | team_total | 0.878 | 0.920 | 0.913 | 94 | 10 | no | +0.016 | OK |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -124,18 +124,13 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 10 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 5 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Seattle wins by over 1.5 goals YES @ 15c · p 0.213 (adj 0.179) · $3.5 · thesis SEA:WINS_BY_2PLUS
-- Tampa Bay wins by over 2.5 goals NO @ 68c · p 0.7677 (adj 0.7188) · $15.97 · thesis GAME:TIGHT
-- Tampa Bay over 2.5 goals scored NO @ 27c · p 0.3475 (adj 0.3037) · $1.5 · thesis TBL:SUPPRESSED
-- Florida wins by over 1.5 goals NO @ 50c · p 0.6519 (adj 0.5499) · $2.93 · thesis VAN:WINS
-- Florida wins by over 2.5 goals NO @ 63c · p 0.7719 (adj 0.6764) · $14.2 · thesis VAN:WINS
-- Vancouver over 3.5 goals scored YES @ 24c · p 0.3653 (adj 0.2774) · $4.32 · thesis VAN:OFFENSE_4PLUS
-- Florida over 2.5 goals scored NO @ 24c · p 0.3202 (adj 0.2751) · $3.8 · thesis FLA:SUPPRESSED
-- New Jersey wins by over 2.5 goals NO @ 77c · p 0.8223 (adj 0.7936) · $14.36 · thesis NYR:WINS
-- Vegas wins by over 2.5 goals NO @ 61c · p 0.6908 (adj 0.6479) · $12.85 · thesis GAME:TIGHT
-- Vegas wins by over 1.5 goals NO @ 48c · p 0.5627 (adj 0.5163) · $1.8 · thesis GAME:TIGHT
+- Tampa Bay wins by over 2.5 goals NO @ 68c · p 0.7677 (adj 0.7188) · $20.0 · thesis GAME:TIGHT
+- Florida wins by over 1.5 goals NO @ 50c · p 0.6519 (adj 0.5499) · $17.62 · thesis VAN:WINS
+- Vegas wins by over 1.5 goals NO @ 48c · p 0.5627 (adj 0.5138) · $5.0 · thesis GAME:TIGHT
+- Vegas wins by over 2.5 goals NO @ 62c · p 0.6908 (adj 0.6504) · $2.76 · thesis GAME:TIGHT
+- Vegas over 3.5 goals scored NO @ 42c · p 0.4968 (adj 0.4509) · $2.55 · thesis VGK:SUPPRESSED
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
