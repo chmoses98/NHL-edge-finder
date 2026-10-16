@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-16T21:52:05Z · thesis-postmortem-2.0 · rows (all generations) 17286
+evaluated 2026-10-16T23:27:09Z · thesis-postmortem-2.0 · rows (all generations) 17286
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,16 +33,16 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020119 PIT @ COL: NOT_STARTED · snapshot snap-1e897794624817ccaa8f @ 2026-10-16T21:40:08Z
+#### game 2026020119 PIT @ COL: NOT_STARTED · snapshot snap-a212c2a3a8f001e6a508 @ 2026-10-16T23:24:54Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLAST-26OCT16PITCOL-COLCMAKAR8-3|no | SHADOW_ONLY | 0 | 20.00 | - | - | - | NONE | - | - |
-| KXNHLAST-26OCT16PITCOL-COLCMAKAR8-1|no | SHADOW_ONLY | 0 | 9.59 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no | FUNDED_RESEARCH | 4 | 13.94 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT16PITCOL-PITCDEWAR19-1|yes | SHADOW_ONLY | 0 | 4.01 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT16PITCOL-COLFSVECHKOV9-1|yes | SHADOW_ONLY | 0 | 6.16 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT16PITCOL-COLCMAKAR8-1|no | SHADOW_ONLY | 0 | 11.06 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no | FUNDED_RESEARCH | 3 | 10.77 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT16PITCOL-COLNMACKINNON29-1|no | SHADOW_ONLY | 0 | 8.11 | - | - | - | DIRECT | - | - |
 
-#### game 2026020120 BOS @ ANA: NOT_STARTED · snapshot snap-1e897794624817ccaa8f @ 2026-10-16T21:40:08Z
+#### game 2026020120 BOS @ ANA: NOT_STARTED · snapshot snap-a212c2a3a8f001e6a508 @ 2026-10-16T23:24:54Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
