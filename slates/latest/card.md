@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-16T13:17:59Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-16T14:07:25Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,12 +10,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 70.00 | +6.94 | +2.21 | -7.44 | 0.471 | -44.12 | -44.12 | 10.71 |
-| B thesis-diversified (joint) ← optimiser card | 25.31 | +1.87 | +0.77 | +0.57 | 0.808 | -25.31 | -25.31 | 6.83 |
-| C best expression per thesis | 3.06 | +1.21 | +0.43 | -3.06 | 0.134 | -3.06 | -3.06 | 3.74 |
-| R FUNDED research stakes | 7.00 | +0.59 | +0.23 | -0.53 | 0.335 | -7.00 | -7.00 | 0.00 |
+| A highest edges (independent) | 100.00 | +12.58 | +4.12 | +8.90 | 0.561 | -53.66 | -72.87 | 26.45 |
+| B thesis-diversified (joint) ← optimiser card | 54.01 | +8.01 | +3.74 | +9.07 | 0.662 | -27.79 | -35.30 | 32.93 |
+| C best expression per thesis | 36.57 | +5.54 | +3.14 | -0.72 | 0.388 | -36.58 | -36.58 | 27.44 |
+| R FUNDED research stakes | 7.00 | +0.92 | +0.46 | +2.66 | 0.718 | -7.00 | -7.00 | 0.00 |
 
-## PIT @ COL  ·  10000 joint draws  ·  430 bet sides mapped, 1 +EV candidates, 1 on card
+## PIT @ COL  ·  10000 joint draws  ·  430 bet sides mapped, 8 +EV candidates, 4 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -33,16 +33,27 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Cale Makar: 1+ goals NO | 76 | 0.808 | 0.791 | +0.035 | +0.018 | $20.00 | FUNDED_RESEARCH | $5 | COL:SUPPRESSED | DIRECT (0.93) | EVIDENCE_STRONGER | D |
-- **Cale Makar: 1+ goals NO** — thesis: COL offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT16PITCOL-COLNMACKINNON29-1|no; why: higher confidence-adjusted growth (4.13 vs 0.79 bp); despite a smaller raw edge (+0.035 vs +0.056/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; alternative not eligible: confidence-adjusted EV +0.0094 below the 0.010/contract floor; relationships: only recommended bet in this game; failure: COL offense succeeds (4+ goals)
+| Nathan MacKinnon: 1+ goals NO | 50 | 0.575 | 0.554 | +0.058 | +0.037 | $19.07 | FUNDED_RESEARCH | $5 | COL:SUPPRESSED | DIRECT (0.80) | EVIDENCE_STRONGER | D |
+| Artturi Lehkonen: 1+ goals YES | 25 | 0.307 | 0.291 | +0.043 | +0.028 | $10.42 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | COL:OFFENSE_4PLUS | FRAGILE (0.40) | EVIDENCE_STRONGER | D |
+| Nathan MacKinnon: 1+ assists NO | 40 | 0.483 | 0.436 | +0.066 | +0.020 | $10.93 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED | $0 | COL:SUPPRESSED | DIRECT (0.73) | EVIDENCE_MIXED | D |
+| Artturi Lehkonen: 1+ assists YES | 28 | 0.346 | 0.311 | +0.052 | +0.017 | $8.28 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED | $0 | COL:OFFENSE_4PLUS | FRAGILE (0.46) | EVIDENCE_MIXED | D |
+- **Nathan MacKinnon: 1+ goals NO** — thesis: COL offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT16PITCOL-COLNMACKINNON29-1|no; why: higher confidence-adjusted growth (11.71 vs 3.43 bp); despite a smaller raw edge (+0.058 vs +0.066/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26OCT16PITCOL-COLALEHKONEN62-1|yes: MOSTLY_INDEPENDENT (phi 0.014); KXNHLAST-26OCT16PITCOL-COLNMACKINNON29-1|no: MOSTLY_INDEPENDENT (phi 0.02); KXNHLAST-26OCT16PITCOL-COLALEHKONEN62-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.195); failure: COL offense succeeds (4+ goals)
+- **Artturi Lehkonen: 1+ goals YES** — thesis: COL offense succeeds (4+ goals); alternative: KXNHLAST-26OCT16PITCOL-COLALEHKONEN62-1|yes; why: higher confidence-adjusted growth (8.82 vs 2.85 bp); despite a smaller raw edge (+0.043 vs +0.052/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no: MOSTLY_INDEPENDENT (phi 0.014); KXNHLAST-26OCT16PITCOL-COLNMACKINNON29-1|no: INTENTIONAL_DIVERSIFIER (phi -0.205); KXNHLAST-26OCT16PITCOL-COLALEHKONEN62-1|yes: MOSTLY_INDEPENDENT (phi -0.0); failure: COL offense suppressed (<= 2 goals)
+- **Nathan MacKinnon: 1+ assists NO** — thesis: COL offense suppressed (<= 2 goals); alternative: KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no; why: second expression of the same thesis: KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no has the higher standalone adjusted growth (11.71 vs 3.43 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.020); they share one thesis budget; relationships: KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no: MOSTLY_INDEPENDENT (phi 0.02); KXNHLGOAL-26OCT16PITCOL-COLALEHKONEN62-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.205); KXNHLAST-26OCT16PITCOL-COLALEHKONEN62-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.088); failure: COL offense succeeds (4+ goals)
+- **Artturi Lehkonen: 1+ assists YES** — thesis: COL offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT16PITCOL-COLALEHKONEN62-1|yes; why: second expression of the same thesis: KXNHLGOAL-26OCT16PITCOL-COLALEHKONEN62-1|yes has the higher standalone adjusted growth (8.82 vs 2.85 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it -0.000); they share one thesis budget; relationships: KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no: INTENTIONAL_DIVERSIFIER (phi -0.195); KXNHLGOAL-26OCT16PITCOL-COLALEHKONEN62-1|yes: MOSTLY_INDEPENDENT (phi -0.0); KXNHLAST-26OCT16PITCOL-COLNMACKINNON29-1|no: INTENTIONAL_DIVERSIFIER (phi -0.088); failure: COL offense suppressed (<= 2 goals)
 
 **Review**: scripts COL shot control · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · decided (2+) 0.12, COL shot control · high event (8+) · decided (2+) 0.10.
-- thesis COL:SUPPRESSED (p 0.2806): highest fidelity - [-], best adjusted EV - — no eligible expression
-- KXNHLGOAL-26OCT16PITCOL-COLCMAKAR8-1|no: FUNDED_RESEARCH; family TRUSTED; loses 7% of the draws where the thesis happens; fragile player expression; opposing: failure thesis COL:OFFENSE_4PLUS (p 0.5227, phi -0.201)
+- thesis COL:SUPPRESSED (p 0.2806): highest fidelity KXNHLAST-26OCT16PITCOL-COLNKADRI91-1|no [DIRECT], best adjusted EV KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
+- thesis COL:OFFENSE_4PLUS (p 0.5227): highest fidelity KXNHLAST-26OCT16PITCOL-COLALEHKONEN62-1|yes [FRAGILE], best adjusted EV KXNHLGOAL-26OCT16PITCOL-COLALEHKONEN62-1|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
+- thesis PIT:OFFENSE_4PLUS (p 0.3368): highest fidelity KXNHLGOAL-26OCT16PITCOL-PITBRUST17-1|yes [FRAGILE], best adjusted EV KXNHLGOAL-26OCT16PITCOL-PITBRUST17-1|yes (same contract)
+- KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no: FUNDED_RESEARCH; family TRUSTED; loses 20% of the draws where the thesis happens; fragile player expression; opposing: failure thesis COL:OFFENSE_4PLUS (p 0.5227, phi -0.297)
+- KXNHLGOAL-26OCT16PITCOL-COLALEHKONEN62-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 60% of the draws where the thesis happens; fragile player expression; opposing: failure thesis COL:SUPPRESSED (p 0.2806, phi -0.214)
+- KXNHLAST-26OCT16PITCOL-COLNMACKINNON29-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; family MIXED; loses 27% of the draws where the thesis happens; fragile player expression; opposing: failure thesis COL:OFFENSE_4PLUS (p 0.5227, phi -0.309)
+- KXNHLAST-26OCT16PITCOL-COLALEHKONEN62-1|yes: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; family MIXED; loses 54% of the draws where the thesis happens; fragile player expression; opposing: failure thesis COL:SUPPRESSED (p 0.2806, phi -0.244)
 
-portfolios: A EV +0.91 (adj +0.47) on $20.00, P(profit) 0.8079, adj growth 4.2 bp · B EV +0.91 (adj +0.47) on $20.00, P(profit) 0.8079, adj growth 4.2 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.23 (adj +0.12) on $5.00, P(profit) 0.8079, adj growth 4.2 bp
+portfolios: A EV +6.55 (adj +2.38) on $50.00, P(profit) 0.5826, adj growth 19.9 bp · B EV +7.05 (adj +3.44) on $48.70, P(profit) 0.6033, adj growth 30.3 bp · C EV +4.33 (adj +2.71) on $33.51, P(profit) 0.7025, adj growth 23.7 bp · R EV +0.56 (adj +0.35) on $5.00, P(profit) 0.5754, adj growth 12.3 bp
 
-## BOS @ ANA  ·  10000 joint draws  ·  98 bet sides mapped, 6 +EV candidates, 1 on card
+## BOS @ ANA  ·  10000 joint draws  ·  394 bet sides mapped, 6 +EV candidates, 1 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
