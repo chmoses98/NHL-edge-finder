@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-16T08:43:44Z · thesis-postmortem-2.0 · rows (all generations) 17286
+evaluated 2026-10-16T10:31:24Z · thesis-postmortem-2.0 · rows (all generations) 17286
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,9 +33,9 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020119 PIT @ COL: NOT_STARTED · snapshot snap-c1894382ae87ea652d5a @ 2026-10-16T08:27:03Z
+#### game 2026020119 PIT @ COL: NOT_STARTED · snapshot snap-083e03e48f63cbea706c @ 2026-10-16T10:28:13Z
 
-#### game 2026020120 BOS @ ANA: NOT_STARTED · snapshot snap-c1894382ae87ea652d5a @ 2026-10-16T08:27:03Z
+#### game 2026020120 BOS @ ANA: NOT_STARTED · snapshot snap-083e03e48f63cbea706c @ 2026-10-16T10:28:13Z
 
 ## Slate 2026-10-15: **COMPLETE — 11/11 games evaluated**
 
