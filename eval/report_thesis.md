@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-16T05:13:45Z · thesis-postmortem-2.0 · rows (all generations) 17286
+evaluated 2026-10-16T06:58:42Z · thesis-postmortem-2.0 · rows (all generations) 17286
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,9 +33,9 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020119 PIT @ COL: NOT_STARTED · snapshot snap-5e17164d92b1c05b02ca @ 2026-10-16T04:27:01Z
+#### game 2026020119 PIT @ COL: NOT_STARTED · snapshot snap-f4b2d13dfcb98d19005c @ 2026-10-16T06:27:01Z
 
-#### game 2026020120 BOS @ ANA: NOT_STARTED · snapshot snap-5e17164d92b1c05b02ca @ 2026-10-16T04:27:01Z
+#### game 2026020120 BOS @ ANA: NOT_STARTED · snapshot snap-f4b2d13dfcb98d19005c @ 2026-10-16T06:27:01Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|

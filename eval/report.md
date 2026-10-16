@@ -1,6 +1,6 @@
 # NHL evaluation report — RESEARCH_ONLY
 
-evaluated 2026-10-16T05:13:45Z · rows 345917 · pregame 345917 · new 3534
+evaluated 2026-10-16T06:58:42Z · rows 345917 · pregame 345917 · new 0
 
 | scope | view | n | Brier | log loss | ECE | mean p | hit rate |
 |---|---|---:|---:|---:|---:|---:|---:|
