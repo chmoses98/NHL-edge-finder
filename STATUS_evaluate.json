@@ -1,7 +1,7 @@
 {
- "evaluated_at_utc": "2026-10-16T04:13:57Z",
- "n_rows": 342383,
- "n_new": 3391,
+ "evaluated_at_utc": "2026-10-16T05:13:45Z",
+ "n_rows": 345917,
+ "n_new": 3534,
  "run_id": "38849118093",
  "steps": {
   "v1": "OK",
@@ -207,16 +207,31 @@
    "postmortem_complete": true
   },
   "2026-10-15": {
-   "label": "PARTIAL \u2014 10/11 games evaluated",
+   "label": "COMPLETE \u2014 11/11 games evaluated",
    "games_scheduled": 11,
-   "games_final": 10,
-   "games_settled": 10,
-   "games_player_events_ingested": 10,
+   "games_final": 11,
+   "games_settled": 11,
+   "games_player_events_ingested": 11,
    "games_with_final_card_snapshot": 11,
-   "games_thesis_evaluated": 10,
-   "games_terminal": 10,
+   "games_thesis_evaluated": 11,
+   "games_terminal": 11,
+   "games_missing": {},
+   "games_ambiguous": [],
+   "final_card_complete": true,
+   "postmortem_complete": true
+  },
+  "2026-10-16": {
+   "label": "PARTIAL \u2014 0/2 games evaluated",
+   "games_scheduled": 2,
+   "games_final": 0,
+   "games_settled": 0,
+   "games_player_events_ingested": 0,
+   "games_with_final_card_snapshot": 2,
+   "games_thesis_evaluated": 0,
+   "games_terminal": 0,
    "games_missing": {
-    "2026020118": "no official FINAL result yet"
+    "2026020119": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020120": "game not started: the snapshot shown is the latest so far, not yet final"
    },
    "games_ambiguous": [],
    "final_card_complete": false,
@@ -225,8 +240,8 @@
  },
  "learning": {
   "stage": "CALIBRATION_BUILDING",
-  "script_forecasts_settled": 1374,
-  "games_settled": 117
+  "script_forecasts_settled": 1398,
+  "games_settled": 118
  },
  "canonical_path": "STATUS_evaluate.json"
 }
