@@ -1,6 +1,6 @@
 # NHL slate 2026-10-16 — RESEARCH_ONLY
 
-generated 2026-10-16T06:27:01Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-16T07:26:59Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 2 · simulated (not started): 2 · markets on board: 2475 · contracts joined: 102 (unjoined to any game: 1571)
 gates: {'UNSUPPORTED': 52, 'NO_EDGE': 44, 'OK': 6}
@@ -51,7 +51,6 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTOTAL-26OCT16BOSANA-6 | game_total | 0.582 | 0.575 | 0.576 | 58 | 43 |  | -0.015 | NO_EDGE |
 | KXNHLTOTAL-26OCT16BOSANA-10 | game_total | 0.090 | 0.090 | 0.090 | 10 | 92 |  | -0.016 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16PITCOL-COL3 | team_total | 0.742 | 0.755 | 0.753 | 77 | 26 |  | -0.016 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT16PITCOL-PIT3 | team_total | 0.549 | 0.555 | 0.554 | 56 | 45 |  | -0.016 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16PITCOL-COL4 | team_total | 0.541 | 0.555 | 0.552 | 57 | 46 |  | -0.018 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16PITCOL-PIT2 | team_total | 0.774 | 0.770 | 0.771 | 78 | 24 |  | -0.018 | NO_EDGE |
 | KXNHLGAME-26OCT16BOSANA-ANA | game_winner | 0.489 | 0.485 | 0.486 | 49 | 52 |  | -0.018 | NO_EDGE |
@@ -61,6 +60,7 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTEAMTOTAL-26OCT16PITCOL-PIT4 | team_total | 0.336 | 0.325 | 0.327 | 34 | 69 |  | -0.019 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16BOSANA-ANA3 | team_total | 0.607 | 0.610 | 0.609 | 62 | 40 |  | -0.024 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16BOSANA-BOS5 | team_total | 0.228 | 0.225 | 0.226 | 24 | 79 |  | -0.025 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT16PITCOL-PIT3 | team_total | 0.549 | 0.550 | 0.550 | 56 | 46 |  | -0.026 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16PITCOL-COL5 | team_total | 0.341 | 0.350 | 0.348 | 37 | 67 |  | -0.026 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16BOSANA-BOS4 | team_total | 0.410 | 0.415 | 0.414 | 43 | 60 |  | -0.027 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16BOSANA-ANA4 | team_total | 0.392 | 0.395 | 0.394 | 41 | 62 |  | -0.028 | NO_EDGE |
@@ -68,33 +68,33 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHL1P-26OCT16PITCOL-COL | period_winner |  | 0.395 |  | 41 | 62 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT16PITCOL-PIT | period_winner |  | 0.260 |  | 28 | 76 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT16PITCOL-TIE | period_winner |  | 0.315 |  | 33 | 70 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT16PITCOL-COL2 | period_spread |  | 0.195 |  | 21 | 82 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT16PITCOL-PIT2 | period_spread |  | 0.085 |  | 14 | 97 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT16PITCOL-1 | period_total |  | 0.865 |  | 88 | 15 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT16PITCOL-COL2 | period_spread |  | 0.200 |  | 23 | 83 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT16PITCOL-PIT2 | period_spread |  | 0.080 |  | 13 | 97 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT16PITCOL-1 | period_total |  | 0.870 |  | 89 | 15 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT16PITCOL-2 | period_total |  | 0.585 |  | 60 | 43 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT16PITCOL-3 | period_total |  | 0.305 |  | 32 | 71 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT16PITCOL-COL | period_winner |  | 0.430 |  | 45 | 59 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT16PITCOL-COL | period_winner |  | 0.425 |  | 44 | 59 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT16PITCOL-PIT | period_winner |  | 0.265 |  | 29 | 76 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT16PITCOL-TIE | period_winner |  | 0.275 |  | 30 | 75 |  |  | UNSUPPORTED |
-| KXNHL2PSPREAD-26OCT16PITCOL-COL2 | period_spread |  | 0.200 |  | 31 | 91 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26OCT16PITCOL-COL2 | period_spread |  | 0.190 |  | 29 | 91 |  |  | UNSUPPORTED |
 | KXNHL2PSPREAD-26OCT16PITCOL-PIT2 | period_spread |  | 0.100 |  | 19 | 99 |  |  | UNSUPPORTED |
 | KXNHL2PTOTAL-26OCT16PITCOL-1 | period_total |  | 0.890 |  | 98 | 20 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT16PITCOL-2 | period_total |  | 0.640 |  | 70 | 42 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT16PITCOL-2 | period_total |  | 0.650 |  | 70 | 40 |  |  | UNSUPPORTED |
 | KXNHL2PTOTAL-26OCT16PITCOL-3 | period_total |  | 0.375 |  | 41 | 66 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT16PITCOL-COL | period_winner |  | 0.455 |  | 48 | 57 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT16PITCOL-PIT | period_winner |  | 0.275 |  | 30 | 75 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT16PITCOL-TIE | period_winner |  | 0.245 |  | 27 | 78 |  |  | UNSUPPORTED |
 | KXNHL3PSPREAD-26OCT16PITCOL-COL2 | period_spread |  | 0.240 |  | 34 | 86 |  |  | UNSUPPORTED |
-| KXNHL3PSPREAD-26OCT16PITCOL-PIT2 | period_spread |  | 0.110 |  | 20 | 98 |  |  | UNSUPPORTED |
+| KXNHL3PSPREAD-26OCT16PITCOL-PIT2 | period_spread |  | 0.135 |  | 19 | 92 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26OCT16PITCOL-1 | period_total |  | 0.900 |  | 99 | 19 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT16PITCOL-2 | period_total |  | 0.675 |  | 75 | 40 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT16PITCOL-3 | period_total |  | 0.425 |  | 44 | 59 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT16PITCOL-2 | period_total |  | 0.680 |  | 75 | 39 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT16PITCOL-3 | period_total |  | 0.420 |  | 44 | 60 |  |  | UNSUPPORTED |
 | KXNHLF10G-26OCT16PITCOL-Y | game_early_goal |  | 0.610 |  | 63 | 41 |  |  | UNSUPPORTED |
 | KXNHLOT-26OCT16PITCOL-1 | game_overtime |  | 0.200 |  | 21 | 81 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT16BOSANA-ANA | period_winner |  | 0.315 |  | 33 | 70 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT16BOSANA-BOS | period_winner |  | 0.335 |  | 35 | 68 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT16BOSANA-TIE | period_winner |  | 0.320 |  | 33 | 69 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT16BOSANA-ANA2 | period_spread |  | 0.110 |  | 19 | 97 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT16BOSANA-BOS | period_winner |  | 0.335 |  | 36 | 69 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT16BOSANA-TIE | period_winner |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT16BOSANA-ANA2 | period_spread |  | 0.125 |  | 16 | 91 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
