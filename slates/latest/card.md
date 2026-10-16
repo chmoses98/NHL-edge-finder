@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-16T04:27:01Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-16T05:26:59Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -22,16 +22,16 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | script | freq | p_COL_win | p_PIT_win | p_overtime | goals | shots COL/PIT | COL/PIT starter saves | driver |
 |---|---:|---:|---:|---:|---:|---|---|---|
-| COL shot control · normal event (5-7) · decided (2+) | 0.121 | 0.71 | 0.29 | 0.00 | 6.08 | 33.9/22.2 | 19.6/28.8 | even strength |
-| balanced shots · normal event (5-7) · decided (2+) | 0.117 | 0.66 | 0.34 | 0.00 | 6.04 | 28.4/27.8 | 24.9/24.1 | even strength |
-| COL shot control · high event (8+) · decided (2+) | 0.104 | 0.73 | 0.27 | 0.00 | 9.44 | 36.0/23.7 | 19.2/27.5 | even strength |
-| balanced shots · high event (8+) · decided (2+) | 0.098 | 0.68 | 0.32 | 0.00 | 9.41 | 30.1/29.4 | 24.3/22.8 | even strength |
-| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.098 | 0.53 | 0.47 | 0.48 | 5.99 | 28.9/28.2 | 24.9/25.5 | even strength |
-| COL shot control · normal event (5-7) · tight (1-goal/OT) | 0.091 | 0.57 | 0.43 | 0.46 | 5.98 | 34.0/22.3 | 19.2/30.3 | even strength |
+| COL shot control · normal event (5-7) · decided (2+) | 0.118 | 0.72 | 0.28 | 0.00 | 6.05 | 34.1/22.2 | 19.6/29.1 | even strength |
+| balanced shots · normal event (5-7) · decided (2+) | 0.114 | 0.65 | 0.35 | 0.00 | 6.06 | 28.6/27.9 | 25.0/24.4 | even strength |
+| COL shot control · high event (8+) · decided (2+) | 0.103 | 0.75 | 0.25 | 0.00 | 9.42 | 35.7/23.6 | 19.2/27.1 | even strength |
+| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.100 | 0.52 | 0.48 | 0.47 | 6.01 | 28.6/28.0 | 24.7/25.2 | even strength |
+| balanced shots · high event (8+) · decided (2+) | 0.098 | 0.67 | 0.33 | 0.00 | 9.39 | 30.3/29.4 | 24.2/22.9 | even strength |
+| COL shot control · normal event (5-7) · tight (1-goal/OT) | 0.089 | 0.57 | 0.43 | 0.47 | 5.97 | 34.2/22.3 | 19.2/30.8 | even strength |
 
 _no bet on this game passes: +EV at the executable ask under both the model and the confidence-adjusted probability_
 
-**Review**: scripts COL shot control · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · decided (2+) 0.12, COL shot control · high event (8+) · decided (2+) 0.10.
+**Review**: scripts COL shot control · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · decided (2+) 0.11, COL shot control · high event (8+) · decided (2+) 0.10.
 
 portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp
 
@@ -42,12 +42,12 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 | script | freq | p_ANA_win | p_BOS_win | p_overtime | goals | shots ANA/BOS | ANA/BOS starter saves | driver |
 |---|---:|---:|---:|---:|---:|---|---|---|
-| ANA shot control · normal event (5-7) · decided (2+) | 0.122 | 0.58 | 0.42 | 0.00 | 6.05 | 33.9/22.1 | 18.9/29.6 | even strength |
-| balanced shots · normal event (5-7) · decided (2+) | 0.110 | 0.53 | 0.47 | 0.00 | 6.09 | 28.6/28.0 | 24.7/24.7 | even strength |
-| ANA shot control · normal event (5-7) · tight (1-goal/OT) | 0.106 | 0.55 | 0.45 | 0.48 | 5.98 | 34.5/22.4 | 19.2/31.1 | even strength |
-| balanced shots · high event (8+) · decided (2+) | 0.101 | 0.54 | 0.46 | 0.00 | 9.46 | 30.4/29.6 | 23.6/23.7 | even strength |
-| ANA shot control · high event (8+) · decided (2+) | 0.098 | 0.60 | 0.40 | 0.00 | 9.43 | 36.0/23.7 | 18.4/28.4 | even strength |
-| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.097 | 0.50 | 0.50 | 0.50 | 5.97 | 28.5/27.9 | 24.6/25.3 | even strength |
+| ANA shot control · normal event (5-7) · decided (2+) | 0.122 | 0.58 | 0.42 | 0.00 | 6.04 | 34.0/22.1 | 18.9/29.8 | even strength |
+| balanced shots · normal event (5-7) · decided (2+) | 0.109 | 0.53 | 0.47 | 0.00 | 6.09 | 28.8/28.2 | 24.8/24.9 | even strength |
+| ANA shot control · normal event (5-7) · tight (1-goal/OT) | 0.103 | 0.54 | 0.46 | 0.48 | 5.98 | 34.5/22.3 | 19.1/31.1 | even strength |
+| ANA shot control · high event (8+) · decided (2+) | 0.099 | 0.61 | 0.39 | 0.00 | 9.38 | 35.9/23.7 | 18.5/28.3 | even strength |
+| balanced shots · high event (8+) · decided (2+) | 0.099 | 0.53 | 0.47 | 0.00 | 9.52 | 30.5/29.6 | 23.6/23.7 | even strength |
+| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.099 | 0.51 | 0.49 | 0.48 | 5.98 | 28.5/27.8 | 24.5/25.3 | even strength |
 
 **Card**
 
@@ -62,7 +62,7 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 - **Anaheim over 4.5 goals scored YES** — thesis: ANA offense succeeds (4+ goals); alternative: KXNHLTOTAL-26OCT16BOSANA-8|yes; why: second expression of the same thesis: KXNHLTOTAL-26OCT16BOSANA-8|yes has the higher standalone adjusted growth (2.18 vs 1.92 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.525); they share one thesis budget; relationships: KXNHLTOTAL-26OCT16BOSANA-8|yes: REINFORCING (phi 0.525); KXNHLTOTAL-26OCT16BOSANA-9|yes: REINFORCING (phi 0.462); KXNHLTOTAL-26OCT16BOSANA-7|yes: REINFORCING (phi 0.453); failure: BOS wins (incl. OT/SO)
 - **Full Game: Over 6.5 goals scored YES** — thesis: high-event game (8+ goals); alternative: KXNHLTOTAL-26OCT16BOSANA-8|yes; why: second expression of the same thesis: KXNHLTOTAL-26OCT16BOSANA-8|yes has the higher standalone adjusted growth (2.18 vs 1.31 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.644); they share one thesis budget; relationships: KXNHLTOTAL-26OCT16BOSANA-8|yes: DUPLICATIVE (phi 0.644); KXNHLTOTAL-26OCT16BOSANA-9|yes: DUPLICATIVE (phi 0.532); KXNHLTEAMTOTAL-26OCT16BOSANA-ANA5|yes: REINFORCING (phi 0.453); failure: low-event game (<= 4 goals)
 
-**Review**: scripts ANA shot control · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · decided (2+) 0.11, ANA shot control · normal event (5-7) · tight (1-goal/OT) 0.11.
+**Review**: scripts ANA shot control · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · decided (2+) 0.11, ANA shot control · normal event (5-7) · tight (1-goal/OT) 0.10.
 - thesis GAME:HIGH_EVENT (p 0.3311): highest fidelity KXNHLTOTAL-26OCT16BOSANA-8|yes [STRUCTURAL], best adjusted EV KXNHLTOTAL-26OCT16BOSANA-8|yes (same contract)
 - thesis ANA:OFFENSE_4PLUS (p 0.4615): highest fidelity KXNHLTOTAL-26OCT16BOSANA-7|yes [DIRECT], best adjusted EV KXNHLTOTAL-26OCT16BOSANA-8|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
 - KXNHLTOTAL-26OCT16BOSANA-8|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis BOS:SUPPRESSED (p 0.371, phi -0.408)
