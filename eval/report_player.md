@@ -1,26 +1,26 @@
 # PLAYER_SIM_V1 evaluation — RESEARCH_ONLY
 
-evaluated 2026-10-16T02:24:11Z · rows 200345 · pregame 200345
+evaluated 2026-10-16T03:11:21Z · rows 209166 · pregame 209166
 
 | scope | view | n | Brier | log loss | ECE | mean p | hit rate |
 |---|---|---:|---:|---:|---:|---:|---:|
-| ALL | PLAYER_SIM_V1 | 198318 | 0.1075 | 0.3479 | 0.0059 | 0.1537 | 0.1575 |
-| ALL | MARKET_BASELINE | 150733 | 0.1319 | 0.4151 | 0.0088 | 0.1979 | 0.1989 |
-| ALL | MARKET_ANCHORED_PLAYER_V1 | 149440 | 0.1319 | 0.4148 | 0.0092 | 0.1968 | 0.1992 |
-| first_goal | PLAYER_SIM_V1 | 44804 | 0.0279 | 0.1257 | 0.0000 | 0.0289 | 0.0290 |
-| first_goal | MARKET_BASELINE | 12101 | 0.0412 | 0.1747 | 0.0054 | 0.0396 | 0.0432 |
-| first_goal | MARKET_ANCHORED_PLAYER_V1 | 11928 | 0.0395 | 0.1673 | 0.0033 | 0.0386 | 0.0414 |
-| goalie_saves | PLAYER_SIM_V1 | 1187 | 0.2288 | 0.6491 | 0.0677 | 0.4552 | 0.3875 |
-| goalie_saves | MARKET_BASELINE | 1091 | 0.2411 | 0.6759 | 0.0821 | 0.4274 | 0.3767 |
-| goalie_saves | MARKET_ANCHORED_PLAYER_V1 | 1091 | 0.2364 | 0.6659 | 0.0723 | 0.4325 | 0.3767 |
-| player_assists | PLAYER_SIM_V1 | 37156 | 0.1519 | 0.4676 | 0.0186 | 0.2147 | 0.2242 |
-| player_assists | MARKET_BASELINE | 35753 | 0.1544 | 0.4737 | 0.0154 | 0.2325 | 0.2321 |
-| player_assists | MARKET_ANCHORED_PLAYER_V1 | 35555 | 0.1542 | 0.4729 | 0.0191 | 0.2294 | 0.2321 |
-| player_goals | PLAYER_SIM_V1 | 67363 | 0.0931 | 0.3161 | 0.0085 | 0.1145 | 0.1146 |
-| player_goals | MARKET_BASELINE | 56242 | 0.1064 | 0.3527 | 0.0107 | 0.1282 | 0.1326 |
-| player_goals | MARKET_ANCHORED_PLAYER_V1 | 55572 | 0.1064 | 0.3528 | 0.0113 | 0.1291 | 0.1328 |
-| player_points | PLAYER_SIM_V1 | 47808 | 0.1650 | 0.5003 | 0.0151 | 0.2708 | 0.2807 |
-| player_points | MARKET_BASELINE | 45546 | 0.1673 | 0.5037 | 0.0147 | 0.2933 | 0.2919 |
-| player_points | MARKET_ANCHORED_PLAYER_V1 | 45294 | 0.1674 | 0.5042 | 0.0136 | 0.2902 | 0.2921 |
+| ALL | PLAYER_SIM_V1 | 207085 | 0.1072 | 0.3470 | 0.0056 | 0.1537 | 0.1573 |
+| ALL | MARKET_BASELINE | 156942 | 0.1318 | 0.4148 | 0.0081 | 0.1983 | 0.1992 |
+| ALL | MARKET_ANCHORED_PLAYER_V1 | 155623 | 0.1318 | 0.4145 | 0.0087 | 0.1972 | 0.1995 |
+| first_goal | PLAYER_SIM_V1 | 46537 | 0.0279 | 0.1257 | 0.0001 | 0.0289 | 0.0290 |
+| first_goal | MARKET_BASELINE | 12404 | 0.0407 | 0.1729 | 0.0047 | 0.0398 | 0.0426 |
+| first_goal | MARKET_ANCHORED_PLAYER_V1 | 12231 | 0.0390 | 0.1656 | 0.0026 | 0.0387 | 0.0409 |
+| goalie_saves | PLAYER_SIM_V1 | 1241 | 0.2308 | 0.6533 | 0.0754 | 0.4555 | 0.3948 |
+| goalie_saves | MARKET_BASELINE | 1145 | 0.2421 | 0.6778 | 0.0743 | 0.4300 | 0.3852 |
+| goalie_saves | MARKET_ANCHORED_PLAYER_V1 | 1145 | 0.2378 | 0.6685 | 0.0585 | 0.4347 | 0.3852 |
+| player_assists | PLAYER_SIM_V1 | 38821 | 0.1518 | 0.4675 | 0.0183 | 0.2148 | 0.2240 |
+| player_assists | MARKET_BASELINE | 37284 | 0.1545 | 0.4741 | 0.0161 | 0.2328 | 0.2323 |
+| player_assists | MARKET_ANCHORED_PLAYER_V1 | 37082 | 0.1543 | 0.4734 | 0.0195 | 0.2298 | 0.2323 |
+| player_goals | PLAYER_SIM_V1 | 70405 | 0.0923 | 0.3135 | 0.0077 | 0.1139 | 0.1138 |
+| player_goals | MARKET_BASELINE | 58454 | 0.1060 | 0.3515 | 0.0102 | 0.1281 | 0.1324 |
+| player_goals | MARKET_ANCHORED_PLAYER_V1 | 57770 | 0.1060 | 0.3517 | 0.0106 | 0.1290 | 0.1326 |
+| player_points | PLAYER_SIM_V1 | 50081 | 0.1644 | 0.4987 | 0.0162 | 0.2706 | 0.2802 |
+| player_points | MARKET_BASELINE | 47655 | 0.1668 | 0.5025 | 0.0163 | 0.2930 | 0.2915 |
+| player_points | MARKET_ANCHORED_PLAYER_V1 | 47395 | 0.1670 | 0.5031 | 0.0154 | 0.2900 | 0.2918 |
 
 Prospective SHADOW evidence only. The market is the benchmark; a handful of games proves nothing.
