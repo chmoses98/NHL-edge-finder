@@ -1,6 +1,6 @@
 # NHL slate 2026-10-16 — RESEARCH_ONLY
 
-generated 2026-10-16T05:26:59Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-16T06:27:01Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 2 · simulated (not started): 2 · markets on board: 2475 · contracts joined: 102 (unjoined to any game: 1571)
 gates: {'UNSUPPORTED': 52, 'NO_EDGE': 44, 'OK': 6}
@@ -24,8 +24,9 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTEAMTOTAL-26OCT16BOSANA-BOS2 | team_total | 0.821 | 0.835 | 0.832 | 84 | 17 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26OCT16PITCOL-10 | game_total | 0.125 | 0.115 | 0.117 | 12 | 89 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26OCT16PITCOL-5 | game_total | 0.823 | 0.835 | 0.833 | 84 | 17 |  | -0.003 | NO_EDGE |
+| KXNHLSPREAD-26OCT16PITCOL-COL2 | game_spread | 0.426 | 0.445 | 0.441 | 45 | 56 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26OCT16BOSANA-3 | game_total | 0.968 | 0.965 | 0.966 | 97 | 4 |  | -0.004 | NO_EDGE |
-| KXNHLTOTAL-26OCT16BOSANA-2 | game_total | 0.986 | 0.980 | 0.981 | 99 | 3 |  | -0.005 | NO_EDGE |
+| KXNHLTOTAL-26OCT16BOSANA-2 | game_total | 0.986 | 0.985 | 0.985 | 99 | 2 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT16PITCOL-3 | game_total | 0.977 | 0.975 | 0.975 | 98 | 3 |  | -0.005 | NO_EDGE |
 | KXNHLGAME-26OCT16PITCOL-PIT | game_winner | 0.361 | 0.345 | 0.348 | 35 | 66 |  | -0.005 | NO_EDGE |
 | KXNHLGAME-26OCT16PITCOL-COL | game_winner | 0.639 | 0.655 | 0.652 | 66 | 35 |  | -0.005 | NO_EDGE |
@@ -42,7 +43,6 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTEAMTOTAL-26OCT16BOSANA-ANA6 | team_total | 0.094 | 0.090 | 0.091 | 10 | 92 |  | -0.012 | NO_EDGE |
 | KXNHLTOTAL-26OCT16PITCOL-8 | game_total | 0.332 | 0.325 | 0.326 | 33 | 68 |  | -0.013 | NO_EDGE |
 | KXNHLTOTAL-26OCT16BOSANA-7 | game_total | 0.466 | 0.475 | 0.473 | 48 | 53 |  | -0.013 | NO_EDGE |
-| KXNHLSPREAD-26OCT16PITCOL-COL2 | game_spread | 0.426 | 0.440 | 0.437 | 45 | 57 |  | -0.014 | NO_EDGE |
 | KXNHLTOTAL-26OCT16PITCOL-6 | game_total | 0.642 | 0.635 | 0.636 | 64 | 37 |  | -0.014 | NO_EDGE |
 | KXNHLSPREAD-26OCT16BOSANA-BOS2 | game_spread | 0.301 | 0.295 | 0.296 | 30 | 71 |  | -0.014 | NO_EDGE |
 | KXNHLSPREAD-26OCT16BOSANA-ANA2 | game_spread | 0.280 | 0.275 | 0.276 | 28 | 73 |  | -0.014 | NO_EDGE |
@@ -50,42 +50,42 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTOTAL-26OCT16BOSANA-9 | game_total | 0.194 | 0.195 | 0.195 | 20 | 81 |  | -0.015 | NO_EDGE |
 | KXNHLTOTAL-26OCT16BOSANA-6 | game_total | 0.582 | 0.575 | 0.576 | 58 | 43 |  | -0.015 | NO_EDGE |
 | KXNHLTOTAL-26OCT16BOSANA-10 | game_total | 0.090 | 0.090 | 0.090 | 10 | 92 |  | -0.016 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT16PITCOL-COL3 | team_total | 0.742 | 0.750 | 0.748 | 76 | 26 |  | -0.016 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT16PITCOL-COL5 | team_total | 0.341 | 0.355 | 0.352 | 37 | 66 |  | -0.017 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT16PITCOL-COL3 | team_total | 0.742 | 0.755 | 0.753 | 77 | 26 |  | -0.016 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT16PITCOL-PIT3 | team_total | 0.549 | 0.555 | 0.554 | 56 | 45 |  | -0.016 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16PITCOL-COL4 | team_total | 0.541 | 0.555 | 0.552 | 57 | 46 |  | -0.018 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16PITCOL-PIT2 | team_total | 0.774 | 0.770 | 0.771 | 78 | 24 |  | -0.018 | NO_EDGE |
 | KXNHLGAME-26OCT16BOSANA-ANA | game_winner | 0.489 | 0.485 | 0.486 | 49 | 52 |  | -0.018 | NO_EDGE |
 | KXNHLGAME-26OCT16BOSANA-BOS | game_winner | 0.511 | 0.515 | 0.514 | 52 | 49 |  | -0.018 | NO_EDGE |
 | KXNHLTOTAL-26OCT16PITCOL-7 | game_total | 0.529 | 0.525 | 0.526 | 53 | 48 |  | -0.018 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16BOSANA-ANA5 | team_total | 0.213 | 0.210 | 0.211 | 22 | 80 |  | -0.019 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT16PITCOL-PIT4 | team_total | 0.336 | 0.330 | 0.331 | 34 | 68 |  | -0.019 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT16PITCOL-PIT4 | team_total | 0.336 | 0.325 | 0.327 | 34 | 69 |  | -0.019 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16BOSANA-ANA3 | team_total | 0.607 | 0.610 | 0.609 | 62 | 40 |  | -0.024 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16BOSANA-BOS5 | team_total | 0.228 | 0.225 | 0.226 | 24 | 79 |  | -0.025 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT16PITCOL-PIT3 | team_total | 0.549 | 0.550 | 0.550 | 56 | 46 |  | -0.026 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT16PITCOL-COL5 | team_total | 0.341 | 0.350 | 0.348 | 37 | 67 |  | -0.026 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16BOSANA-BOS4 | team_total | 0.410 | 0.415 | 0.414 | 43 | 60 |  | -0.027 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16BOSANA-ANA4 | team_total | 0.392 | 0.395 | 0.394 | 41 | 62 |  | -0.028 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT16BOSANA-BOS3 | team_total | 0.624 | 0.625 | 0.625 | 64 | 39 |  | -0.031 | NO_EDGE |
-| KXNHL1P-26OCT16PITCOL-COL | period_winner |  | 0.410 |  | 42 | 60 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT16PITCOL-PIT | period_winner |  | 0.260 |  | 27 | 75 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT16PITCOL-COL | period_winner |  | 0.395 |  | 41 | 62 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT16PITCOL-PIT | period_winner |  | 0.260 |  | 28 | 76 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT16PITCOL-TIE | period_winner |  | 0.315 |  | 33 | 70 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT16PITCOL-COL2 | period_spread |  | 0.170 |  | 23 | 89 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT16PITCOL-PIT2 | period_spread |  | 0.095 |  | 16 | 97 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT16PITCOL-1 | period_total |  | 0.870 |  | 88 | 14 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT16PITCOL-2 | period_total |  | 0.590 |  | 60 | 42 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT16PITCOL-COL2 | period_spread |  | 0.195 |  | 21 | 82 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT16PITCOL-PIT2 | period_spread |  | 0.085 |  | 14 | 97 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT16PITCOL-1 | period_total |  | 0.865 |  | 88 | 15 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT16PITCOL-2 | period_total |  | 0.585 |  | 60 | 43 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT16PITCOL-3 | period_total |  | 0.305 |  | 32 | 71 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT16PITCOL-COL | period_winner |  | 0.430 |  | 45 | 59 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT16PITCOL-PIT | period_winner |  | 0.265 |  | 29 | 76 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT16PITCOL-TIE | period_winner |  | 0.275 |  | 30 | 75 |  |  | UNSUPPORTED |
-| KXNHL2PSPREAD-26OCT16PITCOL-COL2 | period_spread |  | 0.205 |  | 31 | 90 |  |  | UNSUPPORTED |
-| KXNHL2PSPREAD-26OCT16PITCOL-PIT2 | period_spread |  | 0.110 |  | 20 | 98 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT16PITCOL-1 | period_total |  | 0.895 |  | 98 | 19 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26OCT16PITCOL-COL2 | period_spread |  | 0.200 |  | 31 | 91 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26OCT16PITCOL-PIT2 | period_spread |  | 0.100 |  | 19 | 99 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT16PITCOL-1 | period_total |  | 0.890 |  | 98 | 20 |  |  | UNSUPPORTED |
 | KXNHL2PTOTAL-26OCT16PITCOL-2 | period_total |  | 0.640 |  | 70 | 42 |  |  | UNSUPPORTED |
 | KXNHL2PTOTAL-26OCT16PITCOL-3 | period_total |  | 0.375 |  | 41 | 66 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT16PITCOL-COL | period_winner |  | 0.455 |  | 48 | 57 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT16PITCOL-PIT | period_winner |  | 0.275 |  | 30 | 75 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT16PITCOL-TIE | period_winner |  | 0.245 |  | 27 | 78 |  |  | UNSUPPORTED |
 | KXNHL3PSPREAD-26OCT16PITCOL-COL2 | period_spread |  | 0.240 |  | 34 | 86 |  |  | UNSUPPORTED |
-| KXNHL3PSPREAD-26OCT16PITCOL-PIT2 | period_spread |  | 0.115 |  | 21 | 98 |  |  | UNSUPPORTED |
+| KXNHL3PSPREAD-26OCT16PITCOL-PIT2 | period_spread |  | 0.110 |  | 20 | 98 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26OCT16PITCOL-1 | period_total |  | 0.900 |  | 99 | 19 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26OCT16PITCOL-2 | period_total |  | 0.675 |  | 75 | 40 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26OCT16PITCOL-3 | period_total |  | 0.425 |  | 44 | 59 |  |  | UNSUPPORTED |
@@ -93,8 +93,8 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLOT-26OCT16PITCOL-1 | game_overtime |  | 0.200 |  | 21 | 81 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT16BOSANA-ANA | period_winner |  | 0.315 |  | 33 | 70 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT16BOSANA-BOS | period_winner |  | 0.335 |  | 35 | 68 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT16BOSANA-TIE | period_winner |  | 0.330 |  | 34 | 68 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT16BOSANA-ANA2 | period_spread |  | 0.120 |  | 20 | 96 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT16BOSANA-TIE | period_winner |  | 0.320 |  | 33 | 69 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT16BOSANA-ANA2 | period_spread |  | 0.110 |  | 19 | 97 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
