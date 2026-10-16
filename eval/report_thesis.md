@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-16T06:58:42Z · thesis-postmortem-2.0 · rows (all generations) 17286
+evaluated 2026-10-16T08:43:44Z · thesis-postmortem-2.0 · rows (all generations) 17286
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,16 +33,9 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020119 PIT @ COL: NOT_STARTED · snapshot snap-f4b2d13dfcb98d19005c @ 2026-10-16T06:27:01Z
+#### game 2026020119 PIT @ COL: NOT_STARTED · snapshot snap-c1894382ae87ea652d5a @ 2026-10-16T08:27:03Z
 
-#### game 2026020120 BOS @ ANA: NOT_STARTED · snapshot snap-f4b2d13dfcb98d19005c @ 2026-10-16T06:27:01Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTOTAL-26OCT16BOSANA-8|yes | FUNDED_RESEARCH | 1 | 1.42 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTOTAL-26OCT16BOSANA-9|yes | FUNDED_RESEARCH | 1 | 1.46 | - | - | - | DIRECT | - | - |
-| KXNHLTEAMTOTAL-26OCT16BOSANA-ANA5|yes | FUNDED_RESEARCH | 1 | 2.06 | - | - | - | DIRECT | - | - |
-| KXNHLTOTAL-26OCT16BOSANA-7|yes | FUNDED_RESEARCH | 1 | 1.32 | - | - | - | STRUCTURAL | - | - |
+#### game 2026020120 BOS @ ANA: NOT_STARTED · snapshot snap-c1894382ae87ea652d5a @ 2026-10-16T08:27:03Z
 
 ## Slate 2026-10-15: **COMPLETE — 11/11 games evaluated**
 
