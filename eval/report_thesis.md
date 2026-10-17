@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-17T01:03:40Z · thesis-postmortem-2.0 · rows (all generations) 17286
+evaluated 2026-10-17T02:37:47Z · thesis-postmortem-2.0 · rows (all generations) 17286
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -10,7 +10,7 @@ scheduled 2 · final 0 · settled 0 · events ingested 0 · thesis-evaluated 0 �
 
 missing / pending:
 - 2026020119: no official FINAL result yet
-- 2026020120: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020120: no official FINAL result yet
 
 > INTERIM (PARTIAL — 0/2 games evaluated): covers evaluated games only; NOT the slate's final ROI
 
@@ -42,14 +42,14 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no | FUNDED_RESEARCH | 4 | 13.22 | - | - | - | DIRECT | - | - |
 | KXNHLGOAL-26OCT16PITCOL-COLALEHKONEN62-1|yes | SHADOW_ONLY | 0 | 6.75 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020120 BOS @ ANA: NOT_STARTED · snapshot snap-989d4e87624dd9eb0b27 @ 2026-10-17T00:14:48Z
+#### game 2026020120 BOS @ ANA: NOT_FINAL · snapshot snap-a5a84bef379915b06756 @ 2026-10-17T01:21:00Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT16BOSANA-ANAAGREER18-1|yes | SHADOW_ONLY | 0 | 4.67 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT16BOSANA-ANAJMALOTT39-1|yes | SHADOW_ONLY | 0 | 4.07 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT16BOSANA-BOSDPASTRNAK88-1|no | FUNDED_RESEARCH | 4 | 15.39 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT16BOSANA-BOSCMITTELSTADT11-1|yes | SHADOW_ONLY | 0 | 3.97 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT16BOSANA-ANAAGREER18-1|yes | SHADOW_ONLY | 0 | 4.79 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT16BOSANA-ANATWASHE42-1|yes | SHADOW_ONLY | 0 | 4.38 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT16BOSANA-ANANKLEPOV40-1|no | SHADOW_ONLY | 0 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT16BOSANA-BOSDPASTRNAK88-1|no | FUNDED_RESEARCH | 4 | 15.76 | - | - | - | DIRECT | - | - |
 
 ## Slate 2026-10-15: **COMPLETE — 11/11 games evaluated**
 
