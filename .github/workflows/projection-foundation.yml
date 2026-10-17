@@ -124,6 +124,78 @@ jobs:
           path: /tmp/nhl_work/
           retention-days: 14
 
+  # ------------------------------------------------------------------------------------------ pull_request: verification evidence
+  # Re-runs the committed study and replays one past slate with the REAL frozen models on the runner (the sandbox is ~10x slower).
+  pr-replay:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q $PIP_DEPS
+      - name: Sparse, blobless view of data-archive (inputs only)
+        run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
+      - name: Replay 2026-10-15 end to end (3 pregame runs, puck drop, settle, rerun, correction)
+        working-directory: research/projection_foundation
+        run: |
+          set -euo pipefail
+          python -W ignore -m nhl.live.smoke --date 2026-10-15 --data-archive /tmp/data_archive --out /tmp/smoke 2>&1 | tee /tmp/smoke.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nhl-live-replay
+          path: |
+            /tmp/smoke.log
+            /tmp/smoke/smoke_report.json
+          retention-days: 14
+
+  pr-repro:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q $PIP_DEPS
+      - name: Sparse, blobless view of data-archive (inputs only)
+        run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
+      - name: No-leakage + shared-library tests
+        working-directory: research/projection_foundation
+        run: python -m pytest tests/test_nhl.py tests/test_pf_core.py tests/test_pf_live.py -q
+      - name: Rebuild the study (pf_core 1.2.0) and compare with the committed results
+        working-directory: research/projection_foundation
+        env:
+          NHL_PF_ARCHIVE: /tmp/data_archive
+          NHL_PF_CACHE: /tmp/repro_cache
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/committed /tmp/repro_cache
+          cp results/nhl_full_results.json results/summary.json /tmp/committed/
+          rm -rf results/experiments
+          python -W ignore -m nhl.pipeline all --rebuild 2>&1 | tail -5
+          python -W ignore -m nhl.run_walkforward 2>&1 | tail -5
+          python -W ignore -m nhl.report 2>&1 | tail -2
+          python -m nhl.live.repro_check /tmp/committed/nhl_full_results.json results/nhl_full_results.json \
+            /tmp/committed/summary.json results/summary.json | tee /tmp/repro_check.json
+          cp results/nhl_full_results.json /tmp/regenerated_full_results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nhl-repro
+          path: |
+            /tmp/repro_check.json
+            /tmp/regenerated_full_results.json
+          retention-days: 14
+
   # ------------------------------------------------------------------------------------------ schedule / dispatch: live
   live:
     needs: gate
