@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-17T08:51:29Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-17T09:51:30Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,12 +10,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 150.00 | +26.79 | +8.93 | +24.87 | 0.666 | -47.10 | -67.64 | 72.10 |
-| B thesis-diversified (joint) ← optimiser card | 134.06 | +21.21 | +8.24 | +19.85 | 0.678 | -36.79 | -52.13 | 71.92 |
-| C best expression per thesis | 108.00 | +15.44 | +6.80 | +4.22 | 0.579 | -30.48 | -32.16 | 59.93 |
-| R FUNDED research stakes | 37.00 | +6.45 | +2.38 | +5.95 | 0.677 | -11.15 | -15.96 | 0.00 |
+| A highest edges (independent) | 149.99 | +26.50 | +8.14 | +25.22 | 0.696 | -36.78 | -53.89 | 69.23 |
+| B thesis-diversified (joint) ← optimiser card | 150.01 | +26.26 | +9.27 | +25.13 | 0.712 | -31.90 | -48.94 | 81.91 |
+| C best expression per thesis | 101.03 | +19.93 | +7.59 | +18.40 | 0.660 | -31.61 | -45.17 | 66.14 |
+| R FUNDED research stakes | 37.00 | +5.98 | +2.32 | +5.42 | 0.678 | -10.66 | -13.70 | 0.00 |
 
-## NJD @ WSH  ·  10000 joint draws  ·  424 bet sides mapped, 2 +EV candidates, 2 on card
+## NJD @ WSH  ·  10000 joint draws  ·  424 bet sides mapped, 4 +EV candidates, 4 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -33,17 +33,24 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Aliaksei Protas: 1+ goals YES | 18 | 0.244 | 0.228 | +0.054 | +0.038 | $10.90 | FUNDED_RESEARCH | $3 | WSH:OFFENSE_4PLUS | FRAGILE (0.38) | EVIDENCE_STRONGER | D |
-| Boone Jenner: 1+ goals YES | 17 | 0.204 | 0.198 | +0.024 | +0.018 | $5.16 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | WSH:OFFENSE_4PLUS | FRAGILE (0.30) | EVIDENCE_STRONGER | D |
-- **Aliaksei Protas: 1+ goals YES** — thesis: WSH offense succeeds (4+ goals); alternative: KXNHLSPREAD-26OCT17NJWSH-NJ3|no; why: higher confidence-adjusted growth (19.95 vs 0.30 bp); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; alternative not eligible: confidence-adjusted EV +0.0043 below the 0.010/contract floor; relationships: KXNHLGOAL-26OCT17NJWSH-WSHBJENNER38-1|yes: MOSTLY_INDEPENDENT (phi 0.015); failure: WSH offense suppressed (<= 2 goals)
-- **Boone Jenner: 1+ goals YES** — thesis: WSH offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes; why: second expression of the same thesis: KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes has the higher standalone adjusted growth (19.95 vs 4.75 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.015); they share one thesis budget; relationships: KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes: MOSTLY_INDEPENDENT (phi 0.015); failure: WSH offense suppressed (<= 2 goals)
+| Aliaksei Protas: 1+ goals YES | 18 | 0.244 | 0.228 | +0.054 | +0.038 | $9.84 | FUNDED_RESEARCH | $3 | WSH:OFFENSE_4PLUS | FRAGILE (0.38) | EVIDENCE_STRONGER | D |
+| Boone Jenner: 1+ goals YES | 17 | 0.204 | 0.198 | +0.024 | +0.018 | $4.28 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | WSH:OFFENSE_4PLUS | FRAGILE (0.30) | EVIDENCE_STRONGER | D |
+| Ryan Leonard: 1+ assists YES | 29 | 0.374 | 0.324 | +0.069 | +0.020 | $4.60 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED | $0 | WSH:OFFENSE_4PLUS | DIRECT (0.53) | EVIDENCE_MIXED | D |
+| Jack Hughes: 1+ assists NO | 54 | 0.647 | 0.571 | +0.089 | +0.013 | $6.87 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED | $0 | NJD:SUPPRESSED | DIRECT (0.80) | EVIDENCE_MIXED | D |
+- **Aliaksei Protas: 1+ goals YES** — thesis: WSH offense succeeds (4+ goals); alternative: KXNHLAST-26OCT17NJWSH-WSHRLEONARD9-1|yes; why: higher confidence-adjusted growth (19.95 vs 4.07 bp); despite a smaller raw edge (+0.054 vs +0.069/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26OCT17NJWSH-WSHBJENNER38-1|yes: MOSTLY_INDEPENDENT (phi 0.015); KXNHLAST-26OCT17NJWSH-WSHRLEONARD9-1|yes: MOSTLY_INDEPENDENT (phi 0.046); KXNHLAST-26OCT17NJWSH-NJJHUGHES86-1|no: MOSTLY_INDEPENDENT (phi 0.017); failure: WSH offense suppressed (<= 2 goals)
+- **Boone Jenner: 1+ goals YES** — thesis: WSH offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes; why: second expression of the same thesis: KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes has the higher standalone adjusted growth (19.95 vs 4.75 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.015); they share one thesis budget; relationships: KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes: MOSTLY_INDEPENDENT (phi 0.015); KXNHLAST-26OCT17NJWSH-WSHRLEONARD9-1|yes: MOSTLY_INDEPENDENT (phi 0.143); KXNHLAST-26OCT17NJWSH-NJJHUGHES86-1|no: MOSTLY_INDEPENDENT (phi 0.0); failure: WSH offense suppressed (<= 2 goals)
+- **Ryan Leonard: 1+ assists YES** — thesis: WSH offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes; why: second expression of the same thesis: KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes has the higher standalone adjusted growth (19.95 vs 4.07 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.046); they share one thesis budget; relationships: KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes: MOSTLY_INDEPENDENT (phi 0.046); KXNHLGOAL-26OCT17NJWSH-WSHBJENNER38-1|yes: MOSTLY_INDEPENDENT (phi 0.143); KXNHLAST-26OCT17NJWSH-NJJHUGHES86-1|no: MOSTLY_INDEPENDENT (phi 0.013); failure: WSH offense suppressed (<= 2 goals)
+- **Jack Hughes: 1+ assists NO** — thesis: NJD offense suppressed (<= 2 goals); alternative: KXNHLSPREAD-26OCT17NJWSH-NJ3|no; why: higher confidence-adjusted growth (1.61 vs 0.30 bp); alternative not eligible: confidence-adjusted EV +0.0043 below the 0.010/contract floor; relationships: KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes: MOSTLY_INDEPENDENT (phi 0.017); KXNHLGOAL-26OCT17NJWSH-WSHBJENNER38-1|yes: MOSTLY_INDEPENDENT (phi 0.0); KXNHLAST-26OCT17NJWSH-WSHRLEONARD9-1|yes: MOSTLY_INDEPENDENT (phi 0.013); failure: NJD offense succeeds (4+ goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, NJD shot control · normal event (5-7) · decided (2+) 0.10.
-- thesis WSH:OFFENSE_4PLUS (p 0.4111): highest fidelity KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes [FRAGILE], best adjusted EV KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes (same contract)
+- thesis WSH:OFFENSE_4PLUS (p 0.4111): highest fidelity KXNHLAST-26OCT17NJWSH-WSHRLEONARD9-1|yes [DIRECT], best adjusted EV KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
+- thesis NJD:SUPPRESSED (p 0.4554): highest fidelity KXNHLAST-26OCT17NJWSH-NJJHUGHES86-1|no [DIRECT], best adjusted EV KXNHLAST-26OCT17NJWSH-NJJHUGHES86-1|no (same contract)
 - KXNHLGOAL-26OCT17NJWSH-WSHAPROTAS21-1|yes: FUNDED_RESEARCH; family TRUSTED; loses 62% of the draws where the thesis happens; fragile player expression; opposing: failure thesis WSH:SUPPRESSED (p 0.3661, phi -0.245)
 - KXNHLGOAL-26OCT17NJWSH-WSHBJENNER38-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 70% of the draws where the thesis happens; fragile player expression; opposing: failure thesis WSH:SUPPRESSED (p 0.3661, phi -0.202)
+- KXNHLAST-26OCT17NJWSH-WSHRLEONARD9-1|yes: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; family MIXED; loses 47% of the draws where the thesis happens; fragile player expression; opposing: failure thesis WSH:SUPPRESSED (p 0.3661, phi -0.293)
+- KXNHLAST-26OCT17NJWSH-NJJHUGHES86-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED; family MIXED; loses 20% of the draws where the thesis happens; LARGE MARKET DISAGREEMENT 11.7 pts; fragile player expression; opposing: failure thesis NJD:OFFENSE_4PLUS (p 0.3293, phi -0.271)
 
-portfolios: A EV +3.11 (adj +2.21) on $13.10, P(profit) 0.3957, adj growth 19.6 bp · B EV +3.77 (adj +2.68) on $16.06, P(profit) 0.3957, adj growth 23.1 bp · C EV +3.11 (adj +2.18) on $10.99, P(profit) 0.2442, adj growth 18.8 bp · R EV +0.85 (adj +0.60) on $3.00, P(profit) 0.2442, adj growth 20.2 bp
+portfolios: A EV +5.43 (adj +2.36) on $25.86, P(profit) 0.564, adj growth 20.9 bp · B EV +5.50 (adj +2.85) on $25.60, P(profit) 0.4958, adj growth 24.9 bp · C EV +4.31 (adj +2.35) on $18.51, P(profit) 0.2442, adj growth 20.3 bp · R EV +0.85 (adj +0.60) on $3.00, P(profit) 0.2442, adj growth 20.2 bp
 
 ## CAR @ WPG  ·  10000 joint draws  ·  396 bet sides mapped, 7 +EV candidates, 4 on card
 
@@ -63,28 +70,28 @@ portfolios: A EV +3.11 (adj +2.21) on $13.10, P(profit) 0.3957, adj growth 19.6 
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Carolina wins by over 2.5 goals NO | 73 | 0.811 | 0.768 | +0.067 | +0.024 | $20.00 | FUNDED_RESEARCH | $5 | WPG:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Carolina wins by over 1.5 goals NO | 61 | 0.697 | 0.651 | +0.070 | +0.024 | $2.22 | FUNDED_RESEARCH | $1 | WPG:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Winnipeg wins by over 1.5 goals YES | 20 | 0.265 | 0.230 | +0.053 | +0.019 | $2.41 | FUNDED_RESEARCH | $1 | WPG:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Winnipeg over 4.5 goals scored YES | 15 | 0.203 | 0.174 | +0.044 | +0.015 | $1.61 | FUNDED_RESEARCH | $1 | WPG:OFFENSE_4PLUS | DIRECT (0.54) | EVIDENCE_MIXED | D |
-- **Carolina wins by over 2.5 goals NO** — thesis: WPG wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT17CARWPG-CAR2|no; why: higher confidence-adjusted growth (6.78 vs 5.61 bp); despite a smaller raw edge (+0.067 vs +0.070/contract); relationships: KXNHLSPREAD-26OCT17CARWPG-CAR2|no: DUPLICATIVE (phi 0.733); KXNHLSPREAD-26OCT17CARWPG-WPG2|yes: REINFORCING (phi 0.29); KXNHLTEAMTOTAL-26OCT17CARWPG-WPG5|yes: REINFORCING (phi 0.231); failure: CAR wins by 2+
-- **Carolina wins by over 1.5 goals NO** — thesis: WPG wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT17CARWPG-CAR3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT17CARWPG-CAR3|no has the higher standalone adjusted growth (6.78 vs 5.61 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.733); they share one thesis budget; relationships: KXNHLSPREAD-26OCT17CARWPG-CAR3|no: DUPLICATIVE (phi 0.733); KXNHLSPREAD-26OCT17CARWPG-WPG2|yes: DUPLICATIVE (phi 0.395); KXNHLTEAMTOTAL-26OCT17CARWPG-WPG5|yes: REINFORCING (phi 0.299); failure: CAR wins by 2+
-- **Winnipeg wins by over 1.5 goals YES** — thesis: WPG wins by 2+; alternative: KXNHLSPREAD-26OCT17CARWPG-CAR3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT17CARWPG-CAR3|no has the higher standalone adjusted growth (6.78 vs 4.53 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.290); they share one thesis budget; relationships: KXNHLSPREAD-26OCT17CARWPG-CAR3|no: REINFORCING (phi 0.29); KXNHLSPREAD-26OCT17CARWPG-CAR2|no: DUPLICATIVE (phi 0.395); KXNHLTEAMTOTAL-26OCT17CARWPG-WPG5|yes: REINFORCING (phi 0.501); failure: CAR wins (incl. OT/SO)
-- **Winnipeg over 4.5 goals scored YES** — thesis: WPG offense succeeds (4+ goals); alternative: KXNHLSPREAD-26OCT17CARWPG-CAR3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT17CARWPG-CAR3|no has the higher standalone adjusted growth (6.78 vs 3.59 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.231); they share one thesis budget; relationships: KXNHLSPREAD-26OCT17CARWPG-CAR3|no: REINFORCING (phi 0.231); KXNHLSPREAD-26OCT17CARWPG-CAR2|no: REINFORCING (phi 0.299); KXNHLSPREAD-26OCT17CARWPG-WPG2|yes: REINFORCING (phi 0.501); failure: CAR wins (incl. OT/SO)
+| Carolina wins by over 2.5 goals NO | 73 | 0.811 | 0.768 | +0.067 | +0.024 | $18.43 | FUNDED_RESEARCH | $5 | WPG:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Carolina wins by over 1.5 goals NO | 61 | 0.697 | 0.651 | +0.070 | +0.024 | $2.18 | FUNDED_RESEARCH | $1 | WPG:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Winnipeg wins by over 1.5 goals YES | 20 | 0.265 | 0.230 | +0.053 | +0.019 | $2.89 | FUNDED_RESEARCH | $1 | WPG:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Winnipeg over 2.5 goals scored YES | 53 | 0.606 | 0.565 | +0.058 | +0.018 | $1.06 | FUNDED_RESEARCH | $1 | WPG:OFFENSE_4PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Carolina wins by over 2.5 goals NO** — thesis: WPG wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT17CARWPG-CAR2|no; why: higher confidence-adjusted growth (6.78 vs 5.61 bp); despite a smaller raw edge (+0.067 vs +0.070/contract); relationships: KXNHLSPREAD-26OCT17CARWPG-CAR2|no: DUPLICATIVE (phi 0.733); KXNHLSPREAD-26OCT17CARWPG-WPG2|yes: REINFORCING (phi 0.29); KXNHLTEAMTOTAL-26OCT17CARWPG-WPG3|yes: REINFORCING (phi 0.391); failure: CAR wins by 2+
+- **Carolina wins by over 1.5 goals NO** — thesis: WPG wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT17CARWPG-CAR3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT17CARWPG-CAR3|no has the higher standalone adjusted growth (6.78 vs 5.61 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.733); they share one thesis budget; relationships: KXNHLSPREAD-26OCT17CARWPG-CAR3|no: DUPLICATIVE (phi 0.733); KXNHLSPREAD-26OCT17CARWPG-WPG2|yes: DUPLICATIVE (phi 0.395); KXNHLTEAMTOTAL-26OCT17CARWPG-WPG3|yes: REINFORCING (phi 0.471); failure: CAR wins by 2+
+- **Winnipeg wins by over 1.5 goals YES** — thesis: WPG wins by 2+; alternative: KXNHLSPREAD-26OCT17CARWPG-CAR3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT17CARWPG-CAR3|no has the higher standalone adjusted growth (6.78 vs 4.53 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.290); they share one thesis budget; relationships: KXNHLSPREAD-26OCT17CARWPG-CAR3|no: REINFORCING (phi 0.29); KXNHLSPREAD-26OCT17CARWPG-CAR2|no: DUPLICATIVE (phi 0.395); KXNHLTEAMTOTAL-26OCT17CARWPG-WPG3|yes: REINFORCING (phi 0.445); failure: CAR wins (incl. OT/SO)
+- **Winnipeg over 2.5 goals scored YES** — thesis: WPG offense succeeds (4+ goals); alternative: KXNHLSPREAD-26OCT17CARWPG-CAR3|no; why: Broad expression KXNHLTEAMTOTAL-26OCT17CARWPG-WPG3|yes selected over broad KXNHLTEAMTOTAL-26OCT17CARWPG-WPG5|yes because adjusted EV is 0.3 pts higher while thesis capture is 1.00 vs 0.54 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity); relationships: KXNHLSPREAD-26OCT17CARWPG-CAR3|no: REINFORCING (phi 0.391); KXNHLSPREAD-26OCT17CARWPG-CAR2|no: REINFORCING (phi 0.471); KXNHLSPREAD-26OCT17CARWPG-WPG2|yes: REINFORCING (phi 0.445); failure: WPG offense suppressed (<= 2 goals)
 
 **Review**: scripts CAR shot control · normal event (5-7) · decided (2+) 0.13, CAR shot control · normal event (5-7) · tight (1-goal/OT) 0.12, balanced shots · normal event (5-7) · decided (2+) 0.11.
 - thesis WPG:WINS (p 0.4783): highest fidelity KXNHLSPREAD-26OCT17CARWPG-CAR2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17CARWPG-CAR2|no (same contract)
 - thesis WPG:WINS_BY_2PLUS (p 0.2647): highest fidelity KXNHLSPREAD-26OCT17CARWPG-CAR2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17CARWPG-CAR2|no (same contract)
-- thesis WPG:OFFENSE_4PLUS (p 0.3742): highest fidelity KXNHLTEAMTOTAL-26OCT17CARWPG-WPG3|yes [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17CARWPG-CAR2|no — override declined: the joint re-optimisation gives KXNHLTEAMTOTAL-26OCT17CARWPG-WPG3|yes less than the minimum stake; KXNHLTEAMTOTAL-26OCT17CARWPG-WPG5|yes kept
+- thesis WPG:OFFENSE_4PLUS (p 0.3742): highest fidelity KXNHLTEAMTOTAL-26OCT17CARWPG-WPG3|yes [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17CARWPG-CAR2|no — Broad expression KXNHLTEAMTOTAL-26OCT17CARWPG-WPG3|yes selected over broad KXNHLTEAMTOTAL-26OCT17CARWPG-WPG5|yes because adjusted EV is 0.3 pts higher while thesis capture is 1.00 vs 0.54 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)
 - KXNHLSPREAD-26OCT17CARWPG-CAR3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis CAR:WINS_BY_2PLUS (p 0.3028, phi -0.733)
 - KXNHLSPREAD-26OCT17CARWPG-CAR2|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis CAR:WINS_BY_2PLUS (p 0.3028, phi -1.0)
 - KXNHLSPREAD-26OCT17CARWPG-WPG2|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis CAR:WINS (p 0.5217, phi -0.627)
-- KXNHLTEAMTOTAL-26OCT17CARWPG-WPG5|yes: FUNDED_RESEARCH; family MIXED; loses 46% of the draws where the thesis happens; opposing: failure thesis CAR:WINS (p 0.5217, phi -0.44)
-- override: override declined: the joint re-optimisation gives KXNHLTEAMTOTAL-26OCT17CARWPG-WPG3|yes less than the minimum stake; KXNHLTEAMTOTAL-26OCT17CARWPG-WPG5|yes kept
+- KXNHLTEAMTOTAL-26OCT17CARWPG-WPG3|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis WPG:SUPPRESSED (p 0.4042, phi -0.979)
+- override: Broad expression KXNHLTEAMTOTAL-26OCT17CARWPG-WPG3|yes selected over broad KXNHLTEAMTOTAL-26OCT17CARWPG-WPG5|yes because adjusted EV is 0.3 pts higher while thesis capture is 1.00 vs 0.54 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)
 
-portfolios: A EV +3.73 (adj +1.24) on $27.38, P(profit) 0.5366, adj growth 10.1 bp · B EV +3.11 (adj +1.10) on $26.24, P(profit) 0.811, adj growth 9.7 bp · C EV +1.81 (adj +0.65) on $20.00, P(profit) 0.811, adj growth 5.9 bp · R EV +1.09 (adj +0.38) on $8.00, P(profit) 0.7013, adj growth 12.6 bp
+portfolios: A EV +3.52 (adj +1.20) on $25.86, P(profit) 0.5366, adj growth 10.0 bp · B EV +2.76 (adj +0.97) on $24.57, P(profit) 0.811, adj growth 8.7 bp · C EV +1.81 (adj +0.65) on $20.00, P(profit) 0.811, adj growth 5.9 bp · R EV +0.92 (adj +0.32) on $8.00, P(profit) 0.7352, adj growth 11.0 bp
 
-## VAN @ TBL  ·  10000 joint draws  ·  210 bet sides mapped, 15 +EV candidates, 4 on card
+## VAN @ TBL  ·  10000 joint draws  ·  382 bet sides mapped, 17 +EV candidates, 4 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -102,26 +109,26 @@ portfolios: A EV +3.73 (adj +1.24) on $27.38, P(profit) 0.5366, adj growth 10.1 
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Tampa Bay wins by over 1.5 goals NO | 44 | 0.599 | 0.492 | +0.142 | +0.035 | $4.39 | FUNDED_RESEARCH | $2 | GAME:TIGHT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Tampa Bay wins by over 2.5 goals NO | 57 | 0.722 | 0.620 | +0.135 | +0.033 | $7.74 | FUNDED_RESEARCH | $2 | GAME:TIGHT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Vancouver over 3.5 goals scored YES | 21 | 0.295 | 0.247 | +0.073 | +0.026 | $5.17 | FUNDED_RESEARCH | $2 | VAN:OFFENSE_4PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Tampa Bay over 4.5 goals scored NO | 59 | 0.722 | 0.633 | +0.115 | +0.026 | $10.26 | FUNDED_RESEARCH | $3 | TBL:SUPPRESSED | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **Tampa Bay wins by over 1.5 goals NO** — thesis: tight game (one-goal final or OT); alternative: KXNHLTEAMTOTAL-26OCT17VANTB-TB6|no; why: KXNHLTEAMTOTAL-26OCT17VANTB-TB6|no has the higher standalone adjusted growth (13.54 vs 10.96 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.387); relationships: KXNHLSPREAD-26OCT17VANTB-TB3|no: DUPLICATIVE (phi 0.759); KXNHLTEAMTOTAL-26OCT17VANTB-VAN4|yes: REINFORCING (phi 0.41); KXNHLTEAMTOTAL-26OCT17VANTB-TB5|no: REINFORCING (phi 0.517); failure: TBL wins by 2+
-- **Tampa Bay wins by over 2.5 goals NO** — thesis: tight game (one-goal final or OT); alternative: KXNHLTEAMTOTAL-26OCT17VANTB-TB6|no; why: Broad expression KXNHLSPREAD-26OCT17VANTB-TB3|no selected over broad KXNHLTEAMTOTAL-26OCT17VANTB-TB6|no because adjusted EV is 0.1 pts higher while thesis capture is 1.00 vs 0.99 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity); relationships: KXNHLSPREAD-26OCT17VANTB-TB2|no: DUPLICATIVE (phi 0.759); KXNHLTEAMTOTAL-26OCT17VANTB-VAN4|yes: REINFORCING (phi 0.336); KXNHLTEAMTOTAL-26OCT17VANTB-TB5|no: REINFORCING (phi 0.562); failure: TBL wins by 2+
-- **Vancouver over 3.5 goals scored YES** — thesis: VAN offense succeeds (4+ goals); alternative: KXNHLSPREAD-26OCT17VANTB-VAN3|yes; why: KXNHLSPREAD-26OCT17VANTB-VAN3|yes has the higher standalone adjusted growth (17.01 vs 8.35 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.454); relationships: KXNHLSPREAD-26OCT17VANTB-TB2|no: REINFORCING (phi 0.41); KXNHLSPREAD-26OCT17VANTB-TB3|no: REINFORCING (phi 0.336); KXNHLTEAMTOTAL-26OCT17VANTB-TB5|no: MOSTLY_INDEPENDENT (phi 0.011); failure: VAN offense suppressed (<= 2 goals)
-- **Tampa Bay over 4.5 goals scored NO** — thesis: TBL offense suppressed (<= 2 goals); alternative: KXNHLSPREAD-26OCT17VANTB-VAN3|yes; why: KXNHLSPREAD-26OCT17VANTB-VAN3|yes has the higher standalone adjusted growth (17.01 vs 6.14 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.204); relationships: KXNHLSPREAD-26OCT17VANTB-TB2|no: REINFORCING (phi 0.517); KXNHLSPREAD-26OCT17VANTB-TB3|no: REINFORCING (phi 0.562); KXNHLTEAMTOTAL-26OCT17VANTB-VAN4|yes: MOSTLY_INDEPENDENT (phi 0.011); failure: TBL offense succeeds (4+ goals)
+| Vancouver over 3.5 goals scored YES | 20 | 0.295 | 0.245 | +0.084 | +0.034 | $7.14 | FUNDED_RESEARCH | $2 | VAN:OFFENSE_4PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Tampa Bay wins by over 2.5 goals NO | 56 | 0.722 | 0.614 | +0.145 | +0.036 | $9.48 | FUNDED_RESEARCH | $3 | GAME:TIGHT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| John Carlson: 1+ assists NO | 50 | 0.677 | 0.549 | +0.160 | +0.032 | $13.40 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED | $0 | TBL:SUPPRESSED | DIRECT (0.84) | EVIDENCE_MIXED | D |
+| Tampa Bay over 4.5 goals scored NO | 59 | 0.722 | 0.633 | +0.115 | +0.026 | $6.93 | FUNDED_RESEARCH | $2 | TBL:SUPPRESSED | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Vancouver over 3.5 goals scored YES** — thesis: VAN offense succeeds (4+ goals); alternative: KXNHLSPREAD-26OCT17VANTB-VAN3|yes; why: KXNHLSPREAD-26OCT17VANTB-VAN3|yes has the higher standalone adjusted growth (17.01 vs 14.71 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.454); relationships: KXNHLSPREAD-26OCT17VANTB-TB3|no: REINFORCING (phi 0.336); KXNHLAST-26OCT17VANTB-TBJCARLSON74-1|no: MOSTLY_INDEPENDENT (phi 0.005); KXNHLTEAMTOTAL-26OCT17VANTB-TB5|no: MOSTLY_INDEPENDENT (phi 0.011); failure: VAN offense suppressed (<= 2 goals)
+- **Tampa Bay wins by over 2.5 goals NO** — thesis: tight game (one-goal final or OT); alternative: KXNHLSPREAD-26OCT17VANTB-TB2|no; why: higher confidence-adjusted growth (11.80 vs 10.96 bp); wins across more scripts (relative breadth 1.008 vs 0.858); relationships: KXNHLTEAMTOTAL-26OCT17VANTB-VAN4|yes: REINFORCING (phi 0.336); KXNHLAST-26OCT17VANTB-TBJCARLSON74-1|no: REINFORCING (phi 0.173); KXNHLTEAMTOTAL-26OCT17VANTB-TB5|no: REINFORCING (phi 0.562); failure: TBL wins by 2+
+- **John Carlson: 1+ assists NO** — thesis: TBL offense suppressed (<= 2 goals); alternative: KXNHLSPREAD-26OCT17VANTB-VAN3|yes; why: KXNHLSPREAD-26OCT17VANTB-VAN3|yes has the higher standalone adjusted growth (17.01 vs 8.75 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.105); relationships: KXNHLTEAMTOTAL-26OCT17VANTB-VAN4|yes: MOSTLY_INDEPENDENT (phi 0.005); KXNHLSPREAD-26OCT17VANTB-TB3|no: REINFORCING (phi 0.173); KXNHLTEAMTOTAL-26OCT17VANTB-TB5|no: REINFORCING (phi 0.229); failure: TBL offense succeeds (4+ goals)
+- **Tampa Bay over 4.5 goals scored NO** — thesis: TBL offense suppressed (<= 2 goals); alternative: KXNHLSPREAD-26OCT17VANTB-VAN3|yes; why: KXNHLSPREAD-26OCT17VANTB-VAN3|yes has the higher standalone adjusted growth (17.01 vs 6.14 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.204); relationships: KXNHLTEAMTOTAL-26OCT17VANTB-VAN4|yes: MOSTLY_INDEPENDENT (phi 0.011); KXNHLSPREAD-26OCT17VANTB-TB3|no: REINFORCING (phi 0.562); KXNHLAST-26OCT17VANTB-TBJCARLSON74-1|no: REINFORCING (phi 0.229); failure: TBL offense succeeds (4+ goals)
 
 **Review**: scripts TBL shot control · normal event (5-7) · decided (2+) 0.16, TBL shot control · normal event (5-7) · tight (1-goal/OT) 0.13, TBL shot control · high event (8+) · decided (2+) 0.10.
-- thesis VAN:WINS_BY_2PLUS (p 0.1795): highest fidelity KXNHLSPREAD-26OCT17VANTB-TB2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17VANTB-TB2|no (same contract)
-- thesis VAN:WINS (p 0.368): highest fidelity KXNHLSPREAD-26OCT17VANTB-TB2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17VANTB-TB2|no (same contract)
-- thesis VAN:OFFENSE_4PLUS (p 0.2838): highest fidelity KXNHLTEAMTOTAL-26OCT17VANTB-VAN4|yes [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17VANTB-TB2|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
-- KXNHLSPREAD-26OCT17VANTB-TB2|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); LARGE MARKET DISAGREEMENT 16.4 pts; opposing: failure thesis TBL:WINS_BY_2PLUS (p 0.4006, phi -1.0)
-- KXNHLSPREAD-26OCT17VANTB-TB3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); LARGE MARKET DISAGREEMENT 15.7 pts; opposing: failure thesis TBL:WINS_BY_2PLUS (p 0.4006, phi -0.759)
+- thesis VAN:WINS_BY_2PLUS (p 0.1795): highest fidelity KXNHLSPREAD-26OCT17VANTB-TB3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17VANTB-TB3|no (same contract)
+- thesis VAN:OFFENSE_4PLUS (p 0.2838): highest fidelity KXNHLTEAMTOTAL-26OCT17VANTB-VAN4|yes [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17VANTB-TB3|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
+- thesis TBL:SUPPRESSED (p 0.3154): highest fidelity KXNHLSPREAD-26OCT17VANTB-TB3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17VANTB-TB3|no (same contract)
 - KXNHLTEAMTOTAL-26OCT17VANTB-VAN4|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis VAN:SUPPRESSED (p 0.5034, phi -0.651)
+- KXNHLSPREAD-26OCT17VANTB-TB3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); LARGE MARKET DISAGREEMENT 16.7 pts; opposing: failure thesis TBL:WINS_BY_2PLUS (p 0.4006, phi -0.759)
+- KXNHLAST-26OCT17VANTB-TBJCARLSON74-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED; family MIXED; loses 16% of the draws where the thesis happens; LARGE MARKET DISAGREEMENT 19.7 pts; fragile player expression; opposing: failure thesis TBL:OFFENSE_4PLUS (p 0.473, phi -0.235)
 - KXNHLTEAMTOTAL-26OCT17VANTB-TB5|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); LARGE MARKET DISAGREEMENT 13.7 pts; opposing: failure thesis TBL:OFFENSE_4PLUS (p 0.473, phi -0.656)
-- override: Broad expression KXNHLSPREAD-26OCT17VANTB-TB3|no selected over broad KXNHLTEAMTOTAL-26OCT17VANTB-TB6|no because adjusted EV is 0.1 pts higher while thesis capture is 1.00 vs 0.99 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)
+- override: override declined: the joint re-optimisation gives KXNHLTEAMTOTAL-26OCT17VANTB-TB4|no less than the minimum stake; KXNHLAST-26OCT17VANTB-TBJCARLSON74-1|no kept
 
-portfolios: A EV +8.90 (adj +1.76) on $27.38, P(profit) 0.5414, adj growth 13.5 bp · B EV +6.78 (adj +1.81) on $27.55, P(profit) 0.7006, adj growth 15.9 bp · C EV +5.17 (adj +2.10) on $23.37, P(profit) 0.8644, adj growth 18.6 bp · R EV +2.31 (adj +0.63) on $9.00, P(profit) 0.6259, adj growth 20.7 bp
+portfolios: A EV +8.25 (adj +1.53) on $25.86, P(profit) 0.6426, adj growth 13.6 bp · B EV +10.65 (adj +2.85) on $36.95, P(profit) 0.6746, adj growth 25.2 bp · C EV +7.72 (adj +2.38) on $22.96, P(profit) 0.7221, adj growth 20.6 bp · R EV +1.92 (adj +0.59) on $7.00, P(profit) 0.7138, adj growth 20.7 bp
 equivalent contracts collapsed: KXNHLGAME-26OCT17VANTB-TB|no == KXNHLGAME-26OCT17VANTB-VAN|yes
 
 ## SEA @ FLA  ·  10000 joint draws  ·  98 bet sides mapped, 4 +EV candidates, 3 on card
@@ -142,9 +149,9 @@ equivalent contracts collapsed: KXNHLGAME-26OCT17VANTB-TB|no == KXNHLGAME-26OCT1
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Florida wins by over 1.5 goals NO | 60 | 0.690 | 0.643 | +0.073 | +0.026 | $6.70 | FUNDED_RESEARCH | $2 | SEA:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Florida wins by over 2.5 goals NO | 72 | 0.799 | 0.757 | +0.065 | +0.023 | $13.85 | FUNDED_RESEARCH | $4 | SEA:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Seattle wins by over 1.5 goals YES | 19 | 0.254 | 0.219 | +0.053 | +0.018 | $3.11 | FUNDED_RESEARCH | $1 | SEA:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Florida wins by over 1.5 goals NO | 60 | 0.690 | 0.643 | +0.073 | +0.026 | $6.18 | FUNDED_RESEARCH | $2 | SEA:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Florida wins by over 2.5 goals NO | 72 | 0.799 | 0.757 | +0.065 | +0.023 | $12.76 | FUNDED_RESEARCH | $4 | SEA:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Seattle wins by over 1.5 goals YES | 19 | 0.254 | 0.219 | +0.053 | +0.018 | $2.86 | FUNDED_RESEARCH | $1 | SEA:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
 - **Florida wins by over 1.5 goals NO** — thesis: SEA wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT17SEAFLA-FLA3|no; why: higher confidence-adjusted growth (6.18 vs 5.88 bp); relationships: KXNHLSPREAD-26OCT17SEAFLA-FLA3|no: DUPLICATIVE (phi 0.749); KXNHLSPREAD-26OCT17SEAFLA-SEA2|yes: DUPLICATIVE (phi 0.391); failure: FLA wins by 2+
 - **Florida wins by over 2.5 goals NO** — thesis: SEA wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT17SEAFLA-FLA2|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT17SEAFLA-FLA2|no has the higher standalone adjusted growth (6.18 vs 5.88 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.749); they share one thesis budget; relationships: KXNHLSPREAD-26OCT17SEAFLA-FLA2|no: DUPLICATIVE (phi 0.749); KXNHLSPREAD-26OCT17SEAFLA-SEA2|yes: REINFORCING (phi 0.292); failure: FLA wins by 2+
 - **Seattle wins by over 1.5 goals YES** — thesis: SEA wins by 2+; alternative: KXNHLSPREAD-26OCT17SEAFLA-FLA2|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT17SEAFLA-FLA2|no has the higher standalone adjusted growth (6.18 vs 4.64 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.391); they share one thesis budget; relationships: KXNHLSPREAD-26OCT17SEAFLA-FLA2|no: DUPLICATIVE (phi 0.391); KXNHLSPREAD-26OCT17SEAFLA-FLA3|no: REINFORCING (phi 0.292); failure: FLA wins (incl. OT/SO)
@@ -157,7 +164,7 @@ equivalent contracts collapsed: KXNHLGAME-26OCT17VANTB-TB|no == KXNHLGAME-26OCT1
 - KXNHLSPREAD-26OCT17SEAFLA-FLA3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis FLA:WINS_BY_2PLUS (p 0.3098, phi -0.749)
 - KXNHLSPREAD-26OCT17SEAFLA-SEA2|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis FLA:WINS (p 0.5274, phi -0.616)
 
-portfolios: A EV +4.11 (adj +1.45) on $27.38, P(profit) 0.6902, adj growth 11.5 bp · B EV +2.84 (adj +1.00) on $23.66, P(profit) 0.6902, adj growth 8.8 bp · C EV +2.12 (adj +0.75) on $17.84, P(profit) 0.6902, adj growth 6.6 bp · R EV +0.85 (adj +0.30) on $7.00, P(profit) 0.6902, adj growth 10.2 bp
+portfolios: A EV +3.89 (adj +1.37) on $25.86, P(profit) 0.6902, adj growth 11.0 bp · B EV +2.61 (adj +0.92) on $21.80, P(profit) 0.6902, adj growth 8.2 bp · C EV +2.12 (adj +0.75) on $17.84, P(profit) 0.6902, adj growth 6.6 bp · R EV +0.85 (adj +0.30) on $7.00, P(profit) 0.6902, adj growth 10.2 bp
 
 ## NYI @ TOR  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
@@ -259,7 +266,7 @@ _no bet on this game passes: +EV at the executable ask under both the model and 
 
 portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp
 
-## DAL @ CHI  ·  10000 joint draws  ·  98 bet sides mapped, 5 +EV candidates, 3 on card
+## DAL @ CHI  ·  10000 joint draws  ·  98 bet sides mapped, 6 +EV candidates, 3 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -277,23 +284,23 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Dallas wins by over 2.5 goals NO | 72 | 0.802 | 0.759 | +0.068 | +0.025 | $20.00 | FUNDED_RESEARCH | $5 | CHI:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Chicago wins by over 1.5 goals YES | 18 | 0.245 | 0.210 | +0.054 | +0.020 | $2.46 | FUNDED_RESEARCH | $1 | CHI:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Chicago over 4.5 goals scored YES | 13 | 0.185 | 0.155 | +0.047 | +0.017 | $2.29 | FUNDED_RESEARCH | $1 | CHI:OFFENSE_4PLUS | DIRECT (0.53) | EVIDENCE_MIXED | D |
-- **Dallas wins by over 2.5 goals NO** — thesis: CHI wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT17DALCHI-CHI2|yes; why: higher confidence-adjusted growth (6.77 vs 5.38 bp); wins across more scripts (relative breadth 1.002 vs 0.539); relationships: KXNHLSPREAD-26OCT17DALCHI-CHI2|yes: REINFORCING (phi 0.283); KXNHLTEAMTOTAL-26OCT17DALCHI-CHI5|yes: REINFORCING (phi 0.219); failure: DAL wins by 2+
-- **Chicago wins by over 1.5 goals YES** — thesis: CHI wins by 2+; alternative: KXNHLSPREAD-26OCT17DALCHI-DAL3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT17DALCHI-DAL3|no has the higher standalone adjusted growth (6.77 vs 5.38 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.283); they share one thesis budget; relationships: KXNHLSPREAD-26OCT17DALCHI-DAL3|no: REINFORCING (phi 0.283); KXNHLTEAMTOTAL-26OCT17DALCHI-CHI5|yes: REINFORCING (phi 0.483); failure: DAL wins (incl. OT/SO)
-- **Chicago over 4.5 goals scored YES** — thesis: CHI offense succeeds (4+ goals); alternative: KXNHLSPREAD-26OCT17DALCHI-DAL3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT17DALCHI-DAL3|no has the higher standalone adjusted growth (6.77 vs 5.24 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.219); they share one thesis budget; relationships: KXNHLSPREAD-26OCT17DALCHI-DAL3|no: REINFORCING (phi 0.219); KXNHLSPREAD-26OCT17DALCHI-CHI2|yes: REINFORCING (phi 0.483); failure: CHI offense suppressed (<= 2 goals)
+| Dallas wins by over 2.5 goals NO | 72 | 0.802 | 0.759 | +0.068 | +0.025 | $18.43 | FUNDED_RESEARCH | $5 | CHI:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Chicago over 4.5 goals scored YES | 13 | 0.185 | 0.155 | +0.047 | +0.017 | $2.84 | FUNDED_RESEARCH | $1 | CHI:OFFENSE_4PLUS | DIRECT (0.53) | EVIDENCE_MIXED | D |
+| Dallas wins by over 1.5 goals NO | 60 | 0.686 | 0.640 | +0.069 | +0.024 | $2.03 | FUNDED_RESEARCH | $1 | CHI:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Dallas wins by over 2.5 goals NO** — thesis: CHI wins (incl. OT/SO); alternative: KXNHLTEAMTOTAL-26OCT17DALCHI-CHI6|yes; why: KXNHLTEAMTOTAL-26OCT17DALCHI-CHI6|yes has the higher standalone adjusted growth (9.58 vs 6.77 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.141); relationships: KXNHLTEAMTOTAL-26OCT17DALCHI-CHI5|yes: REINFORCING (phi 0.219); KXNHLSPREAD-26OCT17DALCHI-DAL2|no: DUPLICATIVE (phi 0.734); failure: DAL wins by 2+
+- **Chicago over 4.5 goals scored YES** — thesis: CHI offense succeeds (4+ goals); alternative: KXNHLTEAMTOTAL-26OCT17DALCHI-CHI6|yes; why: Broad expression KXNHLTEAMTOTAL-26OCT17DALCHI-CHI5|yes selected over broad KXNHLTEAMTOTAL-26OCT17DALCHI-CHI6|yes because adjusted EV is 0.3 pts higher while thesis capture is 0.53 vs 0.28 (DIRECT vs FRAGILE; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity); relationships: KXNHLSPREAD-26OCT17DALCHI-DAL3|no: REINFORCING (phi 0.219); KXNHLSPREAD-26OCT17DALCHI-DAL2|no: REINFORCING (phi 0.288); failure: CHI offense suppressed (<= 2 goals)
+- **Dallas wins by over 1.5 goals NO** — thesis: CHI wins (incl. OT/SO); alternative: KXNHLTEAMTOTAL-26OCT17DALCHI-CHI6|yes; why: KXNHLTEAMTOTAL-26OCT17DALCHI-CHI6|yes has the higher standalone adjusted growth (9.58 vs 5.24 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.190); relationships: KXNHLSPREAD-26OCT17DALCHI-DAL3|no: DUPLICATIVE (phi 0.734); KXNHLTEAMTOTAL-26OCT17DALCHI-CHI5|yes: REINFORCING (phi 0.288); failure: DAL wins by 2+
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, DAL shot control · normal event (5-7) · decided (2+) 0.10.
+- thesis GAME:HIGH_EVENT (p 0.2499): highest fidelity KXNHLTEAMTOTAL-26OCT17DALCHI-CHI4|yes [DIRECT], best adjusted EV KXNHLTEAMTOTAL-26OCT17DALCHI-CHI5|yes — Broad expression KXNHLTEAMTOTAL-26OCT17DALCHI-CHI5|yes selected over broad KXNHLTEAMTOTAL-26OCT17DALCHI-CHI6|yes because adjusted EV is 0.3 pts higher while thesis capture is 0.53 vs 0.28 (DIRECT vs FRAGILE; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)
 - thesis CHI:WINS (p 0.4623): highest fidelity KXNHLSPREAD-26OCT17DALCHI-DAL3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17DALCHI-DAL3|no (same contract)
-- thesis CHI:WINS_BY_2PLUS (p 0.2448): highest fidelity KXNHLSPREAD-26OCT17DALCHI-DAL3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17DALCHI-DAL3|no (same contract)
-- thesis CHI:OFFENSE_4PLUS (p 0.3466): highest fidelity KXNHLTEAMTOTAL-26OCT17DALCHI-CHI4|yes [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17DALCHI-DAL3|no — override declined: the joint re-optimisation gives KXNHLTEAMTOTAL-26OCT17DALCHI-CHI4|yes less than the minimum stake; KXNHLTEAMTOTAL-26OCT17DALCHI-CHI5|yes kept
+- thesis CHI:OFFENSE_4PLUS (p 0.3466): highest fidelity KXNHLTEAMTOTAL-26OCT17DALCHI-CHI4|yes [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17DALCHI-DAL3|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
 - KXNHLSPREAD-26OCT17DALCHI-DAL3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis DAL:WINS_BY_2PLUS (p 0.3139, phi -0.734)
-- KXNHLSPREAD-26OCT17DALCHI-CHI2|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis DAL:WINS (p 0.5377, phi -0.614)
 - KXNHLTEAMTOTAL-26OCT17DALCHI-CHI5|yes: FUNDED_RESEARCH; family MIXED; loses 47% of the draws where the thesis happens; opposing: failure thesis CHI:SUPPRESSED (p 0.4371, phi -0.42)
-- override: override declined: the joint re-optimisation gives KXNHLTEAMTOTAL-26OCT17DALCHI-CHI4|yes less than the minimum stake; KXNHLTEAMTOTAL-26OCT17DALCHI-CHI5|yes kept
+- KXNHLSPREAD-26OCT17DALCHI-DAL2|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis DAL:WINS_BY_2PLUS (p 0.3139, phi -1.0)
+- override: Broad expression KXNHLTEAMTOTAL-26OCT17DALCHI-CHI5|yes selected over broad KXNHLTEAMTOTAL-26OCT17DALCHI-CHI6|yes because adjusted EV is 0.3 pts higher while thesis capture is 0.53 vs 0.28 (DIRECT vs FRAGILE; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)
 
-portfolios: A EV +4.30 (adj +1.53) on $27.38, P(profit) 0.6861, adj growth 12.1 bp · B EV +3.34 (adj +1.20) on $24.75, P(profit) 0.8022, adj growth 10.6 bp · C EV +1.85 (adj +0.67) on $20.00, P(profit) 0.8022, adj growth 6.1 bp · R EV +1.09 (adj +0.39) on $7.00, P(profit) 0.3037, adj growth 13.1 bp
+portfolios: A EV +3.25 (adj +1.02) on $25.86, P(profit) 0.7096, adj growth 8.3 bp · B EV +2.90 (adj +1.04) on $23.31, P(profit) 0.8022, adj growth 9.3 bp · C EV +1.98 (adj +0.77) on $2.43, P(profit) 0.0776, adj growth 6.6 bp · R EV +0.92 (adj +0.33) on $7.00, P(profit) 0.6922, adj growth 11.3 bp
 
 ## STL @ NSH  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
@@ -355,7 +362,7 @@ _no bet on this game passes: +EV at the executable ask under both the model and 
 
 portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp
 
-## PIT @ VGK  ·  10000 joint draws  ·  98 bet sides mapped, 3 +EV candidates, 1 on card
+## PIT @ VGK  ·  10000 joint draws  ·  98 bet sides mapped, 2 +EV candidates, 1 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -373,14 +380,13 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Vegas wins by over 2.5 goals NO | 66 | 0.735 | 0.695 | +0.059 | +0.019 | $15.80 | FUNDED_RESEARCH | $3 | GAME:TIGHT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **Vegas wins by over 2.5 goals NO** — thesis: tight game (one-goal final or OT); alternative: KXNHLSPREAD-26OCT17PITVGK-VGK2|no; why: higher confidence-adjusted growth (3.63 vs 2.23 bp); despite a smaller raw edge (+0.059 vs +0.059/contract); wins across more scripts (relative breadth 1.028 vs 0.91); relationships: only recommended bet in this game; failure: VGK wins by 2+
+| Vegas wins by over 2.5 goals NO | 65 | 0.735 | 0.690 | +0.069 | +0.024 | $17.78 | FUNDED_RESEARCH | $5 | GAME:TIGHT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Vegas wins by over 2.5 goals NO** — thesis: tight game (one-goal final or OT); alternative: KXNHLSPREAD-26OCT17PITVGK-VGK2|no; why: higher confidence-adjusted growth (5.61 vs 2.23 bp); wins across more scripts (relative breadth 1.028 vs 0.91); relationships: only recommended bet in this game; failure: VGK wins by 2+
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, balanced shots · high event (8+) · decided (2+) 0.10.
 - thesis GAME:TIGHT (p 0.414): highest fidelity KXNHLSPREAD-26OCT17PITVGK-VGK3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17PITVGK-VGK3|no (same contract)
-- thesis VGK:SUPPRESSED (p 0.3049): highest fidelity KXNHLSPREAD-26OCT17PITVGK-VGK3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT17PITVGK-VGK3|no (same contract)
 - KXNHLSPREAD-26OCT17PITVGK-VGK3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis VGK:WINS_BY_2PLUS (p 0.3835, phi -0.762)
 
-portfolios: A EV +2.65 (adj +0.74) on $27.38, P(profit) 0.653, adj growth 5.3 bp · B EV +1.37 (adj +0.45) on $15.80, P(profit) 0.7345, adj growth 3.9 bp · C EV +1.37 (adj +0.45) on $15.80, P(profit) 0.7345, adj growth 3.9 bp · R EV +0.26 (adj +0.08) on $3.00, P(profit) 0.7345, adj growth 3.1 bp
+portfolios: A EV +2.16 (adj +0.66) on $20.69, P(profit) 0.6165, adj growth 5.5 bp · B EV +1.83 (adj +0.64) on $17.78, P(profit) 0.7345, adj growth 5.7 bp · C EV +1.99 (adj +0.69) on $19.29, P(profit) 0.7345, adj growth 6.1 bp · R EV +0.51 (adj +0.18) on $5.00, P(profit) 0.7345, adj growth 6.3 bp
 
 _RESEARCH_ONLY thesis card: B stakes are optimiser suggestions for a nominal bankroll; R (FUNDED_RESEARCH) stakes are whole-dollar research stakes under research governance. Nothing is placed or routed. Every recommended bet is +EV at its executable ask under the model AND the confidence-adjusted probability; the card is emitted only when the completion gate passes._
