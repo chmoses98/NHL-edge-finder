@@ -1,0 +1,45 @@
+{
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
+  "compute_seconds": 0.0,
+  "created_utc": "2026-10-17T07:38:12Z",
+  "data_provenance": [
+    "data/history/players/*.parquet",
+    "data-archive player_events (2026-27)"
+  ],
+  "distribution": {
+    "cover_50": 0.5026955894214034,
+    "cover_80": 0.7981810077683915,
+    "cover_90": 0.9009211699282591,
+    "crps": 0.21374999585601873,
+    "log_score": 0.641189940171708,
+    "pit_var_ratio": 0.9967164794461907
+  },
+  "eval_period": "2024-25 and 2025-26 regular seasons (evaluated once for frozen candidates)",
+  "experiment_id": "nhl_assists_A_season_avg_shrunk_holdout",
+  "family": "assists",
+  "features": [],
+  "fingerprint": "537cb055c2f9b2c6",
+  "hyperparameters": {},
+  "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
+  "limitations": [
+    "conditional on the player dressing / the actual starting goalie"
+  ],
+  "model": "A_season_avg_shrunk",
+  "model_version": "pf-nhl-1.0.0",
+  "n_clusters": 2624,
+  "n_independent": 94228,
+  "n_obs": 94228,
+  "point": {
+    "bias": 0.0032294372005672767,
+    "mae": 0.40416960739327384,
+    "rmse": 0.5364362984109544
+  },
+  "python": "3.13.16",
+  "question": "How accurate is A_season_avg_shrunk for NHL assists?",
+  "split": "holdout",
+  "sport": "NHL",
+  "train_period": "2021-22..2022-23 (scalars); LightGBM refit on all seasons before the scored one",
+  "verdict": "baseline",
+  "vs_baseline": {},
+  "vs_incumbent": {}
+}

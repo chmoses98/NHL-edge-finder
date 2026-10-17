@@ -1,0 +1,53 @@
+{
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
+  "compute_seconds": 0.0,
+  "created_utc": "2026-10-17T07:38:13Z",
+  "data_provenance": [
+    "data/history/players/*.parquet",
+    "data-archive player_events (2026-27)"
+  ],
+  "distribution": {
+    "cover_50": 0.4973323170731707,
+    "cover_80": 0.7942073170731707,
+    "cover_90": 0.9028201219512195,
+    "crps": 0.9615672456337795,
+    "log_score": 1.938711601910934,
+    "pit_var_ratio": 1.0086458014885316
+  },
+  "eval_period": "2023-24 regular season (model and distribution selection)",
+  "experiment_id": "nhl_team_goals_D_opp_adjusted_validation",
+  "family": "team_goals",
+  "features": [],
+  "fingerprint": "cfc22d7b16ee20b2",
+  "hyperparameters": {},
+  "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
+  "limitations": [
+    "conditional on the player dressing / the actual starting goalie"
+  ],
+  "model": "D_opp_adjusted",
+  "model_version": "pf-nhl-1.0.0",
+  "n_clusters": 1312,
+  "n_independent": 2624,
+  "n_obs": 2624,
+  "point": {
+    "bias": 0.06564110223218209,
+    "mae": 1.3992859183083899,
+    "rmse": 1.7273289799333305
+  },
+  "python": "3.13.16",
+  "question": "How accurate is D_opp_adjusted for NHL team_goals?",
+  "split": "validation",
+  "sport": "NHL",
+  "train_period": "2021-22..2022-23 (scalars); LightGBM refit on all seasons before the scored one",
+  "verdict": "competitive",
+  "vs_baseline": {
+    "ci95": [
+      -0.019655,
+      -0.006801
+    ],
+    "mean_diff": -0.012924,
+    "n_clusters": 1312,
+    "n_obs": 2624
+  },
+  "vs_incumbent": {}
+}

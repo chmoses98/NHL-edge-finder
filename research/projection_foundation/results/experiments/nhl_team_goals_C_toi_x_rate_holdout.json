@@ -1,0 +1,53 @@
+{
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
+  "compute_seconds": 0.0,
+  "created_utc": "2026-10-17T07:38:13Z",
+  "data_provenance": [
+    "data/history/players/*.parquet",
+    "data-archive player_events (2026-27)"
+  ],
+  "distribution": {
+    "cover_50": 0.4933282500953107,
+    "cover_80": 0.7956538314906596,
+    "cover_90": 0.9010674799847503,
+    "crps": 0.9574121772553017,
+    "log_score": 1.9341377930992383,
+    "pit_var_ratio": 1.0097329478562944
+  },
+  "eval_period": "2024-25 and 2025-26 regular seasons (evaluated once for frozen candidates)",
+  "experiment_id": "nhl_team_goals_C_toi_x_rate_holdout",
+  "family": "team_goals",
+  "features": [],
+  "fingerprint": "852b9dee10a90609",
+  "hyperparameters": {},
+  "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
+  "limitations": [
+    "conditional on the player dressing / the actual starting goalie"
+  ],
+  "model": "C_toi_x_rate",
+  "model_version": "pf-nhl-1.0.0",
+  "n_clusters": 2624,
+  "n_independent": 5246,
+  "n_obs": 5246,
+  "point": {
+    "bias": -0.024897738695950127,
+    "mae": 1.3798121462643627,
+    "rmse": 1.7200326296132158
+  },
+  "python": "3.13.16",
+  "question": "How accurate is C_toi_x_rate for NHL team_goals?",
+  "split": "holdout",
+  "sport": "NHL",
+  "train_period": "2021-22..2022-23 (scalars); LightGBM refit on all seasons before the scored one",
+  "verdict": "rejected",
+  "vs_baseline": {
+    "ci95": [
+      -0.008165,
+      -0.000505
+    ],
+    "mean_diff": -0.004562,
+    "n_clusters": 2624,
+    "n_obs": 5246
+  },
+  "vs_incumbent": {}
+}

@@ -1,0 +1,53 @@
+{
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
+  "compute_seconds": 0.0,
+  "created_utc": "2026-10-17T07:38:12Z",
+  "data_provenance": [
+    "data/history/players/*.parquet",
+    "data-archive player_events (2026-27)"
+  ],
+  "distribution": {
+    "cover_50": 0.503916033450779,
+    "cover_80": 0.8004202572483763,
+    "cover_90": 0.9020036507195314,
+    "crps": 0.2979519415397188,
+    "log_score": 0.8320567397562024,
+    "pit_var_ratio": 0.9953388123931001
+  },
+  "eval_period": "2024-25 and 2025-26 regular seasons (evaluated once for frozen candidates)",
+  "experiment_id": "nhl_points_B_ewma_shrunk_holdout",
+  "family": "points",
+  "features": [],
+  "fingerprint": "08624b1a30a7bd72",
+  "hyperparameters": {},
+  "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
+  "limitations": [
+    "conditional on the player dressing / the actual starting goalie"
+  ],
+  "model": "B_ewma_shrunk",
+  "model_version": "pf-nhl-1.0.0",
+  "n_clusters": 2624,
+  "n_independent": 94228,
+  "n_obs": 94228,
+  "point": {
+    "bias": 0.006273824391967895,
+    "mae": 0.5241727950543215,
+    "rmse": 0.6730100423573249
+  },
+  "python": "3.13.16",
+  "question": "How accurate is B_ewma_shrunk for NHL points?",
+  "split": "holdout",
+  "sport": "NHL",
+  "train_period": "2021-22..2022-23 (scalars); LightGBM refit on all seasons before the scored one",
+  "verdict": "rejected",
+  "vs_baseline": {
+    "ci95": [
+      -0.001098,
+      -0.000593
+    ],
+    "mean_diff": -0.000838,
+    "n_clusters": 2624,
+    "n_obs": 94228
+  },
+  "vs_incumbent": {}
+}

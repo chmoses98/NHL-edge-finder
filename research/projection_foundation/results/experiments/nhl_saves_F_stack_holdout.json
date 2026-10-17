@@ -1,0 +1,53 @@
+{
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
+  "compute_seconds": 0.0,
+  "created_utc": "2026-10-17T07:38:13Z",
+  "data_provenance": [
+    "data/history/players/*.parquet",
+    "data-archive player_events (2026-27)"
+  ],
+  "distribution": {
+    "cover_50": 0.513213328226733,
+    "cover_80": 0.8100344695518958,
+    "cover_90": 0.8977403293757181,
+    "crps": 3.8266749099870574,
+    "log_score": 3.392673877139269,
+    "pit_var_ratio": 0.9847213085733578
+  },
+  "eval_period": "2024-25 and 2025-26 regular seasons (evaluated once for frozen candidates)",
+  "experiment_id": "nhl_saves_F_stack_holdout",
+  "family": "saves",
+  "features": [],
+  "fingerprint": "eff08abd8dc102e3",
+  "hyperparameters": {},
+  "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
+  "limitations": [
+    "conditional on the player dressing / the actual starting goalie"
+  ],
+  "model": "F_stack",
+  "model_version": "pf-nhl-1.0.0",
+  "n_clusters": 2624,
+  "n_independent": 5222,
+  "n_obs": 5222,
+  "point": {
+    "bias": 0.17537711354257898,
+    "mae": 5.349942541685306,
+    "rmse": 6.889361956925801
+  },
+  "python": "3.13.16",
+  "question": "How accurate is F_stack for NHL saves?",
+  "split": "holdout",
+  "sport": "NHL",
+  "train_period": "2021-22..2022-23 (scalars); LightGBM refit on all seasons before the scored one",
+  "verdict": "best",
+  "vs_baseline": {
+    "ci95": [
+      -0.112099,
+      -0.058437
+    ],
+    "mean_diff": -0.086667,
+    "n_clusters": 2624,
+    "n_obs": 5222
+  },
+  "vs_incumbent": {}
+}
