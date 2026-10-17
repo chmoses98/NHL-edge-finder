@@ -15,7 +15,7 @@ from __future__ import annotations
 import glob
 import math
 import os
-from functools import lru_cache
+from functools import cache
 from pathlib import Path
 
 import numpy as np
@@ -77,7 +77,7 @@ def _read_archive(kind: str) -> pd.DataFrame:
     return d
 
 
-@lru_cache(maxsize=None)
+@cache
 def load_kind(kind: str, seasons: tuple[int, ...] = tuple(SEASONS)) -> pd.DataFrame:
     parts = []
     for s in seasons:

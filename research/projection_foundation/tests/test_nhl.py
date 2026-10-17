@@ -1,7 +1,6 @@
 """Tests for the NHL Projection Foundation challenger stack (research/projection_foundation/nhl)."""
 import gzip
 import json
-import os
 import sys
 from pathlib import Path
 

@@ -26,7 +26,6 @@ PF = Path(__file__).resolve().parents[1]
 if str(PF) not in sys.path:
     sys.path.insert(0, str(PF))
 
-from pf_core import VERSION as PF_VERSION  # noqa: E402
 from pf_core import gate, metrics, registry  # noqa: E402
 
 from nhl import SPLIT_LABELS, SPLITS, VERSION, data, incumbent, inventory, opportunity, pipeline, xg  # noqa: E402
@@ -351,6 +350,14 @@ def extra_experiments(sk, tg_raw, fams) -> dict:
         c_tc = ev.make(fams[stat]["_dparams"]["C"], mu_tc[val]).crps(yv)
         out[f"toi_source_{stat}"] = {"val_crps_C_with_TOI_E": float(c_c.mean()), "val_crps_C_with_TOI_C": float(c_tc.mean()),
                                      "E_minus_C": ev.compare(c_c, c_tc, sk.loc[val, "game_id"])}
+    # paired D - C (the opponent + venue step) for every skater family
+    for stat in SKATER_FAMS:
+        for split, seasons in (("validation", [2023]), ("holdout", [2024, 2025])):
+            m = sk["season"].isin(seasons) & (sk["toi_n"] >= 1)
+            yv = sk.loc[m, stat].to_numpy(float)
+            cd = ev.make(fams[stat]["_dparams"]["D"], sk.loc[m, f"mu_{stat}_D"]).crps(yv)
+            cc = ev.make(fams[stat]["_dparams"]["C"], sk.loc[m, f"mu_{stat}_C"]).crps(yv)
+            out[f"D_minus_C_{stat}_{split}"] = ev.compare(cd, cc, sk.loc[m, "game_id"])
     return out
 
 

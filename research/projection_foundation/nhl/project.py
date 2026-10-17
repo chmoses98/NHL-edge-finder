@@ -146,11 +146,11 @@ def starters(games: pd.DataFrame, now: pd.Timestamp, ghist: pd.DataFrame) -> pd.
 
 
 def injuries() -> dict:
-    I = _read("context/injuries")
-    if I.empty:
+    inj = _read("context/injuries")
+    if inj.empty:
         return {}
-    I = I[I["_observed_at_utc"] == I["_observed_at_utc"].max()]
-    return {(int(r.team_id), _norm(r.player_name)): str(r.status) for r in I.itertuples() if pd.notna(r.team_id)}
+    inj = inj[inj["_observed_at_utc"] == inj["_observed_at_utc"].max()]
+    return {(int(r.team_id), _norm(r.player_name)): str(r.status) for r in inj.itertuples() if pd.notna(r.team_id)}
 
 
 def placeholder_rows(games, lu, gs, hist, ghist):
@@ -200,8 +200,12 @@ def _best(summary_path: Path) -> dict:
     return best, readiness
 
 
-def run(date=None, now=None, out=None) -> dict:
+def run(date=None, now=None, out=None, reuse_cache=False) -> dict:
     t0 = time.time()
+    # the forward cache holds frames built WITH this slate's placeholder rows: always start clean
+    if data.CACHE.resolve() != (PF / ".cache").resolve() and not reuse_cache:
+        for p in list(data.CACHE.glob("*.parquet")) + list(data.CACHE.glob("*.json")):
+            p.unlink()
     from nhl import evaluate as ev
     from nhl import pipeline
 
@@ -221,7 +225,7 @@ def run(date=None, now=None, out=None) -> dict:
     inj = injuries()
     P, Gr = placeholder_rows(games, lu, gs, hist, ghist)
     data.set_future({"players": P, "goalies": Gr})
-    rebuild = True
+    rebuild = not reuse_cache  # reuse only for the same slate (development iterations)
     pipeline.stage1(rebuild=rebuild)
     sk, p2 = pipeline.stage2(rebuild=rebuild)
     gf, tg, p3 = pipeline.stage3(rebuild=rebuild)
@@ -261,7 +265,7 @@ def run(date=None, now=None, out=None) -> dict:
                 adj.append("team on the second night of a back-to-back")
             if r.toi_n < 10:
                 adj.append(f"only {int(r.toi_n)} prior NHL games since 2021-22: rates lean on the role prior")
-            if li is not None and isinstance(li, pd.Series) and li.get("pp_unit_proj"):
+            if li is not None and isinstance(li, pd.Series) and isinstance(li.get("pp_unit_proj"), str):
                 adj.append(f"projected {li['pp_unit_proj'].upper()} by DailyFaceoff (role uses the previous game's PP unit)")
             st = inj.get((int(r.team_id), _norm(r.name)))
             hist_toi = sk[(sk["player_id"] == r.player_id) & (sk["game_date"] < r.game_date)].tail(10)
@@ -363,7 +367,7 @@ def run(date=None, now=None, out=None) -> dict:
     }
     if out:
         Path(out).parent.mkdir(parents=True, exist_ok=True)
-        json.dump(payload, open(out, "w"), indent=1, default=str)
+        json.dump(payload, open(out, "w"), separators=(",", ":"), default=str)
     return payload
 
 
@@ -380,7 +384,8 @@ if __name__ == "__main__":
     ap.add_argument("--date")
     ap.add_argument("--now")
     ap.add_argument("--out", default=str(PF / "results" / "projections_latest.json"))
+    ap.add_argument("--reuse-cache", action="store_true", help="reuse frames built for the same slate (dev only)")
     a = ap.parse_args()
-    p = run(a.date, a.now, a.out)
+    p = run(a.date, a.now, a.out, a.reuse_cache)
     print(json.dumps({"games": len(p["games"]), "players": len(p["players"]), "gate": p["gate_summary"]["status_counts"],
                       "runtime_s": p["runtime_s"]}))
