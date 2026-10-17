@@ -515,9 +515,9 @@ def _run_project(dar: str, arch: str, now: datetime, work, date: str | None, log
             "lineup_info": info, "assemble": st, "coverage": cov, "p_start_table": pst,
             "archive": {"challenger": ch_arch, "incumbent": inc_arch}, "incumbent_source": inc_st,
             "late_rejected": ch_arch.get("late_rejected", 0) + inc_arch.get("late_rejected", 0),
-            "gate": payload["gate_summary"]["status_counts"]}
+            "gate": payload["gate_summary"]["status_counts"], "gate_checks": payload["gate_summary"]["check_counts"]}
     path = os.path.join(arch, "runs", "nhl", now.strftime("%Y-%m-%d"), f"{now.strftime('%H%M%S')}Z_project.json")
     if not os.path.exists(path):
         C.write_json_once(path, summ)
     return {k: summ[k] for k in ("slate_date", "model_reused", "model_seconds", "lineup_info", "assemble", "archive", "late_rejected",
-                                 "gate", "incumbent_source")} | {"coverage_mean": cov["mean_coverage"], "coverage_events": cov["n_events"]}
+                                 "gate", "gate_checks", "incumbent_source")} | {"coverage_mean": cov["mean_coverage"], "coverage_events": cov["n_events"]}
