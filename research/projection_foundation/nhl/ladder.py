@@ -29,6 +29,28 @@ def gprior(df: pd.DataFrame, by, col: str) -> pd.Series:
     return models.group_prior_pit(df, list(by), "game_date", col, fallback=fb)
 
 
+def recent_prior(df: pd.DataFrame, col: str, window: int = 1200, date_col: str = "game_date") -> pd.Series:
+    """League level from the last `window` rows played on EARLIER dates (point-in-time).
+
+    Fix for a verified drift defect: expanding-mean priors (group_prior_pit) and season-decayed ridge
+    intercepts lag a moving league level (shots on goal per team-game fell from 31.6 in 2021-22 to
+    27.7 in 2025-26), which biased frozen-scalar saves models upward on validation (+0.6 saves)."""
+    order = np.argsort(df[date_col].to_numpy(), kind="mergesort")
+    dates = df[date_col].to_numpy()[order]
+    x = df[col].to_numpy(float)[order]
+    ok = np.isfinite(x)
+    cs = np.concatenate([[0.0], np.cumsum(np.where(ok, x, 0.0))])
+    cn = np.concatenate([[0.0], np.cumsum(ok.astype(float))])
+    i0 = np.searchsorted(dates, dates, side="left")
+    lo = np.maximum(0, i0 - window)
+    n = cn[i0] - cn[lo]
+    val = np.where(n > 0, (cs[i0] - cs[lo]) / np.maximum(n, 1), np.nan)
+    out = np.empty(len(df))
+    out[order] = val
+    dev = df["season"].isin(DEV).to_numpy() if "season" in df else np.ones(len(df), bool)
+    return pd.Series(out, index=df.index).fillna(float(np.nanmean(df.loc[dev, col])))
+
+
 def _poisson_nll(y, mu):
     mu = np.maximum(np.asarray(mu, float), 1e-6)
     y = np.asarray(y, float)
@@ -151,7 +173,8 @@ def goalie_ladder(gf: pd.DataFrame, log: list) -> tuple[pd.DataFrame, dict]:
     dev = gf["season"].isin(DEV).to_numpy() & (gf["saves_n"].fillna(0) >= 1).to_numpy()
     y = gf["saves"].to_numpy(float)
     gf["all"] = "G"
-    prior = gprior(gf, ["all"], "saves")
+    P["league_level"] = "rolling last 1200 starts (PIT)"
+    prior = recent_prior(gf, "saves")
     d = gf[gf["season"].isin(DEV)]
     P["k"] = pit.estimate_shrinkage_k(d["saves"], d["player_id"].astype(str) + "_" + d["season"].astype(str))
     gf["mu_saves_A"] = models.est_A(gf, "saves", prior, P["k"])
@@ -165,9 +188,8 @@ def goalie_ladder(gf: pd.DataFrame, log: list) -> tuple[pd.DataFrame, dict]:
     P["hl_B"] = best[0]
     gf["mu_saves_B"] = best[2]
     # league PIT shots against per team-game and save fraction
-    lg_sa = gprior(gf, ["all"], "shots_against")
-    sv_prior = 1 - (gprior(gf, ["all"], "goals_against")
-                    / gprior(gf, ["all"], "shots_against").clip(lower=1))
+    lg_sa = recent_prior(gf, "shots_against")
+    sv_prior = 1 - recent_prior(gf, "goals_against") / lg_sa.clip(lower=1)
     # C: team's own recent shots allowed (EWMA, shrunk) x goalie shrunk save fraction
     sa_raw = gf["sog_against_ewm10"]
     n_t = gf["sog_against_n"].fillna(0).clip(upper=29)
@@ -185,7 +207,9 @@ def goalie_ladder(gf: pd.DataFrame, log: list) -> tuple[pd.DataFrame, dict]:
     gf["sa_C"], gf["sv_hat"] = bestk[2], bestk[3]
     gf["mu_saves_C"] = gf["sa_C"] * gf["sv_hat"]
     # D: schedule-adjusted shots against from ridge (opponent generation + own suppression + venue)
-    sa_d = gf["sa_ridge"].fillna(gf["sa_C"])
+    # recentre the ridge level on the recent league level (ridge intercepts are season-decayed means)
+    team_lvl = recent_prior(gf, "sog_against")
+    sa_d = (gf["sa_ridge"] - gf["sa_icpt"] + team_lvl).fillna(gf["sa_C"])
     m = sa_d * gf["sv_hat"]
     P["d_scale"] = models.fit_calibration_scale(y[dev], m[dev])
     gf["sa_D"] = sa_d * P["d_scale"]

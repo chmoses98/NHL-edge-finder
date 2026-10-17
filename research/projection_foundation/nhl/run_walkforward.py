@@ -141,6 +141,7 @@ def incumbent_compare(df, stat, fam, mu_col, dparam, inc: pd.DataFrame, label: s
     if inc is None or inc.empty:
         return None
     d = df.merge(inc, on=["game_id", "player_id"] if "player_id" in inc else ["game_id", "team_id"], how="inner")
+    assert not d.duplicated(["game_id", "player_id"] if "player_id" in inc else ["game_id", "team_id"]).any()
     inc_mu = f"inc_{stat}" if f"inc_{stat}" in d else None
     d = d[d[mu_col].notna()]
     if inc_mu:
@@ -155,6 +156,24 @@ def incumbent_compare(df, stat, fam, mu_col, dparam, inc: pd.DataFrame, label: s
         out["incumbent"] = metrics.point_metrics(y, d[inc_mu])
         out["sq_error_diff"] = ev.compare(ev.sq(y, d[mu_col]), ev.sq(y, d[inc_mu]), cl)
         out["abs_error_diff"] = ev.compare(np.abs(d[mu_col] - y), np.abs(d[inc_mu] - y), cl)
+    # per-rung comparison on the rows where the incumbent published that rung
+    per = {}
+    for k in sorted(set(rungs) | {int(c.rsplit("_", 1)[1]) for c in d.columns if c.startswith(f"inc_p_{fam}_")}):
+        c = f"inc_p_{fam}_{k}"
+        if c not in d:
+            continue
+        dd = d[d[c].notna()]
+        if len(dd) < 100:
+            continue
+        y2 = dd[stat].to_numpy(float)
+        po = ev.make(dparam, dd[mu_col]).prob_ge(k)
+        pi = dd[c].to_numpy(float)
+        bo, bi = (po - (y2 >= k)) ** 2, (pi - (y2 >= k)) ** 2
+        per[str(k)] = {"n": int(len(dd)), "ours": float(bo.mean()), "incumbent": float(bi.mean()),
+                       "hit_rate": float((y2 >= k).mean()), "mean_p_ours": float(po.mean()), "mean_p_incumbent": float(pi.mean()),
+                       "diff": ev.compare(bo, bi, dd["game_id"].to_numpy())}
+    if per:
+        out["brier_per_rung"] = per
     rk = [k for k in rungs if f"inc_p_{fam}_{k}" in d and d[f"inc_p_{fam}_{k}"].notna().mean() > 0.95]
     if rk:
         dd = d[d[[f"inc_p_{fam}_{k}" for k in rk]].notna().all(axis=1)]
@@ -187,6 +206,8 @@ def run_gate(df, stat, gfam, mu_col, dparam, split_mask, opp_games, k_rungs) -> 
     if d.empty:
         return {}
     dist = ev.make(dparam, d[mu_col])
+    CM = dist.cdf_matrix
+    PL = dist.P
     statuses, checks = [], []
     th_list = k_rungs
     toi_hist = d[[f"toi_lag{i}" for i in range(1, 11)]].to_numpy()
@@ -203,8 +224,8 @@ def run_gate(df, stat, gfam, mu_col, dparam, split_mask, opp_games, k_rungs) -> 
             stat_history=[x for x in st_hist[i][::-1] if np.isfinite(x)],
             opponent_sample_games=int(opp_games[i]) if np.isfinite(opp_games[i]) else None,
             opponent_factor=float(getattr(r, f"oppadj_{stat}")) if np.isfinite(getattr(r, f"oppadj_{stat}")) else None,
-            support_lo=0, probs=dist.P[i].tolist(),
-            thresholds={str(k): float(dist.prob_ge(k)[i]) if False else float(1 - dist.cdf_matrix[i, k - 1]) for k in th_list},
+            support_lo=0, probs=PL[i],
+            thresholds={str(k): float(1 - CM[i, k - 1]) for k in th_list},
             model_n_obs=int(r.toi_n))
         res = gate.evaluate(gi, now_utc=(gd + pd.Timedelta(hours=22)).strftime("%Y-%m-%dT%H:%M:%SZ"))
         statuses.append(res["status"])
@@ -293,6 +314,46 @@ def root_cause(sk, stat, fam, mu_col, dparam, tg) -> dict:
     return {"segments": rows, "toi_oracle_decomposition": decomp, "fixes": fixes}
 
 
+# =========================================================================== extra experiments
+def extra_experiments(sk, tg_raw, fams) -> dict:
+    """(1) schedule-adjusted (ridge) vs raw opponent factor for D; (2) TOI source inside C."""
+    from pf_core import models as M
+
+    from nhl import opponent
+    out = {}
+    dev = sk["season"].isin(SPLITS["development"]) & (sk["toi_n"] >= 1)
+    val = (sk["season"] == 2023) & (sk["toi_n"] >= 1)
+    for stat, y_t in (("sog", "sog_for"), ("points", "goals_for")):
+        raw = opponent.raw_allowed(tg_raw, y_t, k_prior=10.0)
+        d = sk.merge(raw, on=["game_id", "team_id"], how="left")
+        lf_raw = np.log(d[f"{y_t}_oppf_raw"].clip(0.5, 2.0)).fillna(0.0).to_numpy()
+        y = d[stat].to_numpy(float)
+        b_raw = M.fit_opponent_beta(y[dev], d.loc[dev, f"mu_{stat}_C"], lf_raw[dev])
+        mu_raw = d[f"mu_{stat}_C"] * np.exp(b_raw * lf_raw)
+        h = d["is_home"].to_numpy(bool)
+        hs = M.fit_calibration_scale(y[dev & h], mu_raw[dev & h])
+        as_ = M.fit_calibration_scale(y[dev & ~h], mu_raw[dev & ~h])
+        mu_raw = mu_raw * np.where(h, hs, as_)
+        dp = fams[stat]["_dparams"]["D"]
+        yv = y[val]
+        c_d = ev.make(dp, d.loc[val, f"mu_{stat}_D"]).crps(yv)
+        c_r = ev.make(dp, mu_raw[val]).crps(yv)
+        c_c = ev.make(fams[stat]["_dparams"]["C"], d.loc[val, f"mu_{stat}_C"]).crps(yv)
+        out[f"opp_{stat}"] = {"beta_ridge": fams[stat].get("_beta"), "beta_raw": b_raw,
+                              "val_crps_C": float(c_c.mean()), "val_crps_D_ridge": float(c_d.mean()),
+                              "val_crps_D_raw": float(c_r.mean()),
+                              "ridge_minus_raw": ev.compare(c_d, c_r, d.loc[val, "game_id"]),
+                              "ridge_minus_C": ev.compare(c_d, c_c, d.loc[val, "game_id"]),
+                              "factor_sd_ridge": float(np.log(d.loc[val, fams[stat]["_oppcol"]].clip(0.5, 2)).std()),
+                              "factor_sd_raw": float(np.log(d.loc[val, f"{y_t}_oppf_raw"].clip(0.5, 2)).std())}
+        # TOI source inside C: role-share TOI (T_C) instead of LightGBM TOI (T_E)
+        mu_tc = sk["toi_np_C"] * sk[f"rate_np_{stat}"] + sk["toi_pp_C"] * sk[f"rate_pp_{stat}"]
+        c_tc = ev.make(fams[stat]["_dparams"]["C"], mu_tc[val]).crps(yv)
+        out[f"toi_source_{stat}"] = {"val_crps_C_with_TOI_E": float(c_c.mean()), "val_crps_C_with_TOI_C": float(c_tc.mean()),
+                                     "E_minus_C": ev.compare(c_c, c_tc, sk.loc[val, "game_id"])}
+    return out
+
+
 # =========================================================================== main
 def main(rebuild=False):
     RES.mkdir(parents=True, exist_ok=True)
@@ -358,8 +419,18 @@ def main(rebuild=False):
         col = r["_cols"][bm]
         dp = r["_dparams"][bm]
         # incumbent comparisons (paired, one row per player-game)
-        r["incumbent"]["holdout"] = incumbent_compare(sk[pop & (sk["season"] == 2025)], stat, stat, col, dp, inc_sk_wf,
-                                                      "PLAYER_SIM_V1 walk-forward 2025-26", INC_RUNGS.get(stat, []))
+        if stat == "sog":
+            try:
+                from nhl import workload_repro
+                inc_wl = workload_repro.reproduce(2025)[["game_id", "player_id", "inc_sog"]]
+            except Exception as e:  # production research module unavailable
+                print("WORKLOAD_V1 reproduction failed:", e)
+                inc_wl = pd.DataFrame()
+            r["incumbent"]["holdout"] = incumbent_compare(sk[pop & (sk["season"] == 2025)], stat, stat, col, dp, inc_wl,
+                                                          "WORKLOAD_V1 (reproduced, frozen PR #28 params) 2025-26", [])
+        else:
+            r["incumbent"]["holdout"] = incumbent_compare(sk[pop & (sk["season"] == 2025)], stat, stat, col, dp, inc_sk_wf,
+                                                          "PLAYER_SIM_V1 walk-forward 2025-26", INC_RUNGS.get(stat, []))
         r["incumbent"]["prospective"] = incumbent_compare(sk[pop & (sk["season"] == 2026)], stat, stat, col, dp, inc_sk_pro,
                                                           "PLAYER_SIM_V1 prospective archive 2026-27", INC_RUNGS.get(stat, []))
         # also baseline-vs-incumbent so the reader can see the incumbent against model A
@@ -369,6 +440,12 @@ def main(rebuild=False):
         r["root_cause"] = root_cause(sk, stat, stat, col, dp, tf)
         fams[stat] = r
         print(f"[{time.time()-T0:.0f}s] family {stat} best={r['best_model']}", flush=True)
+
+    for stat in SKATER_FAMS:
+        fams[stat]["_beta"] = p2[stat]["beta"]
+        fams[stat]["_oppcol"] = p2[stat]["opp_factor"]
+    full["extra_experiments"] = extra_experiments(sk, data.team_games(), fams)
+    print(f"[{time.time()-T0:.0f}s] extra experiments", flush=True)
 
     # ---------------------------------------------------------------- goalie saves
     gpop = gf["saves_n"].fillna(0) >= 1
@@ -400,8 +477,8 @@ def main(rebuild=False):
     tr = eval_family(tg, "team_goals", "tg", tpop, tdev, "team_goals")
     tcol, tdp = tr["_cols"][tr["best_key"]], tr["_dparams"][tr["best_key"]]
     inc_t = inc_tg_wf.rename(columns={"inc_tg": "inc_tg"})
-    tr["incumbent"]["holdout"] = incumbent_compare(tg[tpop & tg["season"].isin([2024, 2025])].assign(player_id=0),
-                                                   "tg", "tg", tcol, tdp, inc_t.assign(player_id=0),
+    tr["incumbent"]["holdout"] = incumbent_compare(tg[tpop & tg["season"].isin([2024, 2025])],
+                                                   "tg", "tg", tcol, tdp, inc_t,
                                                    "DATA_ONLY_V2 SIM2_ST walk-forward 2024-25 + 2025-26", [3, 4])
     # game total from the two team means (independent NB convolution) vs actual
     gt = []

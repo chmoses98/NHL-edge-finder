@@ -93,6 +93,8 @@ def walkforward_team() -> pd.DataFrame:
         h[f"inc_p_tg_{k}"] = d[f"SIM2_ST_p_home_over_{c}"]
         a[f"inc_p_tg_{k}"] = d[f"SIM2_ST_p_away_over_{c}"]
     out = pd.concat([h, a], ignore_index=True)
+    # Utah Hockey Club played 2024-25 as team id 59 in the boxscores (identity file maps UTA -> 68)
+    out.loc[(out["team_id"] == 68) & (out["game_id"] // 1000000 == 2024), "team_id"] = 59
     # Utah: the identity file maps UTA -> 68; 2024-25 Utah HC rows are id 59 in the boxscores
     return out
 

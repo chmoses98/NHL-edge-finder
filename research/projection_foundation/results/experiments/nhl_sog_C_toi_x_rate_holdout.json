@@ -1,0 +1,53 @@
+{
+  "code_sha": "d47a05bedad897dada529b51faea0ddb6595089d",
+  "compute_seconds": 0.0,
+  "created_utc": "2026-10-17T07:04:38Z",
+  "data_provenance": [
+    "data/history/players/*.parquet",
+    "data-archive player_events (2026-27)"
+  ],
+  "distribution": {
+    "cover_50": 0.5050621895827143,
+    "cover_80": 0.8056946979666342,
+    "cover_90": 0.9032028696353526,
+    "crps": 0.686974852207376,
+    "log_score": 1.5397594469675424,
+    "pit_var_ratio": 0.9864638655317114
+  },
+  "eval_period": "2024-25 and 2025-26 regular seasons (evaluated once for frozen candidates)",
+  "experiment_id": "nhl_sog_C_toi_x_rate_holdout",
+  "family": "sog",
+  "features": [],
+  "fingerprint": "4923fe698ee98ccd",
+  "hyperparameters": {},
+  "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
+  "limitations": [
+    "conditional on the player dressing / the actual starting goalie"
+  ],
+  "model": "C_toi_x_rate",
+  "model_version": "pf-nhl-1.0.0",
+  "n_clusters": 2624,
+  "n_independent": 94228,
+  "n_obs": 94228,
+  "point": {
+    "bias": 0.06518185671553019,
+    "mae": 1.0259370078256136,
+    "rmse": 1.3199928045560703
+  },
+  "python": "3.13.16",
+  "question": "How accurate is C_toi_x_rate for NHL sog?",
+  "split": "holdout",
+  "sport": "NHL",
+  "train_period": "2021-22..2022-23 (scalars); LightGBM refit on all seasons before the scored one",
+  "verdict": "rejected",
+  "vs_baseline": {
+    "ci95": [
+      -0.004547,
+      -0.003502
+    ],
+    "mean_diff": -0.004042,
+    "n_clusters": 2624,
+    "n_obs": 94228
+  },
+  "vs_incumbent": {}
+}

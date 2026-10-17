@@ -205,7 +205,8 @@ def run(date=None, now=None, out=None) -> dict:
     from nhl import evaluate as ev
     from nhl import pipeline
 
-    now = pd.Timestamp(now or pd.Timestamp.utcnow().isoformat()).tz_convert("UTC") if now else pd.Timestamp.now(tz="UTC")
+    now = pd.Timestamp(now) if now else pd.Timestamp.now(tz="UTC")
+    now = now.tz_localize("UTC") if now.tzinfo is None else now.tz_convert("UTC")
     hist = data.load_kind("players")
     ghist = data.load_kind("goalies")
     last_final = hist["game_date"].max()
@@ -220,11 +221,11 @@ def run(date=None, now=None, out=None) -> dict:
     inj = injuries()
     P, Gr = placeholder_rows(games, lu, gs, hist, ghist)
     data.set_future({"players": P, "goalies": Gr})
-    best, readiness = _best(PF / "results" / "summary.json")
     rebuild = True
     pipeline.stage1(rebuild=rebuild)
     sk, p2 = pipeline.stage2(rebuild=rebuild)
     gf, tg, p3 = pipeline.stage3(rebuild=rebuild)
+    best, readiness = _best(PF / "results" / "summary.json")  # read after the (long) rebuild
     gids = set(games["game_id"])
     fut = sk[sk["game_id"].isin(gids)].copy()
     dev = sk["season"].isin([2021, 2022]) & (sk["toi_n"] >= 1)

@@ -92,7 +92,8 @@ def stage3(rebuild=False):
     tg["is_home_i"] = tg["is_home"].astype(int)
     # ---- goalies (actual starters)
     gf = features.goalie_frame()
-    opp_sa = tr[["game_id", "team_id", "sog_for_ridge"]].rename(columns={"team_id": "opp_id", "sog_for_ridge": "sa_ridge"})
+    opp_sa = tr[["game_id", "team_id", "sog_for_ridge", "sog_for_icpt"]].rename(
+        columns={"team_id": "opp_id", "sog_for_ridge": "sa_ridge", "sog_for_icpt": "sa_icpt"})
     gf = gf.merge(opp_sa, on=["game_id", "opp_id"], how="left")
     glog = []
     gf, gP = ladder.goalie_ladder(gf, glog)

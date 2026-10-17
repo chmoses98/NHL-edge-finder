@@ -1,0 +1,53 @@
+{
+  "code_sha": "d47a05bedad897dada529b51faea0ddb6595089d",
+  "compute_seconds": 0.0,
+  "created_utc": "2026-10-17T07:04:38Z",
+  "data_provenance": [
+    "data/history/players/*.parquet",
+    "data-archive player_events (2026-27)"
+  ],
+  "distribution": {
+    "cover_50": 0.5073768229774768,
+    "cover_80": 0.80090007854459,
+    "cover_90": 0.9014371537138854,
+    "crps": 0.21458505119528878,
+    "log_score": 0.6427676958027588,
+    "pit_var_ratio": 0.9887844842588231
+  },
+  "eval_period": "2023-24 regular season (model and distribution selection)",
+  "experiment_id": "nhl_assists_B_ewma_shrunk_validation",
+  "family": "assists",
+  "features": [],
+  "fingerprint": "d89e014b12b712e1",
+  "hyperparameters": {},
+  "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
+  "limitations": [
+    "conditional on the player dressing / the actual starting goalie"
+  ],
+  "model": "B_ewma_shrunk",
+  "model_version": "pf-nhl-1.0.0",
+  "n_clusters": 1312,
+  "n_independent": 47107,
+  "n_obs": 47107,
+  "point": {
+    "bias": 0.007715018167923603,
+    "mae": 0.4056344290814388,
+    "rmse": 0.5398345904681772
+  },
+  "python": "3.13.16",
+  "question": "How accurate is B_ewma_shrunk for NHL assists?",
+  "split": "validation",
+  "sport": "NHL",
+  "train_period": "2021-22..2022-23 (scalars); LightGBM refit on all seasons before the scored one",
+  "verdict": "rejected",
+  "vs_baseline": {
+    "ci95": [
+      -0.000914,
+      -0.000424
+    ],
+    "mean_diff": -0.00067,
+    "n_clusters": 1312,
+    "n_obs": 47107
+  },
+  "vs_incumbent": {}
+}

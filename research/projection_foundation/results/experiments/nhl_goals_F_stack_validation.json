@@ -1,0 +1,53 @@
+{
+  "code_sha": "d47a05bedad897dada529b51faea0ddb6595089d",
+  "compute_seconds": 0.0,
+  "created_utc": "2026-10-17T07:04:38Z",
+  "data_provenance": [
+    "data/history/players/*.parquet",
+    "data-archive player_events (2026-27)"
+  ],
+  "distribution": {
+    "cover_50": 0.5068461162884497,
+    "cover_80": 0.8004542849258072,
+    "cover_90": 0.9012036427707135,
+    "crps": 0.1385056428014982,
+    "log_score": 0.4493451022218519,
+    "pit_var_ratio": 0.990491039105024
+  },
+  "eval_period": "2023-24 regular season (model and distribution selection)",
+  "experiment_id": "nhl_goals_F_stack_validation",
+  "family": "goals",
+  "features": [],
+  "fingerprint": "bfbef755101d7573",
+  "hyperparameters": {},
+  "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
+  "limitations": [
+    "conditional on the player dressing / the actual starting goalie"
+  ],
+  "model": "F_stack",
+  "model_version": "pf-nhl-1.0.0",
+  "n_clusters": 1312,
+  "n_independent": 47107,
+  "n_obs": 47107,
+  "point": {
+    "bias": 0.0040593997737181685,
+    "mae": 0.2707830405217829,
+    "rmse": 0.41639025221904663
+  },
+  "python": "3.13.16",
+  "question": "How accurate is F_stack for NHL goals?",
+  "split": "validation",
+  "sport": "NHL",
+  "train_period": "2021-22..2022-23 (scalars); LightGBM refit on all seasons before the scored one",
+  "verdict": "best",
+  "vs_baseline": {
+    "ci95": [
+      -0.001285,
+      -0.000793
+    ],
+    "mean_diff": -0.001039,
+    "n_clusters": 1312,
+    "n_obs": 47107
+  },
+  "vs_incumbent": {}
+}
