@@ -1,0 +1,104 @@
+name: projection-foundation
+# Daily NHL Projection Foundation forward projections (sift.projections.v1), RESEARCH ONLY.
+# Reads the committed history + a sparse, blobless view of data-archive (final games' player_events,
+# schedule, DailyFaceoff lines / goalie observations, ESPN injuries), runs
+# research/projection_foundation/nhl/project.py, and publishes to the orphan branch `projection-data`:
+#   projections/nhl/latest.json, projections/nhl/<YYYY-MM-DDTHHMMZ>.json, summary/nhl/latest.json
+# Idempotent: nothing is committed when the projection content (ignoring timestamps) is unchanged.
+# No secrets beyond the job's GITHUB_TOKEN, no paid services, no betting authority.
+# Inert until merged (schedules fire from the default branch only).
+on:
+  schedule:
+    - cron: "47 20 * 1-6,10-12 *"   # 20:47 UTC daily Oct-Jun: after morning skates, before puck drop
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Slate date YYYY-MM-DD (default: next unplayed date in the archived schedule)"
+        required: false
+        default: ""
+      publish:
+        description: "Push to the projection-data branch"
+        required: false
+        default: "true"
+permissions:
+  contents: write
+concurrency:
+  group: projection-foundation-nhl
+  cancel-in-progress: false
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+jobs:
+  project:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q "numpy>=2,<3" "pandas>=2.2,<4" pyarrow scipy scikit-learn lightgbm
+      - name: Sparse, blobless view of data-archive (inputs only; the branch is multi-GB)
+        run: |
+          git fetch --depth=1 --filter=blob:none origin data-archive
+          rm -rf /tmp/archive && git worktree add --no-checkout -f /tmp/archive FETCH_HEAD
+          git -C /tmp/archive sparse-checkout init --no-cone
+          git -C /tmp/archive sparse-checkout set /player_events/ /context/schedule/ /context/lines/ \
+            /context/goalie_observations/ /context/injuries/
+          git -C /tmp/archive checkout -q
+          du -sh /tmp/archive
+      - name: Project the next slate
+        working-directory: research/projection_foundation
+        env:
+          NHL_PF_ARCHIVE: /tmp/archive
+          NHL_PF_CACHE: /tmp/nhl_pf_cache
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/out"
+          args=(--out "$GITHUB_WORKSPACE/out/projections.json")
+          if [ -n "${{ github.event.inputs.date }}" ]; then args+=(--date "${{ github.event.inputs.date }}"); fi
+          python -W ignore -m nhl.project "${args[@]}" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Publish to projection-data (orphan branch; commit only on change)
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.publish != 'false' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -rf /tmp/pub
+          if git ls-remote --exit-code --heads origin projection-data >/dev/null 2>&1; then
+            git fetch --depth=1 origin projection-data
+            git worktree add -f /tmp/pub FETCH_HEAD
+            git -C /tmp/pub checkout -q -B projection-data
+          else
+            git worktree add --detach -f /tmp/pub HEAD
+            git -C /tmp/pub checkout -q --orphan projection-data
+            git -C /tmp/pub rm -rfq . || true
+            git -C /tmp/pub clean -fdxq
+          fi
+          python3 - <<'PY'
+          import json, os, shutil
+          new = json.load(open("out/projections.json"))
+          strip = lambda d: {k: v for k, v in d.items() if k not in ("generated_utc", "runtime_s")}
+          dst = "/tmp/pub/projections/nhl/latest.json"
+          os.makedirs(os.path.dirname(dst), exist_ok=True)
+          old = json.load(open(dst)) if os.path.exists(dst) else None
+          if old is None or strip(old) != strip(new):
+              ts = new["generated_utc"].replace(":", "")[:15] + "Z"   # YYYY-MM-DDTHHMMZ
+              for p in (dst, f"/tmp/pub/projections/nhl/{ts}.json"):
+                  json.dump(new, open(p, "w"), indent=1)
+          os.makedirs("/tmp/pub/summary/nhl", exist_ok=True)
+          shutil.copy("research/projection_foundation/results/summary.json", "/tmp/pub/summary/nhl/latest.json")
+          PY
+          cd /tmp/pub
+          git add -A projections summary
+          if git diff --cached --quiet; then echo "no content change; nothing to publish"; exit 0; fi
+          git commit -qm "NHL projections $(date -u +%Y-%m-%dT%H:%MZ) (research_only)"
+          for i in 1 2 3 4; do
+            if git push origin projection-data; then exit 0; fi
+            sleep $((2 ** i)); git pull --rebase -q origin projection-data || true
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nhl-projections
+          path: out/
+          retention-days: 30
