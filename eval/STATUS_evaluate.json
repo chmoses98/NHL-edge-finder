@@ -1,7 +1,7 @@
 {
- "evaluated_at_utc": "2026-10-17T02:37:47Z",
- "n_rows": 345917,
- "n_new": 0,
+ "evaluated_at_utc": "2026-10-17T04:11:29Z",
+ "n_rows": 349171,
+ "n_new": 3254,
  "run_id": "38982383615",
  "steps": {
   "v1": "OK",
@@ -221,17 +221,45 @@
    "postmortem_complete": true
   },
   "2026-10-16": {
-   "label": "PARTIAL \u2014 0/2 games evaluated",
+   "label": "PARTIAL \u2014 1/2 games evaluated",
    "games_scheduled": 2,
+   "games_final": 1,
+   "games_settled": 1,
+   "games_player_events_ingested": 1,
+   "games_with_final_card_snapshot": 2,
+   "games_thesis_evaluated": 1,
+   "games_terminal": 1,
+   "games_missing": {
+    "2026020120": "no official FINAL result yet"
+   },
+   "games_ambiguous": [],
+   "final_card_complete": false,
+   "postmortem_complete": false
+  },
+  "2026-10-17": {
+   "label": "PARTIAL \u2014 0/14 games evaluated",
+   "games_scheduled": 14,
    "games_final": 0,
    "games_settled": 0,
    "games_player_events_ingested": 0,
-   "games_with_final_card_snapshot": 2,
+   "games_with_final_card_snapshot": 14,
    "games_thesis_evaluated": 0,
    "games_terminal": 0,
    "games_missing": {
-    "2026020119": "no official FINAL result yet",
-    "2026020120": "no official FINAL result yet"
+    "2026020121": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020122": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020123": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020124": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020125": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020126": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020127": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020128": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020129": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020130": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020131": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020132": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020133": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020134": "game not started: the snapshot shown is the latest so far, not yet final"
    },
    "games_ambiguous": [],
    "final_card_complete": false,
@@ -240,8 +268,8 @@
  },
  "learning": {
   "stage": "CALIBRATION_BUILDING",
-  "script_forecasts_settled": 1398,
-  "games_settled": 118
+  "script_forecasts_settled": 1420,
+  "games_settled": 119
  },
  "canonical_path": "STATUS_evaluate.json"
 }
