@@ -1,18 +1,18 @@
 {
-  "code_sha": "d47a05bedad897dada529b51faea0ddb6595089d",
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
   "compute_seconds": 0.0,
-  "created_utc": "2026-10-17T07:04:38Z",
+  "created_utc": "2026-10-17T07:38:12Z",
   "data_provenance": [
     "data/history/players/*.parquet",
     "data-archive player_events (2026-27)"
   ],
   "distribution": {
-    "cover_50": 0.5043624089838028,
-    "cover_80": 0.8007939372067846,
-    "cover_90": 0.9011824145031524,
-    "crps": 0.21331029864383608,
-    "log_score": 0.638543592707777,
-    "pit_var_ratio": 0.9928475169863148
+    "cover_50": 0.5048718874052689,
+    "cover_80": 0.8012185025580062,
+    "cover_90": 0.90133101237608,
+    "crps": 0.21334431662615408,
+    "log_score": 0.6385814858129778,
+    "pit_var_ratio": 0.9919858530204494
   },
   "eval_period": "2023-24 regular season (model and distribution selection)",
   "experiment_id": "nhl_assists_E_lightgbm_validation",
@@ -70,7 +70,7 @@
     "goals_for_ownf",
     "xg_for_ownf"
   ],
-  "fingerprint": "5f1a81e81f420bb0",
+  "fingerprint": "f4f9d22d5cf3f8e2",
   "hyperparameters": {},
   "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
   "limitations": [
@@ -82,9 +82,9 @@
   "n_independent": 47107,
   "n_obs": 47107,
   "point": {
-    "bias": 0.002245837442883266,
-    "mae": 0.40042453058913074,
-    "rmse": 0.5377862965706416
+    "bias": 0.0033763784187184603,
+    "mae": 0.40099979213114834,
+    "rmse": 0.5378546223805525
   },
   "python": "3.13.16",
   "question": "How accurate is E_lightgbm for NHL assists?",
@@ -94,10 +94,10 @@
   "verdict": "competitive",
   "vs_baseline": {
     "ci95": [
-      -0.002448,
-      -0.001445
+      -0.002446,
+      -0.001396
     ],
-    "mean_diff": -0.001945,
+    "mean_diff": -0.001911,
     "n_clusters": 1312,
     "n_obs": 47107
   },

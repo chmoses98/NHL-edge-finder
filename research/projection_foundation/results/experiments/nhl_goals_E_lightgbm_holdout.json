@@ -1,18 +1,18 @@
 {
-  "code_sha": "d47a05bedad897dada529b51faea0ddb6595089d",
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
   "compute_seconds": 0.0,
-  "created_utc": "2026-10-17T07:04:38Z",
+  "created_utc": "2026-10-17T07:38:12Z",
   "data_provenance": [
     "data/history/players/*.parquet",
     "data-archive player_events (2026-27)"
   ],
   "distribution": {
-    "cover_50": 0.500711041304071,
-    "cover_80": 0.7973213906694401,
-    "cover_90": 0.9005072802139491,
-    "crps": 0.13689075180925103,
-    "log_score": 0.4455148546175854,
-    "pit_var_ratio": 1.0014055441444114
+    "cover_50": 0.5007641040879569,
+    "cover_80": 0.7974169036804347,
+    "cover_90": 0.900496667657172,
+    "crps": 0.13687319545521096,
+    "log_score": 0.44544228910724615,
+    "pit_var_ratio": 1.0012719327754676
   },
   "eval_period": "2024-25 and 2025-26 regular seasons (evaluated once for frozen candidates)",
   "experiment_id": "nhl_goals_E_lightgbm_holdout",
@@ -70,7 +70,7 @@
     "goals_for_ownf",
     "xg_for_ownf"
   ],
-  "fingerprint": "27917d9990d84283",
+  "fingerprint": "3fcacdd8a5ded616",
   "hyperparameters": {},
   "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
   "limitations": [
@@ -82,9 +82,9 @@
   "n_independent": 94228,
   "n_obs": 94228,
   "point": {
-    "bias": -0.00423853850772678,
-    "mae": 0.2627590726551464,
-    "rmse": 0.4102286416250122
+    "bias": -0.0041758267940285735,
+    "mae": 0.2627726767338057,
+    "rmse": 0.41019393109246705
   },
   "python": "3.13.16",
   "question": "How accurate is E_lightgbm for NHL goals?",
@@ -94,10 +94,10 @@
   "verdict": "rejected",
   "vs_baseline": {
     "ci95": [
-      -0.001355,
-      -0.000962
+      -0.001369,
+      -0.000985
     ],
-    "mean_diff": -0.001158,
+    "mean_diff": -0.001175,
     "n_clusters": 2624,
     "n_obs": 94228
   },

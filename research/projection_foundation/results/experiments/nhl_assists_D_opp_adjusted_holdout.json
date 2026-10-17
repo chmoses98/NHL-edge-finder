@@ -1,24 +1,24 @@
 {
-  "code_sha": "d47a05bedad897dada529b51faea0ddb6595089d",
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
   "compute_seconds": 0.0,
-  "created_utc": "2026-10-17T07:04:38Z",
+  "created_utc": "2026-10-17T07:38:12Z",
   "data_provenance": [
     "data/history/players/*.parquet",
     "data-archive player_events (2026-27)"
   ],
   "distribution": {
-    "cover_50": 0.5029927410111644,
-    "cover_80": 0.7991467504351148,
-    "cover_90": 0.9005921806681666,
-    "crps": 0.21214746696962913,
-    "log_score": 0.6364273840964585,
-    "pit_var_ratio": 0.9961663531880706
+    "cover_50": 0.5028335526595067,
+    "cover_80": 0.7991785881054464,
+    "cover_90": 0.9006240183384981,
+    "crps": 0.2121574758238984,
+    "log_score": 0.6364454775423135,
+    "pit_var_ratio": 0.996275533547275
   },
   "eval_period": "2024-25 and 2025-26 regular seasons (evaluated once for frozen candidates)",
   "experiment_id": "nhl_assists_D_opp_adjusted_holdout",
   "family": "assists",
   "features": [],
-  "fingerprint": "1eec2f5c847c7f3a",
+  "fingerprint": "a9ed36d8c1a665f9",
   "hyperparameters": {},
   "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
   "limitations": [
@@ -30,9 +30,9 @@
   "n_independent": 94228,
   "n_obs": 94228,
   "point": {
-    "bias": 0.002351258622479216,
-    "mae": 0.40053308611352906,
-    "rmse": 0.5336887749409297
+    "bias": 0.0022136373482894893,
+    "mae": 0.40050222663126817,
+    "rmse": 0.5337053879579794
   },
   "python": "3.13.16",
   "question": "How accurate is D_opp_adjusted for NHL assists?",
@@ -42,10 +42,10 @@
   "verdict": "rejected",
   "vs_baseline": {
     "ci95": [
-      -0.001862,
-      -0.001352
+      -0.001853,
+      -0.001342
     ],
-    "mean_diff": -0.001603,
+    "mean_diff": -0.001593,
     "n_clusters": 2624,
     "n_obs": 94228
   },

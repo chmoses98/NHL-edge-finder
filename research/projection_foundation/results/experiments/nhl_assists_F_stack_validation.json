@@ -1,24 +1,24 @@
 {
-  "code_sha": "d47a05bedad897dada529b51faea0ddb6595089d",
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
   "compute_seconds": 0.0,
-  "created_utc": "2026-10-17T07:04:38Z",
+  "created_utc": "2026-10-17T07:38:12Z",
   "data_provenance": [
     "data/history/players/*.parquet",
     "data-archive player_events (2026-27)"
   ],
   "distribution": {
-    "cover_50": 0.5057847029103955,
-    "cover_80": 0.8020888615280107,
+    "cover_50": 0.5060182138535674,
+    "cover_80": 0.802173774598255,
     "cover_90": 0.9016069798543741,
-    "crps": 0.21314873078301988,
-    "log_score": 0.6382485461359971,
-    "pit_var_ratio": 0.9892618501027799
+    "crps": 0.21316305323744825,
+    "log_score": 0.6382784518269266,
+    "pit_var_ratio": 0.9888520207166114
   },
   "eval_period": "2023-24 regular season (model and distribution selection)",
   "experiment_id": "nhl_assists_F_stack_validation",
   "family": "assists",
   "features": [],
-  "fingerprint": "c018b7c3fdc07b1b",
+  "fingerprint": "7e23ededfc62f1f4",
   "hyperparameters": {},
   "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
   "limitations": [
@@ -30,9 +30,9 @@
   "n_independent": 47107,
   "n_obs": 47107,
   "point": {
-    "bias": 0.003836592211298281,
-    "mae": 0.402249649757885,
-    "rmse": 0.5373985917448111
+    "bias": 0.0043326099703994,
+    "mae": 0.4025135619059491,
+    "rmse": 0.5374192753923168
   },
   "python": "3.13.16",
   "question": "How accurate is F_stack for NHL assists?",
@@ -42,10 +42,10 @@
   "verdict": "best",
   "vs_baseline": {
     "ci95": [
-      -0.002542,
-      -0.001697
+      -0.002524,
+      -0.001678
     ],
-    "mean_diff": -0.002106,
+    "mean_diff": -0.002092,
     "n_clusters": 1312,
     "n_obs": 47107
   },

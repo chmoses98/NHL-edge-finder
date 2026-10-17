@@ -1,24 +1,24 @@
 {
-  "code_sha": "d47a05bedad897dada529b51faea0ddb6595089d",
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
   "compute_seconds": 0.0,
-  "created_utc": "2026-10-17T07:04:38Z",
+  "created_utc": "2026-10-17T07:38:12Z",
   "data_provenance": [
     "data/history/players/*.parquet",
     "data-archive player_events (2026-27)"
   ],
   "distribution": {
-    "cover_50": 0.5047650379929532,
-    "cover_80": 0.8014390626989855,
-    "cover_90": 0.902279577195738,
-    "crps": 0.2958603064115199,
-    "log_score": 0.8269425591548242,
-    "pit_var_ratio": 0.9923091564278352
+    "cover_50": 0.5051364774801546,
+    "cover_80": 0.8014921254828713,
+    "cover_90": 0.9023644776499554,
+    "crps": 0.29584797869141816,
+    "log_score": 0.8269318064308472,
+    "pit_var_ratio": 0.9922388276570835
   },
   "eval_period": "2024-25 and 2025-26 regular seasons (evaluated once for frozen candidates)",
   "experiment_id": "nhl_points_F_stack_holdout",
   "family": "points",
   "features": [],
-  "fingerprint": "02273ec5defb00a8",
+  "fingerprint": "63db3660d5c1cd81",
   "hyperparameters": {},
   "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
   "limitations": [
@@ -30,9 +30,9 @@
   "n_independent": 94228,
   "n_obs": 94228,
   "point": {
-    "bias": 0.0028397356619233095,
-    "mae": 0.5210165959837864,
-    "rmse": 0.6699290573062557
+    "bias": 0.0029435870502002555,
+    "mae": 0.5210843898557199,
+    "rmse": 0.6699038304989637
   },
   "python": "3.13.16",
   "question": "How accurate is F_stack for NHL points?",
@@ -42,10 +42,10 @@
   "verdict": "best",
   "vs_baseline": {
     "ci95": [
-      -0.003396,
-      -0.002476
+      -0.003409,
+      -0.00249
     ],
-    "mean_diff": -0.002929,
+    "mean_diff": -0.002941,
     "n_clusters": 2624,
     "n_obs": 94228
   },

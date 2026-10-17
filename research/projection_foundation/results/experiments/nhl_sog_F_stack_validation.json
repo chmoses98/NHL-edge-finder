@@ -1,24 +1,24 @@
 {
-  "code_sha": "d47a05bedad897dada529b51faea0ddb6595089d",
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
   "compute_seconds": 0.0,
-  "created_utc": "2026-10-17T07:04:38Z",
+  "created_utc": "2026-10-17T07:38:12Z",
   "data_provenance": [
     "data/history/players/*.parquet",
     "data-archive player_events (2026-27)"
   ],
   "distribution": {
-    "cover_50": 0.5008385165686629,
-    "cover_80": 0.805676438745834,
-    "cover_90": 0.9029231324431614,
-    "crps": 0.7104026405108631,
-    "log_score": 1.5759207159904072,
-    "pit_var_ratio": 0.9915974368705887
+    "cover_50": 0.50136922325769,
+    "cover_80": 0.8055278408729064,
+    "cover_90": 0.9027745345702337,
+    "crps": 0.7103447690494927,
+    "log_score": 1.575858109618019,
+    "pit_var_ratio": 0.9913223883459081
   },
   "eval_period": "2023-24 regular season (model and distribution selection)",
   "experiment_id": "nhl_sog_F_stack_validation",
   "family": "sog",
   "features": [],
-  "fingerprint": "e763886059526af2",
+  "fingerprint": "5bb937ef4d2693d0",
   "hyperparameters": {},
   "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
   "limitations": [
@@ -30,9 +30,9 @@
   "n_independent": 47107,
   "n_obs": 47107,
   "point": {
-    "bias": 0.02128488158254029,
-    "mae": 1.053182982030511,
-    "rmse": 1.3576729581256235
+    "bias": 0.021764974451525025,
+    "mae": 1.053122222884481,
+    "rmse": 1.357565134917704
   },
   "python": "3.13.16",
   "question": "How accurate is F_stack for NHL sog?",
@@ -42,10 +42,10 @@
   "verdict": "best",
   "vs_baseline": {
     "ci95": [
-      -0.007621,
-      -0.005592
+      -0.007694,
+      -0.005685
     ],
-    "mean_diff": -0.006627,
+    "mean_diff": -0.006686,
     "n_clusters": 1312,
     "n_obs": 47107
   },

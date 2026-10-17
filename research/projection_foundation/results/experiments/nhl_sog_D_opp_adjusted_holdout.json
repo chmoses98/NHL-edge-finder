@@ -1,24 +1,24 @@
 {
-  "code_sha": "d47a05bedad897dada529b51faea0ddb6595089d",
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
   "compute_seconds": 0.0,
-  "created_utc": "2026-10-17T07:04:38Z",
+  "created_utc": "2026-10-17T07:38:12Z",
   "data_provenance": [
     "data/history/players/*.parquet",
     "data-archive player_events (2026-27)"
   ],
   "distribution": {
     "cover_50": 0.5042450227108715,
-    "cover_80": 0.8041134270068345,
-    "cover_90": 0.9022371269686292,
-    "crps": 0.6852009646712272,
-    "log_score": 1.5375560778700117,
-    "pit_var_ratio": 0.9902032163383252
+    "cover_80": 0.8041558772339432,
+    "cover_90": 0.902162839071189,
+    "crps": 0.6851558028130676,
+    "log_score": 1.5374942142939039,
+    "pit_var_ratio": 0.9904101638496334
   },
   "eval_period": "2024-25 and 2025-26 regular seasons (evaluated once for frozen candidates)",
   "experiment_id": "nhl_sog_D_opp_adjusted_holdout",
   "family": "sog",
   "features": [],
-  "fingerprint": "5eb0412cb67ac711",
+  "fingerprint": "2882a0aa36e1f0c3",
   "hyperparameters": {},
   "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
   "limitations": [
@@ -30,9 +30,9 @@
   "n_independent": 94228,
   "n_obs": 94228,
   "point": {
-    "bias": 0.044476862618951105,
-    "mae": 1.0209426368121592,
-    "rmse": 1.3167743467466781
+    "bias": 0.0431579125859893,
+    "mae": 1.0207341989180165,
+    "rmse": 1.316686115840134
   },
   "python": "3.13.16",
   "question": "How accurate is D_opp_adjusted for NHL sog?",
@@ -42,10 +42,10 @@
   "verdict": "rejected",
   "vs_baseline": {
     "ci95": [
-      -0.006508,
-      -0.005128
+      -0.006545,
+      -0.005177
     ],
-    "mean_diff": -0.005816,
+    "mean_diff": -0.005861,
     "n_clusters": 2624,
     "n_obs": 94228
   },
