@@ -29,11 +29,50 @@ ARCHIVE = Path(os.environ.get("NHL_PF_ARCHIVE", str(PF / ".cache" / "archive_wt"
 # Forward projection hook: placeholder rows for not-yet-played games (outcomes are dummies; every
 # feature is lagged, so a game's own placeholder outcome can only feed games after it - none exist).
 EXTRA: dict[str, pd.DataFrame] = {}
+# As-of replay hook (live validation): when set, only games dated strictly BEFORE this date are history. Default None
+# changes nothing; the live runner sets it to the slate date so a forward projection (and a replay of a past slate)
+# sees exactly the games that were final before that slate.
+CUTOFF: list = [None]
 
 
 def set_future(extra: dict[str, pd.DataFrame]) -> None:
     EXTRA.clear()
     EXTRA.update(extra)
+    load_kind.cache_clear()
+
+
+# Live-operation repair (OFF by default so the frozen study reproduces byte-for-byte): the 2026-27 archive ingestion
+# (`bool(boxscore["starter"])`) leaves the starter flag False for 124 of the first 240 team-games, so "who started" would be
+# unknown for half of the games. When enabled, a team-game with no flagged starter takes the goalie in net for the first shot
+# on goal against the team (play-by-play `goalie_in_net_id`); on the 116 team-games that DO carry the flag this rule agrees 116/116.
+REPAIR_STARTERS: list = [False]
+
+
+def set_repair_starters(on: bool) -> None:
+    REPAIR_STARTERS[0] = bool(on)
+    load_kind.cache_clear()
+
+
+def _repair_starters(g: pd.DataFrame) -> pd.DataFrame:
+    a = _read_archive("shots")
+    if g.empty or a.empty:
+        return g
+    flagged = g.groupby(["game_id", "team_id"])["starter"].transform("max").astype(bool)
+    todo = g[~flagged]
+    if todo.empty:
+        return g
+    a = a[a["kind"].isin(["SOG", "GOAL"]) & a["goalie_in_net_id"].notna()]
+    a = a.assign(def_team=np.where(a["is_home"], a["away_team_id"], a["home_team_id"])).drop(columns=["team_id"])
+    first = a.sort_values(["game_id", "period", "t_s"]).groupby(["game_id", "def_team"], as_index=False).head(1)
+    first = first.rename(columns={"def_team": "team_id", "goalie_in_net_id": "first_g"})[["game_id", "team_id", "first_g"]]
+    g = g.merge(first, on=["game_id", "team_id"], how="left")
+    fix = (~flagged.reindex(g.index, fill_value=False).to_numpy()) & (g["player_id"] == g["first_g"]).to_numpy()
+    g["starter"] = g["starter"].astype(bool) | fix
+    return g.drop(columns=["first_g"])
+
+
+def set_cutoff(date: str | None) -> None:
+    CUTOFF[0] = pd.Timestamp(date) if date else None
     load_kind.cache_clear()
 SEASONS = [2021, 2022, 2023, 2024, 2025, 2026]
 
@@ -92,6 +131,10 @@ def load_kind(kind: str, seasons: tuple[int, ...] = tuple(SEASONS)) -> pd.DataFr
             # archive supersedes the committed parquet for the same game
             d = d[~d["game_id"].isin(a["game_id"].unique())] if len(d) else d
             d = pd.concat([d, a], ignore_index=True)
+    if kind == "goalies" and REPAIR_STARTERS[0] and len(d):
+        d = _repair_starters(d)
+    if CUTOFF[0] is not None and len(d):
+        d = d[pd.to_datetime(d["game_date"]) < CUTOFF[0]]
     if kind in EXTRA and len(EXTRA[kind]):
         d = pd.concat([d, EXTRA[kind]], ignore_index=True)
     if len(d):
