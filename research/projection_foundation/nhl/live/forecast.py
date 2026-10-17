@@ -84,7 +84,7 @@ def current_rows(lat: dict, games: pd.DataFrame, hist: pd.DataFrame, ghist: pd.D
                         d = r.get("detail") or {}
                         chosen[int(r["entity_id"])] = {
                             "name": r["entity_name"], "slot": d.get("slot"), "unit": d.get("ev_unit"),
-                            "pp": d.get("pp_unit"), "conf": 1.0 if d.get("identity") in ("jersey+name", "archive") else 0.95,
+                            "pp": d.get("pp_unit"), "conf": 1.0 if d.get("identity") in ("jersey+name", "archive", "name_team") else 0.95,
                             "src": f"DailyFaceoff lines ({d.get('lines_source')}) captured {mx}"}
                     src = "lines"
             official = [r for r in by_ev_kind.get((ev, "lineup"), []) if r["team"] == ab and r["status"] == "ACTIVE"
