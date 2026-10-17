@@ -1,8 +1,8 @@
 # NHL slate 2026-10-16 — RESEARCH_ONLY
 
-generated 2026-10-17T02:20:06Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-17T03:08:04Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
-games on date: 2 · simulated (not started): 0 · markets on board: 2942 · contracts joined: 0 (unjoined to any game: 1571)
+games on date: 2 · simulated (not started): 0 · markets on board: 2891 · contracts joined: 0 (unjoined to any game: 1571)
 gates: {}
 families: {}
 
