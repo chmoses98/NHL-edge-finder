@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-16T23:27:09Z · thesis-postmortem-2.0 · rows (all generations) 17286
+evaluated 2026-10-17T01:03:40Z · thesis-postmortem-2.0 · rows (all generations) 17286
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -9,7 +9,7 @@ All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE 
 scheduled 2 · final 0 · settled 0 · events ingested 0 · thesis-evaluated 0 · final_card_complete False · postmortem_complete False
 
 missing / pending:
-- 2026020119: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020119: no official FINAL result yet
 - 2026020120: game not started: the snapshot shown is the latest so far, not yet final
 
 > INTERIM (PARTIAL — 0/2 games evaluated): covers evaluated games only; NOT the slate's final ROI
@@ -33,23 +33,23 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020119 PIT @ COL: NOT_STARTED · snapshot snap-a212c2a3a8f001e6a508 @ 2026-10-16T23:24:54Z
+#### game 2026020119 PIT @ COL: NOT_FINAL · snapshot snap-989d4e87624dd9eb0b27 @ 2026-10-17T00:14:48Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT16PITCOL-COLFSVECHKOV9-1|yes | SHADOW_ONLY | 0 | 6.16 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT16PITCOL-COLCMAKAR8-1|no | SHADOW_ONLY | 0 | 11.06 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no | FUNDED_RESEARCH | 3 | 10.77 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT16PITCOL-COLNMACKINNON29-1|no | SHADOW_ONLY | 0 | 8.11 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT16PITCOL-COLFSVECHKOV9-1|yes | SHADOW_ONLY | 0 | 5.58 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT16PITCOL-PITCDEWAR19-1|yes | SHADOW_ONLY | 0 | 4.31 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT16PITCOL-COLNMACKINNON29-1|no | FUNDED_RESEARCH | 4 | 13.22 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT16PITCOL-COLALEHKONEN62-1|yes | SHADOW_ONLY | 0 | 6.75 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020120 BOS @ ANA: NOT_STARTED · snapshot snap-a212c2a3a8f001e6a508 @ 2026-10-16T23:24:54Z
+#### game 2026020120 BOS @ ANA: NOT_STARTED · snapshot snap-989d4e87624dd9eb0b27 @ 2026-10-17T00:14:48Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLAST-26OCT16BOSANA-ANANKLEPOV40-1|no | SHADOW_ONLY | 0 | 20.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT16BOSANA-ANAAGREER18-1|yes | SHADOW_ONLY | 0 | 4.80 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT16BOSANA-BOSDPASTRNAK88-1|no | FUNDED_RESEARCH | 5 | 16.36 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT16BOSANA-ANAJMALOTT39-1|yes | SHADOW_ONLY | 0 | 3.73 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT16BOSANA-ANAAGREER18-1|yes | SHADOW_ONLY | 0 | 4.67 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT16BOSANA-ANAJMALOTT39-1|yes | SHADOW_ONLY | 0 | 4.07 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT16BOSANA-BOSDPASTRNAK88-1|no | FUNDED_RESEARCH | 4 | 15.39 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT16BOSANA-BOSCMITTELSTADT11-1|yes | SHADOW_ONLY | 0 | 3.97 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-15: **COMPLETE — 11/11 games evaluated**
 
