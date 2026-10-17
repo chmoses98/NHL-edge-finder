@@ -115,11 +115,13 @@ def main(argv=None) -> int:
     st = pr.load_settlements(str(arch), "NHL")
     report["settlements"] = {"rows": int(len(st)), "void": int(st["void"].sum()), "by_role": st["model_role"].value_counts().to_dict()}
     assert len(st) > 0
-    n1 = len(list(arch.rglob("*.jsonl.gz")))
+    def n_results_files():       # a later clock legitimately captures newer availability; results/settlements must not change
+        return sum(len(list((arch / d).rglob("*.jsonl.gz"))) for d in ("outcomes", "settlements", "corrections", "forecasts"))
+    n1 = n_results_files()
     step("morning settle rerun (idempotent)", "capture,results,settle,score,guard", t_post + pd.Timedelta(hours=1))
-    n2 = len(list(arch.rglob("*.jsonl.gz")))
+    n2 = n_results_files()
     report["idempotent_settle_rerun_new_files"] = n2 - n1
-    assert n2 == n1, "rerunning results/settle must add no archive files"
+    assert n2 == n1, "rerunning results/settle must add no outcome/settlement/forecast files"
     st2 = pr.load_settlements(str(arch), "NHL")
     assert len(st2) == len(st)
 

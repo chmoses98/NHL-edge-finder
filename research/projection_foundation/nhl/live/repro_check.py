@@ -41,6 +41,32 @@ def compare(a: dict, b: dict) -> dict:
         r["same"] += int(ra.get("best_model") == rb.get("best_model"))
         if ra.get("best_model") != rb.get("best_model"):
             r["diff"].append(f"{fam}: {ra.get('best_model')} vs {rb.get('best_model')}")
+    # by model letter: A..D are deterministic ridge/shrinkage ladders, E is LightGBM, F stacks A..E
+    by: dict = {}
+    for fam, ra in a["families"].items():
+        rb = b["families"].get(fam)
+        if rb is None:
+            continue
+        mb = {(m["model"], m["split"]): m for m in rb["models"]}
+        for m in ra["models"]:
+            o = mb.get((m["model"], m["split"]))
+            if o is None or m["split"] == "prospective":
+                continue
+            r = by.setdefault(m["model"][0], {"n": 0, "exact": 0, "max_abs_crps": 0.0, "max_abs_mae": 0.0})
+            for k in ("mae", "rmse", "bias", "crps", "log_score", "cover_80"):
+                if m.get(k) is not None and o.get(k) is not None:
+                    r["n"] += 1
+                    r["exact"] += int(abs(m[k] - o[k]) <= 5e-6 * max(1.0, abs(m[k])))
+            r["max_abs_crps"] = max(r["max_abs_crps"], abs(m["crps"] - o["crps"]))
+            r["max_abs_mae"] = max(r["max_abs_mae"], abs(m["mae"] - o["mae"]))
+    out["by_model_excluding_prospective"] = by
+    head = {}
+    for fam, ra in a["families"].items():
+        rb = b["families"].get(fam)
+        pick = lambda r: next(m for m in r["models"] if m["split"] == "holdout" and m["model"] == ra["best_model"])  # noqa: E731
+        ma, mb_ = pick(ra), pick(rb)
+        head[fam] = {k: [ma[k], mb_[k]] for k in ("n_obs", "mae", "crps", "bias", "cover_80")}
+    out["holdout_best_model_committed_vs_rerun"] = head
     return out
 
 

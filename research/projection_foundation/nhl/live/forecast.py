@@ -477,22 +477,30 @@ def _run_project(dar: str, arch: str, now: datetime, work, date: str | None, log
     table = M.load_table(key)
     reused = table is not None and M.covers(table, lu, gs_ok)
     t0 = time.time()
-    if not reused:
+    computes = 0
+    while not (table is not None and M.covers(table, lu, gs_ok)):
         table = M.compute(games, with_cached_fillers(lu, table, games), gs_ok, slate_date,
                           newest_final_observation(dar, now, slate_date), key, log=log)
         M.save_table(table)
-        if clock is not None:                          # the clock moved on while the models ran: re-read the world
-            now = clock()
-            if refresh is not None:
-                refresh(now)
-            sit = _situation(dar, arch, now, date)
-            if sit is None or sit[1] != slate_date:
-                return {"slate_date": None, "model_table_key": key, "model_seconds": round(time.time() - t0, 1),
-                        "note": "every game of the slate started while the models were running; the table is cached for the next slate"}
-            games, slate_date, rows_av, lu, gs, info = sit
-            gs_ok = gs[gs["has_history"]] if len(gs) else gs
-            if not M.covers(table, lu, gs_ok):
-                log("[project] the refreshed lineups contain players the model table does not cover; they are skipped this run")
+        computes += 1
+        if clock is None:
+            break
+        now = clock()                                  # the clock moved on while the models ran: re-read the world
+        if refresh is not None:
+            refresh(now)
+        sit = _situation(dar, arch, now, date)
+        if sit is None or sit[1] != slate_date:
+            return {"slate_date": None, "model_table_key": key, "model_seconds": round(time.time() - t0, 1),
+                    "note": "every game of the slate started while the models were running; the table is cached for the next slate"}
+        games, slate_date, rows_av, lu, gs, info = sit
+        gs_ok = gs[gs["has_history"]] if len(gs) else gs
+        if M.covers(table, lu, gs_ok):
+            break
+        # lineups changed to players the table lacks: one more pass if there is still time before the first start
+        lead_min = (games["start"].min().to_pydatetime() - now).total_seconds() / 60
+        if computes >= 2 or lead_min < 20:
+            log("[project] refreshed lineups contain players the model table does not cover; they are skipped this run")
+            break
     now_arch = clock() if clock is not None else now
     pst = A.start_probability_table(dar, now)
     version = f"{table['version']}+{M.project._sha()}"
