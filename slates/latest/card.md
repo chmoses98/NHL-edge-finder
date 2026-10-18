@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-18T09:35:05Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-18T10:35:28Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,12 +10,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 80.00 | +5.99 | +1.73 | +9.29 | 0.584 | -52.02 | -80.00 | 10.65 |
-| B thesis-diversified (joint) ← optimiser card | 29.87 | +2.13 | +0.65 | +12.63 | 0.599 | -9.52 | -29.87 | 5.68 |
-| C best expression per thesis | 29.94 | +2.05 | +0.63 | +11.35 | 0.599 | -10.80 | -29.94 | 5.49 |
-| R FUNDED research stakes | 10.00 | +0.73 | +0.22 | +4.41 | 0.599 | -3.19 | -10.00 | 0.00 |
+| A highest edges (independent) | 80.00 | +6.29 | +1.87 | +9.68 | 0.584 | -51.63 | -80.00 | 12.01 |
+| B thesis-diversified (joint) ← optimiser card | 33.96 | +2.58 | +0.83 | +13.30 | 0.599 | -11.81 | -33.96 | 7.29 |
+| C best expression per thesis | 33.96 | +2.58 | +0.83 | +13.30 | 0.599 | -11.81 | -33.96 | 7.29 |
+| R FUNDED research stakes | 10.00 | +0.76 | +0.25 | +3.90 | 0.599 | -3.19 | -10.00 | 0.00 |
 
-## CBJ @ MIN  ·  10000 joint draws  ·  98 bet sides mapped, 2 +EV candidates, 1 on card
+## CBJ @ MIN  ·  10000 joint draws  ·  428 bet sides mapped, 2 +EV candidates, 1 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -42,7 +42,7 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 portfolios: A EV +2.86 (adj +0.81) on $40.00, P(profit) 0.6624, adj growth 5.0 bp · B EV +1.12 (adj +0.35) on $16.26, P(profit) 0.7847, adj growth 3.1 bp · C EV +1.12 (adj +0.35) on $16.26, P(profit) 0.7847, adj growth 3.1 bp · R EV +0.34 (adj +0.11) on $5.00, P(profit) 0.7847, adj growth 3.7 bp
 
-## CAR @ CGY  ·  10000 joint draws  ·  98 bet sides mapped, 2 +EV candidates, 2 on card
+## CAR @ CGY  ·  10000 joint draws  ·  98 bet sides mapped, 2 +EV candidates, 1 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -60,16 +60,13 @@ portfolios: A EV +2.86 (adj +0.81) on $40.00, P(profit) 0.6624, adj growth 5.0 b
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Carolina wins by over 2.5 goals NO | 70 | 0.763 | 0.729 | +0.049 | +0.014 | $9.32 | FUNDED_RESEARCH | $3 | GAME:TIGHT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Carolina wins by over 1.5 goals NO | 57 | 0.639 | 0.602 | +0.052 | +0.015 | $4.30 | FUNDED_RESEARCH | $2 | GAME:TIGHT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **Carolina wins by over 2.5 goals NO** — thesis: tight game (one-goal final or OT); alternative: KXNHLSPREAD-26OCT18CARCGY-CAR2|no; why: higher confidence-adjusted growth (2.23 vs 2.04 bp); despite a smaller raw edge (+0.049 vs +0.052/contract); wins across more scripts (relative breadth 1.01 vs 0.883); relationships: KXNHLSPREAD-26OCT18CARCGY-CAR2|no: DUPLICATIVE (phi 0.742); failure: CAR wins by 2+
-- **Carolina wins by over 1.5 goals NO** — thesis: tight game (one-goal final or OT); alternative: KXNHLSPREAD-26OCT18CARCGY-CAR3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT18CARCGY-CAR3|no has the higher standalone adjusted growth (2.23 vs 2.04 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.742); they share one thesis budget; relationships: KXNHLSPREAD-26OCT18CARCGY-CAR3|no: DUPLICATIVE (phi 0.742); failure: CAR wins by 2+
+| Carolina wins by over 2.5 goals NO | 69 | 0.763 | 0.724 | +0.058 | +0.019 | $17.70 | FUNDED_RESEARCH | $5 | GAME:TIGHT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Carolina wins by over 2.5 goals NO** — thesis: tight game (one-goal final or OT); alternative: KXNHLSPREAD-26OCT18CARCGY-CAR2|no; why: higher confidence-adjusted growth (3.87 vs 2.04 bp); wins across more scripts (relative breadth 1.01 vs 0.883); relationships: only recommended bet in this game; failure: CAR wins by 2+
 
 **Review**: scripts CAR shot control · normal event (5-7) · decided (2+) 0.14, CAR shot control · normal event (5-7) · tight (1-goal/OT) 0.13, balanced shots · normal event (5-7) · decided (2+) 0.11.
-- thesis GAME:TIGHT (p 0.4314): highest fidelity KXNHLSPREAD-26OCT18CARCGY-CAR2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT18CARCGY-CAR2|no (same contract)
+- thesis GAME:TIGHT (p 0.4314): highest fidelity KXNHLSPREAD-26OCT18CARCGY-CAR3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT18CARCGY-CAR3|no (same contract)
 - KXNHLSPREAD-26OCT18CARCGY-CAR3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis CAR:WINS_BY_2PLUS (p 0.3606, phi -0.742)
-- KXNHLSPREAD-26OCT18CARCGY-CAR2|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis CAR:WINS_BY_2PLUS (p 0.3606, phi -1.0)
 
-portfolios: A EV +3.14 (adj +0.92) on $40.00, P(profit) 0.6394, adj growth 5.6 bp · B EV +1.01 (adj +0.30) on $13.61, P(profit) 0.6394, adj growth 2.6 bp · C EV +0.93 (adj +0.28) on $13.68, P(profit) 0.7632, adj growth 2.4 bp · R EV +0.38 (adj +0.11) on $5.00, P(profit) 0.6394, adj growth 3.6 bp
+portfolios: A EV +3.43 (adj +1.06) on $40.00, P(profit) 0.6394, adj growth 7.0 bp · B EV +1.46 (adj +0.48) on $17.70, P(profit) 0.7632, adj growth 4.2 bp · C EV +1.46 (adj +0.48) on $17.70, P(profit) 0.7632, adj growth 4.2 bp · R EV +0.41 (adj +0.14) on $5.00, P(profit) 0.7632, adj growth 4.7 bp
 
 _RESEARCH_ONLY thesis card: B stakes are optimiser suggestions for a nominal bankroll; R (FUNDED_RESEARCH) stakes are whole-dollar research stakes under research governance. Nothing is placed or routed. Every recommended bet is +EV at its executable ask under the model AND the confidence-adjusted probability; the card is emitted only when the completion gate passes._
