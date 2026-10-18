@@ -1,5 +1,5 @@
 {
- "evaluated_at_utc": "2026-10-18T12:07:50Z",
+ "evaluated_at_utc": "2026-10-18T13:40:42Z",
  "authority": "RESEARCH_ONLY",
  "report_version": "thesis-postmortem-2.0",
  "n_rows_all_runs": 19521,
@@ -74022,14 +74022,14 @@
      "state": "NOT_STARTED",
      "matchup": "CBJ @ MIN",
      "final_snapshot": {
-      "snapshot_id": "snap-72f4e96a10df12bf9dbc",
-      "decided_at_utc": "2026-10-18T11:35:49Z",
+      "snapshot_id": "snap-9ddb6438b33fb44ee893",
+      "decided_at_utc": "2026-10-18T13:23:20Z",
       "run_id": "39119682225",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
-      "n_chosen": 0,
-      "n_shortlisted": 0,
-      "n_pregame_snapshots": 8,
+      "n_chosen": 2,
+      "n_shortlisted": 2,
+      "n_pregame_snapshots": 10,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-18T22:00:00Z",
       "synthetic_game_row": false,
@@ -74038,20 +74038,105 @@
      "portfolio_result": null,
      "script_check": null,
      "overrides": [],
-     "bets": []
+     "bets": [
+      {
+       "decision_id": "8a6eca08890730a58006d20b34c8bce9",
+       "game_id": "2026020135",
+       "bet_id": "KXNHLGOAL-26OCT18CBJMIN-CBJMOLIVIER24-1|yes",
+       "family": "player_goals",
+       "chosen": true,
+       "stake_dollars": 3.89,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 1,
+       "research_reasons": [],
+       "fidelity_class": "FRAGILE",
+       "thesis_capture": 0.3159,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "CBJ:OFFENSE_4PLUS",
+       "p_thesis": 0.3023,
+       "entry_price_cents": 14,
+       "ev_raw": 0.028172000000000003,
+       "ev_adjusted": 0.014022000000000007,
+       "p_model": 0.1766,
+       "p_adjusted": 0.16245,
+       "p_kalshi_mid": 0.12000000000000001,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.12,
+        "gap": 0.0566,
+        "abs_gap_pts": 5.7,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLAST-26OCT18CBJMIN-CBJVNICHUSHKIN43-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.02,
+         "p_both": 0.14
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "1d336e15d320658423b8425aebdeb04f",
+       "game_id": "2026020135",
+       "bet_id": "KXNHLAST-26OCT18CBJMIN-CBJVNICHUSHKIN43-1|no",
+       "family": "player_assists",
+       "chosen": true,
+       "stake_dollars": 16.3,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "CALIBRATION_WARNING_UNCORROBORATED"
+       ],
+       "fidelity_class": "DIRECT",
+       "thesis_capture": 0.895,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "CBJ:SUPPRESSED",
+       "p_thesis": 0.4857,
+       "entry_price_cents": 74,
+       "ev_raw": 0.05603199999999997,
+       "ev_adjusted": 0.013781999999999961,
+       "p_model": 0.8095,
+       "p_adjusted": 0.76725,
+       "p_kalshi_mid": 0.725,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.725,
+        "gap": 0.0845,
+        "abs_gap_pts": 8.5,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLGOAL-26OCT18CBJMIN-CBJMOLIVIER24-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.02,
+         "p_both": 0.14
+        }
+       },
+       "scored": false,
+       "outcome": null
+      }
+     ]
     },
     "2026020136": {
      "state": "NOT_STARTED",
      "matchup": "CAR @ CGY",
      "final_snapshot": {
-      "snapshot_id": "snap-72f4e96a10df12bf9dbc",
-      "decided_at_utc": "2026-10-18T11:35:49Z",
+      "snapshot_id": "snap-9ddb6438b33fb44ee893",
+      "decided_at_utc": "2026-10-18T13:23:20Z",
       "run_id": "39119682225",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
-      "n_chosen": 2,
-      "n_shortlisted": 9,
-      "n_pregame_snapshots": 8,
+      "n_chosen": 4,
+      "n_shortlisted": 16,
+      "n_pregame_snapshots": 10,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-19T00:00:00Z",
       "synthetic_game_row": false,
@@ -74059,155 +74144,491 @@
      },
      "portfolio_result": null,
      "script_check": null,
-     "overrides": [],
+     "overrides": [
+      {
+       "thesis": "CAR:SUPPRESSED",
+       "replaced": "KXNHLAST-26OCT18CARCGY-CARSAHO20-1|no",
+       "selected": "KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no",
+       "ev_adjusted_replaced": 0.0222,
+       "ev_adjusted_selected": 0.016,
+       "edge_difference_pts": -0.62,
+       "thesis_capture_replaced": 0.8135,
+       "thesis_capture_selected": 0.861,
+       "fidelity_replaced": "DIRECT",
+       "fidelity_selected": "DIRECT",
+       "reliability_replaced": "EVIDENCE_MIXED",
+       "reliability_selected": "EVIDENCE_STRONGER",
+       "growth_bp_replaced": 4.319,
+       "growth_bp_selected": 2.614,
+       "decided_on": "family reliability",
+       "rule": "similar adjusted value (within 1 pt) -> prefer reliability, then fidelity",
+       "applied": true,
+       "text": "Player prop expression KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no selected over player prop KXNHLAST-26OCT18CARCGY-CARSAHO20-1|no because adjusted EV differs by only 0.6 pts while thesis capture is 0.86 vs 0.81 (DIRECT vs DIRECT; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability)"
+      }
+     ],
      "bets": [
       {
-       "decision_id": "1184d70cb88595d6bdbdb09fc6acbd53",
-       "game_id": "2026020136",
-       "bet_id": "KXNHLSPREAD-26OCT18CARCGY-CAR3|no",
-       "family": "game_spread",
-       "chosen": true,
-       "stake_dollars": 20.0,
-       "research_status": "FUNDED_RESEARCH",
-       "research_stake_dollars": 5,
-       "research_reasons": [],
-       "fidelity_class": "STRUCTURAL",
-       "thesis_capture": 1.0,
-       "expression_kind": "BROAD",
-       "is_player_prop": false,
-       "primary_thesis": "CGY:WINS",
-       "p_thesis": 0.4452,
-       "entry_price_cents": 69,
-       "ev_raw": 0.07942700000000003,
-       "ev_adjusted": 0.02972700000000006,
-       "p_model": 0.7844,
-       "p_adjusted": 0.7347,
-       "p_kalshi_mid": 0.685,
-       "market_disagreement": {
-        "reference": "kalshi_mid",
-        "p_market": 0.685,
-        "gap": 0.0994,
-        "abs_gap_pts": 9.9,
-        "threshold_pts": 10.0,
-        "large": false
-       },
-       "selection_override": null,
-       "joint_relationships": {
-        "KXNHLSPREAD-26OCT18CARCGY-CGY2|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.292,
-         "p_both": 0.2366
-        },
-        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY5|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.223,
-         "p_both": 0.1736
-        },
-        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR4|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.512,
-         "p_both": 0.5524
-        },
-        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR5|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.534,
-         "p_both": 0.6918
-        },
-        "KXNHLSPREAD-26OCT18CARCGY-CAR2|no": {
-         "relationship": "DUPLICATIVE",
-         "phi": 0.745,
-         "p_both": 0.6686
-        },
-        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY2|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.407,
-         "p_both": 0.6845
-        },
-        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY3|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.404,
-         "p_both": 0.5289
-        },
-        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY4|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.328,
-         "p_both": 0.3431
-        }
-       },
-       "scored": false,
-       "outcome": null
-      },
-      {
-       "decision_id": "6ef540b228db6a0183666eefa43c4a44",
+       "decision_id": "5bbb96d3b3b471e0146e16b33c0980c0",
        "game_id": "2026020136",
        "bet_id": "KXNHLSPREAD-26OCT18CARCGY-CGY2|yes",
        "family": "game_spread",
        "chosen": true,
-       "stake_dollars": 3.52,
+       "stake_dollars": 4.56,
        "research_status": "FUNDED_RESEARCH",
-       "research_stake_dollars": 1,
+       "research_stake_dollars": 2,
        "research_reasons": [],
        "fidelity_class": "STRUCTURAL",
        "thesis_capture": 1.0,
        "expression_kind": "BROAD",
        "is_player_prop": false,
        "primary_thesis": "CGY:WINS_BY_2PLUS",
-       "p_thesis": 0.2366,
+       "p_thesis": 0.2386,
        "entry_price_cents": 17,
-       "ev_raw": 0.056722999999999996,
-       "ev_adjusted": 0.020922999999999997,
-       "p_model": 0.2366,
-       "p_adjusted": 0.2008,
+       "ev_raw": 0.058723,
+       "ev_adjusted": 0.021922999999999998,
+       "p_model": 0.2386,
+       "p_adjusted": 0.2018,
        "p_kalshi_mid": 0.165,
        "market_disagreement": {
         "reference": "kalshi_mid",
         "p_market": 0.165,
-        "gap": 0.0716,
-        "abs_gap_pts": 7.2,
+        "gap": 0.0736,
+        "abs_gap_pts": 7.4,
         "threshold_pts": 10.0,
         "large": false
        },
        "selection_override": null,
        "joint_relationships": {
-        "KXNHLSPREAD-26OCT18CARCGY-CAR3|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.292,
-         "p_both": 0.2366
-        },
-        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY5|yes": {
-         "relationship": "REINFORCING",
-         "phi": 0.505,
-         "p_both": 0.1236
-        },
         "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR4|no": {
          "relationship": "REINFORCING",
-         "phi": 0.385,
-         "p_both": 0.2161
+         "phi": 0.389,
+         "p_both": 0.2191
+        },
+        "KXNHLAST-26OCT18CARCGY-CARSAHO20-1|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.163,
+         "p_both": 0.1885
         },
         "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR5|no": {
          "relationship": "REINFORCING",
-         "phi": 0.285,
-         "p_both": 0.232
+         "phi": 0.281,
+         "p_both": 0.2339
+        },
+        "KXNHLSPREAD-26OCT18CARCGY-CGY3|yes": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.728,
+         "p_both": 0.1425
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYJCASTAGNA38-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.107,
+         "p_both": 0.0419
+        },
+        "KXNHLSPREAD-26OCT18CARCGY-CAR3|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.289,
+         "p_both": 0.2386
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYAKLAPKA43-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.124,
+         "p_both": 0.0484
         },
         "KXNHLSPREAD-26OCT18CARCGY-CAR2|no": {
          "relationship": "DUPLICATIVE",
-         "phi": 0.392,
-         "p_both": 0.2366
+         "phi": 0.393,
+         "p_both": 0.2386
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.148,
+         "p_both": 0.1994
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYMFROST16-1|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.174,
+         "p_both": 0.0967
         },
         "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY2|yes": {
          "relationship": "REINFORCING",
          "phi": 0.291,
-         "p_both": 0.2366
+         "p_both": 0.2386
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR3|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.473,
+         "p_both": 0.1823
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYASUNIEV61-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.119,
+         "p_both": 0.0749
         },
         "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY3|yes": {
          "relationship": "REINFORCING",
-         "phi": 0.446,
-         "p_both": 0.2287
+         "phi": 0.445,
+         "p_both": 0.2301
         },
         "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY4|yes": {
          "relationship": "REINFORCING",
-         "phi": 0.538,
-         "p_both": 0.1935
+         "phi": 0.53,
+         "p_both": 0.1913
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "cdd58e55231f599917d26ae43f95b6f8",
+       "game_id": "2026020136",
+       "bet_id": "KXNHLGOAL-26OCT18CARCGY-CGYJCASTAGNA38-1|yes",
+       "family": "player_goals",
+       "chosen": true,
+       "stake_dollars": 2.72,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no)"
+       ],
+       "fidelity_class": "FRAGILE",
+       "thesis_capture": 0.1839,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "CGY:OFFENSE_4PLUS",
+       "p_thesis": 0.3393,
+       "entry_price_cents": 9,
+       "ev_raw": 0.019067,
+       "ev_adjusted": 0.011617000000000002,
+       "p_model": 0.1148,
+       "p_adjusted": 0.10735,
+       "p_kalshi_mid": 0.08499999999999999,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.085,
+        "gap": 0.0298,
+        "abs_gap_pts": 3.0,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLSPREAD-26OCT18CARCGY-CGY2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.107,
+         "p_both": 0.0419
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR4|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.003,
+         "p_both": 0.0665
+        },
+        "KXNHLAST-26OCT18CARCGY-CARSAHO20-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.016,
+         "p_both": 0.0724
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR5|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.009,
+         "p_both": 0.087
+        },
+        "KXNHLSPREAD-26OCT18CARCGY-CGY3|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.091,
+         "p_both": 0.0265
+        },
+        "KXNHLSPREAD-26OCT18CARCGY-CAR3|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.081,
+         "p_both": 0.1012
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYAKLAPKA43-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.01,
+         "p_both": 0.0137
+        },
+        "KXNHLSPREAD-26OCT18CARCGY-CAR2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.09,
+         "p_both": 0.0904
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.017,
+         "p_both": 0.0798
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYMFROST16-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.009,
+         "p_both": 0.0295
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.136,
+         "p_both": 0.1081
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR3|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.003,
+         "p_both": 0.0416
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYASUNIEV61-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.014,
+         "p_both": 0.0278
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY3|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.155,
+         "p_both": 0.0901
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY4|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.155,
+         "p_both": 0.0638
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "f3dc508b585fa8743c20739fe9a381c3",
+       "game_id": "2026020136",
+       "bet_id": "KXNHLGOAL-26OCT18CARCGY-CGYAKLAPKA43-1|yes",
+       "family": "player_goals",
+       "chosen": true,
+       "stake_dollars": 2.5,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no)"
+       ],
+       "fidelity_class": "FRAGILE",
+       "thesis_capture": 0.2078,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "CGY:OFFENSE_4PLUS",
+       "p_thesis": 0.3393,
+       "entry_price_cents": 10,
+       "ev_raw": 0.022299999999999986,
+       "ev_adjusted": 0.011399999999999993,
+       "p_model": 0.1286,
+       "p_adjusted": 0.1177,
+       "p_kalshi_mid": 0.085,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.085,
+        "gap": 0.0436,
+        "abs_gap_pts": 4.4,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLSPREAD-26OCT18CARCGY-CGY2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.124,
+         "p_both": 0.0484
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR4|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.005,
+         "p_both": 0.0731
+        },
+        "KXNHLAST-26OCT18CARCGY-CARSAHO20-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.014,
+         "p_both": 0.0815
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR5|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.032,
+         "p_both": 0.0942
+        },
+        "KXNHLSPREAD-26OCT18CARCGY-CGY3|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.113,
+         "p_both": 0.0315
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYJCASTAGNA38-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.01,
+         "p_both": 0.0137
+        },
+        "KXNHLSPREAD-26OCT18CARCGY-CAR3|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.084,
+         "p_both": 0.1131
+        },
+        "KXNHLSPREAD-26OCT18CARCGY-CAR2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.093,
+         "p_both": 0.1008
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.013,
+         "p_both": 0.0941
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYMFROST16-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.004,
+         "p_both": 0.0338
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY2|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.154,
+         "p_both": 0.1223
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR3|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.012,
+         "p_both": 0.0481
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYASUNIEV61-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.0,
+         "p_both": 0.029
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY3|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.17,
+         "p_both": 0.1017
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY4|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.168,
+         "p_both": 0.0719
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "969f7cc395820726cbd0eec00c091e6c",
+       "game_id": "2026020136",
+       "bet_id": "KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no",
+       "family": "player_goals",
+       "chosen": true,
+       "stake_dollars": 10.87,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 3,
+       "research_reasons": [],
+       "fidelity_class": "DIRECT",
+       "thesis_capture": 0.861,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "CAR:SUPPRESSED",
+       "p_thesis": 0.3705,
+       "entry_price_cents": 67,
+       "ev_raw": 0.03152299999999997,
+       "ev_adjusted": 0.01602300000000001,
+       "p_model": 0.717,
+       "p_adjusted": 0.7015,
+       "p_kalshi_mid": 0.655,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.655,
+        "gap": 0.062,
+        "abs_gap_pts": 6.2,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": {
+        "thesis": "CAR:SUPPRESSED",
+        "replaced": "KXNHLAST-26OCT18CARCGY-CARSAHO20-1|no",
+        "selected": "KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no",
+        "ev_adjusted_replaced": 0.0222,
+        "ev_adjusted_selected": 0.016,
+        "edge_difference_pts": -0.62,
+        "thesis_capture_replaced": 0.8135,
+        "thesis_capture_selected": 0.861,
+        "fidelity_replaced": "DIRECT",
+        "fidelity_selected": "DIRECT",
+        "reliability_replaced": "EVIDENCE_MIXED",
+        "reliability_selected": "EVIDENCE_STRONGER",
+        "growth_bp_replaced": 4.319,
+        "growth_bp_selected": 2.614,
+        "decided_on": "family reliability",
+        "rule": "similar adjusted value (within 1 pt) -> prefer reliability, then fidelity",
+        "applied": true,
+        "text": "Player prop expression KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no selected over player prop KXNHLAST-26OCT18CARCGY-CARSAHO20-1|no because adjusted EV differs by only 0.6 pts while thesis capture is 0.86 vs 0.81 (DIRECT vs DIRECT; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability)"
+       },
+       "joint_relationships": {
+        "KXNHLSPREAD-26OCT18CARCGY-CGY2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.148,
+         "p_both": 0.1994
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR4|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.23,
+         "p_both": 0.4637
+        },
+        "KXNHLAST-26OCT18CARCGY-CARSAHO20-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.013,
+         "p_both": 0.4642
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR5|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.211,
+         "p_both": 0.5909
+        },
+        "KXNHLSPREAD-26OCT18CARCGY-CGY3|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.118,
+         "p_both": 0.1208
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYJCASTAGNA38-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.017,
+         "p_both": 0.0798
+        },
+        "KXNHLSPREAD-26OCT18CARCGY-CAR3|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.15,
+         "p_both": 0.5938
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYAKLAPKA43-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.013,
+         "p_both": 0.0941
+        },
+        "KXNHLSPREAD-26OCT18CARCGY-CAR2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.164,
+         "p_both": 0.5152
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYMFROST16-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.005,
+         "p_both": 0.193
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.004,
+         "p_both": 0.5633
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CAR3|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.248,
+         "p_both": 0.311
+        },
+        "KXNHLGOAL-26OCT18CARCGY-CGYASUNIEV61-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.002,
+         "p_both": 0.1619
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY3|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.011,
+         "p_both": 0.4121
+        },
+        "KXNHLTEAMTOTAL-26OCT18CARCGY-CGY4|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.007,
+         "p_both": 0.2525
         }
        },
        "scored": false,
