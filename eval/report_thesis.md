@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-18T15:26:58Z · thesis-postmortem-2.0 · rows (all generations) 19521
+evaluated 2026-10-18T17:07:00Z · thesis-postmortem-2.0 · rows (all generations) 19521
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,23 +33,22 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020135 CBJ @ MIN: NOT_STARTED · snapshot snap-a07def92608146de47c7 @ 2026-10-18T15:24:21Z
+#### game 2026020135 CBJ @ MIN: NOT_STARTED · snapshot snap-4079bdbb257ca4b548e6 @ 2026-10-18T17:03:38Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT18CBJMIN-CBJMOLIVIER24-1|yes | FUNDED_RESEARCH | 2 | 7.38 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT18CBJMIN-CBJDHEINEN58-1|yes | SHADOW_ONLY | 0 | 3.22 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT18CBJMIN-MINQHUGHES43-1|no | SHADOW_ONLY | 0 | 4.57 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT18CBJMIN-CBJVNICHUSHKIN43-1|no | SHADOW_ONLY | 0 | 14.14 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT18CBJMIN-CBJMOLIVIER24-1|yes | SHADOW_ONLY | 0 | 5.77 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT18CBJMIN-MINQHUGHES43-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT18CBJMIN-CBJCSILLINGER4-1|yes | SHADOW_ONLY | 0 | 3.04 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020136 CAR @ CGY: NOT_STARTED · snapshot snap-a07def92608146de47c7 @ 2026-10-18T15:24:21Z
+#### game 2026020136 CAR @ CGY: NOT_STARTED · snapshot snap-4079bdbb257ca4b548e6 @ 2026-10-18T17:03:38Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT18CARCGY-CGYJCASTAGNA38-1|yes | SHADOW_ONLY | 0 | 3.59 | - | - | - | FRAGILE | - | - |
-| KXNHLTEAMTOTAL-26OCT18CARCGY-CAR4|no | FUNDED_RESEARCH | 3 | 9.19 | - | - | - | STRUCTURAL | - | - |
-| KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no | FUNDED_RESEARCH | 4 | 12.84 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT18CARCGY-CGYMFROST16-1|yes | SHADOW_ONLY | 0 | 3.52 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no | FUNDED_RESEARCH | 4 | 15.20 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT18CARCGY-CGYJCASTAGNA38-1|yes | SHADOW_ONLY | 0 | 3.60 | - | - | - | FRAGILE | - | - |
+| KXNHLTEAMTOTAL-26OCT18CARCGY-CAR4|no | FUNDED_RESEARCH | 3 | 9.08 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT18CARCGY-CGYASUNIEV61-1|yes | SHADOW_ONLY | 0 | 4.86 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-17: **COMPLETE — 14/14 games evaluated**
 
