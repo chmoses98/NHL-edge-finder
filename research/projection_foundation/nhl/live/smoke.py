@@ -33,7 +33,7 @@ def sh(*a, cwd=None):
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--date", default="2026-10-15", help="ET slate date to replay (its games must be final in the archive)")
+    ap.add_argument("--date", default="2026-10-15", help="ET slate date to replay (its games must be final in the archive), or 'auto'")
     ap.add_argument("--data-archive", default=str(PF / ".cache" / "archive_wt"))
     ap.add_argument("--out", default=str(PF / ".cache" / "smoke"))
     ap.add_argument("--keep-models", action="store_true", help="reuse an existing model table in <out>/models")
@@ -57,8 +57,13 @@ def main(argv=None) -> int:
     from nhl.live import run as RUN
     from pf_core import prospective as pr
 
-    day = a.date
     dar = a.data_archive
+    if a.date == "auto":     # newest ET date at least two days old that has regular-season games in the archive
+        s_all = C.schedule_asof(dar, C.now_utc(), back_days=10)
+        s_all = s_all[s_all["game_id"].map(C.is_regular)]
+        cutoff = C.et_date(C.now_utc() - pd.Timedelta(days=2))
+        a.date = max(d for d in s_all["game_date_et"].unique() if d <= cutoff)
+    day = a.date
     sched = C.schedule_asof(dar, C.parse_ts(f"{day}T20:00:00Z") + pd.Timedelta(days=3), back_days=20)
     games = sched[(sched["game_date_et"] == day) & sched["game_id"].map(C.is_regular)].sort_values("start")
     assert len(games), f"no games on {day} in the archive"

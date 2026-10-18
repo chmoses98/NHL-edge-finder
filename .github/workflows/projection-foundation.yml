@@ -139,11 +139,12 @@ jobs:
       - run: pip install -q -r research/projection_foundation/requirements-pf.txt
       - name: Sparse, blobless view of data-archive (inputs only)
         run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
-      - name: Replay 2026-10-15 end to end (3 pregame runs, puck drop, settle, rerun, correction)
+      - name: Replay a slate from two days ago end to end (3 pregame runs, puck drop, settle, rerun, correction)
         working-directory: research/projection_foundation
         run: |
           set -euo pipefail
-          python -W ignore -m nhl.live.smoke --date 2026-10-15 --data-archive /tmp/data_archive --out /tmp/smoke 2>&1 | tee /tmp/smoke.log
+          # the sparse data-archive view holds the last 4 days of captures: replay the newest slate that is at least 2 days old
+          python -W ignore -m nhl.live.smoke --date auto --data-archive /tmp/data_archive --out /tmp/smoke 2>&1 | tee /tmp/smoke.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:

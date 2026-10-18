@@ -72,6 +72,9 @@ def main(argv=None) -> int:
     from nhl.live import scoring as S
     from pf_core import prospective as pr
 
+    if a.data_archive:                 # nhl.data read the env var at import; honour a different archive on a later in-process call
+        data.ARCHIVE = Path(a.data_archive)
+        data.load_kind.cache_clear()
     data.set_repair_starters(True)   # 2026-27 archive loses the starter flag for ~half the team-games (see nhl.data)
     stages = STAGES if a.stage == "all" else [s.strip() for s in a.stage.split(",")]
     bad = [s for s in stages if s not in STAGES]
