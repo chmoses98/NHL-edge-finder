@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-18T06:32:57Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-18T07:34:02Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,12 +10,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 80.00 | +6.34 | +1.83 | +9.29 | 0.584 | -52.02 | -80.00 | 11.56 |
-| B thesis-diversified (joint) ← optimiser card | 27.48 | +2.15 | +0.63 | +5.46 | 0.584 | -12.53 | -27.47 | 5.55 |
+| A highest edges (independent) | 80.00 | +5.99 | +1.66 | +9.29 | 0.584 | -52.02 | -80.00 | 9.95 |
+| B thesis-diversified (joint) ← optimiser card | 27.56 | +2.04 | +0.60 | +12.58 | 0.599 | -9.57 | -27.55 | 5.28 |
 | C best expression per thesis | 25.67 | +1.96 | +0.59 | +12.51 | 0.501 | -9.64 | -25.67 | 5.18 |
-| R FUNDED research stakes | 9.00 | +0.70 | +0.20 | +1.29 | 0.584 | -4.91 | -9.00 | 0.00 |
+| R FUNDED research stakes | 9.00 | +0.66 | +0.19 | +4.02 | 0.599 | -2.80 | -9.00 | 0.00 |
 
-## CBJ @ MIN  ·  10000 joint draws  ·  98 bet sides mapped, 2 +EV candidates, 2 on card
+## CBJ @ MIN  ·  10000 joint draws  ·  98 bet sides mapped, 2 +EV candidates, 1 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -33,17 +33,14 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Minnesota wins by over 2.5 goals NO | 72 | 0.785 | 0.750 | +0.051 | +0.016 | $10.97 | FUNDED_RESEARCH | $3 | CBJ:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Minnesota wins by over 1.5 goals NO | 59 | 0.662 | 0.624 | +0.056 | +0.017 | $5.21 | FUNDED_RESEARCH | $2 | CBJ:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **Minnesota wins by over 2.5 goals NO** — thesis: CBJ wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT18CBJMIN-MIN2|no; why: higher confidence-adjusted growth (2.79 vs 2.58 bp); despite a smaller raw edge (+0.051 vs +0.056/contract); wins across more scripts (relative breadth 1.013 vs 0.901); relationships: KXNHLSPREAD-26OCT18CBJMIN-MIN2|no: DUPLICATIVE (phi 0.734); failure: MIN wins by 2+
-- **Minnesota wins by over 1.5 goals NO** — thesis: CBJ wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT18CBJMIN-MIN3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT18CBJMIN-MIN3|no has the higher standalone adjusted growth (2.79 vs 2.58 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.734); they share one thesis budget; relationships: KXNHLSPREAD-26OCT18CBJMIN-MIN3|no: DUPLICATIVE (phi 0.734); failure: MIN wins by 2+
+| Minnesota wins by over 2.5 goals NO | 72 | 0.785 | 0.750 | +0.051 | +0.016 | $16.26 | FUNDED_RESEARCH | $5 | CBJ:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Minnesota wins by over 2.5 goals NO** — thesis: CBJ wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT18CBJMIN-MIN2|no; why: higher confidence-adjusted growth (2.79 vs 1.31 bp); wins across more scripts (relative breadth 1.013 vs 0.901); relationships: only recommended bet in this game; failure: MIN wins by 2+
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, balanced shots · high event (8+) · decided (2+) 0.09.
-- thesis CBJ:WINS (p 0.437): highest fidelity KXNHLSPREAD-26OCT18CBJMIN-MIN2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT18CBJMIN-MIN2|no (same contract)
+- thesis CBJ:WINS (p 0.437): highest fidelity KXNHLSPREAD-26OCT18CBJMIN-MIN3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT18CBJMIN-MIN3|no (same contract)
 - KXNHLSPREAD-26OCT18CBJMIN-MIN3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis MIN:WINS_BY_2PLUS (p 0.3376, phi -0.734)
-- KXNHLSPREAD-26OCT18CBJMIN-MIN2|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis MIN:WINS_BY_2PLUS (p 0.3376, phi -1.0)
 
-portfolios: A EV +3.21 (adj +0.98) on $40.00, P(profit) 0.6624, adj growth 6.6 bp · B EV +1.23 (adj +0.38) on $16.18, P(profit) 0.6624, adj growth 3.3 bp · C EV +1.12 (adj +0.35) on $16.26, P(profit) 0.7847, adj growth 3.1 bp · R EV +0.39 (adj +0.12) on $5.00, P(profit) 0.6624, adj growth 4.0 bp
+portfolios: A EV +2.86 (adj +0.81) on $40.00, P(profit) 0.6624, adj growth 5.0 bp · B EV +1.12 (adj +0.35) on $16.26, P(profit) 0.7847, adj growth 3.1 bp · C EV +1.12 (adj +0.35) on $16.26, P(profit) 0.7847, adj growth 3.1 bp · R EV +0.34 (adj +0.11) on $5.00, P(profit) 0.7847, adj growth 3.7 bp
 
 ## CAR @ CGY  ·  10000 joint draws  ·  98 bet sides mapped, 2 +EV candidates, 2 on card
 
