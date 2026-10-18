@@ -1,0 +1,255 @@
+name: projection-foundation
+# NHL Projection Foundation: live SHADOW operation (RESEARCH ONLY, no betting authority).
+#
+# Pregame runs ~10:00 ET, ~16:00 ET and ~18:00 ET (goalie confirmations arrive late) and a morning settle run ~06:37 ET:
+#   capture   data-archive DailyFaceoff / ESPN captures (+ direct fetch) -> immutable pf_core availability snapshots
+#   project   frozen models (cached per slate) + participation + gate -> challenger AND incumbent (PLAYER_SIM_V1) forecasts
+#   publish   projections/nhl/latest.json (+ timestamped copy), summary/nhl/latest.json
+#   results   FINAL box scores -> outcomes;  settle  settle-once (+ corrections);  score  daily/weekly/season scorecards
+#   guard     pf_core.archive_guard: the immutable archive directories only ever gain files
+# Everything lands on the orphan branch `projection-data`. A failed stage fails the job and nothing is committed afterwards
+# (the next run redoes the idempotent stages). The pull_request run executes the SAME chain with --dry-run (live fetches, real
+# projections, gate, archive into a temp copy, settle/score against the existing archive) with a read-only token.
+# Schedules fire from the default branch only. No secrets beyond the job token, no paid services.
+on:
+  schedule:
+    # UTC. ET = UTC-4 (EDT) / UTC-5 (EST): each slot has an EDT and an EST entry; the gate job runs only the valid one.
+    - cron: "7 14 * 1-6,10-12 *"    # 10:07 EDT   pregame (morning)
+    - cron: "7 15 * 1-6,10-12 *"    # 10:07 EST
+    - cron: "7 20 * 1-6,10-12 *"    # 16:07 EDT   pregame (afternoon)
+    - cron: "7 21 * 1-6,10-12 *"    # 16:07 EST
+    - cron: "7 22 * 1-6,10-12 *"    # 18:07 EDT   pregame (evening, goalie confirmations)
+    - cron: "7 23 * 1-6,10-12 *"    # 18:07 EST
+    - cron: "37 10 * 1-6,10-12 *"   # 06:37 EDT   settle
+    - cron: "37 11 * 1-6,10-12 *"   # 06:37 EST
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run the whole chain but write only to a temp copy (nothing is pushed)"
+        type: boolean
+        default: false
+      stages:
+        description: "Comma list of stages (default all): capture,project,publish,results,settle,score,guard"
+        required: false
+        default: "all"
+  pull_request:
+    paths:
+      - "research/projection_foundation/**"
+      - ".github/workflows/projection-foundation.yml"
+defaults:
+  run:
+    shell: bash
+concurrency:
+  # one live writer per sport; PR dry-runs never queue behind (or cancel) a live run
+  group: ${{ github.event_name == 'pull_request' && format('projection-foundation-nhl-pr-{0}', github.ref) || 'projection-foundation-nhl' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+permissions:
+  contents: read
+env:
+  PF_DIR: research/projection_foundation
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.slot.outputs.run }}
+      stages: ${{ steps.slot.outputs.stages }}
+    steps:
+      - id: slot
+        env:
+          EVENT: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
+          DISPATCH_STAGES: ${{ github.event.inputs.stages }}
+        run: |
+          set -euo pipefail
+          run=true; stages=all
+          if [ "$EVENT" = schedule ]; then
+            off=4; [ "$(TZ=America/New_York date +%z)" = "-0400" ] || off=5
+            min=$(echo "$SCHEDULE" | cut -d' ' -f1); hr=$(echo "$SCHEDULE" | cut -d' ' -f2)
+            et=$(( hr - off ))
+            echo "cron '$SCHEDULE' -> ET hour $et (UTC offset $off)"
+            case "$et" in
+              10|16|18) stages=all ;;
+              6) stages="capture,results,settle,score,guard" ;;
+              *) run=false ;;
+            esac
+          elif [ "$EVENT" = workflow_dispatch ] && [ -n "$DISPATCH_STAGES" ]; then
+            stages="$DISPATCH_STAGES"
+          fi
+          echo "run=$run" >> "$GITHUB_OUTPUT"; echo "stages=$stages" >> "$GITHUB_OUTPUT"
+          echo "run=$run stages=$stages"
+
+  # ------------------------------------------------------------------------------------------ pull_request: dry run, read-only
+  pr-dry-run:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: pip install -q -r research/projection_foundation/requirements-pf.txt
+      - name: Unit + smoke tests (NHL live package, pf_core)
+        working-directory: research/projection_foundation
+        run: python -m pytest tests/test_nhl_live.py tests/test_pf_live.py tests/test_pf_core.py -q -x
+      - name: Sparse, blobless view of data-archive (inputs only)
+        run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
+      - name: Check out projection-data read-only (empty temp repo if the branch does not exist yet)
+        run: bash research/projection_foundation/nhl/live/ci_projection_data.sh /tmp/projection_data readonly
+      - name: Restore frozen-model cache
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/nhl_pf_cache/model_tables
+          key: nhl-model-v2-${{ hashFiles('research/projection_foundation/requirements-pf.txt') }}-pr-${{ github.run_id }}
+          restore-keys: nhl-model-v2-${{ hashFiles('research/projection_foundation/requirements-pf.txt') }}-
+      - name: Full chain --dry-run (live fetch, real projections, gate, temp archive, settle/score)
+        working-directory: research/projection_foundation
+        env:
+          NHL_PF_ARCHIVE: /tmp/data_archive
+          NHL_PF_CACHE: /tmp/nhl_pf_cache/frames
+          NHL_PF_MODELS: /tmp/nhl_pf_cache/model_tables
+        run: |
+          set -euo pipefail
+          mkdir -p "$NHL_PF_CACHE" "$NHL_PF_MODELS" /tmp/nhl_work
+          python -W ignore -m nhl.live.run --stage all --archive /tmp/projection_data --data-archive /tmp/data_archive \
+            --live-fetch --dry-run --work /tmp/nhl_work 2>&1 | tee /tmp/nhl_work/run.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nhl-live-dry-run
+          path: /tmp/nhl_work/
+          retention-days: 14
+
+  # ------------------------------------------------------------------------------------------ pull_request: verification evidence
+  # Re-runs the committed study and replays one past slate with the REAL frozen models on the runner (the sandbox is ~10x slower).
+  pr-replay:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: pip install -q -r research/projection_foundation/requirements-pf.txt
+      - name: Sparse, blobless view of data-archive (inputs only)
+        run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
+      - name: Replay a slate from two days ago end to end (3 pregame runs, puck drop, settle, rerun, correction)
+        working-directory: research/projection_foundation
+        run: |
+          set -euo pipefail
+          # the sparse data-archive view holds the last 4 days of captures: replay the newest slate that is at least 2 days old
+          python -W ignore -m nhl.live.smoke --date auto --data-archive /tmp/data_archive --out /tmp/smoke 2>&1 | tee /tmp/smoke.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nhl-live-replay
+          path: |
+            /tmp/smoke.log
+            /tmp/smoke/smoke_report.json
+          retention-days: 14
+
+  pr-repro:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: pip install -q -r research/projection_foundation/requirements-pf.txt
+      - name: Sparse, blobless view of data-archive (inputs only)
+        run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
+      - name: No-leakage + shared-library tests
+        working-directory: research/projection_foundation
+        run: python -m pytest tests/test_nhl.py tests/test_pf_core.py tests/test_pf_live.py -q
+      - name: Rebuild the study (pf_core 1.2.0) and compare with the committed results
+        working-directory: research/projection_foundation
+        env:
+          NHL_PF_ARCHIVE: /tmp/data_archive
+          NHL_PF_CACHE: /tmp/repro_cache
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/committed /tmp/repro_cache
+          cp results/nhl_full_results.json results/summary.json /tmp/committed/
+          rm -rf results/experiments
+          python -W ignore -m nhl.pipeline all --rebuild 2>&1 | tail -5
+          python -W ignore -m nhl.run_walkforward 2>&1 | tail -5
+          python -W ignore -m nhl.report 2>&1 | tail -2
+          python -m nhl.live.repro_check /tmp/committed/nhl_full_results.json results/nhl_full_results.json \
+            /tmp/committed/summary.json results/summary.json | tee /tmp/repro_check.json
+          cp results/nhl_full_results.json /tmp/regenerated_full_results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nhl-repro
+          path: |
+            /tmp/repro_check.json
+            /tmp/regenerated_full_results.json
+          retention-days: 14
+
+  # ------------------------------------------------------------------------------------------ schedule / dispatch: live
+  live:
+    needs: gate
+    if: github.event_name != 'pull_request' && needs.gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: pip install -q -r research/projection_foundation/requirements-pf.txt
+      - name: Sparse, blobless view of data-archive (inputs only)
+        run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
+      - name: Check out projection-data (orphan branch is created on the first run)
+        run: bash research/projection_foundation/nhl/live/ci_projection_data.sh /tmp/projection_data live
+      - name: Restore frozen-model cache (same slate date)
+        id: mc
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/nhl_pf_cache/model_tables
+          key: nhl-model-v2-${{ hashFiles('research/projection_foundation/requirements-pf.txt') }}-${{ github.run_id }}
+          restore-keys: nhl-model-v2-${{ hashFiles('research/projection_foundation/requirements-pf.txt') }}-
+      - name: Run the chain
+        id: chain
+        working-directory: research/projection_foundation
+        env:
+          NHL_PF_ARCHIVE: /tmp/data_archive
+          NHL_PF_CACHE: /tmp/nhl_pf_cache/frames
+          NHL_PF_MODELS: /tmp/nhl_pf_cache/model_tables
+          DRY: ${{ github.event.inputs.dry_run }}
+          STAGES: ${{ needs.gate.outputs.stages }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$NHL_PF_CACHE" "$NHL_PF_MODELS" /tmp/nhl_work
+          ls "$NHL_PF_MODELS" | head -5 || true
+          args=(--stage "$STAGES" --archive /tmp/projection_data --data-archive /tmp/data_archive --live-fetch --work /tmp/nhl_work)
+          if [ "$DRY" = "true" ]; then args+=(--dry-run); fi
+          python -W ignore -m nhl.live.run "${args[@]}" 2>&1 | tee /tmp/nhl_work/run.log
+          if grep -q '"model_reused": false' /tmp/nhl_work/run.log; then echo "computed=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Commit to projection-data (only after every stage succeeded; archive_guard first)
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: bash research/projection_foundation/nhl/live/ci_publish.sh /tmp/projection_data
+      - name: Save frozen-model cache (only when a new table was computed)
+        if: ${{ success() && steps.chain.outputs.computed == 'true' }}
+        uses: actions/cache/save@v4
+        with:
+          path: /tmp/nhl_pf_cache/model_tables
+          key: nhl-model-v2-${{ hashFiles('research/projection_foundation/requirements-pf.txt') }}-${{ github.run_id }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nhl-live-run
+          path: /tmp/nhl_work/
+          retention-days: 14

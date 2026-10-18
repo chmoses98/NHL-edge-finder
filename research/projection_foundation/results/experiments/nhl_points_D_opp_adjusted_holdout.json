@@ -1,0 +1,53 @@
+{
+  "code_sha": "322f533262ba7610aaee50ebbf72e73806991d7b",
+  "compute_seconds": 0.0,
+  "created_utc": "2026-10-17T07:38:12Z",
+  "data_provenance": [
+    "data/history/players/*.parquet",
+    "data-archive player_events (2026-27)"
+  ],
+  "distribution": {
+    "cover_50": 0.5053805662860297,
+    "cover_80": 0.8022137793437195,
+    "cover_90": 0.9023008023092923,
+    "crps": 0.2964732970420785,
+    "log_score": 0.8283520213527107,
+    "pit_var_ratio": 0.9907553423198985
+  },
+  "eval_period": "2024-25 and 2025-26 regular seasons (evaluated once for frozen candidates)",
+  "experiment_id": "nhl_points_D_opp_adjusted_holdout",
+  "family": "points",
+  "features": [],
+  "fingerprint": "f095f4935d860447",
+  "hyperparameters": {},
+  "hypothesis": "Each rung of the ladder (A..F) should improve CRPS over the shrunk season average.",
+  "limitations": [
+    "conditional on the player dressing / the actual starting goalie"
+  ],
+  "model": "D_opp_adjusted",
+  "model_version": "pf-nhl-1.0.0",
+  "n_clusters": 2624,
+  "n_independent": 94228,
+  "n_obs": 94228,
+  "point": {
+    "bias": 0.00442412712089808,
+    "mae": 0.5239861866319815,
+    "rmse": 0.6708553006104375
+  },
+  "python": "3.13.16",
+  "question": "How accurate is D_opp_adjusted for NHL points?",
+  "split": "holdout",
+  "sport": "NHL",
+  "train_period": "2021-22..2022-23 (scalars); LightGBM refit on all seasons before the scored one",
+  "verdict": "rejected",
+  "vs_baseline": {
+    "ci95": [
+      -0.00277,
+      -0.001857
+    ],
+    "mean_diff": -0.002316,
+    "n_clusters": 2624,
+    "n_obs": 94228
+  },
+  "vs_incumbent": {}
+}
