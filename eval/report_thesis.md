@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-18T21:59:14Z · thesis-postmortem-2.0 · rows (all generations) 19521
+evaluated 2026-10-18T23:36:50Z · thesis-postmortem-2.0 · rows (all generations) 19521
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -9,7 +9,7 @@ All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE 
 scheduled 2 · final 0 · settled 0 · events ingested 0 · thesis-evaluated 0 · final_card_complete False · postmortem_complete False
 
 missing / pending:
-- 2026020135: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020135: no official FINAL result yet
 - 2026020136: game not started: the snapshot shown is the latest so far, not yet final
 
 > INTERIM (PARTIAL — 0/2 games evaluated): covers evaluated games only; NOT the slate's final ROI
@@ -33,7 +33,7 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020135 CBJ @ MIN: NOT_STARTED · snapshot snap-749a1c9bfa42a14073c4 @ 2026-10-18T21:15:23Z
+#### game 2026020135 CBJ @ MIN: NOT_FINAL · snapshot snap-749a1c9bfa42a14073c4 @ 2026-10-18T21:15:23Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
@@ -42,14 +42,14 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLGOAL-26OCT18CBJMIN-MINQHUGHES43-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
 | KXNHLGOAL-26OCT18CBJMIN-CBJCSILLINGER4-1|yes | SHADOW_ONLY | 0 | 3.66 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020136 CAR @ CGY: NOT_STARTED · snapshot snap-749a1c9bfa42a14073c4 @ 2026-10-18T21:15:23Z
+#### game 2026020136 CAR @ CGY: NOT_STARTED · snapshot snap-fdfb916afe4c65fcf7bc @ 2026-10-18T23:05:42Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no | FUNDED_RESEARCH | 4 | 15.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT18CARCGY-CARNEHLERS27-1|no | SHADOW_ONLY | 0 | 15.00 | - | - | - | DIRECT | - | - |
-| KXNHLTEAMTOTAL-26OCT18CARCGY-CGY3|yes | FUNDED_RESEARCH | 3 | 8.87 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT18CARCGY-CAR3|no | FUNDED_RESEARCH | 2 | 5.32 | - | - | - | STRUCTURAL | - | - |
+| KXNHLAST-26OCT18CARCGY-CARSAHO20-1|no | SHADOW_ONLY | 0 | 13.46 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT18CARCGY-CARSAHO20-1|no | FUNDED_RESEARCH | 5 | 16.54 | - | - | - | DIRECT | - | - |
+| KXNHLTEAMTOTAL-26OCT18CARCGY-CGY3|yes | FUNDED_RESEARCH | 3 | 11.11 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT18CARCGY-CAR3|no | FUNDED_RESEARCH | 1 | 2.31 | - | - | - | STRUCTURAL | - | - |
 
 ## Slate 2026-10-17: **COMPLETE — 14/14 games evaluated**
 
