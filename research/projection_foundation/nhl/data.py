@@ -15,6 +15,7 @@ from __future__ import annotations
 import glob
 import math
 import os
+from datetime import date, datetime
 from functools import cache
 from pathlib import Path
 
@@ -74,7 +75,38 @@ def _repair_starters(g: pd.DataFrame) -> pd.DataFrame:
 def set_cutoff(date: str | None) -> None:
     CUTOFF[0] = pd.Timestamp(date) if date else None
     load_kind.cache_clear()
-SEASONS = [2021, 2022, 2023, 2024, 2025, 2026]
+# --------------------------------------------------------------------------- seasons
+# A season is named by the year it STARTS in (2026 = 2026-27) and its game ids begin with that year (2026020001).
+FIRST_SEASON = 2021
+# First season whose games come from the data-archive instead of committed parquet. Every later season is archive-only too,
+# so no code change is needed when a season starts: the archive simply grows.
+FIRST_ARCHIVE_SEASON = 2026
+# The seasons the frozen study used. Frozen on purpose: the walk-forward results reproduce against exactly this set
+# (run_walkforward.SPLIT_SEASONS names its own splits and never reads SEASONS).
+STUDY_SEASONS = (2021, 2022, 2023, 2024, 2025, 2026)
+
+
+def current_season(today: date | datetime | None = None) -> int:
+    """Start year of the NHL season in progress or about to begin: September-December -> that year, January-August -> the
+    year before (the 2026-27 season runs September 2026 preseason to the June 2027 final, so every date in 2027 before
+    September is still season 2026)."""
+    d = today or datetime.utcnow()
+    return d.year if d.month >= 9 else d.year - 1
+
+
+def seasons_through(last: int) -> list[int]:
+    return list(range(FIRST_SEASON, int(last) + 1))
+
+
+# Default season set: everything through the current season, never fewer than the frozen study's.
+SEASONS = seasons_through(max(STUDY_SEASONS[-1], current_season()))
+
+
+def _seasons(seasons) -> tuple[int, ...]:
+    """Resolve an explicit season tuple, or None -> the module default at CALL time (so a long-lived process or a test that
+    changes SEASONS sees it; a default argument would freeze the value at import)."""
+    return tuple(SEASONS) if seasons is None else tuple(seasons)
+
 
 # Arizona (53) -> Utah Hockey Club (59) -> Utah Mammoth (68): one franchise for ratings.
 FRANCHISE = {53: 68, 59: 68}
@@ -117,15 +149,21 @@ def _read_archive(kind: str) -> pd.DataFrame:
 
 
 @cache
-def load_kind(kind: str, seasons: tuple[int, ...] = tuple(SEASONS)) -> pd.DataFrame:
+def load_kind(kind: str, seasons: tuple[int, ...] | None = None) -> pd.DataFrame:
+    seasons = _seasons(seasons)
     parts = []
     for s in seasons:
         f = HIST / f"{kind}_{s}.parquet"
         if f.exists():
             parts.append(pd.read_parquet(f))
     d = pd.concat(parts, ignore_index=True) if parts else pd.DataFrame()
-    if 2026 in seasons:
+    archive_seasons = [x for x in seasons if x >= FIRST_ARCHIVE_SEASON]
+    if archive_seasons:
         a = _read_archive(kind)
+        if len(a):
+            # only the requested seasons: the archive holds every season since FIRST_ARCHIVE_SEASON, and a frame asked for
+            # 2021-2026 must not quietly gain 2027 games (game ids start with the season's start year)
+            a = a[(pd.to_numeric(a["game_id"], errors="coerce") // 1_000_000).isin(archive_seasons)]
         if len(a):
             a = a[[c for c in a.columns if not c.startswith("_")]]
             # archive supersedes the committed parquet for the same game
@@ -157,7 +195,7 @@ def haversine_km(a, b) -> float:
 
 
 # --------------------------------------------------------------------------- xG
-def shot_frame(seasons=tuple(SEASONS)) -> pd.DataFrame:
+def shot_frame(seasons=None) -> pd.DataFrame:
     """Unblocked attempts (SOG, GOAL, MISS) with geometry for the xG model."""
     s = load_kind("shots", seasons)
     s = s[s["kind"].isin(["SOG", "GOAL", "MISS"])].copy()
@@ -174,7 +212,7 @@ def shot_frame(seasons=tuple(SEASONS)) -> pd.DataFrame:
 
 
 # --------------------------------------------------------------------------- team games
-def team_games(seasons=tuple(SEASONS)) -> pd.DataFrame:
+def team_games(seasons=None) -> pd.DataFrame:
     p = load_kind("players", seasons)
     g = load_kind("goals", seasons)
     ts = load_kind("team_states", seasons)
@@ -222,7 +260,7 @@ def team_games(seasons=tuple(SEASONS)) -> pd.DataFrame:
 
 
 # --------------------------------------------------------------------------- skaters
-def skater_games(seasons=tuple(SEASONS), xg: pd.DataFrame | None = None) -> pd.DataFrame:
+def skater_games(seasons=None, xg: pd.DataFrame | None = None) -> pd.DataFrame:
     p = load_kind("players", seasons).copy()
     p = p[p["toi_s"] > 0]
     p["opp_id"] = np.where(p["is_home"], p["away_team_id"], p["home_team_id"])
@@ -268,7 +306,7 @@ def skater_games(seasons=tuple(SEASONS), xg: pd.DataFrame | None = None) -> pd.D
     return p
 
 
-def goalie_games(seasons=tuple(SEASONS)) -> pd.DataFrame:
+def goalie_games(seasons=None) -> pd.DataFrame:
     g = load_kind("goalies", seasons).copy()
     g["opp_id"] = np.where(g["is_home"], g["away_team_id"], g["home_team_id"])
     g["toi"] = g["toi_s"] / 60.0

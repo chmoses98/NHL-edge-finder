@@ -94,7 +94,7 @@ jobs:
       - run: pip install -q -r research/projection_foundation/requirements-pf.txt
       - name: Unit + smoke tests (NHL live package, pf_core)
         working-directory: research/projection_foundation
-        run: python -m pytest tests/test_nhl_live.py tests/test_pf_live.py tests/test_pf_core.py -q -x
+        run: python -m pytest tests/test_nhl_live.py tests/test_nhl_season.py tests/test_pf_live.py tests/test_pf_core.py -q -x
       - name: Sparse, blobless view of data-archive (inputs only)
         run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
       - name: Check out projection-data read-only (empty temp repo if the branch does not exist yet)
@@ -170,7 +170,7 @@ jobs:
         run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
       - name: No-leakage + shared-library tests
         working-directory: research/projection_foundation
-        run: python -m pytest tests/test_nhl.py tests/test_pf_core.py tests/test_pf_live.py -q
+        run: python -m pytest tests/test_nhl.py tests/test_nhl_season.py tests/test_pf_core.py tests/test_pf_live.py -q
       - name: Rebuild the study (pf_core 1.2.0) and compare with the committed results
         working-directory: research/projection_foundation
         env:
