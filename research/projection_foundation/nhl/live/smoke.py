@@ -138,7 +138,10 @@ def main(argv=None) -> int:
             src = (p, [r for r in rows if r["game_id"] == gid])
             break
     assert src, "game not found in player_events"
-    scorer = next(r for r in src[1] if r["sog"] > 0)
+    # correct a player whose shots forecast was settled (an unforecast player has nothing to correct)
+    settled_shots = set(pr.load_settlements(str(arch), "NHL").query("family == 'shots' and not void and model_role == 'challenger' "
+                                                                     f"and game_id == '{gid}'")["entity_id"])
+    scorer = next(r for r in src[1] if str(r["player_id"]) in settled_shots)
     new_rows = copy.deepcopy(src[1])
     for r in new_rows:
         r["_observed_at_utc"] = iso(t_post + pd.Timedelta(days=1))
