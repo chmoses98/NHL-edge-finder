@@ -1,8 +1,8 @@
 ## NHL projection scorecard (daily) — last 7 days
 
-Generated 2026-10-18T17:23:35Z. Research only; nothing here is a betting signal.
+Generated 2026-10-18T22:26:56Z. Research only; nothing here is a betting signal.
 
-Archived pregame forecasts: 998 across 2 games. Settled: 0 (void/DNP 0, stat corrections 0).
+Archived pregame forecasts: 1099 across 2 games. Settled: 0 (void/DNP 0, stat corrections 0).
 
 _No settled forecasts yet: accuracy will appear once archived games finish._
 
@@ -20,4 +20,4 @@ A family is **better** only if the game-clustered 95% CI of the paired loss diff
 | team_goals | n/a | 0 (0) | — | **no incumbent** | SHADOW VALIDATION |
 | toi_minutes | absolute error | 0 (0) | — | **no incumbent** | SHADOW VALIDATION |
 
-**Availability capture**: mean coverage 1.0, newest capture age 3.1 min (median over recent runs), runs summarised: 2.
+**Availability capture**: mean coverage 1.0, newest capture age 4.0 min (median over recent runs), runs summarised: 3.

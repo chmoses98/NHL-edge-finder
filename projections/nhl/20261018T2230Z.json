@@ -1,0 +1,7463 @@
+{
+ "schema": "sift.projections.v1",
+ "sport": "NHL",
+ "generated_utc": "2026-10-18T22:30:48Z",
+ "data_asof_utc": "2026-10-18T05:02:59Z",
+ "model": {
+  "id": "pf-nhl",
+  "version": "pf-nhl-1.0.0+f6e477f",
+  "authority": "research_only"
+ },
+ "families": {
+  "shots": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.804, PIT var 0.991), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0082 [-0.0128, -0.0037] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "goals": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.799, PIT var 0.997), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0002 [-0.0008, +0.0004] (tie). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "assists": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.799, PIT var 0.996), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0041 [-0.0070, -0.0014] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "points": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.801, PIT var 0.992), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0032 [-0.0061, -0.0004] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "saves": {
+   "readiness": "NEEDS IMPROVEMENT",
+   "model": "F_stack",
+   "reason": "Beats our own baseline but the incumbent (PLAYER_SIM_V1 walk-forward 2024-25 + 2025-26) is better on holdout (rung RPS over 14+..40+ (CRPS restricted to the incumbent's published rungs): +0.0278 [+0.0118, +0.0432])."
+  },
+  "team_goals": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.797, PIT var 1.002), statistically tied with the incumbent on holdout. READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "toi_minutes": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "E_lightgbm",
+   "reason": "opportunity family: holdout TOI MAE 1.82 min"
+  }
+ },
+ "games": [
+  {
+   "game_id": "2026020136",
+   "start_utc": "2026-10-19T00:00:00Z",
+   "home": "CGY",
+   "away": "CAR",
+   "teams": [
+    {
+     "team": "CGY",
+     "family": "team_goals",
+     "mean": 2.699,
+     "p10": 1,
+     "p90": 5,
+     "player_goal_sum": 2.504,
+     "reconciliation": {
+      "status": "PASS",
+      "ratio": 0.9276774188267496
+     },
+     "role": "shadow",
+     "gate": {
+      "status": "PASS",
+      "findings": []
+     }
+    },
+    {
+     "team": "CAR",
+     "family": "team_goals",
+     "mean": 3.417,
+     "p10": 1,
+     "p90": 6,
+     "player_goal_sum": 3.213,
+     "reconciliation": {
+      "status": "PASS",
+      "ratio": 0.9402937714305858
+     },
+     "role": "shadow",
+     "gate": {
+      "status": "PASS",
+      "findings": []
+     }
+    }
+   ]
+  }
+ ],
+ "players": [
+  {
+   "player_id": "8482679",
+   "name": "Matt Coronato",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 2.2873,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6473,
+    "3": 0.3956,
+    "4": 0.2066,
+    "5": 0.0945
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.87,
+    "p10": 14.96,
+    "p90": 20.79,
+    "pp_mean": 3.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482679",
+   "name": "Matt Coronato",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.2856,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2473,
+    "2": 0.0346
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.87,
+    "p10": 14.96,
+    "p90": 20.79,
+    "pp_mean": 3.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482679",
+   "name": "Matt Coronato",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.4202,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3423,
+    "2": 0.0675
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.87,
+    "p10": 14.96,
+    "p90": 20.79,
+    "pp_mean": 3.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482679",
+   "name": "Matt Coronato",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.7251,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5157,
+    "2": 0.1646,
+    "3": 0.0373
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.87,
+    "p10": 14.96,
+    "p90": 20.79,
+    "pp_mean": 3.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8474150",
+   "name": "Mikael Backlund",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.9792,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5736,
+    "3": 0.3177,
+    "4": 0.1487,
+    "5": 0.0606
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.61,
+    "p10": 14.7,
+    "p90": 20.53,
+    "pp_mean": 0.41
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8474150",
+   "name": "Mikael Backlund",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.2029,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.183,
+    "2": 0.0185
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.61,
+    "p10": 14.7,
+    "p90": 20.53,
+    "pp_mean": 0.41
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8474150",
+   "name": "Mikael Backlund",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.2523,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.223,
+    "2": 0.0269
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.61,
+    "p10": 14.7,
+    "p90": 20.53,
+    "pp_mean": 0.41
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8474150",
+   "name": "Mikael Backlund",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.4628,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3683,
+    "2": 0.0803,
+    "3": 0.0125
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.61,
+    "p10": 14.7,
+    "p90": 20.53,
+    "pp_mean": 0.41
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480797",
+   "name": "Joel Farabee",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.996,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5779,
+    "3": 0.322,
+    "4": 0.1517,
+    "5": 0.0623
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.55,
+    "p10": 16.63,
+    "p90": 22.47,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480797",
+   "name": "Joel Farabee",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.2421,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2141,
+    "2": 0.0256
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.55,
+    "p10": 16.63,
+    "p90": 22.47,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480797",
+   "name": "Joel Farabee",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.3918,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3234,
+    "2": 0.0598
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.55,
+    "p10": 16.63,
+    "p90": 22.47,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480797",
+   "name": "Joel Farabee",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.6683,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4874,
+    "2": 0.1449,
+    "3": 0.0304
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.55,
+    "p10": 16.63,
+    "p90": 22.47,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484234",
+   "name": "Aydar Suniev",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.4125,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4051,
+    "3": 0.1764,
+    "4": 0.0643,
+    "5": 0.0204
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.57,
+    "p10": 10.66,
+    "p90": 16.49,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484234",
+   "name": "Aydar Suniev",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1849,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1684,
+    "2": 0.0155
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.57,
+    "p10": 10.66,
+    "p90": 16.49,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484234",
+   "name": "Aydar Suniev",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.2308,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2043,
+    "2": 0.0243
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.57,
+    "p10": 10.66,
+    "p90": 16.49,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484234",
+   "name": "Aydar Suniev",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.4288,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3468,
+    "2": 0.0705,
+    "3": 0.0102
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.57,
+    "p10": 10.66,
+    "p90": 16.49,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480028",
+   "name": "Morgan Frost",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.7662,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5151,
+    "3": 0.2632,
+    "4": 0.113,
+    "5": 0.0421
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.92,
+    "p10": 14.01,
+    "p90": 19.84,
+    "pp_mean": 3.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480028",
+   "name": "Morgan Frost",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.2991,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2585,
+    "2": 0.0367
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.92,
+    "p10": 14.01,
+    "p90": 19.84,
+    "pp_mean": 3.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480028",
+   "name": "Morgan Frost",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.3099,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2665,
+    "2": 0.0392
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.92,
+    "p10": 14.01,
+    "p90": 19.84,
+    "pp_mean": 3.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480028",
+   "name": "Morgan Frost",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.6425,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.474,
+    "2": 0.1361,
+    "3": 0.0275
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.92,
+    "p10": 14.01,
+    "p90": 19.84,
+    "pp_mean": 3.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8481068",
+   "name": "Yegor Sharangovich",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.4489,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4169,
+    "3": 0.1851,
+    "4": 0.0689,
+    "5": 0.0223
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.45,
+    "p10": 12.53,
+    "p90": 18.37,
+    "pp_mean": 1.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8481068",
+   "name": "Yegor Sharangovich",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1684,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1546,
+    "2": 0.013
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.45,
+    "p10": 12.53,
+    "p90": 18.37,
+    "pp_mean": 1.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8481068",
+   "name": "Yegor Sharangovich",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1982,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1784,
+    "2": 0.0184
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.45,
+    "p10": 12.53,
+    "p90": 18.37,
+    "pp_mean": 1.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8481068",
+   "name": "Yegor Sharangovich",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.3743,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3104,
+    "2": 0.0559,
+    "3": 0.0072
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.45,
+    "p10": 12.53,
+    "p90": 18.37,
+    "pp_mean": 1.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484860",
+   "name": "Matvei Gridin",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.7124,
+   "median": 1,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.4996,
+    "3": 0.2495,
+    "4": 0.1045,
+    "5": 0.0379
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.67,
+    "p10": 12.75,
+    "p90": 18.59,
+    "pp_mean": 3.12
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484860",
+   "name": "Matvei Gridin",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1783,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1629,
+    "2": 0.0145
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.67,
+    "p10": 12.75,
+    "p90": 18.59,
+    "pp_mean": 3.12
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484860",
+   "name": "Matvei Gridin",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.412,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3369,
+    "2": 0.0653
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.67,
+    "p10": 12.75,
+    "p90": 18.59,
+    "pp_mean": 3.12
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484860",
+   "name": "Matvei Gridin",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.5858,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4433,
+    "2": 0.1172,
+    "3": 0.0217
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.67,
+    "p10": 12.75,
+    "p90": 18.59,
+    "pp_mean": 3.12
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8481028",
+   "name": "Martin Pospisil",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.2072,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3362,
+    "3": 0.1299,
+    "4": 0.0419,
+    "5": 0.0118
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.63,
+    "p10": 9.72,
+    "p90": 15.55,
+    "pp_mean": 0.24
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8481028",
+   "name": "Martin Pospisil",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1082,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1021,
+    "2": 0.0058
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.63,
+    "p10": 9.72,
+    "p90": 15.55,
+    "pp_mean": 0.24
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8481028",
+   "name": "Martin Pospisil",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1729,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1582,
+    "2": 0.0138
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.63,
+    "p10": 9.72,
+    "p90": 15.55,
+    "pp_mean": 0.24
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8481028",
+   "name": "Martin Pospisil",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.28,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.242,
+    "2": 0.0342,
+    "3": 0.0035
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.63,
+    "p10": 9.72,
+    "p90": 15.55,
+    "pp_mean": 0.24
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476458",
+   "name": "Ryan Strome",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.2342,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3455,
+    "3": 0.1358,
+    "4": 0.0446,
+    "5": 0.0128
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.97,
+    "p10": 11.06,
+    "p90": 16.89,
+    "pp_mean": 1.6
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476458",
+   "name": "Ryan Strome",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1501,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1391,
+    "2": 0.0105
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.97,
+    "p10": 11.06,
+    "p90": 16.89,
+    "pp_mean": 1.6
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476458",
+   "name": "Ryan Strome",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.2411,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2122,
+    "2": 0.0263
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.97,
+    "p10": 11.06,
+    "p90": 16.89,
+    "pp_mean": 1.6
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476458",
+   "name": "Ryan Strome",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.3964,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3252,
+    "2": 0.0618,
+    "3": 0.0084
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.97,
+    "p10": 11.06,
+    "p90": 16.89,
+    "pp_mean": 1.6
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484154",
+   "name": "Jonathan Castagna",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 0.9082,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2316,
+    "3": 0.0714,
+    "4": 0.0183,
+    "5": 0.0041
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.11,
+    "p10": 7.19,
+    "p90": 13.03,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "only 4 prior NHL games since 2021-22: rates lean on the role prior",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484154",
+   "name": "Jonathan Castagna",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.0937,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0894,
+    "2": 0.0042
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.11,
+    "p10": 7.19,
+    "p90": 13.03,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "only 4 prior NHL games since 2021-22: rates lean on the role prior",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484154",
+   "name": "Jonathan Castagna",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1168,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1095,
+    "2": 0.007
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.11,
+    "p10": 7.19,
+    "p90": 13.03,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "only 4 prior NHL games since 2021-22: rates lean on the role prior",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.9)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484154",
+   "name": "Jonathan Castagna",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.2107,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1873,
+    "2": 0.0214,
+    "3": 0.0019
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.11,
+    "p10": 7.19,
+    "p90": 13.03,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "only 4 prior NHL games since 2021-22: rates lean on the role prior",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8483609",
+   "name": "Adam Klapka",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 0.9627,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2509,
+    "3": 0.0812,
+    "4": 0.0219,
+    "5": 0.0052
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.74,
+    "p10": 7.82,
+    "p90": 13.66,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8483609",
+   "name": "Adam Klapka",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1004,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0955,
+    "2": 0.0048
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.74,
+    "p10": 7.82,
+    "p90": 13.66,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8483609",
+   "name": "Adam Klapka",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1348,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1251,
+    "2": 0.0091
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.74,
+    "p10": 7.82,
+    "p90": 13.66,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.7)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8483609",
+   "name": "Adam Klapka",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.2488,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2184,
+    "2": 0.0276,
+    "3": 0.0025
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.74,
+    "p10": 7.82,
+    "p90": 13.66,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480860",
+   "name": "Kevin Bahl",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 0.7013,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.1593,
+    "3": 0.0393,
+    "4": 0.008,
+    "5": 0.0014
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.54,
+    "p10": 17.63,
+    "p90": 23.46,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480860",
+   "name": "Kevin Bahl",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.0486,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0468,
+    "2": 0.0017
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.54,
+    "p10": 17.63,
+    "p90": 23.46,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480860",
+   "name": "Kevin Bahl",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.185,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1683,
+    "2": 0.0156
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.54,
+    "p10": 17.63,
+    "p90": 23.46,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480860",
+   "name": "Kevin Bahl",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.2371,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2094,
+    "2": 0.0253,
+    "3": 0.0022
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.54,
+    "p10": 17.63,
+    "p90": 23.46,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8483495",
+   "name": "Simon Nemec",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.3623,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3887,
+    "3": 0.1645,
+    "4": 0.0582,
+    "5": 0.0179
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.59,
+    "p10": 17.67,
+    "p90": 23.51,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8483495",
+   "name": "Simon Nemec",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1048,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0991,
+    "2": 0.0055
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.59,
+    "p10": 17.67,
+    "p90": 23.51,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8483495",
+   "name": "Simon Nemec",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.2381,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2099,
+    "2": 0.0257
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.59,
+    "p10": 17.67,
+    "p90": 23.51,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8483495",
+   "name": "Simon Nemec",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.347,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2915,
+    "2": 0.049,
+    "3": 0.0059
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.59,
+    "p10": 17.67,
+    "p90": 23.51,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478136",
+   "name": "Jacob Middleton",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 0.8232,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2017,
+    "3": 0.0571,
+    "4": 0.0134,
+    "5": 0.0027
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.17,
+    "p10": 14.25,
+    "p90": 20.09,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478136",
+   "name": "Jacob Middleton",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.0476,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0459,
+    "2": 0.0016
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.17,
+    "p10": 14.25,
+    "p90": 20.09,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478136",
+   "name": "Jacob Middleton",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1415,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1309,
+    "2": 0.01
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.17,
+    "p10": 14.25,
+    "p90": 20.09,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.7)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478136",
+   "name": "Jacob Middleton",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.1991,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1781,
+    "2": 0.0193,
+    "3": 0.0016
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.17,
+    "p10": 14.25,
+    "p90": 20.09,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480727",
+   "name": "Zach Whitecloud",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 0.8457,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2096,
+    "3": 0.0608,
+    "4": 0.0146,
+    "5": 0.0031
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.39,
+    "p10": 17.48,
+    "p90": 23.31,
+    "pp_mean": 0.17
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480727",
+   "name": "Zach Whitecloud",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.04,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0388,
+    "2": 0.0012
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.39,
+    "p10": 17.48,
+    "p90": 23.31,
+    "pp_mean": 0.17
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480727",
+   "name": "Zach Whitecloud",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1976,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1779,
+    "2": 0.0183
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.39,
+    "p10": 17.48,
+    "p90": 23.31,
+    "pp_mean": 0.17
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480727",
+   "name": "Zach Whitecloud",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.2402,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2118,
+    "2": 0.0259,
+    "3": 0.0023
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.39,
+    "p10": 17.48,
+    "p90": 23.31,
+    "pp_mean": 0.17
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482165",
+   "name": "Yan Kuznetsov",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 0.9814,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2575,
+    "3": 0.0847,
+    "4": 0.0232,
+    "5": 0.0056
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.4,
+    "p10": 15.49,
+    "p90": 21.32,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482165",
+   "name": "Yan Kuznetsov",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.0443,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0428,
+    "2": 0.0014
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.4,
+    "p10": 15.49,
+    "p90": 21.32,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482165",
+   "name": "Yan Kuznetsov",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1443,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1333,
+    "2": 0.0104
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.4,
+    "p10": 15.49,
+    "p90": 21.32,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.7)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482165",
+   "name": "Yan Kuznetsov",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.1934,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1735,
+    "2": 0.0183,
+    "3": 0.0015
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.4,
+    "p10": 15.49,
+    "p90": 21.32,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484768",
+   "name": "Zayne Parekh",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.4563,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4192,
+    "3": 0.1869,
+    "4": 0.0699,
+    "5": 0.0228
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.73,
+    "p10": 15.81,
+    "p90": 21.65,
+    "pp_mean": 3.26
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484768",
+   "name": "Zayne Parekh",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1268,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1185,
+    "2": 0.0079
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.73,
+    "p10": 15.81,
+    "p90": 21.65,
+    "pp_mean": 3.26
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484768",
+   "name": "Zayne Parekh",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.2657,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2333,
+    "2": 0.0296
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.73,
+    "p10": 15.81,
+    "p90": 21.65,
+    "pp_mean": 3.26
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484768",
+   "name": "Zayne Parekh",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.4028,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3299,
+    "2": 0.0633,
+    "3": 0.0086
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.73,
+    "p10": 15.81,
+    "p90": 21.65,
+    "pp_mean": 3.26
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482747",
+   "name": "Brennan Othmann",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 0.8553,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.213,
+    "3": 0.0624,
+    "4": 0.0152,
+    "5": 0.0032
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 9.97,
+    "p10": 7.06,
+    "p90": 12.89,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 0.8698,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses shots: x0.87 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482747",
+   "name": "Brennan Othmann",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.0782,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0752,
+    "2": 0.0029
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 9.97,
+    "p10": 7.06,
+    "p90": 12.89,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 0.9055,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.91 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482747",
+   "name": "Brennan Othmann",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.0954,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0905,
+    "2": 0.0047
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 9.97,
+    "p10": 7.06,
+    "p90": 12.89,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 0.8977,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 3.3)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482747",
+   "name": "Brennan Othmann",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.1751,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1587,
+    "2": 0.0152,
+    "3": 0.0011
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 9.97,
+    "p10": 7.06,
+    "p90": 12.89,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 0.9006,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CAR suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8477478",
+   "name": "William Carrier",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.4309,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4111,
+    "3": 0.1808,
+    "4": 0.0666,
+    "5": 0.0214
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.01,
+    "p10": 10.09,
+    "p90": 15.92,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8477478",
+   "name": "William Carrier",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1397,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1297,
+    "2": 0.0095
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.01,
+    "p10": 10.09,
+    "p90": 15.92,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8477478",
+   "name": "William Carrier",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.2416,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2126,
+    "2": 0.0264
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.01,
+    "p10": 10.09,
+    "p90": 15.92,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8477478",
+   "name": "William Carrier",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.379,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3136,
+    "2": 0.0572,
+    "3": 0.0074
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.01,
+    "p10": 10.09,
+    "p90": 15.92,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478427",
+   "name": "Sebastian Aho",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 2.5991,
+   "median": 2,
+   "p10": 1,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.7192,
+    "3": 0.4749,
+    "4": 0.2673,
+    "5": 0.1306
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.39,
+    "p10": 16.48,
+    "p90": 22.31,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478427",
+   "name": "Sebastian Aho",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.3772,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3142,
+    "2": 0.0556
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.39,
+    "p10": 16.48,
+    "p90": 22.31,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478427",
+   "name": "Sebastian Aho",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.6311,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.468,
+    "2": 0.1323
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.39,
+    "p10": 16.48,
+    "p90": 22.31,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478427",
+   "name": "Sebastian Aho",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 1.0077,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.6349,
+    "2": 0.2671,
+    "3": 0.0817
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.39,
+    "p10": 16.48,
+    "p90": 22.31,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480830",
+   "name": "Andrei Svechnikov",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 2.575,
+   "median": 2,
+   "p10": 1,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.7147,
+    "3": 0.4691,
+    "4": 0.2622,
+    "5": 0.1272
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.39,
+    "p10": 14.48,
+    "p90": 20.31,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480830",
+   "name": "Andrei Svechnikov",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.4149,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3396,
+    "2": 0.0656
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.39,
+    "p10": 14.48,
+    "p90": 20.31,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480830",
+   "name": "Andrei Svechnikov",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.4899,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3873,
+    "2": 0.0872
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.39,
+    "p10": 14.48,
+    "p90": 20.31,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480830",
+   "name": "Andrei Svechnikov",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.8974,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5924,
+    "2": 0.2266,
+    "3": 0.0624
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.39,
+    "p10": 14.48,
+    "p90": 20.31,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484203",
+   "name": "Bradly Nadeau",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.7563,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5123,
+    "3": 0.2607,
+    "4": 0.1114,
+    "5": 0.0413
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.99,
+    "p10": 12.08,
+    "p90": 17.91,
+    "pp_mean": 2.02
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484203",
+   "name": "Bradly Nadeau",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.2017,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1822,
+    "2": 0.0182
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.99,
+    "p10": 12.08,
+    "p90": 17.91,
+    "pp_mean": 2.02
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484203",
+   "name": "Bradly Nadeau",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.2586,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2279,
+    "2": 0.0282
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.99,
+    "p10": 12.08,
+    "p90": 17.91,
+    "pp_mean": 2.02
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484203",
+   "name": "Bradly Nadeau",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.4735,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.375,
+    "2": 0.0834,
+    "3": 0.0133
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.99,
+    "p10": 12.08,
+    "p90": 17.91,
+    "pp_mean": 2.02
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482702",
+   "name": "Logan Stankoven",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 2.258,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6408,
+    "3": 0.3883,
+    "4": 0.2009,
+    "5": 0.091
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.73,
+    "p10": 13.81,
+    "p90": 19.65,
+    "pp_mean": 1.66
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482702",
+   "name": "Logan Stankoven",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.2856,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2473,
+    "2": 0.0346
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.73,
+    "p10": 13.81,
+    "p90": 19.65,
+    "pp_mean": 1.66
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482702",
+   "name": "Logan Stankoven",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.328,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2796,
+    "2": 0.0434
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.73,
+    "p10": 13.81,
+    "p90": 19.65,
+    "pp_mean": 1.66
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482702",
+   "name": "Logan Stankoven",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.5945,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4482,
+    "2": 0.1201,
+    "3": 0.0226
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.73,
+    "p10": 13.81,
+    "p90": 19.65,
+    "pp_mean": 1.66
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482809",
+   "name": "Jackson Blake",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 2.4164,
+   "median": 2,
+   "p10": 0,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.6747,
+    "3": 0.4273,
+    "4": 0.2322,
+    "5": 0.1109
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.86,
+    "p10": 14.94,
+    "p90": 20.78,
+    "pp_mean": 3.25
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482809",
+   "name": "Jackson Blake",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.2777,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2414,
+    "2": 0.0329
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.86,
+    "p10": 14.94,
+    "p90": 20.78,
+    "pp_mean": 3.25
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482809",
+   "name": "Jackson Blake",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.5007,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3939,
+    "2": 0.0904
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.86,
+    "p10": 14.94,
+    "p90": 20.78,
+    "pp_mean": 3.25
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482809",
+   "name": "Jackson Blake",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.7613,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5329,
+    "2": 0.1774,
+    "3": 0.042
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.86,
+    "p10": 14.94,
+    "p90": 20.78,
+    "pp_mean": 3.25
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8477940",
+   "name": "Nikolaj Ehlers",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 2.3087,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.652,
+    "3": 0.4009,
+    "4": 0.2108,
+    "5": 0.0971
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.91,
+    "p10": 12.99,
+    "p90": 18.83,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8477940",
+   "name": "Nikolaj Ehlers",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.281,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2438,
+    "2": 0.0336
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.91,
+    "p10": 12.99,
+    "p90": 18.83,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8477940",
+   "name": "Nikolaj Ehlers",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.4883,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3863,
+    "2": 0.0867
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.91,
+    "p10": 12.99,
+    "p90": 18.83,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8477940",
+   "name": "Nikolaj Ehlers",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.7499,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5276,
+    "2": 0.1733,
+    "3": 0.0405
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.91,
+    "p10": 12.99,
+    "p90": 18.83,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476873",
+   "name": "Mark Jankowski",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.3461,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3834,
+    "3": 0.1607,
+    "4": 0.0563,
+    "5": 0.0171
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.0,
+    "p10": 11.09,
+    "p90": 16.92,
+    "pp_mean": 1.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476873",
+   "name": "Mark Jankowski",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.2387,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2115,
+    "2": 0.025
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.0,
+    "p10": 11.09,
+    "p90": 16.92,
+    "pp_mean": 1.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476873",
+   "name": "Mark Jankowski",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1957,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1771,
+    "2": 0.0174
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.0,
+    "p10": 11.09,
+    "p90": 16.92,
+    "pp_mean": 1.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476873",
+   "name": "Mark Jankowski",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.4336,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3499,
+    "2": 0.0719,
+    "3": 0.0105
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.0,
+    "p10": 11.09,
+    "p90": 16.92,
+    "pp_mean": 1.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476921",
+   "name": "Jordan Martinook",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.4338,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.412,
+    "3": 0.1815,
+    "4": 0.067,
+    "5": 0.0215
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.3,
+    "p10": 11.38,
+    "p90": 17.22,
+    "pp_mean": 0.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476921",
+   "name": "Jordan Martinook",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1504,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1393,
+    "2": 0.0105
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.3,
+    "p10": 11.38,
+    "p90": 17.22,
+    "pp_mean": 0.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476921",
+   "name": "Jordan Martinook",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.2165,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.193,
+    "2": 0.0216
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.3,
+    "p10": 11.38,
+    "p90": 17.22,
+    "pp_mean": 0.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476921",
+   "name": "Jordan Martinook",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.3715,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3085,
+    "2": 0.0552,
+    "3": 0.007
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.3,
+    "p10": 11.38,
+    "p90": 17.22,
+    "pp_mean": 0.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480762",
+   "name": "Eric Robinson",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.3068,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3699,
+    "3": 0.1522,
+    "4": 0.0525,
+    "5": 0.0158
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.15,
+    "p10": 9.24,
+    "p90": 15.07,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480762",
+   "name": "Eric Robinson",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.146,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1356,
+    "2": 0.0099
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.15,
+    "p10": 9.24,
+    "p90": 15.07,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480762",
+   "name": "Eric Robinson",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1486,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1369,
+    "2": 0.011
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.15,
+    "p10": 9.24,
+    "p90": 15.07,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.6)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480762",
+   "name": "Eric Robinson",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.3051,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2616,
+    "2": 0.039,
+    "3": 0.0041
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.15,
+    "p10": 9.24,
+    "p90": 15.07,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480829",
+   "name": "Jesperi Kotkaniemi",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.0173,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2701,
+    "3": 0.0915,
+    "4": 0.0259,
+    "5": 0.0064
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.08,
+    "p10": 8.16,
+    "p90": 14.0,
+    "pp_mean": 0.37
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480829",
+   "name": "Jesperi Kotkaniemi",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1064,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1005,
+    "2": 0.0056
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.08,
+    "p10": 8.16,
+    "p90": 14.0,
+    "pp_mean": 0.37
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480829",
+   "name": "Jesperi Kotkaniemi",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1561,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1441,
+    "2": 0.0114
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.08,
+    "p10": 8.16,
+    "p90": 14.0,
+    "pp_mean": 0.37
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.5)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480829",
+   "name": "Jesperi Kotkaniemi",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.2559,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2238,
+    "2": 0.0291,
+    "3": 0.0027
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.08,
+    "p10": 8.16,
+    "p90": 14.0,
+    "pp_mean": 0.37
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484392",
+   "name": "Felix Unger Sorum",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.1254,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.308,
+    "3": 0.1124,
+    "4": 0.0342,
+    "5": 0.009
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.26,
+    "p10": 8.35,
+    "p90": 14.18,
+    "pp_mean": 1.42
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "only 2 prior NHL games since 2021-22: rates lean on the role prior",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "role",
+      "severity": "REVIEW",
+      "what": "Fewer than 3 prior games establish this role",
+      "category": "uncertainty",
+      "action": "Widen the distribution; rely on positional prior."
+     },
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Only 2 games of the player's own evidence",
+      "category": "uncertainty",
+      "action": "Label as prior-driven; show the wide range."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484392",
+   "name": "Felix Unger Sorum",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1169,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1098,
+    "2": 0.0068
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.26,
+    "p10": 8.35,
+    "p90": 14.18,
+    "pp_mean": 1.42
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "only 2 prior NHL games since 2021-22: rates lean on the role prior",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "role",
+      "severity": "REVIEW",
+      "what": "Fewer than 3 prior games establish this role",
+      "category": "uncertainty",
+      "action": "Widen the distribution; rely on positional prior."
+     },
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Only 2 games of the player's own evidence",
+      "category": "uncertainty",
+      "action": "Label as prior-driven; show the wide range."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484392",
+   "name": "Felix Unger Sorum",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1709,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1566,
+    "2": 0.0135
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.26,
+    "p10": 8.35,
+    "p90": 14.18,
+    "pp_mean": 1.42
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "only 2 prior NHL games since 2021-22: rates lean on the role prior",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "role",
+      "severity": "REVIEW",
+      "what": "Fewer than 3 prior games establish this role",
+      "category": "uncertainty",
+      "action": "Widen the distribution; rely on positional prior."
+     },
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Only 2 games of the player's own evidence",
+      "category": "uncertainty",
+      "action": "Label as prior-driven; show the wide range."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8484392",
+   "name": "Felix Unger Sorum",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.2788,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2411,
+    "2": 0.0339,
+    "3": 0.0035
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.26,
+    "p10": 8.35,
+    "p90": 14.18,
+    "pp_mean": 1.42
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "only 2 prior NHL games since 2021-22: rates lean on the role prior",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "role",
+      "severity": "REVIEW",
+      "what": "Fewer than 3 prior games establish this role",
+      "category": "uncertainty",
+      "action": "Widen the distribution; rely on positional prior."
+     },
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Only 2 games of the player's own evidence",
+      "category": "uncertainty",
+      "action": "Label as prior-driven; show the wide range."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478970",
+   "name": "Jalen Chatfield",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.4376,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4132,
+    "3": 0.1824,
+    "4": 0.0675,
+    "5": 0.0217
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.05,
+    "p10": 17.13,
+    "p90": 22.97,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478970",
+   "name": "Jalen Chatfield",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.0478,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0461,
+    "2": 0.0016
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.05,
+    "p10": 17.13,
+    "p90": 22.97,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478970",
+   "name": "Jalen Chatfield",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.199,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.179,
+    "2": 0.0185
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.05,
+    "p10": 17.13,
+    "p90": 22.97,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8478970",
+   "name": "Jalen Chatfield",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.2513,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2203,
+    "2": 0.0281,
+    "3": 0.0026
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.05,
+    "p10": 17.13,
+    "p90": 22.97,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480817",
+   "name": "K'Andre Miller",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.6856,
+   "median": 1,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.4917,
+    "3": 0.2427,
+    "4": 0.1003,
+    "5": 0.036
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 22.63,
+    "p10": 19.71,
+    "p90": 25.55,
+    "pp_mean": 1.44
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480817",
+   "name": "K'Andre Miller",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1125,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.106,
+    "2": 0.0063
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 22.63,
+    "p10": 19.71,
+    "p90": 25.55,
+    "pp_mean": 1.44
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480817",
+   "name": "K'Andre Miller",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.3457,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2917,
+    "2": 0.048
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 22.63,
+    "p10": 19.71,
+    "p90": 25.55,
+    "pp_mean": 1.44
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480817",
+   "name": "K'Andre Miller",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.4552,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3636,
+    "2": 0.0781,
+    "3": 0.012
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 22.63,
+    "p10": 19.71,
+    "p90": 25.55,
+    "pp_mean": 1.44
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480336",
+   "name": "Sean Walker",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 2.0175,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5834,
+    "3": 0.3275,
+    "4": 0.1556,
+    "5": 0.0644
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.68,
+    "p10": 18.77,
+    "p90": 24.6,
+    "pp_mean": 0.8
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480336",
+   "name": "Sean Walker",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1075,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1015,
+    "2": 0.0058
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.68,
+    "p10": 18.77,
+    "p90": 24.6,
+    "pp_mean": 0.8
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480336",
+   "name": "Sean Walker",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.3435,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2901,
+    "2": 0.0474
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.68,
+    "p10": 18.77,
+    "p90": 24.6,
+    "pp_mean": 0.8
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8480336",
+   "name": "Sean Walker",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.4467,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3582,
+    "2": 0.0756,
+    "3": 0.0114
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.68,
+    "p10": 18.77,
+    "p90": 24.6,
+    "pp_mean": 0.8
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476906",
+   "name": "Shayne Gostisbehere",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.8637,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5424,
+    "3": 0.2882,
+    "4": 0.129,
+    "5": 0.0503
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.4,
+    "p10": 14.48,
+    "p90": 20.32,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476906",
+   "name": "Shayne Gostisbehere",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.1733,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1587,
+    "2": 0.0137
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.4,
+    "p10": 14.48,
+    "p90": 20.32,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476906",
+   "name": "Shayne Gostisbehere",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.4947,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3903,
+    "2": 0.0886
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.4,
+    "p10": 14.48,
+    "p90": 20.32,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476906",
+   "name": "Shayne Gostisbehere",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.6926,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4997,
+    "2": 0.1532,
+    "3": 0.0332
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.4,
+    "p10": 14.48,
+    "p90": 20.32,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476422",
+   "name": "Mike Reilly",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "shots",
+   "mean": 1.2849,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3626,
+    "3": 0.1472,
+    "4": 0.05,
+    "5": 0.0148
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.23,
+    "p10": 10.32,
+    "p90": 16.15,
+    "pp_mean": 0.1
+   },
+   "opponent_adjustment": {
+    "factor": 1.0331,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.03 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476422",
+   "name": "Mike Reilly",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "goals",
+   "mean": 0.036,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.035,
+    "2": 0.0009
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.23,
+    "p10": 10.32,
+    "p90": 16.15,
+    "pp_mean": 0.1
+   },
+   "opponent_adjustment": {
+    "factor": 1.0404,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476422",
+   "name": "Mike Reilly",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "assists",
+   "mean": 0.1606,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1479,
+    "2": 0.012
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.23,
+    "p10": 10.32,
+    "p90": 16.15,
+    "pp_mean": 0.1
+   },
+   "opponent_adjustment": {
+    "factor": 1.044,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.5)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8476422",
+   "name": "Mike Reilly",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "points",
+   "mean": 0.2012,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1797,
+    "2": 0.0197,
+    "3": 0.0016
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.23,
+    "p10": 10.32,
+    "p90": 16.15,
+    "pp_mean": 0.1
+   },
+   "opponent_adjustment": {
+    "factor": 1.0427,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more scoring: x1.04 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-18T22:27:06Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Ryan Henkel) captured 2026-10-18T22:27:06Z",
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8482445",
+   "name": "D. Cooley",
+   "team": "CGY",
+   "opponent": "CAR",
+   "game_id": "2026020136",
+   "family": "saves",
+   "mean": 26.978,
+   "median": 26,
+   "p10": 18,
+   "p90": 37,
+   "thresholds": {
+    "20": 0.8462,
+    "25": 0.6076,
+    "30": 0.344
+   },
+   "opportunity": {
+    "family": "shots_against",
+    "mean": 30.25,
+    "p10": null,
+    "p90": null
+   },
+   "opponent_adjustment": {
+    "factor": null,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on D. Cooley starting (P(start) 0.99: CONFIRMED @ 0-3h before start: 191/191 named goalies started (prior 9/10))"
+   ],
+   "readiness": "NEEDS IMPROVEMENT",
+   "participation": {
+    "status": "CONFIRMED_ACTIVE",
+    "certainty": "CONFIRMED",
+    "source": "dailyfaceoff_goalies",
+    "captured_utc": "2026-10-18T22:27:05Z",
+    "reasons": [
+     "dailyfaceoff_goalies: confirmed starting (starter)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "starting",
+   "p_start": 0.995,
+   "p_start_basis": "CONFIRMED @ 0-3h before start: 191/191 named goalies started (prior 9/10)",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  },
+  {
+   "player_id": "8483548",
+   "name": "B. Bussi",
+   "team": "CAR",
+   "opponent": "CGY",
+   "game_id": "2026020136",
+   "family": "saves",
+   "mean": 21.755,
+   "median": 21,
+   "p10": 14,
+   "p90": 30,
+   "thresholds": {
+    "20": 0.6253,
+    "25": 0.3057,
+    "30": 0.1041
+   },
+   "opportunity": {
+    "family": "shots_against",
+    "mean": 24.39,
+    "p10": null,
+    "p90": null
+   },
+   "opponent_adjustment": {
+    "factor": null,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on B. Bussi starting (P(start) 0.99: CONFIRMED @ 0-3h before start: 191/191 named goalies started (prior 9/10))"
+   ],
+   "readiness": "NEEDS IMPROVEMENT",
+   "participation": {
+    "status": "CONFIRMED_ACTIVE",
+    "certainty": "CONFIRMED",
+    "source": "dailyfaceoff_goalies",
+    "captured_utc": "2026-10-18T22:27:05Z",
+    "reasons": [
+     "dailyfaceoff_goalies: confirmed starting (starter)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "starting",
+   "p_start": 0.995,
+   "p_start_basis": "CONFIRMED @ 0-3h before start: 191/191 named goalies started (prior 9/10)",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "data_asof_utc": "2026-10-18T05:02:59Z"
+  }
+ ],
+ "gate_summary": {
+  "n": 142,
+  "status_counts": {
+   "PASS": 130,
+   "REVIEW": 12
+  },
+  "check_counts": {
+   "confidence:REVIEW": 12,
+   "role:REVIEW": 4
+  }
+ },
+ "slate": {
+  "date": "2026-10-18",
+  "label": "2026-10-18 slate: 1 games not started at 2026-10-18T22:30:48Z",
+  "conditioning": "skater rows are conditional on dressing, saves on the listed goalie starting (P(start) published)",
+  "lineup_info": {
+   "teams": 2,
+   "teams_with_lines": 2,
+   "teams_last_dressed": 0,
+   "official_confirmed_teams": 0,
+   "goalie_teams": 2,
+   "goalie_named": 2,
+   "goalie_fallback": 0,
+   "goalie_unresolved_history": 0
+  }
+ }
+}
