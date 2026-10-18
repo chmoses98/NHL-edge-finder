@@ -1,9 +1,9 @@
 # NHL slate 2026-10-18 — RESEARCH_ONLY
 
-generated 2026-10-18T07:34:02Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-18T08:34:04Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 2 · simulated (not started): 2 · markets on board: 2098 · contracts joined: 102 (unjoined to any game: 1571)
-gates: {'UNSUPPORTED': 52, 'OK': 22, 'NO_EDGE': 28}
+gates: {'UNSUPPORTED': 52, 'OK': 23, 'NO_EDGE': 27}
 families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_early_goal': 2, 'game_winner': 4, 'game_overtime': 2, 'game_spread': 8, 'team_total': 20, 'game_total': 18}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -33,12 +33,12 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTOTAL-26OCT18CBJMIN-10 | game_total | 0.066 | 0.100 | 0.092 | 11 | 91 | no | +0.018 | OK |
 | KXNHLSPREAD-26OCT18CBJMIN-CBJ2 | game_spread | 0.215 | 0.185 | 0.191 | 19 | 82 | yes | +0.014 | OK |
 | KXNHLTOTAL-26OCT18CARCGY-4 | game_total | 0.853 | 0.875 | 0.871 | 88 | 13 | no | +0.009 | OK |
+| KXNHLTOTAL-26OCT18CARCGY-5 | game_total | 0.769 | 0.795 | 0.790 | 80 | 21 | no | +0.009 | OK |
 | KXNHLTOTAL-26OCT18CBJMIN-3 | game_total | 0.950 | 0.970 | 0.967 | 98 | 4 | no | +0.008 | OK |
-| KXNHLSPREAD-26OCT18CARCGY-CAR3 | game_spread | 0.283 | 0.310 | 0.304 | 32 | 70 | no | +0.003 | OK |
+| KXNHLSPREAD-26OCT18CARCGY-CAR3 | game_spread | 0.283 | 0.305 | 0.300 | 31 | 70 | no | +0.003 | OK |
 | KXNHLTOTAL-26OCT18CARCGY-2 | game_total | 0.984 | 0.975 | 0.977 | 98 | 3 | yes | +0.002 | OK |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CGY6 | team_total | 0.053 | 0.045 | 0.047 | 5 | 96 | yes | +0.000 | OK |
 | KXNHLSPREAD-26OCT18CBJMIN-CBJ3 | game_spread | 0.116 | 0.100 | 0.103 | 11 | 91 |  | -0.000 | NO_EDGE |
-| KXNHLTOTAL-26OCT18CARCGY-5 | game_total | 0.769 | 0.790 | 0.786 | 80 | 22 |  | -0.002 | NO_EDGE |
 | KXNHLGAME-26OCT18CARCGY-CAR | game_winner | 0.649 | 0.665 | 0.662 | 67 | 34 |  | -0.005 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT18CBJMIN-CBJ2 | team_total | 0.742 | 0.760 | 0.756 | 77 | 25 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT18CARCGY-3 | game_total | 0.963 | 0.970 | 0.969 | 98 | 4 |  | -0.006 | NO_EDGE |
@@ -51,7 +51,7 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLSPREAD-26OCT18CARCGY-CGY2 | game_spread | 0.170 | 0.165 | 0.166 | 17 | 84 |  | -0.010 | NO_EDGE |
 | KXNHLTOTAL-26OCT18CARCGY-7 | game_total | 0.443 | 0.460 | 0.457 | 47 | 55 |  | -0.011 | NO_EDGE |
 | KXNHLTOTAL-26OCT18CBJMIN-2 | game_total | 0.979 | 0.980 | 0.980 | 99 | 3 |  | -0.011 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT18CARCGY-CGY2 | team_total | 0.727 | 0.740 | 0.737 | 75 | 27 |  | -0.011 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT18CARCGY-CGY2 | team_total | 0.727 | 0.745 | 0.741 | 76 | 27 |  | -0.011 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CAR6 | team_total | 0.147 | 0.140 | 0.141 | 15 | 87 |  | -0.012 | NO_EDGE |
 | KXNHLTOTAL-26OCT18CARCGY-10 | game_total | 0.087 | 0.095 | 0.093 | 11 | 92 |  | -0.012 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT18CBJMIN-CBJ4 | team_total | 0.299 | 0.310 | 0.308 | 32 | 70 |  | -0.013 | NO_EDGE |
@@ -65,15 +65,15 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTOTAL-26OCT18CARCGY-8 | game_total | 0.263 | 0.260 | 0.261 | 27 | 75 |  | -0.021 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CGY4 | team_total | 0.278 | 0.285 | 0.284 | 30 | 73 |  | -0.022 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CGY3 | team_total | 0.487 | 0.495 | 0.493 | 51 | 52 |  | -0.024 | NO_EDGE |
-| KXNHL1P-26OCT18CBJMIN-CBJ | period_winner |  | 0.270 |  | 30 | 76 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT18CBJMIN-MIN | period_winner |  | 0.375 |  | 40 | 65 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT18CBJMIN-CBJ | period_winner |  | 0.275 |  | 30 | 75 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT18CBJMIN-MIN | period_winner |  | 0.370 |  | 39 | 65 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT18CBJMIN-TIE | period_winner |  | 0.320 |  | 34 | 70 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26OCT18CBJMIN-CBJ2 | period_spread |  | 0.115 |  | 17 | 94 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT18CBJMIN-MIN2 | period_spread |  | 0.170 |  | 21 | 87 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT18CBJMIN-1 | period_total |  | 0.835 |  | 86 | 19 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT18CBJMIN-2 | period_total |  | 0.530 |  | 55 | 49 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT18CBJMIN-MIN2 | period_spread |  | 0.175 |  | 21 | 86 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT18CBJMIN-1 | period_total |  | 0.845 |  | 86 | 17 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT18CBJMIN-2 | period_total |  | 0.545 |  | 56 | 47 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT18CBJMIN-3 | period_total |  | 0.285 |  | 30 | 73 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT18CBJMIN-CBJ | period_winner |  | 0.285 |  | 31 | 74 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT18CBJMIN-CBJ | period_winner |  | 0.280 |  | 30 | 74 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT18CBJMIN-MIN | period_winner |  | 0.400 |  | 43 | 63 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT18CBJMIN-TIE | period_winner |  | 0.285 |  | 31 | 74 |  |  | UNSUPPORTED |
 | KXNHL2PSPREAD-26OCT18CBJMIN-CBJ2 | period_spread |  |  |  | 22 |  |  |  | UNSUPPORTED |
@@ -109,8 +109,8 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 ## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 3 recommended · full analysis in card.md / packet.json `thesis_card`
 
 - Minnesota wins by over 2.5 goals NO @ 72c · p 0.7847 (adj 0.7498) · $16.26 · thesis CBJ:WINS
-- Carolina wins by over 1.5 goals NO @ 57c · p 0.6394 (adj 0.6022) · $7.17 · thesis GAME:TIGHT
-- Carolina wins by over 2.5 goals NO @ 70c · p 0.7632 (adj 0.7266) · $4.13 · thesis GAME:TIGHT
+- Carolina wins by over 2.5 goals NO @ 70c · p 0.7632 (adj 0.7291) · $9.32 · thesis GAME:TIGHT
+- Carolina wins by over 1.5 goals NO @ 57c · p 0.6394 (adj 0.6022) · $4.3 · thesis GAME:TIGHT
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 

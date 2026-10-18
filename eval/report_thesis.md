@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-18T06:49:59Z · thesis-postmortem-2.0 · rows (all generations) 19521
+evaluated 2026-10-18T08:36:38Z · thesis-postmortem-2.0 · rows (all generations) 19521
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,19 +33,18 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020135 CBJ @ MIN: NOT_STARTED · snapshot snap-389ed2c230abe62238f3 @ 2026-10-18T06:32:57Z
+#### game 2026020135 CBJ @ MIN: NOT_STARTED · snapshot snap-7b21df37e113a5a9664e @ 2026-10-18T08:34:04Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT18CBJMIN-MIN3|no | FUNDED_RESEARCH | 3 | 10.97 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT18CBJMIN-MIN2|no | FUNDED_RESEARCH | 2 | 5.21 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT18CBJMIN-MIN3|no | FUNDED_RESEARCH | 5 | 16.26 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020136 CAR @ CGY: NOT_STARTED · snapshot snap-389ed2c230abe62238f3 @ 2026-10-18T06:32:57Z
+#### game 2026020136 CAR @ CGY: NOT_STARTED · snapshot snap-7b21df37e113a5a9664e @ 2026-10-18T08:34:04Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT18CARCGY-CAR2|no | FUNDED_RESEARCH | 2 | 7.17 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT18CARCGY-CAR3|no | FUNDED_RESEARCH | 2 | 4.13 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT18CARCGY-CAR3|no | FUNDED_RESEARCH | 3 | 9.32 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT18CARCGY-CAR2|no | FUNDED_RESEARCH | 2 | 4.30 | - | - | - | STRUCTURAL | - | - |
 
 ## Slate 2026-10-17: **COMPLETE — 14/14 games evaluated**
 
