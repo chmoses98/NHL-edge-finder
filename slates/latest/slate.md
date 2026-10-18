@@ -1,14 +1,13 @@
 # NHL slate 2026-10-18 — RESEARCH_ONLY
 
-generated 2026-10-18T21:15:23Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-18T22:17:43Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
-games on date: 2 · simulated (not started): 2 · markets on board: 2470 · contracts joined: 472 (unjoined to any game: 1571)
-gates: {'UNSUPPORTED': 422, 'OK': 39, 'NO_EDGE': 11}
-families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player_assists': 70, 'game_early_goal': 2, 'first_goal': 73, 'game_winner': 4, 'player_goals': 120, 'game_overtime': 2, 'player_points': 103, 'goalie_saves': 4, 'game_spread': 8, 'team_total': 20, 'game_total': 18}
+games on date: 2 · simulated (not started): 1 · markets on board: 2480 · contracts joined: 239 (unjoined to any game: 1571)
+gates: {'UNSUPPORTED': 214, 'OK': 24, 'NO_EDGE': 1}
+families: {'period_winner': 9, 'period_spread': 6, 'period_total': 9, 'player_assists': 37, 'game_early_goal': 1, 'first_goal': 36, 'game_winner': 2, 'player_goals': 60, 'game_overtime': 1, 'player_points': 53, 'goalie_saves': 2, 'game_spread': 4, 'team_total': 10, 'game_total': 9}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| CBJ @ MIN | 2026-10-18T22:00:00Z | T-30m | 0.676 | 0.324 | 0.162 | 6.24 | 3.69 | 2.55 | 233 (25/208) | CONFIRMED/PROJECTED |
 | CAR @ CGY | 2026-10-19T00:00:00Z | T-90m | 0.452 | 0.548 | 0.184 | 5.84 | 2.78 | 3.07 | 239 (25/214) | CONFIRMED/CONFIRMED |
 
 ## Contracts (research view; sorted by fee-adjusted EV of the best side; NOT recommendations)
@@ -18,119 +17,101 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CAR4 | team_total | 0.377 | 0.535 | 0.503 | 54 | 47 | no | +0.136 | OK |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CAR3 | team_total | 0.602 | 0.730 | 0.706 | 74 | 28 | no | +0.104 | OK |
 | KXNHLSPREAD-26OCT18CARCGY-CAR3 | game_spread | 0.193 | 0.315 | 0.287 | 32 | 69 | no | +0.102 | OK |
-| KXNHLGAME-26OCT18CARCGY-CGY | game_winner | 0.452 | 0.335 | 0.357 | 34 | 67 | yes | +0.097 | OK |
 | KXNHLGAME-26OCT18CARCGY-CAR | game_winner | 0.548 | 0.665 | 0.643 | 67 | 34 | no | +0.097 | OK |
+| KXNHLGAME-26OCT18CARCGY-CGY | game_winner | 0.452 | 0.335 | 0.357 | 34 | 67 | yes | +0.097 | OK |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CAR5 | team_total | 0.200 | 0.320 | 0.293 | 33 | 69 | no | +0.095 | OK |
 | KXNHLSPREAD-26OCT18CARCGY-CAR2 | game_spread | 0.320 | 0.435 | 0.411 | 44 | 57 | no | +0.093 | OK |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CAR2 | team_total | 0.805 | 0.890 | 0.876 | 90 | 12 | no | +0.068 | OK |
+| KXNHLTOTAL-26OCT18CARCGY-6 | game_total | 0.501 | 0.585 | 0.568 | 59 | 42 | no | +0.062 | OK |
 | KXNHLSPREAD-26OCT18CARCGY-CGY2 | game_spread | 0.241 | 0.165 | 0.179 | 17 | 84 | yes | +0.061 | OK |
 | KXNHLTOTAL-26OCT18CARCGY-7 | game_total | 0.389 | 0.465 | 0.449 | 47 | 54 | no | +0.054 | OK |
 | KXNHLTOTAL-26OCT18CARCGY-5 | game_total | 0.725 | 0.795 | 0.782 | 80 | 21 | no | +0.053 | OK |
-| KXNHLTOTAL-26OCT18CARCGY-6 | game_total | 0.501 | 0.575 | 0.560 | 58 | 43 | no | +0.052 | OK |
 | KXNHLTOTAL-26OCT18CARCGY-4 | game_total | 0.819 | 0.875 | 0.865 | 88 | 13 | no | +0.043 | OK |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CAR6 | team_total | 0.089 | 0.150 | 0.136 | 16 | 86 | no | +0.042 | OK |
-| KXNHLTOTAL-26OCT18CARCGY-8 | game_total | 0.210 | 0.265 | 0.253 | 27 | 74 | no | +0.036 | OK |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CGY3 | team_total | 0.530 | 0.475 | 0.486 | 48 | 53 | yes | +0.033 | OK |
-| KXNHLSPREAD-26OCT18CARCGY-CGY3 | game_spread | 0.137 | 0.095 | 0.102 | 10 | 91 | yes | +0.030 | OK |
-| KXNHLGAME-26OCT18CBJMIN-CBJ | game_winner | 0.324 | 0.375 | 0.365 | 38 | 63 | no | +0.030 | OK |
+| KXNHLTOTAL-26OCT18CARCGY-8 | game_total | 0.210 | 0.255 | 0.246 | 26 | 75 | no | +0.027 | OK |
 | KXNHLTOTAL-26OCT18CARCGY-9 | game_total | 0.144 | 0.185 | 0.176 | 19 | 82 | no | +0.026 | OK |
-| KXNHLTEAMTOTAL-26OCT18CBJMIN-CBJ3 | team_total | 0.472 | 0.515 | 0.506 | 52 | 49 | no | +0.021 | OK |
-| KXNHLGAME-26OCT18CBJMIN-MIN | game_winner | 0.676 | 0.635 | 0.643 | 64 | 37 | yes | +0.020 | OK |
-| KXNHLSPREAD-26OCT18CBJMIN-MIN2 | game_spread | 0.456 | 0.415 | 0.423 | 42 | 59 | yes | +0.019 | OK |
+| KXNHLSPREAD-26OCT18CARCGY-CGY3 | game_spread | 0.137 | 0.100 | 0.107 | 11 | 91 | yes | +0.020 | OK |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CGY4 | team_total | 0.312 | 0.275 | 0.282 | 28 | 73 | yes | +0.018 | OK |
-| KXNHLSPREAD-26OCT18CBJMIN-CBJ2 | game_spread | 0.153 | 0.185 | 0.178 | 19 | 82 | no | +0.017 | OK |
 | KXNHLTOTAL-26OCT18CARCGY-3 | game_total | 0.952 | 0.975 | 0.972 | 98 | 3 | no | +0.016 | OK |
-| KXNHLTOTAL-26OCT18CBJMIN-4 | game_total | 0.858 | 0.885 | 0.880 | 89 | 12 | no | +0.015 | OK |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CGY2 | team_total | 0.759 | 0.725 | 0.732 | 73 | 28 | yes | +0.015 | OK |
-| KXNHLSPREAD-26OCT18CBJMIN-CBJ3 | game_spread | 0.079 | 0.110 | 0.103 | 12 | 90 | no | +0.015 | OK |
-| KXNHLTOTAL-26OCT18CBJMIN-5 | game_total | 0.774 | 0.805 | 0.799 | 81 | 20 | no | +0.015 | OK |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CGY5 | team_total | 0.152 | 0.125 | 0.130 | 13 | 88 | yes | +0.014 | OK |
-| KXNHLTEAMTOTAL-26OCT18CBJMIN-CBJ2 | team_total | 0.713 | 0.745 | 0.739 | 75 | 26 | no | +0.013 | OK |
 | KXNHLTOTAL-26OCT18CARCGY-10 | game_total | 0.063 | 0.085 | 0.080 | 9 | 92 | no | +0.012 | OK |
 | KXNHLTEAMTOTAL-26OCT18CARCGY-CGY6 | team_total | 0.063 | 0.045 | 0.048 | 5 | 96 | yes | +0.010 | OK |
-| KXNHLTEAMTOTAL-26OCT18CBJMIN-CBJ4 | team_total | 0.266 | 0.300 | 0.293 | 31 | 71 | no | +0.009 | OK |
-| KXNHLTEAMTOTAL-26OCT18CBJMIN-CBJ5 | team_total | 0.123 | 0.145 | 0.140 | 15 | 86 | no | +0.008 | OK |
-| KXNHLTOTAL-26OCT18CBJMIN-3 | game_total | 0.962 | 0.975 | 0.973 | 98 | 3 | no | +0.006 | OK |
-| KXNHLTOTAL-26OCT18CBJMIN-6 | game_total | 0.570 | 0.595 | 0.590 | 60 | 41 | no | +0.003 | OK |
-| KXNHLTEAMTOTAL-26OCT18CBJMIN-MIN6 | team_total | 0.162 | 0.145 | 0.148 | 15 | 86 | yes | +0.003 | OK |
-| KXNHLTEAMTOTAL-26OCT18CBJMIN-CBJ6 | team_total | 0.046 | 0.055 | 0.053 | 6 | 95 | no | +0.001 | OK |
 | KXNHLTOTAL-26OCT18CARCGY-2 | game_total | 0.980 | 0.985 | 0.984 | 99 | 2 |  | -0.001 | NO_EDGE |
-| KXNHLSPREAD-26OCT18CBJMIN-MIN3 | game_spread | 0.311 | 0.295 | 0.298 | 30 | 71 |  | -0.003 | NO_EDGE |
-| KXNHLTOTAL-26OCT18CBJMIN-7 | game_total | 0.456 | 0.475 | 0.471 | 48 | 53 |  | -0.004 | NO_EDGE |
-| KXNHLTOTAL-26OCT18CBJMIN-2 | game_total | 0.984 | 0.990 | 0.989 |  | 2 |  | -0.006 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT18CBJMIN-MIN3 | team_total | 0.728 | 0.715 | 0.718 | 72 | 29 |  | -0.006 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT18CBJMIN-MIN5 | team_total | 0.317 | 0.300 | 0.303 | 31 | 71 |  | -0.008 | NO_EDGE |
-| KXNHLTOTAL-26OCT18CBJMIN-8 | game_total | 0.268 | 0.275 | 0.274 | 28 | 73 |  | -0.012 | NO_EDGE |
-| KXNHLTOTAL-26OCT18CBJMIN-10 | game_total | 0.087 | 0.090 | 0.089 | 10 | 92 |  | -0.012 | NO_EDGE |
-| KXNHLTOTAL-26OCT18CBJMIN-9 | game_total | 0.187 | 0.185 | 0.185 | 19 | 82 |  | -0.013 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT18CBJMIN-MIN2 | team_total | 0.880 | 0.880 | 0.880 | 89 | 13 |  | -0.017 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT18CBJMIN-MIN4 | team_total | 0.520 | 0.510 | 0.512 | 52 | 50 |  | -0.017 | NO_EDGE |
-| KXNHL1P-26OCT18CBJMIN-TIE | period_winner |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT18CBJMIN-MIN | period_winner |  | 0.395 |  | 41 | 62 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT18CBJMIN-CBJ | period_winner |  | 0.265 |  | 28 | 75 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT18CBJMIN-MIN2 | period_spread |  | 0.145 |  | 16 | 87 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT18CBJMIN-CBJ2 | period_spread |  | 0.070 |  | 8 | 94 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT18CBJMIN-3 | period_total |  | 0.275 |  | 28 | 73 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT18CBJMIN-2 | period_total |  | 0.555 |  | 57 | 46 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT18CBJMIN-1 | period_total |  | 0.830 |  | 84 | 18 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT18CBJMIN-TIE | period_winner |  | 0.290 |  | 31 | 73 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT18CBJMIN-MIN | period_winner |  | 0.425 |  | 44 | 59 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT18CBJMIN-CBJ | period_winner |  | 0.275 |  | 29 | 74 |  |  | UNSUPPORTED |
-| KXNHL2PSPREAD-26OCT18CBJMIN-MIN2 | period_spread |  | 0.175 |  | 19 | 84 |  |  | UNSUPPORTED |
-| KXNHL2PSPREAD-26OCT18CBJMIN-CBJ2 | period_spread |  | 0.080 |  | 9 | 93 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT18CBJMIN-3 | period_total |  | 0.345 |  | 36 | 67 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT18CBJMIN-2 | period_total |  | 0.610 |  | 62 | 40 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT18CBJMIN-1 | period_total |  | 0.895 |  | 91 | 12 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT18CBJMIN-TIE | period_winner |  | 0.260 |  | 27 | 75 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT18CBJMIN-MIN | period_winner |  | 0.450 |  | 47 | 57 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT18CBJMIN-CBJ | period_winner |  | 0.280 |  | 29 | 73 |  |  | UNSUPPORTED |
-| KXNHL3PSPREAD-26OCT18CBJMIN-MIN2 | period_spread |  | 0.220 |  | 24 | 80 |  |  | UNSUPPORTED |
-| KXNHL3PSPREAD-26OCT18CBJMIN-CBJ2 | period_spread |  | 0.090 |  | 11 | 93 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT18CBJMIN-3 | period_total |  | 0.395 |  | 40 | 61 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT18CBJMIN-2 | period_total |  | 0.670 |  | 68 | 34 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT18CBJMIN-1 | period_total |  | 0.910 |  | 93 | 11 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT18CBJMIN-CBJCSILLINGER4-1 | player_assists |  | 0.230 |  | 24 | 78 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT18CBJMIN-CBJDSEVERSON78-1 | player_assists |  | 0.230 |  | 24 | 78 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT18CBJMIN-MINJBRODIN25-1 | player_assists |  | 0.230 |  | 24 | 78 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT18CBJMIN-MINDSPACEK82-1 | player_assists |  | 0.245 |  | 25 | 76 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT18CBJMIN-MINRHARTMAN38-1 | player_assists |  | 0.260 |  | 27 | 75 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT18CBJMIN-MINQHUGHES43-3 | player_assists |  | 0.085 |  | 10 | 93 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT18CARCGY-CAR | period_winner |  | 0.410 |  | 42 | 60 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT18CARCGY-CGY | period_winner |  | 0.260 |  | 27 | 75 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT18CARCGY-TIE | period_winner |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT18CARCGY-CAR2 | period_spread |  | 0.150 |  | 16 | 86 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT18CARCGY-CGY2 | period_spread |  | 0.060 |  | 7 | 95 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT18CARCGY-1 | period_total |  | 0.825 |  | 83 | 18 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT18CARCGY-2 | period_total |  | 0.555 |  | 56 | 45 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT18CARCGY-3 | period_total |  | 0.275 |  | 28 | 73 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT18CARCGY-CAR | period_winner |  | 0.435 |  | 45 | 58 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT18CARCGY-CGY | period_winner |  | 0.270 |  | 28 | 74 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT18CARCGY-TIE | period_winner |  | 0.285 |  | 30 | 73 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26OCT18CARCGY-CAR2 | period_spread |  | 0.185 |  | 21 | 84 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26OCT18CARCGY-CGY2 | period_spread |  | 0.075 |  | 9 | 94 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT18CARCGY-1 | period_total |  | 0.900 |  | 91 | 11 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT18CARCGY-2 | period_total |  | 0.600 |  | 61 | 41 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT18CARCGY-3 | period_total |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT18CARCGY-CAR | period_winner |  | 0.470 |  | 48 | 54 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT18CARCGY-CGY | period_winner |  | 0.260 |  | 27 | 75 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT18CARCGY-TIE | period_winner |  | 0.255 |  | 27 | 76 |  |  | UNSUPPORTED |
+| KXNHL3PSPREAD-26OCT18CARCGY-CAR2 | period_spread |  | 0.250 |  | 27 | 77 |  |  | UNSUPPORTED |
+| KXNHL3PSPREAD-26OCT18CARCGY-CGY2 | period_spread |  | 0.080 |  | 10 | 94 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT18CARCGY-1 | period_total |  | 0.915 |  | 93 | 10 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT18CARCGY-2 | period_total |  | 0.660 |  | 67 | 35 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT18CARCGY-3 | period_total |  | 0.390 |  | 40 | 62 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARASVECHNIKOV37-1 | player_assists |  | 0.415 |  | 42 | 59 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARASVECHNIKOV37-2 | player_assists |  | 0.100 |  | 11 | 91 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARBNADEAU29-1 | player_assists |  | 0.260 |  | 27 | 75 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARJBLAKE53-1 | player_assists |  | 0.375 |  | 39 | 64 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARJBLAKE53-2 | player_assists |  | 0.085 |  | 10 | 93 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARJCHATFIELD5-1 | player_assists |  |  |  | 24 |  |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARJMARTINOOK48-1 | player_assists |  | 0.220 |  | 24 | 80 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARJSLAVIN74-1 | player_assists |  |  |  | 25 |  |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARKMILLER19-1 | player_assists |  | 0.295 |  | 30 | 71 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARKMILLER19-2 | player_assists |  | 0.050 |  | 7 | 97 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARLSTANKOVEN22-1 | player_assists |  | 0.265 |  | 29 | 76 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARMJANKOWSKI77-1 | player_assists |  | 0.190 |  | 20 | 82 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARNEHLERS27-1 | player_assists |  | 0.420 |  | 43 | 59 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARNEHLERS27-2 | player_assists |  | 0.105 |  | 12 | 91 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARSAHO20-1 | player_assists |  | 0.530 |  | 54 | 48 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARSAHO20-2 | player_assists |  | 0.175 |  | 19 | 84 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARSGOSTISBEHERE4-1 | player_assists |  | 0.430 |  | 44 | 58 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARSGOSTISBEHERE4-2 | player_assists |  | 0.130 |  | 15 | 89 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARSWALKER26-1 | player_assists |  | 0.295 |  | 31 | 72 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARSWALKER26-2 | player_assists |  |  |  | 6 |  |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARWCARRIER28-1 | player_assists |  | 0.160 |  | 28 | 96 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CARWCARRIER28-2 | player_assists |  | 0.060 |  | 7 |  |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CGYASUNIEV61-1 | player_assists |  |  |  | 23 |  |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CGYJFARABEE86-1 | player_assists |  | 0.300 |  | 31 | 71 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CGYJFARABEE86-2 | player_assists |  |  |  | 6 |  |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CGYKBAHL7-1 | player_assists |  |  |  | 14 |  |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CGYMBACKLUND11-1 | player_assists |  | 0.235 |  | 26 | 79 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CGYMCORONATO27-1 | player_assists |  | 0.295 |  | 30 | 71 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CGYMCORONATO27-2 | player_assists |  |  |  | 5 |  |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CGYMFROST16-1 | player_assists |  | 0.270 |  | 28 | 74 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT18CARCGY-CGYMFROST16-2 | player_assists |  |  |  | 5 |  |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
 | game | V1 P(home) | V2 P(home) | V1 P(OT) | V2 P(OT) | V1 exp total | V2 exp total | V2 goalie factors H/A | largest V1/V2 gap |
 |---|---:|---:|---:|---:|---:|---:|---|---|
-| CBJ @ MIN | 0.676 | 0.604 | 0.162 | 0.219 | 6.24 | 6.17 | 0.991/0.990 | KXNHLSPREAD-26OCT18CBJMIN-MIN2 -0.088 |
 | CAR @ CGY | 0.452 | 0.451 | 0.184 | 0.220 | 5.84 | 6.16 | 0.978/0.984 | KXNHLTOTAL-26OCT18CARCGY-7 +0.058 |
 
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 8 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 4 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Valeri Nichushkin: 1+ assists NO @ 72c · p 0.8105 (adj 0.7628) · $20.0 · thesis CBJ:SUPPRESSED
-- Mathieu Olivier: 1+ goals YES @ 14c · p 0.1768 (adj 0.1663) · $4.99 · thesis CBJ:OFFENSE_4PLUS
-- Quinn Hughes: 1+ goals NO @ 81c · p 0.8484 (adj 0.8363) · $20.0 · thesis MIN:SUPPRESSED
-- Cole Sillinger: 1+ goals YES @ 13c · p 0.1591 (adj 0.1506) · $3.66 · thesis CBJ:OFFENSE_4PLUS
-- Sebastian Aho: 1+ goals NO @ 65c · p 0.7193 (adj 0.6995) · $15.0 · thesis CAR:SUPPRESSED
-- Nikolaj Ehlers: 1+ goals NO @ 73c · p 0.7852 (adj 0.7702) · $15.0 · thesis CAR:SUPPRESSED
-- Calgary over 2.5 goals scored YES @ 48c · p 0.5687 (adj 0.5218) · $8.87 · thesis CGY:OFFENSE_4PLUS
-- Carolina wins by over 2.5 goals NO @ 69c · p 0.7921 (adj 0.7225) · $5.32 · thesis CGY:WINS
+- Sebastian Aho: 1+ goals NO @ 65c · p 0.7193 (adj 0.6995) · $17.04 · thesis CAR:SUPPRESSED
+- Sebastian Aho: 1+ assists NO @ 48c · p 0.6443 (adj 0.531) · $12.96 · thesis CAR:SUPPRESSED
+- Carolina wins by over 2.5 goals NO @ 69c · p 0.7921 (adj 0.7225) · $8.08 · thesis CGY:WINS
+- Morgan Frost: 1+ goals YES @ 23c · p 0.268 (adj 0.2573) · $4.23 · thesis CGY:OFFENSE_4PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
-
-**CBJ @ MIN** · priced 176/182 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- MIN net: Jesper Wallstedt (CONFIRMED) exp shots 28.71, exp saves 25.25 (sd 6.6), pull risk 0.044
-- CBJ net: Cam Talbot (PROJECTED) exp shots 28.7, exp saves 24.35 (sd 6.84), pull risk 0.075
-
-| contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
-|---|---:|---:|---|---:|---|
-| Jesper Wallstedt: 24+ saves | 0.606 | 0.480 | 49/53 | +0.098 |  |
-| Quinn Hughes: 2+ points | 0.264 | 0.385 | 40/63 | +0.090 | STANDARD |
-| Cam Talbot: 27+ saves | 0.371 | 0.475 | 48/53 | +0.081 |  |
-| Quinn Hughes: 1+ assists | 0.568 | 0.670 | 68/34 | +0.076 | STANDARD |
-| Quinn Hughes: 2+ assists | 0.201 | 0.300 | 32/72 | +0.065 | STANDARD |
-| Valeri Nichushkin: 1+ assists | 0.190 | 0.285 | 29/72 | +0.076 | STANDARD |
 
 **CAR @ CGY** · priced 184/188 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - CGY net: Devin Cooley (CONFIRMED) exp shots 31.92, exp saves 27.3 (sd 7.29), pull risk 0.068
@@ -138,12 +119,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Kevin Bahl: 1+ points | 0.279 | 0.095 | 18/99 | +0.088 | STANDARD |
+| Sebastian Aho: 2+ points | 0.180 | 0.360 | 37/65 | +0.154 | STANDARD |
+| Kevin Bahl: 1+ points | 0.279 | 0.100 | 19/99 | +0.078 | STANDARD |
 | Sebastian Aho: 1+ assists | 0.356 | 0.530 | 54/48 | +0.147 | STANDARD |
-| Sebastian Aho: 2+ points | 0.180 | 0.340 | 35/67 | +0.134 | STANDARD |
+| Sebastian Aho: 1+ points | 0.532 | 0.675 | 70/35 | +0.102 | STANDARD |
 | Bradly Nadeau: 1+ assists | 0.127 | 0.260 | 27/75 | +0.110 | STANDARD |
-| Sebastian Aho: 1+ points | 0.532 | 0.660 | 67/35 | +0.102 | STANDARD |
-| Bradly Nadeau: 1+ points | 0.294 | 0.395 | 40/61 | +0.080 | STANDARD |
+| William Carrier: 1+ assists | 0.269 | 0.160 | 28/96 | -0.025 | STANDARD |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
