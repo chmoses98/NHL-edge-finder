@@ -58,11 +58,18 @@ def main(argv=None) -> int:
     from pf_core import prospective as pr
 
     dar = a.data_archive
-    if a.date == "auto":     # newest ET date at least two days old that has regular-season games in the archive
+    if a.date == "auto":     # newest ET date at least two days old with at least one game the archive's own schedule shows as final by the morning settle
         s_all = C.schedule_asof(dar, C.now_utc(), back_days=10)
         s_all = s_all[s_all["game_id"].map(C.is_regular)]
         cutoff = C.et_date(C.now_utc() - pd.Timedelta(days=2))
-        a.date = max(d for d in s_all["game_date_et"].unique() if d <= cutoff)
+
+        def settled_by_morning(d):
+            g = s_all[s_all["game_date_et"] == d]
+            seen = C.schedule_asof(dar, g["start"].max() + pd.Timedelta(hours=14), back_days=16)
+            st = seen[seen["game_id"].isin(g["game_id"])].set_index("game_id")["status"]
+            return bool((st == "final").any())   # a slate still "live" in the last schedule capture has nothing to settle
+
+        a.date = max(d for d in s_all["game_date_et"].unique() if d <= cutoff and settled_by_morning(d))
     day = a.date
     sched = C.schedule_asof(dar, C.parse_ts(f"{day}T20:00:00Z") + pd.Timedelta(days=3), back_days=20)
     games = sched[(sched["game_date_et"] == day) & sched["game_id"].map(C.is_regular)].sort_values("start")
