@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-18T10:22:03Z · thesis-postmortem-2.0 · rows (all generations) 19521
+evaluated 2026-10-18T12:07:50Z · thesis-postmortem-2.0 · rows (all generations) 19521
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,18 +33,14 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020135 CBJ @ MIN: NOT_STARTED · snapshot snap-c41a542a6370d8fec422 @ 2026-10-18T09:35:05Z
+#### game 2026020135 CBJ @ MIN: NOT_STARTED · snapshot snap-72f4e96a10df12bf9dbc @ 2026-10-18T11:35:49Z
+
+#### game 2026020136 CAR @ CGY: NOT_STARTED · snapshot snap-72f4e96a10df12bf9dbc @ 2026-10-18T11:35:49Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT18CBJMIN-MIN3|no | FUNDED_RESEARCH | 5 | 16.26 | - | - | - | STRUCTURAL | - | - |
-
-#### game 2026020136 CAR @ CGY: NOT_STARTED · snapshot snap-c41a542a6370d8fec422 @ 2026-10-18T09:35:05Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT18CARCGY-CAR3|no | FUNDED_RESEARCH | 3 | 9.32 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT18CARCGY-CAR2|no | FUNDED_RESEARCH | 2 | 4.30 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT18CARCGY-CAR3|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT18CARCGY-CGY2|yes | FUNDED_RESEARCH | 1 | 3.52 | - | - | - | STRUCTURAL | - | - |
 
 ## Slate 2026-10-17: **COMPLETE — 14/14 games evaluated**
 
