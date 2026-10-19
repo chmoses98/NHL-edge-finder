@@ -1,6 +1,6 @@
 # NHL slate 2026-10-19 — RESEARCH_ONLY
 
-generated 2026-10-19T05:23:52Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-19T06:11:51Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 4 · simulated (not started): 4 · markets on board: 2428 · contracts joined: 204 (unjoined to any game: 1571)
 gates: {'UNSUPPORTED': 104, 'NO_EDGE': 56, 'OK': 44}
@@ -20,11 +20,12 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'game_e
 | KXNHLTEAMTOTAL-26OCT19COLPHI-COL4 | team_total | 0.409 | 0.515 | 0.494 | 53 | 50 | no | +0.073 | OK |
 | KXNHLSPREAD-26OCT19COLPHI-COL3 | game_spread | 0.222 | 0.315 | 0.295 | 32 | 69 | no | +0.073 | OK |
 | KXNHLTEAMTOTAL-26OCT19COLPHI-COL3 | team_total | 0.634 | 0.720 | 0.704 | 73 | 29 | no | +0.061 | OK |
-| KXNHLTOTAL-26OCT19COLPHI-6 | game_total | 0.493 | 0.575 | 0.559 | 58 | 43 | no | +0.060 | OK |
-| KXNHLSPREAD-26OCT19COLPHI-COL2 | game_spread | 0.364 | 0.445 | 0.428 | 45 | 56 | no | +0.059 | OK |
+| KXNHLSPREAD-26OCT19COLPHI-COL2 | game_spread | 0.364 | 0.450 | 0.432 | 46 | 56 | no | +0.059 | OK |
 | KXNHLTEAMTOTAL-26OCT19COLPHI-COL5 | team_total | 0.219 | 0.305 | 0.286 | 32 | 71 | no | +0.057 | OK |
 | KXNHLTOTAL-26OCT19COLPHI-7 | game_total | 0.380 | 0.455 | 0.440 | 46 | 55 | no | +0.052 | OK |
 | KXNHLTOTAL-26OCT19COLPHI-5 | game_total | 0.717 | 0.790 | 0.777 | 80 | 22 | no | +0.051 | OK |
+| KXNHLTOTAL-26OCT19COLPHI-6 | game_total | 0.493 | 0.565 | 0.551 | 57 | 44 | no | +0.050 | OK |
+| KXNHLTEAMTOTAL-26OCT19COLPHI-COL2 | team_total | 0.829 | 0.890 | 0.879 | 90 | 12 | no | +0.044 | OK |
 | KXNHLGAME-26OCT19COLPHI-COL | game_winner | 0.600 | 0.665 | 0.652 | 67 | 34 | no | +0.044 | OK |
 | KXNHLGAME-26OCT19COLPHI-PHI | game_winner | 0.400 | 0.335 | 0.348 | 34 | 67 | yes | +0.044 | OK |
 | KXNHLGAME-26OCT19SJTOR-SJ | game_winner | 0.500 | 0.435 | 0.448 | 44 | 57 | yes | +0.043 | OK |
@@ -33,7 +34,6 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'game_e
 | KXNHLTOTAL-26OCT19COLPHI-4 | game_total | 0.815 | 0.865 | 0.856 | 87 | 14 | no | +0.037 | OK |
 | KXNHLTOTAL-26OCT19COLPHI-8 | game_total | 0.203 | 0.260 | 0.248 | 27 | 75 | no | +0.034 | OK |
 | KXNHLTEAMTOTAL-26OCT19SJTOR-TOR3 | team_total | 0.641 | 0.700 | 0.689 | 71 | 31 | no | +0.034 | OK |
-| KXNHLTEAMTOTAL-26OCT19COLPHI-COL2 | team_total | 0.829 | 0.880 | 0.871 | 89 | 13 | no | +0.034 | OK |
 | KXNHLTOTAL-26OCT19COLPHI-9 | game_total | 0.136 | 0.185 | 0.174 | 19 | 82 | no | +0.033 | OK |
 | KXNHLGAME-26OCT19SJTOR-TOR | game_winner | 0.500 | 0.560 | 0.548 | 57 | 45 | no | +0.032 | OK |
 | KXNHLSPREAD-26OCT19SJTOR-TOR2 | game_spread | 0.293 | 0.345 | 0.334 | 35 | 66 | no | +0.031 | OK |
@@ -68,13 +68,12 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'game_e
 | KXNHLTOTAL-26OCT19SJTOR-6 | game_total | 0.615 | 0.640 | 0.635 | 65 | 37 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26OCT19ANANYR-4 | game_total | 0.854 | 0.870 | 0.867 | 88 | 14 |  | -0.002 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19COLPHI-PHI5 | team_total | 0.125 | 0.135 | 0.133 | 14 | 87 |  | -0.003 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT19ANANYR-ANA6 | team_total | 0.069 | 0.075 | 0.074 | 8 | 93 |  | -0.003 | NO_EDGE |
 | KXNHLSPREAD-26OCT19ANANYR-NYR2 | game_spread | 0.352 | 0.335 | 0.338 | 34 | 67 |  | -0.003 | NO_EDGE |
 | KXNHLTOTAL-26OCT19PITUTA-3 | game_total | 0.978 | 0.975 | 0.976 | 98 | 3 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26OCT19ANANYR-3 | game_total | 0.962 | 0.970 | 0.969 | 98 | 4 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT19ANANYR-2 | game_total | 0.983 | 0.985 | 0.985 | 99 | 2 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT19SJTOR-3 | game_total | 0.973 | 0.975 | 0.975 | 98 | 3 |  | -0.005 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT19PITUTA-PIT6 | team_total | 0.080 | 0.070 | 0.072 | 8 | 94 |  | -0.005 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT19PITUTA-PIT6 | team_total | 0.080 | 0.075 | 0.076 | 8 | 93 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT19PITUTA-5 | game_total | 0.826 | 0.835 | 0.833 | 84 | 17 |  | -0.006 | NO_EDGE |
 | KXNHLTOTAL-26OCT19ANANYR-7 | game_total | 0.449 | 0.465 | 0.462 | 47 | 54 |  | -0.006 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19ANANYR-ANA3 | team_total | 0.550 | 0.580 | 0.574 | 60 | 44 |  | -0.007 | NO_EDGE |
@@ -89,11 +88,12 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'game_e
 | KXNHLGAME-26OCT19ANANYR-NYR | game_winner | 0.577 | 0.560 | 0.563 | 57 | 45 |  | -0.010 | NO_EDGE |
 | KXNHLGAME-26OCT19ANANYR-ANA | game_winner | 0.423 | 0.435 | 0.433 | 44 | 57 |  | -0.010 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19ANANYR-NYR2 | team_total | 0.840 | 0.845 | 0.844 | 85 | 16 |  | -0.010 | NO_EDGE |
-| KXNHLSPREAD-26OCT19PITUTA-UTA3 | game_spread | 0.276 | 0.285 | 0.283 | 29 | 72 |  | -0.010 | NO_EDGE |
+| KXNHLSPREAD-26OCT19PITUTA-UTA3 | game_spread | 0.276 | 0.290 | 0.287 | 30 | 72 |  | -0.010 | NO_EDGE |
 | KXNHLTOTAL-26OCT19SJTOR-10 | game_total | 0.116 | 0.115 | 0.115 | 12 | 89 |  | -0.011 | NO_EDGE |
-| KXNHLTOTAL-26OCT19ANANYR-6 | game_total | 0.564 | 0.575 | 0.573 | 58 | 43 |  | -0.011 | NO_EDGE |
 | KXNHLSPREAD-26OCT19ANANYR-NYR3 | game_spread | 0.220 | 0.225 | 0.224 | 23 | 78 |  | -0.012 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT19ANANYR-ANA6 | team_total | 0.069 | 0.070 | 0.070 | 8 | 94 |  | -0.012 | NO_EDGE |
 | KXNHLSPREAD-26OCT19PITUTA-PIT2 | game_spread | 0.199 | 0.195 | 0.196 | 20 | 81 |  | -0.013 | NO_EDGE |
+| KXNHLSPREAD-26OCT19PITUTA-UTA2 | game_spread | 0.406 | 0.415 | 0.413 | 42 | 59 |  | -0.013 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19COLPHI-PHI4 | team_total | 0.269 | 0.280 | 0.278 | 29 | 73 |  | -0.013 | NO_EDGE |
 | KXNHLTOTAL-26OCT19PITUTA-10 | game_total | 0.123 | 0.120 | 0.121 | 13 | 89 |  | -0.015 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19PITUTA-UTA6 | team_total | 0.176 | 0.170 | 0.171 | 18 | 84 |  | -0.015 | NO_EDGE |
@@ -112,10 +112,10 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 ## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 4 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Colorado over 2.5 goals scored NO @ 29c · p 0.377 (adj 0.3285) · $3.97 · thesis COL:SUPPRESSED
-- Philadelphia wins by over 1.5 goals YES @ 17c · p 0.2312 (adj 0.1981) · $2.47 · thesis PHI:WINS_BY_2PLUS
-- Colorado wins by over 2.5 goals NO @ 69c · p 0.7976 (adj 0.7244) · $9.16 · thesis GAME:TIGHT
-- Colorado over 4.5 goals scored NO @ 71c · p 0.7896 (adj 0.7423) · $5.91 · thesis COL:SUPPRESSED
+- Colorado over 2.5 goals scored NO @ 29c · p 0.377 (adj 0.3285) · $3.43 · thesis COL:SUPPRESSED
+- Philadelphia wins by over 1.5 goals YES @ 17c · p 0.2312 (adj 0.1981) · $2.3 · thesis PHI:WINS_BY_2PLUS
+- Colorado wins by over 2.5 goals NO @ 69c · p 0.7976 (adj 0.7244) · $9.82 · thesis GAME:TIGHT
+- Colorado over 4.5 goals scored NO @ 71c · p 0.7896 (adj 0.7423) · $6.05 · thesis COL:SUPPRESSED
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
