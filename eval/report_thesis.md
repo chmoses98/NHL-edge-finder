@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-19T13:59:32Z · thesis-postmortem-2.0 · rows (all generations) 19885
+evaluated 2026-10-19T14:16:40Z · thesis-postmortem-2.0 · rows (all generations) 19885
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,38 +35,41 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020137 ANA @ NYR: NOT_STARTED · snapshot snap-5fcdd6bbe72a8d30e897 @ 2026-10-19T13:22:42Z
+#### game 2026020137 ANA @ NYR: NOT_STARTED · snapshot snap-959255bca74d95d447e4 @ 2026-10-19T14:16:14Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT19ANANYR-ANAAGREER18-1|yes | FUNDED_RESEARCH | 4 | 14.29 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT19ANANYR-ANAJMALOTT39-1|yes | SHADOW_ONLY | 0 | 3.93 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT19ANANYR-ANATWASHE42-1|yes | SHADOW_ONLY | 0 | 3.64 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT19ANANYR-NYRPDOROFEYEV16-1|no | SHADOW_ONLY | 0 | 16.21 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT19ANANYR-ANAAGREER18-1|yes | FUNDED_RESEARCH | 4 | 14.35 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT19ANANYR-ANAJMALOTT39-1|yes | SHADOW_ONLY | 0 | 3.98 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT19ANANYR-ANATWASHE42-1|yes | SHADOW_ONLY | 0 | 3.62 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT19ANANYR-NYRTRADDYSH14-1|yes | SHADOW_ONLY | 0 | 3.18 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020138 COL @ PHI: NOT_STARTED · snapshot snap-5fcdd6bbe72a8d30e897 @ 2026-10-19T13:22:42Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT19COLPHI-PHITSANHEIM6-1|yes | SHADOW_ONLY | 0 | 5.18 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT19COLPHI-COLNMACKINNON29-1|no | FUNDED_RESEARCH | 5 | 19.61 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT19COLPHI-PHINCATES27-1|yes | SHADOW_ONLY | 0 | 5.83 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT19COLPHI-PHITZEGRAS46-1|yes | SHADOW_ONLY | 0 | 5.41 | - | - | - | FRAGILE | - | - |
-
-#### game 2026020139 SJS @ TOR: NOT_STARTED · snapshot snap-5fcdd6bbe72a8d30e897 @ 2026-10-19T13:22:42Z
+#### game 2026020138 COL @ PHI: NOT_STARTED · snapshot snap-959255bca74d95d447e4 @ 2026-10-19T14:16:14Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT19SJTOR-SJISTENBERG41-1|no | FUNDED_RESEARCH | 4 | 15.67 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT19SJTOR-SJMMARCHMENT27-1|no | SHADOW_ONLY | 0 | 9.58 | - | - | - | DIRECT | - | - |
-| KXNHLTOTAL-26OCT19SJTOR-7|no | FUNDED_RESEARCH | 2 | 4.75 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT19SJTOR-SJTTOFFOLI73-1|yes | SHADOW_ONLY | 0 | 4.31 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT19COLPHI-COLNMACKINNON29-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26OCT19COLPHI-COL2|no | SHADOW_ONLY | 0 | 4.27 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT19COLPHI-COL3|no | FUNDED_RESEARCH | 3 | 8.58 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT19COLPHI-COL6|no | FUNDED_RESEARCH | 4 | 14.35 | - | - | - | DIRECT | - | - |
 
-#### game 2026020140 PIT @ UTA: NOT_STARTED · snapshot snap-5fcdd6bbe72a8d30e897 @ 2026-10-19T13:22:42Z
+#### game 2026020139 SJS @ TOR: NOT_STARTED · snapshot snap-959255bca74d95d447e4 @ 2026-10-19T14:16:14Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT19PITUTA-UTADGUENTHER11-1|no | FUNDED_RESEARCH | 3 | 10.51 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT19SJTOR-SJISTENBERG41-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT19SJTOR-SJMMARCHMENT27-1|yes | SHADOW_ONLY | 0 | 6.83 | - | - | - | FRAGILE | - | - |
+| KXNHLTOTAL-26OCT19SJTOR-7|no | FUNDED_RESEARCH | 2 | 5.70 | - | - | - | DIRECT | - | - |
+| KXNHLTOTAL-26OCT19SJTOR-6|no | FUNDED_RESEARCH | 1 | 2.26 | - | - | - | STRUCTURAL | - | - |
+
+#### game 2026020140 PIT @ UTA: NOT_STARTED · snapshot snap-959255bca74d95d447e4 @ 2026-10-19T14:16:14Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT19PITUTA-UTAJMCBAIN22-1|yes | SHADOW_ONLY | 0 | 6.12 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT19PITUTA-PITCDEWAR19-1|yes | SHADOW_ONLY | 0 | 3.53 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT19PITUTA-UTADGUENTHER11-1|no | FUNDED_RESEARCH | 4 | 12.20 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT19PITUTA-PITAKUZMENKO62-1|yes | SHADOW_ONLY | 0 | 2.91 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-18: **COMPLETE — 2/2 games evaluated**
 
