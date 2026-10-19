@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-19T06:44:16Z · thesis-postmortem-2.0 · rows (all generations) 19885
+evaluated 2026-10-19T08:17:09Z · thesis-postmortem-2.0 · rows (all generations) 19885
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,20 +35,19 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020137 ANA @ NYR: NOT_STARTED · snapshot snap-6800175fd41583779bc1 @ 2026-10-19T06:11:51Z
+#### game 2026020137 ANA @ NYR: NOT_STARTED · snapshot snap-39c17495b502a0456cdf @ 2026-10-19T07:59:26Z
 
-#### game 2026020138 COL @ PHI: NOT_STARTED · snapshot snap-6800175fd41583779bc1 @ 2026-10-19T06:11:51Z
+#### game 2026020138 COL @ PHI: NOT_STARTED · snapshot snap-39c17495b502a0456cdf @ 2026-10-19T07:59:26Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26OCT19COLPHI-COL3|no | FUNDED_RESEARCH | 1 | 3.43 | - | - | - | DIRECT | - | - |
-| KXNHLSPREAD-26OCT19COLPHI-PHI2|yes | FUNDED_RESEARCH | 1 | 2.30 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT19COLPHI-COL3|no | FUNDED_RESEARCH | 3 | 9.82 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT19COLPHI-COL5|no | FUNDED_RESEARCH | 2 | 6.05 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT19COLPHI-PHI2|yes | FUNDED_RESEARCH | 1 | 3.65 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT19COLPHI-COL5|no | FUNDED_RESEARCH | 3 | 10.60 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT19COLPHI-COL3|no | FUNDED_RESEARCH | 2 | 7.13 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020139 SJS @ TOR: NOT_STARTED · snapshot snap-6800175fd41583779bc1 @ 2026-10-19T06:11:51Z
+#### game 2026020139 SJS @ TOR: NOT_STARTED · snapshot snap-39c17495b502a0456cdf @ 2026-10-19T07:59:26Z
 
-#### game 2026020140 PIT @ UTA: NOT_STARTED · snapshot snap-6800175fd41583779bc1 @ 2026-10-19T06:11:51Z
+#### game 2026020140 PIT @ UTA: NOT_STARTED · snapshot snap-39c17495b502a0456cdf @ 2026-10-19T07:59:26Z
 
 ## Slate 2026-10-18: **COMPLETE — 2/2 games evaluated**
 
