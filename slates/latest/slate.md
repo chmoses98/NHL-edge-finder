@@ -1,17 +1,17 @@
 # NHL slate 2026-10-19 — RESEARCH_ONLY
 
-generated 2026-10-19T18:38:39Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-19T19:28:45Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
-games on date: 4 · simulated (not started): 4 · markets on board: 3167 · contracts joined: 943 (unjoined to any game: 1571)
-gates: {'UNSUPPORTED': 843, 'NO_EDGE': 54, 'OK': 46}
-families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'player_assists': 139, 'game_early_goal': 4, 'first_goal': 147, 'game_winner': 8, 'player_goals': 254, 'game_overtime': 4, 'player_points': 191, 'goalie_saves': 8, 'game_spread': 16, 'team_total': 40, 'game_total': 36}
+games on date: 4 · simulated (not started): 4 · markets on board: 3196 · contracts joined: 972 (unjoined to any game: 1571)
+gates: {'UNSUPPORTED': 872, 'NO_EDGE': 56, 'OK': 44}
+families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'player_assists': 150, 'game_early_goal': 4, 'first_goal': 147, 'game_winner': 8, 'player_goals': 254, 'game_overtime': 4, 'player_points': 209, 'goalie_saves': 8, 'game_spread': 16, 'team_total': 40, 'game_total': 36}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| ANA @ NYR | 2026-10-19T23:00:00Z | T-3h | 0.596 | 0.404 | 0.174 | 6.12 | 3.35 | 2.77 | 220 (25/195) | CONFIRMED/CONFIRMED |
+| ANA @ NYR | 2026-10-19T23:00:00Z | T-3h | 0.596 | 0.404 | 0.174 | 6.12 | 3.35 | 2.77 | 235 (25/210) | CONFIRMED/CONFIRMED |
 | COL @ PHI | 2026-10-19T23:00:00Z | T-3h | 0.368 | 0.632 | 0.176 | 5.93 | 2.56 | 3.38 | 235 (25/210) | CONFIRMED/CONFIRMED |
-| SJS @ TOR | 2026-10-19T23:30:00Z | T-3h | 0.547 | 0.453 | 0.166 | 6.94 | 3.63 | 3.30 | 234 (25/209) | CONFIRMED/CONFIRMED |
-| PIT @ UTA | 2026-10-20T01:00:00Z | T-6h | 0.622 | 0.378 | 0.159 | 6.83 | 3.82 | 3.01 | 254 (25/229) | CONFIRMED/CONFIRMED |
+| SJS @ TOR | 2026-10-19T23:30:00Z | T-3h | 0.547 | 0.453 | 0.166 | 6.94 | 3.63 | 3.30 | 248 (25/223) | CONFIRMED/CONFIRMED |
+| PIT @ UTA | 2026-10-20T01:00:00Z | T-3h | 0.622 | 0.378 | 0.159 | 6.83 | 3.82 | 3.01 | 254 (25/229) | CONFIRMED/CONFIRMED |
 
 ## Contracts (research view; sorted by fee-adjusted EV of the best side; NOT recommendations)
 
@@ -32,31 +32,29 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'player
 | KXNHLTOTAL-26OCT19COLPHI-4 | game_total | 0.832 | 0.875 | 0.867 | 88 | 13 | no | +0.030 | OK |
 | KXNHLTOTAL-26OCT19COLPHI-5 | game_total | 0.738 | 0.785 | 0.776 | 79 | 22 | no | +0.030 | OK |
 | KXNHLTOTAL-26OCT19ANANYR-4 | game_total | 0.848 | 0.885 | 0.878 | 89 | 12 | no | +0.025 | OK |
+| KXNHLTEAMTOTAL-26OCT19COLPHI-COL6 | team_total | 0.117 | 0.160 | 0.151 | 17 | 85 | no | +0.024 | OK |
 | KXNHLTEAMTOTAL-26OCT19COLPHI-COL2 | team_total | 0.851 | 0.890 | 0.883 | 90 | 12 | no | +0.022 | OK |
 | KXNHLSPREAD-26OCT19COLPHI-PHI2 | game_spread | 0.178 | 0.145 | 0.151 | 15 | 86 | yes | +0.019 | OK |
-| KXNHLTEAMTOTAL-26OCT19ANANYR-NYR5 | team_total | 0.247 | 0.285 | 0.277 | 29 | 72 | no | +0.019 | OK |
 | KXNHLTOTAL-26OCT19ANANYR-8 | game_total | 0.249 | 0.285 | 0.278 | 29 | 72 | no | +0.017 | OK |
 | KXNHLSPREAD-26OCT19ANANYR-ANA3 | game_spread | 0.116 | 0.145 | 0.139 | 15 | 86 | no | +0.016 | OK |
 | KXNHLSPREAD-26OCT19ANANYR-ANA2 | game_spread | 0.212 | 0.245 | 0.238 | 25 | 76 | no | +0.016 | OK |
 | KXNHLTOTAL-26OCT19ANANYR-9 | game_total | 0.174 | 0.205 | 0.198 | 21 | 80 | no | +0.015 | OK |
 | KXNHLTOTAL-26OCT19COLPHI-6 | game_total | 0.518 | 0.555 | 0.548 | 56 | 45 | no | +0.015 | OK |
-| KXNHLTEAMTOTAL-26OCT19COLPHI-COL6 | team_total | 0.117 | 0.150 | 0.143 | 16 | 86 | no | +0.014 | OK |
 | KXNHLTEAMTOTAL-26OCT19SJTOR-SJ6 | team_total | 0.120 | 0.095 | 0.100 | 10 | 91 | yes | +0.014 | OK |
-| KXNHLTOTAL-26OCT19SJTOR-8 | game_total | 0.369 | 0.330 | 0.338 | 34 | 68 | yes | +0.014 | OK |
+| KXNHLTOTAL-26OCT19SJTOR-8 | game_total | 0.369 | 0.335 | 0.342 | 34 | 67 | yes | +0.014 | OK |
 | KXNHLTOTAL-26OCT19SJTOR-9 | game_total | 0.277 | 0.245 | 0.251 | 25 | 76 | yes | +0.014 | OK |
 | KXNHLTOTAL-26OCT19COLPHI-3 | game_total | 0.955 | 0.980 | 0.976 | 99 | 3 | no | +0.013 | OK |
 | KXNHLTEAMTOTAL-26OCT19SJTOR-TOR6 | team_total | 0.161 | 0.135 | 0.140 | 14 | 87 | yes | +0.012 | OK |
 | KXNHLTEAMTOTAL-26OCT19ANANYR-ANA2 | team_total | 0.757 | 0.795 | 0.788 | 81 | 22 | no | +0.011 | OK |
 | KXNHLTEAMTOTAL-26OCT19ANANYR-NYR4 | team_total | 0.442 | 0.475 | 0.468 | 48 | 53 | no | +0.010 | OK |
 | KXNHLTOTAL-26OCT19SJTOR-10 | game_total | 0.148 | 0.120 | 0.125 | 13 | 89 | yes | +0.010 | OK |
+| KXNHLTEAMTOTAL-26OCT19ANANYR-NYR5 | team_total | 0.247 | 0.280 | 0.273 | 29 | 73 | no | +0.009 | OK |
 | KXNHLTOTAL-26OCT19COLPHI-9 | game_total | 0.151 | 0.175 | 0.170 | 18 | 83 | no | +0.009 | OK |
 | KXNHLTOTAL-26OCT19COLPHI-7 | game_total | 0.404 | 0.435 | 0.429 | 44 | 57 | no | +0.009 | OK |
-| KXNHLTEAMTOTAL-26OCT19ANANYR-ANA5 | team_total | 0.153 | 0.175 | 0.170 | 18 | 83 | no | +0.007 | OK |
-| KXNHLSPREAD-26OCT19COLPHI-PHI3 | game_spread | 0.092 | 0.075 | 0.078 | 8 | 93 | yes | +0.007 | OK |
-| KXNHLTEAMTOTAL-26OCT19PITUTA-PIT5 | team_total | 0.197 | 0.175 | 0.179 | 18 | 83 | yes | +0.006 | OK |
+| KXNHLTEAMTOTAL-26OCT19ANANYR-ANA5 | team_total | 0.153 | 0.180 | 0.174 | 19 | 83 | no | +0.007 | OK |
 | KXNHLTOTAL-26OCT19ANANYR-3 | game_total | 0.962 | 0.975 | 0.973 | 98 | 3 | no | +0.006 | OK |
 | KXNHLTOTAL-26OCT19PITUTA-10 | game_total | 0.133 | 0.115 | 0.118 | 12 | 89 | yes | +0.005 | OK |
-| KXNHLTEAMTOTAL-26OCT19ANANYR-NYR6 | team_total | 0.118 | 0.135 | 0.132 | 14 | 87 | no | +0.004 | OK |
+| KXNHLTEAMTOTAL-26OCT19ANANYR-ANA6 | team_total | 0.061 | 0.075 | 0.072 | 8 | 93 | no | +0.004 | OK |
 | KXNHLTEAMTOTAL-26OCT19ANANYR-NYR3 | team_total | 0.662 | 0.690 | 0.684 | 70 | 32 | no | +0.003 | OK |
 | KXNHLTOTAL-26OCT19COLPHI-8 | game_total | 0.224 | 0.250 | 0.245 | 26 | 76 | no | +0.003 | OK |
 | KXNHLTEAMTOTAL-26OCT19COLPHI-PHI6 | team_total | 0.045 | 0.035 | 0.037 | 4 | 97 | yes | +0.002 | OK |
@@ -65,24 +63,25 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'player
 | KXNHLTOTAL-26OCT19PITUTA-2 | game_total | 0.991 | 0.985 | 0.986 | 99 | 2 | yes | +0.000 | OK |
 | KXNHLTOTAL-26OCT19COLPHI-10 | game_total | 0.066 | 0.080 | 0.077 | 9 | 93 |  | -0.000 | NO_EDGE |
 | KXNHLTOTAL-26OCT19SJTOR-3 | game_total | 0.980 | 0.975 | 0.976 | 98 | 3 |  | -0.001 | NO_EDGE |
+| KXNHLTOTAL-26OCT19PITUTA-4 | game_total | 0.906 | 0.915 | 0.913 | 92 | 9 |  | -0.001 | NO_EDGE |
 | KXNHLSPREAD-26OCT19ANANYR-NYR3 | game_spread | 0.229 | 0.245 | 0.242 | 25 | 76 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26OCT19COLPHI-2 | game_total | 0.981 | 0.985 | 0.984 | 99 | 2 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26OCT19SJTOR-5 | game_total | 0.844 | 0.855 | 0.853 | 86 | 15 |  | -0.003 | NO_EDGE |
 | KXNHLTOTAL-26OCT19PITUTA-3 | game_total | 0.978 | 0.975 | 0.976 | 98 | 3 |  | -0.003 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19SJTOR-TOR4 | team_total | 0.504 | 0.485 | 0.489 | 49 | 52 |  | -0.003 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19ANANYR-NYR2 | team_total | 0.845 | 0.855 | 0.853 | 86 | 15 |  | -0.003 | NO_EDGE |
+| KXNHLSPREAD-26OCT19COLPHI-PHI3 | game_spread | 0.092 | 0.080 | 0.082 | 9 | 93 |  | -0.004 | NO_EDGE |
+| KXNHLTOTAL-26OCT19SJTOR-4 | game_total | 0.908 | 0.915 | 0.914 | 92 | 9 |  | -0.004 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19SJTOR-TOR5 | team_total | 0.311 | 0.290 | 0.294 | 30 | 72 |  | -0.004 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT19SJTOR-TOR2 | team_total | 0.866 | 0.875 | 0.873 | 88 | 13 |  | -0.004 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT19PITUTA-PIT5 | team_total | 0.197 | 0.180 | 0.183 | 19 | 83 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26OCT19SJTOR-6 | game_total | 0.671 | 0.655 | 0.658 | 66 | 35 |  | -0.004 | NO_EDGE |
-| KXNHLTOTAL-26OCT19PITUTA-9 | game_total | 0.258 | 0.240 | 0.244 | 25 | 77 |  | -0.005 | NO_EDGE |
+| KXNHLTOTAL-26OCT19PITUTA-9 | game_total | 0.258 | 0.245 | 0.248 | 25 | 76 |  | -0.005 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19SJTOR-SJ3 | team_total | 0.641 | 0.625 | 0.628 | 63 | 38 |  | -0.005 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT19ANANYR-ANA6 | team_total | 0.061 | 0.070 | 0.068 | 8 | 94 |  | -0.005 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19SJTOR-SJ5 | team_total | 0.247 | 0.230 | 0.233 | 24 | 78 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT19ANANYR-2 | game_total | 0.984 | 0.985 | 0.985 | 99 | 2 |  | -0.005 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT19SJTOR-SJ4 | team_total | 0.432 | 0.410 | 0.414 | 42 | 60 |  | -0.006 | NO_EDGE |
 | KXNHLTOTAL-26OCT19ANANYR-10 | game_total | 0.080 | 0.090 | 0.088 | 10 | 92 |  | -0.006 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT19ANANYR-NYR6 | team_total | 0.118 | 0.125 | 0.124 | 13 | 88 |  | -0.006 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19COLPHI-PHI5 | team_total | 0.121 | 0.115 | 0.116 | 12 | 89 |  | -0.006 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT19PITUTA-UTA6 | team_total | 0.183 | 0.175 | 0.177 | 18 | 83 |  | -0.007 | NO_EDGE |
 | KXNHLGAME-26OCT19PITUTA-PIT | game_winner | 0.378 | 0.365 | 0.368 | 37 | 64 |  | -0.008 | NO_EDGE |
 | KXNHLGAME-26OCT19PITUTA-UTA | game_winner | 0.622 | 0.635 | 0.632 | 64 | 37 |  | -0.008 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT19PITUTA-UTA2 | team_total | 0.891 | 0.900 | 0.898 | 91 | 11 |  | -0.008 | NO_EDGE |
@@ -96,7 +95,8 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'player
 | KXNHLGAME-26OCT19ANANYR-NYR | game_winner | 0.596 | 0.585 | 0.587 | 59 | 42 |  | -0.011 | NO_EDGE |
 | KXNHLSPREAD-26OCT19PITUTA-PIT3 | game_spread | 0.114 | 0.115 | 0.115 | 12 | 89 |  | -0.011 | NO_EDGE |
 | KXNHLSPREAD-26OCT19SJTOR-SJ2 | game_spread | 0.262 | 0.255 | 0.256 | 26 | 75 |  | -0.012 | NO_EDGE |
-| KXNHLTOTAL-26OCT19PITUTA-4 | game_total | 0.906 | 0.910 | 0.909 | 92 | 10 |  | -0.012 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT19PITUTA-PIT2 | team_total | 0.789 | 0.785 | 0.786 | 79 | 22 |  | -0.012 | NO_EDGE |
+| KXNHLTOTAL-26OCT19SJTOR-7 | game_total | 0.565 | 0.555 | 0.557 | 56 | 45 |  | -0.012 | NO_EDGE |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -110,20 +110,19 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'player
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 16 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 15 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- A.J. Greer: 1+ goals YES @ 14c · p 0.216 (adj 0.1958) · $10.34 · thesis ANA:OFFENSE_4PLUS
-- A.J. Greer: 2+ goals YES @ 1c · p 0.0289 (adj 0.0242) · $1.74 · thesis ANA:OFFENSE_4PLUS
-- Jeff Malott: 1+ goals YES @ 9c · p 0.1175 (adj 0.1106) · $3.72 · thesis ANA:OFFENSE_4PLUS
-- Gabe Perreault: 1+ assists YES @ 26c · p 0.3302 (adj 0.2926) · $6.18 · thesis NYR:OFFENSE_4PLUS
-- Nathan MacKinnon: 2+ goals NO @ 86c · p 0.9187 (adj 0.9028) · $15.75 · thesis COL:SUPPRESSED
-- Nathan MacKinnon: 1+ goals NO @ 54c · p 0.6226 (adj 0.6007) · $14.25 · thesis COL:SUPPRESSED
-- Colorado wins by over 1.5 goals NO @ 54c · p 0.6768 (adj 0.5846) · $4.75 · thesis PHI:WINS
-- Colorado wins by over 2.5 goals NO @ 67c · p 0.7959 (adj 0.7108) · $11.63 · thesis PHI:WINS
-- Teddy Blueger: 1+ goals YES @ 11c · p 0.1441 (adj 0.1343) · $4.59 · thesis TOR:OFFENSE_4PLUS
-- Mason Marchment: 1+ assists NO @ 70c · p 0.7838 (adj 0.7369) · $16.34 · thesis SJS:SUPPRESSED
-- Ivar Stenberg: 1+ goals NO @ 78c · p 0.8176 (adj 0.807) · $13.66 · thesis SJS:SUPPRESSED
-- Mason Marchment: 1+ goals YES @ 20c · p 0.2329 (adj 0.2234) · $3.73 · thesis SJS:OFFENSE_4PLUS
+- A.J. Greer: 1+ goals YES @ 14c · p 0.216 (adj 0.1958) · $10.39 · thesis ANA:OFFENSE_4PLUS
+- A.J. Greer: 2+ goals YES @ 1c · p 0.0289 (adj 0.0242) · $1.75 · thesis ANA:OFFENSE_4PLUS
+- Gabe Perreault: 1+ assists YES @ 26c · p 0.3302 (adj 0.2926) · $6.09 · thesis NYR:OFFENSE_4PLUS
+- Taylor Raddysh: 1+ goals YES @ 9c · p 0.1169 (adj 0.1077) · $3.05 · thesis NYR:OFFENSE_4PLUS
+- Nathan MacKinnon: 2+ goals NO @ 86c · p 0.9187 (adj 0.9028) · $17.14 · thesis COL:SUPPRESSED
+- Nathan MacKinnon: 1+ goals NO @ 55c · p 0.6226 (adj 0.6032) · $12.86 · thesis COL:SUPPRESSED
+- Colorado wins by over 2.5 goals NO @ 67c · p 0.7959 (adj 0.7108) · $17.3 · thesis PHI:WINS
+- Mason Marchment: 1+ assists NO @ 70c · p 0.7838 (adj 0.7344) · $18.75 · thesis SJS:SUPPRESSED
+- Teddy Blueger: 1+ goals YES @ 11c · p 0.1441 (adj 0.1306) · $3.53 · thesis TOR:OFFENSE_4PLUS
+- Mason Marchment: 1+ goals YES @ 20c · p 0.2329 (adj 0.2234) · $3.76 · thesis SJS:OFFENSE_4PLUS
+- Ivar Stenberg: 1+ assists NO @ 72c · p 0.7811 (adj 0.7455) · $11.25 · thesis SJS:SUPPRESSED
 - Bryan Rust: 1+ goals YES @ 28c · p 0.345 (adj 0.3275) · $11.15 · thesis PIT:OFFENSE_4PLUS
 - Connor Dewar: 1+ goals YES @ 12c · p 0.1576 (adj 0.1469) · $5.22 · thesis PIT:OFFENSE_4PLUS
 - Jack McBain: 1+ goals YES @ 13c · p 0.1691 (adj 0.1568) · $5.16 · thesis UTA:OFFENSE_4PLUS
@@ -131,18 +130,18 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
-**ANA @ NYR** · priced 166/169 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
+**ANA @ NYR** · priced 179/184 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - NYR net: Dylan Garand (CONFIRMED) exp shots 28.93, exp saves 25.07 (sd 6.81), pull risk 0.063
 - ANA net: Ville Husso (CONFIRMED) exp shots 24.95, exp saves 21.3 (sd 6.11), pull risk 0.078
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
 | Ville Husso: 25+ saves | 0.294 | 0.445 | 46/57 | +0.118 |  |
+| Noah Warren: 1+ assists | 0.230 | 0.095 | 18/99 | +0.040 | PRIOR_HEAVY |
+| Noah Warren: 1+ points | 0.274 | 0.145 | 20/91 | +0.063 | PRIOR_HEAVY |
+| Noah Laba: 1+ assists | 0.213 | 0.085 | 16/99 | +0.043 | STANDARD |
+| Vladislav Gavrikov: 1+ assists | 0.334 | 0.215 | 24/81 | +0.081 | STANDARD |
 | Alex Killorn: 1+ points | 0.468 | 0.365 | 37/64 | +0.082 | STANDARD |
-| Dylan Garand: 25+ saves | 0.536 | 0.435 | 45/58 | +0.068 |  |
-| Alex Killorn: 1+ assists | 0.325 | 0.230 | 25/79 | +0.061 | STANDARD |
-| A.J. Greer: 1+ goals | 0.216 | 0.135 | 14/87 | +0.068 | STANDARD |
-| Adam Fox: 2+ points | 0.189 | 0.265 | 28/75 | +0.048 | STANDARD |
 
 **COL @ PHI** · priced 169/184 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - PHI net: Joseph Woll (CONFIRMED) exp shots 30.72, exp saves 26.46 (sd 7.12), pull risk 0.061
@@ -150,25 +149,25 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Cale Makar: 1+ assists | 0.402 | 0.605 | 61/40 | +0.181 | STANDARD |
-| Nathan MacKinnon: 2+ points | 0.302 | 0.480 | 49/53 | +0.151 | STANDARD |
-| Cale Makar: 1+ points | 0.507 | 0.680 | 69/33 | +0.148 | STANDARD |
-| Cale Makar: 2+ points | 0.157 | 0.330 | 35/69 | +0.138 | STANDARD |
-| Nick Seeler: 1+ points | 0.236 | 0.065 | 12/99 | +0.108 | STANDARD |
-| Nathan MacKinnon: 3+ points | 0.099 | 0.245 | 25/76 | +0.128 | STANDARD |
+| Cale Makar: 1+ assists | 0.402 | 0.600 | 61/41 | +0.171 | STANDARD |
+| Noah Cates: 1+ assists | 0.294 | 0.105 | 20/99 | +0.083 | STANDARD |
+| Noah Cates: 1+ points | 0.415 | 0.230 | 29/83 | +0.110 | STANDARD |
+| Nathan MacKinnon: 2+ points | 0.302 | 0.485 | 50/53 | +0.151 | STANDARD |
+| Nick Seeler: 1+ points | 0.236 | 0.055 | 10/99 | +0.129 | STANDARD |
+| Cale Makar: 2+ points | 0.157 | 0.335 | 35/68 | +0.148 | STANDARD |
 
-**SJS @ TOR** · priced 169/183 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
+**SJS @ TOR** · priced 183/197 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - TOR net: Sergei Bobrovsky (CONFIRMED) exp shots 29.27, exp saves 25.39 (sd 6.92), pull risk 0.062
 - SJS net: Yaroslav Askarov (CONFIRMED) exp shots 27.18, exp saves 23.37 (sd 6.42), pull risk 0.068
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Colton Sissons: 1+ points | 0.352 | 0.215 | 25/82 | +0.088 | STANDARD |
-| Macklin Celebrini: 2+ points | 0.288 | 0.390 | 41/63 | +0.065 | STANDARD |
+| Michael Kesselring: 1+ assists | 0.194 | 0.075 | 14/99 | +0.046 | STANDARD |
+| Michael Kesselring: 1+ points | 0.236 | 0.125 | 19/94 | +0.035 | STANDARD |
 | Ivar Stenberg: 1+ points | 0.363 | 0.465 | 47/54 | +0.079 | PRIOR_HEAVY |
+| Colton Sissons: 1+ points | 0.352 | 0.250 | 27/77 | +0.068 | STANDARD |
 | Macklin Celebrini: 1+ assists | 0.440 | 0.540 | 55/47 | +0.073 | STANDARD |
-| Yaroslav Askarov: 26+ saves | 0.355 | 0.450 | 47/57 | +0.058 |  |
-| Mason Marchment: 1+ assists | 0.216 | 0.310 | 32/70 | +0.069 | STANDARD |
+| Mason Marchment: 1+ assists | 0.216 | 0.315 | 33/70 | +0.069 | STANDARD |
 
 **PIT @ UTA** · priced 192/203 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - UTA net: Sebastian Cossa (CONFIRMED) exp shots 26.47, exp saves 22.95 (sd 6.37), pull risk 0.062
@@ -176,12 +175,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Nate Schmidt: 1+ assists | 0.258 | 0.110 | 20/98 | +0.046 | STANDARD |
-| Kaedan Korczak: 1+ assists | 0.237 | 0.105 | 19/98 | +0.037 | STANDARD |
-| Declan Carlile: 1+ assists | 0.201 | 0.090 | 16/98 | +0.032 | STANDARD |
-| Kaedan Korczak: 1+ points | 0.273 | 0.165 | 23/90 | +0.031 | STANDARD |
-| Rickard Rakell: 1+ points | 0.597 | 0.490 | 51/53 | +0.069 | STANDARD |
-| Vincent Trocheck: 1+ assists | 0.228 | 0.335 | 35/68 | +0.077 | STANDARD |
+| Nate Schmidt: 1+ assists | 0.258 | 0.105 | 20/99 | +0.046 | STANDARD |
+| Kaedan Korczak: 1+ assists | 0.237 | 0.095 | 18/99 | +0.047 | STANDARD |
+| Declan Carlile: 1+ points | 0.260 | 0.135 | 20/93 | +0.049 | STANDARD |
+| Kaedan Korczak: 1+ points | 0.273 | 0.150 | 23/93 | +0.031 | STANDARD |
+| Declan Carlile: 1+ assists | 0.201 | 0.085 | 16/99 | +0.032 | STANDARD |
+| Nick Robertson: 1+ assists | 0.208 | 0.100 | 19/99 | +0.007 | STANDARD |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
