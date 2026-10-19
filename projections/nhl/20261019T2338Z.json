@@ -1,0 +1,7533 @@
+{
+ "schema": "sift.projections.v1",
+ "sport": "NHL",
+ "generated_utc": "2026-10-19T23:38:43Z",
+ "data_asof_utc": "2026-10-19T03:29:47Z",
+ "model": {
+  "id": "pf-nhl",
+  "version": "pf-nhl-1.0.0+f6e477f",
+  "authority": "research_only"
+ },
+ "families": {
+  "shots": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.804, PIT var 0.991), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0082 [-0.0128, -0.0037] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "goals": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.799, PIT var 0.997), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0002 [-0.0008, +0.0004] (tie). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "assists": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.799, PIT var 0.996), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0041 [-0.0070, -0.0014] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "points": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.801, PIT var 0.992), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0032 [-0.0061, -0.0004] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "saves": {
+   "readiness": "NEEDS IMPROVEMENT",
+   "model": "F_stack",
+   "reason": "Beats our own baseline but the incumbent (PLAYER_SIM_V1 walk-forward 2024-25 + 2025-26) is better on holdout (rung RPS over 14+..40+ (CRPS restricted to the incumbent's published rungs): +0.0278 [+0.0118, +0.0432])."
+  },
+  "team_goals": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.797, PIT var 1.002), statistically tied with the incumbent on holdout. READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "toi_minutes": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "E_lightgbm",
+   "reason": "opportunity family: holdout TOI MAE 1.82 min"
+  }
+ },
+ "games": [
+  {
+   "game_id": "2026020140",
+   "start_utc": "2026-10-20T01:00:00Z",
+   "home": "UTA",
+   "away": "PIT",
+   "teams": [
+    {
+     "team": "UTA",
+     "family": "team_goals",
+     "mean": 3.481,
+     "p10": 1,
+     "p90": 6,
+     "player_goal_sum": 3.603,
+     "reconciliation": {
+      "status": "PASS",
+      "ratio": 1.034943449068755
+     },
+     "role": "shadow",
+     "gate": {
+      "status": "PASS",
+      "findings": []
+     }
+    },
+    {
+     "team": "PIT",
+     "family": "team_goals",
+     "mean": 3.233,
+     "p10": 1,
+     "p90": 6,
+     "player_goal_sum": 3.213,
+     "reconciliation": {
+      "status": "PASS",
+      "ratio": 0.9938198963000183
+     },
+     "role": "shadow",
+     "gate": {
+      "status": "PASS",
+      "findings": []
+     }
+    }
+   ]
+  }
+ ],
+ "players": [
+  {
+   "player_id": "8479343",
+   "name": "Clayton Keller",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.5351,
+   "median": 2,
+   "p10": 1,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.707,
+    "3": 0.4595,
+    "4": 0.2539,
+    "5": 0.1217
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.83,
+    "p10": 14.92,
+    "p90": 20.75,
+    "pp_mean": 3.22
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479343",
+   "name": "Clayton Keller",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.351,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.296,
+    "2": 0.0489
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.83,
+    "p10": 14.92,
+    "p90": 20.75,
+    "pp_mean": 3.22
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479343",
+   "name": "Clayton Keller",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.7761,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5398,
+    "2": 0.1826
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.83,
+    "p10": 14.92,
+    "p90": 20.75,
+    "pp_mean": 3.22
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479343",
+   "name": "Clayton Keller",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 1.0965,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.666,
+    "2": 0.2997,
+    "3": 0.0989
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.83,
+    "p10": 14.92,
+    "p90": 20.75,
+    "pp_mean": 3.22
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477951",
+   "name": "Nick Schmaltz",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.5845,
+   "median": 2,
+   "p10": 1,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.7165,
+    "3": 0.4714,
+    "4": 0.2642,
+    "5": 0.1286
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.84,
+    "p10": 15.92,
+    "p90": 21.76,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477951",
+   "name": "Nick Schmaltz",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.4266,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3473,
+    "2": 0.0688
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.84,
+    "p10": 15.92,
+    "p90": 21.76,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477951",
+   "name": "Nick Schmaltz",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.5254,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.4087,
+    "2": 0.098
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.84,
+    "p10": 15.92,
+    "p90": 21.76,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477951",
+   "name": "Nick Schmaltz",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.9832,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.6259,
+    "2": 0.2581,
+    "3": 0.0772
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.84,
+    "p10": 15.92,
+    "p90": 21.76,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478474",
+   "name": "Lawson Crouse",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.6463,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.48,
+    "3": 0.2328,
+    "4": 0.0944,
+    "5": 0.0332
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.15,
+    "p10": 12.23,
+    "p90": 18.07,
+    "pp_mean": 0.36
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478474",
+   "name": "Lawson Crouse",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.2357,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2091,
+    "2": 0.0244
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.15,
+    "p10": 12.23,
+    "p90": 18.07,
+    "pp_mean": 0.36
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478474",
+   "name": "Lawson Crouse",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2293,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.203,
+    "2": 0.024
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.15,
+    "p10": 12.23,
+    "p90": 18.07,
+    "pp_mean": 0.36
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478474",
+   "name": "Lawson Crouse",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.4636,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3688,
+    "2": 0.0805,
+    "3": 0.0125
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.15,
+    "p10": 12.23,
+    "p90": 18.07,
+    "pp_mean": 0.36
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483431",
+   "name": "Logan Cooley",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.857,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5405,
+    "3": 0.2864,
+    "4": 0.1279,
+    "5": 0.0497
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.94,
+    "p10": 15.02,
+    "p90": 20.86,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483431",
+   "name": "Logan Cooley",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.3535,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2977,
+    "2": 0.0495
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.94,
+    "p10": 15.02,
+    "p90": 20.86,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483431",
+   "name": "Logan Cooley",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.5196,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.4052,
+    "2": 0.0962
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.94,
+    "p10": 15.02,
+    "p90": 20.86,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483431",
+   "name": "Logan Cooley",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.8886,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5888,
+    "2": 0.2233,
+    "3": 0.061
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.94,
+    "p10": 15.02,
+    "p90": 20.86,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8476389",
+   "name": "Vincent Trocheck",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.5875,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4601,
+    "3": 0.219,
+    "4": 0.0878,
+    "5": 0.0307
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.49,
+    "p10": 14.58,
+    "p90": 20.41,
+    "pp_mean": 1.87
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8476389",
+   "name": "Vincent Trocheck",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.2632,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2304,
+    "2": 0.0299
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.49,
+    "p10": 14.58,
+    "p90": 20.41,
+    "pp_mean": 1.87
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8476389",
+   "name": "Vincent Trocheck",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.4337,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.351,
+    "2": 0.0713
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.49,
+    "p10": 14.58,
+    "p90": 20.41,
+    "pp_mean": 1.87
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8476389",
+   "name": "Vincent Trocheck",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.685,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4959,
+    "2": 0.1506,
+    "3": 0.0323
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.49,
+    "p10": 14.58,
+    "p90": 20.41,
+    "pp_mean": 1.87
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482699",
+   "name": "Dylan Guenther",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.8096,
+   "median": 3,
+   "p10": 1,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.7564,
+    "3": 0.524,
+    "4": 0.3119,
+    "5": 0.1621
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.56,
+    "p10": 13.65,
+    "p90": 19.48,
+    "pp_mean": 2.89
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482699",
+   "name": "Dylan Guenther",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.4606,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3691,
+    "2": 0.0785
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.56,
+    "p10": 13.65,
+    "p90": 19.48,
+    "pp_mean": 2.89
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482699",
+   "name": "Dylan Guenther",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.478,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.38,
+    "2": 0.0836
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.56,
+    "p10": 13.65,
+    "p90": 19.48,
+    "pp_mean": 2.89
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482699",
+   "name": "Dylan Guenther",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.9326,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.6065,
+    "2": 0.2395,
+    "3": 0.0683
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.56,
+    "p10": 13.65,
+    "p90": 19.48,
+    "pp_mean": 2.89
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8475314",
+   "name": "Anders Lee",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.1653,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6195,
+    "3": 0.3651,
+    "4": 0.183,
+    "5": 0.0802
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.58,
+    "p10": 11.67,
+    "p90": 17.5,
+    "pp_mean": 1.62
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8475314",
+   "name": "Anders Lee",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.2369,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2101,
+    "2": 0.0246
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.58,
+    "p10": 11.67,
+    "p90": 17.5,
+    "pp_mean": 1.62
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8475314",
+   "name": "Anders Lee",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2683,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2353,
+    "2": 0.0302
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.58,
+    "p10": 11.67,
+    "p90": 17.5,
+    "pp_mean": 1.62
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8475314",
+   "name": "Anders Lee",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.5191,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.4024,
+    "2": 0.0973,
+    "3": 0.0169
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.58,
+    "p10": 11.67,
+    "p90": 17.5,
+    "pp_mean": 1.62
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480849",
+   "name": "Barrett Hayton",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.761,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5137,
+    "3": 0.2619,
+    "4": 0.1121,
+    "5": 0.0417
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.62,
+    "p10": 11.7,
+    "p90": 17.54,
+    "pp_mean": 1.46
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480849",
+   "name": "Barrett Hayton",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.1817,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1657,
+    "2": 0.015
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.62,
+    "p10": 11.7,
+    "p90": 17.54,
+    "pp_mean": 1.46
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480849",
+   "name": "Barrett Hayton",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2931,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2541,
+    "2": 0.0354
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.62,
+    "p10": 11.7,
+    "p90": 17.54,
+    "pp_mean": 1.46
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480849",
+   "name": "Barrett Hayton",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.4776,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3775,
+    "2": 0.0846,
+    "3": 0.0136
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.62,
+    "p10": 11.7,
+    "p90": 17.54,
+    "pp_mean": 1.46
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479977",
+   "name": "Kailer Yamamoto",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.4871,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.429,
+    "3": 0.1943,
+    "4": 0.0739,
+    "5": 0.0245
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.59,
+    "p10": 11.67,
+    "p90": 17.51,
+    "pp_mean": 1.13
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479977",
+   "name": "Kailer Yamamoto",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.2196,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1964,
+    "2": 0.0214
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.59,
+    "p10": 11.67,
+    "p90": 17.51,
+    "pp_mean": 1.13
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479977",
+   "name": "Kailer Yamamoto",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.264,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2321,
+    "2": 0.0293
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.59,
+    "p10": 11.67,
+    "p90": 17.51,
+    "pp_mean": 1.13
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479977",
+   "name": "Kailer Yamamoto",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.5034,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3931,
+    "2": 0.0924,
+    "3": 0.0156
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.59,
+    "p10": 11.67,
+    "p90": 17.51,
+    "pp_mean": 1.13
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480855",
+   "name": "Jack McBain",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.1757,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3255,
+    "3": 0.1231,
+    "4": 0.0388,
+    "5": 0.0107
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.42,
+    "p10": 9.5,
+    "p90": 15.34,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480855",
+   "name": "Jack McBain",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.141,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1308,
+    "2": 0.0097
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.42,
+    "p10": 9.5,
+    "p90": 15.34,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480855",
+   "name": "Jack McBain",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.1827,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1664,
+    "2": 0.0153
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.42,
+    "p10": 9.5,
+    "p90": 15.34,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480855",
+   "name": "Jack McBain",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.3107,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2657,
+    "2": 0.0403,
+    "3": 0.0043
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.42,
+    "p10": 9.5,
+    "p90": 15.34,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478831",
+   "name": "Kevin Stenlund",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 0.9285,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2388,
+    "3": 0.075,
+    "4": 0.0196,
+    "5": 0.0045
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.01,
+    "p10": 11.1,
+    "p90": 16.93,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478831",
+   "name": "Kevin Stenlund",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.0941,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0897,
+    "2": 0.0042
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.01,
+    "p10": 11.1,
+    "p90": 16.93,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478831",
+   "name": "Kevin Stenlund",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2066,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1851,
+    "2": 0.0198
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.01,
+    "p10": 11.1,
+    "p90": 16.93,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478831",
+   "name": "Kevin Stenlund",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.3005,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2571,
+    "2": 0.0388,
+    "3": 0.0043
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.01,
+    "p10": 11.1,
+    "p90": 16.93,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8484388",
+   "name": "Daniil But",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.198,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3331,
+    "3": 0.1279,
+    "4": 0.041,
+    "5": 0.0114
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.25,
+    "p10": 8.33,
+    "p90": 14.17,
+    "pp_mean": 0.53
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8484388",
+   "name": "Daniil But",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.1412,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1309,
+    "2": 0.0097
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.25,
+    "p10": 8.33,
+    "p90": 14.17,
+    "pp_mean": 0.53
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8484388",
+   "name": "Daniil But",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.1434,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1325,
+    "2": 0.0103
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.25,
+    "p10": 8.33,
+    "p90": 14.17,
+    "pp_mean": 0.53
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.7)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8484388",
+   "name": "Daniil But",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.2707,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.235,
+    "2": 0.0322,
+    "3": 0.0032
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.25,
+    "p10": 8.33,
+    "p90": 14.17,
+    "pp_mean": 0.53
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479410",
+   "name": "Mikhail Sergachev",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.0921,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.602,
+    "3": 0.3465,
+    "4": 0.1693,
+    "5": 0.0721
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.54,
+    "p10": 20.63,
+    "p90": 26.46,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479410",
+   "name": "Mikhail Sergachev",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.165,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1518,
+    "2": 0.0125
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.54,
+    "p10": 20.63,
+    "p90": 26.46,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479410",
+   "name": "Mikhail Sergachev",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.6869,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4969,
+    "2": 0.1513
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.54,
+    "p10": 20.63,
+    "p90": 26.46,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479410",
+   "name": "Mikhail Sergachev",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.829,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5635,
+    "2": 0.2017,
+    "3": 0.0517
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.54,
+    "p10": 20.63,
+    "p90": 26.46,
+    "pp_mean": 3.11
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477346",
+   "name": "MacKenzie Weegar",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.7655,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5149,
+    "3": 0.263,
+    "4": 0.1129,
+    "5": 0.042
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.81,
+    "p10": 18.9,
+    "p90": 24.73,
+    "pp_mean": 0.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477346",
+   "name": "MacKenzie Weegar",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.1,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0951,
+    "2": 0.0047
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.81,
+    "p10": 18.9,
+    "p90": 24.73,
+    "pp_mean": 0.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477346",
+   "name": "MacKenzie Weegar",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.3057,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2634,
+    "2": 0.0382
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.81,
+    "p10": 18.9,
+    "p90": 24.73,
+    "pp_mean": 0.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477346",
+   "name": "MacKenzie Weegar",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.4038,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3305,
+    "2": 0.0636,
+    "3": 0.0087
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.81,
+    "p10": 18.9,
+    "p90": 24.73,
+    "pp_mean": 0.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477220",
+   "name": "Nate Schmidt",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.1258,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3082,
+    "3": 0.1125,
+    "4": 0.0342,
+    "5": 0.009
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.08,
+    "p10": 17.17,
+    "p90": 23.0,
+    "pp_mean": 0.41
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477220",
+   "name": "Nate Schmidt",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.0588,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0563,
+    "2": 0.0024
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.08,
+    "p10": 17.17,
+    "p90": 23.0,
+    "pp_mean": 0.41
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477220",
+   "name": "Nate Schmidt",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2177,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1939,
+    "2": 0.0218
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.08,
+    "p10": 17.17,
+    "p90": 23.0,
+    "pp_mean": 0.41
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8477220",
+   "name": "Nate Schmidt",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.2688,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2336,
+    "2": 0.0318,
+    "3": 0.0032
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.08,
+    "p10": 17.17,
+    "p90": 23.0,
+    "pp_mean": 0.41
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478507",
+   "name": "John Marino",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 0.8423,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2084,
+    "3": 0.0602,
+    "4": 0.0145,
+    "5": 0.003
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.6,
+    "p10": 17.69,
+    "p90": 23.52,
+    "pp_mean": 1.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478507",
+   "name": "John Marino",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.0825,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0791,
+    "2": 0.0033
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.6,
+    "p10": 17.69,
+    "p90": 23.52,
+    "pp_mean": 1.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478507",
+   "name": "John Marino",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.377,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3134,
+    "2": 0.0559
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.6,
+    "p10": 17.69,
+    "p90": 23.52,
+    "pp_mean": 1.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478507",
+   "name": "John Marino",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.4609,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3672,
+    "2": 0.0797,
+    "3": 0.0123
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.6,
+    "p10": 17.69,
+    "p90": 23.52,
+    "pp_mean": 1.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8484386",
+   "name": "Dmitri Simashev",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 0.9596,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2498,
+    "3": 0.0806,
+    "4": 0.0217,
+    "5": 0.0051
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.32,
+    "p10": 12.41,
+    "p90": 18.24,
+    "pp_mean": 0.12
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8484386",
+   "name": "Dmitri Simashev",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.0324,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0316,
+    "2": 0.0008
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.32,
+    "p10": 12.41,
+    "p90": 18.24,
+    "pp_mean": 0.12
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8484386",
+   "name": "Dmitri Simashev",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.1408,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1302,
+    "2": 0.0099
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.32,
+    "p10": 12.41,
+    "p90": 18.24,
+    "pp_mean": 0.12
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.7)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8484386",
+   "name": "Dmitri Simashev",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.1633,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1489,
+    "2": 0.0134,
+    "3": 0.0009
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.32,
+    "p10": 12.41,
+    "p90": 18.24,
+    "pp_mean": 0.12
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.5)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479369",
+   "name": "Andrew Peeke",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 0.988,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2598,
+    "3": 0.0859,
+    "4": 0.0237,
+    "5": 0.0057
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.92,
+    "p10": 14.01,
+    "p90": 19.84,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 1.0096,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479369",
+   "name": "Andrew Peeke",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.059,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0564,
+    "2": 0.0025
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.92,
+    "p10": 14.01,
+    "p90": 19.84,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 1.0532,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.05 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479369",
+   "name": "Andrew Peeke",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.1612,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1484,
+    "2": 0.0121
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.92,
+    "p10": 14.01,
+    "p90": 19.84,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 1.0579,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479369",
+   "name": "Andrew Peeke",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.2186,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1934,
+    "2": 0.0229,
+    "3": 0.0021
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.92,
+    "p10": 14.01,
+    "p90": 19.84,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 1.0561,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent PIT allows more scoring: x1.06 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Cole Bagley) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8476483",
+   "name": "Rickard Rakell",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.4845,
+   "median": 2,
+   "p10": 1,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.6969,
+    "3": 0.4471,
+    "4": 0.2434,
+    "5": 0.1148
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.27,
+    "p10": 16.36,
+    "p90": 22.19,
+    "pp_mean": 3.02
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8476483",
+   "name": "Rickard Rakell",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.3635,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3048,
+    "2": 0.052
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.27,
+    "p10": 16.36,
+    "p90": 22.19,
+    "pp_mean": 3.02
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8476483",
+   "name": "Rickard Rakell",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.403,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3309,
+    "2": 0.0628
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.27,
+    "p10": 16.36,
+    "p90": 22.19,
+    "pp_mean": 3.02
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8476483",
+   "name": "Rickard Rakell",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.7513,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5283,
+    "2": 0.1738,
+    "3": 0.0407
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.27,
+    "p10": 16.36,
+    "p90": 22.19,
+    "pp_mean": 3.02
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471675",
+   "name": "Sidney Crosby",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.2166,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6314,
+    "3": 0.378,
+    "4": 0.1928,
+    "5": 0.0861
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.86,
+    "p10": 15.95,
+    "p90": 21.78,
+    "pp_mean": 3.02
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471675",
+   "name": "Sidney Crosby",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.3315,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2821,
+    "2": 0.0442
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.86,
+    "p10": 15.95,
+    "p90": 21.78,
+    "pp_mean": 3.02
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471675",
+   "name": "Sidney Crosby",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.5684,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4335,
+    "2": 0.1116
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.86,
+    "p10": 15.95,
+    "p90": 21.78,
+    "pp_mean": 3.02
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471675",
+   "name": "Sidney Crosby",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.9124,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5984,
+    "2": 0.2321,
+    "3": 0.0649
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.86,
+    "p10": 15.95,
+    "p90": 21.78,
+    "pp_mean": 3.02
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8475810",
+   "name": "Bryan Rust",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.2069,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6292,
+    "3": 0.3755,
+    "4": 0.191,
+    "5": 0.0849
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.16,
+    "p10": 16.24,
+    "p90": 22.08,
+    "pp_mean": 2.57
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8475810",
+   "name": "Bryan Rust",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.3677,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3077,
+    "2": 0.0531
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.16,
+    "p10": 16.24,
+    "p90": 22.08,
+    "pp_mean": 2.57
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8475810",
+   "name": "Bryan Rust",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.431,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3493,
+    "2": 0.0705
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.16,
+    "p10": 16.24,
+    "p90": 22.08,
+    "pp_mean": 2.57
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8475810",
+   "name": "Bryan Rust",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.7903,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5463,
+    "2": 0.1877,
+    "3": 0.046
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.16,
+    "p10": 16.24,
+    "p90": 22.08,
+    "pp_mean": 2.57
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482758",
+   "name": "V. Koivunen",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.0403,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2781,
+    "3": 0.096,
+    "4": 0.0277,
+    "5": 0.007
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.27,
+    "p10": 10.36,
+    "p90": 16.19,
+    "pp_mean": 1.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482758",
+   "name": "V. Koivunen",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.1228,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.115,
+    "2": 0.0074
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.27,
+    "p10": 10.36,
+    "p90": 16.19,
+    "pp_mean": 1.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482758",
+   "name": "V. Koivunen",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2127,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.19,
+    "2": 0.0209
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.27,
+    "p10": 10.36,
+    "p90": 16.19,
+    "pp_mean": 1.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482758",
+   "name": "V. Koivunen",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.3315,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2806,
+    "2": 0.0452,
+    "3": 0.0052
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.27,
+    "p10": 10.36,
+    "p90": 16.19,
+    "pp_mean": 1.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478438",
+   "name": "Tommy Novak",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.5745,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4561,
+    "3": 0.2158,
+    "4": 0.0859,
+    "5": 0.0299
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.65,
+    "p10": 11.73,
+    "p90": 17.57,
+    "pp_mean": 1.77
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478438",
+   "name": "Tommy Novak",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.2031,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1831,
+    "2": 0.0185
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.65,
+    "p10": 11.73,
+    "p90": 17.57,
+    "pp_mean": 1.77
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478438",
+   "name": "Tommy Novak",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2963,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2565,
+    "2": 0.0361
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.65,
+    "p10": 11.73,
+    "p90": 17.57,
+    "pp_mean": 1.77
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8478438",
+   "name": "Tommy Novak",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.5035,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3932,
+    "2": 0.0925,
+    "3": 0.0156
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.65,
+    "p10": 11.73,
+    "p90": 17.57,
+    "pp_mean": 1.77
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471215",
+   "name": "Evgeni Malkin",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.1605,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6184,
+    "3": 0.3639,
+    "4": 0.1821,
+    "5": 0.0796
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.07,
+    "p10": 14.16,
+    "p90": 19.99,
+    "pp_mean": 2.97
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471215",
+   "name": "Evgeni Malkin",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.2956,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2559,
+    "2": 0.036
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.07,
+    "p10": 14.16,
+    "p90": 19.99,
+    "pp_mean": 2.97
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471215",
+   "name": "Evgeni Malkin",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.4445,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.358,
+    "2": 0.0744
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.07,
+    "p10": 14.16,
+    "p90": 19.99,
+    "pp_mean": 2.97
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471215",
+   "name": "Evgeni Malkin",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.7583,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5315,
+    "2": 0.1763,
+    "3": 0.0416
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.07,
+    "p10": 14.16,
+    "p90": 19.99,
+    "pp_mean": 2.97
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483808",
+   "name": "Andrei Kuzmenko",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.1559,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3186,
+    "3": 0.1188,
+    "4": 0.037,
+    "5": 0.01
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.11,
+    "p10": 10.2,
+    "p90": 16.03,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483808",
+   "name": "Andrei Kuzmenko",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.1731,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1586,
+    "2": 0.0137
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.11,
+    "p10": 10.2,
+    "p90": 16.03,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483808",
+   "name": "Andrei Kuzmenko",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2221,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1974,
+    "2": 0.0226
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.11,
+    "p10": 10.2,
+    "p90": 16.03,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483808",
+   "name": "Andrei Kuzmenko",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.3878,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3195,
+    "2": 0.0595,
+    "3": 0.0079
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.11,
+    "p10": 10.2,
+    "p90": 16.03,
+    "pp_mean": 1.74
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8485414",
+   "name": "Ben Kindel",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.0391,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5889,
+    "3": 0.333,
+    "4": 0.1595,
+    "5": 0.0666
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.82,
+    "p10": 13.91,
+    "p90": 19.74,
+    "pp_mean": 2.58
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8485414",
+   "name": "Ben Kindel",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.2299,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2046,
+    "2": 0.0233
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.82,
+    "p10": 13.91,
+    "p90": 19.74,
+    "pp_mean": 2.58
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8485414",
+   "name": "Ben Kindel",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2713,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2376,
+    "2": 0.0308
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.82,
+    "p10": 13.91,
+    "p90": 19.74,
+    "pp_mean": 2.58
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8485414",
+   "name": "Ben Kindel",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.5056,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3944,
+    "2": 0.0931,
+    "3": 0.0157
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.82,
+    "p10": 13.91,
+    "p90": 19.74,
+    "pp_mean": 2.58
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481582",
+   "name": "Nicholas Robertson",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.5231,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4403,
+    "3": 0.2031,
+    "4": 0.0788,
+    "5": 0.0266
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.52,
+    "p10": 9.61,
+    "p90": 15.44,
+    "pp_mean": 0.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481582",
+   "name": "Nicholas Robertson",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.188,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1709,
+    "2": 0.016
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.52,
+    "p10": 9.61,
+    "p90": 15.44,
+    "pp_mean": 0.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481582",
+   "name": "Nicholas Robertson",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.1563,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1442,
+    "2": 0.0114
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.52,
+    "p10": 9.61,
+    "p90": 15.44,
+    "pp_mean": 0.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.5)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481582",
+   "name": "Nicholas Robertson",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.3517,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2948,
+    "2": 0.0502,
+    "3": 0.0061
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.52,
+    "p10": 9.61,
+    "p90": 15.44,
+    "pp_mean": 0.31
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480980",
+   "name": "Connor Dewar",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.2003,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3339,
+    "3": 0.1284,
+    "4": 0.0412,
+    "5": 0.0115
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.21,
+    "p10": 10.29,
+    "p90": 16.13,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480980",
+   "name": "Connor Dewar",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.1375,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1278,
+    "2": 0.0092
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.21,
+    "p10": 10.29,
+    "p90": 16.13,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480980",
+   "name": "Connor Dewar",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.1825,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1662,
+    "2": 0.0152
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.21,
+    "p10": 10.29,
+    "p90": 16.13,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8480980",
+   "name": "Connor Dewar",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.3097,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.265,
+    "2": 0.04,
+    "3": 0.0043
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.21,
+    "p10": 10.29,
+    "p90": 16.13,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481481",
+   "name": "Blake Lizotte",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 0.8922,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.226,
+    "3": 0.0686,
+    "4": 0.0173,
+    "5": 0.0038
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.3,
+    "p10": 10.39,
+    "p90": 16.22,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481481",
+   "name": "Blake Lizotte",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.106,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1002,
+    "2": 0.0056
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.3,
+    "p10": 10.39,
+    "p90": 16.22,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481481",
+   "name": "Blake Lizotte",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2025,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1818,
+    "2": 0.0191
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.3,
+    "p10": 10.39,
+    "p90": 16.22,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481481",
+   "name": "Blake Lizotte",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.3127,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2671,
+    "2": 0.0407,
+    "3": 0.0044
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.3,
+    "p10": 10.39,
+    "p90": 16.22,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483398",
+   "name": "Declan Carlile",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.0984,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.2987,
+    "3": 0.1068,
+    "4": 0.0318,
+    "5": 0.0082
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.36,
+    "p10": 16.44,
+    "p90": 22.28,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483398",
+   "name": "Declan Carlile",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.0684,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0661,
+    "2": 0.0023
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.36,
+    "p10": 16.44,
+    "p90": 22.28,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483398",
+   "name": "Declan Carlile",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.1533,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1417,
+    "2": 0.011
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.36,
+    "p10": 16.44,
+    "p90": 22.28,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.6)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8483398",
+   "name": "Declan Carlile",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.2235,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1973,
+    "2": 0.0238,
+    "3": 0.0022
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.36,
+    "p10": 16.44,
+    "p90": 22.28,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8474578",
+   "name": "Erik Karlsson",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.1299,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6111,
+    "3": 0.3561,
+    "4": 0.1763,
+    "5": 0.0762
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.17,
+    "p10": 20.26,
+    "p90": 26.09,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8474578",
+   "name": "Erik Karlsson",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.1772,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.162,
+    "2": 0.0143
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.17,
+    "p10": 20.26,
+    "p90": 26.09,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8474578",
+   "name": "Erik Karlsson",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.6214,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4628,
+    "2": 0.129
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.17,
+    "p10": 20.26,
+    "p90": 26.09,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8474578",
+   "name": "Erik Karlsson",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.8175,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5585,
+    "2": 0.1975,
+    "3": 0.05
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.17,
+    "p10": 20.26,
+    "p90": 26.09,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479398",
+   "name": "Samuel Girard",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 0.8292,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2038,
+    "3": 0.0581,
+    "4": 0.0138,
+    "5": 0.0028
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.94,
+    "p10": 15.03,
+    "p90": 20.86,
+    "pp_mean": 0.27
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation uncertain"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "UNCERTAIN",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: questionable"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "participation",
+      "severity": "REVIEW",
+      "what": "Participation not confirmed",
+      "category": "uncertainty",
+      "action": "Label conditional on playing; refresh availability capture before start."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479398",
+   "name": "Samuel Girard",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.0486,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0468,
+    "2": 0.0017
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.94,
+    "p10": 15.03,
+    "p90": 20.86,
+    "pp_mean": 0.27
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation uncertain"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "UNCERTAIN",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: questionable"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "participation",
+      "severity": "REVIEW",
+      "what": "Participation not confirmed",
+      "category": "uncertainty",
+      "action": "Label conditional on playing; refresh availability capture before start."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479398",
+   "name": "Samuel Girard",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2568,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2264,
+    "2": 0.0278
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.94,
+    "p10": 15.03,
+    "p90": 20.86,
+    "pp_mean": 0.27
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation uncertain"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "UNCERTAIN",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: questionable"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "participation",
+      "severity": "REVIEW",
+      "what": "Participation not confirmed",
+      "category": "uncertainty",
+      "action": "Label conditional on playing; refresh availability capture before start."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8479398",
+   "name": "Samuel Girard",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.3089,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2644,
+    "2": 0.0398,
+    "3": 0.0043
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.94,
+    "p10": 15.03,
+    "p90": 20.86,
+    "pp_mean": 0.27
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation uncertain"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "UNCERTAIN",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: questionable"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "participation",
+      "severity": "REVIEW",
+      "what": "Participation not confirmed",
+      "category": "uncertainty",
+      "action": "Label conditional on playing; refresh availability capture before start."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481527",
+   "name": "Kaedan Korczak",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 0.9404,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.243,
+    "3": 0.0771,
+    "4": 0.0204,
+    "5": 0.0047
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.87,
+    "p10": 16.95,
+    "p90": 22.79,
+    "pp_mean": 0.26
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481527",
+   "name": "Kaedan Korczak",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.0373,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0362,
+    "2": 0.001
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.87,
+    "p10": 16.95,
+    "p90": 22.79,
+    "pp_mean": 0.26
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481527",
+   "name": "Kaedan Korczak",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.2441,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2145,
+    "2": 0.0269
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.87,
+    "p10": 16.95,
+    "p90": 22.79,
+    "pp_mean": 0.26
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481527",
+   "name": "Kaedan Korczak",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.284,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2449,
+    "2": 0.0351,
+    "3": 0.0037
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.87,
+    "p10": 16.95,
+    "p90": 22.79,
+    "pp_mean": 0.26
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481056",
+   "name": "Spencer Stastney",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 0.8136,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.1983,
+    "3": 0.0556,
+    "4": 0.0129,
+    "5": 0.0026
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.93,
+    "p10": 15.01,
+    "p90": 20.85,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481056",
+   "name": "Spencer Stastney",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.0351,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0342,
+    "2": 0.0009
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.93,
+    "p10": 15.01,
+    "p90": 20.85,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481056",
+   "name": "Spencer Stastney",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.126,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1175,
+    "2": 0.008
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.93,
+    "p10": 15.01,
+    "p90": 20.85,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.8)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481056",
+   "name": "Spencer Stastney",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.1584,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1449,
+    "2": 0.0126,
+    "3": 0.0008
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.93,
+    "p10": 15.01,
+    "p90": 20.85,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.5)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471724",
+   "name": "Kris Letang",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 1.3369,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3803,
+    "3": 0.1586,
+    "4": 0.0552,
+    "5": 0.0167
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.21,
+    "p10": 17.3,
+    "p90": 23.13,
+    "pp_mean": 1.57
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471724",
+   "name": "Kris Letang",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.0553,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.053,
+    "2": 0.0022
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.21,
+    "p10": 17.3,
+    "p90": 23.13,
+    "pp_mean": 1.57
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471724",
+   "name": "Kris Letang",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.3186,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2728,
+    "2": 0.0412
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.21,
+    "p10": 17.3,
+    "p90": 23.13,
+    "pp_mean": 1.57
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8471724",
+   "name": "Kris Letang",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.3594,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3002,
+    "2": 0.0521,
+    "3": 0.0064
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.21,
+    "p10": 17.3,
+    "p90": 23.13,
+    "pp_mean": 1.57
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482475",
+   "name": "Egor Chinakhov",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "shots",
+   "mean": 2.0379,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5885,
+    "3": 0.3327,
+    "4": 0.1593,
+    "5": 0.0665
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.48,
+    "p10": 12.56,
+    "p90": 18.4,
+    "pp_mean": 1.68
+   },
+   "opponent_adjustment": {
+    "factor": 0.9724,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation uncertain"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "UNCERTAIN",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: questionable"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "participation",
+      "severity": "REVIEW",
+      "what": "Participation not confirmed",
+      "category": "uncertainty",
+      "action": "Label conditional on playing; refresh availability capture before start."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482475",
+   "name": "Egor Chinakhov",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "goals",
+   "mean": 0.2729,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2377,
+    "2": 0.0319
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.48,
+    "p10": 12.56,
+    "p90": 18.4,
+    "pp_mean": 1.68
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation uncertain"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "UNCERTAIN",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: questionable"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "participation",
+      "severity": "REVIEW",
+      "what": "Participation not confirmed",
+      "category": "uncertainty",
+      "action": "Label conditional on playing; refresh availability capture before start."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482475",
+   "name": "Egor Chinakhov",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "assists",
+   "mean": 0.323,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.276,
+    "2": 0.0422
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.48,
+    "p10": 12.56,
+    "p90": 18.4,
+    "pp_mean": 1.68
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation uncertain"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "UNCERTAIN",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: questionable"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "participation",
+      "severity": "REVIEW",
+      "what": "Participation not confirmed",
+      "category": "uncertainty",
+      "action": "Label conditional on playing; refresh availability capture before start."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482475",
+   "name": "Egor Chinakhov",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "points",
+   "mean": 0.5863,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4436,
+    "2": 0.1174,
+    "3": 0.0218
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.48,
+    "p10": 12.56,
+    "p90": 18.4,
+    "pp_mean": 1.68
+   },
+   "opponent_adjustment": {
+    "factor": 0.9995,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation uncertain"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "UNCERTAIN",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-10-19T22:41:40Z",
+    "reasons": [
+     "dailyfaceoff_lines: questionable"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "participation",
+      "severity": "REVIEW",
+      "what": "Participation not confirmed",
+      "category": "uncertainty",
+      "action": "Label conditional on playing; refresh availability capture before start."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-10-19T22:41:40Z",
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8482657",
+   "name": "S. Cossa",
+   "team": "UTA",
+   "opponent": "PIT",
+   "game_id": "2026020140",
+   "family": "saves",
+   "mean": 23.236,
+   "median": 23,
+   "p10": 15,
+   "p90": 32,
+   "thresholds": {
+    "20": 0.7098,
+    "25": 0.3966,
+    "30": 0.1584
+   },
+   "opportunity": {
+    "family": "shots_against",
+    "mean": 26.05,
+    "p10": null,
+    "p90": null
+   },
+   "opponent_adjustment": {
+    "factor": null,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on S. Cossa starting (P(start) 1.00: CONFIRMED @ 0-3h before start: 194/194 named goalies started (prior 9/10))"
+   ],
+   "readiness": "NEEDS IMPROVEMENT",
+   "participation": {
+    "status": "CONFIRMED_ACTIVE",
+    "certainty": "CONFIRMED",
+    "source": "dailyfaceoff_goalies",
+    "captured_utc": "2026-10-19T22:41:39Z",
+    "reasons": [
+     "dailyfaceoff_goalies: confirmed starting (starter)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "starting",
+   "p_start": 0.9951,
+   "p_start_basis": "CONFIRMED @ 0-3h before start: 194/194 named goalies started (prior 9/10)",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Only 2 games of the player's own evidence",
+      "category": "uncertainty",
+      "action": "Label as prior-driven; show the wide range."
+     }
+    ]
+   },
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  },
+  {
+   "player_id": "8481668",
+   "name": "A. Silovs",
+   "team": "PIT",
+   "opponent": "UTA",
+   "game_id": "2026020140",
+   "family": "saves",
+   "mean": 23.802,
+   "median": 23,
+   "p10": 16,
+   "p90": 32,
+   "thresholds": {
+    "20": 0.7383,
+    "25": 0.4317,
+    "30": 0.1822
+   },
+   "opportunity": {
+    "family": "shots_against",
+    "mean": 26.69,
+    "p10": null,
+    "p90": null
+   },
+   "opponent_adjustment": {
+    "factor": null,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on A. Silovs starting (P(start) 1.00: CONFIRMED @ 0-3h before start: 194/194 named goalies started (prior 9/10))"
+   ],
+   "readiness": "NEEDS IMPROVEMENT",
+   "participation": {
+    "status": "CONFIRMED_ACTIVE",
+    "certainty": "CONFIRMED",
+    "source": "dailyfaceoff_goalies",
+    "captured_utc": "2026-10-19T22:41:39Z",
+    "reasons": [
+     "dailyfaceoff_goalies: confirmed starting (starter)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "starting",
+   "p_start": 0.9951,
+   "p_start_basis": "CONFIRMED @ 0-3h before start: 194/194 named goalies started (prior 9/10)",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "data_asof_utc": "2026-10-19T03:29:47Z"
+  }
+ ],
+ "gate_summary": {
+  "n": 146,
+  "status_counts": {
+   "PASS": 126,
+   "REVIEW": 20
+  },
+  "check_counts": {
+   "confidence:REVIEW": 8,
+   "participation:REVIEW": 8,
+   "identity:REVIEW": 4
+  }
+ },
+ "slate": {
+  "date": "2026-10-19",
+  "label": "2026-10-19 slate: 1 games not started at 2026-10-19T23:38:43Z",
+  "conditioning": "skater rows are conditional on dressing, saves on the listed goalie starting (P(start) published)",
+  "lineup_info": {
+   "teams": 2,
+   "teams_with_lines": 2,
+   "teams_last_dressed": 0,
+   "official_confirmed_teams": 0,
+   "goalie_teams": 2,
+   "goalie_named": 2,
+   "goalie_fallback": 0,
+   "goalie_unresolved_history": 0
+  }
+ }
+}
