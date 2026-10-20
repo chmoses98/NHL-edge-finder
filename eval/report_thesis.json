@@ -1,5 +1,5 @@
 {
- "evaluated_at_utc": "2026-10-19T22:59:28Z",
+ "evaluated_at_utc": "2026-10-20T00:33:28Z",
  "authority": "RESEARCH_ONLY",
  "report_version": "thesis-postmortem-2.0",
  "n_rows_all_runs": 19885,
@@ -75518,9 +75518,9 @@
     "games_thesis_evaluated": 0,
     "games_terminal": 0,
     "games_missing": {
-     "2026020137": "game not started: the snapshot shown is the latest so far, not yet final",
-     "2026020138": "game not started: the snapshot shown is the latest so far, not yet final",
-     "2026020139": "game not started: the snapshot shown is the latest so far, not yet final",
+     "2026020137": "no official FINAL result yet",
+     "2026020138": "no official FINAL result yet",
+     "2026020139": "no official FINAL result yet",
      "2026020140": "game not started: the snapshot shown is the latest so far, not yet final"
     },
     "games_ambiguous": [],
@@ -75602,7 +75602,7 @@
    },
    "games": {
     "2026020137": {
-     "state": "NOT_STARTED",
+     "state": "NOT_FINAL",
      "matchup": "ANA @ NYR",
      "final_snapshot": {
       "snapshot_id": "snap-1a59b48849eaf7d571e5",
@@ -75955,7 +75955,7 @@
      ]
     },
     "2026020138": {
-     "state": "NOT_STARTED",
+     "state": "NOT_FINAL",
      "matchup": "COL @ PHI",
      "final_snapshot": {
       "snapshot_id": "snap-1a59b48849eaf7d571e5",
@@ -76659,7 +76659,7 @@
      ]
     },
     "2026020139": {
-     "state": "NOT_STARTED",
+     "state": "NOT_FINAL",
      "matchup": "SJS @ TOR",
      "final_snapshot": {
       "snapshot_id": "snap-1a59b48849eaf7d571e5",
@@ -77034,14 +77034,14 @@
      "state": "NOT_STARTED",
      "matchup": "PIT @ UTA",
      "final_snapshot": {
-      "snapshot_id": "snap-1a59b48849eaf7d571e5",
-      "decided_at_utc": "2026-10-19T22:51:34Z",
+      "snapshot_id": "snap-cdccefafd0d21ee8a8b3",
+      "decided_at_utc": "2026-10-20T00:30:23Z",
       "run_id": "39317720980",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
       "n_chosen": 4,
-      "n_shortlisted": 10,
-      "n_pregame_snapshots": 22,
+      "n_shortlisted": 13,
+      "n_pregame_snapshots": 24,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-20T01:00:00Z",
       "synthetic_game_row": false,
@@ -77052,12 +77052,12 @@
      "overrides": [],
      "bets": [
       {
-       "decision_id": "db750d5945a1342a656c496ef1935b16",
+       "decision_id": "f5f3977a86615112323d9fed2af2bf20",
        "game_id": "2026020140",
        "bet_id": "KXNHLGOAL-26OCT19PITUTA-UTAJMCBAIN22-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 7.43,
+       "stake_dollars": 9.2,
        "research_status": "SHADOW_ONLY",
        "research_stake_dollars": 0,
        "research_reasons": [
@@ -77069,17 +77069,17 @@
        "is_player_prop": true,
        "primary_thesis": "UTA:OFFENSE_4PLUS",
        "p_thesis": 0.5017,
-       "entry_price_cents": 12,
-       "ev_raw": 0.041707999999999995,
-       "ev_adjusted": 0.028182999999999986,
+       "entry_price_cents": 11,
+       "ev_raw": 0.052247,
+       "ev_adjusted": 0.03622200000000002,
        "p_model": 0.1691,
-       "p_adjusted": 0.155575,
-       "p_kalshi_mid": 0.11499999999999999,
+       "p_adjusted": 0.15307500000000002,
+       "p_kalshi_mid": 0.10500000000000001,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.115,
-        "gap": 0.0541,
-        "abs_gap_pts": 5.4,
+        "p_market": 0.105,
+        "gap": 0.0641,
+        "abs_gap_pts": 6.4,
         "threshold_pts": 10.0,
         "large": false
        },
@@ -77100,10 +77100,25 @@
          "phi": 0.008,
          "p_both": 0.0684
         },
-        "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-1|yes": {
+        "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.005,
+         "p_both": 0.0101
+        },
+        "KXNHLAST-26OCT19PITUTA-PITRRAKELL67-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.003,
+         "p_both": 0.016
+        },
+        "KXNHLGOAL-26OCT19PITUTA-UTALCROUSE67-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": -0.001,
-         "p_both": 0.0539
+         "p_both": 0.041
+        },
+        "KXNHLGOAL-26OCT19PITUTA-PITBRUST17-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.002,
+         "p_both": 0.0108
         },
         "KXNHLGOAL-26OCT19PITUTA-UTADGUENTHER11-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -77125,22 +77140,22 @@
          "phi": -0.026,
          "p_both": 0.1264
         },
-        "KXNHLGOAL-26OCT19PITUTA-UTALCROUSE67-1|yes": {
+        "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": -0.001,
-         "p_both": 0.041
+         "p_both": 0.0539
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "34ce2aab654795b8271f420e7b0895f7",
+       "decision_id": "2353583ef0236dcb855896bc34dbeb5b",
        "game_id": "2026020140",
        "bet_id": "KXNHLGOAL-26OCT19PITUTA-PITCDEWAR19-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 6.76,
+       "stake_dollars": 6.94,
        "research_status": "SHADOW_ONLY",
        "research_stake_dollars": 0,
        "research_reasons": [
@@ -77183,10 +77198,25 @@
          "phi": 0.034,
          "p_both": 0.0678
         },
-        "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-1|yes": {
+        "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-2|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.022,
-         "p_both": 0.0537
+         "phi": 0.008,
+         "p_both": 0.0096
+        },
+        "KXNHLAST-26OCT19PITUTA-PITRRAKELL67-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.009,
+         "p_both": 0.0154
+        },
+        "KXNHLGOAL-26OCT19PITUTA-UTALCROUSE67-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.02,
+         "p_both": 0.0349
+        },
+        "KXNHLGOAL-26OCT19PITUTA-PITBRUST17-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.003,
+         "p_both": 0.0104
         },
         "KXNHLGOAL-26OCT19PITUTA-UTADGUENTHER11-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -77208,22 +77238,22 @@
          "phi": -0.007,
          "p_both": 0.1194
         },
-        "KXNHLGOAL-26OCT19PITUTA-UTALCROUSE67-1|yes": {
+        "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.02,
-         "p_both": 0.0349
+         "phi": 0.022,
+         "p_both": 0.0537
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "db3ea7c3ab74f1ea117f99f9f0438a0d",
+       "decision_id": "4f8aca054b93bdf8566935d4b752316b",
        "game_id": "2026020140",
        "bet_id": "KXNHLGOAL-26OCT19PITUTA-PITBRUST17-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 10.15,
+       "stake_dollars": 10.49,
        "research_status": "FUNDED_RESEARCH",
        "research_stake_dollars": 3,
        "research_reasons": [],
@@ -77235,15 +77265,15 @@
        "p_thesis": 0.3756,
        "entry_price_cents": 28,
        "ev_raw": 0.050587999999999966,
-       "ev_adjusted": 0.030662999999999996,
+       "ev_adjusted": 0.03191299999999997,
        "p_model": 0.3447,
-       "p_adjusted": 0.32477500000000004,
-       "p_kalshi_mid": 0.265,
+       "p_adjusted": 0.326025,
+       "p_kalshi_mid": 0.27,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.265,
-        "gap": 0.0797,
-        "abs_gap_pts": 8.0,
+        "p_market": 0.27,
+        "gap": 0.0747,
+        "abs_gap_pts": 7.5,
         "threshold_pts": 10.0,
         "large": false
        },
@@ -77264,10 +77294,25 @@
          "phi": 0.266,
          "p_both": 0.1984
         },
-        "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-1|yes": {
+        "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-2|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.004,
-         "p_both": 0.1093
+         "phi": -0.01,
+         "p_both": 0.0187
+        },
+        "KXNHLAST-26OCT19PITUTA-PITRRAKELL67-2|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.199,
+         "p_both": 0.0592
+        },
+        "KXNHLGOAL-26OCT19PITUTA-UTALCROUSE67-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.005,
+         "p_both": 0.0849
+        },
+        "KXNHLGOAL-26OCT19PITUTA-PITBRUST17-2|yes": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.363,
+         "p_both": 0.0648
         },
         "KXNHLGOAL-26OCT19PITUTA-UTADGUENTHER11-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
@@ -77289,44 +77334,44 @@
          "phi": -0.003,
          "p_both": 0.2655
         },
-        "KXNHLGOAL-26OCT19PITUTA-UTALCROUSE67-1|yes": {
+        "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.005,
-         "p_both": 0.0849
+         "phi": -0.004,
+         "p_both": 0.1093
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "b99205685e015eed1563dbe1c0256f95",
+       "decision_id": "e6fdb67ebf01ea922d83956e57b70b85",
        "game_id": "2026020140",
-       "bet_id": "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-1|yes",
+       "bet_id": "KXNHLGOAL-26OCT19PITUTA-UTALCROUSE67-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 7.25,
+       "stake_dollars": 6.15,
        "research_status": "SHADOW_ONLY",
        "research_stake_dollars": 0,
        "research_reasons": [
         "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT19PITUTA-PITBRUST17-1|yes)"
        ],
        "fidelity_class": "FRAGILE",
-       "thesis_capture": 0.4822,
+       "thesis_capture": 0.3291,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
-       "primary_thesis": "PIT:OFFENSE_4PLUS",
-       "p_thesis": 0.3756,
-       "entry_price_cents": 27,
-       "ev_raw": 0.036102999999999996,
-       "ev_adjusted": 0.02237800000000001,
-       "p_model": 0.3199,
-       "p_adjusted": 0.30617500000000003,
-       "p_kalshi_mid": 0.265,
+       "primary_thesis": "UTA:OFFENSE_4PLUS",
+       "p_thesis": 0.5017,
+       "entry_price_cents": 20,
+       "ev_raw": 0.03209999999999999,
+       "ev_adjusted": 0.020024999999999987,
+       "p_model": 0.2433,
+       "p_adjusted": 0.23122499999999999,
+       "p_kalshi_mid": 0.195,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.265,
-        "gap": 0.0549,
-        "abs_gap_pts": 5.5,
+        "p_market": 0.195,
+        "gap": 0.0483,
+        "abs_gap_pts": 4.8,
         "threshold_pts": 10.0,
         "large": false
        },
@@ -77335,44 +77380,59 @@
         "KXNHLGOAL-26OCT19PITUTA-UTAJMCBAIN22-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": -0.001,
-         "p_both": 0.0539
+         "p_both": 0.041
         },
         "KXNHLGOAL-26OCT19PITUTA-PITCDEWAR19-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.022,
-         "p_both": 0.0537
+         "phi": -0.02,
+         "p_both": 0.0349
         },
         "KXNHLGOAL-26OCT19PITUTA-PITBRUST17-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.004,
-         "p_both": 0.1093
+         "phi": 0.005,
+         "p_both": 0.0849
         },
         "KXNHLAST-26OCT19PITUTA-PITRRAKELL67-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.0,
-         "p_both": 0.1266
+         "phi": -0.015,
+         "p_both": 0.0933
+        },
+        "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.002,
+         "p_both": 0.0141
+        },
+        "KXNHLAST-26OCT19PITUTA-PITRRAKELL67-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.017,
+         "p_both": 0.0204
+        },
+        "KXNHLGOAL-26OCT19PITUTA-PITBRUST17-2|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.003,
+         "p_both": 0.0154
         },
         "KXNHLGOAL-26OCT19PITUTA-UTADGUENTHER11-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.007,
-         "p_both": 0.2135
+         "phi": 0.005,
+         "p_both": 0.1646
         },
         "KXNHLSAVE-26OCT19PITUTA-PITASILOVS37-26|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.025,
-         "p_both": 0.1916
+         "phi": 0.033,
+         "p_both": 0.1568
         },
         "KXNHLAST-26OCT19PITUTA-UTAJMARINO6-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.002,
-         "p_both": 0.121
+         "phi": 0.042,
+         "p_both": 0.1011
         },
         "KXNHLAST-26OCT19PITUTA-UTAVTROCHECK16-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.009,
-         "p_both": 0.2452
+         "phi": -0.027,
+         "p_both": 0.183
         },
-        "KXNHLGOAL-26OCT19PITUTA-UTALCROUSE67-1|yes": {
+        "KXNHLGOAL-26OCT19PITUTA-PITRRAKELL67-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
          "phi": -0.004,
          "p_both": 0.0771
