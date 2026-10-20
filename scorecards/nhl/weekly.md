@@ -1,8 +1,8 @@
 ## NHL projection scorecard (weekly) — last 28 days
 
-Generated 2026-10-19T23:38:43Z. Research only; nothing here is a betting signal.
+Generated 2026-10-20T01:01:00Z. Research only; nothing here is a betting signal.
 
-Archived pregame forecasts: 3159 across 6 games. Settled: 692 (void/DNP 33, stat corrections 0).
+Archived pregame forecasts: 5153 across 17 games. Settled: 692 (void/DNP 33, stat corrections 0).
 
 | Stat | Model | n (games) | MAE | Bias | CRPS | 80% range caught | vs incumbent (CRPS) |
 |---|---|---|---|---|---|---|---|
@@ -51,4 +51,4 @@ A family is **better** only if the game-clustered 95% CI of the paired loss diff
 **Skater lineup check**: 72 projected skaters, 95.8% dressed.
 - participation LIKELY_ACTIVE: n=72, dressed 95.8%
 
-**Availability capture**: mean coverage 1.0, newest capture age 3.6 min (median over recent runs), runs summarised: 6.
+**Availability capture**: mean coverage 1.0, newest capture age 3.3 min (median over recent runs), runs summarised: 7.
