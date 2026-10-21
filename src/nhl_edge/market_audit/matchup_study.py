@@ -73,12 +73,15 @@ def fit_ratings(rows: pd.DataFrame, asof: pd.Timestamp, team_ids: list[int]) -> 
 
 
 def ewma_rate(rows: pd.DataFrame, asof: pd.Timestamp, team: int, col: str, prior: float, k: float = 20.0) -> float:
+    """Decayed weighted mean of ``col`` over the team's games BEFORE ``asof``, shrunk toward ``prior`` with weight ``k`` (in game-equivalents)."""
     r = rows[(rows["date"] < asof) & (rows["team_id"] == team)].dropna(subset=[col])
     if r.empty:
         return prior
     age = (asof - r["date"]).dt.days.to_numpy(float)
     w = np.power(0.5, age / HALF_LIFE_DAYS)
-    return float((np.sum(w * r[col].to_numpy(float)) + k * 0.0 + prior * k * 0.0) / max(np.sum(w), 1e-9)) * (np.sum(w) / (np.sum(w) + k)) + prior * (k / (np.sum(w) + k))
+    mean = float(np.sum(w * r[col].to_numpy(float)) / max(np.sum(w), 1e-9))
+    shrink = float(np.sum(w) / (np.sum(w) + k))
+    return mean * shrink + prior * (1.0 - shrink)
 
 
 def build_features(history_dir: Path, games: pd.DataFrame, teams_csv: Path, target_season: int = 2025) -> pd.DataFrame:

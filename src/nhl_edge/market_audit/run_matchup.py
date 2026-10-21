@@ -55,6 +55,6 @@ if __name__ == "__main__":
     res = run(a.derived, a.history, a.teams_csv)
     a.out.write_text(json.dumps(res, indent=1, default=float))
     for k, v in res.items():
-        print(k, "disc/hold games", v["n_disc_games"], v["n_hold_games"], "block Wald p=%.3f" % v["wald_p_block"],
-              "OOS dLL=%.5f [%.5f, %.5f]" % (v["oos_delta_logloss_vs_market"], v["oos_dll_lo95"], v["oos_dll_hi95"]))
+        print(k, "disc/hold games", v["n_disc_games"], v["n_hold_games"], f"block Wald p={v['wald_p_block']:.3f}",
+              f"OOS dLL={v['oos_delta_logloss_vs_market']:.5f} [{v['oos_dll_lo95']:.5f}, {v['oos_dll_hi95']:.5f}]")
         print("   z:", {f: round(z, 2) for f, z in v["beta_z"].items()})

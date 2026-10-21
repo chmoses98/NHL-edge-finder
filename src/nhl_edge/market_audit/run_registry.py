@@ -15,6 +15,10 @@ import pandas as pd
 from nhl_edge.market_audit import hypotheses as H
 
 HIST_SEASON = ("2025-10-01", "2026-04-17")
+# Commit time of the frozen registry (git 627b5fa7). Games that START before it are the one-shot LIVE tier; games that start after
+# it are PROSPECTIVE and are only ever read at the predeclared looks below (never repeatedly "until something passes").
+PROSPECTIVE_FREEZE_UTC = "2026-10-21T17:13:05Z"
+PROSPECTIVE_LOOKS = (150, 300, 450)  # independent games; alpha spent 0.005 / 0.015 / 0.05 (one-sided), Bonferroni-conservative O'Brien-Fleming-style
 EARLY_DAYS = 21
 
 
@@ -89,8 +93,12 @@ def run(derived: Path, wf_csv: Path, out: Path) -> dict:
     live["early_season"] = early_flag(live, "2026-09-29")
     live = live[live["horizon_min"].isin([60, 1440])].copy()
     live = live_model_gaps(live, derived)
-    tiers["LIVE"] = live
+    fz = pd.Timestamp(PROSPECTIVE_FREEZE_UTC)
+    start = pd.to_datetime(live["start_time_utc"], utc=True)
+    tiers["LIVE"] = live[start < fz]
+    tiers["PROSPECTIVE"] = live[start >= fz]
     results: dict[str, dict] = {}
+    prospective: dict[str, dict] = {}
     for h in H.REGISTRY:
         per = {}
         for t in h.tiers:
@@ -98,13 +106,22 @@ def run(derived: Path, wf_csv: Path, out: Path) -> dict:
             if h.side == "model":
                 df["model_gap"] = df["model_gap_v1"] if h.id == "C1" else df["model_gap_v2"]
             per[t] = H.evaluate(h, df)
+        if "LIVE" in h.tiers and len(tiers["PROSPECTIVE"]):
+            df = tiers["PROSPECTIVE"].copy()
+            if h.side == "model":
+                df["model_gap"] = df["model_gap_v1"] if h.id == "C1" else df["model_gap_v2"]
+            pr = H.evaluate(h, df)
+            n = pr.get("n_games", 0)
+            pr["next_look_at_games"] = next((k for k in PROSPECTIVE_LOOKS if k > n), None)
+            pr["status"] = "ACCUMULATING" if n < PROSPECTIVE_LOOKS[0] else "AT_LOOK"
+            prospective[h.id] = pr
         results[h.id] = per
     live_p = {k: v["LIVE"]["p_one_sided"] for k, v in results.items() if "LIVE" in v and v["LIVE"].get("roi") is not None}
     q = H.bh_adjust(live_p)
     final = {}
     for h in H.REGISTRY:
         final[h.id] = {"title": h.title, "statement": h.statement, "side": h.side, "post_hoc_suggested": h.post_hoc, "group": h.group,
-                       "tiers": results[h.id], "q_live_bh": q.get(h.id), "class": H.classify(results[h.id], q.get(h.id))}
+                       "tiers": results[h.id], "prospective": prospective.get(h.id), "q_live_bh": q.get(h.id), "class": H.classify(results[h.id], q.get(h.id))}
     meta = {"registry_version": H.REGISTRY_VERSION, "decision_horizon_min": H.DECISION_HORIZON_MIN, "hist_disc_hold_cutoff_date": str(cutoff),
             "tier_games": {k: int(v["game_id"].nunique()) for k, v in tiers.items()}, "n_boot": H.N_BOOT}
     out.write_text(json.dumps({"meta": meta, "results": final}, indent=1, default=float))

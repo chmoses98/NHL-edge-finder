@@ -194,3 +194,86 @@ def build_live_panel(ev: pd.DataFrame, cm: pd.DataFrame, games: pd.DataFrame, ou
     p["game_date"] = p["game_date_et"]
     p["game_id"] = p["game_id"].astype(str)
     return p[p["quote_age_min"] <= max_age_min].drop(columns=["status", "outcome"])
+
+
+def _band_table(d: pd.DataFrame, edges=(0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1.0), n_boot: int = 1000) -> list[dict]:
+    out = []
+    for b, x in d.assign(b=pd.cut(d["mid"], edges, include_lowest=True)).groupby("b", observed=True):
+        gp = cluster_ratio_ci(x, "gap", None, n=n_boot)
+        ry = cluster_ratio_ci(x, "pnl_yes", "cost_yes", n=n_boot)
+        rn = cluster_ratio_ci(x, "pnl_no", "cost_no", n=n_boot)
+        out.append({"band": str(b), "n": int(len(x)), "games": int(x["game_id"].nunique()), "mean_mid": float(x["mid"].mean()), "freq": float(x["y"].mean()),
+                    "gap": gp[0], "gap_lo95": gp[1], "gap_hi95": gp[2], "roi_buy_yes": ry[0], "roi_buy_no": rn[0]})
+    return out
+
+
+def efficiency_report(p: pd.DataFrame, tier: str, with_months: bool = False) -> dict:
+    """Calibration, price-band, line, side and time-stability diagnostics for one tier. Game-clustered throughout."""
+    rep: dict = {"tier": tier, "games": int(p["game_id"].nunique())}
+    hz = []
+    for (k, h), d in p.groupby(["kind", "horizon_min"]):
+        if len(d) < 60 or d["game_id"].nunique() < 30:
+            continue
+        a, b, _, sb = calibration_slope(d)
+        ry, rn = cluster_ratio_ci(d, "pnl_yes", "cost_yes", n=1000), cluster_ratio_ci(d, "pnl_no", "cost_no", n=1000)
+        gp = cluster_ratio_ci(d, "gap", None, n=1000)
+        hz.append({"kind": k, "horizon_min": int(h), "n": int(len(d)), "games": int(d["game_id"].nunique()), "brier": float(d["sq_err"].mean()),
+                   "calib_intercept": a, "calib_slope": b, "calib_slope_se": sb, "gap_yes_minus_mid": gp[0], "gap_lo95": gp[1], "gap_hi95": gp[2],
+                   "roi_buy_yes": ry[0], "roi_yes_lo95": ry[1], "roi_yes_hi95": ry[2], "roi_buy_no": rn[0], "roi_no_lo95": rn[1], "roi_no_hi95": rn[2],
+                   "mean_spread": float(d["spread"].mean())})
+    rep["by_kind_horizon"] = hz
+    d60 = p[p["horizon_min"] == 60]
+    full = d60[d60["kind"].isin(["winner", "spread", "total", "team_total"])]
+    rep["bands_pooled_full_game_T60"] = _band_table(full)
+    for k in sorted(d60["kind"].unique()):
+        x = d60[d60["kind"] == k]
+        if x["game_id"].nunique() >= 40:
+            rep.setdefault("bands_by_kind_T60", {})[k] = _band_table(x)
+    t = d60[d60["kind"] == "total"]
+    lines = []
+    for ln, x in t.groupby("threshold"):
+        if x["game_id"].nunique() < 40:
+            continue
+        gp, ru, ro = cluster_ratio_ci(x, "gap", None, n=1000), cluster_ratio_ci(x, "pnl_no", "cost_no", n=1000), cluster_ratio_ci(x, "pnl_yes", "cost_yes", n=1000)
+        lines.append({"line": float(ln), "games": int(x["game_id"].nunique()), "mean_over_mid": float(x["mid"].mean()), "over_freq": float(x["y"].mean()),
+                      "gap": gp[0], "gap_lo95": gp[1], "gap_hi95": gp[2], "roi_over": ro[0], "roi_under": ru[0]})
+    rep["totals_by_line_T60"] = lines
+    s = d60[d60["kind"] == "spread"]
+    sl = []
+    for ln, x in s.groupby("threshold"):
+        if x["game_id"].nunique() < 40:
+            continue
+        gp, ry, rn = cluster_ratio_ci(x, "gap", None, n=1000), cluster_ratio_ci(x, "pnl_yes", "cost_yes", n=1000), cluster_ratio_ci(x, "pnl_no", "cost_no", n=1000)
+        sl.append({"line": float(ln), "games": int(x["game_id"].nunique()), "mean_mid": float(x["mid"].mean()), "freq": float(x["y"].mean()), "gap": gp[0],
+                   "gap_lo95": gp[1], "gap_hi95": gp[2], "roi_buy_yes": ry[0], "roi_buy_no": rn[0]})
+    rep["spread_by_line_T60"] = sl
+    w = d60[d60["kind"] == "winner"].copy()
+    if "home_team_id" in w and "subject_team_id" in w:
+        w["is_home"] = w["subject_team_id"] == w["home_team_id"]
+        w["is_fav"] = w["mid"] > 0.5
+        rep["winner_home_fav_T60"] = [{"home": bool(h), "favourite": bool(f), "n": int(len(x)), "mean_mid": float(x["mid"].mean()), "freq": float(x["y"].mean()),
+                                       "gap": cluster_ratio_ci(x, "gap", None, n=1000)[0]} for (h, f), x in w.groupby(["is_home", "is_fav"])]
+    mv = p.pivot_table(index="ticker", columns="horizon_min", values="mid")
+    if 1440 in mv.columns and 60 in mv.columns:
+        m = (mv[60] - mv[1440]).dropna()
+        d = d60.merge(m.rename("move"), left_on="ticker", right_index=True)
+        d["move_bin"] = pd.cut(d["move"], [-1, -0.05, -0.02, 0.02, 0.05, 1])
+        rep["move_24h_to_60m_vs_residual"] = [{"move_bin": str(b), "n": int(len(x)), "games": int(x["game_id"].nunique()), "mean_residual_y_minus_mid": cluster_ratio_ci(x, "gap", None, n=1000)[0]}
+                                              for b, x in d.groupby("move_bin", observed=True)]
+    if with_months:
+        tt = t.assign(month=t["game_date"].str[:7])
+        rep["totals_gap_by_month_T60"] = [{"month": m, "games": int(x["game_id"].nunique()), "gap": cluster_ratio_ci(x, "gap", None, n=1000)[0],
+                                           "roi_under": cluster_ratio_ci(x, "pnl_no", "cost_no", n=1000)[0]} for m, x in tt.groupby("month")]
+    return rep
+
+
+def power_table(p: pd.DataFrame, cost_col: str, pnl_col: str, effects=(0.01, 0.02, 0.03, 0.05, 0.10), alpha: float = 0.05, power: float = 0.8) -> dict:
+    """Independent GAMES needed to detect a true net ROI of ``effect`` (one-sided), using the empirical per-game dispersion of normalised returns."""
+    from scipy import stats
+
+    g = p.groupby("game_id").agg(num=(pnl_col, "sum"), den=(cost_col, "sum"), k=(pnl_col, "size"))
+    r = g["num"] / g["den"]
+    sd_game = float(r.std(ddof=1))
+    za, zb = stats.norm.ppf(1 - alpha), stats.norm.ppf(power)
+    return {"bets_per_game": float(g["k"].mean()), "sd_of_per_game_roi": sd_game,
+            "games_needed": {f"{e:.0%}": int(np.ceil(((za + zb) * sd_game / e) ** 2)) for e in effects}}

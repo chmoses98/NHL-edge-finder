@@ -1,29 +1,49 @@
-# NHL market audit — progress ledger (resume here)
+# NHL market audit - progress ledger (resume here)
 
-Branch `research/nhl-market-audit-20261021` (from `main` f6e477f). RESEARCH_ONLY. Nothing here touches production,
-stakes, the archive, or a model. Update this file at every checkpoint.
+Branch `research/nhl-market-audit-20261021` (from `main` f6e477f). RESEARCH_ONLY. Nothing here touches production, stakes, the archive, a model or a data contract. Update this file at every checkpoint.
 
-## Environment to reproduce
+## Reproduce
+
 ```
 python -m venv .venv && . .venv/bin/activate && pip install -e ".[dev]" scipy statsmodels
 git fetch --depth=1 origin data-archive accounting-data
 mkdir -p ../rdata/data-archive ../rdata/accounting-data
-git archive origin/data-archive | tar -x -C ../rdata/data-archive      # 16,769 files, ~5 GB on disk
+git archive origin/data-archive    | tar -x -C ../rdata/data-archive      # ~16.8k files, ~5 GB on disk
 git archive origin/accounting-data | tar -x -C ../rdata/accounting-data
+python -m nhl_edge.market_audit.pipeline --archive ../rdata/data-archive --accounting ../rdata/accounting-data \
+    --history data/history --repo . --work ../rdata/work --out docs/research/nhl-market-audit/data      # ~25 min cold, resumable
+python -m nhl_edge.market_audit.render_reports --data docs/research/nhl-market-audit/data --out docs/research/nhl-market-audit
+python -m nhl_edge.market_audit.scorecard --data docs/research/nhl-market-audit/data --ledger ../rdata/evidence_ledger.jsonl
 ```
-Archive snapshot used: data-archive `2db3b91` (manifest 14,214 rows, last tick 2026-10-21T15:51:18Z).
+Snapshot analysed: data-archive `2db3b91` (manifest 14,214 rows, last tick 2026-10-21T15:51:18Z); accounting-data `70c507a`.
 
-## Done (checkpoint 1)
-- [x] Phase A integrity: manifest 14,214 entries, 0 missing / 0 duplicate / 0 hash mismatch; all 256 delta chains verify.
-- [x] `market_audit/streams.py`: every tick (2,870) -> `quote_events` (2.16M), `book_events` (687K), `market_static` (35,992 tickers).
-- [x] `market_audit/taxonomy.py`: 35,992 / 35,992 game-scoped tickers have a PROVEN spec (structured strike == rules wording).
-- [x] `market_audit/outcomes.py`: independent resolver. vs production settlements: 31,478 co-decided, 0 disagreements.
-- [x] `market_audit/history_validation.py`: vs Kalshi's own settlement on 2025-26 history: 15,892 / 15,892 agree (1,360 shootout games).
-- [x] tests: `tests/test_market_audit_outcomes.py` (16 passing). Baseline suite before changes: 581 passed, 2 skipped.
+## Frozen / one-shot items (do NOT redo or edit)
 
-## Remaining (in dependency order)
-1. Phase A reports: coverage per game / family / horizon, quality audit, orderbook coverage, temporal checks, wagers join.
-2. Phase C: efficiency (history candles 2025-26 tier; live-archive tier).
-3. Phase E: V1/V2/market audit; Oct-20 case study (note: ledger shows 2 of the 4 named bets WON — see CASE STUDY).
-4. Phase F/H: preregistered hypothesis registry, discovery/validation split, walk-forward.
-5. Phase G/I/J: expression-engine spec + shadow prototype, risk framework, automation plan, handoff, draft PR.
+* Hypothesis registry `nhl-hypotheses-1.0` frozen at git `627b5fa7` (2026-10-21T17:13:05Z). Each test ran ONCE on the LIVE tier (2026-09-29..10-20). The LIVE tier is spent. A changed idea is a new id.
+* Matchup-factor study design committed at `6164c712` before its results. Games that START after the freeze are PROSPECTIVE (looks at 150 / 300 / 450 games).
+* Known defect in the frozen rule (reported, not redefined): single-tier PROMISING (M14, ROI +0.1%) is a false label. Registry v1.1 should require a positive lower-90% bound.
+
+## Status
+
+| phase | state |
+|---|---|
+| A inventory / coverage / quality / reconstruction | done (reports generated from `data/*.json`) |
+| B taxonomy + outcome engine | done; 0 disagreements vs production (31,478) and vs Kalshi history (15,892) |
+| C market efficiency | done (HIST 1,312 games; LIVE 151 games) |
+| D matchup factors | done; no block adds information beyond the market |
+| E model audit, Oct-20 case study | done; ledger shows 2 wins + 2 losses on Oct 20 (not 4 losses) |
+| F signal registry | done; 0 VALIDATED of 16 |
+| G expression engine | shadow module + replay + tests; wiring NOT done (needs approval) |
+| H replay / walk-forward / robustness / executability | done |
+| I risk framework | document only |
+| J automation | pipeline, scorecard, ledger, workflow (manual dispatch only) |
+
+## Remaining / next exact action
+
+1. Review the draft PR; decide on merge and on enabling the daily workflow (see IMPLEMENTATION_ROADMAP.md).
+2. When prospective games reach 150, run the pipeline and read `hypothesis_results.json -> results.*.prospective` ONCE; do not look earlier.
+3. Capture changes proposed in AUTOMATION_AND_MONITORING_PLAN.md need approval (production code is untouched).
+
+## Known blockers
+
+None. No credentials were required. The `gh` CLI is unavailable; GitHub operations go through the MCP tools.
