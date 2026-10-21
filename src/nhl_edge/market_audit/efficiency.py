@@ -155,13 +155,17 @@ def calibration_slope(df: pd.DataFrame, col: str = "mid") -> tuple[float, float,
 
 
 def build_live_panel(ev: pd.DataFrame, cm: pd.DataFrame, games: pd.DataFrame, outcomes: pd.DataFrame, static: pd.DataFrame,
-                     horizons_min: tuple[int, ...] = (1440, 360, 180, 60, 10, 0), max_age_min: float = 60.0) -> pd.DataFrame:
+                     horizons_min: tuple[int, ...] = (1440, 360, 180, 60, 10, 0), max_age_min: float = 60.0, age_rule: str = "event") -> pd.DataFrame:
     """Point-in-time live-archive quotes: one row per (ticker, horizon).
 
     The quote is the last board state whose ``available_at`` (tick + capture-window lag) is at or before
     ``start - horizon``. State is taken from ALL events first and only THEN tested for two-sidedness/active status, so a
     one-sided or inactive state at the cut is a missing quote, never an older two-sided one. The state's staleness is
     bounded by the tick table (a quiet market is not stale), via the contract's last-seen tick.
+
+    ``age_rule="event"`` (v1.0, kept so the frozen registry reproduces) measures age from the last CHANGE event and drops rows older than ``max_age_min``; that
+    contradicts the paragraph above, because a quiet market simply has no recent change (data review D2: 4.8% of T-60 rows dropped, mostly deep in-the-money
+    low totals). ``age_rule="tick"`` bounds staleness only by ``last_seen`` and keeps quiet markets; ``quote_age_min`` is still reported.
     """
     base = ev.merge(cm[["ticker", "game_id", "family", "kind", "period", "threshold", "subject_team_id", "player_team_id", "is_tie_leg"]],
                     on="ticker", how="inner").merge(games[["game_id", "start_time_utc", "game_date_et", "home_team_id", "is_final"]], on="game_id")
@@ -193,6 +197,8 @@ def build_live_panel(ev: pd.DataFrame, cm: pd.DataFrame, games: pd.DataFrame, ou
     p["no_ask"] = 1.0 - p["yes_bid"]
     p["game_date"] = p["game_date_et"]
     p["game_id"] = p["game_id"].astype(str)
+    if age_rule == "tick":
+        return p.drop(columns=["status", "outcome"])
     return p[p["quote_age_min"] <= max_age_min].drop(columns=["status", "outcome"])
 
 
