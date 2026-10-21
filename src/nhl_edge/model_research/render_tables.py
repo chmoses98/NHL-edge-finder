@@ -1,6 +1,6 @@
 """Render RESULTS_TABLES.md from the committed machine-readable results (every number in the narrative reports can be checked here).
 
-    python -m nhl_edge.model_research.render_tables --repo . 
+    python -m nhl_edge.model_research.render_tables --repo .
 """
 
 from __future__ import annotations
@@ -79,13 +79,13 @@ def render(repo: Path) -> str:
     out.append("## M-SCRIPT-1: NHL_SCRIPT_V1 calibration (LIVE games with a script forecast and postmortem)\n")
     out.append(f"n={sc['n_games']}; multiclass Brier {sc['brier_model']:.4f} vs base-rate {sc['brier_base_rate']:.4f}; paired delta {ci(sc['paired_brier_model_minus_base'])}; top-script hit {sc['top_script_hit_rate']:.3f}.\n")
     out.append(table(["script", "mean predicted", "observed", "obs 95%", "base rate", "inside CI"], [[k, f(v["mean_predicted"], 3, True), f(v["observed_rate"], 3, True), f"{v['obs_lo95'] * 100:.1f}-{v['obs_hi95'] * 100:.1f}%", f(v["base_rate"], 3, True), str(v["calibration_in_ci"])] for k, v in sc["per_script"].items()]))
-    I = J("info_events.json")
+    info = J("info_events.json")
     out.append("## M-INFO-1: goalie confirmations with a source timestamp\n")
-    cl = I["capture_lag_min"]
-    out.append(f"{I['n_confirmation_events_with_source_time']} confirmations carry a source report time; {I['n_change_events']} changed the expected starter. Our capture lag behind the source report: median {cl['median']:.1f} min (p25 {cl['p25']:.1f}, p75 {cl['p75']:.1f}); {cl['share_under_15min']:.0%} captured within 15 minutes.\n")
-    rows = [[g_, h, str(v[h]["n"]), f(v[h]["mean_abs_move_pts"], 2), f(v[h]["mean_signed_move_pts"], 2), f(v[h]["mean_abs_move_placebo_pts"], 2)] for g_, v in I["groups"].items() for h in ("h15", "h30", "h60", "h120")]
+    cl = info["capture_lag_min"]
+    out.append(f"{info['n_confirmation_events_with_source_time']} confirmations carry a source report time; {info['n_change_events']} changed the expected starter. Our capture lag behind the source report: median {cl['median']:.1f} min (p25 {cl['p25']:.1f}, p75 {cl['p75']:.1f}); {cl['share_under_15min']:.0%} captured within 15 minutes.\n")
+    rows = [[g_, h, str(v[h]["n"]), f(v[h]["mean_abs_move_pts"], 2), f(v[h]["mean_signed_move_pts"], 2), f(v[h]["mean_abs_move_placebo_pts"], 2)] for g_, v in info["groups"].items() for h in ("h15", "h30", "h60", "h120")]
     out.append(table(["group", "horizon", "n", "mean |move| (cents)", "mean signed move", "placebo |move|"], rows))
-    out.append(table(["horizon", "CHANGE - SAME |move| (cents)", "95% CI", "n change", "n same"], [[h, f(v["diff"], 3), f"[{v['lo95']:.3f}, {v['hi95']:.3f}]", str(v["n_change"]), str(v["n_same"])] for h, v in I["change_minus_same_abs_move_pts"].items()]))
+    out.append(table(["horizon", "CHANGE - SAME |move| (cents)", "95% CI", "n change", "n same"], [[h, f(v["diff"], 3), f"[{v['lo95']:.3f}, {v['hi95']:.3f}]", str(v["n_change"]), str(v["n_same"])] for h, v in info["change_minus_same_abs_move_pts"].items()]))
     P = J("player_usage.json")
     out.append("## M-PLAYER-1: PLAYER_SIM_V1 usage at T-60 (actual - expected, game-clustered 95% CI)\n")
     out.append(table(["quantity", "mean error", "95% CI"], [[k, f(P[f'bias_{k}']['mean'], 3), f"[{P[f'bias_{k}']['lo95']:.3f}, {P[f'bias_{k}']['hi95']:.3f}]"] for k in ("toi_err", "pp_err", "shots_err", "pts_err", "goals_err", "ast_err")]))
@@ -94,11 +94,11 @@ def render(repo: Path) -> str:
     rr = J("registry_v11_reclassification.json")
     out.append("## Registry v1.0 -> v1.1 (reclassification of the frozen results; v1.0 is untouched)\n")
     out.append(table(["id", "title", "v1.0", "v1.1", "tiers with MDE80 > 10% ROI"], [[k, v["title"], v["class_v10"], v["class_v11"], ", ".join(v["underpowered_tiers"])] for k, v in rr["rows"].items()]))
-    O = J("oct20_case_model_view.json")
+    o20 = J("oct20_case_model_view.json")
     out.append("## October 20 wagers: model view (explanatory, not a validation sample)\n")
     out.append(table(["game", "contract (side)", "fill vs drop (min)", "price", "V1 p(side)", "V2 p(side)", "Kalshi p(side) at T-60", "V1 EV/contract at fill", "result", "net P/L"],
                      [[o["game"], f"{o['ticker'].split('-')[-1]} {o['side']} (line {o['line']})", f(o["minutes_vs_scheduled_drop"], 1), f(o["price"], 2), f(o["v1_p_side"], 3), f(o["v2_p_side"], 3),
-                       f(o["kalshi_p_side_at_cut"], 3), f(o["v1_net_ev_per_contract_at_fill"], 3), f"{o['result']} ({o['score']})", f(o["net_pl"], 2)] for o in O]))
+                       f(o["kalshi_p_side_at_cut"], 3), f(o["v1_net_ev_per_contract_at_fill"], 3), f"{o['result']} ({o['score']})", f(o["net_pl"], 2)] for o in o20]))
     sh = J("shadow_summary_fixed_engine.json")
     out.append("## Shadow expression engine replay on 151 LIVE games after the review fixes\n")
     out.append(table(["policy", "bets", "games with a bet", "net ROI", "95% CI", "claimed EV/contract"],
