@@ -1,0 +1,72 @@
+name: market_audit
+# NHL historical market audit (RESEARCH_ONLY). DISABLED BY DEFAULT: manual dispatch only; the schedule below is commented out and
+# enabling it needs an explicit decision. Reads a COPY of data-archive / accounting-data (read-only), runs the bounded, idempotent,
+# resumable pipeline, uploads the machine-readable outputs as an artifact, and -- only when `publish` is true -- appends ONE line to
+# the evidence ledger on its own orphan branch `market-audit-ledger`. It never writes to the default branch, data-archive or
+# accounting-data, never places or routes a wager, and changes no model, stake or cap.
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "Append the scorecard line to the market-audit-ledger branch (true/false)"
+        required: false
+        default: "false"
+  # schedule:                      # ENABLE ONLY WITH EXPLICIT APPROVAL: one run a day keeps Actions usage to ~25 min/day
+  #   - cron: "37 11 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e ".[dev]" scipy statsmodels
+      - name: Fetch read-only copies of the archive and the accounting ledger
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin data-archive accounting-data
+          mkdir -p ../rd/archive ../rd/accounting
+          git archive origin/data-archive | tar -x -C ../rd/archive
+          git archive origin/accounting-data | tar -x -C ../rd/accounting
+      - name: Restore the evidence ledger (if it exists)
+        run: |
+          mkdir -p ../rd/ledger
+          if git ls-remote --exit-code --heads origin market-audit-ledger >/dev/null 2>&1; then
+            git fetch --depth=1 origin market-audit-ledger
+            git show origin/market-audit-ledger:evidence_ledger.jsonl > ../rd/ledger/evidence_ledger.jsonl || true
+          fi
+      - name: Run the audit pipeline (resumable; unchanged inputs are skipped)
+        run: |
+          python -m nhl_edge.market_audit.pipeline --archive ../rd/archive --accounting ../rd/accounting \
+            --history data/history --repo . --work ../rd/work --out ../rd/out
+      - name: Scorecard + evidence ledger (idempotent per archive snapshot)
+        run: python -m nhl_edge.market_audit.scorecard --data ../rd/out --ledger ../rd/ledger/evidence_ledger.jsonl
+      - uses: actions/upload-artifact@v4
+        with:
+          name: market-audit-${{ github.run_id }}
+          path: ../rd/out/
+          retention-days: 14
+      - name: Publish the ledger line (opt-in; own orphan branch only)
+        if: ${{ github.event.inputs.publish == 'true' }}
+        run: |
+          set -euo pipefail
+          git config user.name "nhl-edge-bot"
+          git config user.email "nhl-edge-bot@users.noreply.github.com"
+          git checkout --orphan market-audit-ledger
+          git rm -rf . >/dev/null 2>&1 || true
+          cp ../rd/ledger/evidence_ledger.jsonl ./evidence_ledger.jsonl
+          cp ../rd/out/SCORECARD.md ./SCORECARD.md
+          git add evidence_ledger.jsonl SCORECARD.md
+          git commit -m "market-audit: scorecard ${GITHUB_RUN_ID}" || { echo "nothing to commit"; exit 0; }
+          git push --force origin market-audit-ledger
