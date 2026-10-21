@@ -23,9 +23,9 @@ def _goalie(d: dict[str, Any] | None, pre: str) -> dict[str, Any]:
             f"{pre}_goalie_conf": d.get("confidence"), f"{pre}_goalie_obs_utc": d.get("observed_at_utc"), f"{pre}_goalie_source": d.get("source")}
 
 
-def slate_rows(slate_json: Path, last_date_et: str) -> list[dict[str, Any]]:
+def slate_rows(slate_json: Path, last_date_et: str, first_date_et: str = "0000") -> list[dict[str, Any]]:
     s = json.loads(slate_json.read_text())
-    if s.get("date_et", "9999") > last_date_et:
+    if s.get("date_et", "9999") > last_date_et or s.get("date_et", "9999") < first_date_et:
         return []
     v2 = {b["game_id"]: b for b in (s.get("v2_shadow") or {}).get("blocks", [])}
     out = []
@@ -46,12 +46,13 @@ def slate_rows(slate_json: Path, last_date_et: str) -> list[dict[str, Any]]:
     return out
 
 
-def build_slate_table(archive_root: Path, last_date_et: str) -> pd.DataFrame:
+def build_slate_table(archive_root: Path, last_date_et: str, first_date_et: str = "0000") -> pd.DataFrame:
     rows: list[dict[str, Any]] = []
     for p in sorted((Path(archive_root) / "slates").glob("dt=*/*/slate.json")):
-        if p.parent.parent.name.split("=")[1] > last_date_et:
+        d = p.parent.parent.name.split("=")[1]
+        if d > last_date_et or d < first_date_et:
             continue
-        rows.extend(slate_rows(p, last_date_et))
+        rows.extend(slate_rows(p, last_date_et, first_date_et))
     df = pd.DataFrame(rows)
     for c in ("generated_at_utc", "start_time_utc"):
         df[c] = pd.to_datetime(df[c], utc=True)

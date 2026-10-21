@@ -1,0 +1,86 @@
+name: model_research_daily
+# NHL model-research daily feedback loop (RESEARCH_ONLY). DISABLED BY DEFAULT: manual dispatch only, the schedule below is commented out and enabling it
+# needs an explicit decision. Reads a SPARSE read-only copy of data-archive (only the kinds the loop needs), settles ONE slate date of post-freeze games into an
+# append-only game ledger, writes a blinded scorecard, uploads both as an artifact and -- only when `publish` is true -- appends a normal (never forced) commit to
+# its own branch `model-research-ledger`. It never writes to the default branch, data-archive or accounting-data, places or routes no wager, changes no model,
+# stake or cap, retrains nothing and promotes nothing.
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Slate date (ET, YYYY-MM-DD) to settle"
+        required: true
+      publish:
+        description: "Append the ledger to the model-research-ledger branch (true/false)"
+        required: false
+        default: "false"
+  # schedule:                      # ENABLE ONLY WITH EXPLICIT APPROVAL; one short run per day (~3-6 min)
+  #   - cron: "17 12 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: model-research-daily
+  cancel-in-progress: false
+
+jobs:
+  settle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write   # only used by the opt-in publish step, which pushes to model-research-ledger and nothing else
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e ".[dev]" scipy statsmodels
+      - name: Fetch a sparse read-only copy of the archive
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin data-archive
+          mkdir -p ../rd/archive
+          git archive origin/data-archive manifest.jsonl results settlements context/schedule context/goalie_observations context/sportsbook_odds context/team_games \
+            "slates/dt=${{ github.event.inputs.date }}" player_events | tar -x -C ../rd/archive
+      - name: Restore the ledger (if the branch exists)
+        run: |
+          set -euo pipefail
+          mkdir -p ../rd/ledger
+          if git ls-remote --exit-code --heads origin model-research-ledger >/dev/null 2>&1; then
+            git fetch --depth=1 origin model-research-ledger
+            git show origin/model-research-ledger:shadow_game_ledger.jsonl > ../rd/ledger/shadow_game_ledger.jsonl
+          fi
+      - name: Settle the date (idempotent per game)
+        run: python -m nhl_edge.model_research.daily ingest --archive ../rd/archive --date "${{ github.event.inputs.date }}" --repo . --ledger ../rd/ledger/shadow_game_ledger.jsonl
+      - name: Blinded scorecard
+        run: python -m nhl_edge.model_research.daily scorecard --ledger ../rd/ledger/shadow_game_ledger.jsonl --out ../rd/out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: model-research-${{ github.run_id }}
+          path: |
+            ../rd/out/
+            ../rd/ledger/
+          retention-days: 14
+      - name: Publish (opt-in; normal commit on its own branch, never forced)
+        if: ${{ github.event.inputs.publish == 'true' }}
+        run: |
+          set -euo pipefail
+          git config user.name "nhl-edge-bot"
+          git config user.email "nhl-edge-bot@users.noreply.github.com"
+          cp ../rd/ledger/shadow_game_ledger.jsonl /tmp/shadow_game_ledger.jsonl
+          cp ../rd/out/SHADOW_SCORECARD.json /tmp/SHADOW_SCORECARD.json
+          if git ls-remote --exit-code --heads origin model-research-ledger >/dev/null 2>&1; then
+            git fetch origin model-research-ledger
+            git checkout -B model-research-ledger origin/model-research-ledger
+          else
+            git checkout --orphan model-research-ledger
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          cp /tmp/shadow_game_ledger.jsonl ./shadow_game_ledger.jsonl
+          cp /tmp/SHADOW_SCORECARD.json ./SHADOW_SCORECARD.json
+          git add shadow_game_ledger.jsonl SHADOW_SCORECARD.json
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git commit -m "model-research: settle ${{ github.event.inputs.date }} (run ${GITHUB_RUN_ID})"
+          git push origin model-research-ledger
