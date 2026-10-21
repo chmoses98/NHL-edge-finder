@@ -59,7 +59,7 @@ def run(archive: Path, derived: Path) -> dict[str, Any]:
     df = player_frame(archive, derived)
     d = df[df["dressed"]].copy()
     out: dict[str, Any] = {"n_priced_player_games": int(len(df)), "n_dressed": int(len(d)), "share_priced_not_dressed": float(1 - len(d) / len(df)),
-                           "share_priced_not_dressed_by_position": (1 - df.groupby("position", dropna=False)["dressed"].mean()).to_dict()}
+                           "share_priced_not_dressed_by_position": {str(k): float(v) for k, v in (1 - df.groupby("position", dropna=False)["dressed"].mean()).items()}}
     d["toi_err"] = d["toi_min"] - d["meta_expected_toi_min"]
     d["pp_err"] = d["toi_pp_min"] - d["meta_expected_pp_toi_min"]
     d["shots_err"] = d["sog"] - d["meta_expected_shots"]
