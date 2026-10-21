@@ -62,7 +62,7 @@ def score(sel: pd.DataFrame, label: str) -> dict:
 
 
 def matched_control_test(sel: pd.DataFrame, pool: pd.DataFrame, n_draw: int = 2000, seed: int = 3) -> dict:
-    """Permutation test: does ``sel`` beat randomly drawn comparable non-selected candidates (same game/family/side, +-5c)?"""
+    """Permutation test conditional on the observed games: how often does a random comparable non-selected candidate (same game/family/side, +-5c) do at least as well as the selection? ``p_control_at_least_as_good`` near 1 means the selection did WORSE than comparable picks."""
     rng = np.random.default_rng(seed)
     s = sel[sel["decided"]]
     cand = pool[pool["decided"] & ~pool["logical_wager_key"].isin(set(sel["logical_wager_key"]))]
@@ -87,12 +87,13 @@ def matched_control_test(sel: pd.DataFrame, pool: pd.DataFrame, n_draw: int = 20
             den += cs[j]
         draws[i] = num / den
     return {"n_matched": len(matches), "selected_roi": float(sel_roi), "control_roi_mean": float(draws.mean()), "control_roi_lo95": float(np.percentile(draws, 2.5)),
-            "control_roi_hi95": float(np.percentile(draws, 97.5)), "p_selected_beats_control": float((np.sum(draws >= sel_roi) + 1) / (n_draw + 1))}
+            "control_roi_hi95": float(np.percentile(draws, 97.5)), "p_control_at_least_as_good": float((np.sum(draws >= sel_roi) + 1) / (n_draw + 1))}
 
 
 def ev_quintiles(sel: pd.DataFrame) -> list[dict]:
     s = sel[sel["decided"]].copy()
     s["q"] = pd.qcut(s["ev_adjusted"], 5, duplicates="drop")
+    s["q"] = s["q"].map(lambda iv: f"({iv.left:.4f}, {iv.right:.4f}]")
     out = []
     for q, x in s.groupby("q", observed=True):
         r = cluster_ratio_ci(x, "pnl", "cost", n=1000)

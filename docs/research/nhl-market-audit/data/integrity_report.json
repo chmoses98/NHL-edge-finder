@@ -1,0 +1,291 @@
+{
+ "season_level_markets": {
+  "checkpoint": "kalshi/markets/dt=2026-10-21/kalshi_markets_20261021T104828Z_39553603444.jsonl.gz",
+  "n_markets_total": 2377,
+  "n_game_scoped": 806,
+  "n_not_game_scoped": 1571,
+  "by_family_support": [
+   {
+    "_family": "non_hockey_or_office",
+    "_support": "UNMODELABLE",
+    "n": 1
+   },
+   {
+    "_family": "season_awards",
+    "_support": "UNMODELABLE",
+    "n": 547
+   },
+   {
+    "_family": "season_champion",
+    "_support": "RESEARCH",
+    "n": 481
+   },
+   {
+    "_family": "season_player_stats",
+    "_support": "RESEARCH",
+    "n": 497
+   },
+   {
+    "_family": "season_unknown",
+    "_support": "UNRESOLVED",
+    "n": 45
+   }
+  ],
+  "unresolved": [
+   {
+    "series_ticker": "KXNHLLINDSAY",
+    "n": 28,
+    "example": "Ted Lindsay Award: William Nylander wins",
+    "rules": "If William Nylander wins the NHL Ted Lindsay Award in the 2026-27 NHL season, then the market resolves to Yes."
+   },
+   {
+    "series_ticker": "KXNHLPSEASONGOALS",
+    "n": 17,
+    "example": "Macklin Celebrini: 60+ goals in 2026-27 NHL regular season?",
+    "rules": "If Macklin Celebrini scores at least 60 goals during the 2026-27 NHL regular season, then the market resolves to Yes."
+   }
+  ],
+  "note": "season futures/awards/player-season stats are a different instrument class (horizon months, different settlement, tie rules) and are EXCLUDED from every game-level statistic."
+ },
+ "manifest_entries": 14214,
+ "duplicate_paths": 0,
+ "problems": [],
+ "n_problems": 0,
+ "files_on_disk": 16769,
+ "files_not_in_manifest": 2555,
+ "not_in_manifest_by_top_dir": {
+  ".gitattributes": 1,
+  "LEASE_capture.json": 1,
+  "README.md": 1,
+  "STATUS_capture.json": 1,
+  "STATUS_context.json": 1,
+  "STATUS_evaluate.json": 1,
+  "STATUS_settle.json": 1,
+  "STATUS_simulate.json": 1,
+  "STATUS_worker.json": 1,
+  "app": 287,
+  "catalog": 2,
+  "eval": 10,
+  "manifest.jsonl": 1,
+  "slates": 2246
+ },
+ "delta_chains": {
+  "kalshi/markets": {
+   "n_chains": 128,
+   "n_ok": 128,
+   "n_broken": 0
+  },
+  "kalshi/orderbooks": {
+   "n_chains": 128,
+   "n_ok": 128,
+   "n_broken": 0
+  }
+ },
+ "kinds": {
+  "context/schedule": {
+   "files": 400,
+   "rows": 24886,
+   "first": "2026-09-29T12:27:11Z",
+   "last": "2026-10-21T15:22:56Z"
+  },
+  "context/sportsbook_odds": {
+   "files": 216,
+   "rows": 14130,
+   "first": "2026-09-29T12:27:11Z",
+   "last": "2026-10-21T01:53:57Z"
+  },
+  "context/team_summary": {
+   "files": 400,
+   "rows": 24247,
+   "first": "2026-09-29T12:27:11Z",
+   "last": "2026-10-21T15:22:56Z"
+  },
+  "context/team_games": {
+   "files": 399,
+   "rows": 1168098,
+   "first": "2026-09-29T12:27:11Z",
+   "last": "2026-10-21T15:22:56Z"
+  },
+  "context/goalie_stats": {
+   "files": 400,
+   "rows": 357706,
+   "first": "2026-09-29T12:27:11Z",
+   "last": "2026-10-21T15:22:56Z"
+  },
+  "context/rosters": {
+   "files": 400,
+   "rows": 311348,
+   "first": "2026-09-29T12:27:11Z",
+   "last": "2026-10-21T15:22:56Z"
+  },
+  "context/goalie_observations": {
+   "files": 451,
+   "rows": 11040,
+   "first": "2026-09-29T12:27:11Z",
+   "last": "2026-10-21T15:22:56Z"
+  },
+  "context/dailyfaceoff_raw": {
+   "files": 400,
+   "rows": 400,
+   "first": "2026-09-29T12:27:11Z",
+   "last": "2026-10-21T15:22:56Z"
+  },
+  "context/injuries": {
+   "files": 400,
+   "rows": 48517,
+   "first": "2026-09-29T12:27:11Z",
+   "last": "2026-10-21T15:22:56Z"
+  },
+  "kalshi/markets": {
+   "files": 128,
+   "rows": 408853,
+   "first": "2026-09-29T12:42:10Z",
+   "last": "2026-10-21T10:48:28Z"
+  },
+  "kalshi/orderbooks": {
+   "files": 128,
+   "rows": 38400,
+   "first": "2026-09-29T12:42:10Z",
+   "last": "2026-10-21T10:48:28Z"
+  },
+  "predictions": {
+   "files": 529,
+   "rows": 475882,
+   "first": "2026-09-29T12:43:43Z",
+   "last": "2026-10-21T15:23:15Z"
+  },
+  "contracts": {
+   "files": 529,
+   "rows": 475882,
+   "first": "2026-09-29T12:43:43Z",
+   "last": "2026-10-21T15:23:15Z"
+  },
+  "kalshi/markets_delta": {
+   "files": 2742,
+   "rows": 2742,
+   "first": "2026-09-29T12:57:10Z",
+   "last": "2026-10-21T15:51:18Z"
+  },
+  "kalshi/orderbooks_delta": {
+   "files": 2742,
+   "rows": 2742,
+   "first": "2026-09-29T12:57:10Z",
+   "last": "2026-10-21T15:51:18Z"
+  },
+  "context/team_games_st": {
+   "files": 23,
+   "rows": 269904,
+   "first": "2026-09-29T17:35:54Z",
+   "last": "2026-10-21T11:56:19Z"
+  },
+  "predictions_v2": {
+   "files": 523,
+   "rows": 470594,
+   "first": "2026-09-29T18:05:53Z",
+   "last": "2026-10-21T15:23:15Z"
+  },
+  "results": {
+   "files": 81,
+   "rows": 151,
+   "first": "2026-09-30T00:13:32Z",
+   "last": "2026-10-21T06:11:31Z"
+  },
+  "settlements": {
+   "files": 81,
+   "rows": 33324,
+   "first": "2026-09-30T00:13:32Z",
+   "last": "2026-10-21T06:11:31Z"
+  },
+  "evaluations": {
+   "files": 80,
+   "rows": 456082,
+   "first": "2026-09-30T10:10:54Z",
+   "last": "2026-10-21T06:13:48Z"
+  },
+  "context/lines": {
+   "files": 382,
+   "rows": 213748,
+   "first": "2026-09-30T11:40:53Z",
+   "last": "2026-10-21T15:22:56Z"
+  },
+  "predictions_player": {
+   "files": 366,
+   "rows": 300401,
+   "first": "2026-09-30T11:55:54Z",
+   "last": "2026-10-21T15:23:15Z"
+  },
+  "player_events/players": {
+   "files": 151,
+   "rows": 5436,
+   "first": "2026-09-30T23:33:43Z",
+   "last": "2026-10-21T06:11:31Z"
+  },
+  "player_events/goalies": {
+   "files": 151,
+   "rows": 604,
+   "first": "2026-09-30T23:33:43Z",
+   "last": "2026-10-21T06:11:31Z"
+  },
+  "player_events/goals": {
+   "files": 150,
+   "rows": 932,
+   "first": "2026-09-30T23:33:43Z",
+   "last": "2026-10-21T06:11:31Z"
+  },
+  "player_events/shots": {
+   "files": 151,
+   "rows": 17363,
+   "first": "2026-09-30T23:33:43Z",
+   "last": "2026-10-21T06:11:31Z"
+  },
+  "player_events/coice": {
+   "files": 151,
+   "rows": 32664,
+   "first": "2026-09-30T23:33:43Z",
+   "last": "2026-10-21T06:11:31Z"
+  },
+  "player_events/team_states": {
+   "files": 151,
+   "rows": 302,
+   "first": "2026-09-30T23:33:43Z",
+   "last": "2026-10-21T06:11:31Z"
+  },
+  "evaluations_player": {
+   "files": 78,
+   "rows": 288477,
+   "first": "2026-10-01T03:35:01Z",
+   "last": "2026-10-21T06:13:48Z"
+  },
+  "thesis_games": {
+   "files": 484,
+   "rows": 3083,
+   "first": "2026-10-01T07:37:09Z",
+   "last": "2026-10-21T15:23:15Z"
+  },
+  "thesis_decisions": {
+   "files": 474,
+   "rows": 22929,
+   "first": "2026-10-01T07:37:09Z",
+   "last": "2026-10-21T15:23:15Z"
+  },
+  "thesis_postmortems": {
+   "files": 76,
+   "rows": 22642,
+   "first": "2026-10-02T02:35:51Z",
+   "last": "2026-10-21T06:13:48Z"
+  },
+  "script_forecasts": {
+   "files": 343,
+   "rows": 2149,
+   "first": "2026-10-07T04:35:02Z",
+   "last": "2026-10-21T15:23:15Z"
+  },
+  "script_postmortems": {
+   "files": 54,
+   "rows": 2123,
+   "first": "2026-10-08T02:34:57Z",
+   "last": "2026-10-21T06:13:48Z"
+  }
+ },
+ "manifest_sha256": "385fda9c4563341357ae1141c35522d2743a64cfc81e4558da22d1fd8b034f1d"
+}

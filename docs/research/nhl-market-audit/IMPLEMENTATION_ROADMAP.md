@@ -6,7 +6,7 @@
 
 * Independent taxonomy + resolver, validated three ways (production settlement, three-source reconciliation, Kalshi's own settlement on 15,892 history markets).
 * Reproducible 20-step pipeline with lineage; coverage, quality, efficiency, model, matchup, replay, wager and case-study reports; frozen hypothesis registry; shadow expression engine (default PASS); scorecard + ledger; disabled workflow.
-* 27 + 4 new tests (all passing); the existing suite is unchanged and passing.
+* 37 new tests across four files (outcomes 16, engine/statistics 11, scorecard 4, point-in-time/executability 6), all passing; the existing suite (581 tests) is untouched.
 
 ## Next (in dependency order)
 

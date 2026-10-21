@@ -27,7 +27,7 @@ Snapshot analysed: data-archive `2db3b91` (manifest 14,214 rows, last tick 2026-
 
 | phase | state |
 |---|---|
-| A inventory / coverage / quality / reconstruction | done (reports generated from `data/*.json`) |
+| A inventory / coverage / quality / reconstruction | done (reports rendered from `data/*.json`; pipeline re-run cold end-to-end and reproduces every exploratory number) |
 | B taxonomy + outcome engine | done; 0 disagreements vs production (31,478) and vs Kalshi history (15,892) |
 | C market efficiency | done (HIST 1,312 games; LIVE 151 games) |
 | D matchup factors | done; no block adds information beyond the market |
@@ -47,3 +47,10 @@ Snapshot analysed: data-archive `2db3b91` (manifest 14,214 rows, last tick 2026-
 ## Known blockers
 
 None. No credentials were required. The `gh` CLI is unavailable; GitHub operations go through the MCP tools.
+
+## Verification record (this session)
+
+* Full suite: 621 passed, 2 skipped (baseline before changes: 581 passed, 2 skipped). New: 37 tests in `tests/test_market_audit_*.py`. Ruff clean on all new files; 66 pre-existing ruff errors in untouched `research/` and `contract/` files are unchanged.
+* Pipeline: cold run ~25 min; resumable; steps re-stamped only where inputs were unchanged (documented in git history).
+* Reviewer-facing corrections made after proofreading the rendered text against the JSON: matched-control p-value label (it is P(control >= selected)), moneyline "no bias" -> "no statistically significant bias", model-worse verdicts qualified as uncorrected/overlapping, power statement split by price level, V1/V2 direction text computed from data.
+* Exploration of `kalshi-bet-router` / `sift-sports-intelligence` by a subagent; the claims that matter (read-only client, no provenance field, cash-outs recorded as the contract traded) were re-checked directly in router source. Router docs contradict router code on NHL auto-merge (reported, not edited).

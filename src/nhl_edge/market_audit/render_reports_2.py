@@ -92,6 +92,13 @@ def efficiency(r: R) -> None:
     mv = table([{**x, "g": pct(x["mean_residual_y_minus_mid"])} for x in H.get("move_24h_to_60m_vs_residual", [])], [("mid move T-24h to T-60m", "move_bin"), ("contracts", "n"), ("games", "games"), ("mean (outcome - mid)", "g")])
     pwr = table([{"id": k, **{"bets/game": f(v["bets_per_game"], 1), "sd": f(v["sd_of_per_game_roi"], 2)}, **{f"games for {e_}": f"{n:,}" for e_, n in v["games_needed"].items()}} for k, v in pw.items()],
                 [("strategy", "id"), ("bets/game", "bets/game"), ("sd of per-game ROI", "sd")] + [(f"games to detect {e_}", f"games for {e_}") for e_ in next(iter(pw.values()))["games_needed"]])
+    hf = next((x for x in H.get("winner_home_fav_T60", []) if x["home"] and x["favourite"]), None)
+    hf_txt = ""
+    if hf:
+        se = (hf["freq"] * (1 - hf["freq"]) / hf["n"]) ** 0.5
+        hf_txt = (f"The largest moneyline deviation is home favourites winning {abs(hf['gap']) * 100:.1f} points {'less' if hf['gap'] < 0 else 'more'} often than priced "
+                  f"({hf['n']} contracts; about {abs(hf['gap']) / se:.1f} standard errors). The away-underdog row covers the same games, so it is one observation counted twice, not two.")
+    gn = {k: v["games_needed"]["3%"] for k, v in pw.items()}
     best_gap = max((x for x in H["bands_pooled_full_game_T60"] if x["n"] > 100), key=lambda x: abs(x["gap"]))
     r.write("MARKET_EFFICIENCY_STUDY.md", f"""# Market-efficiency study (Phase C)
 
@@ -104,9 +111,9 @@ Every interval resamples whole games. Repeated snapshots, both legs of a market 
 ## 1. Calibration and returns by market (HIST, regular season, 95% CIs)
 
 {hz(H)}
-Reading it: a calibration slope b = 1 and intercept 0 mean the mid is a calibrated probability. Moneyline slopes sit below 1 with standard errors that include 1. Buying either side of the moneyline costs about the
+Reading it: a calibration slope b = 1 and intercept 0 mean the mid is a calibrated probability. Buying either side of the moneyline costs about the
 spread plus the fee ({pct(next(x for x in H['by_kind_horizon'] if x['kind'] == 'winner' and x['horizon_min'] == 60)['roi_buy_yes'])} / {pct(next(x for x in H['by_kind_horizon'] if x['kind'] == 'winner' and x['horizon_min'] == 60)['roi_buy_no'])} at T-60m): no mispricing is visible there.
-Brier improves as puck drop approaches (price discovery): the T-24h mid is a noisier quote because the spread is wider, not because the market is "wrong".
+Brier improves as puck drop approaches (price discovery): the T-24h mid is a noisier quote because the spread is wider, not because the market is "wrong". Moneyline slopes are about 1.5 standard errors below 1 in HIST and above 1 in LIVE, i.e. no stable direction.
 
 ### LIVE tier (151 games), same table
 
@@ -145,11 +152,11 @@ before the fee, the best live strategy is about break-even; after it, essentiall
 Independent GAMES needed to detect a true net ROI of the stated size (one-sided alpha 0.05, 80% power), from the empirical per-game dispersion of returns:
 
 {pwr}
-A season has about 1,312 games. A +3% edge on one bet per game needs several thousand games - years of one league. Small edges are not discoverable in a single season of Kalshi NHL data.
+A season has about 1,312 games. Detecting a true +3% net ROI needs about {min(gn.values()):,} games for the lowest-variance (high-priced) strategies and about {max(gn.values()):,} for even-money bets - from most of a season to several seasons of one league, and only if the edge persists. Small edges are not discoverable from one season of Kalshi NHL data.
 
 ## Conclusion
 
-* Moneylines: efficiently priced (HIST and LIVE). No evidence of directional, favourite/underdog or home bias.
+* Moneylines: efficiently priced (HIST and LIVE); no statistically significant directional, favourite/underdog or home bias. {hf_txt}
 * Full-game totals and puck lines: calibrated within about two to three points; the visible gaps are smaller than friction.
 * Period, team-total, overtime, first-10-minutes and prop markets: only the LIVE tier exists (151 games); it can falsify large inefficiencies but not detect small ones.
 * "Price discovery" (the mid improving toward puck drop) is not "forecastability": nothing here shows the pregame price is beatable before costs, let alone after.
@@ -193,6 +200,11 @@ def models(r: R) -> None:
                      "sig": "WORSE" if v["d_brier_lo95"] > 0 else ("better" if v["d_brier_hi95"] < 0 else "")})
     worse = sum(1 for x in rows if x["sig"] == "WORSE")
     better = sum(1 for x in rows if x["sig"] == "better")
+    valid = [v for v in m.values() if v.get("n_games")]
+    n_pos = sum(1 for v in valid if v["d_brier_model_minus_market"] > 0)
+    max_anch = max(abs(v["d_brier_anchored_minus_market"]) for v in valid)
+    lo_w = min(v["d_brier_lo95"] for v in valid if v["d_brier_lo95"] > 0)
+    hi_w = max(v["d_brier_model_minus_market"] for v in valid)
     r.write("PREDICTION_ENGINE_COMPARISON.md", f"""# Prediction-engine comparison (Phase E)
 
 {r.banner}
@@ -208,12 +220,14 @@ for the 2025-26 season; LIVE models = production V1 / V2 / PLAYER_SIM_V1 rows. "
 ## Findings
 
 * Across {len(rows)} family/tier comparisons the model is **significantly worse than the market in {worse}** and significantly better in **{better}**; no family has an incremental-information coefficient significantly above zero.
-* The anchored blend equals the market to within a few ten-thousandths of Brier: it is the market with noise removed, not an independent forecast.
-* The point estimates favour the market everywhere: the disagreements between model and market (typically 2-5 points) are, on average, the model's error.
+* Caveat: the {worse} "WORSE" verdicts are uncorrected 95% intervals over {len(rows)} overlapping comparisons (e.g. "V1 all" contains V1 winner, total and spread; the three player families are correlated), and their lower bounds are barely above zero (smallest lower bound {lo_w:+.4f}).
+  Read them as "consistently not better, and possibly slightly worse", with effect sizes of at most {hi_w:.4f} Brier points - not as {worse} independent discoveries.
+* The anchored blend differs from the market by at most {max_anch:.4f} Brier in any comparison: it is the market with a little model noise, not an independent forecast.
+* The model's point estimate is worse than the market in {n_pos} of {len(valid)} comparisons: where model and market disagree (typically 2-5 points) the market is, on average, the more accurate.
 * V1 and V2 disagree with each other in sign on a meaningful share of contracts (two of the four Oct-20 wagers), and neither beats the market, so their disagreement is better read as model uncertainty than as edge.
 * PLAYER_SIM_V1 (assists / points / goals) is significantly worse than the market on the LIVE tier; goalie saves is not distinguishable.
 
-**Statement required by the brief:** the existing projection engines are consistently no better than a market-based baseline, and in several families measurably worse. They provide no demonstrated incremental predictive
+**Statement required by the brief:** the existing projection engines are consistently no better than a market-based baseline, and in several families slightly but measurably worse (tiny effects; see the caveat above). They provide no demonstrated incremental predictive
 value. No challenger improvement was manufactured; the one challenger tested (matchup factors) also failed.
 
 Distribution-level metrics (CRPS, tail behaviour) were **not** computed: the archive stores probabilities for fixed thresholds, not full predictive distributions, so CRPS would require re-simulating from stored seeds - listed in the roadmap.
@@ -233,6 +247,11 @@ def signals(r: R) -> None:
     counts: dict[str, int] = {}
     for v in rr.values():
         counts[v["class"]] = counts.get(v["class"], 0) + 1
+    class_lists = "; ".join(f"{c}: {', '.join(k for k, v in rr.items() if v['class'] == c)}" for c in sorted(counts))
+    live_se = [(v["tiers"]["LIVE"]["roi_hi95"] - v["tiers"]["LIVE"]["roi_lo95"]) / (2 * 1.96) * 100 for v in rr.values() if v["tiers"].get("LIVE", {}).get("roi") is not None]
+    se_lo, se_hi = min(live_se), max(live_se)
+    m1 = rr["M1"]["tiers"]
+    m1_txt = ", ".join(f"{t} {pct(x['roi'])}" for t, x in m1.items())
     r.write("CANDIDATE_SIGNAL_REGISTRY.md", f"""# Candidate-signal registry (Phase F)
 
 {r.banner}
@@ -258,10 +277,11 @@ buying the selected side at the displayed ask with the taker fee; game-clustered
 * Classes are mechanical. **M14 is labelled PROMISING only because its ROI is +0.1% on its single testable tier** (95% CI roughly +/-18%, p about 0.5, negative after 1c slippage). The preregistered rule ("net ROI > 0 on every
   testable tier") is too lenient for single-tier hypotheses; this is reported as a defect of the rule, not quietly redefined. Registry v1.1 should require the lower 90% bound to be positive for PROMISING.
 * **M6 (early-season Overs)** was suggested by October 2025 (positive on 39 games) and was NOT confirmed on the 2026 archive. A post-hoc pattern failing its first real out-of-sample test is the expected outcome of selection.
-* **M1 (Unders)** is REJECTED in every tier: Unders on full-game totals have negative net ROI in HIST_DISC, HIST_HOLD and LIVE.
-* M3, M5, M9 are REJECTED; M2, M4, M7, M8, M10-M13 are INCONCLUSIVE (inconsistent signs, intervals spanning zero, or too few games for the move-based tests).
+* **M1 (Unders)** has negative net ROI in all three tiers ({m1_txt}); it is REJECTED because the HIST_DISC upper bound is below zero.
+* Classes: {class_lists}.
 * Model-disagreement strategies (C1, C2) have negative net ROI on the hold-out and LIVE tiers.
-* **Nothing is VALIDATED.** With 151 LIVE games the standard error of a one-sided strategy's ROI is roughly 5-9 points; only an effect larger than that could ever pass.
+* **Nothing is VALIDATED.** On the 151 LIVE games the standard error of a strategy's net ROI ranges from {se_lo:.1f} points (high-priced contracts, low variance) to {se_hi:.1f} points (small samples or even-money bets); a validated claim needs a positive lower 90% bound AND a BH q at most 0.10 AND a positive HIST_HOLD ROI, and no strategy came close.
+  (All LIVE q-values are 0.976 or close because most one-sided p-values are near 1.)
 
 Hypotheses that cannot be tested with this archive (UNTESTABLE, no data): goalie-confirmation repricing (no timestamp of when the starter became public), opponent-adjusted offensive mismatches at the player level, line-combination changes, injury news
 repricing, multi-expression agreement. They are listed in the roadmap with the data each would need.
@@ -302,10 +322,11 @@ for 2,839 logical bets; repeated snapshots are not observations.) Research selec
 
 Matched control: for each selected bet, a non-selected candidate from the same game, same family, same side, price within 5c (2,000 draws).
 
-{table([{'test': n, 'matched': m.get('n_matched'), 'sel': pct(m.get('selected_roi')), 'ctl': pct(m.get('control_roi_mean')), 'ctlci': ci(m.get('control_roi_lo95'), m.get('control_roi_hi95')), 'p': f(m.get('p_selected_beats_control'), 3)}
+{table([{'test': n, 'matched': m.get('n_matched'), 'sel': pct(m.get('selected_roi')), 'ctl': pct(m.get('control_roi_mean')), 'ctlci': ci(m.get('control_roi_lo95'), m.get('control_roi_hi95')), 'p': f(m.get('p_control_at_least_as_good'), 3)}
          for n, m in zip(('first chosen, all families', 'first chosen, ex goal-scorer', 'first FUNDED, all families'), mc, strict=True)],
-        [('selection', 'test'), ('matched bets', 'matched'), ('selected ROI', 'sel'), ('control ROI (mean)', 'ctl'), ('control 95%', 'ctlci'), ('p(selected >= control)', 'p')])}
-The selected bets do not beat comparable candidates the workflow rejected; for the funded set they do worse. There is no evidence that the selection layer adds skill beyond the price.
+        [('selection', 'test'), ('matched bets', 'matched'), ('selected ROI', 'sel'), ('control ROI (mean)', 'ctl'), ('control 95%', 'ctlci'), ('p(random comparable pick does at least as well)', 'p')])}
+Reading the last column: a value near 1 means a randomly chosen comparable candidate almost always did at least as well as the selection. The selected bets do not beat comparable candidates the workflow passed over, and in the ex-goal-scorer and funded cases they do
+worse. The test is conditional on the same games (so game-level luck cancels) but the matched samples are small (100-434 bets). There is no evidence that the selection layer adds skill beyond the price.
 
 ### Does claimed EV predict realised ROI? (every distinct candidate, first snapshot)
 
@@ -381,6 +402,23 @@ def case(r: R) -> None:
                      "v2": pct(v2.get("ev_at_fill")) if v2 else "-", "th": pct(th.get("ev_at_fill_thesis_adjusted")) if th.get("ev_at_fill_thesis_adjusted") is not None else "none",
                      "n": th.get("n_snapshots", 0)})
     exp = sum((w.get("ev_at_fill_market_mid") or 0) * w["contracts"] for w in c["wagers"])
+    dirs = []
+    for w in c["wagers"]:
+        bm = w.get("board_at_fill")
+        if not bm:
+            continue
+        mkt = (bm["yes_bid"] + bm["yes_ask"]) / 200.0
+        mkt = mkt if w["side"] == "YES" else 1 - mkt
+        d1 = (w.get("v1") or {}).get("p_win")
+        d2 = (w.get("v2") or {}).get("p_win")
+        if d1 is None or d2 is None:
+            continue
+        a, b = d1 - mkt, d2 - mkt
+        lab = "opposite directions" if a * b < 0 and min(abs(a), abs(b)) >= 0.01 else ("same direction" if a * b > 0 else "one of them within a point of the market")
+        dirs.append(f"{w['matchup']}: V1 {a * 100:+.1f} pts, V2 {b * 100:+.1f} pts vs the market's probability of winning ({lab})")
+    dir_txt = "; ".join(dirs)
+    pos = [v for w in c["wagers"] for v in ((w.get("v1") or {}).get("ev_at_fill"), (w.get("v2") or {}).get("ev_at_fill")) if v is not None and v > 0]
+    pos_txt = f"{100 * min(pos):.1f} to {100 * max(pos):.1f} cents" if pos else "none"
     r.write("OCT20_CASE_STUDY.md", f"""# October 20 case study (routed wagers, real fills)
 
 {r.banner}
@@ -398,8 +436,8 @@ Expected value is per contract at the ACTUAL fill price (price + taker fee), und
 {table(rows, [('bet', 'bet'), ('fill price', 'fill'), ('min after sched. start', 'after'), ('stake $', 'stake'), ('result', 'res'), ('net $', 'pl'), ('final', 'final'), ('EV @ market mid', 'mk'), ('EV @ V1', 'v1'), ('EV @ V2', 'v2'), ('EV @ thesis-adj.', 'th'), ('thesis snapshots', 'n')])}
 ## Was the decision undermined by ...?
 
-* **Weak probabilities.** Under the market's own probability every bet had negative expected value at its fill (the half-spread plus fee, about -2% to -4% per contract). Only the model views were positive, by 0.5 to 5 cents - inside the model's measured error (PREDICTION_ENGINE_COMPARISON.md: no incremental information, coefficient not distinguishable from zero).
-* **Model disagreement.** V1 and V2 gave opposite-signed edges on Boston/Dallas and Anaheim; they agreed in sign only on Toronto/Columbus.
+* **Weak probabilities.** Under the market's own probability every bet had negative expected value at its fill (the half-spread plus fee, about -2% to -4% per contract). Only some model views were positive, by {pos_txt} per contract - inside the model's measured error (PREDICTION_ENGINE_COMPARISON.md: no incremental information, coefficient not distinguishable from zero).
+* **Model disagreement** (each model's win probability minus the market's, for the side bought): {dir_txt}.
 * **Price changes / timing.** Three of the four fills were 6 to 8 minutes AFTER the scheduled puck drop (Boston/Dallas started an hour later and was filled 53 minutes before). The last pregame model run was about 10 minutes before the scheduled start, so the
   pregame model could not have priced an in-play quote. Toronto/Columbus was filled at 0.54 against a displayed NO ask of 0.53 (the Over mid had already fallen from 0.485).
 * **Alternative scripts.** For Toronto/Columbus the forecast gave the realised script (OPEN_GAME) 19% and the most likely script (BACK_AND_FORTH) 26%; the Under 6.5 cannot win in an 8-goal game. Toronto was on the second night of a back-to-back and still scored six.
@@ -457,14 +495,14 @@ a {g['final']}-game sample and a mature, fee-heavy market; it is not proof that 
 
 ## Answers to the success questions
 
-**A. Which families are most efficiently priced?** Moneylines: net ROI of buying either side at T-60m is {pct(w['roi_buy_yes'])} / {pct(w['roi_buy_no'])}, i.e. exactly the spread plus fee, with no directional, home or favourite bias. Full-game totals and puck lines are
+**A. Which families are most efficiently priced?** Moneylines: net ROI of buying either side at T-60m is {pct(w['roi_buy_yes'])} / {pct(w['roi_buy_no'])}, i.e. exactly the spread plus fee, with no statistically significant directional, home or favourite bias. Full-game totals and puck lines are
 calibrated to within about 2-3 points. Brier improves toward puck drop (price discovery).
 
-**B. Persistent, executable inefficiencies?** None found. Of {len(rr)} preregistered hypotheses: {', '.join(f'{v} {k}' for k, v in sorted(cls.items()))}. **VALIDATED: {cls.get('VALIDATED', 0)}.** Every full-game strategy is at or below zero before fees and negative after them; liquidity is not the constraint (50-200 contract orders fill fully for ~0.1c).
+**B. Persistent, executable inefficiencies?** None found. Of {len(rr)} preregistered hypotheses: {', '.join(f'{v} {k}' for k, v in sorted(cls.items()))}. **VALIDATED: {cls.get('VALIDATED', 0)}.** Before fees the best live full-game strategy is about +1 point and the rest are at or below zero (HIST: all negative); after the taker fee essentially all are negative; liquidity is not the constraint (50-200 contract orders fill fully for ~0.1c).
 
 **C. Matchup factors beyond the market?** None. Opponent-adjusted xG, rest, back-to-backs, travel, finishing and special teams all fail out of sample (every hold-out interval includes zero; the one in-sample signal, away back-to-back |z|~2.4, worsens hold-out log loss).
 
-**D. Which projection engines are useful?** None demonstrably. The model is significantly worse than the market in {len(worse)} of {sum(1 for v in ma.values() if v.get('n_games'))} comparisons and significantly better in none; {len(inc_sig)} families show a significant incremental-information coefficient.
+**D. Which projection engines are useful?** None demonstrably. The model's point estimate is worse than the market in nearly every comparison (nominally significant in {len(worse)} of {sum(1 for v in ma.values() if v.get('n_games'))}, uncorrected and overlapping, Brier gaps of at most a few thousandths) and significantly better in none; {len(inc_sig)} families show a significant incremental-information coefficient.
 
 **E. Signals surviving chronological out-of-sample testing?** None. The one pattern suggested by the history (early-season Overs, +10.9% on 39 games) failed its first real out-of-sample test (-4.3% on 140 live games).
 
@@ -476,7 +514,7 @@ PASSes all {sh['games']} games. Ignoring the evidence ("naive EV") bets in {nv['
 **H. Uncertainty and correlation?** Both enter selection: a 2.5-point calibration floor, widening with V1/V2 disagreement; one position per risk factor (a total Under and a team-total Under are one bet).
 
 **I. Evidence to exceed research stakes?** RISK_MANAGEMENT_FRAMEWORK.md: a frozen strategy, positive net ROI after +1c slippage on the prospective tier at predeclared looks (150/300/450 games), calibration no worse than the market, executability from captured depth, a confirming later window, and explicit approval.
-A +3% edge needs thousands of independent games; only a much larger edge can ever qualify on this horizon.
+Detecting a +3% edge needs hundreds to thousands of independent games depending on price; only a much larger edge could qualify within a season.
 
 **J. Minimal-intervention operation?** A resumable, idempotent pipeline, a daily scorecard with CRITICAL/WARN alarms and a one-line-per-day evidence ledger, shipped as a manual-dispatch workflow (schedule commented out).
 
@@ -492,7 +530,7 @@ A +3% edge needs thousands of independent games; only a much larger edge can eve
 
 ## Implemented, tested, and gated
 
-Code `src/nhl_edge/market_audit/` (20 modules), tests `tests/test_market_audit_*.py`, workflow `market_audit.yml` (manual only). No production path imports any of it. See IMPLEMENTATION_ROADMAP.md for decisions that need approval.
+Code `src/nhl_edge/market_audit/` (26 modules), tests `tests/test_market_audit_*.py`, workflow `market_audit.yml` (manual only). No production path imports any of it. See IMPLEMENTATION_ROADMAP.md for decisions that need approval.
 """)
 
 

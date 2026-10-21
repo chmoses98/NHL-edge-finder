@@ -177,7 +177,7 @@ def quality(r: R) -> None:
 
 | check | result |
 |---|---|
-| manifest entries / files that exist / duplicated paths | {ig['manifest_entries']:,} / {ig['manifest_entries'] - ig['n_problems']:,} / {ig['duplicate_paths']} |
+| manifest entries / entries whose file exists and hashes correctly / duplicated paths | {ig['manifest_entries']:,} / {ig['manifest_entries'] - ig['n_problems']:,} / {ig['duplicate_paths']} |
 | SHA-256 mismatches | {ig['n_problems']} |
 | market delta chains verified (ok / broken) | {ig['delta_chains']['kalshi/markets']['n_ok']} / {ig['delta_chains']['kalshi/markets']['n_broken']} |
 | order-book delta chains verified (ok / broken) | {ig['delta_chains']['kalshi/orderbooks']['n_ok']} / {ig['delta_chains']['kalshi/orderbooks']['n_broken']} |

@@ -23,6 +23,7 @@ from typing import Any
 
 import pandas as pd
 
+from nhl_edge.archive.delta import read_rows
 from nhl_edge.archive.ledger import Ledger
 from nhl_edge.archive.reconstruct import verify_archive
 from nhl_edge.market_audit import (
@@ -42,7 +43,7 @@ from nhl_edge.market_audit import (
 from nhl_edge.market_audit import efficiency as E
 from nhl_edge.market_audit.history_validation import summarize, validate
 
-DEPS = {"integrity": ["pipeline.py", "streams.py"], "streams": ["streams.py"], "tables": ["games.py", "dataset.py", "taxonomy.py", "outcomes.py"],
+DEPS = {"integrity": ["streams.py"], "streams": ["streams.py"], "tables": ["games.py", "dataset.py", "taxonomy.py", "outcomes.py"],
         "history_validation": ["history_validation.py", "outcomes.py", "taxonomy.py"], "raw": ["games.py"], "panels": ["efficiency.py", "history_validation.py"],
         "coverage": ["coverage.py"], "quality": ["quality.py"], "efficiency": ["efficiency.py"], "power": ["efficiency.py", "hypotheses.py"],
         "registry": ["hypotheses.py", "run_registry.py", "efficiency.py"], "model_audit": ["model_audit.py", "run_registry.py", "efficiency.py"],
@@ -115,7 +116,7 @@ def s_integrity(c: Ctx) -> None:
         k["rows"] += e.rows or 0
         k["first"], k["last"] = min(k["first"], e.observed_at_utc), max(k["last"], e.observed_at_utc)
     ck = max((e for e in man if e.kind == "kalshi/markets"), key=lambda e: e.observed_at_utc)
-    board = pd.DataFrame(streams.read_rows(c.archive / ck.path)) if hasattr(streams, "read_rows") else pd.DataFrame()
+    board = pd.DataFrame(read_rows(c.archive / ck.path))
     season: dict[str, Any] = {}
     if len(board):
         board["game_scoped"] = board["ticker"].map(streams.is_game_scoped)
@@ -401,7 +402,7 @@ def s_lineage(c: Ctx) -> None:
 
 
 FUNCS = {"integrity": s_integrity, "streams": s_streams, "tables": s_tables, "history_validation": s_history_validation, "raw": s_raw, "panels": s_panels,
-         "coverage": s_coverage, "quality": s_quality, "registry": s_registry, "model_audit": s_model_audit, "matchup": s_matchup, "thesis_replay": s_thesis_replay,
+         "coverage": s_coverage, "quality": s_quality, "efficiency": s_efficiency, "power": s_power, "registry": s_registry, "model_audit": s_model_audit, "matchup": s_matchup, "thesis_replay": s_thesis_replay,
          "wagers": s_wagers, "case_oct20": s_case_oct20, "execution": s_execution, "sensitivity": s_sensitivity, "shadow": s_shadow, "lineage": s_lineage}
 
 
