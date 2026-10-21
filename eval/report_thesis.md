@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-21T15:55:53Z · thesis-postmortem-2.0 · rows (all generations) 22642
+evaluated 2026-10-21T16:15:15Z · thesis-postmortem-2.0 · rows (all generations) 22642
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,23 +33,23 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020152 PHI @ BUF: NOT_STARTED · snapshot snap-fe25586f74afcf5d9a28 @ 2026-10-21T15:23:15Z
+#### game 2026020152 PHI @ BUF: NOT_STARTED · snapshot snap-bd2c2b60546d9e8335fb @ 2026-10-21T16:14:50Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT21PHIBUF-PHITSANHEIM6-1|yes | FUNDED_RESEARCH | 1 | 3.09 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT21PHIBUF-BUFRDAHLIN26-1|no | SHADOW_ONLY | 0 | 10.72 | - | - | - | DIRECT | - | - |
-| KXNHLSPREAD-26OCT21PHIBUF-BUF2|no | FUNDED_RESEARCH | 2 | 4.52 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT21PHIBUF-BUF3|no | FUNDED_RESEARCH | 1 | 3.75 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT21PHIBUF-PHITSANHEIM6-1|yes | FUNDED_RESEARCH | 1 | 3.42 | - | - | - | FRAGILE | - | - |
+| KXNHLSPREAD-26OCT21PHIBUF-BUF2|no | FUNDED_RESEARCH | 2 | 4.31 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT21PHIBUF-BUF3|no | FUNDED_RESEARCH | 1 | 3.23 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT21PHIBUF-BUF4|no | FUNDED_RESEARCH | 2 | 4.43 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020153 FLA @ OTT: NOT_STARTED · snapshot snap-fe25586f74afcf5d9a28 @ 2026-10-21T15:23:15Z
+#### game 2026020153 FLA @ OTT: NOT_STARTED · snapshot snap-bd2c2b60546d9e8335fb @ 2026-10-21T16:14:50Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
 | KXNHLGOAL-26OCT21FLAOTT-FLABTKACHUK8-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT21FLAOTT-OTTRGREIG71-1|yes | SHADOW_ONLY | 0 | 6.25 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT21FLAOTT-OTTJSANDERSON85-1|no | SHADOW_ONLY | 0 | 18.24 | - | - | - | DIRECT | - | - |
-| KXNHLTEAMTOTAL-26OCT21FLAOTT-OTT5|yes | FUNDED_RESEARCH | 2 | 4.56 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT21FLAOTT-OTTJSANDERSON85-1|no | SHADOW_ONLY | 0 | 15.91 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT21FLAOTT-OTTRGREIG71-1|yes | SHADOW_ONLY | 0 | 4.75 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT21FLAOTT-OTTCGIROUX28-1|yes | SHADOW_ONLY | 0 | 3.29 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-20: **COMPLETE — 11/11 games evaluated**
 
