@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-21T10:52:44Z · thesis-postmortem-2.0 · rows (all generations) 22642
+evaluated 2026-10-21T12:29:19Z · thesis-postmortem-2.0 · rows (all generations) 22642
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,21 +33,21 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020152 PHI @ BUF: NOT_STARTED · snapshot snap-ad942bc1590db7104dac @ 2026-10-21T10:50:00Z
+#### game 2026020152 PHI @ BUF: NOT_STARTED · snapshot snap-8c5298186a4316cdb28d @ 2026-10-21T11:41:20Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
 | KXNHLSPREAD-26OCT21PHIBUF-BUF3|no | FUNDED_RESEARCH | 4 | 12.58 | - | - | - | STRUCTURAL | - | - |
 | KXNHLSPREAD-26OCT21PHIBUF-BUF2|no | FUNDED_RESEARCH | 1 | 1.03 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020153 FLA @ OTT: NOT_STARTED · snapshot snap-ad942bc1590db7104dac @ 2026-10-21T10:50:00Z
+#### game 2026020153 FLA @ OTT: NOT_STARTED · snapshot snap-8c5298186a4316cdb28d @ 2026-10-21T11:41:20Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHL1PSPREAD-26OCT21FLAOTT-FLA2|yes | FUNDED_RESEARCH | 1 | 2.37 | - | - | - | FRAGILE | - | - |
-| KXNHLSPREAD-26OCT21FLAOTT-FLA3|no | FUNDED_RESEARCH | 5 | 19.43 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT21FLAOTT-FLA2|no | FUNDED_RESEARCH | 2 | 10.57 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT21FLAOTT-OTT5|yes | FUNDED_RESEARCH | 1 | 2.64 | - | - | - | DIRECT | - | - |
+| KXNHL1PSPREAD-26OCT21FLAOTT-FLA2|yes | FUNDED_RESEARCH | 1 | 2.35 | - | - | - | FRAGILE | - | - |
+| KXNHLSPREAD-26OCT21FLAOTT-FLA3|no | FUNDED_RESEARCH | 5 | 18.59 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT21FLAOTT-FLA2|no | FUNDED_RESEARCH | 2 | 11.41 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT21FLAOTT-OTT3|yes | FUNDED_RESEARCH | 1 | 2.27 | - | - | - | STRUCTURAL | - | - |
 
 ## Slate 2026-10-20: **COMPLETE — 11/11 games evaluated**
 
