@@ -128,17 +128,6 @@ def run(repo: Path, out: Path, work: Path | None = None) -> dict[str, Any]:
     return res
 
 
-if __name__ == "__main__":
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--repo", type=Path, default=Path("."))
-    ap.add_argument("--out", type=Path, required=True)
-    ap.add_argument("--work", type=Path)
-    a = ap.parse_args()
-    r = run(a.repo, a.out, a.work)
-    print(record_registry(r, a.repo, a.repo / "docs/research/nhl-model-improvement/experiment_registry.jsonl"))
-    print(json.dumps({k: r[k] for k in ("n_eval_A", "n_eval_B", "c1_params_final", "sigma_final", "sigma_frozen")}, indent=1, default=float))
-
-
 def record_registry(res: dict[str, Any], repo: Path, reg: Path) -> list[str]:
     """Append the RESULT entries for M-DIST-1 / M-CAL-1 / M-CAL-2 (idempotent per id)."""
     done = {e["id"] for e in registry.read(reg) if e["type"] == "RESULT"}
@@ -174,3 +163,14 @@ def record_registry(res: dict[str, Any], repo: Path, reg: Path) -> list[str]:
                     "interpretation": "Rolling method selects sigma = 0 (no antithetic strength uncertainty) from the first evaluation date to the last; margin log score is best at sigma = 0. "
                                       "C2 collapses to C1. Simplest model preferred."})
     return out
+
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--repo", type=Path, default=Path("."))
+    ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--work", type=Path)
+    a = ap.parse_args()
+    r = run(a.repo, a.out, a.work)
+    print(record_registry(r, a.repo, a.repo / "docs/research/nhl-model-improvement/experiment_registry.jsonl"))
+    print(json.dumps({k: r[k] for k in ("n_eval_A", "n_eval_B", "c1_params_final", "sigma_final", "sigma_frozen")}, indent=1, default=float))

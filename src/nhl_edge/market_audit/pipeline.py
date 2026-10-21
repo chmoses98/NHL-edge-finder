@@ -30,6 +30,7 @@ from nhl_edge.market_audit import (
     AUDIT_VERSION,
     coverage,
     dataset,
+    dev_only,
     games,
     model_audit,
     quality,
@@ -218,7 +219,7 @@ def s_efficiency(c: Ctx) -> None:
 
     hist = c.pq("hist_reg_panel")
     hist = hist[(hist["game_date"] >= "2025-10-01") & (hist["game_date"] <= "2026-04-17")]
-    live = c.pq("live_panel")
+    live = dev_only(c.pq("live_panel"))
     if "subject_team_id" not in live:
         live["subject_team_id"] = np.nan
     c.dump("market_efficiency.json", {"HIST_2025_26": E.efficiency_report(hist, "HIST_2025_26", with_months=True), "LIVE_2026_27": E.efficiency_report(live, "LIVE_2026_27")})
@@ -255,7 +256,7 @@ def s_model_audit(c: Ctx) -> None:
         for kind in ("winner", "total", "spread"):
             res[f"HIST|{arm}|{kind}"] = model_audit.compare(h[h["kind"] == kind], "p", f"HIST {arm} {kind}")
         res[f"HIST|{arm}|all"] = model_audit.compare(h, "p", f"HIST {arm} all")
-    live = c.pq("live_panel")
+    live = dev_only(c.pq("live_panel"))
     live = live[live["horizon_min"] == 60].copy()
     for fn, col, new in (("raw_predictions", "p_data_only", "p_v1"), ("raw_predictions_v2", "p_data_only_v2", "p_v2"), ("raw_predictions_player", "p_player", "p_player")):
         pr = c.pq(fn)[["ticker", "predicted_at_utc", col]]
@@ -342,7 +343,7 @@ def s_execution(c: Ctx) -> None:
     from nhl_edge.market_audit import execution as X
     from nhl_edge.market_audit import hypotheses as H
 
-    live = c.pq("live_panel")
+    live = dev_only(c.pq("live_panel"))
     l60 = live[(live["horizon_min"] == 60) & live["kind"].isin(["winner", "spread", "total", "team_total"])].copy()
     bk = X.book_at_cut(c.pq("book_events"), l60[["ticker", "cut"]].drop_duplicates("ticker"))
     l60 = l60.merge(bk[["ticker", "yes_levels", "no_levels", "observed_at"]].rename(columns={"observed_at": "observed_at_book"}), on="ticker", how="left")
@@ -368,7 +369,7 @@ def s_sensitivity(c: Ctx) -> None:
 
     hist = c.pq("hist_reg_panel")
     hist = hist[(hist["game_date"] >= "2025-10-01") & (hist["game_date"] <= "2026-04-17")].copy()
-    live = c.pq("live_panel")
+    live = dev_only(c.pq("live_panel"))
     for df in (hist, live):
         df["early_season"], df["move"], df["model_gap"] = False, np.nan, np.nan
     res = {f"{t}|{hid}": S.roi_grid(df, H.BY_ID[hid], horizons=(60, 10, 0) if t == "LIVE" else (60, 0))

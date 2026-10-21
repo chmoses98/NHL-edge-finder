@@ -12,12 +12,12 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from nhl_edge.market_audit import PROSPECTIVE_FREEZE_UTC
 from nhl_edge.market_audit import hypotheses as H
 
 HIST_SEASON = ("2025-10-01", "2026-04-17")
 # Commit time of the frozen registry (git 627b5fa7). Games that START before it are the one-shot LIVE tier; games that start after
 # it are PROSPECTIVE and are only ever read at the predeclared looks below (never repeatedly "until something passes").
-PROSPECTIVE_FREEZE_UTC = "2026-10-21T17:13:05Z"
 PROSPECTIVE_LOOKS = (150, 300, 450)  # independent games; alpha spent 0.005 / 0.015 / 0.05 (one-sided), Bonferroni-conservative O'Brien-Fleming-style
 EARLY_DAYS = 21
 
@@ -110,10 +110,17 @@ def run(derived: Path, wf_csv: Path, out: Path) -> dict:
             df = tiers["PROSPECTIVE"].copy()
             if h.side == "model":
                 df["model_gap"] = df["model_gap_v1"] if h.id == "C1" else df["model_gap_v2"]
-            pr = H.evaluate(h, df)
-            n = pr.get("n_games", 0)
-            pr["next_look_at_games"] = next((k for k in PROSPECTIVE_LOOKS if k > n), None)
-            pr["status"] = "ACCUMULATING" if n < PROSPECTIVE_LOOKS[0] else "AT_LOOK"
+            n_pro = int(df[(df["horizon_min"] == H.DECISION_HORIZON_MIN) & h.select(df)]["game_id"].nunique()) if len(df) else 0
+            if n_pro < PROSPECTIVE_LOOKS[0]:
+                # BLINDED until the first predeclared look: only counts are written, never a return, so that no run of the pipeline is itself a look
+                pr = {"id": h.id, "n_games": n_pro, "roi": None, "blinded": True}
+                pr["next_look_at_games"] = PROSPECTIVE_LOOKS[0]
+                pr["status"] = "ACCUMULATING_BLINDED"
+            else:
+                pr = H.evaluate(h, df)
+                n = pr.get("n_games", 0)
+                pr["next_look_at_games"] = next((k for k in PROSPECTIVE_LOOKS if k > n), None)
+                pr["status"] = "AT_LOOK"
             prospective[h.id] = pr
         results[h.id] = per
     live_p = {k: v["LIVE"]["p_one_sided"] for k, v in results.items() if "LIVE" in v and v["LIVE"].get("roi") is not None}

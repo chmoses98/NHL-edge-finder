@@ -13,6 +13,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from nhl_edge.market_audit import dev_only
 from nhl_edge.market_audit.efficiency import cluster_ratio_ci, taker_fee
 from nhl_edge.market_audit.expression_engine import Candidate, build_card
 
@@ -32,7 +33,8 @@ def audited_weights(audit: dict) -> dict[str, float]:
 
 
 def family_classes(reg: dict) -> dict[str, str]:
-    """Evidence class per family = best class of any registered hypothesis touching it (conservative: UNTESTED if none)."""
+    """Evidence class per family AND per (family|side) = best class of any registered hypothesis touching it (UNTESTED if none). The engine looks up
+    the side-specific key first, so a VALIDATED Under cannot unlock the Over (statistical review F4); the bare family key is kept for reporting."""
     order = ["UNTESTABLE", "REJECTED", "INCONCLUSIVE", "PROMISING", "VALIDATED"]
     fam_of = {"M1": ["game_total"], "M2": ["game_total"], "M3": ["game_winner", "game_spread", "game_total", "team_total"],
               "M4": ["game_winner", "game_spread", "game_total", "team_total"], "M5": ["game_spread"], "M7": ["team_total"], "M8": ["team_total"],
@@ -40,11 +42,16 @@ def family_classes(reg: dict) -> dict[str, str]:
               "M11": ["game_winner"], "M12": ["game_winner"], "C1": ["game_winner", "game_spread", "game_total", "team_total"],
               "C2": ["game_winner", "game_spread", "game_total", "team_total", "period_winner", "period_spread", "period_total"]}
     best: dict[str, str] = {}
+    from nhl_edge.market_audit.hypotheses import BY_ID
+
     for hid, fams in fam_of.items():
         cls = reg[hid]["class"]
+        side = BY_ID[hid].side
+        sides = ("yes", "no") if side not in ("yes", "no") else (side,)  # model / move hypotheses speak for both directions
         for f in fams:
-            if f not in best or order.index(cls) > order.index(best[f]):
-                best[f] = cls
+            for key in [f] + [f"{f}|{s}" for s in sides]:
+                if key not in best or order.index(cls) > order.index(best[key]):
+                    best[key] = cls
     return best
 
 
@@ -52,7 +59,7 @@ def run(derived: Path, reg_json: Path, audit_json: Path) -> tuple[dict, list[dic
     reg = json.loads(reg_json.read_text())["results"]
     audit = json.loads(audit_json.read_text())
     w_fam, cls = audited_weights(audit), family_classes(reg)
-    live = pd.read_parquet(derived / "live_panel.parquet")
+    live = dev_only(pd.read_parquet(derived / "live_panel.parquet"))
     lv = live[(live["horizon_min"] == 60) & live["kind"].isin(IN_SCOPE)].copy()
     cm = pd.read_parquet(derived / "contract_master.parquet")[["ticker", "family"]]
     st = pd.read_parquet(derived / "market_static.parquet")[["ticker", "title"]]

@@ -127,7 +127,7 @@ def record(res: dict[str, Any], repo: Path, reg: Path) -> None:
                       "CHANGE vs SAME vs 3-hour-earlier placebo; our capture lag = first_observed - source_reported.",
             "baseline": "placebo drift and SAME events", "decision_rule": "MARKET_REACTS if CHANGE abs move exceeds SAME with 95% CI > 0 at any horizon; CAPTURE_TOO_SLOW if the median capture lag exceeds 15 minutes. Descriptive; n small.",
             "tier": "LIVE_DESCRIPTIVE", "disclosure": "registered after the first execution of this script (code written before executing; not edited after)."}, repo)
-    if not any(e["id"] == "M-INFO-1" and e["type"] == "RESULT" for e in registry.read(reg)):
+    if not any(e["id"] == "M-INFO-1" and e["type"] == "RESULT" and e.get("revision") == 2 for e in registry.read(reg)):
         react = [h for h, v in res["change_minus_same_abs_move_pts"].items() if v["lo95"] > 0]
         registry.append(reg, "RESULT", "M-INFO-1", {"revision": 2, "supersedes": "first M-INFO-1 RESULT (window crossed puck drop)", "metrics": res, "decision": ("MARKET_REACTS@" + ",".join(react) if react else "NO_DETECTABLE_REACTION_DIFFERENCE")
                                                     + ("; CAPTURE_TOO_SLOW" if res["capture_lag_min"]["median"] > 15 else ""),
