@@ -1,9 +1,9 @@
 # NHL slate 2026-10-21 — RESEARCH_ONLY
 
-generated 2026-10-21T06:58:20Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-21T08:02:39Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 2 · simulated (not started): 2 · markets on board: 2377 · contracts joined: 102 (unjoined to any game: 1571)
-gates: {'UNSUPPORTED': 52, 'NO_EDGE': 19, 'OK': 31}
+gates: {'UNSUPPORTED': 52, 'NO_EDGE': 18, 'OK': 32}
 families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_early_goal': 2, 'game_winner': 4, 'game_overtime': 2, 'game_spread': 8, 'team_total': 20, 'game_total': 18}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -27,37 +27,37 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTEAMTOTAL-26OCT21FLAOTT-OTT6 | team_total | 0.105 | 0.075 | 0.080 | 8 | 93 | yes | +0.020 | OK |
 | KXNHLTEAMTOTAL-26OCT21PHIBUF-PHI3 | team_total | 0.463 | 0.510 | 0.501 | 52 | 50 | no | +0.019 | OK |
 | KXNHLTEAMTOTAL-26OCT21PHIBUF-BUF3 | team_total | 0.646 | 0.690 | 0.681 | 70 | 32 | no | +0.019 | OK |
-| KXNHLSPREAD-26OCT21FLAOTT-FLA3 | game_spread | 0.152 | 0.185 | 0.178 | 19 | 82 | no | +0.018 | OK |
+| KXNHLSPREAD-26OCT21FLAOTT-FLA3 | game_spread | 0.152 | 0.190 | 0.182 | 20 | 82 | no | +0.018 | OK |
+| KXNHLTOTAL-26OCT21FLAOTT-6 | game_total | 0.564 | 0.525 | 0.533 | 53 | 48 | yes | +0.016 | OK |
+| KXNHLTOTAL-26OCT21FLAOTT-9 | game_total | 0.184 | 0.155 | 0.161 | 16 | 85 | yes | +0.015 | OK |
+| KXNHLGAME-26OCT21FLAOTT-FLA | game_winner | 0.468 | 0.505 | 0.498 | 51 | 50 | no | +0.014 | OK |
 | KXNHLGAME-26OCT21FLAOTT-OTT | game_winner | 0.532 | 0.495 | 0.502 | 50 | 51 | yes | +0.014 | OK |
 | KXNHLTEAMTOTAL-26OCT21PHIBUF-BUF5 | team_total | 0.233 | 0.275 | 0.266 | 29 | 74 | no | +0.014 | OK |
 | KXNHLTOTAL-26OCT21FLAOTT-7 | game_total | 0.450 | 0.415 | 0.422 | 42 | 59 | yes | +0.013 | OK |
-| KXNHLTEAMTOTAL-26OCT21PHIBUF-BUF2 | team_total | 0.839 | 0.865 | 0.860 | 87 | 14 | no | +0.013 | OK |
 | KXNHLTEAMTOTAL-26OCT21FLAOTT-OTT5 | team_total | 0.221 | 0.190 | 0.196 | 20 | 82 | yes | +0.010 | OK |
 | KXNHLTEAMTOTAL-26OCT21FLAOTT-OTT3 | team_total | 0.627 | 0.585 | 0.593 | 60 | 43 | yes | +0.010 | OK |
 | KXNHLTEAMTOTAL-26OCT21PHIBUF-PHI4 | team_total | 0.256 | 0.295 | 0.287 | 31 | 72 | no | +0.010 | OK |
 | KXNHLTOTAL-26OCT21PHIBUF-10 | game_total | 0.057 | 0.080 | 0.075 | 9 | 93 | no | +0.008 | OK |
-| KXNHLTEAMTOTAL-26OCT21PHIBUF-PHI5 | team_total | 0.114 | 0.140 | 0.134 | 15 | 87 | no | +0.008 | OK |
+| KXNHLTEAMTOTAL-26OCT21PHIBUF-PHI5 | team_total | 0.114 | 0.145 | 0.138 | 16 | 87 | no | +0.008 | OK |
 | KXNHLTOTAL-26OCT21PHIBUF-3 | game_total | 0.949 | 0.970 | 0.967 | 98 | 4 | no | +0.008 | OK |
-| KXNHLSPREAD-26OCT21FLAOTT-FLA2 | game_spread | 0.259 | 0.285 | 0.280 | 29 | 72 | no | +0.007 | OK |
+| KXNHLTEAMTOTAL-26OCT21PHIBUF-BUF6 | team_total | 0.105 | 0.135 | 0.129 | 15 | 88 | no | +0.007 | OK |
+| KXNHLSPREAD-26OCT21FLAOTT-FLA2 | game_spread | 0.259 | 0.290 | 0.284 | 30 | 72 | no | +0.007 | OK |
 | KXNHLSPREAD-26OCT21PHIBUF-BUF3 | game_spread | 0.250 | 0.275 | 0.270 | 28 | 73 | no | +0.006 | OK |
-| KXNHLTOTAL-26OCT21FLAOTT-6 | game_total | 0.564 | 0.530 | 0.537 | 54 | 48 | yes | +0.006 | OK |
 | KXNHLSPREAD-26OCT21FLAOTT-OTT2 | game_spread | 0.310 | 0.285 | 0.290 | 29 | 72 | yes | +0.006 | OK |
-| KXNHLTOTAL-26OCT21FLAOTT-9 | game_total | 0.184 | 0.160 | 0.165 | 17 | 85 | yes | +0.005 | OK |
-| KXNHLGAME-26OCT21FLAOTT-FLA | game_winner | 0.468 | 0.495 | 0.490 | 50 | 51 | no | +0.004 | OK |
+| KXNHLTEAMTOTAL-26OCT21PHIBUF-BUF2 | team_total | 0.839 | 0.860 | 0.856 | 87 | 15 | no | +0.002 | OK |
 | KXNHLTOTAL-26OCT21FLAOTT-10 | game_total | 0.086 | 0.070 | 0.073 | 8 | 94 | yes | +0.001 | OK |
 | KXNHLTOTAL-26OCT21PHIBUF-2 | game_total | 0.978 | 0.985 | 0.984 | 99 | 2 | no | +0.001 | OK |
 | KXNHLTEAMTOTAL-26OCT21FLAOTT-OTT2 | team_total | 0.820 | 0.800 | 0.804 | 81 | 21 |  | -0.000 | NO_EDGE |
 | KXNHLTOTAL-26OCT21FLAOTT-8 | game_total | 0.262 | 0.235 | 0.240 | 25 | 78 |  | -0.001 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT21FLAOTT-FLA6 | team_total | 0.084 | 0.070 | 0.073 | 8 | 94 |  | -0.001 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT21PHIBUF-BUF6 | team_total | 0.105 | 0.125 | 0.121 | 14 | 89 |  | -0.002 | NO_EDGE |
 | KXNHLSPREAD-26OCT21PHIBUF-PHI3 | game_spread | 0.096 | 0.105 | 0.103 | 11 | 90 |  | -0.003 | NO_EDGE |
 | KXNHLSPREAD-26OCT21PHIBUF-PHI2 | game_spread | 0.182 | 0.195 | 0.192 | 20 | 81 |  | -0.003 | NO_EDGE |
 | KXNHLTOTAL-26OCT21FLAOTT-3 | game_total | 0.962 | 0.965 | 0.964 | 97 | 4 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT21FLAOTT-2 | game_total | 0.985 | 0.985 | 0.985 | 99 | 2 |  | -0.005 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT21PHIBUF-PHI6 | team_total | 0.043 | 0.045 | 0.045 | 5 | 96 |  | -0.006 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT21PHIBUF-PHI6 | team_total | 0.043 | 0.050 | 0.049 | 6 | 96 |  | -0.006 | NO_EDGE |
 | KXNHLTOTAL-26OCT21FLAOTT-4 | game_total | 0.852 | 0.845 | 0.846 | 85 | 16 |  | -0.007 | NO_EDGE |
 | KXNHLTOTAL-26OCT21FLAOTT-5 | game_total | 0.771 | 0.765 | 0.766 | 77 | 24 |  | -0.011 | NO_EDGE |
 | KXNHLGAME-26OCT21PHIBUF-PHI | game_winner | 0.375 | 0.365 | 0.367 | 37 | 64 |  | -0.011 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT21FLAOTT-FLA6 | team_total | 0.084 | 0.075 | 0.077 | 9 | 94 |  | -0.012 | NO_EDGE |
 | KXNHLSPREAD-26OCT21FLAOTT-OTT3 | game_spread | 0.188 | 0.180 | 0.182 | 19 | 83 |  | -0.013 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT21FLAOTT-FLA3 | team_total | 0.579 | 0.595 | 0.592 | 61 | 42 |  | -0.016 | NO_EDGE |
 | KXNHLSPREAD-26OCT21PHIBUF-BUF2 | game_spread | 0.392 | 0.400 | 0.398 | 41 | 61 |  | -0.019 | NO_EDGE |
@@ -66,34 +66,34 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTEAMTOTAL-26OCT21FLAOTT-FLA5 | team_total | 0.192 | 0.195 | 0.194 | 21 | 82 |  | -0.022 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT21FLAOTT-FLA4 | team_total | 0.366 | 0.370 | 0.369 | 38 | 64 |  | -0.022 | NO_EDGE |
 | KXNHL1P-26OCT21PHIBUF-BUF | period_winner |  | 0.365 |  | 38 | 65 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT21PHIBUF-PHI | period_winner |  | 0.275 |  | 29 | 74 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT21PHIBUF-PHI | period_winner |  | 0.270 |  | 29 | 75 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT21PHIBUF-TIE | period_winner |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT21PHIBUF-BUF2 | period_spread |  | 0.120 |  | 19 | 95 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT21PHIBUF-PHI2 | period_spread |  |  |  | 16 |  |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT21PHIBUF-1 | period_total |  | 0.815 |  | 87 | 24 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT21PHIBUF-2 | period_total |  | 0.525 |  | 54 | 49 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT21PHIBUF-BUF2 | period_spread |  | 0.120 |  | 20 | 96 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT21PHIBUF-PHI2 | period_spread |  |  |  | 15 |  |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT21PHIBUF-1 | period_total |  | 0.805 |  | 86 | 25 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT21PHIBUF-2 | period_total |  | 0.530 |  | 55 | 49 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT21PHIBUF-3 | period_total |  | 0.280 |  | 30 | 74 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT21PHIBUF-BUF | period_winner |  | 0.395 |  | 41 | 62 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT21PHIBUF-BUF | period_winner |  | 0.385 |  | 40 | 63 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT21PHIBUF-PHI | period_winner |  | 0.280 |  | 30 | 74 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT21PHIBUF-TIE | period_winner |  | 0.295 |  | 32 | 73 |  |  | UNSUPPORTED |
-| KXNHL2PSPREAD-26OCT21PHIBUF-BUF2 | period_spread |  | 0.190 |  | 26 | 88 |  |  | UNSUPPORTED |
-| KXNHL2PSPREAD-26OCT21PHIBUF-PHI2 | period_spread |  | 0.095 |  | 15 | 96 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT21PHIBUF-1 | period_total |  | 0.850 |  | 95 | 25 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT21PHIBUF-TIE | period_winner |  | 0.300 |  | 32 | 72 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26OCT21PHIBUF-BUF2 | period_spread |  | 0.140 |  | 23 | 95 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26OCT21PHIBUF-PHI2 | period_spread |  | 0.110 |  | 18 | 96 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT21PHIBUF-1 | period_total |  | 0.840 |  | 93 | 25 |  |  | UNSUPPORTED |
 | KXNHL2PTOTAL-26OCT21PHIBUF-2 | period_total |  | 0.610 |  | 65 | 43 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT21PHIBUF-3 | period_total |  | 0.320 |  | 35 | 71 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT21PHIBUF-BUF | period_winner |  | 0.420 |  | 45 | 61 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT21PHIBUF-PHI | period_winner |  | 0.280 |  | 31 | 75 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT21PHIBUF-TIE | period_winner |  | 0.250 |  | 28 | 78 |  |  | UNSUPPORTED |
-| KXNHL3PSPREAD-26OCT21PHIBUF-BUF2 | period_spread |  | 0.220 |  | 31 | 87 |  |  | UNSUPPORTED |
-| KXNHL3PSPREAD-26OCT21PHIBUF-PHI2 | period_spread |  | 0.115 |  | 17 | 94 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT21PHIBUF-1 | period_total |  | 0.895 |  | 96 | 17 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT21PHIBUF-3 | period_total |  | 0.330 |  | 38 | 72 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT21PHIBUF-BUF | period_winner |  | 0.425 |  | 45 | 60 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT21PHIBUF-PHI | period_winner |  | 0.285 |  | 31 | 74 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT21PHIBUF-TIE | period_winner |  | 0.255 |  | 28 | 77 |  |  | UNSUPPORTED |
+| KXNHL3PSPREAD-26OCT21PHIBUF-BUF2 | period_spread |  | 0.225 |  | 31 | 86 |  |  | UNSUPPORTED |
+| KXNHL3PSPREAD-26OCT21PHIBUF-PHI2 | period_spread |  | 0.125 |  | 19 | 94 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT21PHIBUF-1 | period_total |  | 0.860 |  | 94 | 22 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26OCT21PHIBUF-2 | period_total |  | 0.635 |  | 69 | 42 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT21PHIBUF-3 | period_total |  | 0.360 |  | 41 | 69 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT21PHIBUF-3 | period_total |  | 0.365 |  | 42 | 69 |  |  | UNSUPPORTED |
 | KXNHLF10G-26OCT21PHIBUF-Y | game_early_goal |  | 0.565 |  | 58 | 45 |  |  | UNSUPPORTED |
 | KXNHLOT-26OCT21PHIBUF-1 | game_overtime |  | 0.210 |  | 22 | 80 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT21FLAOTT-FLA | period_winner |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT21FLAOTT-OTT | period_winner |  | 0.310 |  | 32 | 70 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT21FLAOTT-TIE | period_winner |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT21FLAOTT-OTT | period_winner |  | 0.315 |  | 33 | 70 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT21FLAOTT-TIE | period_winner |  | 0.330 |  | 35 | 69 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26OCT21FLAOTT-FLA2 | period_spread |  | 0.120 |  | 19 | 95 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
@@ -109,8 +109,8 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 ## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 3 recommended · full analysis in card.md / packet.json `thesis_card`
 
 - Buffalo wins by over 2.5 goals NO @ 73c · p 0.7881 (adj 0.7566) · $13.61 · thesis GAME:TIGHT
-- Florida wins by over 2.5 goals NO @ 82c · p 0.8767 (adj 0.8458) · $20.0 · thesis OTT:WINS
-- Ottawa over 3.5 goals scored YES @ 37c · p 0.4423 (adj 0.4037) · $4.83 · thesis OTT:OFFENSE_4PLUS
+- Ottawa over 3.5 goals scored YES @ 37c · p 0.4423 (adj 0.4037) · $5.04 · thesis OTT:OFFENSE_4PLUS
+- Florida wins by over 2.5 goals NO @ 82c · p 0.8767 (adj 0.8434) · $18.12 · thesis OTT:WINS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
