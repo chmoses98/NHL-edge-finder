@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-21T02:27:45Z · thesis-postmortem-2.0 · rows (all generations) 21303
+evaluated 2026-10-21T02:44:34Z · thesis-postmortem-2.0 · rows (all generations) 21303
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -14,7 +14,7 @@ missing / pending:
 - 2026020148: no official FINAL result yet
 - 2026020149: no official FINAL result yet
 - 2026020150: no official FINAL result yet
-- 2026020151: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020151: no official FINAL result yet
 
 > INTERIM (PARTIAL — 5/11 games evaluated): covers evaluated games only; NOT the slate's final ROI
 
@@ -125,7 +125,7 @@ invariant final_card_n 17 <= sum(game card caps) 20: OK
 | KXNHLSPREAD-26OCT20CARVAN-CAR3|no | FUNDED_RESEARCH | 3 | 10.65 | - | - | - | STRUCTURAL | - | - |
 | KXNHLGOAL-26OCT20CARVAN-CARSAHO20-1|no | FUNDED_RESEARCH | 5 | 17.91 | - | - | - | DIRECT | - | - |
 
-#### game 2026020151 TBL @ VGK: NOT_STARTED · snapshot snap-f70b8335ac8348b2dc10 @ 2026-10-21T02:27:21Z
+#### game 2026020151 TBL @ VGK: NOT_FINAL · snapshot snap-f70b8335ac8348b2dc10 @ 2026-10-21T02:27:21Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
