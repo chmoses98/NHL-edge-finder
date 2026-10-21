@@ -28,10 +28,19 @@ def prepare_events(ev: pd.DataFrame, cm: pd.DataFrame, games: pd.DataFrame) -> p
     return e
 
 
-def last_pregame_quote(e: pd.DataFrame) -> pd.DataFrame:
-    """Per ticker, the last USABLE pregame change-event (carry-forward state at puck drop)."""
-    u = e[e["usable_pregame"]].sort_values(["ticker", "observed_at"])
-    return u.groupby("ticker", as_index=False).tail(1)
+def last_pregame_quote(e: pd.DataFrame, legacy: bool = False) -> pd.DataFrame:
+    """Per ticker, the pregame state at puck drop, then tested for usability.
+
+    State is the LAST event available before the start; a one-sided / inactive last state is a missing quote, never an older two-sided one
+    (HISTORICAL_RECONSTRUCTION rule 2, which ``efficiency.build_live_panel`` already follows). ``legacy=True`` reproduces the v1.0 behaviour, which filtered
+    to usable states FIRST and so credited 3,152 contracts with an older two-sided quote (data review D1: usable contracts 27,359 -> 24,207).
+    """
+    if legacy:
+        u = e[e["usable_pregame"]].sort_values(["ticker", "observed_at"])
+        return u.groupby("ticker", as_index=False).tail(1)
+    pre = e[e["available_at"] <= e["start_time_utc"]].sort_values(["ticker", "observed_at"])
+    last = pre.groupby("ticker", as_index=False).tail(1)
+    return last[last["usable_pregame"]]
 
 
 def coverage_report(ev: pd.DataFrame, cm: pd.DataFrame, games: pd.DataFrame, ticks_m: pd.DataFrame, ticks_b: pd.DataFrame,
