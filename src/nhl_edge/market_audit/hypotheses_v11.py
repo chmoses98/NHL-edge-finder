@@ -6,11 +6,14 @@ every testable tier. For a single-tier hypothesis that is a point-estimate coin 
 v1.1 is a second, parallel reading of the same numbers (``reclassify``) and the rule that governs every FUTURE (prospective) look.
 
 v1.1 classes
-    VALIDATED       unchanged from v1.0 (LIVE or prospective n>=100 games, BH q<=0.10, lower-90% ROI>0, ROI>0 at +1c slippage, hold-out ROI>0).
+    VALIDATED       v1.0's rule, plus: a hypothesis whose HIST_HOLD tier was registered must have a TESTABLE hold-out with ROI>0 (v1.0 let an untestable
+                    hold-out pass), and a post-hoc-suggested hypothesis can never be VALIDATED from HIST evidence.
     PROMISING_V11   ROI>0 on every testable tier AND ROI>0 at +1c slippage on every testable tier AND at least one tier with n_games>=100 whose
                     lower-90% bound is > 0 AND (when a BH q is available) q<=0.25.
     POINT_POSITIVE  ROI>0 on every testable tier but the evidence bar above is not met (reported for transparency, never a candidate for action).
-    REJECTED        unchanged from v1.0.
+    UNPROFITABLE_AT_ASK  (v1.0 "REJECTED", renamed: negative ROI after half-spread and fee is what a perfectly efficient market produces, so this label says
+                    "not profitable at the ask", never "no mispricing"). Needs ROI<0 on every testable tier and a tier with n_games>=100 whose upper 95% bound is below
+                    -0.01 (one point of margin so a 4,000-resample percentile endpoint cannot flip the class: M9 sat at -0.0006).
     UNTESTABLE      unchanged.
     INCONCLUSIVE    anything else.
 Power disclosure (new): ``mde80`` = the ROI a one-sided 5% test would detect with 80% power given each tier's standard error; a result whose
@@ -41,8 +44,23 @@ def mde80(r: dict[str, Any]) -> float | None:
     return None if se is None else (Z_ONE_SIDED_5 + Z_POWER_80) * se
 
 
-def classify_v11(per_tier: dict[str, dict[str, Any]], q_live: float | None) -> str:
+REJECT_MARGIN = 0.01
+
+
+def classify_v11(per_tier: dict[str, dict[str, Any]], q_live: float | None, h: H.Hypothesis | None = None) -> str:
     v10 = H.classify(per_tier, q_live)
+    testable = {t: r for t, r in per_tier.items() if r.get("roi") is not None and r["n_games"] >= 30}
+    if v10 == "VALIDATED":
+        if h is not None:
+            hold_registered = "HIST_HOLD" in h.tiers
+            if hold_registered and "HIST_HOLD" not in testable:
+                return "PROMISING_V11"
+            if h.post_hoc and any(t.startswith("HIST") for t in h.tiers):
+                return "PROMISING_V11"
+        return "VALIDATED"
+    if v10 == "REJECTED":
+        big = [r for r in testable.values() if r["n_games"] >= MIN_GAMES_STRONG]
+        return "UNPROFITABLE_AT_ASK" if any(r["roi_hi95"] < -REJECT_MARGIN for r in big) else "INCONCLUSIVE"
     if v10 != "PROMISING":
         return v10
     testable = {t: r for t, r in per_tier.items() if r.get("roi") is not None and r["n_games"] >= 30}
@@ -57,7 +75,7 @@ def reclassify(results: dict[str, Any]) -> dict[str, Any]:
     out: dict[str, Any] = {}
     for hid, r in results["results"].items():
         tiers = {t: x for t, x in r["tiers"].items()}
-        v11 = classify_v11(tiers, r.get("q_live_bh"))
+        v11 = classify_v11(tiers, r.get("q_live_bh"), H.BY_ID.get(hid))
         powers = {t: mde80(x) for t, x in tiers.items() if x.get("roi") is not None}
         out[hid] = {"title": r["title"], "class_v10": r["class"], "class_v11": v11, "changed": v11 != r["class"], "mde80_by_tier": powers,
                     "underpowered_tiers": [t for t, m in powers.items() if m is not None and m > 0.10]}

@@ -76,7 +76,7 @@ def build_scorecard(d: Path) -> dict[str, Any]:
             "INDEPENDENT_HANDICAPPING": {"status": "NOT_MEASURABLE", "note": "wager rows carry no provenance; 'no thesis-card decision exists' is only a proxy and is reported inside ACTUAL_WAGERS."},
             "BACKTEST_SELECTIONS": {"registry_classes": classes, "n_hypotheses": len(reg)},
             "PROSPECTIVE_SHADOW": {"hypotheses_with_games": len(pro), "max_games": max((v.get("n_games", 0) for v in pro.values()), default=0),
-                                   "status": "ACCUMULATING" if all(v.get("status") == "ACCUMULATING" for v in pro.values()) else "AT_LOOK",
+                                   "status": "NO_DATA" if not pro else ("ACCUMULATING_BLINDED" if all(str(v.get("status", "")).startswith("ACCUMULATING") for v in pro.values()) else "AT_LOOK"),
                                    "per_hypothesis": {k: {"n_games": v.get("n_games"), "roi": v.get("roi"), "next_look_at_games": v.get("next_look_at_games")} for k, v in pro.items()}},
         },
     }

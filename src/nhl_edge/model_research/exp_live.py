@@ -18,7 +18,7 @@ from nhl_edge.model_research import challengers as C
 from nhl_edge.model_research import dist_eval as D
 from nhl_edge.model_research import registry
 from nhl_edge.model_research import scoring as S
-from nhl_edge.model_research.market_eval import FAMILIES, attach_model_p, game_level_losses
+from nhl_edge.model_research.market_eval import FAMILIES, attach_model_p
 from nhl_edge.model_research.wf_data import MARGIN_LO
 
 

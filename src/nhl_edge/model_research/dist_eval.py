@@ -67,17 +67,17 @@ def describe(P: dict[str, np.ndarray], df: pd.DataFrame, seed: int = 0) -> dict[
     for k in (6, 7, 8, 9, 10):
         pr = tail_prob(P["total"], k)
         ob = int((y_t >= k).sum())
-        l, h = wilson(ob, n)
-        tails[f"total>={k}"] = {"pred": float(pr.mean()), "obs": ob / n, "obs_lo95": l, "obs_hi95": h, "obs_in_ci_of_pred": bool(l <= pr.mean() <= h)}
+        lo_, hi_ = wilson(ob, n)
+        tails[f"total>={k}"] = {"pred": float(pr.mean()), "obs": ob / n, "obs_lo95": lo_, "obs_hi95": hi_, "obs_in_ci_of_pred": bool(lo_ <= pr.mean() <= hi_)}
     for k in (1, 2, 3, 4, 5):
         pr = margin_tail(P["margin"], k)
         ob = int((np.abs(y_m) >= k).sum())
-        l, h = wilson(ob, n)
-        tails[f"|margin|>={k}"] = {"pred": float(pr.mean()), "obs": ob / n, "obs_lo95": l, "obs_hi95": h, "obs_in_ci_of_pred": bool(l <= pr.mean() <= h)}
+        lo_, hi_ = wilson(ob, n)
+        tails[f"|margin|>={k}"] = {"pred": float(pr.mean()), "obs": ob / n, "obs_lo95": lo_, "obs_hi95": hi_, "obs_in_ci_of_pred": bool(lo_ <= pr.mean() <= hi_)}
     ob = int(((y_h == 0) | (y_a == 0)).sum())
     pr = (P["home"][:, 0] + P["away"][:, 0] - P["home"][:, 0] * P["away"][:, 0])  # independence only approximately; descriptive
-    l, h = wilson(ob, n)
-    tails["shutout(either)"] = {"pred_indep_approx": float(pr.mean()), "obs": ob / n, "obs_lo95": l, "obs_hi95": h}
+    lo_, hi_ = wilson(ob, n)
+    tails["shutout(either)"] = {"pred_indep_approx": float(pr.mean()), "obs": ob / n, "obs_lo95": lo_, "obs_hi95": hi_}
     tails["overtime"] = {"pred": float(P["p_ot"].mean()), "obs": float(df["y_overtime"].mean()), "obs_lo95": wilson(int(df["y_overtime"].sum()), n)[0],
                          "obs_hi95": wilson(int(df["y_overtime"].sum()), n)[1]}
     out["tails"] = tails

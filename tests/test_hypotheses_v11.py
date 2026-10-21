@@ -52,4 +52,22 @@ def test_reclassify_does_not_mutate_input_and_flags_underpowered():
     assert json.dumps(payload, sort_keys=True) == before
     assert out["rows"]["M14"]["class_v10"] == "PROMISING" and out["rows"]["M14"]["class_v11"] == "POINT_POSITIVE"
     assert not [r for r in out["rows"].values() if r["class_v11"] in ("PROMISING_V11", "VALIDATED")]
+    assert out["rows"]["M9"]["class_v10"] == "REJECTED" and out["rows"]["M9"]["class_v11"] == "INCONCLUSIVE"
+    assert out["rows"]["M1"]["class_v11"] == "UNPROFITABLE_AT_ASK"
     assert "LIVE" in out["rows"]["M14"]["underpowered_tiers"]
+
+
+def test_untestable_hold_out_blocks_validated():
+    from nhl_edge.market_audit.hypotheses import BY_ID
+
+    per = {"LIVE": tier(0.12, 0.03, 0.21, 0.05, 0.10)}
+    assert V.classify_v11(per, 0.05) == "VALIDATED"  # no registered hold-out in this fixture
+    assert V.classify_v11(per, 0.05, BY_ID["M6"]) == "PROMISING_V11"  # M6 registers HIST_HOLD (untestable here) and is post hoc
+
+
+def test_rejected_needs_a_margin_so_endpoint_noise_cannot_flip_it():
+    thin = {"LIVE": tier(-0.08, -0.16, -0.0006, -0.13, -0.097)}
+    assert H.classify(thin, 0.9) == "REJECTED"
+    assert V.classify_v11(thin, 0.9) == "INCONCLUSIVE"  # M9's shape
+    firm = {"HIST_DISC": tier(-0.09, -0.156, -0.024, -0.14, -0.106, n=673), "LIVE": tier(-0.054, -0.19, 0.09, -0.15, -0.07)}
+    assert V.classify_v11(firm, 0.9) == "UNPROFITABLE_AT_ASK"
