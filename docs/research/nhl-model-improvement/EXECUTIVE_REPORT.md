@@ -48,7 +48,7 @@ None is validated. In the one worked example (TOR @ CBJ) the cheapest expression
 
 ## What is built (all shadow-only, reversible)
 
-Reproducible pregame reconstruction of the 151 LIVE games with lineage (`live_dataset.py`, `build_tables.py`); bit-exact regeneration of V1 predictive distributions (RPS/CRPS, PIT, tail diagnostics); error-attribution pipeline (classes A–F with evidence); rolling-origin challenger harness; market-comparison tools; corrected shadow expression engine with PASS; registry v1.1; append-only hash-chained experiment registry (10 experiment ids, 25 entries, verified); blinded prospective scorecard + daily ledger (`daily.py`) with a manual-dispatch, `publish=false` workflow; 35 new tests on top of PR #52 (full suite: 656 passed, 2 skipped, 0 failures; `ruff check src tests scripts` clean); generated results tables.
+Reproducible pregame reconstruction of the 151 LIVE games with lineage (`live_dataset.py`, `build_tables.py`); bit-exact regeneration of V1 predictive distributions (RPS/CRPS, PIT, tail diagnostics); error-attribution pipeline (classes A–F with evidence); rolling-origin challenger harness; market-comparison tools; corrected shadow expression engine with PASS; registry v1.1; append-only hash-chained experiment registry (11 experiment ids — 10 with results, 1 prospective preregistration — 25 entries, chain verified); blinded prospective scorecard + daily ledger (`daily.py`) with a manual-dispatch, `publish=false` workflow; 35 new tests on top of PR #52 (full suite: 656 passed, 2 skipped, 0 failures; `ruff check src tests scripts` clean); generated results tables.
 
 ## What remains uncertain
 
