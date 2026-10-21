@@ -20,6 +20,8 @@
 | 14 Statistical validation and robustness | CHALLENGER_MODEL_COMPARISON.md (protocol, multiplicity, robustness), PROSPECTIVE_PROTOCOL.md |
 | 15 Final recommendations | EXECUTIVE_REPORT.md |
 
+Branch history: COMMIT_MAP.md maps pre-rebuild to rebuilt commits (the registry's `code_commit` fields hold pre-rebuild SHAs).
+
 Machine-readable results: `data/*.json|csv`. Every table in the narrative can be regenerated: `RESULTS_TABLES.md` (`python -m nhl_edge.model_research.render_tables --repo .`). The append-only, hash-chained experiment registry is `experiment_registry.jsonl` (`python -c "from nhl_edge.model_research import registry; print(registry.verify(...))"`).
 
 ## Reproduce

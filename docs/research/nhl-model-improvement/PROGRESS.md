@@ -1,6 +1,6 @@
 # Model-improvement research — progress ledger (resume here)
 
-Branch `claude/nhl-model-improvement-f6kn0k` (stacked on `research/nhl-market-audit-20261021` = draft PR #52, itself from `main`). RESEARCH_ONLY.
+Branch `claude/nhl-model-improvement-f6kn0k` (stacked on the exact tip `1040fbb` of `research/nhl-market-audit-20261021` = draft PR #52; rebuilt 2026-10-21 so the diff excludes `main`'s PR #51 — see COMMIT_MAP.md; backup branch `backup/pr53-pre-rebuild-6d5c366`). RESEARCH_ONLY.
 Work state at 2026-10-21: all planned analyses executed; reports written; PRs opened as **drafts**; nothing merged.
 
 ## Frozen / one-shot items (do NOT redo or edit)
@@ -15,7 +15,7 @@ Work state at 2026-10-21: all planned analyses executed; reports written; PRs op
 | phase | state | where |
 |---|---|---|
 | 1 Review PR #52 (4 independent reviews + cold re-run) | done | PR52_INDEPENDENT_REVIEW.md |
-| 2 Fixes: engine F1-F4/F6, blinded prospective + freeze filters, coverage D1, age-rule D2 option, PIT test D6, fingerprint D7, registry v1.1 | done | commits `2f8a591c`…; tests `test_market_audit_engine_v11`, `_review_fixes`, `test_hypotheses_v11` |
+| 2 Fixes: engine F1-F4/F6, blinded prospective + freeze filters, coverage D1, age-rule D2 option, PIT test D6, fingerprint D7, registry v1.1 | done | commits listed in COMMIT_MAP.md (pre-rebuild `2f8a591c`… = rebuilt `10ba26fb`…); tests `test_market_audit_engine_v11`, `_review_fixes`, `test_hypotheses_v11` |
 | 3 Pregame reconstruction + lineage | done (LIVE tier) | DATA_QUALITY_AND_LINEAGE.md |
 | 4 Error attribution (A–F), distributions, goalie, player, scripts | done | PREDICTION_ERROR_AUDIT.md, MATCHUP_AND_SCRIPT_STUDY.md |
 | 5-6 Challengers vs market | done (all rejected / inconclusive) | CHALLENGER_MODEL_COMPARISON.md |
