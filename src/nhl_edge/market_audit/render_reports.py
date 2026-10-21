@@ -212,6 +212,9 @@ contract text is unambiguous and is parsed here), and alternate-line ladders tha
 | F10 | Prediction repeated evidence | {q['Q7']['v1_prediction_rows']:,} V1 rows over {q['Q7']['independent_final_games']} games ({q['Q7']['rows_per_independent_game_v1']} per game; ~{q['Q7']['v1_decision_runs_per_game_median']:.0f} decision runs per game) | row counts overstate evidence by ~3 orders of magnitude | all inference clusters by game |
 | F11 | Tip-time schedule | no scheduled start moved for any archived game | none | clean |
 | F12 | Unresolved season series | see DATA_INVENTORY.md | outside game scope | documented, no mapping invented |
+| F13 | The routed ledger carries no provenance and cannot distinguish a manual bet from a model-driven one | `kalshi-bet-router` `routed_ledger.py:47-58, 111` actively REFUSES recommendation / model / thesis fields; `entry_method` is the constant `IMPORTED_RECEIPT` | "independent handicapping" vs "model recommendation" cannot be separated for real wagers; only "a thesis-card decision exists / does not exist" is available as a proxy | documented; scorecard marks the group NOT_MEASURABLE |
+| F14 | Cash-outs and hedges are recorded as purchases of the contract traded | `production.py:575-590` (`EXPOSURE_SIDE_DESTINATIONS` is empty; documented NFL cash-out evidence) | a late-placed row (e.g. a 0.99 YES placed 67 min after puck drop, a NO placed after the final) may be an exit, not new risk; the ledger cannot say | flagged in the wager audit; all 34 rows are analysed as recorded |
+| F15 | Router docs contradict router code on NHL auto-merge | `destinations.py:466` `auto_merge=True`; `docs/DESTINATIONS.md:247, 286-292` still say False; `docs/EDGE_FINDER_APP_CONTRACT.md:161` says the NHL ledger is empty | none for this audit (ledger content verified directly); stale documentation | reported to the owner, not edited here |
 
 ### Q1. Quote completeness at the last pregame tick
 

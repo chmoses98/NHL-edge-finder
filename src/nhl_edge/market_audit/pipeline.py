@@ -171,18 +171,20 @@ def s_history_validation(c: Ctx) -> None:
                                        "unjoined": df["mine"].isin(["NO_GAME_JOIN", "NO_TEAM_JOIN", "NO_SUBJECT"]).sum().item()})
 
 
+def _flatten_nested(df: pd.DataFrame) -> pd.DataFrame:
+    """Parquet cannot store empty structs: serialise any dict/list cell to JSON text (lossless; parse on read)."""
+    for col in df.columns:
+        if df[col].map(lambda v: isinstance(v, (dict, list))).any():
+            df[col] = df[col].map(lambda v: json.dumps(v, default=str) if isinstance(v, (dict, list)) else v)
+    return df
+
+
 def s_raw(c: Ctx) -> None:
-    for k in ("predictions", "predictions_v2", "predictions_player", "evaluations", "thesis_decisions", "thesis_postmortems"):
+    for k in ("predictions", "predictions_v2", "predictions_player", "evaluations", "thesis_decisions", "thesis_postmortems", "thesis_games"):
         df = games.read_kind(c.archive, k)
-        for col in df.columns:  # parquet cannot store empty structs; flatten nested objects to JSON text only where needed
-            if df[col].map(lambda v: isinstance(v, (dict, list))).any():
-                if k == "thesis_decisions" and col == "script_survival":
-                    df["mass_survived"] = df[col].map(lambda s: s.get("mass_survived") if isinstance(s, dict) else None)
-                df[col] = df[col].map(lambda v: json.dumps(v, default=str) if isinstance(v, (dict, list)) else v)
-        c.put(f"raw_{k}", df)
-    tg = games.read_kind(c.archive, "thesis_games")
-    tg["meta"] = tg["meta"].map(lambda v: json.dumps(v, default=str))
-    c.put("raw_thesis_games", tg)
+        if k == "thesis_decisions":  # extract the one survival field the shadow replay needs before flattening
+            df["mass_survived"] = df["script_survival"].map(lambda s: s.get("mass_survived") if isinstance(s, dict) else None)
+        c.put(f"raw_{k}", _flatten_nested(df))
 
 
 def s_panels(c: Ctx) -> None:
