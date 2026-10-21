@@ -86,8 +86,9 @@ def sportsbook_at_cut(sb: pd.DataFrame, cut: pd.Timestamp) -> tuple[float, int, 
     return float(ph.median()), int(len(ph)), overround
 
 
-def build_live_dataset(archive: Path, cut_minutes: float = 60.0, slate_table: pd.DataFrame | None = None) -> pd.DataFrame:
-    games = dev_games(archive)
+def build_live_dataset(archive: Path, cut_minutes: float = 60.0, slate_table: pd.DataFrame | None = None, games: pd.DataFrame | None = None) -> pd.DataFrame:
+    """Pregame table at T-``cut_minutes``. ``games`` defaults to the DEVELOPMENT window; only ``daily.py`` passes post-freeze games (the prospective ledger)."""
+    games = dev_games(archive) if games is None else games
     slates = slate_table if slate_table is not None else build_slate_table(archive, DEV_LAST_GAME_DATE_ET)
     obs = read_kind(archive, "context/goalie_observations")
     obs["game_id"] = obs["game_id"].astype(str)
