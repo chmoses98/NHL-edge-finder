@@ -46,30 +46,31 @@ jobs:
           set -euo pipefail
           [[ "$SLATE_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "bad date"; exit 1; }
           git fetch --depth=1 origin data-archive
-          mkdir -p ../rd/archive
+          mkdir -p $RUNNER_TEMP/rd/archive
           paths=(manifest.jsonl results settlements context/schedule context/goalie_observations context/sportsbook_odds context/team_games player_events)
           if git cat-file -e "origin/data-archive:slates/dt=${SLATE_DATE}" 2>/dev/null; then paths+=("slates/dt=${SLATE_DATE}"); else echo "no slate runs for ${SLATE_DATE}"; fi
-          git archive origin/data-archive "${paths[@]}" | tar -x -C ../rd/archive
+          git archive origin/data-archive "${paths[@]}" | tar -x -C $RUNNER_TEMP/rd/archive
       - name: Restore the ledger (read-only fetch; if the branch exists)
         run: |
           set -euo pipefail
-          mkdir -p ../rd/ledger ../rd/out
+          mkdir -p $RUNNER_TEMP/rd/ledger $RUNNER_TEMP/rd/out
           if git ls-remote --exit-code --heads origin model-research-ledger >/dev/null 2>&1; then
             git fetch --depth=1 origin model-research-ledger
-            git show origin/model-research-ledger:shadow_game_ledger.jsonl > ../rd/ledger/shadow_game_ledger.jsonl
+            git show origin/model-research-ledger:shadow_game_ledger.jsonl > $RUNNER_TEMP/rd/ledger/shadow_game_ledger.jsonl
           fi
       - name: Settle the date (idempotent per game; summary is outcome-free)
         env:
           SLATE_DATE: ${{ github.event.inputs.date }}
-        run: python -m nhl_edge.model_research.daily ingest --archive ../rd/archive --date "$SLATE_DATE" --repo . --ledger ../rd/ledger/shadow_game_ledger.jsonl --summary-out ../rd/out/ingest_summary.json
+        run: python -m nhl_edge.model_research.daily ingest --archive $RUNNER_TEMP/rd/archive --date "$SLATE_DATE" --repo . --ledger $RUNNER_TEMP/rd/ledger/shadow_game_ledger.jsonl --summary-out $RUNNER_TEMP/rd/out/ingest_summary.json
       - name: Blinded scorecard
-        run: python -m nhl_edge.model_research.daily scorecard --ledger ../rd/ledger/shadow_game_ledger.jsonl --out ../rd/out
+        run: python -m nhl_edge.model_research.daily scorecard --ledger $RUNNER_TEMP/rd/ledger/shadow_game_ledger.jsonl --out $RUNNER_TEMP/rd/out
       - name: Verify blinding (fails the run if a look or an outcome-derived field appears early)
         run: |
           python - <<'PY'
-          import glob, json
-          sc = json.load(open("../rd/out/SHADOW_SCORECARD.json"))
-          looks = glob.glob("../rd/out/LOOK_*.json")
+          import glob, json, os
+          rd = os.environ["RUNNER_TEMP"] + "/rd"
+          sc = json.load(open(rd + "/out/SHADOW_SCORECARD.json"))
+          looks = glob.glob(rd + "/out/LOOK_*.json")
           print("status:", sc["status"], "| n_prospective_games:", sc["n_prospective_games"], "| LOOK files:", looks)
           if sc["n_prospective_games"] < 150:
               assert sc["status"] == "ACCUMULATING_BLINDED", sc["status"]
@@ -83,15 +84,15 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: model-research-blinded-${{ github.run_id }}
-          path: ../rd/out/
+          path: ${{ runner.temp }}/rd/out/
           retention-days: 14
       - uses: actions/upload-artifact@v4
         if: ${{ github.event.inputs.publish == 'true' }}
         with:
           name: model-research-ledger-private-${{ github.run_id }}
           path: |
-            ../rd/ledger/shadow_game_ledger.jsonl
-            ../rd/out/SHADOW_SCORECARD.json
+            ${{ runner.temp }}/rd/ledger/shadow_game_ledger.jsonl
+            ${{ runner.temp }}/rd/out/SHADOW_SCORECARD.json
           retention-days: 1
 
   publish:

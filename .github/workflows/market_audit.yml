@@ -36,26 +36,26 @@ jobs:
         run: |
           set -euo pipefail
           git fetch --depth=1 origin data-archive accounting-data
-          mkdir -p ../rd/archive ../rd/accounting
-          git archive origin/data-archive | tar -x -C ../rd/archive
-          git archive origin/accounting-data | tar -x -C ../rd/accounting
+          mkdir -p $RUNNER_TEMP/rd/archive $RUNNER_TEMP/rd/accounting
+          git archive origin/data-archive | tar -x -C $RUNNER_TEMP/rd/archive
+          git archive origin/accounting-data | tar -x -C $RUNNER_TEMP/rd/accounting
       - name: Restore the evidence ledger (if it exists)
         run: |
-          mkdir -p ../rd/ledger
+          mkdir -p $RUNNER_TEMP/rd/ledger
           if git ls-remote --exit-code --heads origin market-audit-ledger >/dev/null 2>&1; then
             git fetch --depth=1 origin market-audit-ledger
-            git show origin/market-audit-ledger:evidence_ledger.jsonl > ../rd/ledger/evidence_ledger.jsonl || true
+            git show origin/market-audit-ledger:evidence_ledger.jsonl > $RUNNER_TEMP/rd/ledger/evidence_ledger.jsonl || true
           fi
       - name: Run the audit pipeline (resumable; unchanged inputs are skipped)
         run: |
-          python -m nhl_edge.market_audit.pipeline --archive ../rd/archive --accounting ../rd/accounting \
-            --history data/history --repo . --work ../rd/work --out ../rd/out
+          python -m nhl_edge.market_audit.pipeline --archive $RUNNER_TEMP/rd/archive --accounting $RUNNER_TEMP/rd/accounting \
+            --history data/history --repo . --work $RUNNER_TEMP/rd/work --out $RUNNER_TEMP/rd/out
       - name: Scorecard + evidence ledger (idempotent per archive snapshot)
-        run: python -m nhl_edge.market_audit.scorecard --data ../rd/out --ledger ../rd/ledger/evidence_ledger.jsonl
+        run: python -m nhl_edge.market_audit.scorecard --data $RUNNER_TEMP/rd/out --ledger $RUNNER_TEMP/rd/ledger/evidence_ledger.jsonl
       - uses: actions/upload-artifact@v4
         with:
           name: market-audit-${{ github.run_id }}
-          path: ../rd/out/
+          path: ${{ runner.temp }}/rd/out/
           retention-days: 14
       - name: Publish the ledger line (opt-in; own orphan branch only)
         if: ${{ github.event.inputs.publish == 'true' }}
@@ -65,8 +65,8 @@ jobs:
           git config user.email "nhl-edge-bot@users.noreply.github.com"
           git checkout --orphan market-audit-ledger
           git rm -rf . >/dev/null 2>&1 || true
-          cp ../rd/ledger/evidence_ledger.jsonl ./evidence_ledger.jsonl
-          cp ../rd/out/SCORECARD.md ./SCORECARD.md
+          cp $RUNNER_TEMP/rd/ledger/evidence_ledger.jsonl ./evidence_ledger.jsonl
+          cp $RUNNER_TEMP/rd/out/SCORECARD.md ./SCORECARD.md
           git add evidence_ledger.jsonl SCORECARD.md
           git commit -m "market-audit: scorecard ${GITHUB_RUN_ID}" || { echo "nothing to commit"; exit 0; }
           git push --force origin market-audit-ledger
