@@ -59,3 +59,15 @@ def test_iter_rows_parses_nan_tokens_like_the_stdlib(tmp_path):
         f.write(json.dumps({"a": 1}) + "\n" + json.dumps({"a": float("nan"), "b": [1, 2]}) + "\n\n")
     rows = list(Ledger(tmp_path).iter_rows("x"))
     assert rows[0] == {"a": 1} and math.isnan(rows[1]["a"]) and rows[1]["b"] == [1, 2] and len(rows) == 2
+
+
+def test_iter_rows_keeps_integers_beyond_64_bits_exact(tmp_path):
+    import gzip
+
+    from nhl_edge.archive.ledger import Ledger
+
+    d = tmp_path / "x" / "dt=2026-10-22"
+    d.mkdir(parents=True)
+    with gzip.open(d / "x_1.jsonl.gz", "wt") as f:
+        f.write('{"a": 18446744073709551616, "b": 7}\n')
+    assert list(Ledger(tmp_path).iter_rows("x")) == [{"a": 18446744073709551616, "b": 7}]

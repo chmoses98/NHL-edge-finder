@@ -21,6 +21,7 @@ import gzip
 import hashlib
 import json
 import os
+import re
 from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
 from datetime import datetime
@@ -35,10 +36,13 @@ except ImportError:  # pragma: no cover - exercised only where orjson is not ins
     _orjson = None
 
 
+_BIG_INT = re.compile(rb"[0-9]{19,}")  # orjson silently turns integers beyond 64 bits into floats; the stdlib keeps them exact
+
+
 def _loads_line(line: bytes | str) -> Any:
     """Parse one JSONL row. orjson is strict (no NaN / Infinity), the archive's writers use ``json.dumps`` (which can emit them),
     so any orjson failure falls back to the stdlib parser: the parsed value is identical either way."""
-    if _orjson is not None:
+    if _orjson is not None and not _BIG_INT.search(line if isinstance(line, bytes) else line.encode()):
         try:
             return _orjson.loads(line)
         except _orjson.JSONDecodeError:

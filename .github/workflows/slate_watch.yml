@@ -46,14 +46,15 @@ jobs:
           nhl slate-check "${args[@]}" > /tmp/slate_check.txt; rc=$?
           mkdir -p /tmp/slate_check; cat /tmp/slate_check/slate_check.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || cat /tmp/slate_check.txt >> "$GITHUB_STEP_SUMMARY"
           verdict=$(python -c "import json;print(json.load(open('/tmp/slate_check/slate_check.json'))['verdict'])" 2>/dev/null || echo NO_REPORT)
-          soon=$(python - <<'PY'
-          import json, datetime as dt
+          # "soon" comes from the OFFICIAL SCHEDULE, not from the report, so a missing or crashed report during a live slate still alerts and a quiet day never does
+          soon=$(SCHED="$sched" python - <<'PY'
+          import gzip, json, os, datetime as dt
           try:
-              r = json.load(open('/tmp/slate_check/slate_check.json'))
-              now = dt.datetime.fromisoformat(r['checked_at_utc'].replace('Z', '+00:00'))
-              print(any(0 < (dt.datetime.fromisoformat(g['start_time_utc'].replace('Z', '+00:00')) - now).total_seconds() < 4 * 3600 for g in r['games']))
+              now = dt.datetime.now(dt.timezone.utc)
+              rows = [json.loads(x) for x in gzip.open(os.environ["SCHED"], "rt") if x.strip()]
+              print(any(r.get("status") in ("not_started", None) and 0 < (dt.datetime.fromisoformat(r["start_time_utc"].replace("Z", "+00:00")) - now).total_seconds() < 4 * 3600 for r in rows))
           except Exception:
-              print('True')
+              print("False")
           PY
           )
           echo "verdict=$verdict" >> "$GITHUB_OUTPUT"; echo "soon=$soon" >> "$GITHUB_OUTPUT"
@@ -70,7 +71,13 @@ jobs:
           if [ "$VERDICT" != "READY" ] && [ "$VERDICT" != "DEGRADED" ] && [ "$SOON" = "True" ]; then
             body=$(printf 'Automated `nhl slate-check` verdict **%s** at %s with a puck drop inside 4 h.\n\n%s\n\nRun: %s/%s/actions/runs/%s\n\n_No action is taken automatically; this issue closes itself when the slate is READY or DEGRADED again._' \
               "$VERDICT" "$(date -u +%FT%TZ)" "$(head -c 6000 /tmp/slate_check/slate_check.md 2>/dev/null || echo 'no report produced')" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")
-            if [ -n "$existing" ]; then gh issue comment "$existing" --body "$body" || true; else gh issue create --title "$title" --body "$body" || true; fi
-          elif [ -n "$existing" ]; then
+            if [ -z "$existing" ]; then
+              gh issue create --title "$title" --body "$body" || true
+            else
+              # one comment per 3 h at most, so a persistent problem is visible but not spammed
+              last=$(gh issue view "$existing" --json updatedAt --jq .updatedAt || true)
+              if [ -z "$last" ] || [ $(( $(date -u +%s) - $(date -u -d "$last" +%s) )) -gt 10800 ]; then gh issue comment "$existing" --body "$body" || true; fi
+            fi
+          elif [ -n "$existing" ] && { [ "$VERDICT" = "READY" ] || [ "$VERDICT" = "DEGRADED" ]; }; then
             gh issue close "$existing" --comment "Slate recovered: verdict $VERDICT at $(date -u +%FT%TZ)." || true
           fi

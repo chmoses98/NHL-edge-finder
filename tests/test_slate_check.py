@@ -114,3 +114,36 @@ def test_run_writes_report_and_exit_code(tmp_path):
     bad["games"][0]["model"]["sim"] = {}
     (tmp_path / "bad.json").write_text(json.dumps(bad))
     assert run_slate_check(tmp_path / "bad.json", None, None, now=NOW) == 2
+
+
+def test_started_games_are_not_alerts():
+    g = _game(start=NOW - timedelta(minutes=30), g_status="UNKNOWN")
+    p = _packet(g)
+    p["slate"]["coverage"]["games_skipped"] = [{"game_id": "2026020154", "status": "live", "start_time_utc": iso(NOW - timedelta(minutes=30))}]
+    rep = check_slate(p, [_sched(start=NOW - timedelta(minutes=30), status="not_started")], NOW)
+    assert rep["verdict"] != "NOT_READY", codes(rep)
+
+
+def test_a_game_that_should_still_be_priced_but_was_skipped_is_an_error():
+    p = _packet(_game())
+    p["slate"]["coverage"]["games_skipped"] = [{"game_id": "9", "status": "not_started", "start_time_utc": iso(START)}]
+    assert "GAMES_SKIPPED" in codes(check_slate(p, None, NOW))
+
+
+def test_postponed_and_canceled_games_are_not_demanded():
+    rep = check_slate(_packet(_game()), [_sched(), _sched("2026020155", status="postponed"), _sched("2026020156", status="canceled")], NOW)
+    assert "GAME_NOT_PROJECTED" not in codes(rep)
+
+
+def test_dead_simulator_is_an_error_and_ages_are_measured_at_check_time():
+    g = _game(start=NOW + timedelta(hours=2))
+    g["kalshi"]["contracts"][0]["predicted_at_utc"] = iso(NOW - timedelta(minutes=200))
+    g["kalshi"]["market_snapshot_at_utc"] = iso(NOW - timedelta(minutes=90))      # market_age_min (2.0) was true when the packet was generated
+    rep = check_slate(_packet(g), None, NOW)
+    assert "PROJECTION_STALE" in codes(rep) and "MARKET_STALE" in codes(rep) and rep["verdict"] == "NOT_READY"
+
+
+def test_next_day_slate_not_projected_when_its_first_puck_drop_is_near():
+    nxt = _sched("2026020200", "TOR", "NYR", start=NOW + timedelta(hours=3))
+    nxt["game_date_et"] = "2026-10-23"
+    assert "NEXT_SLATE_NOT_PROJECTED" in codes(check_slate(_packet(_game(start=NOW - timedelta(hours=1))), [_sched(start=NOW - timedelta(hours=1)), nxt], NOW))

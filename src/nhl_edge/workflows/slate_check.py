@@ -25,6 +25,7 @@ LINES_STALE_H = 36.0
 MARKET_STALE_MIN = 30.0
 PROJECTION_STALE_MIN = 120.0      # a projection older than this with the game inside PROJECTION_WINDOW_MIN
 PROJECTION_WINDOW_MIN = 240.0
+PROJECTION_DEAD_MIN = 180.0       # past this, with a puck drop inside the window, the simulator is presumed dead: an alert, not a warning
 MIN_PRICED_PLAYERS = 20
 SEV_ORDER = {"INFO": 0, "WARN": 1, "ERROR": 2}
 
@@ -36,6 +37,17 @@ def _age_min(ts: str | None, now: datetime) -> float | None:
         return (now - parse_iso(ts)).total_seconds() / 60.0
     except ValueError:
         return None
+
+
+TERMINAL = ("final", "live", "postponed", "canceled", "cancelled")
+
+
+def _pending(row: dict[str, Any], now: datetime) -> bool:
+    """A scheduled game that still needs a pregame projection: not started, not final/live, not postponed or canceled."""
+    try:
+        return row.get("status") not in TERMINAL and parse_iso(row["start_time_utc"]) > now
+    except (KeyError, ValueError, TypeError):
+        return False
 
 
 def load_schedule(path: Path) -> list[dict[str, Any]]:
@@ -90,6 +102,8 @@ def check_game(game: dict[str, Any], v2: dict[str, Any] | None, player: dict[str
         g = gt.get(side) or {}
         st = g.get("status", "UNKNOWN")
         age = _age_min(g.get("observed_at_utc"), now)
+        if to_start <= 0:
+            continue                                   # started: the pregame goalie record is closed
         if st == "UNKNOWN" or not g.get("player_name"):
             _f(out, "ERROR" if to_start < 120 else "WARN", f"GOALIE_{side.upper()}_UNKNOWN", f"{side} starter unknown (league-average net assumed)")
         elif st == "PROJECTED" and to_start < 90:
@@ -99,7 +113,9 @@ def check_game(game: dict[str, Any], v2: dict[str, Any] | None, player: dict[str
 
     # market snapshot
     kal = game.get("kalshi") or {}
-    mage = kal.get("market_age_min")
+    mage = _age_min(kal.get("market_snapshot_at_utc"), now)
+    if mage is None:
+        mage = kal.get("market_age_min")
     if not kal.get("contracts"):
         _f(out, "WARN", "NO_MARKET", "no Kalshi contracts joined to this game")
     elif mage is not None and mage > MARKET_STALE_MIN:
@@ -110,7 +126,10 @@ def check_game(game: dict[str, Any], v2: dict[str, Any] | None, player: dict[str
         _f(out, "WARN", "FAMILIES_MISSING", "no board for " + ", ".join(missing))
 
     # injuries / lines inputs
-    snap = (ctx.get("injury_snapshot") or {}).get("age_min")
+    inj = ctx.get("injury_snapshot") or {}
+    snap = _age_min(inj.get("observed_at_utc"), now)
+    if snap is None:
+        snap = inj.get("age_min")
     if snap is not None and snap > 360:
         _f(out, "WARN", "INJURY_SNAPSHOT_STALE", f"injury snapshot {snap:.0f} min old")
     if v2 is None:
@@ -144,7 +163,7 @@ def check_game(game: dict[str, Any], v2: dict[str, Any] | None, player: dict[str
     pred_ts = next((c.get("predicted_at_utc") for c in (kal.get("contracts") or [])), None)
     page = _age_min(pred_ts, now)
     if page is not None and page > PROJECTION_STALE_MIN and 0 < to_start < PROJECTION_WINDOW_MIN:
-        _f(out, "WARN", "PROJECTION_STALE", f"projection {page:.0f} min old with puck drop in {to_start:.0f} min")
+        _f(out, "ERROR" if page > PROJECTION_DEAD_MIN else "WARN", "PROJECTION_STALE", f"projection {page:.0f} min old with puck drop in {to_start:.0f} min")
 
     worst = max((SEV_ORDER[x["severity"]] for x in out), default=0)
     return {"game_id": ident["game_id"], "matchup": f"{ident['away']} @ {ident['home']}", "start_time_utc": ident["start_time_utc"],
@@ -160,11 +179,12 @@ def check_slate(packet: dict[str, Any], schedule: list[dict[str, Any]] | None = 
     date_et = (packet.get("slate") or {}).get("date_et")
     rows = [check_game(g, v2.get(g["identity"]["game_id"]), pl.get(g["identity"]["game_id"]), now) for g in games]
     slate_findings: list[dict[str, Any]] = []
+    sched: dict[str, dict[str, Any]] = {}
     if schedule is not None and date_et:
         sched = {s["game_id"]: s for s in schedule if s.get("game_date_et") == date_et}
         pk = {g["identity"]["game_id"]: g["identity"] for g in games}
         for gid, s in sched.items():
-            if gid not in pk and s.get("status") not in ("final", "live"):
+            if gid not in pk and _pending(s, now):
                 _f(slate_findings, "ERROR", "GAME_NOT_PROJECTED", f"{s['away_abbrev']} @ {s['home_abbrev']} ({gid}) is scheduled but absent from the packet")
         for gid, i in pk.items():
             s = sched.get(gid)
@@ -175,9 +195,14 @@ def check_slate(packet: dict[str, Any], schedule: list[dict[str, Any]] | None = 
                 _f(slate_findings, "ERROR", "TEAM_IDENTITY", f"{gid}: packet {i['away']}@{i['home']} vs schedule {s['away_abbrev']}@{s['home_abbrev']}")
             if s["start_time_utc"] != i["start_time_utc"]:
                 _f(slate_findings, "WARN", "START_TIME_CHANGED", f"{gid}: packet {i['start_time_utc']} vs schedule {s['start_time_utc']}")
-    alarms = (packet.get("slate") or {}).get("coverage") or {}
-    if alarms.get("games_skipped"):
-        _f(slate_findings, "ERROR", "GAMES_SKIPPED", f"simulator skipped {alarms['games_skipped']}")
+        # a later ET day whose first puck drop is near but which this packet does not cover == the simulator is not advancing
+        later = [s for s in schedule if s.get("game_date_et", "") > date_et and _pending(s, now) and (parse_iso(s["start_time_utc"]) - now).total_seconds() < PROJECTION_WINDOW_MIN * 60]
+        if later:
+            _f(slate_findings, "ERROR", "NEXT_SLATE_NOT_PROJECTED", f"{len(later)} game(s) on {later[0]['game_date_et']} start within {PROJECTION_WINDOW_MIN / 60:.0f} h but the packet is for {date_et}")
+    for sk in (packet.get("slate") or {}).get("coverage", {}).get("games_skipped") or []:
+        # the simulator lists every game it did not price, including ones that have since started; only a game that should still be priced matters
+        if isinstance(sk, dict) and _pending(sk, now):
+            _f(slate_findings, "ERROR", "GAMES_SKIPPED", f"simulator skipped {sk.get('game_id')} (status {sk.get('status')}) with puck drop at {sk.get('start_time_utc')}")
     worst = max([SEV_ORDER[x["severity"]] for x in slate_findings] + [SEV_ORDER.get(r["worst"], 0) if r["worst"] != "OK" else 0 for r in rows], default=0)
     n_err = sum(1 for r in rows if r["worst"] == "ERROR")
     verdict = "NOT_READY" if worst == 2 else "DEGRADED" if worst == 1 else "READY"
