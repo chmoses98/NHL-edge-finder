@@ -1,0 +1,71 @@
+name: research-weekly
+# Hands-off research summary and integrity watchdog (RESEARCH_ONLY). Runs daily; every run writes the scoreboard to the job summary and an
+# artifact (kept 90 days on Mondays and the 1st, 7 days otherwise = the weekly and monthly summaries). It opens ONE de-duplicated issue only
+# for an integrity problem (stale/failed heartbeat, settlement errors, failed evaluation step, calibration collapse on a large sample, a
+# projection-scorecard ALERT) and closes it on recovery. Model performance (the market beating V1) is a finding, never an alert, and promotion
+# decisions are made from the scorecard in a PR, not here. Reads sparse blobless views of data-archive / projection-data; writes nothing to any
+# branch; no secrets beyond the job token. Scheduled runs are best-effort; workflow_dispatch runs it on demand.
+on:
+  schedule:
+    - cron: "17 13 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: research-weekly
+  cancel-in-progress: true
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: Sparse, blobless views (STATUS files + eval reports; projection scorecards)
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 --filter=blob:none origin data-archive
+          git worktree add --no-checkout -f /tmp/archive FETCH_HEAD
+          git -C /tmp/archive sparse-checkout init --no-cone
+          git -C /tmp/archive sparse-checkout set --no-cone '/STATUS_*.json' '/eval/'
+          git -C /tmp/archive checkout -q
+          if git fetch --depth=1 --filter=blob:none origin projection-data; then
+            git worktree add --no-checkout -f /tmp/pf FETCH_HEAD
+            git -C /tmp/pf sparse-checkout init --no-cone
+            git -C /tmp/pf sparse-checkout set --no-cone '/scorecards/nhl/'
+            git -C /tmp/pf checkout -q
+          fi
+      - name: Summary and integrity alerts
+        id: s
+        run: |
+          set -uo pipefail
+          pf=(); [ -d /tmp/pf ] && pf=(--pf /tmp/pf)
+          python -m nhl_edge.research.weekly_summary --archive /tmp/archive "${pf[@]}" --out /tmp/summary > /dev/null; rc=$?
+          cat /tmp/summary/summary.md >> "$GITHUB_STEP_SUMMARY"
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          if [ "$(date -u +%u)" = 1 ] || [ "$(date -u +%d)" = 01 ]; then echo "keep=90" >> "$GITHUB_OUTPUT"; else echo "keep=7" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nhl-research-summary-${{ github.run_id }}
+          path: /tmp/summary
+          retention-days: ${{ steps.s.outputs.keep }}
+      - name: Alert only on an integrity problem (one de-duplicated issue)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RC: ${{ steps.s.outputs.rc }}
+        run: |
+          set -uo pipefail
+          title="NHL research integrity alert"
+          existing=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty' || true)
+          if [ "$RC" != "0" ]; then
+            body=$(printf 'Automated integrity check at %s found:\n\n%s\n\nRun: %s/%s/actions/runs/%s\n\n_Nothing is changed automatically. This issue closes itself when the checks pass again._' \
+              "$(date -u +%FT%TZ)" "$(python -c "import json;print('\n'.join(f\"- **{a['code']}** {a['message']}\" for a in json.load(open('/tmp/summary/alerts.json'))['alerts']))")" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")
+            if [ -n "$existing" ]; then gh issue comment "$existing" --body "$body" || true; else gh issue create --title "$title" --body "$body" || true; fi
+          elif [ -n "$existing" ]; then
+            gh issue close "$existing" --comment "Integrity checks pass again at $(date -u +%FT%TZ)." || true
+          fi

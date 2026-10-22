@@ -1,3 +1,5 @@
+> **SUPERSEDED 2026-10-22 — not on the active roadmap.** The owner retired the sealed-ledger activation path (no keys, witnesses, deploy credentials or waiting for prospective sample thresholds). This document is preserved unchanged below for reproducibility and audit; the workflows it describes stay dormant. See `docs/research/ROADMAP_RESET_2026-10-22.md`.
+
 # Prospective shadow protocol (proposal; needs approval before it binds anyone)
 
 > RESEARCH ONLY. The prospective tier is every regular-season game that **starts after 2026-10-21T17:13:05Z** (the prior audit's registry freeze). No code in `nhl_edge.model_research` other than `daily.py` can read such a game; `daily.py` blinds all aggregate model-vs-market performance until a predeclared look.

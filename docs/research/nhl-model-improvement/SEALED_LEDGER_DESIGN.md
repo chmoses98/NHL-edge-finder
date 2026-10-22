@@ -1,3 +1,5 @@
+> **SUPERSEDED 2026-10-22 — not on the active roadmap.** The owner retired the sealed-ledger activation path (no keys, witnesses, deploy credentials or waiting for prospective sample thresholds). This document is preserved unchanged below for reproducibility and audit; the workflows it describes stay dormant. See `docs/research/ROADMAP_RESET_2026-10-22.md`.
+
 # Sealed prospective research ledger — design, threat model and security review
 
 > **Update (unattended operation):** the *publication path* described in §3 and §5b below (workflow `model_research_daily.yml`, branch `model-research-sealed-ledger` in the code repository, environment `sealed-ledger` with a required reviewer, `GITHUB_TOKEN` write) was replaced by `SEALED_LEDGER_UNATTENDED.md`: the ledger now lives in its **own repository**, the routine workflow `sealed_ledger_daily.yml` has no write permission on the code repository and needs no approval, and initialisation / hand corrections / hand exclusions are in `sealed_ledger_admin.yml` behind the owner's approval. The cryptography, manifest, checkpoints, completeness audit and threat model here are unchanged; read §3/§5b with that substitution.
