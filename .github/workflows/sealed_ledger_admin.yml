@@ -3,7 +3,8 @@ name: sealed_ledger_admin
 # `sealed-ledger-admin` with the owner as required reviewer). Use it only for what routine collection must never do by itself:
 #   init     one time: create the ledger (genesis + a SYNTHETIC canary ciphertext, no game) so the owner can verify it and register its genesis hash first;
 #   correct  a hand-applied versioned correction (the unattended pass already applies source revisions; this is for exceptions);
-#   exclude  a hand-applied exclusion of a scheduled game that cannot be settled by the prespecified rule (an exception the unattended pass reported).
+#   exclude  a hand-applied exclusion of a scheduled game that cannot be settled by the prespecified rule (an exception the unattended pass reported);
+#   accept_missing  close a day on which NO final game has a pregame forecast, declaring them all missing (a public data gap the unattended pass refuses to close by itself).
 # Key changes (recipients.txt) and protocol changes are code changes on `main` that need the owner's review; they invalidate the activation hash / the genesis protocol hash and
 # stop routine publishing until the owner re-registers. Decryption and the looks happen only on the owner's own machine (owner.py). Nothing here touches a model, weight,
 # recommendation, stake or cap: this workflow has no write permission on this repository.
@@ -11,10 +12,10 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "init | correct | exclude"
+        description: "init | correct | exclude | accept_missing"
         required: true
         type: choice
-        options: [init, correct, exclude]
+        options: [init, correct, exclude, accept_missing]
       date:
         description: "ET date (YYYY-MM-DD) the correction/exclusion applies to (ignored for init)"
         required: false
@@ -32,7 +33,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: sealed-ledger
+  group: sealed-ledger-admin
   cancel-in-progress: false
 
 jobs:
@@ -58,7 +59,7 @@ jobs:
           CODE_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          [[ "$IN_ACTION" =~ ^(init|correct|exclude)$ ]] || { echo "::error::bad action"; exit 1; }
+          [[ "$IN_ACTION" =~ ^(init|correct|exclude|accept_missing)$ ]] || { echo "::error::bad action"; exit 1; }
           [[ "$IN_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::bad date"; exit 1; }
           [[ "$LEDGER_REPO" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]] || { echo "::error::repository variable SEALED_LEDGER_REPO is not set"; exit 1; }
           [ "${LEDGER_REPO,,}" != "${CODE_REPO,,}" ] || { echo "::error::the ledger repository must differ from the code repository"; exit 1; }
@@ -68,7 +69,7 @@ jobs:
           elif [ "$IN_ACTION" = exclude ]; then
             [[ "$IN_IDS" =~ ^[0-9A-Za-z_-]+(,[0-9A-Za-z_-]+)*$ ]] || { echo "::error::exclude needs game ids"; exit 1; }
             [[ "$IN_REASON" =~ ^(POSTPONED_OR_CANCELLED|START_TIME_BOUNDARY|OTHER_DOCUMENTED)$ ]] || { echo "::error::an exclusion needs a valid reason"; exit 1; }
-          fi
+          fi  # (accept_missing needs only the date)
           echo "action=$IN_ACTION" >> "$GITHUB_OUTPUT"
       - name: Precheck (the sealed ledger must be set up; fails closed)
         run: |
@@ -133,6 +134,7 @@ jobs:
             init)    python -m nhl_edge.sealed_ledger.runner init --store "$store" --recipients "$rec" --summary-out "$out" ;;
             correct) python -m nhl_edge.sealed_ledger.runner ingest --archive "$RUNNER_TEMP/rd/archive" --date "$SLATE_DATE" --repo . --store "$store" --recipients "$rec" --seal --correct "$IDS" --reason "$REASON" --summary-out "$out" ;;
             exclude) python -m nhl_edge.sealed_ledger.runner ingest --archive "$RUNNER_TEMP/rd/archive" --date "$SLATE_DATE" --repo . --store "$store" --recipients "$rec" --seal --exclude "$IDS" --exclude-reason "$REASON" --summary-out "$out" ;;
+            accept_missing) python -m nhl_edge.sealed_ledger.runner ingest --archive "$RUNNER_TEMP/rd/archive" --date "$SLATE_DATE" --repo . --store "$store" --recipients "$rec" --seal --accept-missing-forecasts --summary-out "$out" ;;
           esac
       - name: The new manifest must extend the previous one (append-only)
         if: ${{ steps.plan.outputs.action != 'init' }}

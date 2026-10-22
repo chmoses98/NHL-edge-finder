@@ -83,7 +83,7 @@
         <key>StartCalendarInterval</key><dict><key>Weekday</key><integer>1</integer><key>Hour</key><integer>9</integer></dict>
       </dict></plist>
       ```
-      `launchctl load ~/Library/LaunchAgents/com.sift.ledgercheck.plist`. It verifies against your registered genesis hash, your last copy and your witness log head, signs a new checkpoint, and shows a macOS notification if anything is wrong or no day was closed for 4 days. (A copy of the witness folder on your offline medium once a month is still wise.)
+      `launchctl load ~/Library/LaunchAgents/com.sift.ledgercheck.plist`. It verifies against your registered genesis hash, your last copy and your witness log head, signs a new checkpoint, and shows a macOS notification if anything is wrong (exit 1: do not witness) or, as a softer flag (exit 2, still witnessed), if no day has closed for 14 days in season. (A copy of the witness folder on your offline medium once a month is still wise.)
 
 ## After H: what you do, and when
 
@@ -97,5 +97,7 @@
 
 - [ ] The failed run's log shows the block codes; the report artifact (`reconcile_summary.json`) lists ids and counts only.
 - [ ] `ORPHAN_RESULT`, `DRIFT`, `EXTRA`, `UNSEALED`, `MODEL_DRIFT`, `C1_PARAMS_CHANGED`: stop and ask the assistant to investigate before approving anything.
+- [ ] `NO_PREGAME_FORECAST` (a whole day has no forecasts): `sealed_ledger_admin` → `accept_missing` with that date.
+- [ ] A harmless `ORPHAN_RESULT` id: a PR adding it to `research/sealed_ledger/orphan_allowlist.txt` (your merge is the approval).
 - [ ] A game stuck for a reason the 14-day rule does not cover: `sealed_ledger_admin` → `exclude` (reason code) — public in the manifest; only unfinished games can be excluded.
 - [ ] A revision the automatic path refused (`CORRECTION_LIMIT`): `sealed_ledger_admin` → `correct` (`GAME_ID@VERSION`, reason) — rare; ask first.

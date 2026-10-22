@@ -32,4 +32,4 @@ trap 'rm -f "$key"' EXIT
 printf '%s\n' "$DEPLOY_KEY" > "$key"
 python -m nhl_edge.sealed_ledger.runner publish --staged "$STAGED" --recipients "$rec" \
   --read-url "https://github.com/${LEDGER_REPO}.git" --push-url "git@github.com:${LEDGER_REPO}.git" \
-  --ssh-key "$key" --forbid-url-substring "$CODE_REPO" --message "$MESSAGE" "${args[@]}"
+  --ssh-key "$key" --forbid-repo "$CODE_REPO" --message "$MESSAGE" "${args[@]}"

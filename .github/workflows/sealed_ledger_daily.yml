@@ -22,8 +22,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: sealed-ledger            # one writer at a time across daily and admin runs (the ledger is a single append-only chain)
-  cancel-in-progress: false
+  group: sealed-ledger-daily      # one routine run at a time; deliberately NOT shared with the admin workflow, so a pending owner approval never starves the daily run.
+  cancel-in-progress: false       # (an admin and a daily publish can race; the loser is rejected as non-fast-forward and the next run retries from the remote head)
 
 jobs:
   reconcile:
@@ -208,7 +208,7 @@ jobs:
 
   alert:
     needs: [reconcile, publish]
-    if: ${{ always() && (needs.reconcile.result == 'failure' || needs.publish.result == 'failure' || needs.reconcile.outputs.status == 'BLOCKED') }}
+    if: ${{ always() && needs.reconcile.outputs.dry != 'true' && (needs.reconcile.result == 'failure' || needs.publish.result == 'failure' || needs.reconcile.outputs.status == 'BLOCKED') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:

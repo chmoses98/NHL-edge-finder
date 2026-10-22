@@ -36,6 +36,7 @@ from nhl_edge.sealed_ledger.audit import (
     FIRST_PROSPECTIVE_DATE_ET,
     _dates,
     boundary_games,
+    load_orphan_allowlist,
     open_days_before,
     results_asof,
     revised_games,
@@ -92,6 +93,7 @@ def reconcile(archive: Path, repo: Path, store: Path, recipients: Path, *, throu
         g_all["game_id"] = g_all["game_id"].astype(str)
         res = read_kind(archive, "results") if results is None else results
         asof = results_asof(res) if res is not None and not res.empty else None
+        allow = load_orphan_allowlist(repo)
         start_of = dict(zip(g_all["game_id"], pd.to_datetime(g_all["start_time_utc"], utc=True), strict=True))
         boundary = boundary_games(g_all)
 
@@ -109,7 +111,11 @@ def reconcile(archive: Path, repo: Path, store: Path, recipients: Path, *, throu
             if any(r["version"] >= MAX_VERSIONS for r in todo):
                 _blocked(summary, "CORRECTION_LIMIT", f"a game on {d} already has {MAX_VERSIONS} versions and was revised again: " + str([r["game_id"] for r in todo if r["version"] >= MAX_VERSIONS]))
                 break
-            rows, info = build_rows_fn(archive, d, repo)
+            try:
+                rows, info = build_rows_fn(archive, d, repo)
+            except Exception as e:  # noqa: BLE001 - type only: a derivation error message can echo row values
+                _blocked(summary, "DERIVATION_FAILED", f"row derivation raised {type(e).__name__} for {d}")
+                break
             drift = info.get("reproduction_max_abs_diff")
             if drift is not None and drift > REPRODUCTION_TOLERANCE:
                 _blocked(summary, "MODEL_DRIFT", f"V1 regeneration differs from the archive on {d}")
@@ -135,11 +141,15 @@ def reconcile(archive: Path, repo: Path, store: Path, recipients: Path, *, throu
             reg = g_all[(g_all["season_type"] == "regular") & (pd.to_datetime(g_all["start_time_utc"], utc=True) >= pd.Timestamp(_freeze()))]
             open_dates = [d for d in _dates(FIRST_PROSPECTIVE_DATE_ET, through) if d not in closed and len(reg[(reg["game_date_et"] == d) & ~reg["game_id"].isin(excluded_global)])]
             for d in open_dates[:max_dates]:
-                gaps = open_days_before(archive, d, store, now=now, games=g_all, results=res if res is not None else pd.DataFrame())
+                gaps = open_days_before(archive, d, store, now=now, games=g_all, results=res if res is not None else pd.DataFrame(), orphan_allowlist=allow)
                 if gaps:
                     _blocked(summary, "EARLIER_DAY_NOT_CLEAN", "; ".join(gaps[:3]))
                     break
-                rows, info = build_rows_fn(archive, d, repo)
+                try:
+                    rows, info = build_rows_fn(archive, d, repo)
+                except Exception as e:  # noqa: BLE001 - type only
+                    _blocked(summary, "DERIVATION_FAILED", f"row derivation raised {type(e).__name__} for {d}: earlier days in this run were kept")
+                    break
                 drift = info.get("reproduction_max_abs_diff")
                 if drift is not None:
                     summary["reproduction_max_abs_diff"] = max(drift, summary["reproduction_max_abs_diff"] or 0.0)
@@ -151,7 +161,11 @@ def reconcile(archive: Path, repo: Path, store: Path, recipients: Path, *, throu
                 if not sched:
                     continue
                 unfinished = set(sched) - final
-                overdue = {gid for gid in unfinished if gid in start_of and start_of[gid] + AUTO_EXCLUDE_AFTER < pd.Timestamp(now)}
+                # a game is "not played" only if the results collector was demonstrably alive AFTER the 14-day mark (some results observation at or after start + 14 days):
+                # otherwise "no result" may just mean the collector was down, and an exclusion cannot be undone
+                asof_ts = pd.Timestamp(asof) if asof else None
+                overdue = {gid for gid in unfinished if gid in start_of and start_of[gid] + AUTO_EXCLUDE_AFTER < pd.Timestamp(now) and asof_ts is not None
+                           and asof_ts >= start_of[gid] + AUTO_EXCLUDE_AFTER}
                 bnd = set(sched) & boundary
                 exclude = overdue | bnd
                 reason = None if not exclude else ("OTHER_DOCUMENTED" if overdue and bnd else "POSTPONED_OR_CANCELLED" if overdue else "START_TIME_BOUNDARY")
@@ -180,7 +194,7 @@ def reconcile(archive: Path, repo: Path, store: Path, recipients: Path, *, throu
         # ---- C. integrity audit of what is now closed ---------------------------------------------------------------------------------------------------------------
         closed_dates = sorted(e["game_date_et"] for e in st.entries if e["kind"] == "DAY")
         if closed_dates:
-            rep = schedule_audit(archive, closed_dates[-1], store=store, now=now, games=g_all, results=res if res is not None else pd.DataFrame())
+            rep = schedule_audit(archive, closed_dates[-1], store=store, now=now, games=g_all, results=res if res is not None else pd.DataFrame(), orphan_allowlist=allow)
             for p in rep["problems"]:
                 words = p.split(" ")
                 _blocked(summary, (words[0] + ("_" + words[1].rstrip(":") if words[0] in ("OPEN", "RESULT", "ORPHAN") else "")).rstrip(":"), p)

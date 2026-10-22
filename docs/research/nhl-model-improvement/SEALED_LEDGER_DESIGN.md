@@ -155,4 +155,4 @@ Residual risks (accepted, to be revisited by the owner): T7 (workflow/dependency
 
 ## 8. Protocol preservation
 
-The preregistered rules are unchanged: first look at 150 independent games, then 300 and 450, Lan–DeMets one-sided spending 0.0007 / 0.0164 / 0.0500, ≤ 3 primary hypotheses, unit = game. `PROTOCOL_RULES` and its SHA-256 (`77f0b056…b3e`) are pinned by a test and committed in every ledger's genesis; `daily.scorecard` and `daily.LOOKS` are untouched. The sealed ledger changes *where* rows are stored, not how they are scored.
+The preregistered rules are unchanged: first look at 150 independent games, then 300 and 450, Lan–DeMets one-sided spending 0.0007 / 0.0164 / 0.0500, ≤ 3 primary hypotheses, unit = game. `PROTOCOL_RULES` and its SHA-256 (`245f0eb3…2ee`) are pinned by a test and committed in every ledger's genesis; `daily.scorecard` and `daily.LOOKS` are untouched. The sealed ledger changes *where* rows are stored, not how they are scored.

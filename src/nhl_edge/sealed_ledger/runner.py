@@ -2,7 +2,7 @@
 
     python -m nhl_edge.sealed_ledger.runner reconcile --archive A --repo . --store S --recipients R --through D [--dry-run] [--summary-out F]   # the unattended daily pass
     python -m nhl_edge.sealed_ledger.runner init      --store S --recipients R [--summary-out F]            # creates GENESIS + a synthetic canary; no game
-    python -m nhl_edge.sealed_ledger.runner ingest    --archive A --date D --repo . --store S --recipients R [--seal] [--correct IDS --reason CODE | --exclude IDS --exclude-reason CODE] [--summary-out F]
+    python -m nhl_edge.sealed_ledger.runner ingest    --archive A --date D --repo . --store S --recipients R [--seal] [--correct IDS --reason CODE | --exclude IDS --exclude-reason CODE | --accept-missing-forecasts] [--summary-out F]
     python -m nhl_edge.sealed_ledger.runner scorecard --store S --out DIR
     python -m nhl_edge.sealed_ledger.runner verify    --store S [--recipients R] [--previous PREV_STORE]
     python -m nhl_edge.sealed_ledger.runner attest    --store S [--out F]       # optional RUNNER signature, key from $LEDGER_ATTEST_KEY_PEM
@@ -72,7 +72,7 @@ def _id_list(s: str | None) -> set[str]:
 
 
 def run_ingest(archive: Path, date: str, repo: Path, store: Path, recipients: Path, *, seal: bool, correct: dict[str, int], reason: str | None,
-               run_id: str = "", code_sha: str = "", exclude: set[str] | None = None, exclude_reason: str | None = None) -> dict[str, Any]:
+               run_id: str = "", code_sha: str = "", exclude: set[str] | None = None, exclude_reason: str | None = None, accept_no_forecast: bool = False) -> dict[str, Any]:
     from nhl_edge.model_research import daily  # heavy imports only on the ingest path
 
     exclude = set(exclude or ())
@@ -107,7 +107,7 @@ def run_ingest(archive: Path, date: str, repo: Path, store: Path, recipients: Pa
     out["excluded_game_ids"] = sorted(exclude)
     out.update(st.seal_rows(rows, correct=correct, reason=reason, source_asof=audit.results_asof(results)))
     # never close a day whose every game lacks a pregame forecast: that is the signature of an incomplete archive fetch, and a DAY entry cannot be undone
-    suspicious = bool(info["scheduled_game_ids"]) and info["games_with_pregame_forecast"] == 0
+    suspicious = bool(info["scheduled_game_ids"]) and info["games_with_pregame_forecast"] == 0 and not accept_no_forecast  # the owner may accept a whole day without forecasts (admin)
     complete = bool(info["scheduled_game_ids"]) and set(info["scheduled_game_ids"]) <= set(info["final_game_ids"]) | exclude
     out["day_closed"] = bool(complete and not suspicious and st.close_day(date, info["scheduled_game_ids"], info["missing_pregame_forecast"], sorted(exclude), exclude_reason))
     if suspicious:
@@ -147,6 +147,7 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--reason", help="correction reason code")
     a.add_argument("--exclude", help="comma-separated game ids waived from this day because they never finished (owner decision; needs --exclude-reason)")
     a.add_argument("--exclude-reason", help="POSTPONED_OR_CANCELLED | START_TIME_BOUNDARY | OTHER_DOCUMENTED")
+    a.add_argument("--accept-missing-forecasts", action="store_true", help="owner decision: close a day in which no final game has a pregame forecast, declaring them all missing (a public data gap)")
     a.add_argument("--summary-out", type=Path)
     rc = sub.add_parser("reconcile")
     rc.add_argument("--archive", type=Path, required=True)
@@ -164,7 +165,7 @@ def main(argv: list[str] | None = None) -> int:
     pb.add_argument("--init", action="store_true")
     pb.add_argument("--expect-genesis")
     pb.add_argument("--ssh-key", type=Path, help="path of the deploy key file (never the key itself)")
-    pb.add_argument("--forbid-url-substring", help="refuse a destination containing this text (the code repository)")
+    pb.add_argument("--forbid-repo", help="owner/name that must NOT be the destination (the code repository); compared exactly")
     pb.add_argument("--message", default="sealed-ledger: update")
     pb.add_argument("--summary-out", type=Path)
     i = sub.add_parser("init")
@@ -190,7 +191,7 @@ def main(argv: list[str] | None = None) -> int:
             raise SystemExit(f"no recipients file at {ns.recipients}: configure the owner's PUBLIC key(s) first (fail closed)")
         if ns.seal:
             load_recipients(ns.recipients)  # fail closed on an empty / secret-bearing file BEFORE any data is derived
-        res = run_ingest(ns.archive, ns.date, ns.repo, ns.store, ns.recipients, seal=ns.seal, correct=_corrections(ns.correct), reason=ns.reason, exclude=_id_list(ns.exclude), exclude_reason=ns.exclude_reason,
+        res = run_ingest(ns.archive, ns.date, ns.repo, ns.store, ns.recipients, seal=ns.seal, correct=_corrections(ns.correct), reason=ns.reason, exclude=_id_list(ns.exclude), exclude_reason=ns.exclude_reason, accept_no_forecast=ns.accept_missing_forecasts,
                          run_id=os.environ.get("GITHUB_RUN_ID", ""), code_sha=os.environ.get("GITHUB_SHA", ""))
         print(json.dumps(res, indent=1))
         if ns.summary_out:
@@ -216,7 +217,7 @@ def main(argv: list[str] | None = None) -> int:
 
         kh = publisher.write_known_hosts(Path(tempfile.mkdtemp(prefix="kh_")) / "known_hosts") if ns.ssh_key else None
         res = publisher.publish(ns.staged, read_url=ns.read_url, push_url=ns.push_url, recipients=ns.recipients, init=ns.init, expect_genesis=ns.expect_genesis,
-                                ssh_key=ns.ssh_key, known_hosts=kh, message=ns.message, forbid_url_substring=ns.forbid_url_substring)
+                                ssh_key=ns.ssh_key, known_hosts=kh, message=ns.message, forbid_repo=ns.forbid_repo)
         print(json.dumps(res, indent=1))
         if ns.summary_out:
             ns.summary_out.parent.mkdir(parents=True, exist_ok=True)

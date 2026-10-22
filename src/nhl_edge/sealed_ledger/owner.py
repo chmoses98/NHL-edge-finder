@@ -157,7 +157,7 @@ def first_checkpoint(root: Path, identity_paths: list[Path], witness_dir: Path, 
 
 
 def weekly_check(store: Path, witness_dir: Path, recipients: Path, *, ledger_url: str | None = None, passphrase: str | None = None, passphrase_cmd: str | None = None,
-                 max_stale_days: int = 4) -> dict[str, Any]:
+                 max_stale_days: int = 14) -> dict[str, Any]:
     """The owner's unattended routine (e.g. a weekly launchd job): fetch the public ledger (fast-forward only), verify it against everything you registered (genesis hash, the
     previous local copy, your witness log head, the recipients hash), and only then sign a new witness checkpoint. Exits non-zero (-> a macOS notification) on any problem, on a
     ledger that stopped growing, or on anything that is not a clean fast-forward. It decrypts nothing and never runs a look."""
@@ -190,10 +190,13 @@ def weekly_check(store: Path, witness_dir: Path, recipients: Path, *, ledger_url
     res = verify_all(store, wd, recipients, None, state.get("witness_log_head"), state.get("genesis_hash"))
     if prev.exists() and (prev / "manifest.jsonl").exists():
         res["problems"] += is_extension(read_manifest(prev), read_manifest(store))
+    res["ok"] = not res["problems"]  # integrity only: a quiet ledger is NOT a reason to refuse to witness
     stale = res.get("days_since_latest_closed_date")
-    if stale is not None and stale > max_stale_days:
-        res["problems"].append(f"the ledger has not closed a day for {stale} days (collection may have stopped: scheduled workflows are disabled after 60 days of repository inactivity)")
-    res["ok"] = not res["problems"]
+    res["attention"] = []
+    in_season = datetime.now(UTC).month in (10, 11, 12, 1, 2, 3, 4)  # regular season only; the off-season is legitimately quiet
+    if stale is not None and stale > max_stale_days and in_season:
+        res["attention"].append(f"the ledger has not closed a day for {stale} days (normal during a long wait or a break; if it persists, collection may have stopped: scheduled "
+                                "workflows are disabled after 60 days of repository inactivity)")
     res["witnessed"] = False
     if res["ok"]:
         pw = passphrase if passphrase is not None else passphrase_from_command(passphrase_cmd) if passphrase_cmd else None
@@ -318,6 +321,11 @@ def witness(root: Path, witness_dir: Path, passphrase: str | None = None, recipi
     key = CP.load_private((wd / "witness_private.pem").read_bytes(), (passphrase if passphrase is not None else getpass.getpass("Witness key passphrase: ")).encode())
     signed = CP.sign(CP.make_checkpoint(read_manifest(root), "WITNESS"), key)
     line = CP.witness_append(wd / "witness.jsonl", signed)
+    state_p = wd / "state.json"
+    if state_p.exists():  # a manual `witness` must not make the next weekly-check fail: keep the recorded log head current
+        state = json.loads(state_p.read_text())
+        state["witness_log_head"] = line["line_hash"]
+        state_p.write_text(json.dumps(state))
     return {**signed["checkpoint"], "witness_entries": line["seq"] + 1, "witness_log_head": line["line_hash"],
             "note": "write witness_log_head down somewhere OTHER than this folder; `verify --expect-witness-head` uses it to detect a truncated log"}
 
@@ -408,7 +416,7 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--recipients", type=Path, required=True)
     s.add_argument("--ledger-url", help="clone/pull this URL first (https://github.com/<owner>/<ledger repo>.git)")
     s.add_argument("--passphrase-cmd", help="command that prints the witness-key passphrase, e.g. 'security find-generic-password -s sift-witness -w'")
-    s.add_argument("--max-stale-days", type=int, default=4)
+    s.add_argument("--max-stale-days", type=int, default=14)
     s = sub.add_parser("verify")
     s.add_argument("--store", type=Path, required=True)
     s.add_argument("--dir", type=Path)
@@ -451,7 +459,7 @@ def main(argv: list[str] | None = None) -> int:
     elif a.cmd == "weekly-check":
         res = weekly_check(a.store, a.dir, a.recipients, ledger_url=a.ledger_url, passphrase_cmd=a.passphrase_cmd, max_stale_days=a.max_stale_days)
         print(json.dumps(res, indent=1))
-        return 0 if res["ok"] else 1
+        return 1 if not res["ok"] else 2 if res.get("attention") else 0  # 1 = integrity problem (do not witness), 2 = verified and witnessed but needs attention
     elif a.cmd == "verify":
         res = verify_all(a.store, a.dir, a.recipients, a.attest_pub, a.expect_witness_head, a.expect_genesis)
         if a.previous:

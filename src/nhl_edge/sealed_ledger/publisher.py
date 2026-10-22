@@ -9,6 +9,7 @@ force, no delete, no rewrite. A rejected push is never "fixed" by rewriting: the
 from __future__ import annotations
 
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -55,6 +56,18 @@ def write_known_hosts(path: Path) -> Path:
     return path
 
 
+def _ensure_tag(wt: Path, read_url: str, tag: str, after: Any, penv: dict[str, str]) -> dict[str, Any]:
+    """Create the head tag if it is missing (also on a re-run where nothing else was new). A tag is a convenience second opinion: a failure to create it never fails a publish
+    whose ledger push succeeded; it is reported and retried by the next run."""
+    try:
+        if not _git(["ls-remote", "--tags", read_url, f"refs/tags/{tag}"], check=False).stdout.strip():
+            _git(["tag", "-a", tag, "-m", f"head {after.head_seq} {after.head_hash}"], cwd=wt, check=False)
+            _git(["push", "origin", f"refs/tags/{tag}"], cwd=wt, env=penv)
+        return {"tag": tag}
+    except PublishError as e:
+        return {"tag": None, "tag_error": str(e)[:200]}
+
+
 def _remote_has_branch(url: str, branch: str, env: dict[str, str]) -> str | None:
     r = _git(["ls-remote", "--heads", url, branch], env=env, check=False)
     if r.returncode != 0:
@@ -62,12 +75,18 @@ def _remote_has_branch(url: str, branch: str, env: dict[str, str]) -> str | None
     return r.stdout.split()[0] if r.stdout.strip() else None
 
 
+def repo_of(url: str) -> str:
+    """``owner/name`` of a GitHub URL (https://github.com/o/n[.git], git@github.com:o/n[.git]); the URL itself for anything else (file:// in tests)."""
+    m = re.search(r"github\.com[:/]([^/\s]+)/([^/\s]+?)(?:\.git)?/?$", url.strip())
+    return f"{m.group(1)}/{m.group(2)}".lower() if m else url.strip().lower()
+
+
 def publish(staged: Path, *, read_url: str, push_url: str, recipients: Path, init: bool = False, expect_genesis: str | None = None, branch: str = "main",
-            ssh_key: Path | None = None, known_hosts: Path | None = None, message: str = "sealed-ledger: update", forbid_url_substring: str | None = None,
+            ssh_key: Path | None = None, known_hosts: Path | None = None, message: str = "sealed-ledger: update", forbid_repo: str | None = None,
             attempts: int = 3, sleep: float = 5.0) -> dict[str, Any]:
     """Verify the staged store against the remote and push it (fast-forward only). Returns an outcome-free summary."""
     staged = Path(staged)
-    if forbid_url_substring and forbid_url_substring.lower() in (read_url + " " + push_url).lower():
+    if forbid_repo and forbid_repo.strip().lower() in (repo_of(read_url), repo_of(push_url)):  # exact owner/name: `me/code-ledger` is fine next to `me/code`
         raise PublishError("the ledger destination is the code repository; refusing (the ledger lives in its own repository)")
     rec_sha = load_recipients(recipients)[1]
     rep = verify_store(staged, recipients_sha256=rec_sha)
@@ -113,10 +132,12 @@ def publish(staged: Path, *, read_url: str, push_url: str, recipients: Path, ini
         if not after.ok:
             raise PublishError("merged ledger fails verification: " + "; ".join(after.problems[:5]))
         _git(["add", "-A"], cwd=wt)
-        if _git(["diff", "--cached", "--quiet"], cwd=wt, check=False).returncode == 0 and head is not None:
-            return {"pushed": False, "note": "nothing new to publish", "head_seq": after.head_seq, "head_hash": after.head_hash}
-        _git(["commit", "-q", "-m", f"{message} (head seq {after.head_seq})"], cwd=wt)
         penv = ssh_env(ssh_key, known_hosts)
+        tag = f"sealed-ledger-head-{after.head_seq}"
+        nothing_new = _git(["diff", "--cached", "--quiet"], cwd=wt, check=False).returncode == 0 and head is not None
+        if nothing_new:
+            return {"pushed": False, "note": "nothing new to publish", "head_seq": after.head_seq, "head_hash": after.head_hash, **_ensure_tag(wt, read_url, tag, after, penv)}
+        _git(["commit", "-q", "-m", f"{message} (head seq {after.head_seq})"], cwd=wt)
         local_head = _git(["rev-parse", "HEAD"], cwd=wt).stdout.strip()
         for i in range(attempts):
             r = _git(["push", "origin", f"HEAD:refs/heads/{branch}"], cwd=wt, env=penv, check=False)  # never --force
@@ -130,11 +151,8 @@ def publish(staged: Path, *, read_url: str, push_url: str, recipients: Path, ini
             if i == attempts - 1:
                 raise PublishError(f"push failed after {attempts} attempts: {r.stderr.strip()[:200]}")
             time.sleep(sleep * (3**i))
-        tag = f"sealed-ledger-head-{after.head_seq}"
-        if not _git(["ls-remote", "--tags", read_url, f"refs/tags/{tag}"], check=False).stdout.strip():  # re-runs create a missing tag instead of skipping it
-            _git(["tag", "-a", tag, "-m", f"head {after.head_seq} {after.head_hash}"], cwd=wt)
-            _git(["push", "origin", f"refs/tags/{tag}"], cwd=wt, env=penv)
-        return {"pushed": True, "head_seq": after.head_seq, "head_hash": after.head_hash, "genesis_hash": genesis_hash(read_manifest(wt)), "tag": tag, "manifest": MANIFEST}
+        return {"pushed": True, "head_seq": after.head_seq, "head_hash": after.head_hash, "genesis_hash": genesis_hash(read_manifest(wt)), "manifest": MANIFEST,
+                **_ensure_tag(wt, read_url, tag, after, penv)}
     finally:
         shutil.rmtree(work, ignore_errors=True)
 

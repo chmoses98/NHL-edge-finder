@@ -52,7 +52,7 @@ def test_the_unattended_workflow_takes_no_input_except_a_dry_run_flag_and_cannot
         assert banned not in text, banned
     assert not re.search(r"--exclude(?!-dir)", text)  # (grep's --exclude-dir is not ours)
     adm = triggers(load(ADMIN))["workflow_dispatch"]["inputs"]
-    assert set(adm) == {"action", "date", "game_ids", "reason"} and adm["action"]["options"] == ["init", "correct", "exclude"]
+    assert set(adm) == {"action", "date", "game_ids", "reason"} and adm["action"]["options"] == ["init", "correct", "exclude", "accept_missing"]
 
 
 # ---------------------------------------------------------------- permissions: the routine path cannot write this repository ---------------------------------------
@@ -128,7 +128,7 @@ def test_publish_script_is_syntax_valid_fail_closed_and_never_exposes_the_key():
     assert "set -euo pipefail" in code and "set -x" not in code and "xtrace" not in code
     assert re.search(r'echo[^\n]*DEPLOY_KEY', code) is None and "cat " not in code and 'printf \'%s\\n\' "$DEPLOY_KEY" > "$key"' in code
     assert "umask 077" in code and "trap 'rm -f \"$key\"' EXIT" in code
-    for needle in ("ACTIVATION", "GENESIS", "must be a different repository", "--forbid-url-substring", "--expect-genesis", "[0-9a-f]{64}", "sha256sum"):
+    for needle in ("ACTIVATION", "GENESIS", "must be a different repository", "--forbid-repo", "--expect-genesis", "[0-9a-f]{64}", "sha256sum"):
         assert needle in code, needle
     assert "--force" not in code and "--delete" not in code and "push" not in code.replace("--push-url", "")  # the push is inside the audited publisher
     assert '--ssh-key "$key"' in code  # the key reaches ssh by path only
@@ -150,7 +150,7 @@ def test_genesis_and_activation_gates_are_not_in_the_settle_jobs():
 def test_bounded_resources_one_writer_and_short_retention():
     for n in SEALED:
         d = load(n)
-        assert d["concurrency"] == {"group": "sealed-ledger", "cancel-in-progress": False}, n  # daily and admin never write at the same time
+        assert d["concurrency"] == {"group": "sealed-ledger-daily" if n == DAILY else "sealed-ledger-admin", "cancel-in-progress": False}, n  # separate groups: a pending owner approval never starves the daily run; a race is a safe non-fast-forward rejection
         for name, j in d["jobs"].items():
             assert j["timeout-minutes"] <= 45, (n, name)
         for j in d["jobs"].values():
@@ -164,6 +164,7 @@ def test_bounded_resources_one_writer_and_short_retention():
 def test_alerts_fire_on_failure_or_blocked_only_and_waiting_is_not_an_alert():
     alert = load(DAILY)["jobs"]["alert"]
     assert "BLOCKED" in alert["if"] and "failure" in alert["if"] and "WAITING" not in alert["if"] and "IDLE" not in alert["if"]
+    assert "dry != 'true'" in alert["if"]  # a dry run never opens an issue
     run = alert["steps"][0]["run"]
     assert "gh issue list" in run and "gh issue create" in run and "--state open" in run  # deduplicated: one open issue per cause
     assert "needs.reconcile.outputs.codes" in yaml.safe_dump(alert)

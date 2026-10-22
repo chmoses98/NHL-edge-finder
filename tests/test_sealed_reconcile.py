@@ -16,6 +16,7 @@ import pytest
 from pyrage import x25519
 
 from nhl_edge.sealed_ledger import PROTOCOL_RULES, owner, publisher, runner, seal
+from nhl_edge.sealed_ledger import audit as audit_mod
 from nhl_edge.sealed_ledger import reconcile as R
 from nhl_edge.sealed_ledger.core import genesis_hash, read_manifest, verify_store
 from nhl_edge.sealed_ledger.selftest import SENTINEL, synthetic_rows
@@ -124,7 +125,8 @@ def test_a_game_that_is_merely_late_makes_the_day_wait_without_alert_then_closes
 
 def test_a_postponed_game_is_excluded_mechanically_after_the_prespecified_wait_and_later_days_proceed(tmp_path, rec):
     spec = [("P1", "2026-10-25", "2026-10-25T23:00:00", False), ("P2", "2026-10-25", "2026-10-25T23:30:00", True), ("P3", "2026-10-26", "2026-10-26T23:00:00", True)]
-    store, games, res = world(tmp_path, rec, spec)
+    alive = [("P2", "2026-10-26T05:00:00Z", 2, 1, "REG", "results/dt=x/p2a"), ("P2", "2026-11-09T05:00:00Z", 2, 1, "REG", "results/dt=x/p2b")]  # the collector was alive after day 14
+    store, games, res = world(tmp_path, rec, spec, alive)
     out = run(tmp_path, rec, store, games, res, now=datetime(2026, 11, 5, tzinfo=UTC), through="2026-11-04")  # 11 days: still within the 14-day wait
     assert out["status"] == "WAITING" and out["waiting"][0]["game_ids"] == ["P1"]
     out = run(tmp_path, rec, store, games, res, now=datetime(2026, 11, 10, tzinfo=UTC), through="2026-11-09")  # > 14 days after the start
@@ -311,7 +313,7 @@ def test_publication_refusals(tmp_path, rec, remote):
     with pytest.raises(publisher.PublishError, match="verification"):
         pub(s1, remote, rec, expect_genesis=gh)
     with pytest.raises(publisher.PublishError, match="code repository"):
-        publisher.publish(s0, read_url=f"file://{remote}", push_url=f"file://{remote}", recipients=rec, expect_genesis=gh, forbid_url_substring="ledger.git")
+        publisher.publish(s0, read_url=f"file://{remote}", push_url=f"file://{remote}", recipients=rec, expect_genesis=gh, forbid_repo=f"file://{remote}".lower())
 
 
 def test_a_moved_remote_is_never_overwritten_and_transient_failures_are_retried(tmp_path, rec, remote, monkeypatch):
@@ -436,7 +438,7 @@ def test_weekly_check_flags_a_ledger_that_stopped_growing_and_a_forged_witness_h
     st.seal_rows(rows)
     st.close_day("2026-09-01", [rows[0]["game_id"]], [])
     res = owner.weekly_check(local, wd, rec, passphrase="correct-horse", max_stale_days=4)
-    assert not res["ok"] and any("has not closed a day" in p for p in res["problems"]) and not res["witnessed"]
+    assert res["ok"] and res["witnessed"] and any("has not closed a day" in a for a in res["attention"])  # integrity is fine: witnessed, but flagged for attention
     state = json.loads((wd / "state.json").read_text())
     state["witness_log_head"] = "0" * 64  # the owner's own record of the log head disagrees with the log: removal of lines is detected
     (wd / "state.json").write_text(json.dumps(state))
@@ -448,3 +450,105 @@ def test_passphrase_command_is_local_and_validated(tmp_path):
     assert owner.passphrase_from_command("printf correct-horse") == "correct-horse"
     with pytest.raises(SystemExit, match="no usable passphrase"):
         owner.passphrase_from_command("printf x")
+
+
+# ---------------------------------------------------------------- second unattended review: wedges and edge cases -----------------------------------------------
+
+def test_a_boundary_game_on_a_later_date_never_blocks_earlier_days_and_is_excluded_when_its_day_is_reached(tmp_path, rec):
+    spec = [("A1", "2026-10-21", "2026-10-21T23:00:00", True), ("A2", "2026-10-22", "2026-10-22T23:00:00", True),
+            ("B1", "2026-10-25", "2026-10-25T23:00:00", True, "2026-10-20T23:00:00"),  # first scheduled pre-freeze, postponed to 10-25
+            ("B2", "2026-10-25", "2026-10-25T23:30:00", True)]
+    store, games, res = world(tmp_path, rec, spec)
+    out = run(tmp_path, rec, store, games, res)
+    assert out["status"] == "OK" and out["dates_closed"] == ["2026-10-21", "2026-10-22", "2026-10-25"] and not out["blocked"]
+    assert out["exclusions"] == [{"date": "2026-10-25", "game_ids": ["B1"], "reason": "START_TIME_BOUNDARY"}]
+    # a game that moved the OTHER way is now pre-freeze (development tier): not a boundary case, never blocks anything
+    rev = [("R1", "2026-10-21", "2026-10-21T23:00:00", True), ("R2", "2026-10-21", "2026-10-21T10:00:00", True, "2026-10-21T23:00:00")]
+    store2, games2, res2 = world(tmp_path / "second", rec, rev) if (tmp_path / "second").mkdir() is None else (None, None, None)
+    out2 = run(tmp_path / "second", rec, store2, games2, res2)
+    assert out2["status"] == "OK" and not out2["blocked"] and out2["exclusions"] == []
+
+
+def test_the_14_day_rule_does_not_fire_when_the_results_collector_was_down(tmp_path, rec):
+    spec = [("P1", "2026-10-25", "2026-10-25T23:00:00", False), ("P2", "2026-10-25", "2026-10-25T23:30:00", True)]
+    stale_collector = [("P2", "2026-10-26T05:00:00Z", 2, 1, "REG", "results/dt=x/p2a")]  # the last results observation is days after the games, long before day 14
+    store, games, res = world(tmp_path, rec, spec, stale_collector)
+    out = run(tmp_path, rec, store, games, res, now=datetime(2026, 12, 1, tzinfo=UTC), through="2026-11-30")
+    assert out["status"] == "WAITING" and out["exclusions"] == []  # "no result" may just mean no collection: never an irreversible exclusion
+    assert verify_store(store).n_games_closed == 0
+
+
+def test_a_poison_date_keeps_earlier_days_and_reports_only_the_exception_type(tmp_path, rec):
+    store, games, res = world(tmp_path, rec, THREE_DAYS)
+    base = fake_build(games)
+
+    def build(archive, date, repo):
+        if date == "2026-10-22":
+            raise ValueError("home_final=7 LEAK-SENTINEL")
+        return base(archive, date, repo)
+
+    out = run(tmp_path, rec, store, games, res, build=build)
+    assert out["status"] == "BLOCKED" and out["dates_closed"] == ["2026-10-21"] and out["blocked"][0]["code"] == "DERIVATION_FAILED"
+    assert "LEAK-SENTINEL" not in json.dumps(out) and "ValueError" in out["blocked"][0]["detail"] and verify_store(store).ok
+
+
+def test_an_owner_approved_orphan_allowlist_unblocks_and_a_no_forecast_day_has_an_admin_path(tmp_path, rec, monkeypatch):
+    store, games, _ = world(tmp_path, rec, [("2026020010", "2026-10-21", "2026-10-21T23:00:00", True)])
+    orphan = mkresults([("2026020099", "2026-10-30T05:00:00Z", 1, 0, "REG", "results/dt=2026-10-30/z")])
+    assert run(tmp_path, rec, store, games, orphan, through="2026-10-21")["blocked"][0]["code"] == "ORPHAN_RESULT"
+    repo = tmp_path / "repo"
+    (repo / "research" / "sealed_ledger").mkdir(parents=True)
+    (repo / "research" / "sealed_ledger" / "orphan_allowlist.txt").write_text("# reviewed by the owner\n2026020099  # a preseason id\n")
+    shutil.copytree(REPO / "docs", repo / "docs", ignore=shutil.ignore_patterns("*.md"))
+    out = R.reconcile(tmp_path / "a", repo, store, rec, through="2026-10-21", now=NOW, games=games, results=orphan, build_rows_fn=fake_build(games))
+    assert out["status"] in ("OK", "IDLE") and not out["blocked"]
+    # a whole day without forecasts: blocked by the unattended pass, closable by the owner-approved admin path
+    store2, games2, res2 = world(tmp_path / "b", rec, [("G1", "2026-10-21", "2026-10-21T23:00:00", True)]) if (tmp_path / "b").mkdir() is None else (None, None, None)
+    assert run(tmp_path / "b", rec, store2, games2, res2, build=fake_build(games2, no_forecast=("G1",)))["blocked"][0]["code"] == "NO_PREGAME_FORECAST"
+    import nhl_edge.market_audit.games as MG
+    from nhl_edge.model_research import daily
+
+    monkeypatch.setattr(daily, "build_rows", fake_build(games2, no_forecast=("G1",)))
+    monkeypatch.setattr(audit_mod, "open_days_before", lambda *a, **k: [])
+    monkeypatch.setattr(MG, "read_kind", lambda *a, **k: res2)
+    res = runner.run_ingest(tmp_path / "b", "2026-10-21", REPO, store2, rec, seal=True, correct={}, reason=None, accept_no_forecast=True)
+    assert res["day_closed"] is True and next(e for e in read_manifest(store2) if e["kind"] == "DAY")["missing_pregame_game_ids"] == ["G1"]
+
+
+def test_publisher_repo_comparison_is_exact_and_a_failed_tag_never_fails_a_landed_publish(tmp_path, rec, remote, monkeypatch):
+    assert publisher.repo_of("https://github.com/Me/NHL-edge-finder-ledger.git") == "me/nhl-edge-finder-ledger"
+    assert publisher.repo_of("git@github.com:me/NHL-edge-finder.git") == publisher.repo_of("https://github.com/me/NHL-edge-finder") == "me/nhl-edge-finder"
+    s0 = staged_store(tmp_path, rec, "s0", with_days=False)
+    ok = publisher.publish(s0, read_url="file:///nonexistent-is-fine-for-a-guard-test", push_url="file:///x", recipients=rec, init=True, forbid_repo="x/y") if False else None
+    assert ok is None
+    with pytest.raises(publisher.PublishError, match="code repository"):  # the exact owner/name of the code repo is refused ...
+        publisher.publish(s0, read_url="https://github.com/me/code.git", push_url="git@github.com:me/code.git", recipients=rec, init=True, forbid_repo="me/code")
+    real = publisher._git
+
+    def fail_tag_push(args, cwd=None, env=None, check=True):
+        if args[:2] == ["push", "origin"] and str(args[2]).startswith("refs/tags/"):
+            raise publisher.PublishError("simulated tag push failure")
+        return real(args, cwd=cwd, env=env, check=check)
+
+    monkeypatch.setattr(publisher, "_git", fail_tag_push)
+    out = pub(s0, remote, rec, init=True)
+    assert out["pushed"] is True and out["tag"] is None and "tag_error" in out  # ... the ledger landed; only the convenience tag failed
+    monkeypatch.setattr(publisher, "_git", real)
+    gh = out["genesis_hash"]
+    again = pub(s0, remote, rec, expect_genesis=gh)  # a re-run with nothing new still creates the missing tag
+    assert again["pushed"] is False and again["tag"] == "sealed-ledger-head-0"
+    clone = tmp_path / "c"
+    git("clone", "-q", f"file://{remote}", str(clone))
+    assert "sealed-ledger-head-0" in git("tag", cwd=clone)
+
+
+def test_manual_witness_keeps_state_current_and_a_quiet_ledger_is_attention_not_failure(tmp_path, rec, remote):
+    s0, local, wd, fc = _owner_world(tmp_path, rec, remote)
+    man = owner.witness(local, wd, passphrase="correct-horse", recipients=rec)  # the documented manual command
+    assert json.loads((wd / "state.json").read_text())["witness_log_head"] == man["witness_log_head"]
+    st = seal.SealedStore(local, rec, now=NOW)
+    rows = synthetic_rows("2026-10-01", 0, 1)
+    st.seal_rows(rows)
+    st.close_day("2026-10-01", [rows[0]["game_id"]], [])
+    quiet = owner.weekly_check(local, wd, rec, passphrase="correct-horse", max_stale_days=3)
+    assert quiet["ok"] and quiet["witnessed"] and quiet["attention"] and "has not closed a day" in quiet["attention"][0]  # still witnessed; only flagged

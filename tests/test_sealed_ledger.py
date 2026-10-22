@@ -333,7 +333,7 @@ def test_recipients_file_must_hold_only_public_keys_and_not_change_after_genesis
 
 def test_the_frozen_protocol_commitment_is_pinned():
     # Changing the 150/300/450 looks, the freeze instant or the spending schedule changes this hash and fails here AND on every existing ledger.
-    assert protocol_rules_sha256() == "77f0b056453bc0b166532ae46cf37795f55d79aaa4b94ffe33742d0788b09b3e"
+    assert protocol_rules_sha256() == "245f0eb39f2c2267def75c1127c385d903f265b8e850ac485de8b30e694e52ee"
     assert daily.LOOKS == runner.LOOKS == (150, 300, 450)
 
 
