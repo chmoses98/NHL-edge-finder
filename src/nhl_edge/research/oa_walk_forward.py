@@ -9,7 +9,8 @@ Arms
     V1          production ratings (recency-weighted raw xG, not opponent-adjusted), goalie term off (no point-in-time starters)
     OA_XG       ridge opponent-adjusted raw xG ratings; V1's finishing, home, b2b and simulator unchanged
     OA_SVA      same on MoneyPuck score- and venue-adjusted xG
-    OA_SVA_G25  OA_SVA with 25% of the rating taken from a goals-based ridge fit
+    V1_C1       V1 with the sum / difference of its rates recalibrated from strictly prior games (exploratory; SlopeCalibrator)
+    OA_SVA_C1   the same on OA_SVA (exploratory)
     LEAGUE      league-average lambdas with home advantage only (no team information)
 
 Outputs: per-game table (lambdas and probabilities per arm + outcomes), per-game total / margin pmfs (npz) and the
@@ -33,7 +34,14 @@ from nhl_edge.data.history import load_nhl_games, load_team_games
 from nhl_edge.features.ratings import HOME_ADJ, expected_goals, last_game_date, league_rates, rest_days, team_rating
 from nhl_edge.log import get_logger, kv
 from nhl_edge.model_research.wf_data import pmfs, simulate_row
-from nhl_edge.research.oa_model import OAConfig, build_oa_data, fit_oa, oa_team_ratings, select_hyperparameters
+from nhl_edge.research.oa_model import (
+    OAConfig,
+    SlopeCalibrator,
+    build_oa_data,
+    fit_oa,
+    oa_team_ratings,
+    select_hyperparameters,
+)
 from nhl_edge.research.walk_forward import DEFAULT_SEED, attach_outcomes, build_gamelog, evaluation_games, game_seed
 
 log = get_logger(__name__)
@@ -41,9 +49,11 @@ log = get_logger(__name__)
 ARM_SPECS: dict[str, dict[str, Any]] = {
     "OA_XG": {"target": "xg", "goals_blend": 0.0},
     "OA_SVA": {"target": "xg_sva", "goals_blend": 0.0},
-    "OA_SVA_G25": {"target": "xg_sva", "goals_blend": 0.25},
 }
-ARMS = ("V1", *ARM_SPECS, "LEAGUE")
+# Exploratory arms added AFTER the first (exposed-season) look showed the opponent-adjusted totals getting worse while win probability
+# improved; they recalibrate the sum / difference of the rates from strictly prior games (see SlopeCalibrator and the preregistration amendment).
+C1_ARMS: dict[str, str] = {"V1_C1": "V1", "OA_SVA_C1": "OA_SVA"}
+ARMS = ("V1", "V1_C1", *ARM_SPECS, "OA_SVA_C1", "LEAGUE")
 
 
 def _row_from_sim(res_pmfs: dict[str, Any], lam_h: float, lam_a: float, prefix: str) -> dict[str, float]:
@@ -74,6 +84,7 @@ def run_oa_walk_forward(team_games: pd.DataFrame, nhl_games: pd.DataFrame, test_
             grids[f"{arm}|{season}"] = tbl.to_dict("records")
         log.info(kv(event="oa_hyperparameters", season=season, **{a: (selected[f'{a}|{season}']['half_life_days'], selected[f'{a}|{season}']['ridge'], selected[f'{a}|{season}']['season_discount']) for a in arms}))
     recs: list[dict[str, Any]] = []
+    calibrators = {a: SlopeCalibrator() for a in C1_ARMS}
     tot_pmf, mar_pmf = [], []
     fit_cache: dict[tuple[str, int, str], Any] = {}
     league_cache: dict[tuple[str, int], Any] = {}
@@ -107,6 +118,10 @@ def run_oa_walk_forward(team_games: pd.DataFrame, nhl_games: pd.DataFrame, test_
             lam_by_arm[arm] = (lh, la)
         if len(fit_cache) > 6 * len(arms):  # a date is only needed while its games are being predicted
             fit_cache = {k: v for k, v in fit_cache.items() if k[0] == date}
+        for c1, base in C1_ARMS.items():
+            cal = calibrators[c1]
+            lam_by_arm[c1] = cal.transform(date, *lam_by_arm[base])
+            rec[f"{c1}_slope_total"], rec[f"{c1}_slope_margin"] = cal.slopes(date)
         for arm in ARMS:  # one simulation per arm; pmfs are kept in ARMS order for ranked-probability scoring
             lh, la = lam_by_arm[arm]
             pm = pmfs(simulate_row(lh, la, seed, n_sims))
@@ -114,6 +129,8 @@ def run_oa_walk_forward(team_games: pd.DataFrame, nhl_games: pd.DataFrame, test_
             tot_pmf.append(pm["total"])
             mar_pmf.append(pm["margin"])
         recs.append(rec)
+        for c1, base in C1_ARMS.items():   # what each C1 arm's BASE predicted becomes calibration data once the game is final
+            calibrators[c1].observe(date, *lam_by_arm[base], total=float(r.home_score + r.away_score), margin=float(r.home_score - r.away_score))
         if (i + 1) % 200 == 0:
             log.info(kv(event="oa_wf_progress", done=i + 1, total=len(games), elapsed_s=round(time.time() - t0, 1)))
     df = attach_outcomes(pd.DataFrame(recs), games)

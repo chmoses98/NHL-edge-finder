@@ -57,15 +57,16 @@ def per_game_losses(df: pd.DataFrame, pm: dict[str, np.ndarray], arms: list[str]
     return out
 
 
-def _cluster_boot(d: np.ndarray, clusters: np.ndarray, n_boot: int = 2000, seed: int = 0) -> tuple[float, float]:
-    """95% CI of mean(d) resampling whole clusters (game dates)."""
+def _cluster_boot(d: np.ndarray, clusters: np.ndarray, n_boot: int = 2000, seed: int = 0, level: float = 0.95) -> tuple[float, float]:
+    """CI of mean(d) resampling whole clusters (game dates)."""
     ids, inv = np.unique(clusters, return_inverse=True)
     s = np.bincount(inv, weights=d)
     n = np.bincount(inv).astype(float)
     rng = np.random.default_rng(seed)
     pick = rng.integers(0, len(ids), size=(n_boot, len(ids)))
     m = s[pick].sum(axis=1) / n[pick].sum(axis=1)
-    return float(np.quantile(m, 0.025)), float(np.quantile(m, 0.975))
+    a = (1 - level) / 2
+    return float(np.quantile(m, a)), float(np.quantile(m, 1 - a))
 
 
 def compare(losses: dict[str, dict[str, np.ndarray]], incumbent: str, challengers: list[str], clusters: np.ndarray, metrics: tuple[str, ...] | None = None,
@@ -75,12 +76,14 @@ def compare(losses: dict[str, dict[str, np.ndarray]], incumbent: str, challenger
         for m in metrics or tuple(losses[arm]):
             a, b = losses[arm][m], losses[incumbent][m]
             d = paired_delta(a, b, n_boot=n_boot)
+            d975 = paired_delta(a, b, n_boot=n_boot, level=0.975)       # two primary challengers: Bonferroni level for the primary gate
             lo_c, hi_c = _cluster_boot(a - b, clusters)
+            lo_c975, hi_c975 = _cluster_boot(a - b, clusters, level=0.975)
             thr = MIN_MEANINGFUL.get(m)
             sig = d["hi95"] < 0 or d["lo95"] > 0
             sig_c = hi_c < 0 or lo_c > 0
             rows.append({"challenger": arm, "incumbent": incumbent, "metric": m, "n": d["n"], "mean_incumbent": float(np.mean(b)), "mean_challenger": float(np.mean(a)),
-                         "delta": d["delta"], "lo95": d["lo95"], "hi95": d["hi95"], "lo95_slate": lo_c, "hi95_slate": hi_c,
+                         "delta": d["delta"], "lo95": d["lo95"], "hi95": d["hi95"], "lo95_slate": lo_c, "hi95_slate": hi_c, "lo975": d975["lo95"], "hi975": d975["hi95"], "lo975_slate": lo_c975, "hi975_slate": hi_c975,
                          "better_game_ci": bool(d["hi95"] < 0), "worse_game_ci": bool(d["lo95"] > 0), "better_slate_ci": bool(hi_c < 0), "worse_slate_ci": bool(lo_c > 0),
                          "practically_meaningful": bool(thr is not None and sig and sig_c and abs(d["delta"]) >= thr)})
     return rows

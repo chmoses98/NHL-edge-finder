@@ -98,3 +98,37 @@ def test_team_ratings_are_v1_compatible_and_cold_teams_are_league_average():
     h, a = oa_team_ratings(fit, data, "T00", "ZZZ", lg)       # ZZZ never played
     assert h.games_used > 0 and h.off_xg60 > 0 and h.def_xg60 > 0
     assert a.off_xg60 == 3.0 and a.def_xg60 == 3.0 and a.games_used == 0.0
+
+
+def test_slope_calibrator_identity_until_burn_in_then_corrects_over_spread_totals():
+    from nhl_edge.research.oa_model import SlopeCalibrator
+
+    rng = np.random.default_rng(0)
+    cal = SlopeCalibrator(burn_in=50)
+    days = pd.date_range("2025-01-01", periods=400, freq="D").strftime("%Y-%m-%d")
+    for i, day in enumerate(days):
+        s = 6.2 + rng.normal(0, 0.4)                       # predicted total varies a lot ...
+        d = 0.2 + rng.normal(0, 0.15)                      # ... predicted difference varies little
+        lam_h, lam_a = (s + d) / 2, (s - d) / 2
+        if i < 10:
+            assert cal.transform(day, lam_h, lam_a) == (lam_h, lam_a)   # burn-in: untouched
+        total = 6.2 + 0.1 * (s - 6.2) + rng.normal(0, 2.3)             # truth: totals barely depend on s ...
+        margin = 0.2 + 3.0 * (d - 0.2) + rng.normal(0, 2.3)            # ... margins depend on d three times more than predicted
+        cal.observe(day, lam_h, lam_a, total, margin)
+    b_s, b_d = cal.slopes("2026-02-01")
+    assert b_s < 0.5 and b_d > 1.5
+    h, a = cal.transform("2026-02-01", 3.4, 2.8)
+    assert abs((h + a) - 6.2) < abs(3.4 + 2.8 - 6.2) + 1e-9 or abs((h + a) - (3.4 + 2.8)) < 0.5   # total pulled toward the prior mean level
+    assert (h - a) > (3.4 - 2.8)                                                                       # difference stretched
+
+
+def test_slope_calibrator_never_uses_same_day_games():
+    from nhl_edge.research.oa_model import SlopeCalibrator
+
+    cal = SlopeCalibrator(burn_in=2)
+    for i in range(3):
+        cal.observe("2025-01-01", 3.0, 3.0, 6.0 + i, 0.0)
+    assert cal.slopes("2025-01-01") == (1.0, 1.0)      # three games on the same day: none is yet committed
+    assert len(cal._s) == 0
+    cal.slopes("2025-01-02")
+    assert len(cal._s) == 3

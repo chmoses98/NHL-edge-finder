@@ -62,7 +62,7 @@ def boot_mean_ci(x: np.ndarray, n_boot: int = 4000, seed: int = 0, level: float 
     return float(x.mean()), float(np.quantile(m, a)), float(np.quantile(m, 1 - a))
 
 
-def paired_delta(loss_a: np.ndarray, loss_b: np.ndarray, n_boot: int = 4000, seed: int = 0) -> dict[str, float]:
+def paired_delta(loss_a: np.ndarray, loss_b: np.ndarray, n_boot: int = 4000, seed: int = 0, level: float = 0.95) -> dict[str, float]:
     """mean(loss_a - loss_b) with a game-level bootstrap CI and the one-sided bootstrap p that A is NOT better (mean >= 0).
 
     Negative delta = A is better. ``n`` is the number of independent games.
@@ -70,7 +70,7 @@ def paired_delta(loss_a: np.ndarray, loss_b: np.ndarray, n_boot: int = 4000, see
     d = np.asarray(loss_a, float) - np.asarray(loss_b, float)
     ok = ~np.isnan(d)
     d = d[ok]
-    mean, lo, hi = boot_mean_ci(d, n_boot, seed)
+    mean, lo, hi = boot_mean_ci(d, n_boot, seed, level)
     rng = np.random.default_rng(seed + 1)
     idx = rng.integers(0, len(d), size=(n_boot, len(d)))
     boots = d[idx].mean(axis=1)

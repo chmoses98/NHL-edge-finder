@@ -30,8 +30,8 @@ from nhl_edge.features.ratings import LeagueRates, TeamRating
 
 # Candidate grid. Deliberately small and fixed in advance (see docs/research/oa-walk-forward/PREREGISTRATION.md).
 GRID_HALF_LIFE_DAYS = (60.0, 120.0, 240.0, 480.0)
-GRID_RIDGE = (5.0, 15.0, 30.0, 60.0)
-GRID_SEASON_DISCOUNT = (0.25, 0.4, 0.55, 0.7)
+GRID_RIDGE = (1.0, 2.5, 5.0, 15.0, 30.0, 60.0)
+GRID_SEASON_DISCOUNT = (0.1, 0.25, 0.4, 0.55, 0.7)
 VALIDATION_SEASONS_BACK = 2
 MAX_SEASONS_BACK = 3
 
@@ -230,3 +230,63 @@ def _lambda_from_fit(fit: OAFit, data: OAData, home: str, away: str, league_g60:
     lam_h = (mu + fit.home_effect / 2 + fit.a[ih] + fit.d[ia]) * scale
     lam_a = (mu - fit.home_effect / 2 + fit.a[ia] + fit.d[ih]) * scale
     return lam_h, lam_a
+
+
+class SlopeCalibrator:
+    """Online, strictly-prior recalibration of the SUM and DIFFERENCE of the two expected-goal rates (the C1 idea of the earlier
+    model-improvement work, applied to any arm).
+
+    Totals were found over-spread (calibration slope ~0.37) and margins under-spread (~1.39) in V1: team differences carry real
+    signal, total-goal differences carry almost none. Given the arm's own past predictions ``s = lam_h + lam_a``,
+    ``d = lam_h - lam_a`` and the realised totals / margins of games dated BEFORE the one being predicted, fit
+    ``y_total ~ m_s + b_s (s - m_s)`` and ``y_margin ~ m_d + b_d (d - m_d)`` (slope only; the mean level is not recalibrated, so
+    the expected total stays where the arm put it), clip slopes to [lo, hi], and rebuild the two rates. Identity until
+    ``burn_in`` prior games exist. Rows are committed only when the date advances, so same-day games never inform each other.
+    """
+
+    def __init__(self, burn_in: int = 300, lo: float = 0.2, hi: float = 2.0):
+        self.burn_in, self.lo, self.hi = burn_in, lo, hi
+        self._pending: list[tuple[float, float, float, float]] = []
+        self._pending_date: str | None = None
+        self._s: list[float] = []
+        self._d: list[float] = []
+        self._yt: list[float] = []
+        self._ym: list[float] = []
+
+    def _commit(self) -> None:
+        for s, d, yt, ym in self._pending:
+            self._s.append(s)
+            self._d.append(d)
+            self._yt.append(yt)
+            self._ym.append(ym)
+        self._pending = []
+
+    def slopes(self, date: str) -> tuple[float, float]:
+        if self._pending_date is not None and date > self._pending_date:
+            self._commit()
+            self._pending_date = None
+        if len(self._s) < self.burn_in:
+            return 1.0, 1.0
+        s, d, yt, ym = (np.asarray(x, float) for x in (self._s, self._d, self._yt, self._ym))
+
+        def slope(x: np.ndarray, y: np.ndarray) -> float:
+            xc = x - x.mean()
+            den = float((xc * xc).sum())
+            return float(np.clip((xc * (y - y.mean())).sum() / den, self.lo, self.hi)) if den > 1e-12 else 1.0
+
+        return slope(s, yt), slope(d, ym)
+
+    def transform(self, date: str, lam_h: float, lam_a: float) -> tuple[float, float]:
+        b_s, b_d = self.slopes(date)
+        if len(self._s) < self.burn_in:
+            return lam_h, lam_a
+        m_s, m_d = float(np.mean(self._s)), float(np.mean(self._d))
+        s, d = lam_h + lam_a, lam_h - lam_a
+        s2, d2 = m_s + b_s * (s - m_s), m_d + b_d * (d - m_d)
+        return max((s2 + d2) / 2.0, 0.3), max((s2 - d2) / 2.0, 0.3)
+
+    def observe(self, date: str, lam_h: float, lam_a: float, total: float, margin: float) -> None:
+        if self._pending_date is not None and date > self._pending_date:
+            self._commit()
+        self._pending_date = date
+        self._pending.append((lam_h + lam_a, lam_h - lam_a, float(total), float(margin)))
