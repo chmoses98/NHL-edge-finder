@@ -2,18 +2,18 @@
 
 > **HISTORICAL, NOT PROSPECTIVE. These numbers are a walk-forward replay on past seasons and use NO market data (no Kalshi NHL prices have been ingested). They say nothing about edge versus a market.**
 
-Run `36570274279` generated 2026-09-29T12:46:43Z -- authority `RESEARCH_ONLY` -- model `DATA_ONLY_V1` / features `nhl-features-1.0` / sim `nhl-sim-1.1` -- machine-readable: `walk_forward_36570274279.json`.
+Run `39830851451` generated 2026-10-22T18:42:35Z -- authority `RESEARCH_ONLY` -- model `DATA_ONLY_V1` / features `nhl-features-1.0` / sim `nhl-sim-1.1` -- machine-readable: `walk_forward_39830851451.json`.
 
 ## Setup
 
 - Test seasons: 2024, 2025 (MoneyPuck start year (2024 == NHL 2024-25)).
-- Training data: every MoneyPuck 'all'-situation row dated strictly before each game's date (walk-forward); regular-season rows only. MoneyPuck seasons on disk: [2022, 2023, 2024, 2025]; NHL result seasons on disk: [2022, 2023, 2024, 2025]; team-game rows in the log: 10496.
+- Training data: every MoneyPuck 'all'-situation row dated strictly before each game's date (walk-forward); regular-season rows only. MoneyPuck seasons on disk: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]; NHL result seasons on disk: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]; team-game rows in the log: 27024.
 - Simulation: 4000 draws per game, seed = base 20240101 + game id.
 - Goalies: Goalie factors are fixed at 1.0 for every game: the history archive has no point-in-time starting-goalie data, so the goalie term of DATA_ONLY_V1 is switched off in this replay. Live predictions include it.
 - Markets: No market comparison: no historical Kalshi NHL prices have been ingested.
 - Baselines: constant_home = walk-forward home-win rate over prior final regular-season games; league_poisson = same simulator with league-average lambdas (as_of game date) and the home adjustment only.
 - Sample: **2624 regular-season games scored**; games with a team that had no prior MoneyPuck rows: 82. Skipped: not_regular_season=210, not_final=0, missing_score_or_period=0, unresolved_team=0.
-- Elapsed: 29.1 s.
+- Elapsed: 29.3 s.
 
 ## Moneyline (P(home win) incl. OT/SO)
 
@@ -21,7 +21,7 @@ Run `36570274279` generated 2026-09-29T12:46:43Z -- authority `RESEARCH_ONLY` --
 |---|---:|---:|---:|---:|---:|---:|
 | DATA_ONLY_V1 | 2624 | 0.2419 | 0.6766 | 0.0225 | 0.5449 | 0.5423 |
 | league_poisson | 2624 | 0.2483 | 0.6897 | 0.0005 | 0.5428 | 0.5423 |
-| constant_home | 2624 | 0.2483 | 0.6898 | 0.0049 | 0.5374 | 0.5423 |
+| constant_home | 2624 | 0.2482 | 0.6896 | 0.0015 | 0.5408 | 0.5423 |
 
 ### Calibration (DATA_ONLY_V1 moneyline, 10 equal-width bins)
 
@@ -63,7 +63,7 @@ Run `36570274279` generated 2026-09-29T12:46:43Z -- authority `RESEARCH_ONLY` --
 
 | season | n | model Brier | model LL | league_poisson Brier | constant_home Brier | model OT Brier | model total MAE |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| 2024 | 1312 | 0.2379 | 0.6685 | 0.2466 | 0.2468 | 0.1649 | 1.886 |
+| 2024 | 1312 | 0.2379 | 0.6685 | 0.2466 | 0.2466 | 0.1649 | 1.886 |
 | 2025 | 1312 | 0.2459 | 0.6847 | 0.2499 | 0.2499 | 0.1923 | 1.850 |
 
 ## Reading this
