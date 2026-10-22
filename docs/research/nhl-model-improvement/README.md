@@ -17,6 +17,7 @@
 | 11 Actual routed wager audit | ACTUAL_WAGER_AUDIT.md §1–3 |
 | 12 October 20 case study | ACTUAL_WAGER_AUDIT.md §4 |
 | 13 Market-expression research | MARKET_FAMILIES_AND_EXPRESSION.md §2–5 |
+| Prospective ledger isolation and sealed storage | LEDGER_ISOLATION_REVIEW.md (finding), SEALED_LEDGER_DESIGN.md (design, threat model, security review), SEALED_LEDGER_KEY_SETUP.md (key custody, recovery), SEALED_LEDGER_OWNER_CHECKLIST.md (macOS checklist), DEPENDENCY_AND_ACTION_PINNING.md (pinned actions, hash-locked dependencies, update procedure) |
 | 14 Statistical validation and robustness | CHALLENGER_MODEL_COMPARISON.md (protocol, multiplicity, robustness), PROSPECTIVE_PROTOCOL.md |
 | 15 Final recommendations | EXECUTIVE_REPORT.md |
 

@@ -18,7 +18,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# Sealed prospective research ledger (RESEARCH_ONLY): age (X25519 + ChaCha20-Poly1305) via pyrage, Ed25519 checkpoints via cryptography.
+sealed = [
+  "pyrage>=1.2,<2",
+  "cryptography>=43",
+]
 dev = [
+  "pyrage>=1.2,<2",
+  "cryptography>=43",
   "pytest>=8.3",
   "pytest-xdist>=3.6",
   "hypothesis>=6.100",
