@@ -69,6 +69,8 @@ Both must print `"identity_matches_recipient": true, "canary_roundtrip": true`, 
 
 ## 5. Activation (separate, explicit approval — nothing below happens until you say so)
 
+> Superseded by `SEALED_LEDGER_OWNER_CHECKLIST.md` (unattended operation: a separate ledger repository, a deploy key, two environments, `sealed_ledger_admin` for init). The outline below is kept for the key-related steps only.
+
 The ordered, checkable version of this section is `SEALED_LEDGER_OWNER_CHECKLIST.md`. In outline: put your public keys in `recipients.txt` (§4); create the `sealed-ledger` **environment** (deployment branches = `main` only, you as required reviewer) and set its **environment** variable `SEALED_LEDGER_ACTIVATION_SHA` = `shasum -a 256 research/sealed_ledger/recipients.txt`; add branch/tag rulesets for `model-research-sealed-ledger` and `sealed-ledger-head-*`; run the one-time `init_ledger` publish (it seals no game); verify it yourself with `owner first-checkpoint` (verification, recovery drill with every key, signed first witness checkpoint), compare the genesis hash across three places, write it down offline and register it as the environment variable `SEALED_LEDGER_GENESIS_HASH`; only then approve the first real `publish=true` run (2026-10-21, then each later date in ascending order, one at a time).
 
 ## 6. Routine use

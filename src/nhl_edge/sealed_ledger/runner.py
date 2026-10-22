@@ -1,5 +1,6 @@
 """Workflow-side CLI of the sealed prospective ledger. Encrypt-only: it imports ``seal``/``core``/``checkpoint`` and NEVER ``owner`` (no decryption path exists here).
 
+    python -m nhl_edge.sealed_ledger.runner reconcile --archive A --repo . --store S --recipients R --through D [--dry-run] [--summary-out F]   # the unattended daily pass
     python -m nhl_edge.sealed_ledger.runner init      --store S --recipients R [--summary-out F]            # creates GENESIS + a synthetic canary; no game
     python -m nhl_edge.sealed_ledger.runner ingest    --archive A --date D --repo . --store S --recipients R [--seal] [--correct IDS --reason CODE | --exclude IDS --exclude-reason CODE] [--summary-out F]
     python -m nhl_edge.sealed_ledger.runner scorecard --store S --out DIR
@@ -147,6 +148,25 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--exclude", help="comma-separated game ids waived from this day because they never finished (owner decision; needs --exclude-reason)")
     a.add_argument("--exclude-reason", help="POSTPONED_OR_CANCELLED | START_TIME_BOUNDARY | OTHER_DOCUMENTED")
     a.add_argument("--summary-out", type=Path)
+    rc = sub.add_parser("reconcile")
+    rc.add_argument("--archive", type=Path, required=True)
+    rc.add_argument("--repo", type=Path, default=Path("."))
+    rc.add_argument("--store", type=Path, required=True)
+    rc.add_argument("--recipients", type=Path, required=True)
+    rc.add_argument("--through", required=True, help="last ET date to settle (normally yesterday)")
+    rc.add_argument("--dry-run", action="store_true", help="work on a throw-away copy of the store and report what would be sealed")
+    rc.add_argument("--summary-out", type=Path)
+    pb = sub.add_parser("publish")
+    pb.add_argument("--staged", type=Path, required=True)
+    pb.add_argument("--read-url", required=True)
+    pb.add_argument("--push-url", required=True)
+    pb.add_argument("--recipients", type=Path, required=True)
+    pb.add_argument("--init", action="store_true")
+    pb.add_argument("--expect-genesis")
+    pb.add_argument("--ssh-key", type=Path, help="path of the deploy key file (never the key itself)")
+    pb.add_argument("--forbid-url-substring", help="refuse a destination containing this text (the code repository)")
+    pb.add_argument("--message", default="sealed-ledger: update")
+    pb.add_argument("--summary-out", type=Path)
     i = sub.add_parser("init")
     i.add_argument("--store", type=Path, required=True)
     i.add_argument("--recipients", type=Path, required=True)
@@ -172,6 +192,31 @@ def main(argv: list[str] | None = None) -> int:
             load_recipients(ns.recipients)  # fail closed on an empty / secret-bearing file BEFORE any data is derived
         res = run_ingest(ns.archive, ns.date, ns.repo, ns.store, ns.recipients, seal=ns.seal, correct=_corrections(ns.correct), reason=ns.reason, exclude=_id_list(ns.exclude), exclude_reason=ns.exclude_reason,
                          run_id=os.environ.get("GITHUB_RUN_ID", ""), code_sha=os.environ.get("GITHUB_SHA", ""))
+        print(json.dumps(res, indent=1))
+        if ns.summary_out:
+            ns.summary_out.parent.mkdir(parents=True, exist_ok=True)
+            ns.summary_out.write_text(json.dumps(res, indent=1))
+        return 0
+    if ns.cmd == "reconcile":
+        from nhl_edge.sealed_ledger.reconcile import reconcile
+
+        if not re.match(r"^\d{4}-\d{2}-\d{2}$", ns.through):
+            raise SystemExit("bad --through date")
+        res = reconcile(ns.archive, ns.repo, ns.store, ns.recipients, through=ns.through, dry_run=ns.dry_run, run_id=os.environ.get("GITHUB_RUN_ID", ""),
+                        code_sha=os.environ.get("GITHUB_SHA", ""))
+        print(json.dumps(res, indent=1))
+        if ns.summary_out:
+            ns.summary_out.parent.mkdir(parents=True, exist_ok=True)
+            ns.summary_out.write_text(json.dumps(res, indent=1))
+        return 0
+    if ns.cmd == "publish":
+        import tempfile
+
+        from nhl_edge.sealed_ledger import publisher
+
+        kh = publisher.write_known_hosts(Path(tempfile.mkdtemp(prefix="kh_")) / "known_hosts") if ns.ssh_key else None
+        res = publisher.publish(ns.staged, read_url=ns.read_url, push_url=ns.push_url, recipients=ns.recipients, init=ns.init, expect_genesis=ns.expect_genesis,
+                                ssh_key=ns.ssh_key, known_hosts=kh, message=ns.message, forbid_url_substring=ns.forbid_url_substring)
         print(json.dumps(res, indent=1))
         if ns.summary_out:
             ns.summary_out.parent.mkdir(parents=True, exist_ok=True)
@@ -227,6 +272,10 @@ if __name__ == "__main__":
     except SealError as e:
         print(f"SEALED LEDGER REFUSED: {e}", file=sys.stderr)
         sys.exit(3)
-    except Exception as e:  # noqa: BLE001 - a traceback or pandas error message can echo row values; the public log gets the exception TYPE only
+    except Exception as e:  # noqa: BLE001
+        if type(e).__name__ == "PublishError":  # its message carries git's stderr only (no record data, no key)
+            print(f"SEALED LEDGER PUBLISH REFUSED: {e}", file=sys.stderr)
+            sys.exit(5)
+        # a traceback or pandas error message can echo row values; the public log gets the exception TYPE only
         print(f"SEALED LEDGER RUN FAILED: {type(e).__name__} (message and traceback suppressed so no record data reaches a public log; reproduce locally on a development-window date)", file=sys.stderr)
         sys.exit(4)

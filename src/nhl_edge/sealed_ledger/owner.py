@@ -6,6 +6,7 @@
     python -m nhl_edge.sealed_ledger.owner first-checkpoint --store <ledger checkout> --identity primary.txt --identity backup.txt --dir ~/sift-ledger/witness --recipients <...>
     python -m nhl_edge.sealed_ledger.owner witness-keygen --dir ~/sift-ledger/witness
     python -m nhl_edge.sealed_ledger.owner witness        --store <ledger checkout> --dir ~/sift-ledger/witness --recipients <repo>/research/sealed_ledger/recipients.txt
+    python -m nhl_edge.sealed_ledger.owner weekly-check   --store ~/sift-ledger/ledger --dir ~/sift-ledger/witness --recipients <repo>/research/sealed_ledger/recipients.txt --ledger-url https://github.com/<owner>/<ledger repo>.git --passphrase-cmd '...'
     python -m nhl_edge.sealed_ledger.owner verify         --store <ledger checkout> --dir ~/sift-ledger/witness [--recipients ...] [--attest-pub runner_public.pem]
     python -m nhl_edge.sealed_ledger.owner reproduce      --store <ledger checkout> --identity ~/sift-ledger/identity.txt --archive <data-archive checkout> --repo .
     python -m nhl_edge.sealed_ledger.owner look           --store <ledger checkout> --identity ~/sift-ledger/identity.txt --dir ~/sift-ledger/witness --recipients <repo>/research/sealed_ledger/recipients.txt --out ~/sift-ledger/looks
@@ -21,6 +22,9 @@ import argparse
 import getpass
 import json
 import os
+import shlex
+import shutil
+import subprocess
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -145,9 +149,60 @@ def first_checkpoint(root: Path, identity_paths: list[Path], witness_dir: Path, 
         raise SystemExit("NOT witnessing: at least one identity cannot open the ledger's canary: " + json.dumps(d["results"]))
     cp = witness(root, witness_dir, passphrase, recipients)
     rep = verify_store(root)
+    (Path(witness_dir).expanduser() / "state.json").write_text(json.dumps({"genesis_hash": genesis_hash(entries), "recipients_sha256": load_recipients(recipients)[1],
+                                                                          "witness_log_head": cp["witness_log_head"]}))
     return {"genesis_hash": genesis_hash(entries), "head_seq": rep.head_seq, "head_hash": rep.head_hash, "ledger_id": rep.ledger_id,
             "recipients_sha256": load_recipients(recipients)[1], "witness_log_head": cp["witness_log_head"], "drill": d,
             "write_down": "genesis_hash, recipients_sha256 and witness_log_head, offline, and compare genesis_hash with the Actions run summary and the sealed-ledger-head-0 tag"}
+
+
+def weekly_check(store: Path, witness_dir: Path, recipients: Path, *, ledger_url: str | None = None, passphrase: str | None = None, passphrase_cmd: str | None = None,
+                 max_stale_days: int = 4) -> dict[str, Any]:
+    """The owner's unattended routine (e.g. a weekly launchd job): fetch the public ledger (fast-forward only), verify it against everything you registered (genesis hash, the
+    previous local copy, your witness log head, the recipients hash), and only then sign a new witness checkpoint. Exits non-zero (-> a macOS notification) on any problem, on a
+    ledger that stopped growing, or on anything that is not a clean fast-forward. It decrypts nothing and never runs a look."""
+    refuse_in_ci()
+    store, wd = Path(store).expanduser(), Path(witness_dir).expanduser()
+    state_p = wd / "state.json"
+    if not state_p.exists():
+        raise SystemExit("no state.json: run `first-checkpoint` once first")
+    state = json.loads(state_p.read_text())
+    prev = wd / "ledger_prev"
+    if ledger_url:
+        if not (store / ".git").exists():
+            subprocess.run(["git", "clone", "-q", ledger_url, str(store)], check=True, capture_output=True)
+        else:
+            shutil.rmtree(prev, ignore_errors=True)
+            shutil.copytree(store, prev, ignore=shutil.ignore_patterns(".git"))
+            def git(*args: str) -> subprocess.CompletedProcess[str]:
+                return subprocess.run(["git", "-C", str(store), *args], capture_output=True, text=True)
+
+            if git("fetch", "-q", "origin").returncode != 0:
+                return {"ok": False, "problems": ["cannot fetch the ledger repository (offline? deleted?)"], "witnessed": False}
+            local_head, remote_head = git("rev-parse", "HEAD").stdout.strip(), git("rev-parse", "@{u}").stdout.strip()
+            if local_head != remote_head:
+                if git("merge-base", "--is-ancestor", local_head, remote_head).returncode == 0:
+                    git("merge", "-q", "--ff-only", "@{u}")  # a clean fast-forward: the ledger grew
+                elif git("merge-base", "--is-ancestor", remote_head, local_head).returncode == 0:
+                    return {"ok": False, "witnessed": False, "problems": ["the ledger repository is BEHIND your last copy: it was rolled back or truncated (do NOT witness; keep your copies)"]}
+                else:
+                    return {"ok": False, "witnessed": False, "problems": ["the ledger repository DIVERGED from your last copy: history was rewritten or replaced (do NOT witness; keep your copies)"]}
+    res = verify_all(store, wd, recipients, None, state.get("witness_log_head"), state.get("genesis_hash"))
+    if prev.exists() and (prev / "manifest.jsonl").exists():
+        res["problems"] += is_extension(read_manifest(prev), read_manifest(store))
+    stale = res.get("days_since_latest_closed_date")
+    if stale is not None and stale > max_stale_days:
+        res["problems"].append(f"the ledger has not closed a day for {stale} days (collection may have stopped: scheduled workflows are disabled after 60 days of repository inactivity)")
+    res["ok"] = not res["problems"]
+    res["witnessed"] = False
+    if res["ok"]:
+        pw = passphrase if passphrase is not None else passphrase_from_command(passphrase_cmd) if passphrase_cmd else None
+        cp = witness(store, wd, pw, recipients)
+        state["witness_log_head"] = cp["witness_log_head"]
+        state_p.write_text(json.dumps(state))
+        res["witnessed"] = True
+        res["witness_log_head"] = cp["witness_log_head"]
+    return res
 
 
 def latest_rows(root: Path, identities: list[Any]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -235,7 +290,21 @@ def verify_all(root: Path, witness_dir: Path | None, recipients: Path | None, at
             except (ValueError, KeyError, TypeError):
                 probs.append(f"{f.name}: malformed runner checkpoint")
         probs += CP.check_against_checkpoints(read_manifest(root), good)
-    return {**rep.summary(), "problems": probs, "ok": not probs, "witness_checkpoints": n_witness, "warnings": rep.warnings}
+    days = sorted(e["game_date_et"] for e in read_manifest(root) if e.get("kind") == "DAY")
+    stale_days = None
+    if days:
+        stale_days = (datetime.now(UTC).date() - datetime.fromisoformat(days[-1]).date()).days
+    return {**rep.summary(), "problems": probs, "ok": not probs, "witness_checkpoints": n_witness, "warnings": rep.warnings, "latest_closed_date": days[-1] if days else None,
+            "days_since_latest_closed_date": stale_days}
+
+
+def passphrase_from_command(cmd: str) -> str:
+    """Run a local command that prints the passphrase (e.g. ``security find-generic-password -s sift-witness -w`` on macOS) so a scheduled check needs no typing. The
+    command is the owner's, runs only on the owner's machine, and its output is never printed."""
+    out = subprocess.run(shlex.split(cmd), capture_output=True, text=True, check=True).stdout.strip()
+    if len(out) < 8:
+        raise SystemExit("the passphrase command returned no usable passphrase")
+    return out
 
 
 def witness(root: Path, witness_dir: Path, passphrase: str | None = None, recipients: Path | None = None) -> dict[str, Any]:
@@ -333,6 +402,13 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--store", type=Path, required=True)
     s.add_argument("--dir", type=Path, required=True)
     s.add_argument("--recipients", type=Path, required=True)
+    s = sub.add_parser("weekly-check")
+    s.add_argument("--store", type=Path, required=True, help="your local clone of the ledger repository")
+    s.add_argument("--dir", type=Path, required=True)
+    s.add_argument("--recipients", type=Path, required=True)
+    s.add_argument("--ledger-url", help="clone/pull this URL first (https://github.com/<owner>/<ledger repo>.git)")
+    s.add_argument("--passphrase-cmd", help="command that prints the witness-key passphrase, e.g. 'security find-generic-password -s sift-witness -w'")
+    s.add_argument("--max-stale-days", type=int, default=4)
     s = sub.add_parser("verify")
     s.add_argument("--store", type=Path, required=True)
     s.add_argument("--dir", type=Path)
@@ -372,6 +448,10 @@ def main(argv: list[str] | None = None) -> int:
         print(witness_keygen(a.dir))
     elif a.cmd == "witness":
         print(json.dumps(witness(a.store, a.dir, recipients=a.recipients), indent=1))
+    elif a.cmd == "weekly-check":
+        res = weekly_check(a.store, a.dir, a.recipients, ledger_url=a.ledger_url, passphrase_cmd=a.passphrase_cmd, max_stale_days=a.max_stale_days)
+        print(json.dumps(res, indent=1))
+        return 0 if res["ok"] else 1
     elif a.cmd == "verify":
         res = verify_all(a.store, a.dir, a.recipients, a.attest_pub, a.expect_witness_head, a.expect_genesis)
         if a.previous:

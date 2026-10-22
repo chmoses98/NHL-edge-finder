@@ -1,6 +1,6 @@
 # Pinned actions and hash-locked dependencies (research workflows)
 
-> RESEARCH ONLY. Scope: `.github/workflows/model_research_daily.yml` and `market_audit.yml` — the two workflows that read the archive and (for the sealed ledger) hold a write token. Production workflows (`ci.yml`, capture, conductor, …) still use floating action tags and the project's normal install; changing them is a separate decision because it touches production CI.
+> RESEARCH ONLY. Scope: `.github/workflows/sealed_ledger_daily.yml`, `sealed_ledger_admin.yml` and `market_audit.yml` — the two workflows that read the archive and (for the sealed ledger) hold a write token. Production workflows (`ci.yml`, capture, conductor, …) still use floating action tags and the project's normal install; changing them is a separate decision because it touches production CI.
 
 ## What is pinned and why
 

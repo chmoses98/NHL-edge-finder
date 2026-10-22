@@ -1,5 +1,7 @@
 # Sealed prospective research ledger — design, threat model and security review
 
+> **Update (unattended operation):** the *publication path* described in §3 and §5b below (workflow `model_research_daily.yml`, branch `model-research-sealed-ledger` in the code repository, environment `sealed-ledger` with a required reviewer, `GITHUB_TOKEN` write) was replaced by `SEALED_LEDGER_UNATTENDED.md`: the ledger now lives in its **own repository**, the routine workflow `sealed_ledger_daily.yml` has no write permission on the code repository and needs no approval, and initialisation / hand corrections / hand exclusions are in `sealed_ledger_admin.yml` behind the owner's approval. The cryptography, manifest, checkpoints, completeness audit and threat model here are unchanged; read §3/§5b with that substitution.
+
 > RESEARCH ONLY · shadow. Implements Option A of `LEDGER_ISOLATION_REVIEW.md`. **Nothing here is activated**: `publish=true` is refused until the owner has generated keys, reviewed this document and set a repository variable (below); no schedule is enabled; the NHL betting engine remains PASS-only and no stake, cap, model or recommendation is touched.
 
 ## 1. What is protected, and what is not
@@ -153,4 +155,4 @@ Residual risks (accepted, to be revisited by the owner): T7 (workflow/dependency
 
 ## 8. Protocol preservation
 
-The preregistered rules are unchanged: first look at 150 independent games, then 300 and 450, Lan–DeMets one-sided spending 0.0007 / 0.0164 / 0.0500, ≤ 3 primary hypotheses, unit = game. `PROTOCOL_RULES` and its SHA-256 (`527508ce…7376d`) are pinned by a test and committed in every ledger's genesis; `daily.scorecard` and `daily.LOOKS` are untouched. The sealed ledger changes *where* rows are stored, not how they are scored.
+The preregistered rules are unchanged: first look at 150 independent games, then 300 and 450, Lan–DeMets one-sided spending 0.0007 / 0.0164 / 0.0500, ≤ 3 primary hypotheses, unit = game. `PROTOCOL_RULES` and its SHA-256 (`77f0b056…b3e`) are pinned by a test and committed in every ledger's genesis; `daily.scorecard` and `daily.LOOKS` are untouched. The sealed ledger changes *where* rows are stored, not how they are scored.

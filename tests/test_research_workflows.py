@@ -1,29 +1,185 @@
-"""Static guards for the research workflows: manual-only, no schedule, publish defaults to false, no relative artifact paths (upload-artifact rejects '..'), write
-permission only in a separate publish job, no force push, and -- for the daily loop -- the sealed-ledger activation gate, the absence of any decryption material or path,
-and that the default artifact never contains anything but the blinded scorecard, the outcome-free summary and the synthetic self-test result."""
+"""Static guards for the research workflows.
+
+Unattended architecture (see docs/research/nhl-model-improvement/SEALED_LEDGER_UNATTENDED.md):
+* ``sealed_ledger_daily.yml``: routine, parameter-free, NO write permission on this repository anywhere; its only write capability is a deploy key for the ledger REPOSITORY
+  (released to one job through an environment with no reviewers, restricted to ``main`` by the owner); cannot init, correct by hand, exclude by hand or change anything here.
+* ``sealed_ledger_admin.yml``: init / hand corrections / hand exclusions; its publish job waits for the owner's approval.
+* ``market_audit.yml``: the older research audit (read-only default, write only in a separate publish job, no force push).
+Plus supply-chain pins, the publish script, and isolation from every other workflow."""
 
 from __future__ import annotations
 
+import ast
 import re
+import subprocess
 from pathlib import Path
 
 import yaml
 
-WF = Path(__file__).resolve().parents[1] / ".github" / "workflows"
-RESEARCH = ("market_audit.yml", "model_research_daily.yml")
+ROOT = Path(__file__).resolve().parents[1]
+WF = ROOT / ".github" / "workflows"
+REQ = ROOT / "requirements"
+DAILY, ADMIN, AUDIT = "sealed_ledger_daily.yml", "sealed_ledger_admin.yml", "market_audit.yml"
+RESEARCH = (AUDIT, DAILY, ADMIN)
+SEALED = (DAILY, ADMIN)
+SCRIPT = ROOT / "scripts" / "sealed_ledger_publish.sh"
 
 
 def load(name: str) -> dict:
     return yaml.safe_load((WF / name).read_text())
 
 
-def test_research_workflows_are_manual_only_with_publish_false_by_default():
-    for n in RESEARCH:
-        d = load(n)
-        on = d[True] if True in d else d["on"]
-        assert list(on) == ["workflow_dispatch"], (n, list(on))
-        assert on["workflow_dispatch"]["inputs"]["publish"]["default"] == "false"
+def triggers(d: dict) -> dict:
+    return d[True] if True in d else d["on"]
 
+
+# ---------------------------------------------------------------- manual-only, nothing enabled --------------------------------------------------------------
+
+def test_research_workflows_are_manual_only_and_nothing_is_scheduled():
+    for n in RESEARCH:
+        assert list(triggers(load(n))) == ["workflow_dispatch"], n
+    assert triggers(load(AUDIT))["workflow_dispatch"]["inputs"]["publish"]["default"] == "false"
+    # the schedule exists only as a comment, ready for the owner's approval
+    assert re.search(r"^\s*#\s*schedule:", (WF / DAILY).read_text(), flags=re.M)
+    assert not re.search(r"^\s*schedule:", (WF / DAILY).read_text(), flags=re.M)
+
+
+def test_the_unattended_workflow_takes_no_input_except_a_dry_run_flag_and_cannot_init_correct_or_exclude():
+    d = load(DAILY)
+    assert list(triggers(d)["workflow_dispatch"]["inputs"]) == ["dry_run"] and triggers(d)["workflow_dispatch"]["inputs"]["dry_run"]["default"] == "false"
+    text = yaml.safe_dump(d)
+    for banned in ("--init", "--correct", "init_ledger", "correct_game_ids", "exclude_game_ids", "MODE: init", "sealed-ledger-admin"):
+        assert banned not in text, banned
+    assert not re.search(r"--exclude(?!-dir)", text)  # (grep's --exclude-dir is not ours)
+    adm = triggers(load(ADMIN))["workflow_dispatch"]["inputs"]
+    assert set(adm) == {"action", "date", "game_ids", "reason"} and adm["action"]["options"] == ["init", "correct", "exclude"]
+
+
+# ---------------------------------------------------------------- permissions: the routine path cannot write this repository ---------------------------------------
+
+def test_no_sealed_workflow_has_any_write_permission_on_this_repository():
+    for n in SEALED:
+        d = load(n)
+        assert d["permissions"] == {"contents": "read"}, n
+        for name, j in d["jobs"].items():
+            perms = j.get("permissions") or {}
+            assert perms.get("contents") == "read", (n, name)
+            writers = {k: v for k, v in perms.items() if v != "read"}
+            assert writers in ({}, {"issues": "write"}), (n, name, writers)  # the ONLY other grant: one deduplicated issue per exception
+    assert [k for k, j in load(DAILY)["jobs"].items() if "issues" in (j.get("permissions") or {})] == ["alert"]
+    assert not [k for k, j in load(ADMIN)["jobs"].items() if "issues" in (j.get("permissions") or {})]
+
+
+def test_market_audit_keeps_write_confined_to_a_publish_job_and_nothing_is_force_pushed():
+    d = load(AUDIT)
+    assert d["permissions"] == {"contents": "read"}
+    assert [k for k, j in d["jobs"].items() if (j.get("permissions") or {}).get("contents") == "write"] == ["publish"]
+    assert d["jobs"]["publish"]["if"].count("publish == 'true'") == 1
+    text = (WF / AUDIT).read_text()
+    assert "--force" not in text.replace("never forced", "") and "push -f" not in text
+
+
+def test_environments_and_secrets_are_scoped_to_the_publish_jobs_only():
+    daily, admin = load(DAILY), load(ADMIN)
+    assert {k: j.get("environment") for k, j in daily["jobs"].items()} == {"reconcile": None, "publish": "sealed-ledger-publish", "alert": None}
+    assert {k: j.get("environment") for k, j in admin["jobs"].items()} == {"settle": None, "publish": "sealed-ledger-admin"}
+    for d in (daily, admin):
+        for name, j in d["jobs"].items():
+            blob = yaml.safe_dump(j)
+            if name != "publish":
+                assert "secrets." not in blob.replace("secrets.GITHUB_TOKEN", "") and "SEALED_LEDGER_ACTIVATION_SHA" not in blob and "SEALED_LEDGER_GENESIS_HASH" not in blob, name
+    for n in SEALED:
+        raw = (WF / n).read_text()
+        assert set(re.findall(r"secrets\.([A-Z0-9_]+)", raw)) == {"SEALED_LEDGER_DEPLOY_KEY"}  # no decryption key and no token of any kind exists on GitHub
+        assert set(re.findall(r"vars\.([A-Z0-9_]+)", raw)) <= {"SEALED_LEDGER_REPO", "SEALED_LEDGER_ACTIVATION_SHA", "SEALED_LEDGER_GENESIS_HASH"}
+
+
+def test_the_routine_publish_job_has_no_reviewer_prompt_but_the_admin_one_is_the_only_approval_gate_in_code():
+    # approval is configured by the owner on the environments, not in the file; the file just routes the two paths to two different environments
+    daily_pub, admin_pub = load(DAILY)["jobs"]["publish"], load(ADMIN)["jobs"]["publish"]
+    assert daily_pub["environment"] != admin_pub["environment"]
+    assert load(DAILY)["jobs"]["publish"]["steps"][-1]["env"]["MODE"] == "append"  # hard-coded: the routine path can never run init
+    assert "init" in str(admin_pub["steps"][-1]["env"]["MODE"])
+
+
+def test_routine_runs_only_the_sealed_ledger_modules_and_the_publish_script():
+    for n in SEALED:
+        raw = yaml.safe_dump(load(n))  # parsed content: comments explaining what is NOT done are not part of it
+        mods = set(re.findall(r"python -m ([A-Za-z0-9_.]+)", raw))
+        assert mods and all(m == "pip" or m.startswith("nhl_edge.sealed_ledger.") for m in mods), (n, mods)  # no production, model, conductor or capture module is ever run
+        for banned in ("nhl_edge.workflows", "nhl_edge.cli", "conductor", "capture_worker", "edge_finder", "stake", "recommend"):
+            assert banned not in raw.replace("recommendation", ""), (n, banned)
+        scripts = set(re.findall(r"run: (scripts/[A-Za-z0-9_./-]+)", (WF / n).read_text()))
+        assert scripts <= {"scripts/sealed_ledger_publish.sh"}, scripts
+
+
+def test_nothing_in_the_routine_workflow_writes_a_file_in_the_checkout():
+    raw = (WF / DAILY).read_text()
+    assert "git push" not in raw and "git commit" not in raw and "git tag" not in raw  # the only push is inside the audited publisher, to the ledger repository
+    assert "GITHUB_WORKSPACE/src" in raw  # PYTHONPATH only; the checkout is read, never written
+
+
+# ---------------------------------------------------------------- the publish script -----------------------------------------------------------------------------
+
+def test_publish_script_is_syntax_valid_fail_closed_and_never_exposes_the_key():
+    assert subprocess.run(["bash", "-n", str(SCRIPT)], capture_output=True).returncode == 0
+    text = SCRIPT.read_text()
+    code = "\n".join(ln for ln in text.splitlines() if not ln.lstrip().startswith("#"))
+    assert "set -euo pipefail" in code and "set -x" not in code and "xtrace" not in code
+    assert re.search(r'echo[^\n]*DEPLOY_KEY', code) is None and "cat " not in code and 'printf \'%s\\n\' "$DEPLOY_KEY" > "$key"' in code
+    assert "umask 077" in code and "trap 'rm -f \"$key\"' EXIT" in code
+    for needle in ("ACTIVATION", "GENESIS", "must be a different repository", "--forbid-url-substring", "--expect-genesis", "[0-9a-f]{64}", "sha256sum"):
+        assert needle in code, needle
+    assert "--force" not in code and "--delete" not in code and "push" not in code.replace("--push-url", "")  # the push is inside the audited publisher
+    assert '--ssh-key "$key"' in code  # the key reaches ssh by path only
+    # mode init requires that NO genesis is registered yet; append requires one
+    assert code.index("--init") > code.index("init refused") - 400
+
+
+def test_genesis_and_activation_gates_are_not_in_the_settle_jobs():
+    for n in SEALED:
+        d = load(n)
+        for name, j in d["jobs"].items():
+            if name not in ("publish", "alert"):
+                blob = yaml.safe_dump(j)
+                assert "DEPLOY_KEY" not in blob and "SEALED_LEDGER_ACTIVATION_SHA" not in blob, (n, name)
+
+
+# ---------------------------------------------------------------- bounded resources ------------------------------------------------------------------------------
+
+def test_bounded_resources_one_writer_and_short_retention():
+    for n in SEALED:
+        d = load(n)
+        assert d["concurrency"] == {"group": "sealed-ledger", "cancel-in-progress": False}, n  # daily and admin never write at the same time
+        for name, j in d["jobs"].items():
+            assert j["timeout-minutes"] <= 45, (n, name)
+        for j in d["jobs"].values():
+            for st in j["steps"]:
+                if str(st.get("uses", "")).startswith("actions/upload-artifact"):
+                    assert st["with"]["retention-days"] <= 14
+    pub_artifacts = [st for st in load(DAILY)["jobs"]["reconcile"]["steps"] if str(st.get("uses", "")).startswith("actions/upload-artifact") and "if" in st]
+    assert len(pub_artifacts) == 1 and pub_artifacts[0]["with"]["retention-days"] == 1 and "dry != 'true'" in pub_artifacts[0]["if"]  # the staged store is not kept
+
+
+def test_alerts_fire_on_failure_or_blocked_only_and_waiting_is_not_an_alert():
+    alert = load(DAILY)["jobs"]["alert"]
+    assert "BLOCKED" in alert["if"] and "failure" in alert["if"] and "WAITING" not in alert["if"] and "IDLE" not in alert["if"]
+    run = alert["steps"][0]["run"]
+    assert "gh issue list" in run and "gh issue create" in run and "--state open" in run  # deduplicated: one open issue per cause
+    assert "needs.reconcile.outputs.codes" in yaml.safe_dump(alert)
+
+
+def test_the_blinding_check_whitelist_matches_what_reconcile_can_emit():
+    raw = (WF / DAILY).read_text()
+    lit = re.search(r"ok_summary = (\{.*?\})\n", raw, flags=re.S).group(1)
+    allowed = ast.literal_eval(lit.replace("\n", " "))
+    from nhl_edge.sealed_ledger import reconcile  # noqa: F401 - the keys below are asserted in tests/test_sealed_reconcile.py::test_the_summary_is_outcome_free
+
+    assert {"mode", "through", "status", "dates_closed", "games_sealed", "corrections", "exclusions", "waiting", "blocked", "reproduction_max_abs_diff", "manifest_entries",
+            "head_seq", "head_hash", "changed", "note"} == allowed
+
+
+# ---------------------------------------------------------------- supply chain: pinned actions and hash-locked dependencies ------------------------------------
 
 def test_no_relative_artifact_or_download_paths():
     for n in RESEARCH:
@@ -32,118 +188,6 @@ def test_no_relative_artifact_or_download_paths():
                 if str(st.get("uses", "")).startswith(("actions/upload-artifact", "actions/download-artifact")):
                     p = str(st["with"].get("path", ""))
                     assert ".." not in p.replace("${{", "").replace("}}", ""), (n, p)
-
-
-def test_daily_loop_default_artifact_excludes_the_store_and_write_is_isolated():
-    d = load("model_research_daily.yml")
-    settle, publish = d["jobs"]["settle"], d["jobs"]["publish"]
-    assert settle["permissions"] == {"contents": "read"} and publish["permissions"] == {"contents": "write"}
-    uploads = [st for st in settle["steps"] if str(st.get("uses", "")).startswith("actions/upload-artifact")]
-    default = [st for st in uploads if "if" not in st]
-    assert len(default) == 1 and str(default[0]["with"]["path"]).rstrip("/").endswith("rd/out")
-    gated = [st for st in uploads if "if" in st]
-    assert len(gated) == 1 and "publish == 'true'" in gated[0]["if"] and str(gated[0]["with"]["path"]).rstrip("/").endswith("rd/store")  # ciphertext + manifest only
-    assert publish["if"].count("publish == 'true'") == 1
-
-
-def test_write_permission_is_confined_to_a_publish_job_and_nothing_is_force_pushed():
-    for n in RESEARCH:
-        d = load(n)
-        assert d["permissions"] == {"contents": "read"}, n  # workflow-level default is read-only
-        writers = [k for k, j in d["jobs"].items() if (j.get("permissions") or {}).get("contents") == "write"]
-        assert writers == ["publish"], (n, writers)
-        text = (WF / n).read_text()
-        assert "--force" not in text.replace("never forced", "") and "push -f" not in text, n
-    alerts = [k for k, j in load("model_research_daily.yml")["jobs"].items() if "issues" in (j.get("permissions") or {})]
-    assert alerts == ["alert"]  # the only other grant: one issue per failed date, contents stay read-only
-    assert load("model_research_daily.yml")["jobs"]["alert"]["permissions"] == {"contents": "read", "issues": "write"}
-
-
-def test_daily_publish_is_gated_by_owner_environment_variables_and_fails_closed():
-    d = load("model_research_daily.yml")
-    gates = [st for st in d["jobs"]["publish"]["steps"] if "Activation gate" in str(st.get("name", ""))]
-    assert len(gates) == 1
-    run, env = gates[0]["run"], yaml.safe_dump(gates[0]["env"])
-    assert "vars.SEALED_LEDGER_ACTIVATION_SHA" in env and "vars.SEALED_LEDGER_GENESIS_HASH" in env  # ENVIRONMENT variables (the job references the environment)
-    assert "exit 1" in run and "sha256sum" in run and "age1" in run and "[0-9a-f]{64}" in run
-    assert 'if [ "$INIT" != true ]' in run  # only the one-time init may run before the owner has registered a genesis hash
-    # the settle job holds no activation secret/variable at all: its precheck only refuses an unconfigured ledger
-    settle = yaml.safe_dump(d["jobs"]["settle"])
-    assert "SEALED_LEDGER_ACTIVATION_SHA" not in settle and "SEALED_LEDGER_GENESIS_HASH" not in settle
-    # the gate precedes everything in the publish job that installs or runs code or fetches the artifact
-    names = [str(st.get("name", st.get("uses", ""))) for st in d["jobs"]["publish"]["steps"]]
-    assert names.index(gates[0]["name"]) < min(i for i, n in enumerate(names) if n.startswith(("actions/setup-python", "Install hash-locked", "actions/download-artifact", "Build the ledger")))
-
-
-def test_genesis_hash_is_checked_against_the_owner_registered_value_before_any_append_is_committed():
-    d = load("model_research_daily.yml")
-    build = next(st for st in d["jobs"]["publish"]["steps"] if str(st.get("name", "")).startswith("Build the ledger commit"))
-    assert build["run"].count('"${gen[@]}"') == 3 and "--expect-genesis-hash" in build["run"] and 'GENESIS' in yaml.safe_dump(build["env"])
-
-
-def test_daily_workflow_has_no_decryption_path_or_key_material():
-    text = yaml.safe_dump(load("model_research_daily.yml"))  # parsed content: comments (which explain what is NOT done) are not part of it
-    for banned in ("sealed_ledger.owner", "pyrage.decrypt", "age -d", "--identity", "SEALED_LEDGER_PRIVATE", "decrypt"):
-        assert banned not in text, banned
-    secrets_used = set(re.findall(r"secrets\.([A-Z0-9_]+)", text))
-    assert secrets_used <= {"LEDGER_ATTEST_KEY_PEM"}, secrets_used  # an optional SIGNING key only; no decryption key exists on GitHub
-    d = load("model_research_daily.yml")
-    assert "secrets." not in yaml.safe_dump(d["jobs"]["settle"]) and "secrets." not in yaml.safe_dump(d["jobs"]["alert"])  # the signing secret is only reachable in the publish job
-    raw = (WF / "model_research_daily.yml").read_text()
-    assert text.count("--seal") == 1  # sealing happens only under the PUBLISH=true branch
-    assert 'if [ "$PUBLISH" = true ]; then\n            args+=(--seal)' in raw
-
-
-def test_inputs_are_only_used_through_env_vars():
-    text = (WF / "model_research_daily.yml").read_text()
-    for m in re.finditer(r"run: \|\n((?:[ ]{10,}.*\n)+)", text):
-        assert "github.event.inputs" not in m.group(1) and "steps.plan.outputs" not in m.group(1), m.group(1)[:80]
-
-
-def test_bounded_resources_and_serialised_runs():
-    d = load("model_research_daily.yml")
-    assert d["concurrency"] == {"group": "model-research-daily", "cancel-in-progress": False}
-    for name, j in d["jobs"].items():
-        assert j["timeout-minutes"] <= 30, name
-    assert all(st["with"].get("retention-days", 99) <= 14 for j in d["jobs"].values() for st in j["steps"] if str(st.get("uses", "")).startswith("actions/upload-artifact"))
-
-
-def test_publish_runs_only_from_main_in_a_protected_environment_with_a_token_free_checkout():
-    d = load("model_research_daily.yml")
-    raw = (WF / "model_research_daily.yml").read_text()
-    assert d["jobs"]["publish"]["environment"] == "sealed-ledger"
-    assert raw.count('refs/heads/main') >= 3  # the plan step and the publish-job gate both refuse any other ref
-    co = d["jobs"]["publish"]["steps"][0]
-    assert str(co["uses"]).startswith("actions/checkout") and co["with"]["persist-credentials"] is False
-    # the write token appears in exactly one step (push), after dependencies are installed and verification has run
-    token_steps = [st["name"] for st in d["jobs"]["publish"]["steps"] if "github.token" in yaml.safe_dump(st)]
-    assert len(token_steps) == 1 and token_steps[0].startswith("Push the ledger branch")
-    names = [st.get("name", st.get("uses")) for st in d["jobs"]["publish"]["steps"]]
-    assert names.index(token_steps[0]) > max(i for i, n in enumerate(names) if str(n).startswith(("Build the ledger commit", "Install hash-locked", "Optional runner")) or n is None)
-
-
-def test_selftest_step_can_fail_the_job_and_no_readme_or_extra_files_are_published():
-    d = load("model_research_daily.yml")
-    st = next(s for s in d["jobs"]["settle"]["steps"] if "selftest" in str(s.get("run", "")))
-    assert "|" not in st["run"].replace("||", "")  # no pipeline: a failing self-test fails the step
-    assert "README" not in (WF / "model_research_daily.yml").read_text().replace("README is", "")
-
-
-def test_init_mode_exists_requires_publish_and_skips_the_archive():
-    d = load("model_research_daily.yml")
-    on = d[True] if True in d else d["on"]
-    assert on["workflow_dispatch"]["inputs"]["init_ledger"]["default"] == "false"
-    plan = next(st for st in d["jobs"]["settle"]["steps"] if st.get("id") == "plan")
-    assert "init_ledger needs publish=true" in plan["run"] and "not allowed with init_ledger" in plan["run"]
-    fetch = next(st for st in d["jobs"]["settle"]["steps"] if str(st.get("name", "")).startswith("Fetch a sparse"))
-    assert "init != 'true'" in fetch["if"]
-    audit = next(st for st in d["jobs"]["settle"]["steps"] if str(st.get("name", "")).startswith("Completeness audit"))
-    assert "init != 'true'" in audit["if"] and "sealed_ledger.audit" in audit["run"]
-
-
-# ---------------------------------------------------------------- supply chain: pinned actions and hash-locked dependencies ------------------------------------
-
-REQ = Path(__file__).resolve().parents[1] / "requirements"
 
 
 def test_every_action_in_the_research_workflows_is_pinned_to_a_full_commit_sha_with_a_version_comment():
@@ -158,10 +202,11 @@ def test_every_action_in_the_research_workflows_is_pinned_to_a_full_commit_sha_w
 def test_research_workflows_install_only_from_hash_locked_requirements():
     for n in RESEARCH:
         text = (WF / n).read_text()
-        installs = re.findall(r"pip install[^\n]*", text)
-        for line in installs:
+        for line in re.findall(r"pip install[^\n]*", text):
             assert "--require-hashes" in line and "--only-binary=:all:" in line and "--no-deps" in line and re.search(r"-r requirements/[a-z-]+\.lock", line), (n, line)
         assert "pip install -e" not in text and "uv pip" not in text and "poetry" not in text, n
+    publish_installs = re.findall(r"requirements/([a-z-]+)\.lock", yaml.safe_dump(load(DAILY)["jobs"]["publish"]) + yaml.safe_dump(load(ADMIN)["jobs"]["publish"]))
+    assert set(publish_installs) == {"sealed-publish"}  # the jobs that hold the deploy key install the smallest possible set
 
 
 def test_lock_files_are_complete_hashed_and_consistent():
@@ -182,23 +227,22 @@ def test_lock_files_are_complete_hashed_and_consistent():
                 assert re.match(r"^\s+--hash=sha256:[0-9a-f]{64}( \\)?$", ln), (lock.name, ln)
                 pkgs[cur]["hashes"] += 1
         assert pkgs and all(v["hashes"] >= 1 for v in pkgs.values()), lock.name
-        text = lock.read_text()
-        assert not re.search(r"git\+|https?://|^-e |file:", text, flags=re.M), lock.name
+        assert not re.search(r"git\+|https?://|^-e |file:", lock.read_text(), flags=re.M), lock.name
         parsed[lock.name] = pkgs
-    for name, v in parsed["sealed-publish.lock"].items():  # the small lock must agree with the big one wherever they overlap
+    for name, v in parsed["sealed-publish.lock"].items():
         assert parsed["research-runtime.lock"][name]["version"] == v["version"], name
     for crypto in ("pyrage", "cryptography"):
         assert crypto in parsed["sealed-publish.lock"] and crypto in parsed["research-runtime.lock"]
 
 
-# ---------------------------------------------------------------- the publication path cannot be reached by ordinary development workflows ------------------------
+# ---------------------------------------------------------------- isolation from every other workflow ------------------------------------------------------------
 
-def test_no_other_workflow_touches_the_ledger_environment_variables_secrets_or_branch():
+def test_no_other_workflow_touches_the_ledger_environments_variables_secrets_or_modules():
     for f in sorted(WF.glob("*.yml")):
-        if f.name == "model_research_daily.yml":
+        if f.name in SEALED:
             continue
         text = f.read_text()
-        for needle in ("model-research-sealed-ledger", "sealed-ledger", "SEALED_LEDGER", "LEDGER_ATTEST", "sealed_ledger", "model_research_daily"):
+        for needle in ("sealed-ledger", "SEALED_LEDGER", "sealed_ledger", "LEDGER_DEPLOY", "model_research_daily"):
             assert needle not in text, (f.name, needle)
 
 
@@ -206,10 +250,10 @@ def test_pull_request_workflows_are_read_only_and_use_no_environment_or_secret()
     for f in sorted(WF.glob("*.yml")):
         d = yaml.safe_load(f.read_text())
         on = d[True] if True in d else d["on"]
-        triggers = on if isinstance(on, (list, dict)) else [on]
-        if "pull_request" not in triggers and "pull_request_target" not in triggers:
+        trig = on if isinstance(on, (list, dict)) else [on]
+        if "pull_request" not in trig and "pull_request_target" not in trig:
             continue
-        assert "pull_request_target" not in triggers, f.name  # that trigger would run with secrets on untrusted code
+        assert "pull_request_target" not in trig, f.name  # that trigger would run with secrets on untrusted code
         assert d.get("permissions") is None or "write" not in yaml.safe_dump(d["permissions"]), f.name
         for name, j in d["jobs"].items():  # a write-permitted job in a PR-triggered workflow must be excluded from pull_request events
             if "write" in yaml.safe_dump(j.get("permissions")):
@@ -218,22 +262,13 @@ def test_pull_request_workflows_are_read_only_and_use_no_environment_or_secret()
         assert "secrets." not in yaml.safe_dump(d).replace("secrets.GITHUB_TOKEN", ""), f.name
 
 
-def test_only_the_publish_job_can_reach_the_environment_and_it_is_the_only_one_with_the_signing_secret():
-    d = load("model_research_daily.yml")
-    envs = {k: j.get("environment") for k, j in d["jobs"].items()}
-    assert envs == {"settle": None, "publish": "sealed-ledger", "alert": None}
-
-
-# ---------------------------------------------------------------- committed development material holds no prospective data -------------------------------------
-
 def test_committed_research_tables_hold_no_post_freeze_game():
     import pandas as pd
 
     from nhl_edge.model_research import DEV_LAST_GAME_DATE_ET, PROSPECTIVE_FREEZE_UTC
 
-    root = Path(__file__).resolve().parents[1] / "docs" / "research"
     checked = 0
-    for f in sorted(root.glob("*/data/*.csv")):
+    for f in sorted((ROOT / "docs" / "research").glob("*/data/*.csv")):
         df = pd.read_csv(f)
         if "game_date_et" in df.columns:
             assert df["game_date_et"].astype(str).max() <= DEV_LAST_GAME_DATE_ET, (f.name, "contains a game dated after the development window")
@@ -243,20 +278,10 @@ def test_committed_research_tables_hold_no_post_freeze_game():
     assert checked >= 3
 
 
-def test_audit_verdict_is_applied_after_the_report_is_uploaded_and_exclusions_are_approval_gated():
-    d = load("model_research_daily.yml")
-    steps = d["jobs"]["settle"]["steps"]
-    audit = next(st for st in steps if st.get("id") == "audit")
-    fail = next(st for st in steps if str(st.get("name", "")).startswith("Fail the run if the completeness audit failed"))
-    upload = next(i for i, st in enumerate(steps) if str(st.get("uses", "")).startswith("actions/upload-artifact") and "if" not in st)
-    assert steps.index(audit) < upload < steps.index(fail)  # the owner can read SCHEDULE_AUDIT.json even when the audit fails the run
-    assert "--allow-revised" in audit["run"] and "AUDIT PROBLEM" in audit["run"] and "steps.audit.outputs.rc" in fail["if"]
-    plan = next(st for st in steps if st.get("id") == "plan")
-    assert "exclusions need publish=true" in plan["run"] and "valid exclusion_reason" in plan["run"]
-    on = d[True] if True in d else d["on"]
-    assert on["workflow_dispatch"]["inputs"]["exclude_game_ids"]["default"] == ""
-    # exclusions only reach the sealing path (publish=true) and, like every publish, run in the approval-gated environment
-    ingest = next(st for st in steps if str(st.get("name", "")).startswith("Settle the date"))
-    assert ingest["run"].index("--exclude") > ingest["run"].index('if [ "$PUBLISH" = true ]')
-    gate = next(st for st in d["jobs"]["publish"]["steps"] if "Activation gate" in str(st.get("name", "")))
-    assert "init refused: a genesis hash is already registered" in gate["run"]
+def test_owner_weekly_script_is_local_never_prints_the_passphrase_and_decrypts_nothing():
+    script = ROOT / "scripts" / "owner_weekly_check.sh"
+    assert subprocess.run(["bash", "-n", str(script)], capture_output=True).returncode == 0
+    code = "\n".join(ln for ln in script.read_text().splitlines() if not ln.lstrip().startswith("#"))
+    assert "weekly-check" in code and "security find-generic-password -s sift-witness -w" in code and "set -x" not in code
+    assert "look" not in code.replace("--store", "") and "keygen" not in code and "--identity" not in code  # no key, no decryption, no look
+    assert re.search(r"echo[^\n]*(passphrase|PASSPHRASE)", code) is None
