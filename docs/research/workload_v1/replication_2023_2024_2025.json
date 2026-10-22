@@ -1,0 +1,5353 @@
+{
+ "model_version": "WORKLOAD_V1",
+ "preregistration": "WORKLOAD_V1_PREREG_2026-10-12",
+ "frozen_params": {
+  "minutes_mode": "share",
+  "hl_share": 4.0,
+  "k_share": 0.5,
+  "hl_rate": 80.0,
+  "k_rate": {
+   "evreg": 200.0,
+   "pp": 30.0,
+   "sh": 30.0,
+   "ea": 5.0,
+   "en": 5.0
+  },
+  "league_rows": 10000,
+  "beta_opp": 1.0,
+  "hl_opp": 25.0,
+  "k_opp": 15.0,
+  "hl_team": 20.0,
+  "k_team": 10.0,
+  "hl_sa": 15.0,
+  "k_sa": 15.0,
+  "schedule_adjust": true,
+  "k_sv": 1000.0,
+  "league_window": 1200,
+  "league_window_sa": 400
+ },
+ "acceptance_rule": {
+  "skaters_all_required": [
+   "CRPS(WORKLOAD_V1) - CRPS(CHAMPION): 95% CI upper < 0",
+   "CRPS(WORKLOAD_V1) - CRPS(CHAMPION_NB): 95% CI upper < 0",
+   "RMSE(WORKLOAD_V1) - RMSE(CHAMPION): 95% CI upper < 0",
+   "ladder Brier(WORKLOAD_V1) - ladder Brier(CHAMPION_NB): 95% CI upper < 0",
+   "|bias(WORKLOAD_V1)| <= 0.05 shots per skater-game",
+   "80% PIT coverage in [0.77, 0.83]",
+   "CRPS no worse than CHAMPION_NB for forwards AND for defencemen (point estimates)"
+  ],
+  "goalies_all_required": [
+   "CRPS(WORKLOAD_V1) - CRPS(CHAMPION): 95% CI upper < 0",
+   "RMSE(WORKLOAD_V1) - RMSE(CHAMPION): 95% CI upper < 0",
+   "ladder Brier(WORKLOAD_V1) - ladder Brier(CHAMPION): 95% CI upper < 0",
+   "|bias(WORKLOAD_V1)| <= 0.5 saves per start",
+   "80% PIT coverage in [0.77, 0.83]"
+  ],
+  "max_abs_bias_sog": 0.05,
+  "max_abs_bias_saves": 0.5,
+  "coverage80_band": [
+   0.77,
+   0.83
+  ],
+  "verdicts": "ACCEPTED only if every check passes for that target; otherwise REJECTED. Acceptance would mean 'eligible for a prospective shadow test', never promotion.",
+  "no_changes_after_seeing_results": true
+ },
+ "feasibility": {
+  "2021": {
+   "train_seasons": [],
+   "dispersion_season": 2020,
+   "feasible": false,
+   "reason": "needs a dispersion season that itself has a prior season for the production champion (>= 2 earlier seasons)"
+  },
+  "2022": {
+   "train_seasons": [
+    2021
+   ],
+   "dispersion_season": 2021,
+   "feasible": false,
+   "reason": "needs a dispersion season that itself has a prior season for the production champion (>= 2 earlier seasons)"
+  },
+  "2023": {
+   "train_seasons": [
+    2021,
+    2022
+   ],
+   "dispersion_season": 2022,
+   "feasible": true,
+   "reason": ""
+  },
+  "2024": {
+   "train_seasons": [
+    2021,
+    2022,
+    2023
+   ],
+   "dispersion_season": 2023,
+   "feasible": true,
+   "reason": ""
+  },
+  "2025": {
+   "train_seasons": [
+    2021,
+    2022,
+    2023,
+    2024
+   ],
+   "dispersion_season": 2024,
+   "feasible": true,
+   "reason": ""
+  }
+ },
+ "derived_wf_vs_committed_2024": {
+  "lam_st_home": 0.0,
+  "lam_st_away": 0.0,
+  "ppmin_home": 0.0,
+  "ppmin_away": 0.0,
+  "home_pp_off": 0.0,
+  "away_pp_off": 0.0,
+  "home_pk_def": 0.0,
+  "away_pk_def": 0.0,
+  "n_overlap": 1312
+ },
+ "note": "2024 is the VALIDATION season of the preregistration (frozen_params were selected on it): its result is in-sample for the hyperparameters and is NOT an independent replication. 2023 is the only season held out of both the fitting and the selection.",
+ "seasons": {
+  "2023": {
+   "derived": {
+    "n_skater_games": 47221,
+    "n_games": 1312,
+    "mean_actual": 1.682789,
+    "arms": {
+     "BASELINE": {
+      "mae": 1.071624,
+      "rmse": 1.377889,
+      "bias": 0.014887,
+      "crps": 0.723191,
+      "ladder_brier": 0.136865,
+      "coverage50": 0.479647,
+      "coverage80": 0.783666,
+      "n": 47221
+     },
+     "CHAMPION": {
+      "mae": 1.055481,
+      "rmse": 1.373068,
+      "bias": -0.063954,
+      "crps": 0.7192,
+      "ladder_brier": 0.136078,
+      "coverage50": 0.478739,
+      "coverage80": 0.77951,
+      "n": 47221
+     },
+     "CHAMPION_NB": {
+      "mae": 1.05548,
+      "rmse": 1.373068,
+      "bias": -0.063962,
+      "crps": 0.719498,
+      "ladder_brier": 0.136196,
+      "coverage50": 0.503635,
+      "coverage80": 0.804607,
+      "n": 47221
+     },
+     "WORKLOAD_ONLY": {
+      "mae": 1.05602,
+      "rmse": 1.370029,
+      "bias": -0.037413,
+      "crps": 0.717537,
+      "ladder_brier": 0.135808,
+      "coverage50": 0.50216,
+      "coverage80": 0.803462,
+      "n": 47221
+     },
+     "EFFICIENCY_ONLY": {
+      "mae": 1.053824,
+      "rmse": 1.36745,
+      "bias": -0.047146,
+      "crps": 0.715845,
+      "ladder_brier": 0.135491,
+      "coverage50": 0.502084,
+      "coverage80": 0.804049,
+      "n": 47221
+     },
+     "WORKLOAD_V1": {
+      "mae": 1.060611,
+      "rmse": 1.361125,
+      "bias": 0.052537,
+      "crps": 0.713039,
+      "ladder_brier": 0.134965,
+      "coverage50": 0.496009,
+      "coverage80": 0.798981,
+      "n": 47221
+     }
+    },
+    "diffs": {
+     "WORKLOAD_V1_minus_CHAMPION": {
+      "mae": {
+       "diff": 0.00513,
+       "ci95": [
+        0.003212,
+        0.006994
+       ]
+      },
+      "rmse": {
+       "diff": -0.011943,
+       "ci95": [
+        -0.014338,
+        -0.009709
+       ]
+      },
+      "crps": {
+       "diff": -0.006161,
+       "ci95": [
+        -0.007419,
+        -0.004982
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001114,
+       "ci95": [
+        -0.001346,
+        -0.000885
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.011417,
+       "ci95": [
+        -0.038274,
+        0.01347
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": 0.005131,
+       "ci95": [
+        0.003214,
+        0.006994
+       ]
+      },
+      "rmse": {
+       "diff": -0.011943,
+       "ci95": [
+        -0.014337,
+        -0.009709
+       ]
+      },
+      "crps": {
+       "diff": -0.006459,
+       "ci95": [
+        -0.007753,
+        -0.005257
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001232,
+       "ci95": [
+        -0.001474,
+        -0.000999
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.011426,
+       "ci95": [
+        -0.038283,
+        0.013462
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_BASELINE": {
+      "mae": {
+       "diff": -0.011013,
+       "ci95": [
+        -0.013119,
+        -0.008944
+       ]
+      },
+      "rmse": {
+       "diff": -0.016764,
+       "ci95": [
+        -0.01946,
+        -0.014316
+       ]
+      },
+      "crps": {
+       "diff": -0.010152,
+       "ci95": [
+        -0.011477,
+        -0.008867
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001901,
+       "ci95": [
+        -0.002146,
+        -0.001658
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.037649,
+       "ci95": [
+        0.033477,
+        0.041438
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": 0.00054,
+       "ci95": [
+        -7.1e-05,
+        0.001155
+       ]
+      },
+      "rmse": {
+       "diff": -0.00304,
+       "ci95": [
+        -0.003807,
+        -0.002289
+       ]
+      },
+      "crps": {
+       "diff": -0.001961,
+       "ci95": [
+        -0.002357,
+        -0.001587
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000388,
+       "ci95": [
+        -0.000465,
+        -0.000317
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.02655,
+       "ci95": [
+        -0.027687,
+        -0.025402
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "EFFICIENCY_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": -0.001656,
+       "ci95": [
+        -0.00304,
+        -0.00027
+       ]
+      },
+      "rmse": {
+       "diff": -0.005618,
+       "ci95": [
+        -0.007233,
+        -0.003947
+       ]
+      },
+      "crps": {
+       "diff": -0.003654,
+       "ci95": [
+        -0.004534,
+        -0.002753
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000705,
+       "ci95": [
+        -0.000879,
+        -0.000531
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.016816,
+       "ci95": [
+        -0.020479,
+        -0.013074
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_NB_minus_CHAMPION": {
+      "mae": {
+       "diff": -1e-06,
+       "ci95": [
+        -2e-06,
+        0.0
+       ]
+      },
+      "rmse": {
+       "diff": 0.0,
+       "ci95": [
+        -2e-06,
+        2e-06
+       ]
+      },
+      "crps": {
+       "diff": 0.000298,
+       "ci95": [
+        -1.2e-05,
+        0.000575
+       ]
+      },
+      "ladder_brier": {
+       "diff": 0.000118,
+       "ci95": [
+        6.1e-05,
+        0.000173
+       ]
+      },
+      "abs_bias": {
+       "diff": 9e-06,
+       "ci95": [
+        8e-06,
+        1e-05
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_minus_BASELINE": {
+      "mae": {
+       "diff": -0.016143,
+       "ci95": [
+        -0.017935,
+        -0.014288
+       ]
+      },
+      "rmse": {
+       "diff": -0.004822,
+       "ci95": [
+        -0.006874,
+        -0.002644
+       ]
+      },
+      "crps": {
+       "diff": -0.003991,
+       "ci95": [
+        -0.005275,
+        -0.002686
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000787,
+       "ci95": [
+        -0.001039,
+        -0.000529
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.049066,
+       "ci95": [
+        0.023063,
+        0.076274
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     }
+    },
+    "subgroups": {
+     "F": {
+      "CHAMPION": {
+       "mae": 1.117235,
+       "rmse": 1.448735,
+       "bias": -0.089168,
+       "crps": 0.764924,
+       "ladder_brier": 0.142716,
+       "coverage50": 0.474732,
+       "coverage80": 0.775521,
+       "n": 31291
+      },
+      "CHAMPION_NB": {
+       "mae": 1.117234,
+       "rmse": 1.448735,
+       "bias": -0.089181,
+       "crps": 0.765379,
+       "ladder_brier": 0.142893,
+       "coverage50": 0.502233,
+       "coverage80": 0.803619,
+       "n": 31291
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.126249,
+       "rmse": 1.435452,
+       "bias": 0.065057,
+       "crps": 0.758612,
+       "ladder_brier": 0.141627,
+       "coverage50": 0.493252,
+       "coverage80": 0.797586,
+       "n": 31291
+      }
+     },
+     "D": {
+      "CHAMPION": {
+       "mae": 0.934179,
+       "rmse": 1.210746,
+       "bias": -0.014425,
+       "crps": 0.629385,
+       "ladder_brier": 0.123041,
+       "coverage50": 0.486611,
+       "coverage80": 0.787345,
+       "n": 15930
+      },
+      "CHAMPION_NB": {
+       "mae": 0.934179,
+       "rmse": 1.210746,
+       "bias": -0.014425,
+       "crps": 0.629376,
+       "ladder_brier": 0.123041,
+       "coverage50": 0.506388,
+       "coverage80": 0.806549,
+       "n": 15930
+      },
+      "WORKLOAD_V1": {
+       "mae": 0.931681,
+       "rmse": 1.201817,
+       "bias": 0.027943,
+       "crps": 0.623522,
+       "ladder_brier": 0.121877,
+       "coverage50": 0.501423,
+       "coverage80": 0.801722,
+       "n": 15930
+      }
+     },
+     "regulation_games": {
+      "CHAMPION": {
+       "mae": 1.049244,
+       "rmse": 1.359156,
+       "bias": -0.044187,
+       "crps": 0.713161,
+       "ladder_brier": 0.13562,
+       "coverage50": 0.479998,
+       "coverage80": 0.781327,
+       "n": 37430
+      },
+      "CHAMPION_NB": {
+       "mae": 1.049243,
+       "rmse": 1.359154,
+       "bias": -0.044195,
+       "crps": 0.713354,
+       "ladder_brier": 0.135687,
+       "coverage50": 0.505172,
+       "coverage80": 0.806464,
+       "n": 37430
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.055806,
+       "rmse": 1.350547,
+       "bias": 0.071918,
+       "crps": 0.708341,
+       "ladder_brier": 0.134729,
+       "coverage50": 0.497059,
+       "coverage80": 0.799953,
+       "n": 37430
+      }
+     },
+     "ot_games": {
+      "CHAMPION": {
+       "mae": 1.079324,
+       "rmse": 1.425001,
+       "bias": -0.13952,
+       "crps": 0.742287,
+       "ladder_brier": 0.137828,
+       "coverage50": 0.47393,
+       "coverage80": 0.772564,
+       "n": 9791
+      },
+      "CHAMPION_NB": {
+       "mae": 1.079326,
+       "rmse": 1.425008,
+       "bias": -0.139529,
+       "crps": 0.742986,
+       "ladder_brier": 0.138141,
+       "coverage50": 0.497758,
+       "coverage80": 0.797512,
+       "n": 9791
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.078983,
+       "rmse": 1.400828,
+       "bias": -0.021558,
+       "crps": 0.730999,
+       "ladder_brier": 0.135863,
+       "coverage50": 0.491993,
+       "coverage80": 0.795267,
+       "n": 9791
+      }
+     }
+    },
+    "workload_minutes": {
+     "total": {
+      "champion": {
+       "mae": 1.933027,
+       "rmse": 2.556285,
+       "bias": -0.206511
+      },
+      "workload_v1": {
+       "mae": 1.883071,
+       "rmse": 2.508359,
+       "bias": 0.044792
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.049956,
+       "ci95": [
+        -0.055431,
+        -0.044453
+       ],
+       "n_obs": 47221,
+       "n_games": 1312
+      }
+     },
+     "pp": {
+      "champion": {
+       "mae": 0.801201,
+       "rmse": 1.211442,
+       "bias": -0.250101
+      },
+      "workload_v1": {
+       "mae": 0.80303,
+       "rmse": 1.153275,
+       "bias": 0.023939
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": 0.001829,
+       "ci95": [
+        -0.006181,
+        0.009806
+       ],
+       "n_obs": 47221,
+       "n_games": 1312
+      }
+     },
+     "sh": {
+      "champion": {
+       "mae": 0.683494,
+       "rmse": 1.033377,
+       "bias": -0.220432
+      },
+      "workload_v1": {
+       "mae": 0.683341,
+       "rmse": 0.983967,
+       "bias": 0.013293
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.000153,
+       "ci95": [
+        -0.006697,
+        0.006376
+       ],
+       "n_obs": 47221,
+       "n_games": 1312
+      }
+     },
+     "ev_incl_ot": {
+      "champion": {
+       "mae": 1.843133,
+       "rmse": 2.394877,
+       "bias": 0.194715
+      },
+      "workload_v1": {
+       "mae": 1.823694,
+       "rmse": 2.372922,
+       "bias": -0.044776
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.019439,
+       "ci95": [
+        -0.028466,
+        -0.010019
+       ],
+       "n_obs": 47221,
+       "n_games": 1312
+      }
+     },
+     "n_skater_games": 47221
+    },
+    "efficiency_given_actual_minutes": {
+     "champion_rates": {
+      "mae": 1.031325,
+      "rmse": 1.338086,
+      "bias": -0.030718,
+      "poisson_deviance": 1.203032
+     },
+     "workload_v1_rates": {
+      "mae": 1.030501,
+      "rmse": 1.325054,
+      "bias": 0.04577,
+      "poisson_deviance": 1.167962
+     },
+     "sq_err_diff_wl_minus_champion": {
+      "diff": -0.034707,
+      "ci95": [
+       -0.041896,
+       -0.028108
+      ],
+      "n_obs": 47221,
+      "n_games": 1312
+     }
+    },
+    "alphas": {
+     "BASELINE": 0.0,
+     "CHAMPION": 0.0,
+     "CHAMPION_NB": 0.098194,
+     "WORKLOAD_ONLY": 0.083301,
+     "EFFICIENCY_ONLY": 0.077826,
+     "WORKLOAD_V1": 0.035789
+    },
+    "acceptance": {
+     "checks": {
+      "crps_vs_champion_ci_upper_lt_0": true,
+      "crps_vs_champion_nb_ci_upper_lt_0": true,
+      "rmse_vs_champion_ci_upper_lt_0": true,
+      "ladder_brier_vs_champion_nb_ci_upper_lt_0": true,
+      "abs_bias_le_max": false,
+      "coverage80_in_band": true,
+      "no_position_worse_crps": true
+     },
+     "verdict": "REJECTED"
+    },
+    "minutes_breakdown": {
+     "F": {
+      "n": 31291,
+      "total": {
+       "champion": {
+        "mae": 1.843325,
+        "rmse": 2.389053,
+        "bias": -0.202003
+       },
+       "workload_v1": {
+        "mae": 1.796326,
+        "rmse": 2.340344,
+        "bias": 0.056487
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.889833,
+        "rmse": 1.294401,
+        "bias": -0.283589
+       },
+       "workload_v1": {
+        "mae": 0.888457,
+        "rmse": 1.232366,
+        "bias": 0.025576
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.550419,
+        "rmse": 0.863805,
+        "bias": -0.167713
+       },
+       "workload_v1": {
+        "mae": 0.553762,
+        "rmse": 0.82187,
+        "bias": 0.012366
+       }
+      }
+     },
+     "D": {
+      "n": 15930,
+      "total": {
+       "champion": {
+        "mae": 2.109229,
+        "rmse": 2.856413,
+        "bias": -0.215366
+       },
+       "workload_v1": {
+        "mae": 2.053464,
+        "rmse": 2.809283,
+        "bias": 0.021819
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.627101,
+        "rmse": 1.0292,
+        "bias": -0.184322
+       },
+       "workload_v1": {
+        "mae": 0.635227,
+        "rmse": 0.979499,
+        "bias": 0.020722
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.944891,
+        "rmse": 1.303761,
+        "bias": -0.323987
+       },
+       "workload_v1": {
+        "mae": 0.93787,
+        "rmse": 1.242248,
+        "bias": 0.015114
+       }
+      }
+     },
+     "ot_games": {
+      "n": 9791,
+      "total": {
+       "champion": {
+        "mae": 2.166131,
+        "rmse": 2.804577,
+        "bias": -0.631821
+       },
+       "workload_v1": {
+        "mae": 2.057181,
+        "rmse": 2.701313,
+        "bias": -0.372854
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.79772,
+        "rmse": 1.22798,
+        "bias": -0.242339
+       },
+       "workload_v1": {
+        "mae": 0.803715,
+        "rmse": 1.166447,
+        "bias": 0.027554
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.683656,
+        "rmse": 1.046392,
+        "bias": -0.213172
+       },
+       "workload_v1": {
+        "mae": 0.682949,
+        "rmse": 0.993291,
+        "bias": 0.015939
+       }
+      }
+     },
+     "regulation_games": {
+      "n": 37430,
+      "total": {
+       "champion": {
+        "mae": 1.872052,
+        "rmse": 2.48725,
+        "bias": -0.095257
+       },
+       "workload_v1": {
+        "mae": 1.837527,
+        "rmse": 2.455385,
+        "bias": 0.15404
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.802111,
+        "rmse": 1.207078,
+        "bias": -0.252132
+       },
+       "workload_v1": {
+        "mae": 0.802851,
+        "rmse": 1.149805,
+        "bias": 0.022993
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.683451,
+        "rmse": 1.029945,
+        "bias": -0.222331
+       },
+       "workload_v1": {
+        "mae": 0.683443,
+        "rmse": 0.981514,
+        "bias": 0.012601
+       }
+      }
+     }
+    },
+    "bias_ci95": {
+     "WORKLOAD_V1": {
+      "diff": 0.052539,
+      "ci95": [
+       0.039065,
+       0.065145
+      ],
+      "n_obs": 47221,
+      "n_games": 1312
+     },
+     "CHAMPION": {
+      "diff": -0.063953,
+      "ci95": [
+       -0.077685,
+       -0.05097
+      ],
+      "n_obs": 47221,
+      "n_games": 1312
+     }
+    },
+    "train_seasons": [
+     2021,
+     2022
+    ],
+    "dispersion_season": 2022,
+    "n_games_without_shift_charts": 0,
+    "constants": {
+     "share_prior": {
+      "D": {
+       "evreg": 0.330611,
+       "pp": 0.204119,
+       "sh": 0.332919,
+       "ea": 0.241201,
+       "en": 0.330811,
+       "ot": 0.179329
+      },
+      "F": {
+       "evreg": 0.250151,
+       "pp": 0.314196,
+       "sh": 0.171523,
+       "ea": 0.378054,
+       "en": 0.241684,
+       "ot": 0.167861
+      }
+     },
+     "minutes_prior": {
+      "D": {
+       "evreg": 963.865153,
+       "pp": 64.513056,
+       "sh": 105.27379,
+       "ea": 6.354963,
+       "en": 8.742779
+      },
+      "F": {
+       "evreg": 729.164387,
+       "pp": 99.392953,
+       "sh": 54.235348,
+       "ea": 9.986373,
+       "en": 6.376358
+      }
+     },
+     "rate_prior": {
+      "D": {
+       "evreg": 4.620261,
+       "pp": 7.647884,
+       "sh": 1.439084,
+       "ea": 12.526332,
+       "en": 1.206239,
+       "ot": 8.581364
+      },
+      "F": {
+       "evreg": 7.175341,
+       "pp": 10.979992,
+       "sh": 3.567298,
+       "ea": 15.007766,
+       "en": 7.387387,
+       "ot": 14.601244
+      }
+     },
+     "ot_mult": {
+      "D": 1.857333,
+      "F": 2.03492
+     },
+     "venue_sog": 1.047442,
+     "p_ot": 0.224848,
+     "ot_len": 190.79322,
+     "ot_sa": 2.044915,
+     "venue_sa": 1.047714,
+     "p_pull": 0.067454,
+     "f_pull": 0.585959,
+     "train_seasons": [
+      2021,
+      2022
+     ]
+    }
+   },
+   "leakage_truncation_check": {
+    "season": 2023,
+    "n_rows": 47221,
+    "n_missing_either": 0,
+    "constants_identical": true,
+    "max_abs_diff_wl_sog": 0.0,
+    "identical": true
+   },
+   "champion_truncation_check": {
+    "season": 2023,
+    "n_rows": 47221,
+    "n_missing_either": 0,
+    "max_abs_diff_ch_sog": 0.0,
+    "max_abs_diff_ch_toi": 0.0,
+    "identical": true
+   },
+   "coded": {
+    "n_skater_games": 47221,
+    "n_games": 1312,
+    "mean_actual": 1.682789,
+    "arms": {
+     "BASELINE": {
+      "mae": 1.071624,
+      "rmse": 1.377889,
+      "bias": 0.014887,
+      "crps": 0.723191,
+      "ladder_brier": 0.136865,
+      "coverage50": 0.479647,
+      "coverage80": 0.783666,
+      "n": 47221
+     },
+     "CHAMPION": {
+      "mae": 1.072432,
+      "rmse": 1.430423,
+      "bias": -0.260109,
+      "crps": 0.748527,
+      "ladder_brier": 0.141674,
+      "coverage50": 0.461409,
+      "coverage80": 0.757622,
+      "n": 47221
+     },
+     "CHAMPION_NB": {
+      "mae": 1.072433,
+      "rmse": 1.430431,
+      "bias": -0.260147,
+      "crps": 0.756138,
+      "ladder_brier": 0.143406,
+      "coverage50": 0.508988,
+      "coverage80": 0.809975,
+      "n": 47221
+     },
+     "WORKLOAD_ONLY": {
+      "mae": 1.05602,
+      "rmse": 1.370029,
+      "bias": -0.037413,
+      "crps": 0.717537,
+      "ladder_brier": 0.135808,
+      "coverage50": 0.50216,
+      "coverage80": 0.803462,
+      "n": 47221
+     },
+     "EFFICIENCY_ONLY": {
+      "mae": 1.06965,
+      "rmse": 1.425575,
+      "bias": -0.252404,
+      "crps": 0.751451,
+      "ladder_brier": 0.142486,
+      "coverage50": 0.510131,
+      "coverage80": 0.811158,
+      "n": 47221
+     },
+     "WORKLOAD_V1": {
+      "mae": 1.060611,
+      "rmse": 1.361125,
+      "bias": 0.052537,
+      "crps": 0.713039,
+      "ladder_brier": 0.134965,
+      "coverage50": 0.496009,
+      "coverage80": 0.798981,
+      "n": 47221
+     }
+    },
+    "diffs": {
+     "WORKLOAD_V1_minus_CHAMPION": {
+      "mae": {
+       "diff": -0.01182,
+       "ci95": [
+        -0.015855,
+        -0.008068
+       ]
+      },
+      "rmse": {
+       "diff": -0.069298,
+       "ci95": [
+        -0.074767,
+        -0.064218
+       ]
+      },
+      "crps": {
+       "diff": -0.035488,
+       "ci95": [
+        -0.038359,
+        -0.032798
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.006709,
+       "ci95": [
+        -0.007238,
+        -0.006219
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.207573,
+       "ci95": [
+        -0.233619,
+        -0.182866
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": -0.011822,
+       "ci95": [
+        -0.015859,
+        -0.008064
+       ]
+      },
+      "rmse": {
+       "diff": -0.069306,
+       "ci95": [
+        -0.07478,
+        -0.064228
+       ]
+      },
+      "crps": {
+       "diff": -0.043098,
+       "ci95": [
+        -0.045911,
+        -0.040325
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.008441,
+       "ci95": [
+        -0.008984,
+        -0.007915
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.20761,
+       "ci95": [
+        -0.233654,
+        -0.182908
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_BASELINE": {
+      "mae": {
+       "diff": -0.011013,
+       "ci95": [
+        -0.013119,
+        -0.008944
+       ]
+      },
+      "rmse": {
+       "diff": -0.016764,
+       "ci95": [
+        -0.01946,
+        -0.014316
+       ]
+      },
+      "crps": {
+       "diff": -0.010152,
+       "ci95": [
+        -0.011477,
+        -0.008867
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001901,
+       "ci95": [
+        -0.002146,
+        -0.001658
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.037649,
+       "ci95": [
+        0.033477,
+        0.041438
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": -0.016413,
+       "ci95": [
+        -0.019424,
+        -0.013528
+       ]
+      },
+      "rmse": {
+       "diff": -0.060403,
+       "ci95": [
+        -0.064535,
+        -0.056626
+       ]
+      },
+      "crps": {
+       "diff": -0.0386,
+       "ci95": [
+        -0.040724,
+        -0.036576
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.007598,
+       "ci95": [
+        -0.008001,
+        -0.0072
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.222734,
+       "ci95": [
+        -0.224209,
+        -0.221271
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "EFFICIENCY_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": -0.002783,
+       "ci95": [
+        -0.004021,
+        -0.001555
+       ]
+      },
+      "rmse": {
+       "diff": -0.004857,
+       "ci95": [
+        -0.006471,
+        -0.00319
+       ]
+      },
+      "crps": {
+       "diff": -0.004687,
+       "ci95": [
+        -0.005561,
+        -0.003773
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.00092,
+       "ci95": [
+        -0.001089,
+        -0.000743
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.007743,
+       "ci95": [
+        -0.011027,
+        -0.004422
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_NB_minus_CHAMPION": {
+      "mae": {
+       "diff": 1e-06,
+       "ci95": [
+        -4e-06,
+        7e-06
+       ]
+      },
+      "rmse": {
+       "diff": 8e-06,
+       "ci95": [
+        -3e-06,
+        1.7e-05
+       ]
+      },
+      "crps": {
+       "diff": 0.007611,
+       "ci95": [
+        0.006925,
+        0.008227
+       ]
+      },
+      "ladder_brier": {
+       "diff": 0.001732,
+       "ci95": [
+        0.001604,
+        0.001849
+       ]
+      },
+      "abs_bias": {
+       "diff": 3.7e-05,
+       "ci95": [
+        3.2e-05,
+        4.3e-05
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_minus_BASELINE": {
+      "mae": {
+       "diff": 0.000807,
+       "ci95": [
+        -0.002412,
+        0.004181
+       ]
+      },
+      "rmse": {
+       "diff": 0.052534,
+       "ci95": [
+        0.048546,
+        0.056769
+       ]
+      },
+      "crps": {
+       "diff": 0.025336,
+       "ci95": [
+        0.023042,
+        0.027848
+       ]
+      },
+      "ladder_brier": {
+       "diff": 0.004809,
+       "ci95": [
+        0.004365,
+        0.005292
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.245222,
+       "ci95": [
+        0.219916,
+        0.271768
+       ]
+      },
+      "n_obs": 47221,
+      "n_games": 1312,
+      "n_boot": 2000
+     }
+    },
+    "subgroups": {
+     "F": {
+      "CHAMPION": {
+       "mae": 1.142058,
+       "rmse": 1.521196,
+       "bias": -0.33232,
+       "crps": 0.803444,
+       "ladder_brier": 0.150024,
+       "coverage50": 0.452982,
+       "coverage80": 0.748268,
+       "n": 31291
+      },
+      "CHAMPION_NB": {
+       "mae": 1.142059,
+       "rmse": 1.521207,
+       "bias": -0.332374,
+       "crps": 0.812412,
+       "ladder_brier": 0.152126,
+       "coverage50": 0.503676,
+       "coverage80": 0.806327,
+       "n": 31291
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.126249,
+       "rmse": 1.435452,
+       "bias": 0.065057,
+       "crps": 0.758612,
+       "ladder_brier": 0.141627,
+       "coverage50": 0.493252,
+       "coverage80": 0.797586,
+       "n": 31291
+      }
+     },
+     "D": {
+      "CHAMPION": {
+       "mae": 0.935666,
+       "rmse": 1.232814,
+       "bias": -0.118267,
+       "crps": 0.640655,
+       "ladder_brier": 0.125271,
+       "coverage50": 0.47796,
+       "coverage80": 0.775994,
+       "n": 15930
+      },
+      "CHAMPION_NB": {
+       "mae": 0.935667,
+       "rmse": 1.232815,
+       "bias": -0.118272,
+       "crps": 0.645599,
+       "ladder_brier": 0.126277,
+       "coverage50": 0.519423,
+       "coverage80": 0.81714,
+       "n": 15930
+      },
+      "WORKLOAD_V1": {
+       "mae": 0.931681,
+       "rmse": 1.201817,
+       "bias": 0.027943,
+       "crps": 0.623522,
+       "ladder_brier": 0.121877,
+       "coverage50": 0.501423,
+       "coverage80": 0.801722,
+       "n": 15930
+      }
+     },
+     "regulation_games": {
+      "CHAMPION": {
+       "mae": 1.061505,
+       "rmse": 1.409022,
+       "bias": -0.240042,
+       "crps": 0.738693,
+       "ladder_brier": 0.140517,
+       "coverage50": 0.463668,
+       "coverage80": 0.761023,
+       "n": 37430
+      },
+      "CHAMPION_NB": {
+       "mae": 1.061503,
+       "rmse": 1.409025,
+       "bias": -0.24008,
+       "crps": 0.746399,
+       "ladder_brier": 0.142218,
+       "coverage50": 0.511895,
+       "coverage80": 0.812943,
+       "n": 37430
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.055806,
+       "rmse": 1.350547,
+       "bias": 0.071918,
+       "crps": 0.708341,
+       "ladder_brier": 0.134729,
+       "coverage50": 0.497059,
+       "coverage80": 0.799953,
+       "n": 37430
+      }
+     },
+     "ot_games": {
+      "CHAMPION": {
+       "mae": 1.114204,
+       "rmse": 1.509444,
+       "bias": -0.336825,
+       "crps": 0.78612,
+       "ladder_brier": 0.146094,
+       "coverage50": 0.452771,
+       "coverage80": 0.744617,
+       "n": 9791
+      },
+      "CHAMPION_NB": {
+       "mae": 1.114215,
+       "rmse": 1.509471,
+       "bias": -0.336859,
+       "crps": 0.793367,
+       "ladder_brier": 0.147949,
+       "coverage50": 0.497874,
+       "coverage80": 0.798625,
+       "n": 9791
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.078983,
+       "rmse": 1.400828,
+       "bias": -0.021558,
+       "crps": 0.730999,
+       "ladder_brier": 0.135863,
+       "coverage50": 0.491993,
+       "coverage80": 0.795267,
+       "n": 9791
+      }
+     }
+    },
+    "workload_minutes": {
+     "total": {
+      "champion": {
+       "mae": 2.438279,
+       "rmse": 3.110963,
+       "bias": -1.370014
+      },
+      "workload_v1": {
+       "mae": 1.883071,
+       "rmse": 2.508359,
+       "bias": 0.044792
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.555207,
+       "ci95": [
+        -0.571179,
+        -0.538826
+       ],
+       "n_obs": 47221,
+       "n_games": 1312
+      }
+     },
+     "pp": {
+      "champion": {
+       "mae": 1.424722,
+       "rmse": 2.173938,
+       "bias": -1.413605
+      },
+      "workload_v1": {
+       "mae": 0.80303,
+       "rmse": 1.153275,
+       "bias": 0.023939
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.621692,
+       "ci95": [
+        -0.649431,
+        -0.592833
+       ],
+       "n_obs": 47221,
+       "n_games": 1312
+      }
+     },
+     "sh": {
+      "champion": {
+       "mae": 0.683494,
+       "rmse": 1.033377,
+       "bias": -0.220432
+      },
+      "workload_v1": {
+       "mae": 0.683341,
+       "rmse": 0.983967,
+       "bias": 0.013293
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.000153,
+       "ci95": [
+        -0.006697,
+        0.006376
+       ],
+       "n_obs": 47221,
+       "n_games": 1312
+      }
+     },
+     "ev_incl_ot": {
+      "champion": {
+       "mae": 1.843133,
+       "rmse": 2.394877,
+       "bias": 0.194715
+      },
+      "workload_v1": {
+       "mae": 1.823694,
+       "rmse": 2.372922,
+       "bias": -0.044776
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.019439,
+       "ci95": [
+        -0.028466,
+        -0.010019
+       ],
+       "n_obs": 47221,
+       "n_games": 1312
+      }
+     },
+     "n_skater_games": 47221
+    },
+    "efficiency_given_actual_minutes": {
+     "champion_rates": {
+      "mae": 1.031325,
+      "rmse": 1.338086,
+      "bias": -0.030718,
+      "poisson_deviance": 1.203032
+     },
+     "workload_v1_rates": {
+      "mae": 1.030501,
+      "rmse": 1.325054,
+      "bias": 0.04577,
+      "poisson_deviance": 1.167962
+     },
+     "sq_err_diff_wl_minus_champion": {
+      "diff": -0.034707,
+      "ci95": [
+       -0.041896,
+       -0.028108
+      ],
+      "n_obs": 47221,
+      "n_games": 1312
+     }
+    },
+    "alphas": {
+     "BASELINE": 0.0,
+     "CHAMPION": 0.0,
+     "CHAMPION_NB": 0.2886,
+     "WORKLOAD_ONLY": 0.083301,
+     "EFFICIENCY_ONLY": 0.267394,
+     "WORKLOAD_V1": 0.035789
+    },
+    "acceptance": {
+     "checks": {
+      "crps_vs_champion_ci_upper_lt_0": true,
+      "crps_vs_champion_nb_ci_upper_lt_0": true,
+      "rmse_vs_champion_ci_upper_lt_0": true,
+      "ladder_brier_vs_champion_nb_ci_upper_lt_0": true,
+      "abs_bias_le_max": false,
+      "coverage80_in_band": true,
+      "no_position_worse_crps": true
+     },
+     "verdict": "REJECTED"
+    },
+    "minutes_breakdown": {
+     "F": {
+      "n": 31291,
+      "total": {
+       "champion": {
+        "mae": 2.430934,
+        "rmse": 3.057031,
+        "bias": -1.533865
+       },
+       "workload_v1": {
+        "mae": 1.796326,
+        "rmse": 2.340344,
+        "bias": 0.056487
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 1.626948,
+        "rmse": 2.344223,
+        "bias": -1.615451
+       },
+       "workload_v1": {
+        "mae": 0.888457,
+        "rmse": 1.232366,
+        "bias": 0.025576
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.550419,
+        "rmse": 0.863805,
+        "bias": -0.167713
+       },
+       "workload_v1": {
+        "mae": 0.553762,
+        "rmse": 0.82187,
+        "bias": 0.012366
+       }
+      }
+     },
+     "D": {
+      "n": 15930,
+      "total": {
+       "champion": {
+        "mae": 2.452704,
+        "rmse": 3.214268,
+        "bias": -1.048165
+       },
+       "workload_v1": {
+        "mae": 2.053464,
+        "rmse": 2.809283,
+        "bias": 0.021819
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 1.027494,
+        "rmse": 1.792967,
+        "bias": -1.017121
+       },
+       "workload_v1": {
+        "mae": 0.635227,
+        "rmse": 0.979499,
+        "bias": 0.020722
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.944891,
+        "rmse": 1.303761,
+        "bias": -0.323987
+       },
+       "workload_v1": {
+        "mae": 0.93787,
+        "rmse": 1.242248,
+        "bias": 0.015114
+       }
+      }
+     },
+     "ot_games": {
+      "n": 9791,
+      "total": {
+       "champion": {
+        "mae": 2.878273,
+        "rmse": 3.582897,
+        "bias": -1.796484
+       },
+       "workload_v1": {
+        "mae": 2.057181,
+        "rmse": 2.701313,
+        "bias": -0.372854
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 1.418142,
+        "rmse": 2.203699,
+        "bias": -1.407003
+       },
+       "workload_v1": {
+        "mae": 0.803715,
+        "rmse": 1.166447,
+        "bias": 0.027554
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.683656,
+        "rmse": 1.046392,
+        "bias": -0.213172
+       },
+       "workload_v1": {
+        "mae": 0.682949,
+        "rmse": 0.993291,
+        "bias": 0.015939
+       }
+      }
+     },
+     "regulation_games": {
+      "n": 37430,
+      "total": {
+       "champion": {
+        "mae": 2.323184,
+        "rmse": 2.975188,
+        "bias": -1.258458
+       },
+       "workload_v1": {
+        "mae": 1.837527,
+        "rmse": 2.455385,
+        "bias": 0.15404
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 1.426443,
+        "rmse": 2.166085,
+        "bias": -1.415332
+       },
+       "workload_v1": {
+        "mae": 0.802851,
+        "rmse": 1.149805,
+        "bias": 0.022993
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.683451,
+        "rmse": 1.029945,
+        "bias": -0.222331
+       },
+       "workload_v1": {
+        "mae": 0.683443,
+        "rmse": 0.981514,
+        "bias": 0.012601
+       }
+      }
+     }
+    },
+    "bias_ci95": {
+     "WORKLOAD_V1": {
+      "diff": 0.052539,
+      "ci95": [
+       0.039065,
+       0.065145
+      ],
+      "n_obs": 47221,
+      "n_games": 1312
+     },
+     "CHAMPION": {
+      "diff": -0.260109,
+      "ci95": [
+       -0.273463,
+       -0.247245
+      ],
+      "n_obs": 47221,
+      "n_games": 1312
+     }
+    },
+    "train_seasons": [
+     2021,
+     2022
+    ],
+    "dispersion_season": 2022,
+    "n_games_without_shift_charts": 0,
+    "constants": {
+     "share_prior": {
+      "D": {
+       "evreg": 0.330611,
+       "pp": 0.204119,
+       "sh": 0.332919,
+       "ea": 0.241201,
+       "en": 0.330811,
+       "ot": 0.179329
+      },
+      "F": {
+       "evreg": 0.250151,
+       "pp": 0.314196,
+       "sh": 0.171523,
+       "ea": 0.378054,
+       "en": 0.241684,
+       "ot": 0.167861
+      }
+     },
+     "minutes_prior": {
+      "D": {
+       "evreg": 963.865153,
+       "pp": 64.513056,
+       "sh": 105.27379,
+       "ea": 6.354963,
+       "en": 8.742779
+      },
+      "F": {
+       "evreg": 729.164387,
+       "pp": 99.392953,
+       "sh": 54.235348,
+       "ea": 9.986373,
+       "en": 6.376358
+      }
+     },
+     "rate_prior": {
+      "D": {
+       "evreg": 4.620261,
+       "pp": 7.647884,
+       "sh": 1.439084,
+       "ea": 12.526332,
+       "en": 1.206239,
+       "ot": 8.581364
+      },
+      "F": {
+       "evreg": 7.175341,
+       "pp": 10.979992,
+       "sh": 3.567298,
+       "ea": 15.007766,
+       "en": 7.387387,
+       "ot": 14.601244
+      }
+     },
+     "ot_mult": {
+      "D": 1.857333,
+      "F": 2.03492
+     },
+     "venue_sog": 1.047442,
+     "p_ot": 0.224848,
+     "ot_len": 190.79322,
+     "ot_sa": 2.044915,
+     "venue_sa": 1.047714,
+     "p_pull": 0.067454,
+     "f_pull": 0.585959,
+     "train_seasons": [
+      2021,
+      2022
+     ]
+    }
+   }
+  },
+  "2024": {
+   "derived": {
+    "n_skater_games": 47225,
+    "n_games": 1312,
+    "mean_actual": 1.570757,
+    "arms": {
+     "BASELINE": {
+      "mae": 1.040612,
+      "rmse": 1.337669,
+      "bias": 0.037992,
+      "crps": 0.699381,
+      "ladder_brier": 0.133953,
+      "coverage50": 0.480723,
+      "coverage80": 0.783801,
+      "n": 47225
+     },
+     "CHAMPION": {
+      "mae": 1.022555,
+      "rmse": 1.330019,
+      "bias": -0.040017,
+      "crps": 0.694166,
+      "ladder_brier": 0.132932,
+      "coverage50": 0.478424,
+      "coverage80": 0.779519,
+      "n": 47225
+     },
+     "CHAMPION_NB": {
+      "mae": 1.022554,
+      "rmse": 1.330019,
+      "bias": -0.040019,
+      "crps": 0.693929,
+      "ladder_brier": 0.132907,
+      "coverage50": 0.499072,
+      "coverage80": 0.800531,
+      "n": 47225
+     },
+     "WORKLOAD_ONLY": {
+      "mae": 1.024546,
+      "rmse": 1.328408,
+      "bias": -0.011931,
+      "crps": 0.692737,
+      "ladder_brier": 0.132666,
+      "coverage50": 0.497923,
+      "coverage80": 0.799836,
+      "n": 47225
+     },
+     "EFFICIENCY_ONLY": {
+      "mae": 1.017601,
+      "rmse": 1.326962,
+      "bias": -0.053796,
+      "crps": 0.691281,
+      "ladder_brier": 0.132389,
+      "coverage50": 0.499778,
+      "coverage80": 0.801276,
+      "n": 47225
+     },
+     "WORKLOAD_V1": {
+      "mae": 1.026255,
+      "rmse": 1.321683,
+      "bias": 0.046786,
+      "crps": 0.688891,
+      "ladder_brier": 0.131919,
+      "coverage50": 0.494707,
+      "coverage80": 0.797681,
+      "n": 47225
+     }
+    },
+    "diffs": {
+     "WORKLOAD_V1_minus_CHAMPION": {
+      "mae": {
+       "diff": 0.003701,
+       "ci95": [
+        0.002088,
+        0.005352
+       ]
+      },
+      "rmse": {
+       "diff": -0.008337,
+       "ci95": [
+        -0.010172,
+        -0.006529
+       ]
+      },
+      "crps": {
+       "diff": -0.005274,
+       "ci95": [
+        -0.006299,
+        -0.004269
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001013,
+       "ci95": [
+        -0.001215,
+        -0.000816
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.006769,
+       "ci95": [
+        -0.017678,
+        0.031663
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": 0.003701,
+       "ci95": [
+        0.002088,
+        0.005353
+       ]
+      },
+      "rmse": {
+       "diff": -0.008336,
+       "ci95": [
+        -0.010172,
+        -0.006528
+       ]
+      },
+      "crps": {
+       "diff": -0.005038,
+       "ci95": [
+        -0.006106,
+        -0.003995
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000988,
+       "ci95": [
+        -0.001198,
+        -0.000785
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.006766,
+       "ci95": [
+        -0.01768,
+        0.03166
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_BASELINE": {
+      "mae": {
+       "diff": -0.014357,
+       "ci95": [
+        -0.016382,
+        -0.012306
+       ]
+      },
+      "rmse": {
+       "diff": -0.015987,
+       "ci95": [
+        -0.018387,
+        -0.013575
+       ]
+      },
+      "crps": {
+       "diff": -0.01049,
+       "ci95": [
+        -0.011762,
+        -0.009229
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.002034,
+       "ci95": [
+        -0.00228,
+        -0.001792
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.008794,
+       "ci95": [
+        0.005416,
+        0.012115
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": 0.001992,
+       "ci95": [
+        0.001407,
+        0.002557
+       ]
+      },
+      "rmse": {
+       "diff": -0.001611,
+       "ci95": [
+        -0.002307,
+        -0.000898
+       ]
+      },
+      "crps": {
+       "diff": -0.001192,
+       "ci95": [
+        -0.001563,
+        -0.000833
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000241,
+       "ci95": [
+        -0.000314,
+        -0.000171
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.028088,
+       "ci95": [
+        -0.028955,
+        -0.026559
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "EFFICIENCY_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": -0.004953,
+       "ci95": [
+        -0.00638,
+        -0.003531
+       ]
+      },
+      "rmse": {
+       "diff": -0.003057,
+       "ci95": [
+        -0.004607,
+        -0.001522
+       ]
+      },
+      "crps": {
+       "diff": -0.002648,
+       "ci95": [
+        -0.003532,
+        -0.001794
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000518,
+       "ci95": [
+        -0.000689,
+        -0.000352
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.013777,
+       "ci95": [
+        0.010646,
+        0.017104
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_NB_minus_CHAMPION": {
+      "mae": {
+       "diff": -0.0,
+       "ci95": [
+        -1e-06,
+        -0.0
+       ]
+      },
+      "rmse": {
+       "diff": -0.0,
+       "ci95": [
+        -1e-06,
+        0.0
+       ]
+      },
+      "crps": {
+       "diff": -0.000236,
+       "ci95": [
+        -0.000488,
+        1.2e-05
+       ]
+      },
+      "ladder_brier": {
+       "diff": -2.5e-05,
+       "ci95": [
+        -7.3e-05,
+        2.4e-05
+       ]
+      },
+      "abs_bias": {
+       "diff": 2e-06,
+       "ci95": [
+        2e-06,
+        3e-06
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_minus_BASELINE": {
+      "mae": {
+       "diff": -0.018057,
+       "ci95": [
+        -0.01981,
+        -0.01633
+       ]
+      },
+      "rmse": {
+       "diff": -0.00765,
+       "ci95": [
+        -0.009629,
+        -0.005724
+       ]
+      },
+      "crps": {
+       "diff": -0.005215,
+       "ci95": [
+        -0.006454,
+        -0.004014
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001021,
+       "ci95": [
+        -0.001266,
+        -0.000784
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.002025,
+       "ci95": [
+        -0.022854,
+        0.026672
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     }
+    },
+    "subgroups": {
+     "F": {
+      "CHAMPION": {
+       "mae": 1.071005,
+       "rmse": 1.389513,
+       "bias": -0.045245,
+       "crps": 0.730317,
+       "ladder_brier": 0.138748,
+       "coverage50": 0.476941,
+       "coverage80": 0.776812,
+       "n": 31340
+      },
+      "CHAMPION_NB": {
+       "mae": 1.071005,
+       "rmse": 1.389513,
+       "bias": -0.045248,
+       "crps": 0.730036,
+       "ladder_brier": 0.138716,
+       "coverage50": 0.499593,
+       "coverage80": 0.80017,
+       "n": 31340
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.076573,
+       "rmse": 1.38089,
+       "bias": 0.056032,
+       "crps": 0.724881,
+       "ladder_brier": 0.13771,
+       "coverage50": 0.493884,
+       "coverage80": 0.796576,
+       "n": 31340
+      }
+     },
+     "D": {
+      "CHAMPION": {
+       "mae": 0.926965,
+       "rmse": 1.204052,
+       "bias": -0.029703,
+       "crps": 0.622842,
+       "ladder_brier": 0.121458,
+       "coverage50": 0.48135,
+       "coverage80": 0.784858,
+       "n": 15885
+      },
+      "CHAMPION_NB": {
+       "mae": 0.926964,
+       "rmse": 1.204051,
+       "bias": -0.029703,
+       "crps": 0.622692,
+       "ladder_brier": 0.121447,
+       "coverage50": 0.498046,
+       "coverage80": 0.801243,
+       "n": 15885
+      },
+      "WORKLOAD_V1": {
+       "mae": 0.926981,
+       "rmse": 1.196308,
+       "bias": 0.028543,
+       "crps": 0.617886,
+       "ladder_brier": 0.120495,
+       "coverage50": 0.496332,
+       "coverage80": 0.799861,
+       "n": 15885
+      }
+     },
+     "regulation_games": {
+      "CHAMPION": {
+       "mae": 1.012717,
+       "rmse": 1.313854,
+       "bias": -0.023092,
+       "crps": 0.686436,
+       "ladder_brier": 0.131826,
+       "coverage50": 0.481855,
+       "coverage80": 0.782383,
+       "n": 37471
+      },
+      "CHAMPION_NB": {
+       "mae": 1.012717,
+       "rmse": 1.313853,
+       "bias": -0.023094,
+       "crps": 0.686238,
+       "ladder_brier": 0.131799,
+       "coverage50": 0.502619,
+       "coverage80": 0.80332,
+       "n": 37471
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.017936,
+       "rmse": 1.308017,
+       "bias": 0.062415,
+       "crps": 0.682403,
+       "ladder_brier": 0.131047,
+       "coverage50": 0.497646,
+       "coverage80": 0.80012,
+       "n": 37471
+      }
+     },
+     "ot_games": {
+      "CHAMPION": {
+       "mae": 1.060345,
+       "rmse": 1.390374,
+       "bias": -0.105036,
+       "crps": 0.723861,
+       "ladder_brier": 0.137179,
+       "coverage50": 0.465246,
+       "coverage80": 0.768513,
+       "n": 9754
+      },
+      "CHAMPION_NB": {
+       "mae": 1.060346,
+       "rmse": 1.390375,
+       "bias": -0.105038,
+       "crps": 0.723475,
+       "ladder_brier": 0.137163,
+       "coverage50": 0.485449,
+       "coverage80": 0.789819,
+       "n": 9754
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.058214,
+       "rmse": 1.372917,
+       "bias": -0.013256,
+       "crps": 0.713816,
+       "ladder_brier": 0.13527,
+       "coverage50": 0.483419,
+       "coverage80": 0.788311,
+       "n": 9754
+      }
+     }
+    },
+    "workload_minutes": {
+     "total": {
+      "champion": {
+       "mae": 1.885899,
+       "rmse": 2.478707,
+       "bias": -0.261948
+      },
+      "workload_v1": {
+       "mae": 1.834324,
+       "rmse": 2.426227,
+       "bias": 0.031812
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.051575,
+       "ci95": [
+        -0.056716,
+        -0.045744
+       ],
+       "n_obs": 45176,
+       "n_games": 1255
+      }
+     },
+     "pp": {
+      "champion": {
+       "mae": 0.758291,
+       "rmse": 1.149689,
+       "bias": -0.188203
+      },
+      "workload_v1": {
+       "mae": 0.765923,
+       "rmse": 1.109117,
+       "bias": 0.044198
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": 0.007632,
+       "ci95": [
+        0.000348,
+        0.015016
+       ],
+       "n_obs": 45176,
+       "n_games": 1255
+      }
+     },
+     "sh": {
+      "champion": {
+       "mae": 0.646197,
+       "rmse": 0.971115,
+       "bias": -0.10703
+      },
+      "workload_v1": {
+       "mae": 0.653463,
+       "rmse": 0.949147,
+       "bias": 0.035548
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": 0.007266,
+       "ci95": [
+        0.002251,
+        0.012411
+       ],
+       "n_obs": 45176,
+       "n_games": 1255
+      }
+     },
+     "ev_incl_ot": {
+      "champion": {
+       "mae": 1.814762,
+       "rmse": 2.362296,
+       "bias": 0.011757
+      },
+      "workload_v1": {
+       "mae": 1.795004,
+       "rmse": 2.337366,
+       "bias": -0.102466
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.019758,
+       "ci95": [
+        -0.02811,
+        -0.011466
+       ],
+       "n_obs": 45176,
+       "n_games": 1255
+      }
+     },
+     "n_skater_games": 45176
+    },
+    "efficiency_given_actual_minutes": {
+     "champion_rates": {
+      "mae": 1.004883,
+      "rmse": 1.301137,
+      "bias": -0.002348,
+      "poisson_deviance": 1.217272
+     },
+     "workload_v1_rates": {
+      "mae": 1.003447,
+      "rmse": 1.292057,
+      "bias": 0.04438,
+      "poisson_deviance": 1.180659
+     },
+     "sq_err_diff_wl_minus_champion": {
+      "diff": -0.023545,
+      "ci95": [
+       -0.029642,
+       -0.017981
+      ],
+      "n_obs": 45176,
+      "n_games": 1255
+     }
+    },
+    "alphas": {
+     "BASELINE": 0.0,
+     "CHAMPION": 0.0,
+     "CHAMPION_NB": 0.086342,
+     "WORKLOAD_ONLY": 0.072596,
+     "EFFICIENCY_ONLY": 0.076103,
+     "WORKLOAD_V1": 0.033652
+    },
+    "acceptance": {
+     "checks": {
+      "crps_vs_champion_ci_upper_lt_0": true,
+      "crps_vs_champion_nb_ci_upper_lt_0": true,
+      "rmse_vs_champion_ci_upper_lt_0": true,
+      "ladder_brier_vs_champion_nb_ci_upper_lt_0": true,
+      "abs_bias_le_max": true,
+      "coverage80_in_band": true,
+      "no_position_worse_crps": true
+     },
+     "verdict": "ACCEPTED"
+    },
+    "minutes_breakdown": {
+     "F": {
+      "n": 29976,
+      "total": {
+       "champion": {
+        "mae": 1.784581,
+        "rmse": 2.308419,
+        "bias": -0.272948
+       },
+       "workload_v1": {
+        "mae": 1.738931,
+        "rmse": 2.262004,
+        "bias": 0.038849
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.844349,
+        "rmse": 1.231704,
+        "bias": -0.214046
+       },
+       "workload_v1": {
+        "mae": 0.84985,
+        "rmse": 1.188474,
+        "bias": 0.048207
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.515901,
+        "rmse": 0.801966,
+        "bias": -0.082651
+       },
+       "workload_v1": {
+        "mae": 0.524903,
+        "rmse": 0.782906,
+        "bias": 0.02669
+       }
+      }
+     },
+     "D": {
+      "n": 15200,
+      "total": {
+       "champion": {
+        "mae": 2.085709,
+        "rmse": 2.784174,
+        "bias": -0.240256
+       },
+       "workload_v1": {
+        "mae": 2.022449,
+        "rmse": 2.721202,
+        "bias": 0.017933
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.588575,
+        "rmse": 0.967787,
+        "bias": -0.137237
+       },
+       "workload_v1": {
+        "mae": 0.600409,
+        "rmse": 0.933043,
+        "bias": 0.036291
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.903154,
+        "rmse": 1.23876,
+        "bias": -0.155108
+       },
+       "workload_v1": {
+        "mae": 0.906997,
+        "rmse": 1.211908,
+        "bias": 0.053016
+       }
+      }
+     },
+     "ot_games": {
+      "n": 9071,
+      "total": {
+       "champion": {
+        "mae": 2.108724,
+        "rmse": 2.719312,
+        "bias": -0.669517
+       },
+       "workload_v1": {
+        "mae": 1.989569,
+        "rmse": 2.593091,
+        "bias": -0.376992
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.73565,
+        "rmse": 1.120323,
+        "bias": -0.169612
+       },
+       "workload_v1": {
+        "mae": 0.74575,
+        "rmse": 1.076359,
+        "bias": 0.07028
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.637342,
+        "rmse": 0.95174,
+        "bias": -0.086704
+       },
+       "workload_v1": {
+        "mae": 0.647744,
+        "rmse": 0.934211,
+        "bias": 0.062704
+       }
+      }
+     },
+     "regulation_games": {
+      "n": 36105,
+      "total": {
+       "champion": {
+        "mae": 1.829917,
+        "rmse": 2.414492,
+        "bias": -0.159551
+       },
+       "workload_v1": {
+        "mae": 1.795321,
+        "rmse": 2.382469,
+        "bias": 0.134519
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.763979,
+        "rmse": 1.15695,
+        "bias": -0.192873
+       },
+       "workload_v1": {
+        "mae": 0.770991,
+        "rmse": 1.117196,
+        "bias": 0.037645
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.648422,
+        "rmse": 0.975922,
+        "bias": -0.112137
+       },
+       "workload_v1": {
+        "mae": 0.6549,
+        "rmse": 0.952862,
+        "bias": 0.028725
+       }
+      }
+     }
+    },
+    "bias_ci95": {
+     "WORKLOAD_V1": {
+      "diff": 0.046786,
+      "ci95": [
+       0.034715,
+       0.058875
+      ],
+      "n_obs": 47225,
+      "n_games": 1312
+     },
+     "CHAMPION": {
+      "diff": -0.040017,
+      "ci95": [
+       -0.052494,
+       -0.027392
+      ],
+      "n_obs": 47225,
+      "n_games": 1312
+     }
+    },
+    "train_seasons": [
+     2021,
+     2022,
+     2023
+    ],
+    "dispersion_season": 2023,
+    "n_games_without_shift_charts": 57,
+    "constants": {
+     "share_prior": {
+      "D": {
+       "evreg": 0.330517,
+       "pp": 0.202548,
+       "sh": 0.332596,
+       "ea": 0.237765,
+       "en": 0.330715,
+       "ot": 0.179805
+      },
+      "F": {
+       "evreg": 0.250163,
+       "pp": 0.315083,
+       "sh": 0.171533,
+       "ea": 0.379835,
+       "en": 0.241444,
+       "ot": 0.168034
+      }
+     },
+     "minutes_prior": {
+      "D": {
+       "evreg": 962.750089,
+       "pp": 64.148478,
+       "sh": 105.39065,
+       "ea": 6.396355,
+       "en": 8.915263
+      },
+      "F": {
+       "evreg": 728.629672,
+       "pp": 99.847148,
+       "sh": 54.33609,
+       "ea": 10.235781,
+       "en": 6.500319
+      }
+     },
+     "rate_prior": {
+      "D": {
+       "evreg": 4.497232,
+       "pp": 7.57924,
+       "sh": 1.407126,
+       "ea": 12.170816,
+       "en": 1.211143,
+       "ot": 8.305162
+      },
+      "F": {
+       "evreg": 7.114967,
+       "pp": 10.995351,
+       "sh": 3.505922,
+       "ea": 15.156059,
+       "en": 7.167346,
+       "ot": 14.285888
+      }
+     },
+     "ot_mult": {
+      "D": 1.846728,
+      "F": 2.007864
+     },
+     "venue_sog": 1.046939,
+     "p_ot": 0.219004,
+     "ot_len": 190.12877,
+     "ot_sa": 1.991299,
+     "venue_sa": 1.047068,
+     "p_pull": 0.066946,
+     "f_pull": 0.570314,
+     "train_seasons": [
+      2021,
+      2022,
+      2023
+     ]
+    }
+   },
+   "leakage_truncation_check": {
+    "season": 2024,
+    "n_rows": 47225,
+    "n_missing_either": 0,
+    "constants_identical": true,
+    "max_abs_diff_wl_sog": 0.0,
+    "identical": true
+   },
+   "champion_truncation_check": {
+    "season": 2024,
+    "n_rows": 47225,
+    "n_missing_either": 0,
+    "max_abs_diff_ch_sog": 0.0,
+    "max_abs_diff_ch_toi": 0.0,
+    "identical": true
+   },
+   "coded": {
+    "n_skater_games": 47225,
+    "n_games": 1312,
+    "mean_actual": 1.570757,
+    "arms": {
+     "BASELINE": {
+      "mae": 1.040612,
+      "rmse": 1.337669,
+      "bias": 0.037992,
+      "crps": 0.699381,
+      "ladder_brier": 0.133953,
+      "coverage50": 0.480723,
+      "coverage80": 0.783801,
+      "n": 47225
+     },
+     "CHAMPION": {
+      "mae": 1.022959,
+      "rmse": 1.329446,
+      "bias": -0.032543,
+      "crps": 0.693917,
+      "ladder_brier": 0.132886,
+      "coverage50": 0.478718,
+      "coverage80": 0.779937,
+      "n": 47225
+     },
+     "CHAMPION_NB": {
+      "mae": 1.022951,
+      "rmse": 1.329442,
+      "bias": -0.032634,
+      "crps": 0.69836,
+      "ladder_brier": 0.133694,
+      "coverage50": 0.534719,
+      "coverage80": 0.833495,
+      "n": 47225
+     },
+     "WORKLOAD_ONLY": {
+      "mae": 1.024546,
+      "rmse": 1.328408,
+      "bias": -0.011931,
+      "crps": 0.692737,
+      "ladder_brier": 0.132666,
+      "coverage50": 0.497923,
+      "coverage80": 0.799836,
+      "n": 47225
+     },
+     "EFFICIENCY_ONLY": {
+      "mae": 1.017865,
+      "rmse": 1.326073,
+      "bias": -0.046297,
+      "crps": 0.695809,
+      "ladder_brier": 0.133251,
+      "coverage50": 0.536114,
+      "coverage80": 0.83491,
+      "n": 47225
+     },
+     "WORKLOAD_V1": {
+      "mae": 1.026255,
+      "rmse": 1.321683,
+      "bias": 0.046786,
+      "crps": 0.688891,
+      "ladder_brier": 0.131919,
+      "coverage50": 0.494707,
+      "coverage80": 0.797681,
+      "n": 47225
+     }
+    },
+    "diffs": {
+     "WORKLOAD_V1_minus_CHAMPION": {
+      "mae": {
+       "diff": 0.003297,
+       "ci95": [
+        0.001722,
+        0.00491
+       ]
+      },
+      "rmse": {
+       "diff": -0.007763,
+       "ci95": [
+        -0.009496,
+        -0.006002
+       ]
+      },
+      "crps": {
+       "diff": -0.005025,
+       "ci95": [
+        -0.006029,
+        -0.004035
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000967,
+       "ci95": [
+        -0.001163,
+        -0.000776
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.014242,
+       "ci95": [
+        -0.010222,
+        0.039123
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": 0.003304,
+       "ci95": [
+        0.00173,
+        0.004918
+       ]
+      },
+      "rmse": {
+       "diff": -0.007759,
+       "ci95": [
+        -0.009495,
+        -0.005996
+       ]
+      },
+      "crps": {
+       "diff": -0.009468,
+       "ci95": [
+        -0.010722,
+        -0.008213
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001775,
+       "ci95": [
+        -0.002021,
+        -0.001524
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.014152,
+       "ci95": [
+        -0.010314,
+        0.039029
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_BASELINE": {
+      "mae": {
+       "diff": -0.014357,
+       "ci95": [
+        -0.016382,
+        -0.012306
+       ]
+      },
+      "rmse": {
+       "diff": -0.015987,
+       "ci95": [
+        -0.018387,
+        -0.013575
+       ]
+      },
+      "crps": {
+       "diff": -0.01049,
+       "ci95": [
+        -0.011762,
+        -0.009229
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.002034,
+       "ci95": [
+        -0.00228,
+        -0.001792
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.008794,
+       "ci95": [
+        0.005416,
+        0.012115
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": 0.001595,
+       "ci95": [
+        0.001064,
+        0.002129
+       ]
+      },
+      "rmse": {
+       "diff": -0.001034,
+       "ci95": [
+        -0.001662,
+        -0.000387
+       ]
+      },
+      "crps": {
+       "diff": -0.005622,
+       "ci95": [
+        -0.006245,
+        -0.004988
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001028,
+       "ci95": [
+        -0.001154,
+        -0.000899
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.020703,
+       "ci95": [
+        -0.021585,
+        -0.019184
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "EFFICIENCY_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": -0.005086,
+       "ci95": [
+        -0.006516,
+        -0.003658
+       ]
+      },
+      "rmse": {
+       "diff": -0.003369,
+       "ci95": [
+        -0.004923,
+        -0.001823
+       ]
+      },
+      "crps": {
+       "diff": -0.002551,
+       "ci95": [
+        -0.003365,
+        -0.001767
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000442,
+       "ci95": [
+        -0.000601,
+        -0.00029
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.013664,
+       "ci95": [
+        0.010522,
+        0.016997
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_NB_minus_CHAMPION": {
+      "mae": {
+       "diff": -8e-06,
+       "ci95": [
+        -1.3e-05,
+        -3e-06
+       ]
+      },
+      "rmse": {
+       "diff": -4e-06,
+       "ci95": [
+        -1.5e-05,
+        6e-06
+       ]
+      },
+      "crps": {
+       "diff": 0.004443,
+       "ci95": [
+        0.003733,
+        0.005154
+       ]
+      },
+      "ladder_brier": {
+       "diff": 0.000808,
+       "ci95": [
+        0.000673,
+        0.000948
+       ]
+      },
+      "abs_bias": {
+       "diff": 9.1e-05,
+       "ci95": [
+        8.6e-05,
+        9.6e-05
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_minus_BASELINE": {
+      "mae": {
+       "diff": -0.017653,
+       "ci95": [
+        -0.019403,
+        -0.015939
+       ]
+      },
+      "rmse": {
+       "diff": -0.008224,
+       "ci95": [
+        -0.010213,
+        -0.006259
+       ]
+      },
+      "crps": {
+       "diff": -0.005464,
+       "ci95": [
+        -0.006699,
+        -0.004257
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001067,
+       "ci95": [
+        -0.00131,
+        -0.000831
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.005449,
+       "ci95": [
+        -0.030321,
+        0.019204
+       ]
+      },
+      "n_obs": 47225,
+      "n_games": 1312,
+      "n_boot": 2000
+     }
+    },
+    "subgroups": {
+     "F": {
+      "CHAMPION": {
+       "mae": 1.071527,
+       "rmse": 1.388884,
+       "bias": -0.035903,
+       "crps": 0.730046,
+       "ladder_brier": 0.138698,
+       "coverage50": 0.477253,
+       "coverage80": 0.777307,
+       "n": 31340
+      },
+      "CHAMPION_NB": {
+       "mae": 1.071517,
+       "rmse": 1.38888,
+       "bias": -0.036029,
+       "crps": 0.735144,
+       "ladder_brier": 0.1396,
+       "coverage50": 0.538885,
+       "coverage80": 0.836462,
+       "n": 31340
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.076573,
+       "rmse": 1.38089,
+       "bias": 0.056032,
+       "crps": 0.724881,
+       "ladder_brier": 0.13771,
+       "coverage50": 0.493884,
+       "coverage80": 0.796576,
+       "n": 31340
+      }
+     },
+     "D": {
+      "CHAMPION": {
+       "mae": 0.927135,
+       "rmse": 1.203601,
+       "bias": -0.025915,
+       "crps": 0.622637,
+       "ladder_brier": 0.121419,
+       "coverage50": 0.481609,
+       "coverage80": 0.785126,
+       "n": 15885
+      },
+      "CHAMPION_NB": {
+       "mae": 0.927133,
+       "rmse": 1.203597,
+       "bias": -0.025935,
+       "crps": 0.625786,
+       "ladder_brier": 0.122042,
+       "coverage50": 0.526501,
+       "coverage80": 0.82764,
+       "n": 15885
+      },
+      "WORKLOAD_V1": {
+       "mae": 0.926981,
+       "rmse": 1.196308,
+       "bias": 0.028543,
+       "crps": 0.617886,
+       "ladder_brier": 0.120495,
+       "coverage50": 0.496332,
+       "coverage80": 0.799861,
+       "n": 15885
+      }
+     },
+     "regulation_games": {
+      "CHAMPION": {
+       "mae": 1.013265,
+       "rmse": 1.313493,
+       "bias": -0.015599,
+       "crps": 0.686289,
+       "ladder_brier": 0.1318,
+       "coverage50": 0.482113,
+       "coverage80": 0.782748,
+       "n": 37471
+      },
+      "CHAMPION_NB": {
+       "mae": 1.013254,
+       "rmse": 1.313482,
+       "bias": -0.015692,
+       "crps": 0.690785,
+       "ladder_brier": 0.132589,
+       "coverage50": 0.53843,
+       "coverage80": 0.836062,
+       "n": 37471
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.017936,
+       "rmse": 1.308017,
+       "bias": 0.062415,
+       "crps": 0.682403,
+       "ladder_brier": 0.131047,
+       "coverage50": 0.497646,
+       "coverage80": 0.80012,
+       "n": 37471
+      }
+     },
+     "ot_games": {
+      "CHAMPION": {
+       "mae": 1.060196,
+       "rmse": 1.389029,
+       "bias": -0.097635,
+       "crps": 0.723221,
+       "ladder_brier": 0.137058,
+       "coverage50": 0.465676,
+       "coverage80": 0.769138,
+       "n": 9754
+      },
+      "CHAMPION_NB": {
+       "mae": 1.060202,
+       "rmse": 1.389048,
+       "bias": -0.097718,
+       "crps": 0.727457,
+       "ladder_brier": 0.13794,
+       "coverage50": 0.520465,
+       "coverage80": 0.823632,
+       "n": 9754
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.058214,
+       "rmse": 1.372917,
+       "bias": -0.013256,
+       "crps": 0.713816,
+       "ladder_brier": 0.13527,
+       "coverage50": 0.483419,
+       "coverage80": 0.788311,
+       "n": 9754
+      }
+     }
+    },
+    "workload_minutes": {
+     "total": {
+      "champion": {
+       "mae": 1.879401,
+       "rmse": 2.471954,
+       "bias": -0.216044
+      },
+      "workload_v1": {
+       "mae": 1.834324,
+       "rmse": 2.426227,
+       "bias": 0.031812
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.045077,
+       "ci95": [
+        -0.050006,
+        -0.039715
+       ],
+       "n_obs": 45176,
+       "n_games": 1255
+      }
+     },
+     "pp": {
+      "champion": {
+       "mae": 0.756884,
+       "rmse": 1.139267,
+       "bias": -0.142299
+      },
+      "workload_v1": {
+       "mae": 0.765923,
+       "rmse": 1.109117,
+       "bias": 0.044198
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": 0.009039,
+       "ci95": [
+        0.002742,
+        0.015388
+       ],
+       "n_obs": 45176,
+       "n_games": 1255
+      }
+     },
+     "sh": {
+      "champion": {
+       "mae": 0.646197,
+       "rmse": 0.971115,
+       "bias": -0.10703
+      },
+      "workload_v1": {
+       "mae": 0.653463,
+       "rmse": 0.949147,
+       "bias": 0.035548
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": 0.007266,
+       "ci95": [
+        0.002251,
+        0.012411
+       ],
+       "n_obs": 45176,
+       "n_games": 1255
+      }
+     },
+     "ev_incl_ot": {
+      "champion": {
+       "mae": 1.814762,
+       "rmse": 2.362296,
+       "bias": 0.011757
+      },
+      "workload_v1": {
+       "mae": 1.795004,
+       "rmse": 2.337366,
+       "bias": -0.102466
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.019758,
+       "ci95": [
+        -0.02811,
+        -0.011466
+       ],
+       "n_obs": 45176,
+       "n_games": 1255
+      }
+     },
+     "n_skater_games": 45176
+    },
+    "efficiency_given_actual_minutes": {
+     "champion_rates": {
+      "mae": 1.004883,
+      "rmse": 1.301137,
+      "bias": -0.002348,
+      "poisson_deviance": 1.217272
+     },
+     "workload_v1_rates": {
+      "mae": 1.003447,
+      "rmse": 1.292057,
+      "bias": 0.04438,
+      "poisson_deviance": 1.180659
+     },
+     "sq_err_diff_wl_minus_champion": {
+      "diff": -0.023545,
+      "ci95": [
+       -0.029642,
+       -0.017981
+      ],
+      "n_obs": 45176,
+      "n_games": 1255
+     }
+    },
+    "alphas": {
+     "BASELINE": 0.0,
+     "CHAMPION": 0.0,
+     "CHAMPION_NB": 0.272983,
+     "WORKLOAD_ONLY": 0.072596,
+     "EFFICIENCY_ONLY": 0.266808,
+     "WORKLOAD_V1": 0.033652
+    },
+    "acceptance": {
+     "checks": {
+      "crps_vs_champion_ci_upper_lt_0": true,
+      "crps_vs_champion_nb_ci_upper_lt_0": true,
+      "rmse_vs_champion_ci_upper_lt_0": true,
+      "ladder_brier_vs_champion_nb_ci_upper_lt_0": true,
+      "abs_bias_le_max": true,
+      "coverage80_in_band": true,
+      "no_position_worse_crps": true
+     },
+     "verdict": "ACCEPTED"
+    },
+    "minutes_breakdown": {
+     "F": {
+      "n": 29976,
+      "total": {
+       "champion": {
+        "mae": 1.777304,
+        "rmse": 2.300367,
+        "bias": -0.220031
+       },
+       "workload_v1": {
+        "mae": 1.738931,
+        "rmse": 2.262004,
+        "bias": 0.038849
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.8422,
+        "rmse": 1.22038,
+        "bias": -0.16113
+       },
+       "workload_v1": {
+        "mae": 0.84985,
+        "rmse": 1.188474,
+        "bias": 0.048207
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.515901,
+        "rmse": 0.801966,
+        "bias": -0.082651
+       },
+       "workload_v1": {
+        "mae": 0.524903,
+        "rmse": 0.782906,
+        "bias": 0.02669
+       }
+      }
+     },
+     "D": {
+      "n": 15200,
+      "total": {
+       "champion": {
+        "mae": 2.080746,
+        "rmse": 2.779469,
+        "bias": -0.208182
+       },
+       "workload_v1": {
+        "mae": 2.022449,
+        "rmse": 2.721202,
+        "bias": 0.017933
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.588631,
+        "rmse": 0.959414,
+        "bias": -0.105162
+       },
+       "workload_v1": {
+        "mae": 0.600409,
+        "rmse": 0.933043,
+        "bias": 0.036291
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.903154,
+        "rmse": 1.23876,
+        "bias": -0.155108
+       },
+       "workload_v1": {
+        "mae": 0.906997,
+        "rmse": 1.211908,
+        "bias": 0.053016
+       }
+      }
+     },
+     "ot_games": {
+      "n": 9071,
+      "total": {
+       "champion": {
+        "mae": 2.089804,
+        "rmse": 2.699753,
+        "bias": -0.623703
+       },
+       "workload_v1": {
+        "mae": 1.989569,
+        "rmse": 2.593091,
+        "bias": -0.376992
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.734998,
+        "rmse": 1.109481,
+        "bias": -0.123798
+       },
+       "workload_v1": {
+        "mae": 0.74575,
+        "rmse": 1.076359,
+        "bias": 0.07028
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.637342,
+        "rmse": 0.95174,
+        "bias": -0.086704
+       },
+       "workload_v1": {
+        "mae": 0.647744,
+        "rmse": 0.934211,
+        "bias": 0.062704
+       }
+      }
+     },
+     "regulation_games": {
+      "n": 36105,
+      "total": {
+       "champion": {
+        "mae": 1.826539,
+        "rmse": 2.411342,
+        "bias": -0.113624
+       },
+       "workload_v1": {
+        "mae": 1.795321,
+        "rmse": 2.382469,
+        "bias": 0.134519
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.762382,
+        "rmse": 1.146629,
+        "bias": -0.146947
+       },
+       "workload_v1": {
+        "mae": 0.770991,
+        "rmse": 1.117196,
+        "bias": 0.037645
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.648422,
+        "rmse": 0.975922,
+        "bias": -0.112137
+       },
+       "workload_v1": {
+        "mae": 0.6549,
+        "rmse": 0.952862,
+        "bias": 0.028725
+       }
+      }
+     }
+    },
+    "bias_ci95": {
+     "WORKLOAD_V1": {
+      "diff": 0.046786,
+      "ci95": [
+       0.034715,
+       0.058875
+      ],
+      "n_obs": 47225,
+      "n_games": 1312
+     },
+     "CHAMPION": {
+      "diff": -0.032543,
+      "ci95": [
+       -0.045035,
+       -0.019924
+      ],
+      "n_obs": 47225,
+      "n_games": 1312
+     }
+    },
+    "train_seasons": [
+     2021,
+     2022,
+     2023
+    ],
+    "dispersion_season": 2023,
+    "n_games_without_shift_charts": 57,
+    "constants": {
+     "share_prior": {
+      "D": {
+       "evreg": 0.330517,
+       "pp": 0.202548,
+       "sh": 0.332596,
+       "ea": 0.237765,
+       "en": 0.330715,
+       "ot": 0.179805
+      },
+      "F": {
+       "evreg": 0.250163,
+       "pp": 0.315083,
+       "sh": 0.171533,
+       "ea": 0.379835,
+       "en": 0.241444,
+       "ot": 0.168034
+      }
+     },
+     "minutes_prior": {
+      "D": {
+       "evreg": 962.750089,
+       "pp": 64.148478,
+       "sh": 105.39065,
+       "ea": 6.396355,
+       "en": 8.915263
+      },
+      "F": {
+       "evreg": 728.629672,
+       "pp": 99.847148,
+       "sh": 54.33609,
+       "ea": 10.235781,
+       "en": 6.500319
+      }
+     },
+     "rate_prior": {
+      "D": {
+       "evreg": 4.497232,
+       "pp": 7.57924,
+       "sh": 1.407126,
+       "ea": 12.170816,
+       "en": 1.211143,
+       "ot": 8.305162
+      },
+      "F": {
+       "evreg": 7.114967,
+       "pp": 10.995351,
+       "sh": 3.505922,
+       "ea": 15.156059,
+       "en": 7.167346,
+       "ot": 14.285888
+      }
+     },
+     "ot_mult": {
+      "D": 1.846728,
+      "F": 2.007864
+     },
+     "venue_sog": 1.046939,
+     "p_ot": 0.219004,
+     "ot_len": 190.12877,
+     "ot_sa": 1.991299,
+     "venue_sa": 1.047068,
+     "p_pull": 0.066946,
+     "f_pull": 0.570314,
+     "train_seasons": [
+      2021,
+      2022,
+      2023
+     ]
+    }
+   }
+  },
+  "2025": {
+   "derived": {
+    "n_skater_games": 47231,
+    "n_games": 1312,
+    "mean_actual": 1.546061,
+    "arms": {
+     "BASELINE": {
+      "mae": 1.033356,
+      "rmse": 1.330005,
+      "bias": 0.040849,
+      "crps": 0.694116,
+      "ladder_brier": 0.133016,
+      "coverage50": 0.481602,
+      "coverage80": 0.783702,
+      "n": 47231
+     },
+     "CHAMPION": {
+      "mae": 1.01086,
+      "rmse": 1.325761,
+      "bias": -0.085191,
+      "crps": 0.689991,
+      "ladder_brier": 0.132179,
+      "coverage50": 0.47797,
+      "coverage80": 0.776288,
+      "n": 47231
+     },
+     "CHAMPION_NB": {
+      "mae": 1.010859,
+      "rmse": 1.325756,
+      "bias": -0.085193,
+      "crps": 0.690077,
+      "ladder_brier": 0.132237,
+      "coverage50": 0.497019,
+      "coverage80": 0.795677,
+      "n": 47231
+     },
+     "WORKLOAD_ONLY": {
+      "mae": 1.012951,
+      "rmse": 1.322678,
+      "bias": -0.051388,
+      "crps": 0.6883,
+      "ladder_brier": 0.131885,
+      "coverage50": 0.496429,
+      "coverage80": 0.795505,
+      "n": 47231
+     },
+     "EFFICIENCY_ONLY": {
+      "mae": 1.007835,
+      "rmse": 1.320346,
+      "bias": -0.074828,
+      "crps": 0.686523,
+      "ladder_brier": 0.131545,
+      "coverage50": 0.502437,
+      "coverage80": 0.801645,
+      "n": 47231
+     },
+     "WORKLOAD_V1": {
+      "mae": 1.015777,
+      "rmse": 1.312762,
+      "bias": 0.029536,
+      "crps": 0.683038,
+      "ladder_brier": 0.130867,
+      "coverage50": 0.49723,
+      "coverage80": 0.797652,
+      "n": 47231
+     }
+    },
+    "diffs": {
+     "WORKLOAD_V1_minus_CHAMPION": {
+      "mae": {
+       "diff": 0.004917,
+       "ci95": [
+        0.003096,
+        0.006644
+       ]
+      },
+      "rmse": {
+       "diff": -0.012999,
+       "ci95": [
+        -0.015255,
+        -0.010845
+       ]
+      },
+      "crps": {
+       "diff": -0.006953,
+       "ci95": [
+        -0.008123,
+        -0.005771
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001313,
+       "ci95": [
+        -0.001539,
+        -0.001083
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.055655,
+       "ci95": [
+        -0.080116,
+        -0.030563
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": 0.004918,
+       "ci95": [
+        0.003098,
+        0.006645
+       ]
+      },
+      "rmse": {
+       "diff": -0.012994,
+       "ci95": [
+        -0.015249,
+        -0.010843
+       ]
+      },
+      "crps": {
+       "diff": -0.007039,
+       "ci95": [
+        -0.008256,
+        -0.005817
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.00137,
+       "ci95": [
+        -0.001603,
+        -0.00113
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.055657,
+       "ci95": [
+        -0.080117,
+        -0.030566
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_BASELINE": {
+      "mae": {
+       "diff": -0.017579,
+       "ci95": [
+        -0.01952,
+        -0.015629
+       ]
+      },
+      "rmse": {
+       "diff": -0.017243,
+       "ci95": [
+        -0.019498,
+        -0.014943
+       ]
+      },
+      "crps": {
+       "diff": -0.011079,
+       "ci95": [
+        -0.012338,
+        -0.009805
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.002149,
+       "ci95": [
+        -0.002391,
+        -0.001901
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.011313,
+       "ci95": [
+        -0.014771,
+        -0.007882
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": 0.002092,
+       "ci95": [
+        0.001514,
+        0.002655
+       ]
+      },
+      "rmse": {
+       "diff": -0.003078,
+       "ci95": [
+        -0.00376,
+        -0.002376
+       ]
+      },
+      "crps": {
+       "diff": -0.001777,
+       "ci95": [
+        -0.002146,
+        -0.001417
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000352,
+       "ci95": [
+        -0.000424,
+        -0.00028
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.033805,
+       "ci95": [
+        -0.034896,
+        -0.032804
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "EFFICIENCY_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": -0.003023,
+       "ci95": [
+        -0.004365,
+        -0.001734
+       ]
+      },
+      "rmse": {
+       "diff": -0.00541,
+       "ci95": [
+        -0.007076,
+        -0.003721
+       ]
+      },
+      "crps": {
+       "diff": -0.003554,
+       "ci95": [
+        -0.004422,
+        -0.002678
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000692,
+       "ci95": [
+        -0.000862,
+        -0.000523
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.010365,
+       "ci95": [
+        -0.013519,
+        -0.007238
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_NB_minus_CHAMPION": {
+      "mae": {
+       "diff": -1e-06,
+       "ci95": [
+        -3e-06,
+        0.0
+       ]
+      },
+      "rmse": {
+       "diff": -4e-06,
+       "ci95": [
+        -1.1e-05,
+        0.0
+       ]
+      },
+      "crps": {
+       "diff": 8.6e-05,
+       "ci95": [
+        -0.000143,
+        0.000318
+       ]
+      },
+      "ladder_brier": {
+       "diff": 5.8e-05,
+       "ci95": [
+        1.3e-05,
+        0.000102
+       ]
+      },
+      "abs_bias": {
+       "diff": 2e-06,
+       "ci95": [
+        1e-06,
+        4e-06
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_minus_BASELINE": {
+      "mae": {
+       "diff": -0.022496,
+       "ci95": [
+        -0.0244,
+        -0.020556
+       ]
+      },
+      "rmse": {
+       "diff": -0.004245,
+       "ci95": [
+        -0.006333,
+        -0.002161
+       ]
+      },
+      "crps": {
+       "diff": -0.004126,
+       "ci95": [
+        -0.005405,
+        -0.002806
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000837,
+       "ci95": [
+        -0.001089,
+        -0.000576
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.044341,
+       "ci95": [
+        0.01846,
+        0.069557
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     }
+    },
+    "subgroups": {
+     "F": {
+      "CHAMPION": {
+       "mae": 1.065703,
+       "rmse": 1.397691,
+       "bias": -0.109275,
+       "crps": 0.732402,
+       "ladder_brier": 0.138782,
+       "coverage50": 0.473151,
+       "coverage80": 0.770548,
+       "n": 31370
+      },
+      "CHAMPION_NB": {
+       "mae": 1.065702,
+       "rmse": 1.397685,
+       "bias": -0.109278,
+       "crps": 0.732433,
+       "ladder_brier": 0.138847,
+       "coverage50": 0.494012,
+       "coverage80": 0.792178,
+       "n": 31370
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.072861,
+       "rmse": 1.382045,
+       "bias": 0.033217,
+       "crps": 0.723972,
+       "ladder_brier": 0.137207,
+       "coverage50": 0.494567,
+       "coverage80": 0.794917,
+       "n": 31370
+      }
+     },
+     "D": {
+      "CHAMPION": {
+       "mae": 0.90239,
+       "rmse": 1.170552,
+       "bias": -0.037558,
+       "crps": 0.606109,
+       "ladder_brier": 0.119121,
+       "coverage50": 0.4875,
+       "coverage80": 0.787639,
+       "n": 15861
+      },
+      "CHAMPION_NB": {
+       "mae": 0.90239,
+       "rmse": 1.170552,
+       "bias": -0.037558,
+       "crps": 0.606305,
+       "ladder_brier": 0.119164,
+       "coverage50": 0.502965,
+       "coverage80": 0.802599,
+       "n": 15861
+      },
+      "WORKLOAD_V1": {
+       "mae": 0.902876,
+       "rmse": 1.163649,
+       "bias": 0.022257,
+       "crps": 0.602077,
+       "ladder_brier": 0.118328,
+       "coverage50": 0.502498,
+       "coverage80": 0.803061,
+       "n": 15861
+      }
+     },
+     "regulation_games": {
+      "CHAMPION": {
+       "mae": 1.006185,
+       "rmse": 1.31873,
+       "bias": -0.072103,
+       "crps": 0.68647,
+       "ladder_brier": 0.131742,
+       "coverage50": 0.479403,
+       "coverage80": 0.777568,
+       "n": 35495
+      },
+      "CHAMPION_NB": {
+       "mae": 1.006184,
+       "rmse": 1.318725,
+       "bias": -0.072106,
+       "crps": 0.686495,
+       "ladder_brier": 0.13178,
+       "coverage50": 0.498511,
+       "coverage80": 0.796873,
+       "n": 35495
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.012178,
+       "rmse": 1.30752,
+       "bias": 0.041965,
+       "crps": 0.680226,
+       "ladder_brier": 0.130557,
+       "coverage50": 0.498546,
+       "coverage80": 0.798408,
+       "n": 35495
+      }
+     },
+     "ot_games": {
+      "CHAMPION": {
+       "mae": 1.024998,
+       "rmse": 1.346801,
+       "bias": -0.124774,
+       "crps": 0.70064,
+       "ladder_brier": 0.133502,
+       "coverage50": 0.473635,
+       "coverage80": 0.772415,
+       "n": 11736
+      },
+      "CHAMPION_NB": {
+       "mae": 1.024998,
+       "rmse": 1.3468,
+       "bias": -0.124776,
+       "crps": 0.700909,
+       "ladder_brier": 0.133618,
+       "coverage50": 0.492504,
+       "coverage80": 0.792062,
+       "n": 11736
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.026661,
+       "rmse": 1.328491,
+       "bias": -0.008054,
+       "crps": 0.691541,
+       "ladder_brier": 0.131804,
+       "coverage50": 0.493252,
+       "coverage80": 0.795364,
+       "n": 11736
+      }
+     }
+    },
+    "workload_minutes": {
+     "total": {
+      "champion": {
+       "mae": 1.941688,
+       "rmse": 2.552581,
+       "bias": -0.374769
+      },
+      "workload_v1": {
+       "mae": 1.875298,
+       "rmse": 2.483839,
+       "bias": -0.007566
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.06639,
+       "ci95": [
+        -0.072509,
+        -0.060266
+       ],
+       "n_obs": 47231,
+       "n_games": 1312
+      }
+     },
+     "pp": {
+      "champion": {
+       "mae": 0.791979,
+       "rmse": 1.214784,
+       "bias": -0.23224
+      },
+      "workload_v1": {
+       "mae": 0.795095,
+       "rmse": 1.168005,
+       "bias": -0.014925
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": 0.003115,
+       "ci95": [
+        -0.003598,
+        0.009856
+       ],
+       "n_obs": 47231,
+       "n_games": 1312
+      }
+     },
+     "sh": {
+      "champion": {
+       "mae": 0.665221,
+       "rmse": 1.019507,
+       "bias": -0.179292
+      },
+      "workload_v1": {
+       "mae": 0.670624,
+       "rmse": 0.987107,
+       "bias": -0.015535
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": 0.005402,
+       "ci95": [
+        3.8e-05,
+        0.010513
+       ],
+       "n_obs": 47231,
+       "n_games": 1312
+      }
+     },
+     "ev_incl_ot": {
+      "champion": {
+       "mae": 1.853092,
+       "rmse": 2.409838,
+       "bias": -0.007725
+      },
+      "workload_v1": {
+       "mae": 1.833563,
+       "rmse": 2.388371,
+       "bias": -0.037938
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.019529,
+       "ci95": [
+        -0.027159,
+        -0.01187
+       ],
+       "n_obs": 47231,
+       "n_games": 1312
+      }
+     },
+     "n_skater_games": 47231
+    },
+    "efficiency_given_actual_minutes": {
+     "champion_rates": {
+      "mae": 0.992835,
+      "rmse": 1.293198,
+      "bias": -0.039163,
+      "poisson_deviance": 1.228851
+     },
+     "workload_v1_rates": {
+      "mae": 0.991811,
+      "rmse": 1.280302,
+      "bias": 0.033328,
+      "poisson_deviance": 1.178828
+     },
+     "sq_err_diff_wl_minus_champion": {
+      "diff": -0.03319,
+      "ci95": [
+       -0.039178,
+       -0.026861
+      ],
+      "n_obs": 47231,
+      "n_games": 1312
+     }
+    },
+    "alphas": {
+     "BASELINE": 0.0,
+     "CHAMPION": 0.0,
+     "CHAMPION_NB": 0.086586,
+     "WORKLOAD_ONLY": 0.071984,
+     "EFFICIENCY_ONLY": 0.092689,
+     "WORKLOAD_V1": 0.042655
+    },
+    "acceptance": {
+     "checks": {
+      "crps_vs_champion_ci_upper_lt_0": true,
+      "crps_vs_champion_nb_ci_upper_lt_0": true,
+      "rmse_vs_champion_ci_upper_lt_0": true,
+      "ladder_brier_vs_champion_nb_ci_upper_lt_0": true,
+      "abs_bias_le_max": true,
+      "coverage80_in_band": true,
+      "no_position_worse_crps": true
+     },
+     "verdict": "ACCEPTED"
+    },
+    "minutes_breakdown": {
+     "F": {
+      "n": 31370,
+      "total": {
+       "champion": {
+        "mae": 1.844995,
+        "rmse": 2.399628,
+        "bias": -0.374194
+       },
+       "workload_v1": {
+        "mae": 1.785196,
+        "rmse": 2.338002,
+        "bias": -0.005226
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.886756,
+        "rmse": 1.306379,
+        "bias": -0.268742
+       },
+       "workload_v1": {
+        "mae": 0.887339,
+        "rmse": 1.256008,
+        "bias": -0.020496
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.530673,
+        "rmse": 0.849929,
+        "bias": -0.136675
+       },
+       "workload_v1": {
+        "mae": 0.538204,
+        "rmse": 0.822014,
+        "bias": -0.011038
+       }
+      }
+     },
+     "D": {
+      "n": 15861,
+      "total": {
+       "champion": {
+        "mae": 2.132928,
+        "rmse": 2.830861,
+        "bias": -0.375906
+       },
+       "workload_v1": {
+        "mae": 2.053503,
+        "rmse": 2.749593,
+        "bias": -0.012195
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.60453,
+        "rmse": 1.009441,
+        "bias": -0.160047
+       },
+       "workload_v1": {
+        "mae": 0.612654,
+        "rmse": 0.970736,
+        "bias": -0.003907
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.931333,
+        "rmse": 1.290887,
+        "bias": -0.263578
+       },
+       "workload_v1": {
+        "mae": 0.932524,
+        "rmse": 1.25104,
+        "bias": -0.024429
+       }
+      }
+     },
+     "ot_games": {
+      "n": 11736,
+      "total": {
+       "champion": {
+        "mae": 2.1997,
+        "rmse": 2.843114,
+        "bias": -0.788878
+       },
+       "workload_v1": {
+        "mae": 2.058255,
+        "rmse": 2.69516,
+        "bias": -0.418469
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.789211,
+        "rmse": 1.212363,
+        "bias": -0.240274
+       },
+       "workload_v1": {
+        "mae": 0.791525,
+        "rmse": 1.16487,
+        "bias": -0.030637
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.654961,
+        "rmse": 1.013695,
+        "bias": -0.174716
+       },
+       "workload_v1": {
+        "mae": 0.664605,
+        "rmse": 0.983509,
+        "bias": -0.020076
+       }
+      }
+     },
+     "regulation_games": {
+      "n": 35495,
+      "total": {
+       "champion": {
+        "mae": 1.85638,
+        "rmse": 2.44895,
+        "bias": -0.237848
+       },
+       "workload_v1": {
+        "mae": 1.814806,
+        "rmse": 2.409895,
+        "bias": 0.128294
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.792895,
+        "rmse": 1.215583,
+        "bias": -0.229584
+       },
+       "workload_v1": {
+        "mae": 0.796275,
+        "rmse": 1.16904,
+        "bias": -0.00973
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.668614,
+        "rmse": 1.021421,
+        "bias": -0.180804
+       },
+       "workload_v1": {
+        "mae": 0.672614,
+        "rmse": 0.988294,
+        "bias": -0.014033
+       }
+      }
+     }
+    },
+    "bias_ci95": {
+     "WORKLOAD_V1": {
+      "diff": 0.029537,
+      "ci95": [
+       0.017413,
+       0.041624
+      ],
+      "n_obs": 47231,
+      "n_games": 1312
+     },
+     "CHAMPION": {
+      "diff": -0.085191,
+      "ci95": [
+       -0.09763,
+       -0.072343
+      ],
+      "n_obs": 47231,
+      "n_games": 1312
+     }
+    },
+    "train_seasons": [
+     2021,
+     2022,
+     2023,
+     2024
+    ],
+    "dispersion_season": 2024,
+    "n_games_without_shift_charts": 0,
+    "constants": {
+     "share_prior": {
+      "D": {
+       "evreg": 0.330565,
+       "pp": 0.200845,
+       "sh": 0.332636,
+       "ea": 0.235222,
+       "en": 0.330923,
+       "ot": 0.178372
+      },
+      "F": {
+       "evreg": 0.250138,
+       "pp": 0.315985,
+       "sh": 0.171495,
+       "ea": 0.381347,
+       "en": 0.241735,
+       "ot": 0.168351
+      }
+     },
+     "minutes_prior": {
+      "D": {
+       "evreg": 966.656912,
+       "pp": 62.209094,
+       "sh": 103.071681,
+       "ea": 6.633167,
+       "en": 9.340671
+      },
+      "F": {
+       "evreg": 731.403386,
+       "pp": 97.916957,
+       "sh": 53.126807,
+       "ea": 10.766412,
+       "en": 6.822086
+      }
+     },
+     "rate_prior": {
+      "D": {
+       "evreg": 4.415158,
+       "pp": 7.471585,
+       "sh": 1.373733,
+       "ea": 11.954914,
+       "en": 1.158514,
+       "ot": 8.086068
+      },
+      "F": {
+       "evreg": 6.936518,
+       "pp": 10.809105,
+       "sh": 3.441811,
+       "ea": 14.73351,
+       "en": 7.114826,
+       "ot": 14.039551
+      }
+     },
+     "ot_mult": {
+      "D": 1.831433,
+      "F": 2.024006
+     },
+     "venue_sog": 1.043858,
+     "p_ot": 0.215892,
+     "ot_len": 188.780229,
+     "ot_sa": 1.929391,
+     "venue_sa": 1.043614,
+     "p_pull": 0.063548,
+     "f_pull": 0.57008,
+     "train_seasons": [
+      2021,
+      2022,
+      2023,
+      2024
+     ]
+    }
+   },
+   "leakage_truncation_check": {
+    "season": 2025,
+    "n_rows": 47231,
+    "n_missing_either": 0,
+    "constants_identical": true,
+    "max_abs_diff_wl_sog": 0.0,
+    "identical": true
+   },
+   "champion_truncation_check": {
+    "season": 2025,
+    "n_rows": 47231,
+    "n_missing_either": 0,
+    "max_abs_diff_ch_sog": 0.0,
+    "max_abs_diff_ch_toi": 0.0,
+    "identical": true
+   },
+   "coded": {
+    "n_skater_games": 47231,
+    "n_games": 1312,
+    "mean_actual": 1.546061,
+    "arms": {
+     "BASELINE": {
+      "mae": 1.033356,
+      "rmse": 1.330005,
+      "bias": 0.040849,
+      "crps": 0.694116,
+      "ladder_brier": 0.133016,
+      "coverage50": 0.481602,
+      "coverage80": 0.783702,
+      "n": 47231
+     },
+     "CHAMPION": {
+      "mae": 1.010956,
+      "rmse": 1.324912,
+      "bias": -0.078967,
+      "crps": 0.689599,
+      "ladder_brier": 0.132105,
+      "coverage50": 0.478339,
+      "coverage80": 0.776698,
+      "n": 47231
+     },
+     "CHAMPION_NB": {
+      "mae": 1.010955,
+      "rmse": 1.324908,
+      "bias": -0.07897,
+      "crps": 0.689601,
+      "ladder_brier": 0.132143,
+      "coverage50": 0.496665,
+      "coverage80": 0.795329,
+      "n": 47231
+     },
+     "WORKLOAD_ONLY": {
+      "mae": 1.012951,
+      "rmse": 1.322678,
+      "bias": -0.051388,
+      "crps": 0.6883,
+      "ladder_brier": 0.131885,
+      "coverage50": 0.496429,
+      "coverage80": 0.795505,
+      "n": 47231
+     },
+     "EFFICIENCY_ONLY": {
+      "mae": 1.007936,
+      "rmse": 1.319416,
+      "bias": -0.068369,
+      "crps": 0.686011,
+      "ladder_brier": 0.131444,
+      "coverage50": 0.501999,
+      "coverage80": 0.801224,
+      "n": 47231
+     },
+     "WORKLOAD_V1": {
+      "mae": 1.015777,
+      "rmse": 1.312762,
+      "bias": 0.029536,
+      "crps": 0.683038,
+      "ladder_brier": 0.130867,
+      "coverage50": 0.49723,
+      "coverage80": 0.797652,
+      "n": 47231
+     }
+    },
+    "diffs": {
+     "WORKLOAD_V1_minus_CHAMPION": {
+      "mae": {
+       "diff": 0.004821,
+       "ci95": [
+        0.003035,
+        0.006513
+       ]
+      },
+      "rmse": {
+       "diff": -0.01215,
+       "ci95": [
+        -0.014334,
+        -0.010062
+       ]
+      },
+      "crps": {
+       "diff": -0.006562,
+       "ci95": [
+        -0.007706,
+        -0.00541
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001238,
+       "ci95": [
+        -0.001459,
+        -0.001014
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.049431,
+       "ci95": [
+        -0.073896,
+        -0.024314
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": 0.004822,
+       "ci95": [
+        0.003036,
+        0.006514
+       ]
+      },
+      "rmse": {
+       "diff": -0.012146,
+       "ci95": [
+        -0.014328,
+        -0.01006
+       ]
+      },
+      "crps": {
+       "diff": -0.006564,
+       "ci95": [
+        -0.007747,
+        -0.005372
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.001276,
+       "ci95": [
+        -0.001505,
+        -0.001045
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.049433,
+       "ci95": [
+        -0.073898,
+        -0.024316
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_V1_minus_BASELINE": {
+      "mae": {
+       "diff": -0.017579,
+       "ci95": [
+        -0.01952,
+        -0.015629
+       ]
+      },
+      "rmse": {
+       "diff": -0.017243,
+       "ci95": [
+        -0.019498,
+        -0.014943
+       ]
+      },
+      "crps": {
+       "diff": -0.011079,
+       "ci95": [
+        -0.012338,
+        -0.009805
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.002149,
+       "ci95": [
+        -0.002391,
+        -0.001901
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.011313,
+       "ci95": [
+        -0.014771,
+        -0.007882
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "WORKLOAD_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": 0.001996,
+       "ci95": [
+        0.001456,
+        0.002517
+       ]
+      },
+      "rmse": {
+       "diff": -0.00223,
+       "ci95": [
+        -0.002854,
+        -0.001603
+       ]
+      },
+      "crps": {
+       "diff": -0.001302,
+       "ci95": [
+        -0.001635,
+        -0.000966
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000258,
+       "ci95": [
+        -0.000324,
+        -0.000192
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.027582,
+       "ci95": [
+        -0.028679,
+        -0.026566
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "EFFICIENCY_ONLY_minus_CHAMPION_NB": {
+      "mae": {
+       "diff": -0.003019,
+       "ci95": [
+        -0.00438,
+        -0.001732
+       ]
+      },
+      "rmse": {
+       "diff": -0.005492,
+       "ci95": [
+        -0.007162,
+        -0.003802
+       ]
+      },
+      "crps": {
+       "diff": -0.00359,
+       "ci95": [
+        -0.004463,
+        -0.002713
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000699,
+       "ci95": [
+        -0.000869,
+        -0.000529
+       ]
+      },
+      "abs_bias": {
+       "diff": -0.0106,
+       "ci95": [
+        -0.013769,
+        -0.007453
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_NB_minus_CHAMPION": {
+      "mae": {
+       "diff": -1e-06,
+       "ci95": [
+        -3e-06,
+        -0.0
+       ]
+      },
+      "rmse": {
+       "diff": -4e-06,
+       "ci95": [
+        -1e-05,
+        0.0
+       ]
+      },
+      "crps": {
+       "diff": 2e-06,
+       "ci95": [
+        -0.000218,
+        0.000225
+       ]
+      },
+      "ladder_brier": {
+       "diff": 3.8e-05,
+       "ci95": [
+        -5e-06,
+        8e-05
+       ]
+      },
+      "abs_bias": {
+       "diff": 2e-06,
+       "ci95": [
+        1e-06,
+        4e-06
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     },
+     "CHAMPION_minus_BASELINE": {
+      "mae": {
+       "diff": -0.0224,
+       "ci95": [
+        -0.024296,
+        -0.020462
+       ]
+      },
+      "rmse": {
+       "diff": -0.005093,
+       "ci95": [
+        -0.007163,
+        -0.003026
+       ]
+      },
+      "crps": {
+       "diff": -0.004517,
+       "ci95": [
+        -0.005781,
+        -0.003216
+       ]
+      },
+      "ladder_brier": {
+       "diff": -0.000911,
+       "ci95": [
+        -0.001162,
+        -0.000653
+       ]
+      },
+      "abs_bias": {
+       "diff": 0.038118,
+       "ci95": [
+        0.012231,
+        0.063315
+       ]
+      },
+      "n_obs": 47231,
+      "n_games": 1312,
+      "n_boot": 2000
+     }
+    },
+    "subgroups": {
+     "F": {
+      "CHAMPION": {
+       "mae": 1.065816,
+       "rmse": 1.396646,
+       "bias": -0.10156,
+       "crps": 0.731906,
+       "ladder_brier": 0.138688,
+       "coverage50": 0.473603,
+       "coverage80": 0.771036,
+       "n": 31370
+      },
+      "CHAMPION_NB": {
+       "mae": 1.065815,
+       "rmse": 1.39664,
+       "bias": -0.101563,
+       "crps": 0.731839,
+       "ladder_brier": 0.13873,
+       "coverage50": 0.493685,
+       "coverage80": 0.791843,
+       "n": 31370
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.072861,
+       "rmse": 1.382045,
+       "bias": 0.033217,
+       "crps": 0.723972,
+       "ladder_brier": 0.137207,
+       "coverage50": 0.494567,
+       "coverage80": 0.794917,
+       "n": 31370
+      }
+     },
+     "D": {
+      "CHAMPION": {
+       "mae": 0.902452,
+       "rmse": 1.170158,
+       "bias": -0.034284,
+       "crps": 0.605926,
+       "ladder_brier": 0.119085,
+       "coverage50": 0.487707,
+       "coverage80": 0.787896,
+       "n": 15861
+      },
+      "CHAMPION_NB": {
+       "mae": 0.902452,
+       "rmse": 1.170158,
+       "bias": -0.034284,
+       "crps": 0.606065,
+       "ladder_brier": 0.119116,
+       "coverage50": 0.502557,
+       "coverage80": 0.802223,
+       "n": 15861
+      },
+      "WORKLOAD_V1": {
+       "mae": 0.902876,
+       "rmse": 1.163649,
+       "bias": 0.022257,
+       "crps": 0.602077,
+       "ladder_brier": 0.118328,
+       "coverage50": 0.502498,
+       "coverage80": 0.803061,
+       "n": 15861
+      }
+     },
+     "regulation_games": {
+      "CHAMPION": {
+       "mae": 1.006389,
+       "rmse": 1.318044,
+       "bias": -0.065874,
+       "crps": 0.68616,
+       "ladder_brier": 0.131683,
+       "coverage50": 0.479745,
+       "coverage80": 0.777922,
+       "n": 35495
+      },
+      "CHAMPION_NB": {
+       "mae": 1.006388,
+       "rmse": 1.318039,
+       "bias": -0.065876,
+       "crps": 0.686101,
+       "ladder_brier": 0.131702,
+       "coverage50": 0.498133,
+       "coverage80": 0.79648,
+       "n": 35495
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.012178,
+       "rmse": 1.30752,
+       "bias": 0.041965,
+       "crps": 0.680226,
+       "ladder_brier": 0.130557,
+       "coverage50": 0.498546,
+       "coverage80": 0.798408,
+       "n": 35495
+      }
+     },
+     "ot_games": {
+      "CHAMPION": {
+       "mae": 1.024766,
+       "rmse": 1.345473,
+       "bias": -0.118567,
+       "crps": 0.700001,
+       "ladder_brier": 0.13338,
+       "coverage50": 0.474088,
+       "coverage80": 0.772993,
+       "n": 11736
+      },
+      "CHAMPION_NB": {
+       "mae": 1.024766,
+       "rmse": 1.345471,
+       "bias": -0.118569,
+       "crps": 0.700188,
+       "ladder_brier": 0.133476,
+       "coverage50": 0.492224,
+       "coverage80": 0.791848,
+       "n": 11736
+      },
+      "WORKLOAD_V1": {
+       "mae": 1.026661,
+       "rmse": 1.328491,
+       "bias": -0.008054,
+       "crps": 0.691541,
+       "ladder_brier": 0.131804,
+       "coverage50": 0.493252,
+       "coverage80": 0.795364,
+       "n": 11736
+      }
+     }
+    },
+    "workload_minutes": {
+     "total": {
+      "champion": {
+       "mae": 1.934241,
+       "rmse": 2.544788,
+       "bias": -0.335624
+      },
+      "workload_v1": {
+       "mae": 1.875298,
+       "rmse": 2.483839,
+       "bias": -0.007566
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.058942,
+       "ci95": [
+        -0.064787,
+        -0.053211
+       ],
+       "n_obs": 47231,
+       "n_games": 1312
+      }
+     },
+     "pp": {
+      "champion": {
+       "mae": 0.789539,
+       "rmse": 1.203247,
+       "bias": -0.193096
+      },
+      "workload_v1": {
+       "mae": 0.795095,
+       "rmse": 1.168005,
+       "bias": -0.014925
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": 0.005556,
+       "ci95": [
+        -0.000245,
+        0.011529
+       ],
+       "n_obs": 47231,
+       "n_games": 1312
+      }
+     },
+     "sh": {
+      "champion": {
+       "mae": 0.665221,
+       "rmse": 1.019507,
+       "bias": -0.179292
+      },
+      "workload_v1": {
+       "mae": 0.670624,
+       "rmse": 0.987107,
+       "bias": -0.015535
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": 0.005402,
+       "ci95": [
+        3.8e-05,
+        0.010513
+       ],
+       "n_obs": 47231,
+       "n_games": 1312
+      }
+     },
+     "ev_incl_ot": {
+      "champion": {
+       "mae": 1.853092,
+       "rmse": 2.409838,
+       "bias": -0.007725
+      },
+      "workload_v1": {
+       "mae": 1.833563,
+       "rmse": 2.388371,
+       "bias": -0.037938
+      },
+      "mae_diff_wl_minus_champion": {
+       "diff": -0.019529,
+       "ci95": [
+        -0.027159,
+        -0.01187
+       ],
+       "n_obs": 47231,
+       "n_games": 1312
+      }
+     },
+     "n_skater_games": 47231
+    },
+    "efficiency_given_actual_minutes": {
+     "champion_rates": {
+      "mae": 0.992835,
+      "rmse": 1.293198,
+      "bias": -0.039163,
+      "poisson_deviance": 1.228851
+     },
+     "workload_v1_rates": {
+      "mae": 0.991811,
+      "rmse": 1.280302,
+      "bias": 0.033328,
+      "poisson_deviance": 1.178828
+     },
+     "sq_err_diff_wl_minus_champion": {
+      "diff": -0.03319,
+      "ci95": [
+       -0.039178,
+       -0.026861
+      ],
+      "n_obs": 47231,
+      "n_games": 1312
+     }
+    },
+    "alphas": {
+     "BASELINE": 0.0,
+     "CHAMPION": 0.0,
+     "CHAMPION_NB": 0.082339,
+     "WORKLOAD_ONLY": 0.071984,
+     "EFFICIENCY_ONLY": 0.087872,
+     "WORKLOAD_V1": 0.042655
+    },
+    "acceptance": {
+     "checks": {
+      "crps_vs_champion_ci_upper_lt_0": true,
+      "crps_vs_champion_nb_ci_upper_lt_0": true,
+      "rmse_vs_champion_ci_upper_lt_0": true,
+      "ladder_brier_vs_champion_nb_ci_upper_lt_0": true,
+      "abs_bias_le_max": true,
+      "coverage80_in_band": true,
+      "no_position_worse_crps": true
+     },
+     "verdict": "ACCEPTED"
+    },
+    "minutes_breakdown": {
+     "F": {
+      "n": 31370,
+      "total": {
+       "champion": {
+        "mae": 1.836566,
+        "rmse": 2.390655,
+        "bias": -0.329095
+       },
+       "workload_v1": {
+        "mae": 1.785196,
+        "rmse": 2.338002,
+        "bias": -0.005226
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.883255,
+        "rmse": 1.29375,
+        "bias": -0.223643
+       },
+       "workload_v1": {
+        "mae": 0.887339,
+        "rmse": 1.256008,
+        "bias": -0.020496
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.530673,
+        "rmse": 0.849929,
+        "bias": -0.136675
+       },
+       "workload_v1": {
+        "mae": 0.538204,
+        "rmse": 0.822014,
+        "bias": -0.011038
+       }
+      }
+     },
+     "D": {
+      "n": 15861,
+      "total": {
+       "champion": {
+        "mae": 2.127424,
+        "rmse": 2.824977,
+        "bias": -0.348538
+       },
+       "workload_v1": {
+        "mae": 2.053503,
+        "rmse": 2.749593,
+        "bias": -0.012195
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.604185,
+        "rmse": 1.000425,
+        "bias": -0.132679
+       },
+       "workload_v1": {
+        "mae": 0.612654,
+        "rmse": 0.970736,
+        "bias": -0.003907
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.931333,
+        "rmse": 1.290887,
+        "bias": -0.263578
+       },
+       "workload_v1": {
+        "mae": 0.932524,
+        "rmse": 1.25104,
+        "bias": -0.024429
+       }
+      }
+     },
+     "ot_games": {
+      "n": 11736,
+      "total": {
+       "champion": {
+        "mae": 2.182252,
+        "rmse": 2.824848,
+        "bias": -0.749855
+       },
+       "workload_v1": {
+        "mae": 2.058255,
+        "rmse": 2.69516,
+        "bias": -0.418469
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.785673,
+        "rmse": 1.199164,
+        "bias": -0.20125
+       },
+       "workload_v1": {
+        "mae": 0.791525,
+        "rmse": 1.16487,
+        "bias": -0.030637
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.654961,
+        "rmse": 1.013695,
+        "bias": -0.174716
+       },
+       "workload_v1": {
+        "mae": 0.664605,
+        "rmse": 0.983509,
+        "bias": -0.020076
+       }
+      }
+     },
+     "regulation_games": {
+      "n": 35495,
+      "total": {
+       "champion": {
+        "mae": 1.852239,
+        "rmse": 2.445144,
+        "bias": -0.198664
+       },
+       "workload_v1": {
+        "mae": 1.814806,
+        "rmse": 2.409895,
+        "bias": 0.128294
+       }
+      },
+      "pp": {
+       "champion": {
+        "mae": 0.790817,
+        "rmse": 1.204594,
+        "bias": -0.1904
+       },
+       "workload_v1": {
+        "mae": 0.796275,
+        "rmse": 1.16904,
+        "bias": -0.00973
+       }
+      },
+      "sh": {
+       "champion": {
+        "mae": 0.668614,
+        "rmse": 1.021421,
+        "bias": -0.180804
+       },
+       "workload_v1": {
+        "mae": 0.672614,
+        "rmse": 0.988294,
+        "bias": -0.014033
+       }
+      }
+     }
+    },
+    "bias_ci95": {
+     "WORKLOAD_V1": {
+      "diff": 0.029537,
+      "ci95": [
+       0.017413,
+       0.041624
+      ],
+      "n_obs": 47231,
+      "n_games": 1312
+     },
+     "CHAMPION": {
+      "diff": -0.078967,
+      "ci95": [
+       -0.091407,
+       -0.066099
+      ],
+      "n_obs": 47231,
+      "n_games": 1312
+     }
+    },
+    "train_seasons": [
+     2021,
+     2022,
+     2023,
+     2024
+    ],
+    "dispersion_season": 2024,
+    "n_games_without_shift_charts": 0,
+    "constants": {
+     "share_prior": {
+      "D": {
+       "evreg": 0.330565,
+       "pp": 0.200845,
+       "sh": 0.332636,
+       "ea": 0.235222,
+       "en": 0.330923,
+       "ot": 0.178372
+      },
+      "F": {
+       "evreg": 0.250138,
+       "pp": 0.315985,
+       "sh": 0.171495,
+       "ea": 0.381347,
+       "en": 0.241735,
+       "ot": 0.168351
+      }
+     },
+     "minutes_prior": {
+      "D": {
+       "evreg": 966.656912,
+       "pp": 62.209094,
+       "sh": 103.071681,
+       "ea": 6.633167,
+       "en": 9.340671
+      },
+      "F": {
+       "evreg": 731.403386,
+       "pp": 97.916957,
+       "sh": 53.126807,
+       "ea": 10.766412,
+       "en": 6.822086
+      }
+     },
+     "rate_prior": {
+      "D": {
+       "evreg": 4.415158,
+       "pp": 7.471585,
+       "sh": 1.373733,
+       "ea": 11.954914,
+       "en": 1.158514,
+       "ot": 8.086068
+      },
+      "F": {
+       "evreg": 6.936518,
+       "pp": 10.809105,
+       "sh": 3.441811,
+       "ea": 14.73351,
+       "en": 7.114826,
+       "ot": 14.039551
+      }
+     },
+     "ot_mult": {
+      "D": 1.831433,
+      "F": 2.024006
+     },
+     "venue_sog": 1.043858,
+     "p_ot": 0.215892,
+     "ot_len": 188.780229,
+     "ot_sa": 1.929391,
+     "venue_sa": 1.043614,
+     "p_pull": 0.063548,
+     "f_pull": 0.57008,
+     "train_seasons": [
+      2021,
+      2022,
+      2023,
+      2024
+     ]
+    }
+   }
+  }
+ }
+}
