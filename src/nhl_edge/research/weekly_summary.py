@@ -45,7 +45,15 @@ def _age_h(ts: str | None, now: datetime) -> float | None:
         return None
 
 
-def integrity_alerts(archive: Path, now: datetime, in_game_season: bool = True) -> list[dict[str, str]]:
+def game_day(archive: Path) -> bool:
+    """True when the latest context snapshot lists games for its ET date. Freshness limits only make sense on days the worker is expected to run."""
+    ctx = _load(archive / "STATUS_context.json")
+    return bool(ctx and ctx.get("games_today"))
+
+
+def integrity_alerts(archive: Path, now: datetime, in_game_season: bool | None = None) -> list[dict[str, str]]:
+    if in_game_season is None:
+        in_game_season = game_day(archive)
     out: list[dict[str, str]] = []
     for fname, (key, limit_h) in STALE_HOURS.items():
         d = _load(archive / fname)

@@ -19,6 +19,8 @@ def _archive(tmp: Path, *, age_h: dict[str, float] | None = None, ece: float = 0
             d["disagreements"] = []
         if fname == "STATUS_evaluate.json":
             d["steps"] = steps or {"v1": "OK"}
+        if fname == "STATUS_context.json":
+            d["games_today"] = ["2026020154"]
         (tmp / fname).write_text(json.dumps(d))
     (tmp / "eval").mkdir(exist_ok=True)
     (tmp / "eval" / "report.json").write_text(json.dumps({"evaluated_at_utc": iso(NOW), "families": {"game_winner": {"views": {
@@ -61,3 +63,12 @@ def test_run_writes_files_and_exit_code(tmp_path):
     assert "NOT independent games" in (out / "summary.md").read_text() and json.loads((out / "alerts.json").read_text())["alerts"] == []
     (a / "STATUS_capture.json").write_text(json.dumps({"last_capture_utc": iso(NOW - timedelta(hours=9))}))
     assert W.run(a, out, None, NOW) == 2
+
+
+def test_off_days_do_not_alert_on_staleness_by_default(tmp_path):
+    a = _archive(tmp_path, age_h={"STATUS_capture.json": 30.0, "STATUS_simulate.json": 30.0})
+    assert "STATUS_STALE" in {x["code"] for x in W.integrity_alerts(a, NOW)}                  # a game day: the worker should be capturing
+    ctx = json.loads((a / "STATUS_context.json").read_text())
+    ctx["games_today"] = []
+    (a / "STATUS_context.json").write_text(json.dumps(ctx))
+    assert "STATUS_STALE" not in {x["code"] for x in W.integrity_alerts(a, NOW)}              # no games today: quiet is expected
