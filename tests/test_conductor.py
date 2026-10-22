@@ -69,3 +69,15 @@ def test_evaluate_stays_out_of_the_pregame_window():
     near = C.decide(NOW, rows([-5, 2], status="final")[:1] + rows([2]), 5, 5, 200, 500, 5, 5)
     far = C.decide(NOW, rows([-5], status="final") + rows([6]), 5, 5, 200, 500, 5, 5)
     assert not near["evaluate"] and far["evaluate"]
+
+
+def test_pregame_window_refreshes_context_and_simulation_every_20_minutes():
+    # 2 h before puck drop: a 25-minute-old context / simulation is stale; 10 minutes old is not
+    d = C.decide(NOW, rows([2]), 5, 25, 90, 90, 25, 5)
+    assert d["context"] and d["simulate"]
+    d = C.decide(NOW, rows([2]), 5, 10, 90, 90, 10, 5)
+    assert not d["context"] and not d["simulate"]
+    # 8 h before: the hourly cadence is unchanged (25 minutes old is still fresh)
+    d = C.decide(NOW, rows([8]), 5, 25, 90, 90, 25, 5)
+    assert not d["context"] and not d["simulate"]
+    assert C.decide(NOW, rows([8]), 5, 50, 90, 90, 58, 5)["context"]
