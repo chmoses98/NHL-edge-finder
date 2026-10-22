@@ -43,3 +43,16 @@ Levels and paired deltas with game- and date-clustered 95% intervals for every a
 * Vendor xG models are refit retroactively; MoneyPuck values for past games are as published today, not as available on the day.
 * No market data before 2025-26: this experiment says whether the *independent* model improves, not whether it beats a market (the market comparison is a separate analysis on the 2025-26 Kalshi history).
 * NHL game outcomes are very noisy; differences below ~0.001 Brier are unresolvable at these sample sizes and are reported as such.
+
+## Amendment 1 — 2026-10-22, written after a first look at the EXPOSED seasons (2024–2025) and before any unexposed-season result exists
+
+What was seen: a first run of the original arms on 2024–2025 only (exposed by design). Pooled paired deltas vs V1: win-probability Brier −0.0011 [−0.0021, −0.0001] (OA_XG) and −0.0012 [−0.0024, −0.0001] (OA_SVA); but total-goal RPS **worse** by +0.0037 [+0.0003, +0.0072] / +0.0039 [+0.0006, +0.0074]; overtime Brier unchanged. The league-constant arm matched V1 on total-goal RPS (1.2895 vs 1.2896), i.e. total-goal differentiation has no value, and the opponent-adjusted ratings only add spread to totals. This is the same pattern the earlier work reported for V1 (calibration slope ≈ 0.37 on totals, ≈ 1.39 on margins).
+
+Changes (all decided before any unexposed season is run, and therefore **design choices informed by exposed data, not tests of them**):
+
+1. **Grid** extended: ridge {1, 2.5, 5, 15, 30, 60}, season discount {0.1, 0.25, 0.4, 0.55, 0.7} (the validation optimum sat on the old boundary in prior-season tuning). Half-life grid unchanged.
+2. **Arm `OA_SVA_G25` dropped** (no gain, worse totals). **Exploratory arms added**: `V1_C1` and `OA_SVA_C1`, which recalibrate the *sum* and *difference* of the two expected-goal rates by slope-only regression on the arm's own strictly prior predictions (`SlopeCalibrator`; slopes clipped to [0.2, 2.0], 300-game burn-in, same-day games never inform each other, no level recalibration). `V1_C1` re-tests the earlier C1 idea on the same machinery so that a gain from calibration is not credited to the new ratings.
+3. **Two primary challengers**: `OA_SVA` and `OA_SVA_C1` (H1–H3 for each). To keep family-wise error controlled the DEVELOPMENT-QUALIFIED gate (a) must hold at the **97.5%** level (Bonferroni for two primaries) under both bootstraps; `oa_evaluate` reports those intervals (`lo975/hi975`, `lo975_slate/hi975_slate`). Gates (b)–(e) are unchanged. Plain `OA_SVA` is expected to fail (b) on totals; that is reported, not hidden.
+4. `OA_XG`, `V1_C1`, `LEAGUE` remain exploratory/reference.
+
+Nothing else changes: same unexposed seasons, same metrics, same tuning-on-prior-seasons rule, same promotion preconditions.
