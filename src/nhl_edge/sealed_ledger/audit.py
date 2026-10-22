@@ -60,16 +60,46 @@ def results_asof(results: pd.DataFrame) -> str | None:
 
 
 def boundary_games(g_all: pd.DataFrame) -> set[str]:
-    """Games whose scheduled start moved across the freeze instant between schedule snapshots (their eligibility is ambiguous)."""
+    """Games first scheduled BEFORE the freeze instant whose start now lies AFTER it (their eligibility is ambiguous). A game that moved the other way is currently pre-freeze,
+    i.e. in the development tier, and never enters the prospective window, so it is not a boundary case."""
     fz = pd.Timestamp(PROSPECTIVE_FREEZE_UTC)
     if "first_start_seen" not in g_all.columns:
         return set()
-    return set(g_all[(g_all["first_start_seen"] < fz) != (g_all["start_time_utc"] < fz)]["game_id"].astype(str))
+    return set(g_all[(g_all["first_start_seen"] < fz) & (g_all["start_time_utc"] >= fz)]["game_id"].astype(str))
+
+
+def revised_games(entries: list[dict[str, Any]], results: pd.DataFrame | None) -> list[dict[str, Any]]:
+    """Sealed games whose newest observed final score / period type differs from the observation in the archive snapshot their latest sealed version was derived from
+    (``source_asof_utc``). Pure function of the PUBLIC manifest and the results observations: ids, versions and dates only."""
+    latest: dict[str, dict[str, Any]] = {}
+    for e in entries:
+        if e.get("kind") == "RECORD":
+            latest[e["game_id"]] = e
+    if results is None or results.empty or not latest:
+        return []
+    results = results.copy()
+    results["game_id"] = results["game_id"].astype(str)
+    obs = pd.to_datetime(results["_observed_at_utc"], utc=True)
+    cols = [c for c in ("home_final", "away_final", "last_period_type") if c in results.columns]
+    out = []
+    for gid, e in sorted(latest.items()):
+        mask = results["game_id"] == gid
+        if not mask.any():
+            continue
+        rr = results[mask].assign(_t=obs[mask]).sort_values("_t")
+        asof = pd.Timestamp(e.get("source_asof_utc") or e["sealed_utc"])
+        at_asof = rr[rr["_t"] <= asof]
+        if at_asof.empty:
+            continue
+        if [str(rr.iloc[-1][c]) for c in cols] != [str(at_asof.iloc[-1][c]) for c in cols]:
+            out.append({"game_id": gid, "version": e["version"], "date": e["game_date_et"]})
+    return out
 
 
 def schedule_audit(archive: Path, through: str, *, store: Path | None = None, dev_window: bool = False, now: datetime | None = None,
-                   games: pd.DataFrame | None = None, results: pd.DataFrame | None = None, ignore_revised: bool = False) -> dict[str, Any]:
-    """``games`` (build_games output) and ``results`` (every observed results row: game_id, _observed_at_utc, home_final, away_final, last_period_type, _file) may be
+                   games: pd.DataFrame | None = None, results: pd.DataFrame | None = None, ignore_revised: bool = False,
+                   orphan_allowlist: set[str] | frozenset[str] = frozenset()) -> dict[str, Any]:
+    """``orphan_allowlist``: result ids the owner reviewed and approved by a merged change to research/sealed_ledger/orphan_allowlist.txt. ``games`` (build_games output) and ``results`` (every observed results row: game_id, _observed_at_utc, home_final, away_final, last_period_type, _file) may be
     injected for tests; otherwise they are read from the archive. ``ignore_revised`` is for a run whose purpose is to apply the versioned corrections."""
     from nhl_edge.market_audit.games import build_games, read_kind
 
@@ -93,7 +123,7 @@ def schedule_audit(archive: Path, through: str, *, store: Path | None = None, de
             sealed_by_date.setdefault(e["game_date_et"], set()).add(e["game_id"])
     today = now.astimezone(UTC).strftime("%Y-%m-%d")
     for d in _dates(first, last):
-        day_games = g[side & (g["game_date_et"] == d)]
+        day_games = g[side & (g["game_date_et"] == d) & ~g["game_id"].isin(excluded_ids)]  # an excluded game is out of every day, even if the schedule later moves it
         sched = sorted(day_games["game_id"])
         final = sorted(day_games[day_games["is_final"]]["game_id"])
         overdue = sorted(set(day_games[(~day_games["is_final"]) & (day_games["start_time_utc"] + pd.Timedelta(OVERDUE_AFTER) < pd.Timestamp(now))]["game_id"]) - excluded_ids)
@@ -120,7 +150,8 @@ def schedule_audit(archive: Path, through: str, *, store: Path | None = None, de
         rows[d] = row
     # boundary games: eligibility depends on which snapshot of the start time is believed (resolved only by an explicit owner exclusion)
     if "first_start_seen" in g.columns:
-        moved = sorted(set(g[(g["first_start_seen"] < fz) != (g["start_time_utc"] < fz)]["game_id"]) - excluded_ids)
+        # only boundary games whose CURRENT date has been reached by this audit: a later-dated one is handled (excluded) when its own day is processed, never blocking earlier days
+        moved = sorted((boundary_games(g[g["game_date_et"] <= last]) if not dev_window else set()) - excluded_ids)
         if moved:
             problems.append(f"BOUNDARY: start time moved across the freeze instant for game(s) {moved}: eligibility needs an explicit owner exclusion (START_TIME_BOUNDARY)")
     if results is None:
@@ -133,33 +164,26 @@ def schedule_audit(archive: Path, through: str, *, store: Path | None = None, de
     pre_ids = [int(i) for i in g_all[g_all["start_time_utc"] < fz]["game_id"] if str(i).isdigit()]
     max_pre = max(pre_ids) if pre_ids else 0
     known = set(g_all["game_id"])
-    orphans = sorted({a for a, t in zip(results["game_id"], obs, strict=True) if a not in known and t >= fz and (not a.isdigit() or int(a) > max_pre)} - excluded_ids)
+    orphans = sorted({a for a, t in zip(results["game_id"], obs, strict=True) if a not in known and t >= fz and (not a.isdigit() or int(a) > max_pre)} - excluded_ids - set(orphan_allowlist))
     if orphans:
         problems.append(f"ORPHAN RESULT: result row(s) with no schedule row, observed after the freeze: {orphans}")
-    # a source revision of a final score AFTER the game was sealed must not be absorbed silently: it needs an explicit, versioned correction. The comparison point is
-    # the archive snapshot time the latest sealed version was derived from (source_asof_utc), not the time it was sealed.
-    latest: dict[str, dict[str, Any]] = {}
-    for e in entries:
-        if e.get("kind") == "RECORD":
-            latest[e["game_id"]] = e
-    cols = [c for c in ("home_final", "away_final", "last_period_type") if c in results.columns]
-    for gid, e in ([] if ignore_revised else sorted(latest.items())):
-        mask = results["game_id"] == gid
-        if not mask.any():
-            continue
-        rr = results[mask].assign(_t=obs[mask]).sort_values("_t")
-        asof = pd.Timestamp(e.get("source_asof_utc") or e["sealed_utc"])
-        at_asof = rr[rr["_t"] <= asof]
-        if at_asof.empty:
-            continue
-        if [str(rr.iloc[-1][c]) for c in cols] != [str(at_asof.iloc[-1][c]) for c in cols]:
-            problems.append(f"RESULT REVISED {gid}: the source result changed after the sealed version {e['version']} was derived and no later versioned correction covers it "
-                            "(use GAME_ID@VERSION with SOURCE_SCORE_REVISED, one date at a time)")
+    # a source revision of a final score AFTER the game was sealed must not be absorbed silently: it needs a versioned correction (the unattended reconcile applies it
+    # automatically; the comparison point is the archive snapshot the latest sealed version was derived from, not the time it was sealed)
+    for r in ([] if ignore_revised else revised_games(entries, results)):
+        problems.append(f"RESULT REVISED {r['game_id']}: the source result changed after sealed version {r['version']} was derived and no later versioned correction covers it "
+                        "(a correction re-derives it as the next version)")
     return {"through": through, "window": "DEVELOPMENT" if dev_window else "PROSPECTIVE", "dates": rows, "problems": problems, "warnings": warnings, "ok": not problems}
 
 
+def load_orphan_allowlist(repo: Path) -> set[str]:
+    p = Path(repo) / "research" / "sealed_ledger" / "orphan_allowlist.txt"
+    if not p.exists():
+        return set()
+    return {ln.split("#")[0].strip() for ln in p.read_text().splitlines() if ln.split("#")[0].strip()}
+
+
 def open_days_before(archive: Path, date: str, store: Path, now: datetime | None = None, games: pd.DataFrame | None = None, results: pd.DataFrame | None = None,
-                     ignore_revised: bool = False) -> list[str]:
+                     ignore_revised: bool = False, orphan_allowlist: set[str] | frozenset[str] = frozenset()) -> list[str]:
     """Used by the sealing path to fail closed: every audit problem for the dates before ``date`` (open, incomplete, drifted, extra, unsealed, boundary days), plus orphan
     results and revised scores of already sealed games (unless ``ignore_revised``: the run that applies the corrections)."""
     prev = (datetime.fromisoformat(date) - timedelta(days=1)).strftime("%Y-%m-%d")
@@ -167,7 +191,7 @@ def open_days_before(archive: Path, date: str, store: Path, now: datetime | None
         return []
     if results is None and games is not None:
         results = _empty_results()
-    rep = schedule_audit(archive, prev, store=store, now=now, games=games, results=results, ignore_revised=ignore_revised)
+    rep = schedule_audit(archive, prev, store=store, now=now, games=games, results=results, ignore_revised=ignore_revised, orphan_allowlist=orphan_allowlist)
     return list(rep["problems"])
 
 

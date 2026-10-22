@@ -1,0 +1,235 @@
+name: sealed_ledger_daily
+# NHL prospective research ledger -- UNATTENDED daily collection (RESEARCH_ONLY, SHADOW). DISABLED BY DEFAULT: the schedule below is commented out and the publish job refuses
+# until the owner has completed the one-time setup (docs/research/nhl-model-improvement/SEALED_LEDGER_UNATTENDED.md). It never needs a human for a routine day.
+#
+# One idempotent pass (`runner reconcile`) brings the ledger up to date: missed days are sealed in ascending order, revised final scores become versioned corrections, games
+# that never finish are excluded by the prespecified 14-day rule, and a game that is merely late makes its day WAIT (no alert). Every record is encrypted with `age` to the
+# owner's PUBLIC keys on the runner; the private key is not on GitHub and nothing here can decrypt. The ledger lives in its OWN repository (SEALED_LEDGER_REPO: no code, no
+# workflow, no secret), written with a deploy key that can write that repository only. This workflow has NO write permission on this repository (contents: read), so it
+# cannot change a model, a weight, a recommendation, a stake, a cap or any file here. Initialisation, corrections by hand, exclusions by hand and every key or protocol
+# change are in sealed_ledger_admin.yml behind the owner's approval; decryption and evaluation are owner-local only.
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "true = report what would be sealed and publish nothing. The ONLY input; it can only reduce what a run does."
+        required: false
+        default: "false"
+  # schedule:                      # ENABLE ONLY AFTER THE OWNER'S ONE-TIME SETUP AND AN EXPLICIT APPROVAL; one short run per day
+  #   - cron: "17 12 * * *"        # 08:17 ET: settles everything through yesterday; a skipped day is caught up by the next run
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sealed-ledger-daily      # one routine run at a time; deliberately NOT shared with the admin workflow, so a pending owner approval never starves the daily run.
+  cancel-in-progress: false       # (an admin and a daily publish can race; the loser is rejected as non-fast-forward and the next run retries from the remote head)
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    outputs:
+      status: ${{ steps.reconcile.outputs.status }}
+      changed: ${{ steps.reconcile.outputs.changed }}
+      dry: ${{ steps.plan.outputs.dry }}
+      codes: ${{ steps.reconcile.outputs.codes }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - name: Plan (validate; inputs are only ever used through env vars)
+        id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          IN_DRY: ${{ github.event.inputs.dry_run }}
+          LEDGER_REPO: ${{ vars.SEALED_LEDGER_REPO }}
+          CODE_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          dry="${IN_DRY:-false}"
+          [[ "$dry" =~ ^(true|false)$ ]] || { echo "::error::bad dry_run value"; exit 1; }
+          [[ "$LEDGER_REPO" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]] || { echo "::error::repository variable SEALED_LEDGER_REPO (owner/name of the ledger repository) is not set"; exit 1; }
+          [ "${LEDGER_REPO,,}" != "${CODE_REPO,,}" ] || { echo "::error::the ledger repository must differ from the code repository"; exit 1; }
+          through=$(TZ=America/New_York date -d yesterday +%F)
+          { echo "dry=$dry"; echo "through=$through"; } >> "$GITHUB_OUTPUT"
+      - name: Precheck (the sealed ledger must be set up; fails closed)
+        run: |
+          set -euo pipefail
+          grep -qE '^age1[0-9a-z]{50,}$' research/sealed_ledger/recipients.txt || { echo "::error::no owner public key in research/sealed_ledger/recipients.txt (the sealed ledger is not set up)"; exit 1; }
+      - name: Refuse to run if the tree contains private key material
+        run: |
+          set -euo pipefail
+          if grep -rIlE 'AGE-SECRET-KEY-1[0-9A-Z]{50,}|-----BEGIN (ENCRYPTED |EC |RSA |OPENSSH )?PRIVATE KEY-----' --exclude-dir=.git . ; then
+            echo "::error::private key material found in the repository tree"; exit 1
+          fi
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.11"
+      - name: Install hash-locked dependencies (no resolver, no source builds; any hash mismatch fails the job)
+        run: |
+          set -euo pipefail
+          python -m pip install --require-hashes --only-binary=:all: --no-deps -r requirements/research-runtime.lock
+          echo "PYTHONPATH=$GITHUB_WORKSPACE/src" >> "$GITHUB_ENV"
+      - name: Synthetic self-test (throwaway keys, synthetic outcomes; proves the sealing path emits no plaintext)
+        run: |
+          mkdir -p "$RUNNER_TEMP/rd/out"
+          python -m nhl_edge.sealed_ledger.selftest --out "$RUNNER_TEMP/rd/out"
+      - name: Fetch a sparse read-only copy of the archive (every date from the first prospective date through yesterday)
+        env:
+          THROUGH: ${{ steps.plan.outputs.through }}
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 origin data-archive
+          mkdir -p "$RUNNER_TEMP/rd/archive"
+          paths=(manifest.jsonl results settlements context/schedule context/goalie_observations context/sportsbook_odds context/team_games player_events)
+          d=2026-10-21
+          while [[ "$d" < "$THROUGH" || "$d" == "$THROUGH" ]]; do
+            if git cat-file -e "origin/data-archive:slates/dt=${d}" 2>/dev/null; then paths+=("slates/dt=${d}"); fi
+            d=$(date -I -d "$d + 1 day")
+          done
+          git archive origin/data-archive "${paths[@]}" | tar -x -C "$RUNNER_TEMP/rd/archive"
+      - name: Restore the PUBLIC sealed ledger from its own repository (read-only, anonymous)
+        env:
+          LEDGER_REPO: ${{ vars.SEALED_LEDGER_REPO }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/rd/store_prev"
+          git clone --depth 1 "https://github.com/${LEDGER_REPO}.git" "$RUNNER_TEMP/rd/store"
+          test -f "$RUNNER_TEMP/rd/store/manifest.jsonl" || { echo "::error::the ledger repository holds no ledger yet: the owner's one-time init has not been done"; exit 1; }
+          rm -rf "$RUNNER_TEMP/rd/store/.git"
+          cp -a "$RUNNER_TEMP/rd/store/." "$RUNNER_TEMP/rd/store_prev/"
+          python -m nhl_edge.sealed_ledger.runner verify --store "$RUNNER_TEMP/rd/store" --recipients research/sealed_ledger/recipients.txt
+      - name: "Reconcile (one idempotent pass: missed days, revisions, postponed games; the summary is outcome-free)"
+        id: reconcile
+        env:
+          THROUGH: ${{ steps.plan.outputs.through }}
+          DRY: ${{ steps.plan.outputs.dry }}
+        run: |
+          set -euo pipefail
+          args=(reconcile --archive "$RUNNER_TEMP/rd/archive" --repo . --store "$RUNNER_TEMP/rd/store" --recipients research/sealed_ledger/recipients.txt --through "$THROUGH" --summary-out "$RUNNER_TEMP/rd/out/reconcile_summary.json")
+          if [ "$DRY" = true ]; then args+=(--dry-run); fi
+          python -m nhl_edge.sealed_ledger.runner "${args[@]}"
+          python - <<'PY'
+          import json, os
+          s = json.load(open(os.environ["RUNNER_TEMP"] + "/rd/out/reconcile_summary.json"))
+          codes = ",".join(sorted({b["code"] for b in s["blocked"]}))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+              fh.write(f"status={s['status']}\nchanged={'true' if s['changed'] else 'false'}\ncodes={codes}\n")
+          print("status:", s["status"], "| changed:", s["changed"], "| blocked codes:", codes or "-")
+          PY
+      - name: The new manifest must extend the previous one (append-only)
+        if: ${{ steps.reconcile.outputs.changed == 'true' && steps.plan.outputs.dry != 'true' }}
+        run: python -m nhl_edge.sealed_ledger.runner verify --store "$RUNNER_TEMP/rd/store" --recipients research/sealed_ledger/recipients.txt --previous "$RUNNER_TEMP/rd/store_prev"
+      - name: Blinded scorecard (from the public manifest only)
+        run: python -m nhl_edge.sealed_ledger.runner scorecard --store "$RUNNER_TEMP/rd/store" --out "$RUNNER_TEMP/rd/out"
+      - name: Verify blinding (fails the run if a look, an outcome-derived field or any plaintext appears)
+        run: |
+          python - <<'PY'
+          import glob, json, os
+          rd = os.environ["RUNNER_TEMP"] + "/rd"
+          sc = json.load(open(rd + "/out/SHADOW_SCORECARD.json"))
+          summ = json.load(open(rd + "/out/reconcile_summary.json"))
+          looks = glob.glob(rd + "/out/LOOK_*")
+          print("status:", sc["status"], "| n_prospective_games:", sc["n_prospective_games"], "| LOOK files:", looks)
+          assert not looks, "a LOOK file exists in the runner output"
+          allowed = {"n_prospective_games", "tier", "looks", "next_look_at_games", "data_quality", "alarms", "status", "note"}
+          assert set(sc) <= allowed, sorted(set(sc) - allowed)
+          assert set(sc["data_quality"]) == {"missing_sportsbook_share", "mean_slate_age_min"}
+          if sc["n_prospective_games"] < 150:
+              assert sc["status"] == "ACCUMULATING_BLINDED", sc["status"]
+          else:
+              assert sc["status"].endswith("_DUE_OWNER_LOCAL"), sc["status"]
+          ok_summary = {"mode", "through", "status", "dates_closed", "games_sealed", "corrections", "exclusions", "waiting", "blocked", "reproduction_max_abs_diff",
+                        "manifest_entries", "head_seq", "head_hash", "changed", "note"}
+          assert set(summ) <= ok_summary, sorted(set(summ) - ok_summary)
+          names = sorted(os.listdir(rd + "/out"))
+          assert set(names) <= {"SHADOW_SCORECARD.json", "reconcile_summary.json", "SEALED_LEDGER_SELFTEST.json"}, names
+          blob = "".join(open(rd + "/out/" + n).read() for n in names)
+          for banned in ("y_home_win", "home_final", "away_final", "y_total", "brier", "pit_", "attribution_class", "SYNTHETIC-OUTCOME"):
+              assert banned not in blob, banned
+          print("blinding verified; mode:", summ.get("mode"), "| status:", summ.get("status"))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: sealed-ledger-report-${{ github.run_id }}
+          path: ${{ runner.temp }}/rd/out/
+          retention-days: 14
+      - name: Verify the store directory holds only ciphertext, the manifest and checkpoints
+        if: ${{ steps.reconcile.outputs.changed == 'true' && steps.plan.outputs.dry != 'true' }}
+        run: python -m nhl_edge.sealed_ledger.runner verify --store "$RUNNER_TEMP/rd/store" --recipients research/sealed_ledger/recipients.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: ${{ steps.reconcile.outputs.changed == 'true' && steps.plan.outputs.dry != 'true' }}
+        with:
+          name: sealed-ledger-staging-${{ github.run_id }}
+          path: ${{ runner.temp }}/rd/store/
+          retention-days: 1
+
+  publish:
+    needs: reconcile
+    if: ${{ needs.reconcile.outputs.changed == 'true' && needs.reconcile.outputs.dry != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # NO required reviewers here: routine collection is unattended. What protects this job is (1) the environment's deployment-branch policy (main only: the owner sets it; a
+    # branch's copy of this file cannot use the environment, its variables or its secret), (2) contents: read -- this job cannot write this repository at all -- and (3) the
+    # deploy key, which can write the ledger repository and nothing else on GitHub.
+    environment: sealed-ledger-publish
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.11"
+      - name: Install hash-locked dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --require-hashes --only-binary=:all: --no-deps -r requirements/sealed-publish.lock
+          echo "PYTHONPATH=$GITHUB_WORKSPACE/src" >> "$GITHUB_ENV"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: sealed-ledger-staging-${{ github.run_id }}
+          path: ${{ runner.temp }}/staged
+      - name: Publish to the ledger repository (fast-forward only; fails closed unless the owner's setup is complete)
+        env:
+          MODE: append
+          STAGED: ${{ runner.temp }}/staged
+          LEDGER_REPO: ${{ vars.SEALED_LEDGER_REPO }}
+          CODE_REPO: ${{ github.repository }}
+          ACTIVATION: ${{ vars.SEALED_LEDGER_ACTIVATION_SHA }}
+          GENESIS: ${{ vars.SEALED_LEDGER_GENESIS_HASH }}
+          DEPLOY_KEY: ${{ secrets.SEALED_LEDGER_DEPLOY_KEY }}
+          MESSAGE: "sealed-ledger: daily reconcile (run ${{ github.run_id }})"
+        run: scripts/sealed_ledger_publish.sh
+
+  alert:
+    needs: [reconcile, publish]
+    if: ${{ always() && needs.reconcile.outputs.dry != 'true' && (needs.reconcile.result == 'failure' || needs.publish.result == 'failure' || needs.reconcile.outputs.status == 'BLOCKED') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write     # ONE deduplicated issue per cause, containing only the run URL and status codes (no data)
+    steps:
+      - name: Open (or find) the exception issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          STATUS: ${{ needs.reconcile.outputs.status }}
+          CODES: ${{ needs.reconcile.outputs.codes }}
+          RECONCILE: ${{ needs.reconcile.result }}
+          PUBLISH: ${{ needs.publish.result }}
+        run: |
+          set -euo pipefail
+          if [ "$STATUS" = BLOCKED ]; then cause="BLOCKED: ${CODES:-unknown}"
+          elif [ "$PUBLISH" = failure ]; then cause="publish failed"
+          else cause="run failed"; fi
+          title="sealed ledger: ${cause}"
+          if [ -z "$(gh issue list --repo "$REPO" --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')" ]; then
+            gh issue create --repo "$REPO" --title "$title" --body "The unattended sealed-ledger run needs a look. Status: ${STATUS:-n/a}; codes: ${CODES:-n/a}; reconcile: ${RECONCILE}; publish: ${PUBLISH}. Nothing outcome-bearing is in this issue. Safely sealed days were kept. Details (game ids and counts only) are in the run's report artifact: ${RUN_URL}"
+          fi

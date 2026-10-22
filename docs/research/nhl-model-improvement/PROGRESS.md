@@ -21,7 +21,7 @@ Work state at 2026-10-21: all planned analyses executed; reports written; PRs op
 | 5-6 Challengers vs market | done (all rejected / inconclusive) | CHALLENGER_MODEL_COMPARISON.md |
 | 7 Market families, information events | done; capture proposal as separate draft PR | MARKET_FAMILIES_AND_EXPRESSION.md, INFORMATION_EVENT_ASSESSMENT.md |
 | 8 Expression engine | existing shadow engine corrected, replay re-run | `data/shadow_summary_fixed_engine.json` |
-| 9 Daily loop | done, manual dispatch, publish=false; sealed (encrypted) ledger implemented, NOT activated (needs owner keys + approval) | `daily.py`, `src/nhl_edge/sealed_ledger/`, `.github/workflows/model_research_daily.yml` |
+| 9 Daily loop | done, manual dispatch, publish=false; sealed (encrypted) ledger implemented, NOT activated (needs owner keys + approval) | `daily.py`, `src/nhl_edge/sealed_ledger/`, `.github/workflows/sealed_ledger_daily.yml` (unattended) + `sealed_ledger_admin.yml` (approval-gated) |
 | 10 Reports, PRs, handoff | done | EXECUTIVE_REPORT.md |
 
 ## Open items (none changes a headline)
