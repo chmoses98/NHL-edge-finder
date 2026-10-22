@@ -11,3 +11,8 @@ data/archive/
 .env
 .trigger/
 data/accounting/
+
+# Sealed-ledger owner key material must never be committed (the owner keeps it outside the repository entirely)
+*identity*.txt
+witness_private.pem
+*.age.key

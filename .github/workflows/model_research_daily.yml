@@ -1,11 +1,14 @@
 name: model_research_daily
-# NHL model-research daily feedback loop (RESEARCH_ONLY). DISABLED BY DEFAULT: manual dispatch only, the schedule below is commented out and enabling it needs an
-# explicit decision. Reads a SPARSE read-only copy of data-archive (only the kinds the loop needs), settles ONE slate date of post-freeze games into an append-only
-# game ledger, writes a BLINDED scorecard (counts + pregame data quality only, no outcome-derived number before the first predeclared look of 150 games), and
-# uploads only that scorecard and an outcome-free ingest summary. The ledger (which holds outcomes) is NEVER part of the default artifact: it leaves the runner only
-# when `publish` is true, through a separate job that alone holds write permission and makes a normal (never forced) commit on its own branch
-# `model-research-ledger`. It never writes to the default branch, data-archive or accounting-data, places or routes no wager, changes no model, stake or cap,
-# retrains nothing and promotes nothing.
+# NHL model-research daily feedback loop (RESEARCH_ONLY, SHADOW). DISABLED BY DEFAULT: manual dispatch only; the schedule below is commented out and enabling it needs
+# an explicit approval. Reads a SPARSE read-only copy of data-archive, settles ONE slate date of post-freeze games and either
+#   publish=false (default)  a DRY RUN: derives and validates the rows in memory, seals NOTHING, writes nothing outcome-bearing; uploads an outcome-free summary + the
+#                            blinded scorecard; or
+#   publish=true             seals each game record with `age` (X25519 + ChaCha20-Poly1305) to the owner's PUBLIC key(s) in research/sealed_ledger/recipients.txt, appends
+#                            to a hash-chained manifest and commits ONLY ciphertext + manifest (never plaintext) to the branch `model-research-sealed-ledger`.
+# The owner's private key never touches GitHub; this workflow cannot decrypt anything. publish=true additionally requires the owner to set the repository VARIABLE
+# SEALED_LEDGER_ACTIVATION_SHA to the SHA-256 of recipients.txt (an approval that a pull request cannot supply), so merging this file activates nothing.
+# Design, threat model and key setup: docs/research/nhl-model-improvement/SEALED_LEDGER_DESIGN.md and SEALED_LEDGER_KEY_SETUP.md. It never writes to the default branch,
+# data-archive or accounting-data, places or routes no wager, changes no model, stake or cap, retrains nothing and promotes nothing.
 on:
   workflow_dispatch:
     inputs:
@@ -13,18 +16,29 @@ on:
         description: "Slate date (ET, YYYY-MM-DD) to settle"
         required: true
       publish:
-        description: "Append the ledger to the model-research-ledger branch (true/false)"
+        description: "Seal and publish the encrypted ledger (true/false). Refused unless the owner has activated it."
         required: false
         default: "false"
-  # schedule:                      # ENABLE ONLY WITH EXPLICIT APPROVAL; one short run per day (~3-6 min)
-  #   - cron: "17 12 * * *"
+      correct_game_ids:
+        description: "Optional: comma-separated game ids whose sealed record is superseded by a versioned correction (publish=true only)"
+        required: false
+        default: ""
+      correction_reason:
+        description: "Required with correct_game_ids: SOURCE_SCORE_REVISED | PIPELINE_DEFECT_FIXED | OTHER_DOCUMENTED"
+        required: false
+        default: ""
+  # schedule:                      # ENABLE ONLY WITH EXPLICIT APPROVAL AFTER THE CONFIGURATION IS REVIEWED; one short run per day (~4-8 min)
+  #   - cron: "17 12 * * *"        # 08:17 ET: settles yesterday's slate; seals only if the owner has set SEALED_LEDGER_ACTIVATION_SHA, otherwise a dry run
 
 permissions:
   contents: read
 
 concurrency:
-  group: model-research-daily
+  group: model-research-daily      # one run at a time (the ledger is a single append-only chain)
   cancel-in-progress: false
+
+env:
+  LEDGER_BRANCH: model-research-sealed-ledger
 
 jobs:
   settle:
@@ -32,106 +46,230 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: read
+    outputs:
+      date: ${{ steps.plan.outputs.date }}
+      publish: ${{ steps.plan.outputs.publish }}
     steps:
       - uses: actions/checkout@v4
-      - name: Refuse publish while the ledger has no isolated storage (repository is PUBLIC)
-        if: ${{ github.event.inputs.publish == 'true' }}
+      - name: Plan (validate inputs; they are only ever used through env vars)
+        id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          IN_DATE: ${{ github.event.inputs.date }}
+          IN_PUBLISH: ${{ github.event.inputs.publish }}
+          IN_CORRECT: ${{ github.event.inputs.correct_game_ids }}
+          IN_REASON: ${{ github.event.inputs.correction_reason }}
+          ACTIVATION: ${{ vars.SEALED_LEDGER_ACTIVATION_SHA }}
         run: |
-          echo "::error::publish=true is disabled: this repository is public, so a ledger branch would expose the outcome-bearing prospective ledger to everyone. See docs/research/nhl-model-improvement/LEDGER_ISOLATION_REVIEW.md."
-          exit 1
+          set -euo pipefail
+          if [ "$EVENT" = "schedule" ]; then
+            date=$(TZ=America/New_York date -d yesterday +%F)
+            if [ -n "$ACTIVATION" ]; then publish=true; else publish=false; fi
+          else
+            date="$IN_DATE"; publish="${IN_PUBLISH:-false}"
+          fi
+          [[ "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::bad date"; exit 1; }
+          [[ "$publish" =~ ^(true|false)$ ]] || { echo "::error::bad publish value"; exit 1; }
+          [[ "$IN_CORRECT" =~ ^[0-9A-Za-z_,-]*$ ]] || { echo "::error::bad correct_game_ids"; exit 1; }
+          if [ -n "$IN_CORRECT" ]; then
+            [ "$publish" = true ] || { echo "::error::corrections need publish=true"; exit 1; }
+            [[ "$IN_REASON" =~ ^(SOURCE_SCORE_REVISED|PIPELINE_DEFECT_FIXED|OTHER_DOCUMENTED)$ ]] || { echo "::error::a correction needs a valid correction_reason"; exit 1; }
+          fi
+          { echo "date=$date"; echo "publish=$publish"; } >> "$GITHUB_OUTPUT"
+      - name: Activation gate (publish=true only; fails closed)
+        if: ${{ steps.plan.outputs.publish == 'true' }}
+        env:
+          ACTIVATION: ${{ vars.SEALED_LEDGER_ACTIVATION_SHA }}
+        run: |
+          set -euo pipefail
+          f=research/sealed_ledger/recipients.txt
+          grep -qE '^age1[0-9a-z]{50,}$' "$f" || { echo "::error::publish refused: no owner public key in $f (the sealed ledger is not set up)"; exit 1; }
+          actual=$(sha256sum "$f" | cut -d' ' -f1)
+          [ -n "$ACTIVATION" ] && [ "$ACTIVATION" = "$actual" ] || { echo "::error::publish refused: the owner has not activated this exact recipients file (repository variable SEALED_LEDGER_ACTIVATION_SHA)"; exit 1; }
+      - name: Refuse to run if the tree contains private key material
+        run: |
+          set -euo pipefail
+          if grep -rIlE 'AGE-SECRET-KEY-1[0-9A-Z]{50,}|-----BEGIN (ENCRYPTED |EC |RSA |OPENSSH )?PRIVATE KEY-----' --exclude-dir=.git . ; then
+            echo "::error::private key material found in the repository tree"; exit 1
+          fi
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
       - run: pip install -e ".[dev]" scipy statsmodels
+      - name: Synthetic self-test (throwaway key, synthetic outcomes; proves the sealing path emits no plaintext)
+        run: |
+          mkdir -p "$RUNNER_TEMP/rd/out"
+          python -m nhl_edge.sealed_ledger.selftest --out "$RUNNER_TEMP/rd/out" | sed 's/^/selftest: /'
       - name: Fetch a sparse read-only copy of the archive
         env:
-          SLATE_DATE: ${{ github.event.inputs.date }}
+          SLATE_DATE: ${{ steps.plan.outputs.date }}
         run: |
           set -euo pipefail
-          [[ "$SLATE_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "bad date"; exit 1; }
           git fetch --depth=1 origin data-archive
-          mkdir -p $RUNNER_TEMP/rd/archive
+          mkdir -p "$RUNNER_TEMP/rd/archive"
           paths=(manifest.jsonl results settlements context/schedule context/goalie_observations context/sportsbook_odds context/team_games player_events)
           if git cat-file -e "origin/data-archive:slates/dt=${SLATE_DATE}" 2>/dev/null; then paths+=("slates/dt=${SLATE_DATE}"); else echo "no slate runs for ${SLATE_DATE}"; fi
-          git archive origin/data-archive "${paths[@]}" | tar -x -C $RUNNER_TEMP/rd/archive
-      - name: Restore the ledger (read-only fetch; if the branch exists)
+          git archive origin/data-archive "${paths[@]}" | tar -x -C "$RUNNER_TEMP/rd/archive"
+      - name: Restore the PUBLIC sealed store (ciphertext + manifest only; read-only fetch)
         run: |
           set -euo pipefail
-          mkdir -p $RUNNER_TEMP/rd/ledger $RUNNER_TEMP/rd/out
-          if git ls-remote --exit-code --heads origin model-research-ledger >/dev/null 2>&1; then
-            git fetch --depth=1 origin model-research-ledger
-            git show origin/model-research-ledger:shadow_game_ledger.jsonl > $RUNNER_TEMP/rd/ledger/shadow_game_ledger.jsonl
+          mkdir -p "$RUNNER_TEMP/rd/store" "$RUNNER_TEMP/rd/store_prev"
+          if git ls-remote --exit-code --heads origin "$LEDGER_BRANCH" >/dev/null 2>&1; then
+            git fetch --depth=1 origin "$LEDGER_BRANCH"
+            git archive "origin/$LEDGER_BRANCH" | tar -x -C "$RUNNER_TEMP/rd/store"
+            cp -a "$RUNNER_TEMP/rd/store/." "$RUNNER_TEMP/rd/store_prev/"
+            python -m nhl_edge.sealed_ledger.runner verify --store "$RUNNER_TEMP/rd/store" --recipients research/sealed_ledger/recipients.txt
+          else
+            echo "no sealed ledger branch yet"
           fi
-      - name: Settle the date (idempotent per game; summary is outcome-free)
+      - name: Settle the date (dry run unless publish=true; the summary is outcome-free)
         env:
-          SLATE_DATE: ${{ github.event.inputs.date }}
-        run: python -m nhl_edge.model_research.daily ingest --archive $RUNNER_TEMP/rd/archive --date "$SLATE_DATE" --repo . --ledger $RUNNER_TEMP/rd/ledger/shadow_game_ledger.jsonl --summary-out $RUNNER_TEMP/rd/out/ingest_summary.json
-      - name: Blinded scorecard
-        run: python -m nhl_edge.model_research.daily scorecard --ledger $RUNNER_TEMP/rd/ledger/shadow_game_ledger.jsonl --out $RUNNER_TEMP/rd/out
-      - name: Verify blinding (fails the run if a look or an outcome-derived field appears early)
+          SLATE_DATE: ${{ steps.plan.outputs.date }}
+          PUBLISH: ${{ steps.plan.outputs.publish }}
+          CORRECT: ${{ github.event.inputs.correct_game_ids }}
+          REASON: ${{ github.event.inputs.correction_reason }}
+        run: |
+          set -euo pipefail
+          args=(ingest --archive "$RUNNER_TEMP/rd/archive" --date "$SLATE_DATE" --repo . --store "$RUNNER_TEMP/rd/store" --recipients research/sealed_ledger/recipients.txt --summary-out "$RUNNER_TEMP/rd/out/ingest_summary.json")
+          if [ "$PUBLISH" = true ]; then
+            args+=(--seal)
+            if [ -n "$CORRECT" ]; then args+=(--correct "$CORRECT" --reason "$REASON"); fi
+          fi
+          python -m nhl_edge.sealed_ledger.runner "${args[@]}"
+      - name: The new manifest must extend the previous one (append-only)
+        if: ${{ steps.plan.outputs.publish == 'true' }}
+        run: python -m nhl_edge.sealed_ledger.runner verify --store "$RUNNER_TEMP/rd/store" --recipients research/sealed_ledger/recipients.txt --previous "$RUNNER_TEMP/rd/store_prev"
+      - name: Optional runner attestation (only if the owner configured a SIGNING key in a protected environment)
+        if: ${{ steps.plan.outputs.publish == 'true' }}
+        env:
+          LEDGER_ATTEST_KEY_PEM: ${{ secrets.LEDGER_ATTEST_KEY_PEM }}
+        run: python -m nhl_edge.sealed_ledger.runner attest --store "$RUNNER_TEMP/rd/store"
+      - name: Blinded scorecard (from the public manifest only)
+        run: python -m nhl_edge.sealed_ledger.runner scorecard --store "$RUNNER_TEMP/rd/store" --out "$RUNNER_TEMP/rd/out"
+      - name: Verify blinding (fails the run if a look, an outcome-derived field or any plaintext appears)
         run: |
           python - <<'PY'
           import glob, json, os
           rd = os.environ["RUNNER_TEMP"] + "/rd"
           sc = json.load(open(rd + "/out/SHADOW_SCORECARD.json"))
-          looks = glob.glob(rd + "/out/LOOK_*.json")
+          summ = json.load(open(rd + "/out/ingest_summary.json"))
+          looks = glob.glob(rd + "/out/LOOK_*")
           print("status:", sc["status"], "| n_prospective_games:", sc["n_prospective_games"], "| LOOK files:", looks)
+          assert not looks, "a LOOK file exists in the runner output"
+          allowed = {"n_prospective_games", "tier", "looks", "next_look_at_games", "data_quality", "alarms", "status", "note"}
+          assert set(sc) <= allowed, sorted(set(sc) - allowed)
+          assert set(sc["data_quality"]) == {"missing_sportsbook_share", "mean_slate_age_min"}
           if sc["n_prospective_games"] < 150:
               assert sc["status"] == "ACCUMULATING_BLINDED", sc["status"]
-              assert not looks, "a LOOK file exists before 150 eligible games"
-              assert "look" not in sc
-          allowed = {"n_prospective_games", "tier", "looks", "next_look_at_games", "data_quality", "alarms", "status", "note"}
-          if sc["n_prospective_games"] < 150:
-              assert set(sc) <= allowed, sorted(set(sc) - allowed)
-          print("blinding verified")
+          else:
+              assert sc["status"].endswith("_DUE_OWNER_LOCAL"), sc["status"]
+          ok_summary = {"date", "mode", "games_scheduled", "games_final", "games_with_pregame_forecast", "missing_pregame_forecast", "reproduction_max_abs_diff",
+                        "all_scheduled_final", "sealed_new", "skipped_existing", "corrections", "day_closed", "integrity_ok", "manifest_entries", "head_seq", "head_hash", "note"}
+          assert set(summ) <= ok_summary, sorted(set(summ) - ok_summary)
+          names = sorted(os.listdir(rd + "/out"))
+          assert set(names) <= {"SHADOW_SCORECARD.json", "ingest_summary.json", "SEALED_LEDGER_SELFTEST.json"}, names
+          blob = "".join(open(rd + "/out/" + n).read() for n in names)
+          for banned in ("y_home_win", "home_final", "away_final", "y_total", "brier", "pit_", "attribution_class", "SYNTHETIC-OUTCOME"):
+              assert banned not in blob, banned
+          print("blinding verified; mode:", summ.get("mode"))
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: model-research-blinded-${{ github.run_id }}
           path: ${{ runner.temp }}/rd/out/
           retention-days: 14
+      - name: Verify the store directory holds only ciphertext, the manifest and checkpoints
+        if: ${{ steps.plan.outputs.publish == 'true' }}
+        run: python -m nhl_edge.sealed_ledger.runner verify --store "$RUNNER_TEMP/rd/store" --recipients research/sealed_ledger/recipients.txt
       - uses: actions/upload-artifact@v4
-        if: ${{ github.event.inputs.publish == 'true' }}
+        if: ${{ steps.plan.outputs.publish == 'true' }}
         with:
-          name: model-research-ledger-staging-${{ github.run_id }}
-          path: |
-            ${{ runner.temp }}/rd/ledger/shadow_game_ledger.jsonl
-            ${{ runner.temp }}/rd/out/SHADOW_SCORECARD.json
+          name: model-research-sealed-staging-${{ github.run_id }}
+          path: ${{ runner.temp }}/rd/store/
           retention-days: 1
 
   publish:
     needs: settle
-    if: ${{ github.event.inputs.publish == 'true' }}
+    if: ${{ needs.settle.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      contents: write   # the only write grant in this workflow; pushes to model-research-ledger and nothing else
+      contents: write   # the only write grant in this workflow; pushes ciphertext + manifest to the ledger branch (and a head tag) and nothing else
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: model-research-ledger-staging-${{ github.run_id }}
-          path: /tmp/ledger_in
-      - name: Commit to model-research-ledger (normal commit, never forced)
+      - name: Activation gate (publish job repeats it)
         env:
-          SLATE_DATE: ${{ github.event.inputs.date }}
+          ACTIVATION: ${{ vars.SEALED_LEDGER_ACTIVATION_SHA }}
         run: |
           set -euo pipefail
-          led=$(find /tmp/ledger_in -name shadow_game_ledger.jsonl | head -1); sc=$(find /tmp/ledger_in -name SHADOW_SCORECARD.json | head -1)
-          cp "$led" /tmp/shadow_game_ledger.jsonl; cp "$sc" /tmp/SHADOW_SCORECARD.json
+          f=research/sealed_ledger/recipients.txt
+          grep -qE '^age1[0-9a-z]{50,}$' "$f" || { echo "::error::publish refused: no owner public key in $f"; exit 1; }
+          actual=$(sha256sum "$f" | cut -d' ' -f1)
+          [ -n "$ACTIVATION" ] && [ "$ACTIVATION" = "$actual" ] || { echo "::error::publish refused: not activated by the owner"; exit 1; }
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e ".[sealed]"
+      - uses: actions/download-artifact@v4
+        with:
+          name: model-research-sealed-staging-${{ github.run_id }}
+          path: ${{ runner.temp }}/staged
+      - name: Commit ciphertext + manifest to the ledger branch (normal commit, never forced) and tag the head
+        env:
+          SLATE_DATE: ${{ needs.settle.outputs.date }}
+        run: |
+          set -euo pipefail
+          staged="$RUNNER_TEMP/staged"; wt="$RUNNER_TEMP/ledger_wt"; rec=research/sealed_ledger/recipients.txt
+          python -m nhl_edge.sealed_ledger.runner verify --store "$staged" --recipients "$rec"
           git config user.name "nhl-edge-bot"
           git config user.email "nhl-edge-bot@users.noreply.github.com"
-          if git ls-remote --exit-code --heads origin model-research-ledger >/dev/null 2>&1; then
-            git fetch origin model-research-ledger
-            git checkout -B model-research-ledger origin/model-research-ledger
+          if git ls-remote --exit-code --heads origin "$LEDGER_BRANCH" >/dev/null 2>&1; then
+            git fetch origin "$LEDGER_BRANCH"
+            git worktree add -B "$LEDGER_BRANCH" "$wt" "origin/$LEDGER_BRANCH"
+            python -m nhl_edge.sealed_ledger.runner verify --store "$staged" --recipients "$rec" --previous "$wt"   # append-only against the CURRENT remote head
           else
-            git checkout --orphan model-research-ledger
-            git rm -rf . >/dev/null 2>&1 || true
+            git worktree add --detach "$wt"
+            (cd "$wt" && git checkout --orphan "$LEDGER_BRANCH" && git rm -rf . >/dev/null)
           fi
-          cp /tmp/shadow_game_ledger.jsonl ./shadow_game_ledger.jsonl
-          cp /tmp/SHADOW_SCORECARD.json ./SHADOW_SCORECARD.json
-          git add shadow_game_ledger.jsonl SHADOW_SCORECARD.json
+          cp -a "$staged/." "$wt/"
+          printf '%s\n' "# Sealed prospective research ledger (ciphertext + manifest only)" "" "Every record is encrypted with age to the owner's public key; there is no plaintext here and the private key is not on GitHub." "See docs/research/nhl-model-improvement/SEALED_LEDGER_DESIGN.md on the default branch." > "$wt/README.md"
+          python -m nhl_edge.sealed_ledger.runner verify --store "$wt" --recipients "$rec"
+          cd "$wt"
+          git add -A
           if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
-          git commit -m "model-research: settle ${SLATE_DATE} (run ${GITHUB_RUN_ID})"
-          git push origin model-research-ledger
+          head=$(python - <<'PY'
+          import json, os
+          lines = [json.loads(x) for x in open("manifest.jsonl") if x.strip()]
+          print(f"{len(lines) - 1}:{lines[-1]['entry_hash']}")
+          PY
+          )
+          seq=${head%%:*}; hh=${head#*:}
+          git commit -m "sealed-ledger: settle ${SLATE_DATE} (run ${GITHUB_RUN_ID}; head ${seq}:${hh:0:12})"
+          git push origin "$LEDGER_BRANCH"
+          git tag -a "sealed-ledger-head-${seq}" -m "head ${seq} ${hh} (run ${GITHUB_RUN_ID}, ${SLATE_DATE})"
+          git push origin "sealed-ledger-head-${seq}"
+          { echo "### Sealed ledger head"; echo "seq: \`${seq}\`"; echo "entry_hash: \`${hh}\`"; echo "Record this head in your witness log (owner.py witness)."; } >> "$GITHUB_STEP_SUMMARY"
+
+  alert:
+    needs: [settle, publish]
+    if: ${{ always() && (needs.settle.result == 'failure' || needs.publish.result == 'failure') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write     # opens ONE issue per failed date containing only the run URL (no data)
+    steps:
+      - name: Open a failure issue (deduplicated; contains no ledger data)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DATE: ${{ needs.settle.outputs.date }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          title="model_research_daily failed (${DATE:-unknown date})"
+          if [ -z "$(gh issue list --repo "$REPO" --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')" ]; then
+            gh issue create --repo "$REPO" --title "$title" --body "The shadow research loop failed. Nothing was published unless the publish job succeeded. Run: $RUN_URL"
+          fi

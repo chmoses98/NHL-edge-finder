@@ -1,12 +1,14 @@
 """Daily research feedback loop (RESEARCH_ONLY, manual dispatch, publish=false by default).
 
-    python -m nhl_edge.model_research.daily ingest    --archive <data-archive> --date 2026-10-22 --repo . --ledger <shadow_game_ledger.jsonl>
-    python -m nhl_edge.model_research.daily scorecard --ledger <shadow_game_ledger.jsonl> --out <dir>
+    python -m nhl_edge.model_research.daily ingest    --dev-dry-run --archive <data-archive> --date <development-window date> --repo . --ledger <scratch.jsonl>
+    python -m nhl_edge.model_research.daily scorecard --ledger <plaintext ledger> --out <dir>      # development / owner-local use only
 
-``ingest`` settles one slate date: for every FINAL game that day it freezes the pregame state at T-60 (the last production slate run at or before the cut), regenerates the
+The PROSPECTIVE daily path is ``python -m nhl_edge.sealed_ledger.runner`` (outcome-bearing rows are encrypted before they leave the runner; see
+``docs/research/nhl-model-improvement/SEALED_LEDGER_DESIGN.md``). This module's plaintext ledger is for development-window dry runs and for the owner's local look.
+
+``ingest`` (development dry run) / ``build_rows`` (used by the sealed runner) settle one slate date: for every FINAL game that day it freezes the pregame state at T-60 (the last production slate run at or before the cut), regenerates the
 production V1 predictive distribution bit-for-bit, scores it against the final (randomised PIT, win-probability surprise), applies the frozen challenger C1 (parameters from
-``data/cal_experiments.json``; never refitted here), classifies the miss (attribution classes A-F, see ``attribution.py``) and appends ONE row per game to an append-only ledger
-(idempotent by game_id). Nothing is retrained and no model is promoted by a night's results.
+``data/cal_experiments.json``; never refitted here), classifies the miss (attribution classes A-F, see ``attribution.py``) and yields ONE row per game for an append-only, idempotent (by game_id) ledger. Nothing is retrained and no model is promoted by a night's results.
 
 ``scorecard`` never reveals aggregate model-vs-market performance on the PROSPECTIVE tier before the first predeclared look (150 independent games). Until then it reports counts,
 pregame data-quality measures only (no outcome-derived number of any kind); at 150 games it writes LOOK_150.json exactly once (later looks 300 / 450 likewise).
@@ -70,23 +72,37 @@ def append_rows(path: Path, rows: list[dict[str, Any]]) -> int:
     return len(new)
 
 
-def prospective_games(archive: Path, date_et: str, dev_dry_run: bool = False) -> pd.DataFrame:
-    """Final games of ``date_et`` that started AFTER the freeze. ``dev_dry_run`` instead selects a DEVELOPMENT-window date so the code path can be exercised without
-    touching the prospective tier (the output must go to a scratch ledger, never the real one)."""
+def scheduled_games(archive: Path, date_et: str, dev_dry_run: bool = False) -> pd.DataFrame:
+    """Every regular-season game of ``date_et`` on the prospective side of the freeze (final or not): the day's eligible set, a public schedule fact."""
     from nhl_edge.market_audit.games import build_games
 
     g = build_games(archive)
     fz = pd.Timestamp(PROSPECTIVE_FREEZE_UTC)
     after = (g["start_time_utc"] < fz) if dev_dry_run else (g["start_time_utc"] >= fz)
-    g = g[g["is_final"] & (g["season_type"] == "regular") & (g["game_date_et"] == date_et) & after].copy()
+    g = g[(g["season_type"] == "regular") & (g["game_date_et"] == date_et) & after].copy()
     g["game_id"] = g["game_id"].astype(str)
-    return g.sort_values("start_time_utc").reset_index(drop=True)
+    return g.sort_values(["start_time_utc", "game_id"]).reset_index(drop=True)
 
 
-def ingest(archive: Path, date_et: str, repo: Path, ledger: Path, dev_dry_run: bool = False) -> dict[str, Any]:
-    games = prospective_games(archive, date_et, dev_dry_run)
+def prospective_games(archive: Path, date_et: str, dev_dry_run: bool = False) -> pd.DataFrame:
+    """Final games of ``date_et`` that started AFTER the freeze. ``dev_dry_run`` instead selects a DEVELOPMENT-window date so the code path can be exercised without
+    touching the prospective tier (the output must go to a scratch ledger, never the real one)."""
+    g = scheduled_games(archive, date_et, dev_dry_run)
+    return g[g["is_final"]].reset_index(drop=True)
+
+
+class PlaintextProspectiveLedgerForbidden(RuntimeError):
+    """The plaintext ledger path exists only for development-window dry runs. Prospective outcome-bearing rows are sealed (``nhl_edge.sealed_ledger``)."""
+
+
+def build_rows(archive: Path, date_et: str, repo: Path, dev_dry_run: bool = False) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Derive the ledger rows (in memory only) for the final games of one date, plus an OUTCOME-FREE info dict. Writes nothing."""
+    sched = scheduled_games(archive, date_et, dev_dry_run)
+    games = sched[sched["is_final"]].reset_index(drop=True)
+    info: dict[str, Any] = {"date": date_et, "games_scheduled": int(len(sched)), "games_final": int(len(games)), "scheduled_game_ids": sorted(sched["game_id"]),
+                            "all_scheduled_final": bool(len(sched)) and bool(sched["is_final"].all())}
     if games.empty:
-        return {"date": date_et, "games": 0, "appended": 0, "note": "no final post-freeze games on this date"}
+        return [], {**info, "games_with_pregame_forecast": 0, "missing_pregame_forecast": [], "reproduction_max_abs_diff": None, "note": "no final post-freeze games on this date"}
     slates = build_slate_table(archive, date_et, date_et)
     live = build_live_dataset(archive, 60.0, slates, games)
     live = live[live["v1_lam_home"].notna()].reset_index(drop=True)  # a game without a pre-cut slate run is a data-quality gap, counted below
@@ -99,10 +115,23 @@ def ingest(archive: Path, date_et: str, repo: Path, ledger: Path, dev_dry_run: b
     d = d.set_index("game_id")
     d["c1_p_home_win"] = pd.Series(P1["p_home_win"], index=live["game_id"].to_numpy())
     d = d.reset_index()
-    rows = [{k: _clean(r.get(k)) for k in LEDGER_FIELDS} for r in d.to_dict("records")]
+    order = {g: i for i, g in enumerate(games["game_id"])}
+    rows = sorted(({k: _clean(r.get(k)) for k in LEDGER_FIELDS} for r in d.to_dict("records")), key=lambda r: order.get(str(r["game_id"]), 10**9))
+    info.update({"games_with_pregame_forecast": int(len(live)), "missing_pregame_forecast": sorted(set(games["game_id"]) - set(live["game_id"])),
+                 "reproduction_max_abs_diff": summ["reproduction_max_abs_diff_p_home_win"]})
+    return rows, info
+
+
+def ingest(archive: Path, date_et: str, repo: Path, ledger: Path, dev_dry_run: bool = False) -> dict[str, Any]:
+    """DEVELOPMENT dry run only (plaintext scratch ledger, development-window date). A prospective date is refused: those rows are sealed, never written in clear."""
+    if not dev_dry_run:
+        raise PlaintextProspectiveLedgerForbidden("prospective rows are never written in plaintext; use `python -m nhl_edge.sealed_ledger.runner ingest`")
+    rows, info = build_rows(archive, date_et, repo, dev_dry_run=True)
+    if not rows:
+        return {"date": date_et, "games": 0, "appended": 0, "note": info.get("note", "")}
     appended = append_rows(ledger, rows)
-    return {"date": date_et, "games_final": int(len(games)), "games_with_pregame_forecast": int(len(live)), "appended": appended,
-            "missing_pregame_forecast": sorted(set(games["game_id"]) - set(live["game_id"])), "reproduction_max_abs_diff": summ["reproduction_max_abs_diff_p_home_win"]}
+    return {"date": date_et, "games_final": info["games_final"], "games_with_pregame_forecast": info["games_with_pregame_forecast"], "appended": appended,
+            "missing_pregame_forecast": info["missing_pregame_forecast"], "reproduction_max_abs_diff": info["reproduction_max_abs_diff"]}
 
 
 def scorecard(rows: list[dict[str, Any]], out: Path | None = None) -> dict[str, Any]:

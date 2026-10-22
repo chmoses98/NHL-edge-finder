@@ -1,5 +1,7 @@
 # Prospective ledger isolation review (2026-10-22)
 
+> **Update:** Option A (sealed, encrypted ledger) was approved on 2026-10-22 and is implemented in `SEALED_LEDGER_DESIGN.md` / `SEALED_LEDGER_KEY_SETUP.md`. The plaintext-ledger refusal described under "Interim hardening" has been superseded by an owner-activation gate (`SEALED_LEDGER_ACTIVATION_SHA`) and the plaintext path was removed. Nothing is activated yet. The findings below are kept unchanged as the record of why.
+
 > RESEARCH ONLY. **Verdict: FAIL — a branch of this repository cannot protect the prospective holdout. `publish=true` is disabled (fail-closed) until an isolated store exists.** Checked through the GitHub API with the owner's token on 2026-10-22; nothing was published.
 
 ## What was checked and what was found

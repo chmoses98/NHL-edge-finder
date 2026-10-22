@@ -1,8 +1,10 @@
-"""Static guards for the research workflows: manual-only, no schedule, publish defaults to false, no relative artifact paths (upload-artifact rejects '..'),
-and the daily loop's default artifact never contains the outcome-bearing ledger."""
+"""Static guards for the research workflows: manual-only, no schedule, publish defaults to false, no relative artifact paths (upload-artifact rejects '..'), write
+permission only in a separate publish job, no force push, and -- for the daily loop -- the sealed-ledger activation gate, the absence of any decryption material or path,
+and that the default artifact never contains anything but the blinded scorecard, the outcome-free summary and the synthetic self-test result."""
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import yaml
@@ -32,15 +34,15 @@ def test_no_relative_artifact_or_download_paths():
                     assert ".." not in p.replace("${{", "").replace("}}", ""), (n, p)
 
 
-def test_daily_loop_default_artifact_excludes_the_ledger_and_write_is_isolated():
+def test_daily_loop_default_artifact_excludes_the_store_and_write_is_isolated():
     d = load("model_research_daily.yml")
     settle, publish = d["jobs"]["settle"], d["jobs"]["publish"]
     assert settle["permissions"] == {"contents": "read"} and publish["permissions"] == {"contents": "write"}
-    default_uploads = [st for st in settle["steps"] if str(st.get("uses", "")).startswith("actions/upload-artifact") and "if" not in st]
-    assert len(default_uploads) == 1
-    assert "ledger" not in str(default_uploads[0]["with"]["path"])
-    private = [st for st in settle["steps"] if str(st.get("uses", "")).startswith("actions/upload-artifact") and "if" in st]
-    assert all("publish == 'true'" in st["if"] for st in private)
+    uploads = [st for st in settle["steps"] if str(st.get("uses", "")).startswith("actions/upload-artifact")]
+    default = [st for st in uploads if "if" not in st]
+    assert len(default) == 1 and str(default[0]["with"]["path"]).rstrip("/").endswith("rd/out")
+    gated = [st for st in uploads if "if" in st]
+    assert len(gated) == 1 and "publish == 'true'" in gated[0]["if"] and str(gated[0]["with"]["path"]).rstrip("/").endswith("rd/store")  # ciphertext + manifest only
     assert publish["if"].count("publish == 'true'") == 1
 
 
@@ -50,14 +52,47 @@ def test_write_permission_is_confined_to_a_publish_job_and_nothing_is_force_push
         assert d["permissions"] == {"contents": "read"}, n  # workflow-level default is read-only
         writers = [k for k, j in d["jobs"].items() if (j.get("permissions") or {}).get("contents") == "write"]
         assert writers == ["publish"], (n, writers)
-        assert d["jobs"]["publish"]["if"].count("publish == 'true'") == 1
-        assert "--force" not in (WF / n).read_text().replace("never forced", ""), n
+        text = (WF / n).read_text()
+        assert "--force" not in text.replace("never forced", "") and "push -f" not in text, n
+    alerts = [k for k, j in load("model_research_daily.yml")["jobs"].items() if "issues" in (j.get("permissions") or {})]
+    assert alerts == ["alert"]  # the only other grant: one issue per failed date, contents stay read-only
+    assert load("model_research_daily.yml")["jobs"]["alert"]["permissions"] == {"contents": "read", "issues": "write"}
 
 
-def test_daily_publish_is_refused_while_the_repository_is_public_and_the_ledger_is_not_isolated():
+def test_daily_publish_is_gated_by_an_owner_activation_in_both_jobs_and_fails_closed():
     d = load("model_research_daily.yml")
-    guards = [st for st in d["jobs"]["settle"]["steps"] if "Refuse publish" in str(st.get("name", ""))]
-    assert len(guards) == 1 and "publish == 'true'" in guards[0]["if"] and "exit 1" in guards[0]["run"]
-    # the guard must come before anything is fetched, restored or ingested
+    for job in ("settle", "publish"):
+        gates = [st for st in d["jobs"][job]["steps"] if "Activation gate" in str(st.get("name", ""))]
+        assert len(gates) == 1, job
+        run = gates[0]["run"]
+        assert "SEALED_LEDGER_ACTIVATION_SHA" in str(gates[0]["env"]) and "exit 1" in run and "sha256sum" in run and "age1" in run
+        if job == "settle":
+            assert "publish == 'true'" in gates[0]["if"]
+    # the gate must precede anything that fetches the archive, restores the ledger or seals
     names = [str(st.get("name", st.get("uses", ""))) for st in d["jobs"]["settle"]["steps"]]
-    assert names.index(guards[0]["name"]) <= 2
+    assert names.index(next(n for n in names if n.startswith("Activation gate"))) < names.index("Fetch a sparse read-only copy of the archive")
+
+
+def test_daily_workflow_has_no_decryption_path_or_key_material():
+    text = yaml.safe_dump(load("model_research_daily.yml"))  # parsed content: comments (which explain what is NOT done) are not part of it
+    for banned in ("sealed_ledger.owner", "pyrage.decrypt", "age -d", "--identity", "SEALED_LEDGER_PRIVATE", "decrypt"):
+        assert banned not in text, banned
+    secrets_used = set(re.findall(r"secrets\.([A-Z0-9_]+)", text))
+    assert secrets_used <= {"LEDGER_ATTEST_KEY_PEM"}, secrets_used  # an optional SIGNING key only; no decryption key exists on GitHub
+    raw = (WF / "model_research_daily.yml").read_text()
+    assert text.count("--seal") == 1  # sealing happens only under the PUBLISH=true branch
+    assert 'if [ "$PUBLISH" = true ]; then\n            args+=(--seal)' in raw
+
+
+def test_inputs_are_only_used_through_env_vars():
+    text = (WF / "model_research_daily.yml").read_text()
+    for m in re.finditer(r"run: \|\n((?:[ ]{10,}.*\n)+)", text):
+        assert "github.event.inputs" not in m.group(1) and "steps.plan.outputs" not in m.group(1), m.group(1)[:80]
+
+
+def test_bounded_resources_and_serialised_runs():
+    d = load("model_research_daily.yml")
+    assert d["concurrency"] == {"group": "model-research-daily", "cancel-in-progress": False}
+    for name, j in d["jobs"].items():
+        assert j["timeout-minutes"] <= 30, name
+    assert all(st["with"].get("retention-days", 99) <= 14 for j in d["jobs"].values() for st in j["steps"] if str(st.get("uses", "")).startswith("actions/upload-artifact"))
