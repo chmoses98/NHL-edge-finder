@@ -34,6 +34,11 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+      - name: Refuse publish while the ledger has no isolated storage (repository is PUBLIC)
+        if: ${{ github.event.inputs.publish == 'true' }}
+        run: |
+          echo "::error::publish=true is disabled: this repository is public, so a ledger branch would expose the outcome-bearing prospective ledger to everyone. See docs/research/nhl-model-improvement/LEDGER_ISOLATION_REVIEW.md."
+          exit 1
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -89,7 +94,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ github.event.inputs.publish == 'true' }}
         with:
-          name: model-research-ledger-private-${{ github.run_id }}
+          name: model-research-ledger-staging-${{ github.run_id }}
           path: |
             ${{ runner.temp }}/rd/ledger/shadow_game_ledger.jsonl
             ${{ runner.temp }}/rd/out/SHADOW_SCORECARD.json
@@ -106,7 +111,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: model-research-ledger-private-${{ github.run_id }}
+          name: model-research-ledger-staging-${{ github.run_id }}
           path: /tmp/ledger_in
       - name: Commit to model-research-ledger (normal commit, never forced)
         env:
