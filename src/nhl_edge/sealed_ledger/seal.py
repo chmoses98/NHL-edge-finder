@@ -66,6 +66,11 @@ def _plaintext(ledger_id: str, seq: int, game_id: str, version: int, record: dic
     return body + b" " * (PAD_BYTES - len(body))
 
 
+def _canary_plaintext(ledger_id: str) -> bytes:
+    body = canon({"schema": RECORD_SCHEMA, "kind": "CANARY", "ledger_id": ledger_id, "seq": 0, "text": "SYNTHETIC CANARY - not a game record; proves the key opens this ledger"})
+    return body + b" " * (PAD_BYTES - len(body))
+
+
 def _pregame(record: dict[str, Any]) -> dict[str, Any]:
     age = record.get("slate_age_min")
     return {"slate_age_min": None if age is None else round(float(age), 3), "sb_present": record.get("sb_p_home") is not None}
@@ -91,18 +96,21 @@ def _append_line(path: Path, entry: dict[str, Any]) -> None:
 
 
 class SealedStore:
-    def __init__(self, root: Path, recipients_file: Path, *, run_id: str = "", code_sha: str = "", now: datetime | None = None, repair_torn_tail: bool = False):
+    def __init__(self, root: Path, recipients_file: Path, *, run_id: str = "", code_sha: str = "", now: datetime | None = None, repair_torn_tail: bool = False, create: bool = True):
         self.root = Path(root)
         self.recips, self.recipients_sha256 = load_recipients(recipients_file)
         self.run_id, self.code_sha = run_id, code_sha
         self._now = now
-        self.root.mkdir(parents=True, exist_ok=True)
+        if create or (self.root / "manifest.jsonl").exists():
+            self.root.mkdir(parents=True, exist_ok=True)
         if repair_torn_tail:
             self._repair_torn_tail()
         if (self.root / "manifest.jsonl").exists():
             rep = verify_store(self.root, recipients_sha256=self.recipients_sha256, allow_orphans=True)
             if not rep.ok:
                 raise SealError("existing store failed verification; refusing to append: " + "; ".join(rep.problems[:5]))
+        elif not create:
+            raise SealError("the sealed ledger is not initialised: run the init procedure (runner init / workflow init_ledger) and have the owner verify and register its genesis hash first")
         else:
             self._genesis()
         self.entries = read_manifest(self.root)
@@ -125,9 +133,13 @@ class SealedStore:
                 p.unlink()  # a torn GENESIS: nothing was ever committed, start the chain again
 
     def _genesis(self) -> None:
-        e = finish_entry({"v": 1, "schema": SCHEMA, "seq": 0, "kind": "GENESIS", "ledger_id": secrets.token_hex(16), "created_utc": self._ts(),
+        ledger_id = secrets.token_hex(16)
+        ct = pyrage.encrypt(_canary_plaintext(ledger_id), self.recips)
+        _atomic_write(ct_path(self.root, 0), ct)
+        e = finish_entry({"v": 1, "schema": SCHEMA, "seq": 0, "kind": "GENESIS", "ledger_id": ledger_id, "created_utc": self._ts(),
                           "recipients_sha256": self.recipients_sha256, "recipient_count": len(self.recips), "pad_bytes": PAD_BYTES,
-                          "protocol_rules_sha256": protocol_rules_sha256(), "run_id": self.run_id, "code_sha": self.code_sha, "prev_hash": ZERO})
+                          "protocol_rules_sha256": protocol_rules_sha256(), "canary_ct_sha256": sha256_hex(ct), "canary_ct_bytes": len(ct),
+                          "run_id": self.run_id, "code_sha": self.code_sha, "prev_hash": ZERO})
         _append_line(self.root / "manifest.jsonl", e)
 
     def _head(self) -> dict[str, Any]:

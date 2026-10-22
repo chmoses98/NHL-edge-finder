@@ -12,13 +12,14 @@ import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 
+import pandas as pd
 import pyrage
 import pytest
 from pyrage import x25519
 
 from nhl_edge.model_research import daily
+from nhl_edge.sealed_ledger import audit, owner, protocol_rules_sha256, runner, seal
 from nhl_edge.sealed_ledger import checkpoint as CP
-from nhl_edge.sealed_ledger import owner, protocol_rules_sha256, runner, seal
 from nhl_edge.sealed_ledger.core import PAD_BYTES, ct_path, is_extension, read_manifest, size_band, verify_store
 from nhl_edge.sealed_ledger.selftest import SENTINEL, synthetic_rows
 
@@ -505,6 +506,7 @@ def _fake_build_rows(monkeypatch, rows, scheduled=None, missing=()):
     info = {"date": "2026-10-22", "games_scheduled": len(ids), "games_final": len(rows), "scheduled_game_ids": sorted(ids), "all_scheduled_final": True,
             "games_with_pregame_forecast": len(rows), "missing_pregame_forecast": list(missing), "reproduction_max_abs_diff": 0.0}
     monkeypatch.setattr(daily, "build_rows", lambda *a, **k: (rows, info))
+    monkeypatch.setattr(audit, "open_days_before", lambda *a, **k: [])  # the completeness audit has its own tests (it needs a real archive)
 
 
 def _forbid_plaintext_writers(monkeypatch):
@@ -524,6 +526,7 @@ def test_real_path_ingest_seal_emits_no_plaintext_anywhere(tmp_path, keys, monke
     work.mkdir()
     monkeypatch.chdir(work)
     summary = tmp_path / "out" / "ingest_summary.json"
+    assert runner.main(["init", "--store", str(tmp_path / "store"), "--recipients", str(rec)]) == 0  # a ledger exists only after the owner-verified init
     argv = ["ingest", "--archive", str(tmp_path / "archive"), "--date", "2026-10-22", "--repo", ".", "--store", str(tmp_path / "store"), "--recipients", str(rec), "--seal",
             "--summary-out", str(summary)]
     assert runner.main(argv) == 0
@@ -703,6 +706,7 @@ def test_workflows_pass_previous_strictly_and_close_day_refuses_a_suspicious_arc
     monkeypatch.setitem(__import__("sys").modules["nhl_edge.model_research.daily"].__dict__, "build_rows", lambda *a, **k: (rows[:0], {
         "date": "2026-10-30", "games_scheduled": 2, "games_final": 2, "scheduled_game_ids": ["SYN00040", "SYN00041"], "all_scheduled_final": True,
         "games_with_pregame_forecast": 0, "missing_pregame_forecast": ["SYN00040", "SYN00041"], "reproduction_max_abs_diff": None}))
+    runner.run_init(tmp_path / "s2", rec)
     res = runner.run_ingest(tmp_path / "a", "2026-10-30", Path("."), tmp_path / "s2", rec, seal=True, correct={}, reason=None)
     assert res["day_closed"] is False and "NOT closed" in res["note"]
 
@@ -764,3 +768,229 @@ def test_correction_syntax_names_the_version_being_superseded():
     for bad in ("A1", "A1@0", "A1@x", "bad id@1", "A1@1@2"):
         with pytest.raises(SystemExit):
             runner._corrections(bad)
+
+
+# ---------------------------------------------------------------- completeness audit ---------------------------------------------------------------------
+
+def _games(spec):
+    """spec: list of (game_id, date, start_utc, final, first_start_utc|None)."""
+    return pd.DataFrame([{"game_id": g, "game_date_et": d, "season_type": "regular", "start_time_utc": pd.Timestamp(st, tz="UTC"), "is_final": fin,
+                          "first_start_seen": pd.Timestamp(fs or st, tz="UTC")} for g, d, st, fin, fs in spec])
+
+
+def _results(rows):
+    return pd.DataFrame(rows, columns=["game_id", "_observed_at_utc", "home_final", "away_final", "last_period_type", "_file"])
+
+
+NOW = datetime(2026, 11, 5, 12, 0, tzinfo=UTC)
+
+
+def test_audit_accepts_a_clean_closed_history(tmp_path, keys):
+    st = seal.SealedStore(tmp_path / "s", keys[2], now=T0)
+    for day, ids in (("2026-10-21", ["A1", "A2"]), ("2026-10-22", ["B1"])):
+        st.seal_rows([r for i, g in enumerate(ids) for r in synthetic_rows(day, 0, 1) if not r.update({"game_id": g})])
+        st.close_day(day, ids, [])
+    g = _games([("A1", "2026-10-21", "2026-10-21T23:00:00", True, None), ("A2", "2026-10-21", "2026-10-21T23:30:00", True, None), ("B1", "2026-10-22", "2026-10-22T23:00:00", True, None)])
+    rep = audit.schedule_audit(tmp_path, "2026-10-22", store=st.root, now=NOW, games=g, results=_results([]))
+    assert rep["ok"] and rep["dates"]["2026-10-21"] == {"scheduled": 2, "final": 2, "overdue_not_final": [], "closed": True}
+
+
+def test_audit_flags_skipped_incomplete_drifted_extra_unsealed_boundary_and_orphan_results(tmp_path, keys):
+    st = seal.SealedStore(tmp_path / "s", keys[2], now=T0)
+    rows = synthetic_rows("2026-10-21", 0, 2)
+    rows[0]["game_id"], rows[1]["game_id"] = "A1", "A2"
+    st.seal_rows(rows)
+    st.close_day("2026-10-21", ["A1", "A2"], [])
+    extra = synthetic_rows("2026-10-21", 9, 1)
+    extra[0]["game_id"] = "ZZ9"
+    seal.SealedStore(st.root, keys[2], now=T0).seal_rows(extra)  # a forged extra id, after the day closed
+    g = _games([("A1", "2026-10-21", "2026-10-21T23:00:00", True, None), ("A2", "2026-10-21", "2026-10-21T23:30:00", True, None),
+                ("A3", "2026-10-21", "2026-10-21T23:45:00", True, None),  # added to a CLOSED day -> drift
+                ("C1", "2026-10-23", "2026-10-23T23:00:00", True, None),  # a past date nobody closed -> open day
+                ("D1", "2026-10-24", "2026-10-24T23:00:00", False, None),  # long overdue, not final -> incomplete
+                ("E1", "2026-10-25", "2026-10-25T23:00:00", True, "2026-10-20T23:00:00")])  # start moved across the freeze
+    res = _results([("Q9", "2026-10-26T01:00:00Z", 1, 2, "REG", "results/dt=2026-10-24/x.jsonl.gz")])  # a played game the schedule never listed
+    rep = audit.schedule_audit(tmp_path, "2026-10-25", store=st.root, now=NOW, games=g, results=res)
+    text = " | ".join(rep["problems"])
+    for tag in ("OPEN DAY 2026-10-23", "INCOMPLETE 2026-10-24", "DRIFT 2026-10-21", "EXTRA 2026-10-21", "BOUNDARY", "ORPHAN RESULT"):
+        assert tag in text, tag
+    assert not rep["ok"]
+    # a final scheduled game that was neither sealed nor declared missing
+    g2 = _games([("A1", "2026-10-21", "2026-10-21T23:00:00", True, None), ("A2", "2026-10-21", "2026-10-21T23:30:00", True, None)])
+    st2 = seal.SealedStore(tmp_path / "s2", keys[2], now=T0)
+    r2 = synthetic_rows("2026-10-21", 0, 1)
+    r2[0]["game_id"] = "A1"
+    st2.seal_rows(r2)
+    st2._seal_one  # noqa: B018 - the public API refuses to close an unaccounted day, so build the inconsistent DAY by hand
+    from nhl_edge.sealed_ledger.core import canon, finish_entry
+
+    day = finish_entry({"v": 1, "seq": len(st2.entries), "kind": "DAY", "game_date_et": "2026-10-21", "scheduled_game_ids": ["A1", "A2"], "sealed_game_ids": ["A1"],
+                        "missing_pregame_game_ids": [], "sealed_utc": "2026-10-22T00:00:00Z", "run_id": "", "code_sha": "", "prev_hash": st2.entries[-1]["entry_hash"]})
+    with (st2.root / "manifest.jsonl").open("ab") as fh:
+        fh.write(canon(day) + b"\n")
+    rep2 = audit.schedule_audit(tmp_path, "2026-10-21", store=st2.root, now=NOW, games=g2, results=_results([]))
+    assert any(p.startswith("UNSEALED 2026-10-21") for p in rep2["problems"])
+
+
+def test_a_late_source_revision_of_a_sealed_game_cannot_be_absorbed_silently(tmp_path, keys):
+    st = seal.SealedStore(tmp_path / "s", keys[2], now=datetime(2026, 10, 22, 6, 0, tzinfo=UTC))
+    rows = synthetic_rows("2026-10-21", 0, 1)
+    rows[0]["game_id"] = "A1"
+    st.seal_rows(rows)
+    st.close_day("2026-10-21", ["A1"], [])
+    g = _games([("A1", "2026-10-21", "2026-10-21T23:00:00", True, None)])
+    same = _results([("A1", "2026-10-22T05:00:00Z", 3, 2, "REG", "results/dt=2026-10-22/a"), ("A1", "2026-10-22T09:00:00Z", 3, 2, "REG", "results/dt=2026-10-22/b")])
+    assert audit.schedule_audit(tmp_path, "2026-10-21", store=st.root, now=NOW, games=g, results=same)["ok"]  # re-observed, unchanged: fine
+    revised = _results([("A1", "2026-10-22T05:00:00Z", 3, 2, "REG", "results/dt=2026-10-22/a"), ("A1", "2026-10-22T09:00:00Z", 4, 2, "REG", "results/dt=2026-10-22/b")])
+    rep = audit.schedule_audit(tmp_path, "2026-10-21", store=st.root, now=NOW, games=g, results=revised)
+    assert not rep["ok"] and any(p.startswith("RESULT REVISED A1") for p in rep["problems"])
+    fixed = seal.SealedStore(st.root, keys[2], now=datetime(2026, 10, 22, 10, 0, tzinfo=UTC))  # an explicit, versioned correction resolves it (and is visible)
+    fixed.seal_rows(rows, correct={"A1": 1}, reason="SOURCE_SCORE_REVISED")
+    assert audit.schedule_audit(tmp_path, "2026-10-21", store=st.root, now=NOW, games=g, results=revised)["ok"]
+    # the runner can never overwrite: re-ingesting the same game after the revision is a skip, not a replacement
+    assert seal.SealedStore(st.root, keys[2]).seal_rows(rows)["skipped_existing"] == 1
+
+
+def test_sealing_fails_closed_when_an_earlier_day_is_not_cleanly_closed(tmp_path, keys, monkeypatch):
+    _a, _b, rec = keys
+    runner.run_init(tmp_path / "s", rec)
+    _fake_build_rows(monkeypatch, synthetic_rows("2026-10-22", 0, 2))
+    monkeypatch.setattr(audit, "open_days_before", lambda *a, **k: ["OPEN DAY 2026-10-21: 2 scheduled game(s) and no DAY entry (a skipped or incomplete day)"])
+    with pytest.raises(seal.SealError, match="not cleanly closed"):
+        runner.run_ingest(tmp_path / "a", "2026-10-22", Path("."), tmp_path / "s", rec, seal=True, correct={}, reason=None)
+    assert [e["kind"] for e in read_manifest(tmp_path / "s")] == ["GENESIS"]  # nothing sealed
+    monkeypatch.undo()
+    # the real function: the first prospective date has no predecessor; the next date needs the first one closed
+    g = _games([("A1", "2026-10-21", "2026-10-21T23:00:00", True, None), ("B1", "2026-10-22", "2026-10-22T23:00:00", True, None)])
+    assert audit.open_days_before(tmp_path, "2026-10-21", tmp_path / "s", now=NOW, games=g) == []
+    assert any(p.startswith("OPEN DAY 2026-10-21") for p in audit.open_days_before(tmp_path, "2026-10-22", tmp_path / "s", now=NOW, games=g))
+
+
+def test_a_ledger_cannot_be_created_by_ingest_only_by_init_and_init_refuses_an_existing_one(tmp_path, keys):
+    _a, _b, rec = keys
+    with pytest.raises(seal.SealError, match="not initialised"):
+        seal.SealedStore(tmp_path / "x", rec, create=False)
+    res = runner.run_init(tmp_path / "s", rec)
+    assert res["initialised"] and res["manifest_entries"] == 1 and res["genesis_hash"] == res["head_hash"] and not (tmp_path / "x").exists()
+    with pytest.raises(seal.SealError, match="already exists"):
+        runner.run_init(tmp_path / "s", rec)
+
+
+# ---------------------------------------------------------------- backup/recovery drill and first checkpoint ------------------------------------------------
+
+def test_primary_and_backup_independently_open_the_real_canary_and_every_record(tmp_path, keys):
+    a, b, rec = keys
+    st = make_store(tmp_path, keys)
+    for ident in (a, b):  # each identity ALONE
+        assert "SYNTHETIC CANARY" in owner.decrypt_canary(st.root, [ident])["text"]
+        rows = [owner.decrypt_entry(st.root, e, [ident])["record"] for e in st.entries if e["kind"] == "RECORD"]
+        assert len(rows) == 8 and all(SENTINEL in r["attribution_evidence"] for r in rows)
+    ida, idb = tmp_path / "primary.txt", tmp_path / "backup.txt"
+    ida.write_text(f"{a}\n")
+    idb.write_text(f"{b}\n")
+    res = owner.drill(st.root, [ida, idb], rec)
+    assert res["all_identities_open_the_ledger"] and res["warning"] is None
+    stranger = tmp_path / "stranger.txt"
+    stranger.write_text(f"{x25519.Identity.generate()}\n")
+    bad = owner.drill(st.root, [ida, stranger], rec)
+    assert not bad["all_identities_open_the_ledger"] and [r["opens_this_ledger"] for r in bad["results"]] == [True, False]
+    assert owner.drill(st.root, [ida], rec)["warning"]
+
+
+def test_recovery_drill_from_a_passphrase_protected_backup_and_with_the_reference_age_tool(tmp_path, keys):
+    import shutil as _sh
+    import subprocess as _sp
+
+    from pyrage import passphrase as pw
+
+    a, b, rec = keys
+    st = make_store(tmp_path, keys)
+    backup = tmp_path / "backup-identity.txt.age"  # what `age -p -o backup-identity.txt.age backup-identity.txt` produces
+    backup.write_bytes(pw.encrypt(f"# public key: {b.to_public()}\n{b}\n".encode(), "a long backup passphrase"))
+    assert "SYNTHETIC CANARY" in owner.decrypt_canary(st.root, owner.load_identities(backup, "a long backup passphrase"))["text"]
+    with pytest.raises(pyrage_errors()):
+        owner.load_identities(backup, "wrong passphrase")
+    age = _sh.which("age")
+    if age:  # interoperability with the reference implementation: no code of ours is needed to recover
+        ident = tmp_path / "ref-identity.txt"
+        ident.write_text(f"{a}\n")
+        out = _sp.run([age, "-d", "-i", str(ident), str(ct_path(st.root, 0))], capture_output=True, check=True).stdout
+        assert b"SYNTHETIC CANARY" in out
+        rec_out = _sp.run([age, "-d", "-i", str(ident), str(ct_path(st.root, 1))], capture_output=True, check=True).stdout
+        assert SENTINEL.encode() in rec_out
+
+
+def pyrage_errors():
+    return pyrage.DecryptError
+
+
+def test_first_checkpoint_is_only_for_the_fresh_ledger_and_registers_a_genesis_the_workflow_can_check(tmp_path, keys):
+    a, b, rec = keys
+    res = runner.run_init(tmp_path / "ledger", rec)
+    ida, idb = tmp_path / "primary.txt", tmp_path / "backup.txt"
+    ida.write_text(f"{a}\n")
+    idb.write_text(f"{b}\n")
+    wd = tmp_path / "witness"
+    owner.witness_keygen(wd, passphrase="correct-horse")
+    fc = owner.first_checkpoint(tmp_path / "ledger", [ida, idb], wd, rec, passphrase="correct-horse")
+    assert fc["genesis_hash"] == res["genesis_hash"] == fc["head_hash"] and fc["drill"]["all_identities_open_the_ledger"] and fc["witness_log_head"]
+    assert owner.verify_all(tmp_path / "ledger", wd, rec, None, fc["witness_log_head"], fc["genesis_hash"])["ok"]
+    assert not owner.verify_all(tmp_path / "ledger", wd, rec, None, None, "0" * 64)["ok"]  # a different genesis = a replaced ledger
+    # an independent, stdlib-only recomputation of the genesis hash (the recipe in the owner checklist) agrees
+    import hashlib
+    import json as _json
+
+    entry = _json.loads((tmp_path / "ledger" / "manifest.jsonl").read_text().splitlines()[0])
+    body = {k: v for k, v in entry.items() if k != "entry_hash"}
+    canon_bytes = _json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False).encode()
+    assert hashlib.sha256(b"sift-sealed-ledger/v1/entry\n" + canon_bytes).hexdigest() == fc["genesis_hash"]
+    # a ledger that already holds games is not a "first checkpoint"
+    st = seal.SealedStore(tmp_path / "ledger", rec, now=T0)
+    st.seal_rows(synthetic_rows("2026-11-01", 0, 1))
+    with pytest.raises(SystemExit, match="only for the freshly initialised"):
+        owner.first_checkpoint(tmp_path / "ledger", [ida, idb], wd, rec, passphrase="correct-horse")
+    # a stranger key blocks the checkpoint
+    bad = tmp_path / "stranger.txt"
+    bad.write_text(f"{x25519.Identity.generate()}\n")
+    runner.run_init(tmp_path / "ledger2", rec)
+    with pytest.raises(SystemExit, match="cannot open the ledger"):
+        owner.first_checkpoint(tmp_path / "ledger2", [ida, bad], wd, rec, passphrase="correct-horse")
+
+
+def test_verify_expect_genesis_hash_refuses_a_different_ledger(tmp_path, keys, capsys):
+    _a, _b, rec = keys
+    one = runner.run_init(tmp_path / "one", rec)
+    runner.run_init(tmp_path / "two", rec)
+    assert runner.main(["verify", "--store", str(tmp_path / "one"), "--recipients", str(rec), "--expect-genesis-hash", one["genesis_hash"]]) == 0
+    assert runner.main(["verify", "--store", str(tmp_path / "two"), "--recipients", str(rec), "--expect-genesis-hash", one["genesis_hash"]]) == 1
+    assert not tmp_path.joinpath("one", "sealed", "000001.age").exists()  # init seals no game
+
+
+def test_a_tampered_or_missing_canary_is_detected(tmp_path, keys):
+    _a, _b, rec = keys
+    runner.run_init(tmp_path / "s", rec)
+    d1 = tmp_path / "c1"
+    shutil.copytree(tmp_path / "s", d1)
+    ct_path(d1, 0).write_bytes(ct_path(d1, 0).read_bytes()[:-1] + b"\x00")
+    assert not verify_store(d1).ok
+    d2 = tmp_path / "c2"
+    shutil.copytree(tmp_path / "s", d2)
+    ct_path(d2, 0).unlink()
+    assert any("canary" in p for p in verify_store(d2).problems)
+
+
+def test_unexpected_exceptions_print_only_their_type(tmp_path, keys, monkeypatch, capsys):
+    import runpy
+
+    _a, _b, rec = keys
+    runner.run_init(tmp_path / "s", rec)
+
+    def boom(*a, **k):
+        raise ValueError("home_final=7 row=SYN-LEAK-SENTINEL")
+
+    monkeypatch.setattr(daily, "build_rows", boom)
+    monkeypatch.setattr("sys.argv", ["runner", "ingest", "--archive", str(tmp_path), "--date", "2026-10-22", "--store", str(tmp_path / "s"), "--recipients", str(rec), "--seal"])
+    with pytest.raises(SystemExit) as ei:
+        runpy.run_module("nhl_edge.sealed_ledger.runner", run_name="__main__")
+    err = capsys.readouterr()
+    assert ei.value.code == 4 and "ValueError" in err.err and "SYN-LEAK-SENTINEL" not in err.out + err.err and "home_final" not in err.out + err.err

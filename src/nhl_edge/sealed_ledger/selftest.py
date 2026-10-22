@@ -26,7 +26,7 @@ from pyrage import x25519
 from nhl_edge.model_research import daily
 from nhl_edge.sealed_ledger import checkpoint as CP
 from nhl_edge.sealed_ledger.core import ct_path, is_extension, read_manifest, verify_store
-from nhl_edge.sealed_ledger.owner import decrypt_entry
+from nhl_edge.sealed_ledger.owner import decrypt_canary, decrypt_entry
 from nhl_edge.sealed_ledger.runner import blinded_scorecard
 from nhl_edge.sealed_ledger.seal import SealedStore, SealError
 
@@ -55,9 +55,10 @@ def run(out: Path | None = None) -> list[str]:
 
     tmp = Path(tempfile.mkdtemp(prefix="sealed_selftest_"))
     try:
-        ident = x25519.Identity.generate()  # throwaway, in memory only
+        ident = x25519.Identity.generate()  # throwaway "primary", in memory only
+        backup = x25519.Identity.generate()  # throwaway "backup"
         rec = tmp / "recipients.txt"
-        rec.write_text(f"# THROWAWAY SELF-TEST KEY\n{ident.to_public()}\n")
+        rec.write_text(f"# THROWAWAY SELF-TEST KEYS\n{ident.to_public()}\n{backup.to_public()}\n")
         store = tmp / "store"
         console = io.StringIO()
         with contextlib.redirect_stdout(console), contextlib.redirect_stderr(console):
@@ -75,7 +76,9 @@ def run(out: Path | None = None) -> list[str]:
         check("runner scorecard is blinded (counts + pregame quality only)", set(sc) == {"n_prospective_games", "tier", "looks", "next_look_at_games", "data_quality", "alarms", "status", "note"}
               and sc["n_prospective_games"] == 8 and sc["status"] == "ACCUMULATING_BLINDED")
         ents = [e for e in read_manifest(store) if e["kind"] == "RECORD"]
-        check("throwaway key round-trips every record", all(SENTINEL in decrypt_entry(store, e, [ident])["record"]["attribution_evidence"] for e in ents))
+        check("primary AND backup throwaway keys each independently round-trip every record", all(
+            SENTINEL in decrypt_entry(store, e, [k])["record"]["attribution_evidence"] for e in ents for k in (ident, backup)))
+        check("primary AND backup each independently open the genesis canary", all("SYNTHETIC CANARY" in decrypt_canary(store, [k])["text"] for k in (ident, backup)))
         s2 = SealedStore(store, rec)
         before = (store / "manifest.jsonl").read_bytes()
         s2.seal_rows(synthetic_rows("2026-10-22", 0, 4))

@@ -22,7 +22,7 @@ Losing **both** identities makes the ledger unreadable (§6). Losing the witness
    ```bash
    mkdir -m 700 ~/sift-ledger && cd ~/sift-ledger
    git clone https://github.com/chmoses98/NHL-edge-finder.git repo        # review the commit you will run; pin it
-   python3 -m venv venv && ./venv/bin/pip install -e "repo[sealed]"
+   python3 -m venv venv && ./venv/bin/pip install -r repo/requirements/research-runtime.in     # (the *.lock files pin Linux wheels for the runner; they do not install on macOS)
    ```
    Run the owner tool with `~/sift-ledger/venv/bin/python -m nhl_edge.sealed_ledger.owner …` (shortened to `owner …` below). It refuses to run under CI.
 
@@ -44,6 +44,14 @@ The tool refuses to overwrite an existing key and writes private files with mode
 * **Witness directory**: copy `~/sift-ledger/witness/` to the same offline medium (it contains the passphrase-protected private key, the public key and the log).
 * Write down *where* each copy is. A backup you cannot find is no backup.
 
+Recovery drill, concretely (do it twice: once right after generating the keys, once on the real ledger at the first checkpoint):
+
+1. `owner check-key --identity <restored file> --recipients …` — the restored copy derives a public key that is in `recipients.txt` and round-trips a canary.
+2. On the real published ledger: `owner drill --store ~/sift-ledger/ledger --identity <primary> --identity <backup> --recipients …` — **each identity on its own** opens the genesis canary (a synthetic record sealed to every recipient). `owner first-checkpoint` does this for you.
+3. With no project code at all: `age -d -i <identity> ~/sift-ledger/ledger/sealed/000000.age` prints the synthetic canary.
+
+A key that has not passed step 2 on the real ledger is not a recovery key.
+
 Test a restore now, not later: copy the `.age` file to a scratch folder, `age -d -o /tmp/test-identity.txt primary-identity.txt.age`, run `owner check-key` (step 4) against it, then `rm /tmp/test-identity.txt`.
 
 ## 4. Put only the PUBLIC keys in the repository
@@ -61,16 +69,7 @@ Both must print `"identity_matches_recipient": true, "canary_roundtrip": true`, 
 
 ## 5. Activation (separate, explicit approval — nothing below happens until you say so)
 
-1. Review `SEALED_LEDGER_DESIGN.md` (threat model, §5–§7) and the PR.
-2. Merge the PR that adds your public keys.
-3. Compute the activation hash on the merged file and set it as a **repository variable** (not a secret): Settings → Secrets and variables → Actions → *Variables* → New repository variable `SEALED_LEDGER_ACTIVATION_SHA` = output of
-   ```bash
-   shasum -a 256 research/sealed_ledger/recipients.txt
-   ```
-   The workflow refuses to publish unless this equals the SHA-256 of the committed `recipients.txt`; changing a key later invalidates the activation until you reset it.
-4. Settings → Environments → **sealed-ledger** (created automatically by the first run, or create it now): add yourself as a *required reviewer* so every `publish=true` run waits for your click; restrict it to the `main` branch. *(Recommended hardening, too)* Settings → Rules → Rulesets: a branch ruleset on `model-research-sealed-ledger` that blocks deletion and force-push, and a tag ruleset for `sealed-ledger-head-*` that blocks deletion and updates.
-5. Approve **one controlled initialisation**: run `model_research_daily` with `publish=true` for the first post-freeze date (`2026-10-21`), then each later date in ascending order. Check the run: only `model-research-sealed-ledger` received commits; they hold only `manifest.jsonl`, `sealed/*.age`, `README.md`.
-6. Witness it (below). Only then consider the schedule (uncomment `schedule:` after reviewing the configuration — another approval).
+The ordered, checkable version of this section is `SEALED_LEDGER_OWNER_CHECKLIST.md`. In outline: put your public keys in `recipients.txt` (§4); create the `sealed-ledger` **environment** (deployment branches = `main` only, you as required reviewer) and set its **environment** variable `SEALED_LEDGER_ACTIVATION_SHA` = `shasum -a 256 research/sealed_ledger/recipients.txt`; add branch/tag rulesets for `model-research-sealed-ledger` and `sealed-ledger-head-*`; run the one-time `init_ledger` publish (it seals no game); verify it yourself with `owner first-checkpoint` (verification, recovery drill with every key, signed first witness checkpoint), compare the genesis hash across three places, write it down offline and register it as the environment variable `SEALED_LEDGER_GENESIS_HASH`; only then approve the first real `publish=true` run (2026-10-21, then each later date in ascending order, one at a time).
 
 ## 6. Routine use
 

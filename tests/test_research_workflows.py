@@ -59,18 +59,26 @@ def test_write_permission_is_confined_to_a_publish_job_and_nothing_is_force_push
     assert load("model_research_daily.yml")["jobs"]["alert"]["permissions"] == {"contents": "read", "issues": "write"}
 
 
-def test_daily_publish_is_gated_by_an_owner_activation_in_both_jobs_and_fails_closed():
+def test_daily_publish_is_gated_by_owner_environment_variables_and_fails_closed():
     d = load("model_research_daily.yml")
-    for job in ("settle", "publish"):
-        gates = [st for st in d["jobs"][job]["steps"] if "Activation gate" in str(st.get("name", ""))]
-        assert len(gates) == 1, job
-        run = gates[0]["run"]
-        assert "SEALED_LEDGER_ACTIVATION_SHA" in str(gates[0]["env"]) and "exit 1" in run and "sha256sum" in run and "age1" in run
-        if job == "settle":
-            assert "publish == 'true'" in gates[0]["if"]
-    # the gate must precede anything that fetches the archive, restores the ledger or seals
-    names = [str(st.get("name", st.get("uses", ""))) for st in d["jobs"]["settle"]["steps"]]
-    assert names.index(next(n for n in names if n.startswith("Activation gate"))) < names.index("Fetch a sparse read-only copy of the archive")
+    gates = [st for st in d["jobs"]["publish"]["steps"] if "Activation gate" in str(st.get("name", ""))]
+    assert len(gates) == 1
+    run, env = gates[0]["run"], yaml.safe_dump(gates[0]["env"])
+    assert "vars.SEALED_LEDGER_ACTIVATION_SHA" in env and "vars.SEALED_LEDGER_GENESIS_HASH" in env  # ENVIRONMENT variables (the job references the environment)
+    assert "exit 1" in run and "sha256sum" in run and "age1" in run and "[0-9a-f]{64}" in run
+    assert 'if [ "$INIT" != true ]' in run  # only the one-time init may run before the owner has registered a genesis hash
+    # the settle job holds no activation secret/variable at all: its precheck only refuses an unconfigured ledger
+    settle = yaml.safe_dump(d["jobs"]["settle"])
+    assert "SEALED_LEDGER_ACTIVATION_SHA" not in settle and "SEALED_LEDGER_GENESIS_HASH" not in settle
+    # the gate precedes everything in the publish job that installs or runs code or fetches the artifact
+    names = [str(st.get("name", st.get("uses", ""))) for st in d["jobs"]["publish"]["steps"]]
+    assert names.index(gates[0]["name"]) < min(i for i, n in enumerate(names) if n.startswith(("actions/setup-python", "Install hash-locked", "actions/download-artifact", "Build the ledger")))
+
+
+def test_genesis_hash_is_checked_against_the_owner_registered_value_before_any_append_is_committed():
+    d = load("model_research_daily.yml")
+    build = next(st for st in d["jobs"]["publish"]["steps"] if str(st.get("name", "")).startswith("Build the ledger commit"))
+    assert build["run"].count('"${gen[@]}"') == 3 and "--expect-genesis-hash" in build["run"] and 'GENESIS' in yaml.safe_dump(build["env"])
 
 
 def test_daily_workflow_has_no_decryption_path_or_key_material():
@@ -111,7 +119,7 @@ def test_publish_runs_only_from_main_in_a_protected_environment_with_a_token_fre
     token_steps = [st["name"] for st in d["jobs"]["publish"]["steps"] if "github.token" in yaml.safe_dump(st)]
     assert len(token_steps) == 1 and token_steps[0].startswith("Push the ledger branch")
     names = [st.get("name", st.get("uses")) for st in d["jobs"]["publish"]["steps"]]
-    assert names.index(token_steps[0]) > max(i for i, n in enumerate(names) if str(n).startswith(("Build the ledger commit", "pip", "Optional runner")) or n is None)
+    assert names.index(token_steps[0]) > max(i for i, n in enumerate(names) if str(n).startswith(("Build the ledger commit", "Install hash-locked", "Optional runner")) or n is None)
 
 
 def test_selftest_step_can_fail_the_job_and_no_readme_or_extra_files_are_published():
@@ -119,3 +127,117 @@ def test_selftest_step_can_fail_the_job_and_no_readme_or_extra_files_are_publish
     st = next(s for s in d["jobs"]["settle"]["steps"] if "selftest" in str(s.get("run", "")))
     assert "|" not in st["run"].replace("||", "")  # no pipeline: a failing self-test fails the step
     assert "README" not in (WF / "model_research_daily.yml").read_text().replace("README is", "")
+
+
+def test_init_mode_exists_requires_publish_and_skips_the_archive():
+    d = load("model_research_daily.yml")
+    on = d[True] if True in d else d["on"]
+    assert on["workflow_dispatch"]["inputs"]["init_ledger"]["default"] == "false"
+    plan = next(st for st in d["jobs"]["settle"]["steps"] if st.get("id") == "plan")
+    assert "init_ledger needs publish=true" in plan["run"] and "not allowed with init_ledger" in plan["run"]
+    fetch = next(st for st in d["jobs"]["settle"]["steps"] if str(st.get("name", "")).startswith("Fetch a sparse"))
+    assert "init != 'true'" in fetch["if"]
+    audit = next(st for st in d["jobs"]["settle"]["steps"] if str(st.get("name", "")).startswith("Completeness audit"))
+    assert "init != 'true'" in audit["if"] and "sealed_ledger.audit" in audit["run"]
+
+
+# ---------------------------------------------------------------- supply chain: pinned actions and hash-locked dependencies ------------------------------------
+
+REQ = Path(__file__).resolve().parents[1] / "requirements"
+
+
+def test_every_action_in_the_research_workflows_is_pinned_to_a_full_commit_sha_with_a_version_comment():
+    for n in RESEARCH:
+        uses = re.findall(r"^\s*-?\s*uses:\s*(\S+)(.*)$", (WF / n).read_text(), flags=re.M)
+        assert uses, n
+        for ref, rest in uses:
+            assert re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_./-]+@[0-9a-f]{40}", ref), (n, ref)
+            assert re.search(r"#\s*v\d+\.\d+\.\d+", rest), (n, ref, "pin needs a '# vX.Y.Z' comment so a reviewer can tell what it is")
+
+
+def test_research_workflows_install_only_from_hash_locked_requirements():
+    for n in RESEARCH:
+        text = (WF / n).read_text()
+        installs = re.findall(r"pip install[^\n]*", text)
+        for line in installs:
+            assert "--require-hashes" in line and "--only-binary=:all:" in line and "--no-deps" in line and re.search(r"-r requirements/[a-z-]+\.lock", line), (n, line)
+        assert "pip install -e" not in text and "uv pip" not in text and "poetry" not in text, n
+
+
+def test_lock_files_are_complete_hashed_and_consistent():
+    locks = sorted(REQ.glob("*.lock"))
+    assert {p.name for p in locks} == {"research-runtime.lock", "sealed-publish.lock"}
+    parsed = {}
+    for lock in locks:
+        assert (REQ / lock.name.replace(".lock", ".in")).exists(), lock.name
+        pkgs, cur = {}, None
+        for ln in lock.read_text().splitlines():
+            if not ln.strip() or ln.lstrip().startswith("#"):
+                continue
+            m = re.match(r"^([A-Za-z0-9_.-]+)==([^\s;\\]+)", ln)
+            if m:
+                cur = m.group(1).lower()
+                pkgs[cur] = {"version": m.group(2), "hashes": 0}
+            else:
+                assert re.match(r"^\s+--hash=sha256:[0-9a-f]{64}( \\)?$", ln), (lock.name, ln)
+                pkgs[cur]["hashes"] += 1
+        assert pkgs and all(v["hashes"] >= 1 for v in pkgs.values()), lock.name
+        text = lock.read_text()
+        assert not re.search(r"git\+|https?://|^-e |file:", text, flags=re.M), lock.name
+        parsed[lock.name] = pkgs
+    for name, v in parsed["sealed-publish.lock"].items():  # the small lock must agree with the big one wherever they overlap
+        assert parsed["research-runtime.lock"][name]["version"] == v["version"], name
+    for crypto in ("pyrage", "cryptography"):
+        assert crypto in parsed["sealed-publish.lock"] and crypto in parsed["research-runtime.lock"]
+
+
+# ---------------------------------------------------------------- the publication path cannot be reached by ordinary development workflows ------------------------
+
+def test_no_other_workflow_touches_the_ledger_environment_variables_secrets_or_branch():
+    for f in sorted(WF.glob("*.yml")):
+        if f.name == "model_research_daily.yml":
+            continue
+        text = f.read_text()
+        for needle in ("model-research-sealed-ledger", "sealed-ledger", "SEALED_LEDGER", "LEDGER_ATTEST", "sealed_ledger", "model_research_daily"):
+            assert needle not in text, (f.name, needle)
+
+
+def test_pull_request_workflows_are_read_only_and_use_no_environment_or_secret():
+    for f in sorted(WF.glob("*.yml")):
+        d = yaml.safe_load(f.read_text())
+        on = d[True] if True in d else d["on"]
+        triggers = on if isinstance(on, (list, dict)) else [on]
+        if "pull_request" not in triggers and "pull_request_target" not in triggers:
+            continue
+        assert "pull_request_target" not in triggers, f.name  # that trigger would run with secrets on untrusted code
+        assert d.get("permissions") is None or "write" not in yaml.safe_dump(d["permissions"]), f.name
+        for name, j in d["jobs"].items():  # a write-permitted job in a PR-triggered workflow must be excluded from pull_request events
+            if "write" in yaml.safe_dump(j.get("permissions")):
+                assert "github.event_name != 'pull_request'" in str(j.get("if")), (f.name, name)
+        assert all("environment" not in j for j in d["jobs"].values()), f.name
+        assert "secrets." not in yaml.safe_dump(d).replace("secrets.GITHUB_TOKEN", ""), f.name
+
+
+def test_only_the_publish_job_can_reach_the_environment_and_it_is_the_only_one_with_the_signing_secret():
+    d = load("model_research_daily.yml")
+    envs = {k: j.get("environment") for k, j in d["jobs"].items()}
+    assert envs == {"settle": None, "publish": "sealed-ledger", "alert": None}
+
+
+# ---------------------------------------------------------------- committed development material holds no prospective data -------------------------------------
+
+def test_committed_research_tables_hold_no_post_freeze_game():
+    import pandas as pd
+
+    from nhl_edge.model_research import DEV_LAST_GAME_DATE_ET, PROSPECTIVE_FREEZE_UTC
+
+    root = Path(__file__).resolve().parents[1] / "docs" / "research"
+    checked = 0
+    for f in sorted(root.glob("*/data/*.csv")):
+        df = pd.read_csv(f)
+        if "game_date_et" in df.columns:
+            assert df["game_date_et"].astype(str).max() <= DEV_LAST_GAME_DATE_ET, (f.name, "contains a game dated after the development window")
+            checked += 1
+        if "start_time_utc" in df.columns:
+            assert (pd.to_datetime(df["start_time_utc"], utc=True) < pd.Timestamp(PROSPECTIVE_FREEZE_UTC)).all(), f.name
+    assert checked >= 3

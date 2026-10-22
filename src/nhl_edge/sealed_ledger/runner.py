@@ -1,5 +1,6 @@
 """Workflow-side CLI of the sealed prospective ledger. Encrypt-only: it imports ``seal``/``core``/``checkpoint`` and NEVER ``owner`` (no decryption path exists here).
 
+    python -m nhl_edge.sealed_ledger.runner init      --store S --recipients R [--summary-out F]            # creates GENESIS + a synthetic canary; no game
     python -m nhl_edge.sealed_ledger.runner ingest    --archive A --date D --repo . --store S --recipients R [--seal] [--correct IDS --reason CODE] [--summary-out F]
     python -m nhl_edge.sealed_ledger.runner scorecard --store S --out DIR
     python -m nhl_edge.sealed_ledger.runner verify    --store S [--recipients R] [--previous PREV_STORE]
@@ -21,7 +22,7 @@ from statistics import fmean
 from typing import Any
 
 from nhl_edge.sealed_ledger import PROTOCOL_RULES
-from nhl_edge.sealed_ledger.core import closed_games, is_extension, read_manifest, verify_store
+from nhl_edge.sealed_ledger.core import closed_games, genesis_hash, is_extension, read_manifest, verify_store
 from nhl_edge.sealed_ledger.seal import SealedStore, SealError, load_recipients
 
 LOOKS = tuple(PROTOCOL_RULES["looks_games"])  # the frozen 150 / 300 / 450 (a test pins equality with daily.LOOKS)
@@ -72,7 +73,14 @@ def run_ingest(archive: Path, date: str, repo: Path, store: Path, recipients: Pa
     if not seal:
         out.update({"sealed_new": 0, "skipped_existing": 0, "corrections": 0, "day_closed": False, "note": "dry run: nothing was sealed or written"})
         return out
-    st = SealedStore(store, recipients, run_id=run_id, code_sha=code_sha)
+    st = SealedStore(store, recipients, run_id=run_id, code_sha=code_sha, create=False)  # a ledger is only ever created by `init`, which the owner verifies first
+    from nhl_edge.sealed_ledger import (
+        audit,  # fail closed: no day may be skipped, left incomplete, drifted or revised before a later day is sealed
+    )
+
+    gaps = audit.open_days_before(archive, date, store)
+    if gaps:
+        raise SealError(f"refusing to seal {date}: earlier day(s) are not cleanly closed: " + "; ".join(gaps[:5]))
     out.update(st.seal_rows(rows, correct=correct, reason=reason))
     # never close a day whose every game lacks a pregame forecast: that is the signature of an incomplete archive fetch, and a DAY entry cannot be undone
     suspicious = bool(info["scheduled_game_ids"]) and info["games_with_pregame_forecast"] == 0
@@ -85,6 +93,19 @@ def run_ingest(archive: Path, date: str, repo: Path, store: Path, recipients: Pa
     if not rep.ok:
         raise SealError("store failed verification after sealing: " + "; ".join(rep.problems[:5]))
     return out
+
+
+def run_init(store: Path, recipients: Path, *, run_id: str = "", code_sha: str = "") -> dict[str, Any]:
+    """Create the ledger: GENESIS (recipients hash, frozen-protocol hash) + a SYNTHETIC canary ciphertext. Refuses if a ledger already exists. Seals no game."""
+    if (store / "manifest.jsonl").exists():
+        raise SealError("a ledger already exists at this location; init refuses to touch it")
+    st = SealedStore(store, recipients, run_id=run_id, code_sha=code_sha, create=True)
+    rep = verify_store(store, recipients_sha256=st.recipients_sha256)
+    if not rep.ok:
+        raise SealError("fresh ledger failed verification: " + "; ".join(rep.problems[:5]))
+    return {"date": "n/a", "mode": "INIT", "initialised": True, "ledger_id": st.ledger_id, "genesis_hash": genesis_hash(st.entries), "recipients_sha256": st.recipients_sha256,
+            "recipient_count": len(st.recips), "manifest_entries": rep.n_entries, "head_seq": rep.head_seq, "head_hash": rep.head_hash, "integrity_ok": True,
+            "note": "owner: verify and register this genesis hash (SEALED_LEDGER_OWNER_CHECKLIST.md) BEFORE any game is sealed"}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -100,6 +121,10 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--correct", help="comma-separated GAME_ID@CURRENT_VERSION whose sealed record is to be superseded by a versioned correction")
     a.add_argument("--reason", help="correction reason code")
     a.add_argument("--summary-out", type=Path)
+    i = sub.add_parser("init")
+    i.add_argument("--store", type=Path, required=True)
+    i.add_argument("--recipients", type=Path, required=True)
+    i.add_argument("--summary-out", type=Path)
     b = sub.add_parser("scorecard")
     b.add_argument("--store", type=Path, required=True)
     b.add_argument("--out", type=Path, required=True)
@@ -107,6 +132,7 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--store", type=Path, required=True)
     c.add_argument("--recipients", type=Path)
     c.add_argument("--previous", type=Path, help="the store as it was before this run: the new manifest must extend it")
+    c.add_argument("--expect-genesis-hash", help="the genesis entry hash the owner registered after verifying the initial ledger; a different ledger is refused")
     d = sub.add_parser("attest")
     d.add_argument("--store", type=Path, required=True)
     d.add_argument("--out", type=Path)
@@ -125,6 +151,15 @@ def main(argv: list[str] | None = None) -> int:
             ns.summary_out.parent.mkdir(parents=True, exist_ok=True)
             ns.summary_out.write_text(json.dumps(res, indent=1))
         return 0
+    if ns.cmd == "init":
+        if not ns.recipients.exists():
+            raise SystemExit(f"no recipients file at {ns.recipients} (fail closed)")
+        res = run_init(ns.store, ns.recipients, run_id=os.environ.get("GITHUB_RUN_ID", ""), code_sha=os.environ.get("GITHUB_SHA", ""))
+        print(json.dumps(res, indent=1))
+        if ns.summary_out:
+            ns.summary_out.parent.mkdir(parents=True, exist_ok=True)
+            ns.summary_out.write_text(json.dumps(res, indent=1))
+        return 0
     if ns.cmd == "scorecard":
         ns.out.mkdir(parents=True, exist_ok=True)
         sc = blinded_scorecard(read_manifest(ns.store))
@@ -135,6 +170,8 @@ def main(argv: list[str] | None = None) -> int:
         sha = load_recipients(ns.recipients)[1] if ns.recipients else None
         rep = verify_store(ns.store, recipients_sha256=sha)
         probs = list(rep.problems)
+        if ns.expect_genesis_hash is not None and genesis_hash(read_manifest(ns.store)) != ns.expect_genesis_hash:
+            probs.append("the ledger's genesis hash differs from the one the owner registered: this is a different (replaced or recreated) ledger")
         if ns.previous is not None:
             if not ns.previous.is_dir():
                 probs.append(f"--previous {ns.previous} is not a directory (a typo would silently disable the append-only check)")
@@ -164,3 +201,6 @@ if __name__ == "__main__":
     except SealError as e:
         print(f"SEALED LEDGER REFUSED: {e}", file=sys.stderr)
         sys.exit(3)
+    except Exception as e:  # noqa: BLE001 - a traceback or pandas error message can echo row values; the public log gets the exception TYPE only
+        print(f"SEALED LEDGER RUN FAILED: {type(e).__name__} (message and traceback suppressed so no record data reaches a public log; reproduce locally on a development-window date)", file=sys.stderr)
+        sys.exit(4)

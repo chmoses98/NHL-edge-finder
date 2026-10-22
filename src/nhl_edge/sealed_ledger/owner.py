@@ -2,6 +2,8 @@
 
     python -m nhl_edge.sealed_ledger.owner keygen         --identity ~/sift-ledger/identity.txt          # prints ONLY the public key
     python -m nhl_edge.sealed_ledger.owner check-key      --identity ~/sift-ledger/identity.txt --recipients <repo>/research/sealed_ledger/recipients.txt
+    python -m nhl_edge.sealed_ledger.owner drill          --store <ledger checkout> --identity primary.txt --identity backup.txt --recipients <repo>/research/sealed_ledger/recipients.txt
+    python -m nhl_edge.sealed_ledger.owner first-checkpoint --store <ledger checkout> --identity primary.txt --identity backup.txt --dir ~/sift-ledger/witness --recipients <...>
     python -m nhl_edge.sealed_ledger.owner witness-keygen --dir ~/sift-ledger/witness
     python -m nhl_edge.sealed_ledger.owner witness        --store <ledger checkout> --dir ~/sift-ledger/witness --recipients <repo>/research/sealed_ledger/recipients.txt
     python -m nhl_edge.sealed_ledger.owner verify         --store <ledger checkout> --dir ~/sift-ledger/witness [--recipients ...] [--attest-pub runner_public.pem]
@@ -31,7 +33,15 @@ from pyrage import x25519
 from nhl_edge.model_research import daily
 from nhl_edge.sealed_ledger import RECORD_SCHEMA
 from nhl_edge.sealed_ledger import checkpoint as CP
-from nhl_edge.sealed_ledger.core import CHECKPOINT_DIR, closed_games, ct_path, is_extension, read_manifest, verify_store
+from nhl_edge.sealed_ledger.core import (
+    CHECKPOINT_DIR,
+    closed_games,
+    ct_path,
+    genesis_hash,
+    is_extension,
+    read_manifest,
+    verify_store,
+)
 from nhl_edge.sealed_ledger.seal import SealError, load_recipients
 
 _SECRET_PREFIX = "AGE-SECRET-KEY-"
@@ -95,6 +105,51 @@ def decrypt_entry(root: Path, entry: dict[str, Any], identities: list[Any]) -> d
     return obj
 
 
+def decrypt_canary(root: Path, identities: list[Any]) -> dict[str, Any]:
+    entries = read_manifest(root)
+    obj = json.loads(pyrage.decrypt(ct_path(root, 0).read_bytes(), identities).rstrip(b" "))
+    if obj.get("kind") != "CANARY" or obj.get("ledger_id") != entries[0]["ledger_id"] or obj.get("seq") != 0:
+        raise SystemExit("the canary does not match this ledger's genesis")
+    return obj
+
+
+def drill(root: Path, identity_paths: list[Path], recipients: Path | None = None, passphrases: list[str | None] | None = None) -> dict[str, Any]:
+    """Recovery drill on the REAL published ciphertext, before any game exists: every identity you list must, on its own, open the genesis canary (a synthetic record
+    sealed to all recipients). Proves each key (primary, backup, a restored copy) really opens this ledger. Decrypts nothing but the synthetic canary."""
+    refuse_in_ci()
+    rep = verify_store(root, recipients_sha256=load_recipients(recipients)[1] if recipients else None)
+    if not rep.ok:
+        raise SystemExit("ledger fails verification: " + "; ".join(rep.problems[:5]))
+    out = []
+    for i, p in enumerate(identity_paths):
+        pw = passphrases[i] if passphrases else None
+        try:
+            decrypt_canary(root, load_identities(p, pw))
+            out.append({"identity": str(p), "opens_this_ledger": True})
+        except (pyrage.DecryptError, ValueError):
+            out.append({"identity": str(p), "opens_this_ledger": False})
+    return {"ledger_id": rep.ledger_id, "all_identities_open_the_ledger": all(x["opens_this_ledger"] for x in out), "results": out,
+            "warning": None if len(identity_paths) >= 2 else "drill only one identity: a backup that was never tested is not a backup"}
+
+
+def first_checkpoint(root: Path, identity_paths: list[Path], witness_dir: Path, recipients: Path, passphrase: str | None = None, identity_passphrases: list[str | None] | None = None) -> dict[str, Any]:
+    """The owner's initial verification, to be done right after `init` and BEFORE any real game is sealed: structural verification against the committed recipients
+    file, the recovery drill with every identity, then a signed WITNESS checkpoint of the initial head. Prints the genesis hash, the head hash and the recipients hash:
+    write them down offline and compare them with the Actions run summary and the `sealed-ledger-head-0` tag. Refuses a ledger that holds anything beyond the genesis."""
+    refuse_in_ci()
+    entries = read_manifest(root)
+    if len(entries) != 1:
+        raise SystemExit(f"this ledger has {len(entries)} entries; first-checkpoint is only for the freshly initialised ledger (genesis only)")
+    d = drill(root, identity_paths, recipients, identity_passphrases)
+    if not d["all_identities_open_the_ledger"]:
+        raise SystemExit("NOT witnessing: at least one identity cannot open the ledger's canary: " + json.dumps(d["results"]))
+    cp = witness(root, witness_dir, passphrase, recipients)
+    rep = verify_store(root)
+    return {"genesis_hash": genesis_hash(entries), "head_seq": rep.head_seq, "head_hash": rep.head_hash, "ledger_id": rep.ledger_id,
+            "recipients_sha256": load_recipients(recipients)[1], "witness_log_head": cp["witness_log_head"], "drill": d,
+            "write_down": "genesis_hash, recipients_sha256 and witness_log_head, offline, and compare genesis_hash with the Actions run summary and the sealed-ledger-head-0 tag"}
+
+
 def latest_rows(root: Path, identities: list[Any]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Latest version of every CLOSED game (one that a DAY entry accounts for), in first-seal order (= the ledger's chronological order)."""
     entries = read_manifest(root)
@@ -153,10 +208,13 @@ def witness_log_head(witness_dir: Path) -> tuple[int, str]:
     return len(lines), (lines[-1]["line_hash"] if lines else "")
 
 
-def verify_all(root: Path, witness_dir: Path | None, recipients: Path | None, attest_pub: Path | None, expect_witness_head: str | None = None) -> dict[str, Any]:
+def verify_all(root: Path, witness_dir: Path | None, recipients: Path | None, attest_pub: Path | None, expect_witness_head: str | None = None,
+               expect_genesis: str | None = None) -> dict[str, Any]:
     refuse_in_ci()
     rep = verify_store(root, recipients_sha256=load_recipients(recipients)[1] if recipients else None)
     probs = list(rep.problems)
+    if expect_genesis is not None and genesis_hash(read_manifest(root)) != expect_genesis:
+        probs.append("the genesis hash differs from the one you registered: this is a different (replaced or recreated) ledger")
     n_witness = 0
     if witness_dir is not None:
         signed, wp = witness_status(root, witness_dir)
@@ -282,6 +340,16 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--attest-pub", type=Path)
     s.add_argument("--previous", type=Path, help="an earlier copy of the store (e.g. from your last visit); the current one must extend it")
     s.add_argument("--expect-witness-head", help="the witness_log_head you recorded elsewhere at your last `witness`")
+    s.add_argument("--expect-genesis", help="the genesis_hash you wrote down at first-checkpoint")
+    s = sub.add_parser("drill")
+    s.add_argument("--store", type=Path, required=True)
+    s.add_argument("--identity", type=Path, action="append", required=True, help="repeat for primary, backup and any restored copy")
+    s.add_argument("--recipients", type=Path, required=True)
+    s = sub.add_parser("first-checkpoint")
+    s.add_argument("--store", type=Path, required=True)
+    s.add_argument("--identity", type=Path, action="append", required=True)
+    s.add_argument("--dir", type=Path, required=True)
+    s.add_argument("--recipients", type=Path, required=True)
     s = sub.add_parser("reproduce")
     s.add_argument("--store", type=Path, required=True)
     s.add_argument("--identity", type=Path, required=True)
@@ -305,7 +373,7 @@ def main(argv: list[str] | None = None) -> int:
     elif a.cmd == "witness":
         print(json.dumps(witness(a.store, a.dir, recipients=a.recipients), indent=1))
     elif a.cmd == "verify":
-        res = verify_all(a.store, a.dir, a.recipients, a.attest_pub, a.expect_witness_head)
+        res = verify_all(a.store, a.dir, a.recipients, a.attest_pub, a.expect_witness_head, a.expect_genesis)
         if a.previous:
             if not a.previous.is_dir():
                 res["problems"].append(f"--previous {a.previous} is not a directory")
@@ -314,6 +382,12 @@ def main(argv: list[str] | None = None) -> int:
             res["ok"] = not res["problems"]
         print(json.dumps(res, indent=1))
         return 0 if res["ok"] else 1
+    elif a.cmd == "drill":
+        res = drill(a.store, a.identity, a.recipients)
+        print(json.dumps(res, indent=1))
+        return 0 if res["all_identities_open_the_ledger"] else 1
+    elif a.cmd == "first-checkpoint":
+        print(json.dumps(first_checkpoint(a.store, a.identity, a.dir, a.recipients), indent=1))
     elif a.cmd == "reproduce":
         diffs = reproduce_diff(a.store, load_identities(a.identity), a.archive, a.repo)
         print(json.dumps({"mismatches": diffs, "ok": not diffs}, indent=1))

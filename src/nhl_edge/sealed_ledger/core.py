@@ -32,8 +32,8 @@ CORRECTION_REASONS = ("SOURCE_SCORE_REVISED", "PIPELINE_DEFECT_FIXED", "OTHER_DO
 AGE_HEADER = b"age-encryption.org/v1\n"
 ALLOWED_TOP = {MANIFEST, SEALED_DIR, CHECKPOINT_DIR}  # exactly these (plus a bare ".git" when the store is a git working tree)
 KEYS = {
-    "GENESIS": {"v", "schema", "seq", "kind", "ledger_id", "created_utc", "recipients_sha256", "recipient_count", "pad_bytes", "protocol_rules_sha256", "run_id", "code_sha",
-                "prev_hash", "entry_hash"},
+    "GENESIS": {"v", "schema", "seq", "kind", "ledger_id", "created_utc", "recipients_sha256", "recipient_count", "pad_bytes", "protocol_rules_sha256", "canary_ct_sha256",
+                "canary_ct_bytes", "run_id", "code_sha", "prev_hash", "entry_hash"},
     "RECORD": {"v", "seq", "kind", "game_id", "game_date_et", "version", "supersedes", "reason", "ct_sha256", "ct_bytes", "pregame", "sealed_utc", "run_id", "code_sha",
                "prev_hash", "entry_hash"},
     "DAY": {"v", "seq", "kind", "game_date_et", "scheduled_game_ids", "sealed_game_ids", "missing_pregame_game_ids", "sealed_utc", "run_id", "code_sha", "prev_hash",
@@ -99,6 +99,10 @@ def closed_games(entries: list[dict[str, Any]]) -> list[str]:
 def size_band(recipient_count: int) -> tuple[int, int]:
     """Plausible ciphertext length for a fixed-size plaintext: payload + age header (+ one stanza per recipient) + random grease. Outside it => not our padding."""
     return PAD_BYTES, PAD_BYTES + 600 + 250 * max(1, recipient_count)
+
+
+def genesis_hash(entries: list[dict[str, Any]]) -> str:
+    return str(entries[0]["entry_hash"]) if entries else ""
 
 
 def ct_path(root: Path, seq: int) -> Path:
@@ -179,6 +183,15 @@ def verify_store(root: Path, *, recipients_sha256: str | None = None, allow_orph
                 rep.problems.append("genesis protocol_rules_sha256 differs from the frozen prospective protocol in this code")
             if recipients_sha256 is not None and e.get("recipients_sha256") != recipients_sha256:
                 rep.problems.append("recipients file does not match the recipients committed in the genesis entry")
+            # the SYNTHETIC canary at sealed/000000.age lets every key holder prove, on the real published ciphertext, that their key opens this ledger BEFORE any game is sealed
+            referenced.add(0)
+            cp0 = ct_path(root, 0)
+            if not cp0.exists():
+                rep.problems.append("genesis canary ciphertext sealed/000000.age is missing")
+            else:
+                data0 = cp0.read_bytes()
+                if not data0.startswith(AGE_HEADER) or sha256_hex(data0) != e.get("canary_ct_sha256") or len(data0) != e.get("canary_ct_bytes") or not band[0] <= len(data0) <= band[1]:
+                    rep.problems.append("genesis canary ciphertext does not match the manifest (replaced or modified)")
             continue
         if kind == "GENESIS":
             rep.problems.append(f"entry {i}: second GENESIS")
