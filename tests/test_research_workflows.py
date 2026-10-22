@@ -42,3 +42,13 @@ def test_daily_loop_default_artifact_excludes_the_ledger_and_write_is_isolated()
     private = [st for st in settle["steps"] if str(st.get("uses", "")).startswith("actions/upload-artifact") and "if" in st]
     assert all("publish == 'true'" in st["if"] for st in private)
     assert publish["if"].count("publish == 'true'") == 1
+
+
+def test_write_permission_is_confined_to_a_publish_job_and_nothing_is_force_pushed():
+    for n in RESEARCH:
+        d = load(n)
+        assert d["permissions"] == {"contents": "read"}, n  # workflow-level default is read-only
+        writers = [k for k, j in d["jobs"].items() if (j.get("permissions") or {}).get("contents") == "write"]
+        assert writers == ["publish"], (n, writers)
+        assert d["jobs"]["publish"]["if"].count("publish == 'true'") == 1
+        assert "--force" not in (WF / n).read_text().replace("never forced", ""), n

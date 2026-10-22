@@ -2,7 +2,7 @@ name: market_audit
 # NHL historical market audit (RESEARCH_ONLY). DISABLED BY DEFAULT: manual dispatch only; the schedule below is commented out and
 # enabling it needs an explicit decision. Reads a COPY of data-archive / accounting-data (read-only), runs the bounded, idempotent,
 # resumable pipeline, uploads the machine-readable outputs as an artifact, and -- only when `publish` is true -- appends ONE line to
-# the evidence ledger on its own orphan branch `market-audit-ledger`. It never writes to the default branch, data-archive or
+# the evidence ledger on its own branch `market-audit-ledger` (normal commits, never forced; write permission is granted only to a separate publish job). It never writes to the default branch, data-archive or
 # accounting-data, never places or routes a wager, and changes no model, stake or cap.
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ on:
   #   - cron: "37 11 * * *"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: market-audit
@@ -25,6 +25,8 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     timeout-minutes: 75
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -57,16 +59,45 @@ jobs:
           name: market-audit-${{ github.run_id }}
           path: ${{ runner.temp }}/rd/out/
           retention-days: 14
-      - name: Publish the ledger line (opt-in; own orphan branch only)
+      - uses: actions/upload-artifact@v4
         if: ${{ github.event.inputs.publish == 'true' }}
+        with:
+          name: market-audit-ledger-private-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/rd/ledger/evidence_ledger.jsonl
+            ${{ runner.temp }}/rd/out/SCORECARD.md
+          retention-days: 1
+
+  publish:
+    needs: audit
+    if: ${{ github.event.inputs.publish == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write   # the only write grant in this workflow; pushes to market-audit-ledger and nothing else
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: market-audit-ledger-private-${{ github.run_id }}
+          path: ${{ runner.temp }}/ledger_in
+      - name: Commit to market-audit-ledger (normal commit, never forced)
         run: |
           set -euo pipefail
+          led=$(find "$RUNNER_TEMP/ledger_in" -name evidence_ledger.jsonl | head -1); sc=$(find "$RUNNER_TEMP/ledger_in" -name SCORECARD.md | head -1)
+          cp "$led" "$RUNNER_TEMP/evidence_ledger.jsonl"; cp "$sc" "$RUNNER_TEMP/SCORECARD.md"
           git config user.name "nhl-edge-bot"
           git config user.email "nhl-edge-bot@users.noreply.github.com"
-          git checkout --orphan market-audit-ledger
-          git rm -rf . >/dev/null 2>&1 || true
-          cp $RUNNER_TEMP/rd/ledger/evidence_ledger.jsonl ./evidence_ledger.jsonl
-          cp $RUNNER_TEMP/rd/out/SCORECARD.md ./SCORECARD.md
+          if git ls-remote --exit-code --heads origin market-audit-ledger >/dev/null 2>&1; then
+            git fetch origin market-audit-ledger
+            git checkout -B market-audit-ledger origin/market-audit-ledger
+          else
+            git checkout --orphan market-audit-ledger
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          cp "$RUNNER_TEMP/evidence_ledger.jsonl" ./evidence_ledger.jsonl
+          cp "$RUNNER_TEMP/SCORECARD.md" ./SCORECARD.md
           git add evidence_ledger.jsonl SCORECARD.md
-          git commit -m "market-audit: scorecard ${GITHUB_RUN_ID}" || { echo "nothing to commit"; exit 0; }
-          git push --force origin market-audit-ledger
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git commit -m "market-audit: scorecard ${GITHUB_RUN_ID}"
+          git push origin market-audit-ledger
