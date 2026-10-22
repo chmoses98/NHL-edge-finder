@@ -63,8 +63,17 @@ def _row_from_sim(res_pmfs: dict[str, Any], lam_h: float, lam_a: float, prefix: 
             f"{prefix}expected_total": float((total * ks).sum()), **{f"{prefix}p_over_{ln}": float(total[ks > ln].sum()) for ln in (4.5, 5.5, 6.5, 7.5)}}
 
 
+_SHARED: dict[str, Any] = {}
+
+
+def _tune_one(job: tuple[int, str, dict[str, Any]]) -> tuple[OAConfig, pd.DataFrame]:
+    season, _arm, spec = job
+    prior = _SHARED["all_final"][_SHARED["all_final"]["season"] < season]      # games of earlier seasons only
+    return select_hyperparameters(_SHARED["data"], prior, season, target=spec["target"], goals_blend=spec["goals_blend"])
+
+
 def run_oa_walk_forward(team_games: pd.DataFrame, nhl_games: pd.DataFrame, test_seasons: list[int], *, n_sims: int = 4000, base_seed: int = DEFAULT_SEED,
-                        max_games: int | None = None, arms: dict[str, dict[str, Any]] | None = None) -> tuple[pd.DataFrame, dict[str, np.ndarray], dict[str, Any]]:
+                        max_games: int | None = None, arms: dict[str, dict[str, Any]] | None = None, workers: int = 1) -> tuple[pd.DataFrame, dict[str, np.ndarray], dict[str, Any]]:
     t0 = time.time()
     arms = ARM_SPECS if arms is None else arms
     gamelog = build_gamelog(team_games)
@@ -76,12 +85,20 @@ def run_oa_walk_forward(team_games: pd.DataFrame, nhl_games: pd.DataFrame, test_
     selected: dict[str, dict[str, Any]] = {}
     grids: dict[str, list[dict[str, Any]]] = {}
     all_final = nhl_games[(nhl_games["game_type"] == 2) & nhl_games["final"].astype(bool)]
-    for season in sorted(set(int(s) for s in games["season"].unique())):
-        prior = all_final[all_final["season"] < season]
-        for arm, spec in arms.items():
-            cfg, tbl = select_hyperparameters(data, prior, season, target=spec["target"], goals_blend=spec["goals_blend"])
-            selected[f"{arm}|{season}"] = {"half_life_days": cfg.half_life_days, "ridge": cfg.ridge, "season_discount": cfg.season_discount, **spec}
-            grids[f"{arm}|{season}"] = tbl.to_dict("records")
+    seasons_to_tune = sorted(set(int(s) for s in games["season"].unique()))
+    jobs = [(season, arm, spec) for season in seasons_to_tune for arm, spec in arms.items()]
+    _SHARED.update({"data": data, "all_final": all_final})
+    if workers > 1 and len(jobs) > 1:
+        import multiprocessing as mp
+
+        with mp.get_context("fork").Pool(workers) as pool:       # fork: the OAData arrays are shared copy-on-write
+            outs = pool.map(_tune_one, jobs)
+    else:
+        outs = [_tune_one(j) for j in jobs]
+    for (season, arm, spec), (cfg, tbl) in zip(jobs, outs, strict=True):
+        selected[f"{arm}|{season}"] = {"half_life_days": cfg.half_life_days, "ridge": cfg.ridge, "season_discount": cfg.season_discount, **spec}
+        grids[f"{arm}|{season}"] = tbl.to_dict("records")
+    for season in seasons_to_tune:
         log.info(kv(event="oa_hyperparameters", season=season, **{a: (selected[f'{a}|{season}']['half_life_days'], selected[f'{a}|{season}']['ridge'], selected[f'{a}|{season}']['season_discount']) for a in arms}))
     recs: list[dict[str, Any]] = []
     calibrators = {a: SlopeCalibrator() for a in C1_ARMS}
@@ -148,12 +165,13 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--test-seasons", default="2023,2024,2025")
     ap.add_argument("--n-sims", type=int, default=4000)
     ap.add_argument("--max-games", type=int)
+    ap.add_argument("--workers", type=int, default=1, help="processes for the (arm, season) hyper-parameter selection")
     a = ap.parse_args(argv)
     hist = Path(a.history)
     seasons = [int(s) for s in a.test_seasons.split(",")]
     tg = load_team_games(hist, None)
     ng = load_nhl_games(hist, None)
-    df, pm, meta = run_oa_walk_forward(tg, ng, seasons, n_sims=a.n_sims, max_games=a.max_games)
+    df, pm, meta = run_oa_walk_forward(tg, ng, seasons, n_sims=a.n_sims, max_games=a.max_games, workers=a.workers)
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     df.to_csv(out / "oa_games.csv", index=False)
