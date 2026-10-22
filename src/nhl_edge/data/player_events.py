@@ -38,9 +38,10 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-SCHEMA_VERSION = "nhl-player-events-1.0"
+SCHEMA_VERSION = "nhl-player-events-1.1"  # 1.1 (2026-10-12): overtime timelines end at the final whistle
 STATES: tuple[str, ...] = ("EV", "PP", "SH", "EA", "EN")
 PERIOD_S = 1200
+REG_SEASON_OT_S = 300  # regular-season overtime: one 5-minute 3-on-3 period, then a shootout
 MIN_SHARED_S = 60
 SHOT_EVENTS = {"goal": "GOAL", "shot-on-goal": "SOG", "missed-shot": "MISS", "blocked-shot": "BLOCK"}
 
@@ -158,8 +159,24 @@ def _plays(pbp: dict[str, Any]) -> list[dict[str, Any]]:
     return out
 
 
+def game_length_s(plays: list[dict[str, Any]]) -> int:
+    """Seconds actually played, shootout excluded: the clock of the last non-shootout event (``period-end`` /
+    ``game-end`` carry it; an overtime winner ends the game), never less than regulation; a regular-season game that
+    went to a shootout played the full 5-minute overtime.
+
+    Before 2026-10-12 every overtime game was laid out to the end of a 20-minute grid period (4,800 s for a regular-
+    season OT game) and the phantom seconds after the final whistle were booked to the last strength state seen, which
+    deflated deployment shares in about a quarter of all games (docs/research/WORKLOAD_AUDIT.md)."""
+    played = [p["_t"] for p in plays if p["_ptype"] != "SO"]
+    t_end = max(played + [3 * PERIOD_S])
+    if any(p["_ptype"] == "SO" for p in plays):
+        t_end = max(t_end, 3 * PERIOD_S + REG_SEASON_OT_S)
+    return int(t_end)
+
+
 def state_timeline(plays: list[dict[str, Any]], n_seconds: int) -> tuple[np.ndarray, np.ndarray]:
-    """(home_state_idx, away_state_idx) per game second, index into STATES; -1 where unknown (no event yet)."""
+    """(home_state_idx, away_state_idx) per game second, index into STATES; -1 where unknown (no event yet).
+    ``n_seconds`` is the length actually played (:func:`game_length_s`): a period is filled only up to it."""
     h = np.full(n_seconds, -1, dtype=np.int8)
     a = np.full(n_seconds, -1, dtype=np.int8)
     by_period: dict[int, list[dict[str, Any]]] = defaultdict(list)
@@ -290,8 +307,7 @@ def derive_game(box: dict[str, Any], pbp: dict[str, Any], shifts_payload: Any, m
     away_id = (box.get("awayTeam") or {}).get("id") or (pbp.get("awayTeam") or {}).get("id")
     skaters, goalies = parse_box_players(box)
     plays = _plays(pbp)
-    max_t = max([p["_t"] for p in plays if p["_ptype"] != "SO"] + [3 * PERIOD_S])
-    n_sec = int(max(3 * PERIOD_S, ((max_t - 1) // PERIOD_S + 1) * PERIOD_S)) if max_t > 3 * PERIOD_S else 3 * PERIOD_S
+    n_sec = game_length_s(plays)
     hstate, astate = state_timeline(plays, n_sec)
     goals = parse_goals(plays, home_id, away_id)
     shots = parse_shots(plays, home_id, {sk["player_id"]: sk["team_id"] for sk in skaters})
