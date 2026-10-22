@@ -160,8 +160,8 @@ def run_evaluate(out_root: Path, data_root: Path, now: datetime | None = None) -
     schedule = latest_schedule(ledger)
     starts = {gid: parse_iso(g["start_time_utc"]) for gid, g in schedule.items() if g.get("start_time_utc")}
     preds = list(ledger.iter_rows("predictions"))
-    seen = {(r.get("prediction_id"), r.get("settlement_key")) for r in ledger.iter_rows("evaluations")}
-    existing_rows = list(ledger.iter_rows("evaluations"))
+    existing_rows = list(ledger.iter_rows("evaluations"))  # read once: the ledger is the largest file set the job touches
+    seen = {(r.get("prediction_id"), r.get("settlement_key")) for r in existing_rows}
     tickers = {p["ticker"] for p in preds if p.get("ticker") in settlements}
     obs = observations_by_ticker(ledger, tickers) if tickers else {}
     new_rows: list[dict[str, Any]] = []
@@ -237,8 +237,8 @@ def run_evaluate_player(ledger: Ledger, settlements: dict[str, SettlementRecord]
     """PLAYER_SIM_V1 shadow rows x official player settlements -> ``evaluations_player`` (append-only) and
     ``eval/report_player.{json,md}``. Same leak rules as V1: only rows predicted AND market-observed before the start."""
     preds = list(ledger.iter_rows("predictions_player"))
-    seen = {(r.get("prediction_id"), r.get("settlement_key")) for r in ledger.iter_rows("evaluations_player")}
     existing = list(ledger.iter_rows("evaluations_player"))
+    seen = {(r.get("prediction_id"), r.get("settlement_key")) for r in existing}
     tickers = {p["ticker"] for p in preds if p.get("ticker") in settlements}
     obs = obs_loader(tickers) if tickers else {}
     new_rows: list[dict[str, Any]] = []

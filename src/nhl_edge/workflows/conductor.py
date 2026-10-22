@@ -69,6 +69,7 @@ SCHEDULE_UNION_DAYS = 4
 SETTLE_GRACE_HOURS = 3.0  # == settle.SETTLE_GRACE (not imported: the conductor must stay stdlib-only)
 SETTLE_BACKLOG_HOURS = 72.0  # == settle.BACKLOG_LOOKBACK
 SETTLE_RETRY_MIN = 45.0
+EVALUATE_QUIET_HOURS = 3.0  # no (slow, research-only) evaluate this close to the next puck drop: it must never delay a pregame capture/simulate
 
 
 def _recent_schedule(ledger: Ledger, now: datetime, days: int = SCHEDULE_UNION_DAYS) -> list[dict[str, Any]]:
@@ -136,6 +137,8 @@ def decide(now: datetime, schedule_rows: list[dict[str, Any]], capture_age_min: 
         bool(settle_pending) and (last_settle_age_min is None or last_settle_age_min > SETTLE_RETRY_MIN))
     eval_behind_settle = last_settle_age_min is not None and (last_eval_age_min is None or last_eval_age_min > last_settle_age_min + 5)
     evaluate = settle or eval_behind_settle or (in_season and hour == 10 and (last_eval_age_min is None or last_eval_age_min > 23 * 60))
+    if next_h is not None and next_h < EVALUATE_QUIET_HOURS:
+        evaluate = False
     discover = last_discover_age_min is None or last_discover_age_min > 23 * 60
     return {
         "now_utc": iso(now), "in_season": in_season, "season": season_label, "calendar_known": calendar_known,

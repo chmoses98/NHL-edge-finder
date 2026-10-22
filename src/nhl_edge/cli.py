@@ -64,6 +64,12 @@ def cmd_evaluate(args: argparse.Namespace) -> int:
     return run_evaluate(out_root=Path(args.out), data_root=Path(args.data))
 
 
+def cmd_slate_check(args: argparse.Namespace) -> int:
+    from nhl_edge.workflows.slate_check import run_slate_check
+
+    return run_slate_check(Path(args.packet), Path(args.schedule) if args.schedule else None, Path(args.out) if args.out else None)
+
+
 def cmd_conductor(args: argparse.Namespace) -> int:
     from nhl_edge.workflows.conductor import run_conductor
 
@@ -176,6 +182,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--out", default="data/archive")
     p.add_argument("--data", default="data")
     p.set_defaults(fn=cmd_evaluate)
+    p = sub.add_parser("slate-check", help="pregame readiness of a published packet.json (coverage, goalies, freshness, coherence); read-only")
+    p.add_argument("--packet", required=True)
+    p.add_argument("--schedule", help="context/schedule/*.jsonl.gz snapshot for the same ET date (cross-checks identity and coverage)")
+    p.add_argument("--out", help="directory for slate_check.{json,md}")
+    p.set_defaults(fn=cmd_slate_check)
+
     p = sub.add_parser("conductor", help="decide which jobs are due")
     p.add_argument("--data", default="data")
     p.add_argument("--github-output", default=None)

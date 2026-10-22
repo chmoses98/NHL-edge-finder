@@ -29,6 +29,22 @@ from typing import Any
 
 from nhl_edge.timeutil import iso, parse_iso, utcnow
 
+try:  # ~1.5-2x faster row parsing; optional, the stdlib parser is the reference
+    import orjson as _orjson
+except ImportError:  # pragma: no cover - exercised only where orjson is not installed
+    _orjson = None
+
+
+def _loads_line(line: bytes | str) -> Any:
+    """Parse one JSONL row. orjson is strict (no NaN / Infinity), the archive's writers use ``json.dumps`` (which can emit them),
+    so any orjson failure falls back to the stdlib parser: the parsed value is identical either way."""
+    if _orjson is not None:
+        try:
+            return _orjson.loads(line)
+        except _orjson.JSONDecodeError:
+            pass
+    return json.loads(line)
+
 
 class ImmutabilityError(RuntimeError):
     pass
@@ -131,10 +147,10 @@ class Ledger:
             if dt_to and d > dt_to:
                 continue
             for fp in sorted(part.glob("*.jsonl.gz")):
-                with gzip.open(fp, "rt", encoding="utf-8") as f:
+                with gzip.open(fp, "rb") as f:
                     for line in f:
                         if line.strip():
-                            yield json.loads(line)
+                            yield _loads_line(line)
 
     def verify(self) -> list[str]:
         """Return a list of problems (empty == archive intact)."""

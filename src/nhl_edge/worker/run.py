@@ -408,7 +408,9 @@ class Worker:
         ("settle", ["nhl", "settle", "--data", "DATA", "--out", "ARCHIVE"], 900.0),
         # the evaluation ledger IS the archive (predictions + settlements live there); reports go to ARCHIVE/eval/. The
         # original "ARCHIVE/eval" root read an empty sub-ledger, so production evaluation scored 0 rows (fixed 2026-09-30).
-        ("evaluate", ["nhl", "evaluate", "--data", "DATA", "--out", "ARCHIVE"], 900.0),
+        # 900 s was exceeded on every attempt from 2026-10-22 (the job re-reads ~3.5 M ledger rows per run and the runner is slower than a
+        # dev box); the conductor now keeps it out of the pre-puck-drop window, so a longer budget cannot delay a pregame capture/simulate.
+        ("evaluate", ["nhl", "evaluate", "--data", "DATA", "--out", "ARCHIVE"], 2400.0),
         # The Edge Finder app export (edge_finder.app.v1) reads what the jobs above wrote and publishes ARCHIVE/app/latest,
         # which archive_push.sh carries to the data-archive branch. Not conductor-gated: it is due whenever this cycle
         # changed the archive (a capture or any slow job), so the app never shows a board older than the archive. A failed

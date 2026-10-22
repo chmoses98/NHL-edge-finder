@@ -62,3 +62,10 @@ def test_conductor_import_chain_is_stdlib_only():
     code = "import sys; import nhl_edge.workflows.conductor; bad=[m for m in sys.modules if m.split('.')[0] in ('numpy','pandas','httpx','pydantic','yaml','pyarrow')]; print(bad); raise SystemExit(1 if bad else 0)"
     r = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, env={"PYTHONPATH": "src", "PATH": ""})
     assert r.returncode == 0, r.stdout + r.stderr
+
+
+def test_evaluate_stays_out_of_the_pregame_window():
+    # settlement is behind, but a puck drop inside EVALUATE_QUIET_HOURS must not be delayed by the slow research evaluate
+    near = C.decide(NOW, rows([-5, 2], status="final")[:1] + rows([2]), 5, 5, 200, 500, 5, 5)
+    far = C.decide(NOW, rows([-5], status="final") + rows([6]), 5, 5, 200, 500, 5, 5)
+    assert not near["evaluate"] and far["evaluate"]
