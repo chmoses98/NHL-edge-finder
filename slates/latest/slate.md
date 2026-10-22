@@ -1,9 +1,9 @@
 # NHL slate 2026-10-22 — RESEARCH_ONLY
 
-generated 2026-10-22T06:23:14Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-22T07:26:20Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 12 · simulated (not started): 12 · markets on board: 2511 · contracts joined: 612 (unjoined to any game: 1571)
-gates: {'UNSUPPORTED': 312, 'OK': 167, 'NO_EDGE': 133}
+gates: {'UNSUPPORTED': 312, 'CANNOT_TRUST_INPUTS': 300}
 families: {'period_winner': 108, 'period_spread': 72, 'period_total': 108, 'game_early_goal': 12, 'game_winner': 24, 'game_overtime': 12, 'game_spread': 48, 'team_total': 120, 'game_total': 108}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -25,86 +25,86 @@ families: {'period_winner': 108, 'period_spread': 72, 'period_total': 108, 'game
 
 | ticker | family | P(data) | P(mkt mid) | P(anchored) | yes ask | no ask | best | EV after fee | gate |
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
-| KXNHLTEAMTOTAL-26OCT22MINCGY-MIN4 | team_total | 0.375 | 0.485 | 0.463 | 49 | 52 | no | +0.087 | OK |
-| KXNHLSPREAD-26OCT22MINCGY-MIN2 | game_spread | 0.311 | 0.415 | 0.393 | 42 | 59 | no | +0.082 | OK |
-| KXNHLGAME-26OCT22MINCGY-CGY | game_winner | 0.457 | 0.355 | 0.375 | 36 | 65 | yes | +0.081 | OK |
-| KXNHLSPREAD-26OCT22MINCGY-MIN3 | game_spread | 0.187 | 0.290 | 0.267 | 30 | 72 | no | +0.079 | OK |
-| KXNHLGAME-26OCT22VGKSTL-STL | game_winner | 0.551 | 0.455 | 0.474 | 46 | 55 | yes | +0.074 | OK |
-| KXNHLTEAMTOTAL-26OCT22MINCGY-MIN3 | team_total | 0.596 | 0.690 | 0.672 | 70 | 32 | no | +0.069 | OK |
-| KXNHLGAME-26OCT22VGKSTL-VGK | game_winner | 0.449 | 0.535 | 0.518 | 54 | 47 | no | +0.064 | OK |
-| KXNHLTEAMTOTAL-26OCT22WPGDAL-DAL4 | team_total | 0.380 | 0.470 | 0.452 | 48 | 54 | no | +0.062 | OK |
-| KXNHLSPREAD-26OCT22WPGDAL-DAL3 | game_spread | 0.214 | 0.295 | 0.278 | 30 | 71 | no | +0.061 | OK |
-| KXNHLGAME-26OCT22MINCGY-MIN | game_winner | 0.543 | 0.625 | 0.609 | 63 | 38 | no | +0.060 | OK |
-| KXNHLSPREAD-26OCT22VGKSTL-STL2 | game_spread | 0.333 | 0.255 | 0.270 | 26 | 75 | yes | +0.059 | OK |
-| KXNHLTEAMTOTAL-26OCT22VGKSTL-STL4 | team_total | 0.443 | 0.365 | 0.380 | 37 | 64 | yes | +0.057 | OK |
-| KXNHLTEAMTOTAL-26OCT22WPGDAL-DAL3 | team_total | 0.600 | 0.685 | 0.669 | 70 | 33 | no | +0.055 | OK |
-| KXNHLTEAMTOTAL-26OCT22WPGDAL-DAL5 | team_total | 0.194 | 0.270 | 0.253 | 28 | 74 | no | +0.052 | OK |
-| KXNHLSPREAD-26OCT22VGKSTL-VGK2 | game_spread | 0.244 | 0.315 | 0.300 | 32 | 69 | no | +0.051 | OK |
-| KXNHLTOTAL-26OCT22WPGDAL-5 | game_total | 0.686 | 0.755 | 0.742 | 76 | 25 | no | +0.050 | OK |
-| KXNHLTEAMTOTAL-26OCT22MINCGY-MIN5 | team_total | 0.197 | 0.270 | 0.254 | 28 | 74 | no | +0.050 | OK |
-| KXNHLSPREAD-26OCT22MINCGY-CGY2 | game_spread | 0.239 | 0.175 | 0.187 | 18 | 83 | yes | +0.049 | OK |
-| KXNHLTEAMTOTAL-26OCT22LANYI-LA3 | team_total | 0.485 | 0.555 | 0.541 | 56 | 45 | no | +0.048 | OK |
-| KXNHLSPREAD-26OCT22ANANJ-NJ3 | game_spread | 0.230 | 0.295 | 0.281 | 30 | 71 | no | +0.046 | OK |
-| KXNHLTEAMTOTAL-26OCT22MINCGY-MIN2 | team_total | 0.806 | 0.865 | 0.855 | 87 | 14 | no | +0.046 | OK |
-| KXNHLSPREAD-26OCT22VGKSTL-VGK3 | game_spread | 0.144 | 0.205 | 0.191 | 21 | 80 | no | +0.045 | OK |
-| KXNHLGAME-26OCT22DETVAN-DET | game_winner | 0.550 | 0.615 | 0.602 | 62 | 39 | no | +0.043 | OK |
-| KXNHLTEAMTOTAL-26OCT22WPGDAL-DAL2 | team_total | 0.809 | 0.865 | 0.855 | 87 | 14 | no | +0.043 | OK |
-| KXNHLTOTAL-26OCT22WPGDAL-7 | game_total | 0.340 | 0.405 | 0.392 | 41 | 60 | no | +0.043 | OK |
-| KXNHLGAME-26OCT22ANANJ-ANA | game_winner | 0.419 | 0.355 | 0.367 | 36 | 65 | yes | +0.043 | OK |
-| KXNHLGAME-26OCT22ANANJ-NJ | game_winner | 0.581 | 0.645 | 0.633 | 65 | 36 | no | +0.043 | OK |
-| KXNHLSPREAD-26OCT22WPGDAL-DAL2 | game_spread | 0.351 | 0.420 | 0.406 | 43 | 59 | no | +0.042 | OK |
-| KXNHLTEAMTOTAL-26OCT22VGKSTL-STL5 | team_total | 0.251 | 0.190 | 0.201 | 20 | 82 | yes | +0.040 | OK |
-| KXNHLGAME-26OCT22UTASEA-SEA | game_winner | 0.457 | 0.395 | 0.407 | 40 | 61 | yes | +0.040 | OK |
-| KXNHLGAME-26OCT22UTASEA-UTA | game_winner | 0.543 | 0.605 | 0.593 | 61 | 40 | no | +0.040 | OK |
-| KXNHLTOTAL-26OCT22WPGDAL-6 | game_total | 0.453 | 0.515 | 0.503 | 52 | 49 | no | +0.040 | OK |
-| KXNHLGAME-26OCT22WPGDAL-DAL | game_winner | 0.596 | 0.655 | 0.644 | 66 | 35 | no | +0.038 | OK |
-| KXNHLGAME-26OCT22WPGDAL-WPG | game_winner | 0.404 | 0.345 | 0.356 | 35 | 66 | yes | +0.038 | OK |
-| KXNHLTEAMTOTAL-26OCT22VGKSTL-STL3 | team_total | 0.655 | 0.585 | 0.599 | 60 | 43 | yes | +0.038 | OK |
-| KXNHLTEAMTOTAL-26OCT22LANYI-LA4 | team_total | 0.267 | 0.330 | 0.317 | 34 | 68 | no | +0.038 | OK |
-| KXNHLSPREAD-26OCT22DETVAN-DET3 | game_spread | 0.209 | 0.265 | 0.253 | 27 | 74 | no | +0.037 | OK |
-| KXNHLTEAMTOTAL-26OCT22VGKSTL-STL6 | team_total | 0.122 | 0.075 | 0.083 | 8 | 93 | yes | +0.037 | OK |
-| KXNHLGAME-26OCT22CAREDM-CAR | game_winner | 0.467 | 0.525 | 0.513 | 53 | 48 | no | +0.036 | OK |
-| KXNHLGAME-26OCT22CAREDM-EDM | game_winner | 0.533 | 0.475 | 0.487 | 48 | 53 | yes | +0.036 | OK |
-| KXNHLSPREAD-26OCT22UTASEA-UTA2 | game_spread | 0.328 | 0.385 | 0.373 | 39 | 62 | no | +0.035 | OK |
-| KXNHLSPREAD-26OCT22LANYI-LA3 | game_spread | 0.117 | 0.165 | 0.154 | 17 | 84 | no | +0.034 | OK |
-| KXNHLTOTAL-26OCT22WPGDAL-4 | game_total | 0.787 | 0.840 | 0.830 | 85 | 17 | no | +0.033 | OK |
-| KXNHLGAME-26OCT22DETVAN-VAN | game_winner | 0.450 | 0.395 | 0.406 | 40 | 61 | yes | +0.033 | OK |
-| KXNHLSPREAD-26OCT22ANANJ-NJ2 | game_spread | 0.361 | 0.415 | 0.404 | 42 | 59 | no | +0.032 | OK |
-| KXNHLTEAMTOTAL-26OCT22ANANJ-NJ5 | team_total | 0.264 | 0.320 | 0.308 | 33 | 69 | no | +0.031 | OK |
-| KXNHLTOTAL-26OCT22LANYI-5 | game_total | 0.685 | 0.735 | 0.725 | 74 | 27 | no | +0.031 | OK |
-| KXNHLSPREAD-26OCT22UTASEA-UTA3 | game_spread | 0.206 | 0.260 | 0.249 | 27 | 75 | no | +0.031 | OK |
-| KXNHLTEAMTOTAL-26OCT22ANANJ-NJ4 | team_total | 0.462 | 0.520 | 0.508 | 53 | 49 | no | +0.031 | OK |
-| KXNHLSPREAD-26OCT22LANYI-LA2 | game_spread | 0.216 | 0.265 | 0.255 | 27 | 74 | no | +0.030 | OK |
-| KXNHLSPREAD-26OCT22VGKSTL-STL3 | game_spread | 0.209 | 0.165 | 0.173 | 17 | 84 | yes | +0.029 | OK |
-| KXNHLSPREAD-26OCT22DETVAN-DET2 | game_spread | 0.335 | 0.385 | 0.375 | 39 | 62 | no | +0.029 | OK |
-| KXNHLTOTAL-26OCT22WPGDAL-8 | game_total | 0.172 | 0.215 | 0.206 | 22 | 79 | no | +0.026 | OK |
-| KXNHLGAME-26OCT22LANYI-LA | game_winner | 0.437 | 0.485 | 0.475 | 49 | 52 | no | +0.026 | OK |
-| KXNHLGAME-26OCT22LANYI-NYI | game_winner | 0.563 | 0.515 | 0.525 | 52 | 49 | yes | +0.026 | OK |
-| KXNHLSPREAD-26OCT22DETVAN-VAN2 | game_spread | 0.247 | 0.205 | 0.213 | 21 | 80 | yes | +0.026 | OK |
-| KXNHLTOTAL-26OCT22MINCGY-6 | game_total | 0.499 | 0.545 | 0.536 | 55 | 46 | no | +0.023 | OK |
-| KXNHLTEAMTOTAL-26OCT22VGKSTL-VGK4 | team_total | 0.370 | 0.420 | 0.410 | 43 | 59 | no | +0.023 | OK |
-| KXNHLTEAMTOTAL-26OCT22DETVAN-DET3 | team_total | 0.652 | 0.700 | 0.691 | 71 | 31 | no | +0.023 | OK |
-| KXNHLTEAMTOTAL-26OCT22LANYI-LA2 | team_total | 0.725 | 0.775 | 0.766 | 79 | 24 | no | +0.022 | OK |
-| KXNHLSPREAD-26OCT22NYRTOR-TOR3 | game_spread | 0.148 | 0.185 | 0.177 | 19 | 82 | no | +0.021 | OK |
-| KXNHLSPREAD-26OCT22CAREDM-CAR3 | game_spread | 0.158 | 0.200 | 0.191 | 21 | 81 | no | +0.021 | OK |
-| KXNHLTEAMTOTAL-26OCT22LANYI-LA5 | team_total | 0.120 | 0.165 | 0.155 | 18 | 85 | no | +0.021 | OK |
-| KXNHLSPREAD-26OCT22UTASEA-SEA2 | game_spread | 0.253 | 0.210 | 0.218 | 22 | 80 | yes | +0.021 | OK |
-| KXNHLTEAMTOTAL-26OCT22ANANJ-NJ3 | team_total | 0.675 | 0.725 | 0.715 | 74 | 29 | no | +0.021 | OK |
-| KXNHLSPREAD-26OCT22CAREDM-EDM2 | game_spread | 0.315 | 0.275 | 0.283 | 28 | 73 | yes | +0.021 | OK |
-| KXNHLTEAMTOTAL-26OCT22WPGDAL-DAL6 | team_total | 0.082 | 0.120 | 0.111 | 13 | 89 | no | +0.021 | OK |
-| KXNHLSPREAD-26OCT22CAREDM-CAR2 | game_spread | 0.265 | 0.310 | 0.301 | 32 | 70 | no | +0.021 | OK |
-| KXNHLTEAMTOTAL-26OCT22VGKSTL-VGK3 | team_total | 0.583 | 0.630 | 0.621 | 64 | 38 | no | +0.020 | OK |
-| KXNHLTEAMTOTAL-26OCT22VGKSTL-STL2 | team_total | 0.841 | 0.800 | 0.809 | 81 | 21 | yes | +0.020 | OK |
-| KXNHLTOTAL-26OCT22SJOTT-10 | game_total | 0.105 | 0.075 | 0.080 | 8 | 93 | yes | +0.020 | OK |
-| KXNHLTOTAL-26OCT22MINCGY-5 | game_total | 0.728 | 0.765 | 0.758 | 77 | 24 | no | +0.019 | OK |
-| KXNHLTEAMTOTAL-26OCT22UTASEA-SEA5 | team_total | 0.209 | 0.170 | 0.177 | 18 | 84 | yes | +0.019 | OK |
-| KXNHLTOTAL-26OCT22WPGDAL-9 | game_total | 0.113 | 0.150 | 0.142 | 16 | 86 | no | +0.019 | OK |
-| KXNHLTEAMTOTAL-26OCT22DETVAN-DET2 | team_total | 0.843 | 0.875 | 0.869 | 88 | 13 | no | +0.019 | OK |
-| KXNHLTEAMTOTAL-26OCT22UTASEA-SEA6 | team_total | 0.093 | 0.065 | 0.070 | 7 | 94 | yes | +0.019 | OK |
-| KXNHLTEAMTOTAL-26OCT22DETVAN-DET4 | team_total | 0.444 | 0.490 | 0.481 | 50 | 52 | no | +0.019 | OK |
-| KXNHLSPREAD-26OCT22ANANJ-ANA2 | game_spread | 0.219 | 0.185 | 0.191 | 19 | 82 | yes | +0.018 | OK |
-| KXNHLTOTAL-26OCT22WPGDAL-3 | game_total | 0.939 | 0.965 | 0.961 | 97 | 4 | no | +0.018 | OK |
-| KXNHLTOTAL-26OCT22LANYI-6 | game_total | 0.445 | 0.490 | 0.481 | 50 | 52 | no | +0.018 | OK |
+| KXNHLTEAMTOTAL-26OCT22MINCGY-MIN4 | team_total | 0.375 | 0.485 | 0.463 | 49 | 52 |  | +0.087 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22MINCGY-MIN2 | game_spread | 0.311 | 0.415 | 0.393 | 42 | 59 |  | +0.082 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22MINCGY-CGY | game_winner | 0.457 | 0.355 | 0.375 | 36 | 65 |  | +0.081 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22MINCGY-MIN3 | game_spread | 0.187 | 0.285 | 0.263 | 29 | 72 |  | +0.079 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22VGKSTL-STL | game_winner | 0.551 | 0.455 | 0.474 | 46 | 55 |  | +0.074 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22MINCGY-MIN3 | team_total | 0.596 | 0.690 | 0.672 | 70 | 32 |  | +0.069 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22VGKSTL-VGK | game_winner | 0.449 | 0.535 | 0.518 | 54 | 47 |  | +0.064 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22WPGDAL-DAL4 | team_total | 0.380 | 0.470 | 0.452 | 48 | 54 |  | +0.062 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22WPGDAL-DAL3 | game_spread | 0.214 | 0.295 | 0.278 | 30 | 71 |  | +0.061 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22MINCGY-MIN | game_winner | 0.543 | 0.625 | 0.609 | 63 | 38 |  | +0.060 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22VGKSTL-STL2 | game_spread | 0.333 | 0.255 | 0.270 | 26 | 75 |  | +0.059 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22VGKSTL-STL4 | team_total | 0.443 | 0.365 | 0.380 | 37 | 64 |  | +0.057 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22WPGDAL-DAL3 | team_total | 0.600 | 0.685 | 0.669 | 70 | 33 |  | +0.055 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22WPGDAL-DAL5 | team_total | 0.194 | 0.275 | 0.257 | 29 | 74 |  | +0.052 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22VGKSTL-VGK2 | game_spread | 0.244 | 0.315 | 0.300 | 32 | 69 |  | +0.051 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22WPGDAL-5 | game_total | 0.686 | 0.755 | 0.742 | 76 | 25 |  | +0.050 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22MINCGY-MIN5 | team_total | 0.197 | 0.275 | 0.258 | 29 | 74 |  | +0.050 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22MINCGY-CGY2 | game_spread | 0.239 | 0.175 | 0.187 | 18 | 83 |  | +0.049 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22ANANJ-NJ3 | game_spread | 0.230 | 0.295 | 0.281 | 30 | 71 |  | +0.046 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22MINCGY-MIN2 | team_total | 0.806 | 0.865 | 0.855 | 87 | 14 |  | +0.046 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22VGKSTL-VGK3 | game_spread | 0.144 | 0.205 | 0.191 | 21 | 80 |  | +0.045 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22DETVAN-DET | game_winner | 0.550 | 0.615 | 0.602 | 62 | 39 |  | +0.043 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22WPGDAL-7 | game_total | 0.340 | 0.405 | 0.392 | 41 | 60 |  | +0.043 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22ANANJ-ANA | game_winner | 0.419 | 0.355 | 0.367 | 36 | 65 |  | +0.043 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22ANANJ-NJ | game_winner | 0.581 | 0.645 | 0.633 | 65 | 36 |  | +0.043 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22WPGDAL-DAL2 | game_spread | 0.351 | 0.420 | 0.406 | 43 | 59 |  | +0.042 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22VGKSTL-STL5 | team_total | 0.251 | 0.190 | 0.201 | 20 | 82 |  | +0.040 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22UTASEA-SEA | game_winner | 0.457 | 0.395 | 0.407 | 40 | 61 |  | +0.040 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22UTASEA-UTA | game_winner | 0.543 | 0.605 | 0.593 | 61 | 40 |  | +0.040 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22WPGDAL-6 | game_total | 0.453 | 0.515 | 0.503 | 52 | 49 |  | +0.040 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22WPGDAL-DAL | game_winner | 0.596 | 0.655 | 0.644 | 66 | 35 |  | +0.038 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22WPGDAL-WPG | game_winner | 0.404 | 0.345 | 0.356 | 35 | 66 |  | +0.038 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22VGKSTL-STL3 | team_total | 0.655 | 0.585 | 0.599 | 60 | 43 |  | +0.038 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22LANYI-LA4 | team_total | 0.267 | 0.330 | 0.317 | 34 | 68 |  | +0.038 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22LANYI-LA3 | team_total | 0.485 | 0.550 | 0.537 | 56 | 46 |  | +0.038 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22DETVAN-DET3 | game_spread | 0.209 | 0.265 | 0.253 | 27 | 74 |  | +0.037 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22CAREDM-CAR | game_winner | 0.467 | 0.525 | 0.513 | 53 | 48 |  | +0.036 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22CAREDM-EDM | game_winner | 0.533 | 0.475 | 0.487 | 48 | 53 |  | +0.036 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22UTASEA-UTA2 | game_spread | 0.328 | 0.385 | 0.373 | 39 | 62 |  | +0.035 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22LANYI-LA3 | game_spread | 0.117 | 0.165 | 0.154 | 17 | 84 |  | +0.034 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22WPGDAL-4 | game_total | 0.787 | 0.840 | 0.830 | 85 | 17 |  | +0.033 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22DETVAN-VAN | game_winner | 0.450 | 0.395 | 0.406 | 40 | 61 |  | +0.033 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22WPGDAL-DAL2 | team_total | 0.809 | 0.860 | 0.851 | 87 | 15 |  | +0.032 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22ANANJ-NJ2 | game_spread | 0.361 | 0.420 | 0.408 | 43 | 59 |  | +0.032 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22ANANJ-NJ5 | team_total | 0.264 | 0.320 | 0.308 | 33 | 69 |  | +0.031 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22LANYI-5 | game_total | 0.685 | 0.735 | 0.725 | 74 | 27 |  | +0.031 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22UTASEA-UTA3 | game_spread | 0.206 | 0.260 | 0.249 | 27 | 75 |  | +0.031 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22ANANJ-NJ4 | team_total | 0.462 | 0.520 | 0.508 | 53 | 49 |  | +0.031 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22CAREDM-CAR2 | game_spread | 0.265 | 0.315 | 0.305 | 32 | 69 |  | +0.030 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22LANYI-LA2 | game_spread | 0.216 | 0.265 | 0.255 | 27 | 74 |  | +0.030 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22VGKSTL-STL3 | game_spread | 0.209 | 0.165 | 0.173 | 17 | 84 |  | +0.029 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22DETVAN-DET2 | game_spread | 0.335 | 0.385 | 0.375 | 39 | 62 |  | +0.029 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22VGKSTL-STL6 | team_total | 0.122 | 0.080 | 0.087 | 9 | 93 |  | +0.026 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22WPGDAL-8 | game_total | 0.172 | 0.220 | 0.210 | 23 | 79 |  | +0.026 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22LANYI-LA | game_winner | 0.437 | 0.485 | 0.475 | 49 | 52 |  | +0.026 | CANNOT_TRUST_INPUTS |
+| KXNHLGAME-26OCT22LANYI-NYI | game_winner | 0.563 | 0.515 | 0.525 | 52 | 49 |  | +0.026 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22DETVAN-VAN2 | game_spread | 0.247 | 0.205 | 0.213 | 21 | 80 |  | +0.026 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22MINCGY-6 | game_total | 0.499 | 0.545 | 0.536 | 55 | 46 |  | +0.023 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22DETVAN-DET3 | team_total | 0.652 | 0.700 | 0.691 | 71 | 31 |  | +0.023 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22LANYI-LA2 | team_total | 0.725 | 0.775 | 0.766 | 79 | 24 |  | +0.022 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22NYRTOR-TOR3 | game_spread | 0.148 | 0.185 | 0.177 | 19 | 82 |  | +0.021 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22CAREDM-CAR3 | game_spread | 0.158 | 0.200 | 0.191 | 21 | 81 |  | +0.021 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22LANYI-LA5 | team_total | 0.120 | 0.160 | 0.151 | 17 | 85 |  | +0.021 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22UTASEA-SEA2 | game_spread | 0.253 | 0.210 | 0.218 | 22 | 80 |  | +0.021 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22ANANJ-NJ3 | team_total | 0.675 | 0.725 | 0.715 | 74 | 29 |  | +0.021 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22CAREDM-EDM2 | game_spread | 0.315 | 0.275 | 0.283 | 28 | 73 |  | +0.021 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22WPGDAL-DAL6 | team_total | 0.082 | 0.125 | 0.115 | 14 | 89 |  | +0.021 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22VGKSTL-VGK3 | team_total | 0.583 | 0.635 | 0.625 | 65 | 38 |  | +0.020 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22VGKSTL-STL2 | team_total | 0.841 | 0.800 | 0.809 | 81 | 21 |  | +0.020 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22MINCGY-5 | game_total | 0.728 | 0.765 | 0.758 | 77 | 24 |  | +0.019 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22WPGDAL-9 | game_total | 0.113 | 0.150 | 0.142 | 16 | 86 |  | +0.019 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22DETVAN-DET4 | team_total | 0.444 | 0.490 | 0.481 | 50 | 52 |  | +0.019 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22ANANJ-ANA2 | game_spread | 0.219 | 0.185 | 0.191 | 19 | 82 |  | +0.018 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22WPGDAL-3 | game_total | 0.939 | 0.965 | 0.961 | 97 | 4 |  | +0.018 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22LANYI-6 | game_total | 0.445 | 0.490 | 0.481 | 50 | 52 |  | +0.018 | CANNOT_TRUST_INPUTS |
+| KXNHLSPREAD-26OCT22MINCGY-CGY3 | game_spread | 0.135 | 0.100 | 0.106 | 11 | 91 |  | +0.018 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22LANYI-7 | game_total | 0.336 | 0.375 | 0.367 | 38 | 63 |  | +0.017 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22MINCGY-MIN6 | team_total | 0.086 | 0.125 | 0.116 | 14 | 89 |  | +0.017 | CANNOT_TRUST_INPUTS |
+| KXNHLTOTAL-26OCT22LANYI-4 | game_total | 0.783 | 0.820 | 0.813 | 83 | 19 |  | +0.016 | CANNOT_TRUST_INPUTS |
+| KXNHLTEAMTOTAL-26OCT22MINCGY-CGY3 | team_total | 0.533 | 0.485 | 0.495 | 50 | 53 |  | +0.016 | CANNOT_TRUST_INPUTS |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -126,25 +126,8 @@ families: {'period_winner': 108, 'period_spread': 72, 'period_total': 108, 'game
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 17 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status NO_BETS · gate PASS · 0 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Full Game: Over 6.5 goals scored YES @ 43c · p 0.508 (adj 0.4665) · $8.65 · thesis GAME:HIGH_EVENT
-- New Jersey wins by over 1.5 goals NO @ 59c · p 0.6815 (adj 0.6332) · $7.63 · thesis ANA:WINS
-- New Jersey wins by over 2.5 goals NO @ 71c · p 0.791 (adj 0.748) · $13.96 · thesis ANA:WINS
-- Anaheim wins by over 1.5 goals YES @ 19c · p 0.2472 (adj 0.2161) · $2.01 · thesis ANA:WINS_BY_2PLUS
-- Dallas wins by over 2.5 goals NO @ 71c · p 0.7727 (adj 0.7389) · $14.26 · thesis GAME:TIGHT
-- Minnesota wins by over 1.5 goals NO @ 59c · p 0.6801 (adj 0.6325) · $11.22 · thesis CGY:WINS
-- Calgary wins by over 1.5 goals YES @ 18c · p 0.2396 (adj 0.2073) · $2.08 · thesis CGY:WINS_BY_2PLUS
-- Minnesota wins by over 2.5 goals NO @ 72c · p 0.7956 (adj 0.7528) · $4.88 · thesis CGY:WINS
-- Calgary over 4.5 goals scored YES @ 13c · p 0.1756 (adj 0.1503) · $1.09 · thesis CGY:OFFENSE_4PLUS
-- Edmonton over 5.5 goals scored YES @ 10c · p 0.1475 (adj 0.1212) · $2.5 · thesis GAME:HIGH_EVENT
-- Edmonton wins by over 1.5 goals YES @ 28c · p 0.3528 (adj 0.3139) · $4.08 · thesis EDM:WINS_BY_2PLUS
-- Carolina wins by over 1.5 goals NO @ 70c · p 0.7601 (adj 0.725) · $2.63 · thesis EDM:WINS
-- Utah wins by over 1.5 goals NO @ 62c · p 0.7119 (adj 0.6634) · $18.76 · thesis SEA:WINS
-- Seattle over 4.5 goals scored YES @ 18c · p 0.2339 (adj 0.2019) · $1.14 · thesis SEA:OFFENSE_4PLUS
-- Detroit wins by over 1.5 goals NO @ 62c · p 0.75 (adj 0.6623) · $10.82 · thesis VAN:WINS
-- Detroit wins by over 2.5 goals NO @ 74c · p 0.8462 (adj 0.7739) · $12.26 · thesis VAN:WINS
-- Vancouver wins by over 1.5 goals YES @ 21c · p 0.3064 (adj 0.2405) · $2.76 · thesis VAN:WINS_BY_2PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
