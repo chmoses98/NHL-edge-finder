@@ -34,6 +34,16 @@ def test_scorecard_is_blinded_before_the_first_look(tmp_path):
     assert not list(tmp_path.glob("LOOK_*"))
 
 
+def test_blinded_scorecard_contains_no_outcome_derived_number():
+    rows = [row(i, y=int(i % 2), cls="F_unresolved" if i % 3 == 0 else "E_normal_variance") for i in range(149)]
+    sc = daily.scorecard(rows)
+    text = json.dumps(sc)
+    for banned in ("extreme_miss", "attribution", "goalie_mismatch", "brier", "hit_rate", "y_home_win"):
+        assert banned not in text
+    assert set(sc) == {"n_prospective_games", "tier", "looks", "next_look_at_games", "data_quality", "alarms", "status", "note"}
+    assert set(sc["data_quality"]) == {"missing_sportsbook_share", "mean_slate_age_min"}
+
+
 def test_look_is_written_once_and_is_immutable(tmp_path):
     rows = [row(i, y=int(i % 2)) for i in range(150)]
     sc = daily.scorecard(rows, tmp_path)

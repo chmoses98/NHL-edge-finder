@@ -9,7 +9,7 @@ production V1 predictive distribution bit-for-bit, scores it against the final (
 (idempotent by game_id). Nothing is retrained and no model is promoted by a night's results.
 
 ``scorecard`` never reveals aggregate model-vs-market performance on the PROSPECTIVE tier before the first predeclared look (150 independent games). Until then it reports counts,
-data-quality alarms and the share of extreme misses (a calibration-free sanity check); at 150 games it writes LOOK_150.json exactly once (later looks 300 / 450 likewise).
+pregame data-quality measures only (no outcome-derived number of any kind); at 150 games it writes LOOK_150.json exactly once (later looks 300 / 450 likewise).
 The development tier (games started before the 2026-10-21T17:13:05Z freeze) is never ingested here.
 """
 
@@ -106,30 +106,21 @@ def ingest(archive: Path, date_et: str, repo: Path, ledger: Path, dev_dry_run: b
 
 
 def scorecard(rows: list[dict[str, Any]], out: Path | None = None) -> dict[str, Any]:
+    """Blinded scorecard. Before the first look it contains ONLY counts and PREGAME data-quality measures (sportsbook coverage, slate age): nothing derived from a
+    post-freeze outcome (no hit rate, Brier, extreme-miss share, attribution classes or goalie-mismatch share) is printed. Those appear only inside a look."""
     n = len(rows)
     sc: dict[str, Any] = {"n_prospective_games": n, "tier": "PROSPECTIVE", "looks": list(LOOKS)}
-    nxt = next((k for k in LOOKS if k > n), None)
-    sc["next_look_at_games"] = nxt
-    cls: dict[str, int] = {}
-    for r in rows:
-        cls[r["attribution_class"]] = cls.get(r["attribution_class"], 0) + 1
-    ext = sum(v for k, v in cls.items() if not k.startswith("E_"))
-    sc["extreme_miss_share"] = ext / n if n else None
-    sc["extreme_miss_share_expected_if_calibrated"] = 0.19
-    sc["attribution_class_counts"] = cls
+    sc["next_look_at_games"] = next((k for k in LOOKS if k > n), None)
     sc["data_quality"] = {"missing_sportsbook_share": sum(1 for r in rows if r.get("sb_p_home") is None) / n if n else None,
-                          "mean_slate_age_min": float(np.mean([r["slate_age_min"] for r in rows if r.get("slate_age_min") is not None])) if n else None,
-                          "goalie_mismatch_share": float(np.mean([bool(r.get("any_goalie_mismatch")) for r in rows])) if n else None}
+                          "mean_slate_age_min": float(np.mean([r["slate_age_min"] for r in rows if r.get("slate_age_min") is not None])) if n else None}
     alarms = []
     if n and sc["data_quality"]["missing_sportsbook_share"] > 0.2:
         alarms.append("WARN: more than 20% of games lack a sportsbook consensus")
-    if n >= 20 and sc["extreme_miss_share"] > 0.35:
-        alarms.append("WARN: extreme-miss share far above the ~19% expected under calibration (investigate data, not the model)")
     sc["alarms"] = alarms
     reached = [k for k in LOOKS if n >= k]
     if not reached:
         sc["status"] = "ACCUMULATING_BLINDED"
-        sc["note"] = "Aggregate model-vs-market performance on the prospective tier is withheld until the first predeclared look (150 games)."
+        sc["note"] = "Outcome-derived and model-vs-market measures on the prospective tier are withheld until the first predeclared look (150 games)."
         return sc
     k = max(reached)
     first = rows[:k]
@@ -137,10 +128,16 @@ def scorecard(rows: list[dict[str, Any]], out: Path | None = None) -> dict[str, 
     cols = {"V1": "v1_p_home_win", "V2": "v2_p_home_win", "C1_frozen": "c1_p_home_win", "sportsbook": "sb_p_home"}
     ok = np.array([r.get("sb_p_home") is not None for r in first])
     loss = {name: S.brier(np.array([r[c] if r.get(c) is not None else np.nan for r in first], float), y) for name, c in cols.items()}
+    cls: dict[str, int] = {}
+    for r in first:
+        cls[r["attribution_class"]] = cls.get(r["attribution_class"], 0) + 1
     sc["status"] = f"AT_LOOK_{k}"
     sc["look"] = {"games": k, "brier": {n_: float(np.nanmean(v[ok])) for n_, v in loss.items()},
                   "paired_vs_sportsbook": {n_: S.paired_delta(loss[n_][ok], loss["sportsbook"][ok]) for n_ in ("V1", "V2", "C1_frozen")},
-                  "paired_C1_vs_V1": S.paired_delta(loss["C1_frozen"], loss["V1"]), "note": "first-k games in chronological ledger order; written once"}
+                  "paired_C1_vs_V1": S.paired_delta(loss["C1_frozen"], loss["V1"]),
+                  "attribution_class_counts": cls, "extreme_miss_share": sum(v for c, v in cls.items() if not c.startswith("E_")) / k, "extreme_miss_share_expected_if_calibrated": 0.19,
+                  "goalie_mismatch_share": float(np.mean([bool(r.get("any_goalie_mismatch")) for r in first])),
+                  "note": "first-k games in chronological ledger order; written once"}
     if out is not None:
         look_path = out / f"LOOK_{k}.json"
         if not look_path.exists():  # a look is immutable once taken
@@ -156,13 +153,18 @@ def main() -> None:
     a1.add_argument("--date", required=True)
     a1.add_argument("--repo", type=Path, default=Path("."))
     a1.add_argument("--ledger", type=Path, required=True)
+    a1.add_argument("--summary-out", type=Path, help="write the (outcome-free) ingest summary here")
     a1.add_argument("--dev-dry-run", action="store_true", help="exercise the code path on a development-window date (scratch ledger only)")
     a2 = sub.add_parser("scorecard")
     a2.add_argument("--ledger", type=Path, required=True)
     a2.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
     if a.cmd == "ingest":
-        print(json.dumps(ingest(a.archive, a.date, a.repo, a.ledger, a.dev_dry_run), indent=1))
+        res = ingest(a.archive, a.date, a.repo, a.ledger, a.dev_dry_run)
+        print(json.dumps(res, indent=1))
+        if a.summary_out:
+            a.summary_out.parent.mkdir(parents=True, exist_ok=True)
+            a.summary_out.write_text(json.dumps(res, indent=1))
     else:
         a.out.mkdir(parents=True, exist_ok=True)
         sc = scorecard(read_ledger(a.ledger), a.out)
