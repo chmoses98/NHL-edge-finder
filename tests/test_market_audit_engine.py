@@ -37,7 +37,7 @@ def test_max_entry_price_is_the_breakeven_price():
 
 
 def test_strict_policy_passes_when_no_family_is_validated():
-    card = build_card("G", [cand(), cand(ticker="T2", side="no", title="Over 5.5")], {"game_total": 0.9}, {"game_total": "INCONCLUSIVE"})
+    card = build_card("G", [cand(), cand(ticker="T2", side="no", title="Over 5.5", ask=0.52)], {"game_total": 0.9}, {"game_total": "INCONCLUSIVE"})
     assert card["decision"] == "PASS" and card["selected"] == []
     assert any("no VALIDATED" in r for r in card["best_rejected"][0]["reject_reasons"])
 
@@ -49,20 +49,20 @@ def test_model_gets_zero_weight_so_probability_equals_market():
 
 
 def test_goal_scorer_never_recommended_even_if_gate_waived():
-    c = cand(family="player_goals", ask=0.10, mid_yes=0.30, p_model=0.60)
+    c = cand(family="player_goals", ask=0.31, mid_yes=0.30, p_model=0.60)
     r = evaluate(c, w=1.0, family_class="VALIDATED", policy="research_unvalidated")
     assert not r["eligible"] and any("goal-scorer" in x for x in r["reject_reasons"])
 
 
 def test_correlated_expressions_are_not_double_counted():
-    a = cand(ticker="A", ask=0.40, mid_yes=0.60, p_model=0.80, factor="LOW_SCORING")
-    b = cand(ticker="B", ask=0.40, mid_yes=0.60, p_model=0.80, factor="LOW_SCORING")
+    a = cand(ticker="A", ask=0.60, mid_yes=0.60, p_model=0.80, factor="LOW_SCORING")
+    b = cand(ticker="B", ask=0.60, mid_yes=0.60, p_model=0.80, factor="LOW_SCORING")
     card = build_card("G", [a, b], {"game_total": 0.9}, {"game_total": "VALIDATED"}, policy="strict")
     assert len(card["selected"]) == 1
 
 
 def test_fragile_and_thin_candidates_are_rejected():
-    r = evaluate(cand(ask=0.30, mid_yes=0.6, survival=0.3, depth_contracts=5), w=1.0, family_class="VALIDATED")
+    r = evaluate(cand(ask=0.62, mid_yes=0.6, survival=0.3, depth_contracts=5), w=1.0, family_class="VALIDATED")
     assert not r["eligible"] and len(r["reject_reasons"]) >= 2
 
 

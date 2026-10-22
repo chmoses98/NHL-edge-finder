@@ -30,6 +30,7 @@ from nhl_edge.market_audit import (
     AUDIT_VERSION,
     coverage,
     dataset,
+    dev_only,
     games,
     model_audit,
     quality,
@@ -70,6 +71,11 @@ class Ctx:
         self.out.mkdir(parents=True, exist_ok=True)
         (self.work / ".steps").mkdir(exist_ok=True)
         self.manifest_sha = _sha(self.archive / "manifest.jsonl")
+        # inputs and transitive code the step modules rely on but which are not in market_audit (data review D7)
+        src = Path(__file__).resolve().parents[1]
+        ext = [src / "archive" / "reconstruct.py", src / "archive" / "delta.py", src / "identity" / "teams.py", src / "kalshi" / "ticker.py", src.parents[1] / "data" / "identity" / "teams.csv",
+               self.history / "MANIFEST.json"]
+        self.external_sha = hashlib.sha256("".join(_sha(p) for p in ext if p.exists()).encode()).hexdigest()
         self.acct_sha = hashlib.sha256(b"".join(_sha(p).encode() for p in sorted((self.accounting / "data" / "accounting").glob("*.jsonl")))).hexdigest()
 
     def fingerprint(self, step: str) -> str:
@@ -78,11 +84,11 @@ class Ctx:
         A code edit therefore re-runs only the steps that depend on the edited module and everything downstream of them; the
         5-minute streaming step is not repeated because a later report module changed.
         """
-        mods = "".join(_sha(Path(__file__).parent / f) for f in sorted(set(DEPS.get(step, [])) | {"__init__.py"}))
+        mods = "".join(_sha(Path(__file__).parent / f) for f in sorted(set(DEPS.get(step, [])) | {"__init__.py", "pipeline.py"}))
         upstream = ""
         for s in STEPS[: STEPS.index(step)]:
             upstream += self._fp_own(s)
-        return hashlib.sha256(f"{AUDIT_VERSION}|{self.manifest_sha}|{self.acct_sha}|{mods}|{upstream}|{step}".encode()).hexdigest()
+        return hashlib.sha256(f"{AUDIT_VERSION}|{self.manifest_sha}|{self.acct_sha}|{self.external_sha}|{mods}|{upstream}|{step}".encode()).hexdigest()
 
     def _fp_own(self, step: str) -> str:
         mods = "".join(_sha(Path(__file__).parent / f) for f in sorted(set(DEPS.get(step, [])) | {"__init__.py"}))
@@ -218,7 +224,7 @@ def s_efficiency(c: Ctx) -> None:
 
     hist = c.pq("hist_reg_panel")
     hist = hist[(hist["game_date"] >= "2025-10-01") & (hist["game_date"] <= "2026-04-17")]
-    live = c.pq("live_panel")
+    live = dev_only(c.pq("live_panel"))
     if "subject_team_id" not in live:
         live["subject_team_id"] = np.nan
     c.dump("market_efficiency.json", {"HIST_2025_26": E.efficiency_report(hist, "HIST_2025_26", with_months=True), "LIVE_2026_27": E.efficiency_report(live, "LIVE_2026_27")})
@@ -255,7 +261,7 @@ def s_model_audit(c: Ctx) -> None:
         for kind in ("winner", "total", "spread"):
             res[f"HIST|{arm}|{kind}"] = model_audit.compare(h[h["kind"] == kind], "p", f"HIST {arm} {kind}")
         res[f"HIST|{arm}|all"] = model_audit.compare(h, "p", f"HIST {arm} all")
-    live = c.pq("live_panel")
+    live = dev_only(c.pq("live_panel"))
     live = live[live["horizon_min"] == 60].copy()
     for fn, col, new in (("raw_predictions", "p_data_only", "p_v1"), ("raw_predictions_v2", "p_data_only_v2", "p_v2"), ("raw_predictions_player", "p_player", "p_player")):
         pr = c.pq(fn)[["ticker", "predicted_at_utc", col]]
@@ -342,7 +348,7 @@ def s_execution(c: Ctx) -> None:
     from nhl_edge.market_audit import execution as X
     from nhl_edge.market_audit import hypotheses as H
 
-    live = c.pq("live_panel")
+    live = dev_only(c.pq("live_panel"))
     l60 = live[(live["horizon_min"] == 60) & live["kind"].isin(["winner", "spread", "total", "team_total"])].copy()
     bk = X.book_at_cut(c.pq("book_events"), l60[["ticker", "cut"]].drop_duplicates("ticker"))
     l60 = l60.merge(bk[["ticker", "yes_levels", "no_levels", "observed_at"]].rename(columns={"observed_at": "observed_at_book"}), on="ticker", how="left")
@@ -368,7 +374,7 @@ def s_sensitivity(c: Ctx) -> None:
 
     hist = c.pq("hist_reg_panel")
     hist = hist[(hist["game_date"] >= "2025-10-01") & (hist["game_date"] <= "2026-04-17")].copy()
-    live = c.pq("live_panel")
+    live = dev_only(c.pq("live_panel"))
     for df in (hist, live):
         df["early_season"], df["move"], df["model_gap"] = False, np.nan, np.nan
     res = {f"{t}|{hid}": S.roi_grid(df, H.BY_ID[hid], horizons=(60, 10, 0) if t == "LIVE" else (60, 0))
@@ -424,12 +430,17 @@ def main(argv: list[str] | None = None) -> int:
             continue
         marker = c.work / ".steps" / f"{step}.json"
         fp = c.fingerprint(step)
-        if step != "lineage" and marker.exists() and not a.force and json.loads(marker.read_text()).get("fingerprint") == fp:
-            print(f"[skip] {step} (unchanged inputs)")
-            continue
+        if step != "lineage" and marker.exists() and not a.force:
+            m = json.loads(marker.read_text())
+            outs_ok = all(Path(p).exists() for p in m.get("outputs", []))  # a deleted output forces a rerun (data review D7)
+            if m.get("fingerprint") == fp and outs_ok:
+                print(f"[skip] {step} (unchanged inputs)")
+                continue
         t = time.time()
+        before = {p: p.stat().st_mtime_ns for d in (c.work, c.out) for p in d.glob("*") if p.is_file()}
         FUNCS[step](c)
-        marker.write_text(json.dumps({"fingerprint": fp, "seconds": round(time.time() - t, 1)}))
+        outs = [str(p) for d in (c.work, c.out) for p in d.glob("*") if p.is_file() and before.get(p) != p.stat().st_mtime_ns]
+        marker.write_text(json.dumps({"fingerprint": fp, "seconds": round(time.time() - t, 1), "outputs": outs}))
         print(f"[done] {step} {time.time() - t:.0f}s")
     return 0
 
