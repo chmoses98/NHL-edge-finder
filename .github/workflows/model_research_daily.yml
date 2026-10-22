@@ -32,6 +32,14 @@ on:
         description: "Required with correct_game_ids: SOURCE_SCORE_REVISED | PIPELINE_DEFECT_FIXED | OTHER_DOCUMENTED"
         required: false
         default: ""
+      exclude_game_ids:
+        description: "Optional OWNER DECISION (publish=true only): comma-separated ids of scheduled games that never finished (or whose start moved across the freeze) to waive from this day so later days are not blocked. Public in the manifest; a finished game cannot be excluded."
+        required: false
+        default: ""
+      exclusion_reason:
+        description: "Required with exclude_game_ids: POSTPONED_OR_CANCELLED | START_TIME_BOUNDARY | OTHER_DOCUMENTED"
+        required: false
+        default: ""
       init_ledger:
         description: "ONE-TIME ledger initialisation (genesis + synthetic canary, no game). Requires publish=true. The ledger must not exist yet."
         required: false
@@ -71,6 +79,8 @@ jobs:
           IN_CORRECT: ${{ github.event.inputs.correct_game_ids }}
           IN_REASON: ${{ github.event.inputs.correction_reason }}
           IN_INIT: ${{ github.event.inputs.init_ledger }}
+          IN_EXCLUDE: ${{ github.event.inputs.exclude_game_ids }}
+          IN_EXCL_REASON: ${{ github.event.inputs.exclusion_reason }}
         run: |
           set -euo pipefail
           if [ "$EVENT" = "schedule" ]; then
@@ -87,6 +97,11 @@ jobs:
           if [ -n "$IN_CORRECT" ]; then
             [ "$publish" = true ] && [ "$init" = false ] || { echo "::error::corrections need publish=true and are not allowed with init_ledger"; exit 1; }
             [[ "$IN_REASON" =~ ^(SOURCE_SCORE_REVISED|PIPELINE_DEFECT_FIXED|OTHER_DOCUMENTED)$ ]] || { echo "::error::a correction needs a valid correction_reason"; exit 1; }
+          fi
+          [[ "$IN_EXCLUDE" =~ ^[0-9A-Za-z_,-]*$ ]] || { echo "::error::bad exclude_game_ids"; exit 1; }
+          if [ -n "$IN_EXCLUDE" ]; then
+            [ "$publish" = true ] && [ "$init" = false ] && [ -z "$IN_CORRECT" ] || { echo "::error::exclusions need publish=true and are separate from init_ledger and corrections"; exit 1; }
+            [[ "$IN_EXCL_REASON" =~ ^(POSTPONED_OR_CANCELLED|START_TIME_BOUNDARY|OTHER_DOCUMENTED)$ ]] || { echo "::error::an exclusion needs a valid exclusion_reason"; exit 1; }
           fi
           { echo "date=$date"; echo "publish=$publish"; echo "init=$init"; } >> "$GITHUB_OUTPUT"
       - name: Precheck (publish=true only; the authoritative gate is the publish job's environment)
@@ -142,6 +157,8 @@ jobs:
           INIT: ${{ steps.plan.outputs.init }}
           CORRECT: ${{ github.event.inputs.correct_game_ids }}
           REASON: ${{ github.event.inputs.correction_reason }}
+          EXCLUDE: ${{ github.event.inputs.exclude_game_ids }}
+          EXCL_REASON: ${{ github.event.inputs.exclusion_reason }}
         run: |
           set -euo pipefail
           if [ "$INIT" = true ]; then
@@ -152,21 +169,38 @@ jobs:
           if [ "$PUBLISH" = true ]; then
             args+=(--seal)
             if [ -n "$CORRECT" ]; then args+=(--correct "$CORRECT" --reason "$REASON"); fi
+            if [ -n "$EXCLUDE" ]; then args+=(--exclude "$EXCLUDE" --exclude-reason "$EXCL_REASON"); fi
           fi
           python -m nhl_edge.sealed_ledger.runner "${args[@]}"
       - name: The new manifest must extend the previous one (append-only)
         if: ${{ steps.plan.outputs.publish == 'true' }}
         run: python -m nhl_edge.sealed_ledger.runner verify --store "$RUNNER_TEMP/rd/store" --recipients research/sealed_ledger/recipients.txt --previous "$RUNNER_TEMP/rd/store_prev"
-      - name: Completeness audit against the archived NHL schedule (game ids and counts only; fails on a gap, an incomplete or drifted day, an extra id, a revised score)
+      - name: Completeness audit against the archived NHL schedule (game ids and counts only; the verdict is applied AFTER the report is uploaded)
+        id: audit
         if: ${{ steps.plan.outputs.init != 'true' }}
         env:
           SLATE_DATE: ${{ steps.plan.outputs.date }}
           PUBLISH: ${{ steps.plan.outputs.publish }}
+          CORRECT: ${{ github.event.inputs.correct_game_ids }}
         run: |
-          set -euo pipefail
+          set -uo pipefail
           args=(--archive "$RUNNER_TEMP/rd/archive" --through "$SLATE_DATE")
           if [ "$PUBLISH" = true ]; then args+=(--store "$RUNNER_TEMP/rd/store"); fi
+          if [ -n "$CORRECT" ]; then args+=(--allow-revised); fi   # the run that applies corrections must not be blocked by the revisions it resolves
           python -m nhl_edge.sealed_ledger.audit "${args[@]}" > "$RUNNER_TEMP/rd/out/SCHEDULE_AUDIT.json"
+          rc=$?
+          echo "audit exit code: $rc"
+          python - <<'PY' || true
+          import json, os
+          try:
+              r = json.load(open(os.environ["RUNNER_TEMP"] + "/rd/out/SCHEDULE_AUDIT.json"))
+              print("audit ok:", r["ok"], "| dates:", len(r["dates"]))
+              for p in r["problems"]:
+                  print("AUDIT PROBLEM:", p)
+          except Exception as e:  # report only the exception type
+              print("audit produced no readable report:", type(e).__name__)
+          PY
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
       - name: Blinded scorecard (from the public manifest only)
         run: python -m nhl_edge.sealed_ledger.runner scorecard --store "$RUNNER_TEMP/rd/store" --out "$RUNNER_TEMP/rd/out"
       - name: Verify blinding (fails the run if a look, an outcome-derived field or any plaintext appears)
@@ -188,7 +222,7 @@ jobs:
               assert sc["status"].endswith("_DUE_OWNER_LOCAL"), sc["status"]
           ok_summary = {"date", "mode", "games_scheduled", "games_final", "games_with_pregame_forecast", "missing_pregame_forecast", "reproduction_max_abs_diff",
                         "all_scheduled_final", "sealed_new", "skipped_existing", "corrections", "day_closed", "integrity_ok", "manifest_entries", "head_seq", "head_hash", "note",
-                        "initialised", "ledger_id", "genesis_hash", "recipients_sha256", "recipient_count"}
+                        "initialised", "ledger_id", "genesis_hash", "recipients_sha256", "recipient_count", "excluded_game_ids"}
           assert set(summ) <= ok_summary, sorted(set(summ) - ok_summary)
           names = sorted(os.listdir(rd + "/out"))
           assert set(names) <= {"SHADOW_SCORECARD.json", "ingest_summary.json", "SEALED_LEDGER_SELFTEST.json", "SCHEDULE_AUDIT.json"}, names
@@ -202,6 +236,11 @@ jobs:
           name: model-research-blinded-${{ github.run_id }}
           path: ${{ runner.temp }}/rd/out/
           retention-days: 14
+      - name: Fail the run if the completeness audit failed (after the report was written, so the owner can read why)
+        if: ${{ steps.audit.outputs.rc != '' && steps.audit.outputs.rc != '0' }}
+        run: |
+          echo "::error::completeness audit failed; see the AUDIT PROBLEM lines above and SCHEDULE_AUDIT.json in the artifact"
+          exit 1
       - name: Verify the store directory holds only ciphertext, the manifest and checkpoints
         if: ${{ steps.plan.outputs.publish == 'true' }}
         run: python -m nhl_edge.sealed_ledger.runner verify --store "$RUNNER_TEMP/rd/store" --recipients research/sealed_ledger/recipients.txt
@@ -239,6 +278,8 @@ jobs:
           [ -n "$ACTIVATION" ] && [ "$ACTIVATION" = "$actual" ] || { echo "::error::publish refused: not activated by the owner (environment variable SEALED_LEDGER_ACTIVATION_SHA)"; exit 1; }
           if [ "$INIT" != true ]; then
             [[ "$GENESIS" =~ ^[0-9a-f]{64}$ ]] || { echo "::error::publish refused: the owner has not registered the verified genesis hash (environment variable SEALED_LEDGER_GENESIS_HASH)"; exit 1; }
+          else
+            [ -z "$GENESIS" ] || { echo "::error::init refused: a genesis hash is already registered (a ledger was already initialised and verified)"; exit 1; }
           fi
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:

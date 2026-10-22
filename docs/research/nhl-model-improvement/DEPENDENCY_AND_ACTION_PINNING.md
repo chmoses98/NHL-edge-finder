@@ -11,7 +11,7 @@
 | the project itself | not pip-installed: `PYTHONPATH=$GITHUB_WORKSPACE/src` | pip's isolated build fetching unpinned `setuptools`/`wheel` |
 | Python itself | `actions/setup-python` with `3.11` (locks are resolved for CPython 3.11, Linux x86_64) | wheel/ABI mismatch |
 
-Current pins (verified to be real commits of the named repositories on 2026-10-22):
+Current pins (verified on 2026-10-22 with `git ls-remote --tags https://github.com/actions/<name> 'refs/tags/<vN>*'` — each floating major tag and its highest `vN.x.y` tag resolved to the same SHA, lightweight tags, so the SHA is a commit — and `git fetch --depth=1 <repo> <SHA> && git cat-file -t FETCH_HEAD` returning `commit`; re-run those two commands to re-verify):
 
 | action | version | commit |
 |---|---|---|

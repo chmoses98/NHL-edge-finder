@@ -29,15 +29,16 @@ MANIFEST = "manifest.jsonl"
 SEALED_DIR = "sealed"
 CHECKPOINT_DIR = "checkpoints"
 CORRECTION_REASONS = ("SOURCE_SCORE_REVISED", "PIPELINE_DEFECT_FIXED", "OTHER_DOCUMENTED")
+EXCLUSION_REASONS = ("POSTPONED_OR_CANCELLED", "START_TIME_BOUNDARY", "OTHER_DOCUMENTED")  # why a scheduled game that never finished is waived from a day (owner decision, public)
 AGE_HEADER = b"age-encryption.org/v1\n"
 ALLOWED_TOP = {MANIFEST, SEALED_DIR, CHECKPOINT_DIR}  # exactly these (plus a bare ".git" when the store is a git working tree)
 KEYS = {
     "GENESIS": {"v", "schema", "seq", "kind", "ledger_id", "created_utc", "recipients_sha256", "recipient_count", "pad_bytes", "protocol_rules_sha256", "canary_ct_sha256",
                 "canary_ct_bytes", "run_id", "code_sha", "prev_hash", "entry_hash"},
-    "RECORD": {"v", "seq", "kind", "game_id", "game_date_et", "version", "supersedes", "reason", "ct_sha256", "ct_bytes", "pregame", "sealed_utc", "run_id", "code_sha",
-               "prev_hash", "entry_hash"},
-    "DAY": {"v", "seq", "kind", "game_date_et", "scheduled_game_ids", "sealed_game_ids", "missing_pregame_game_ids", "sealed_utc", "run_id", "code_sha", "prev_hash",
-            "entry_hash"},
+    "RECORD": {"v", "seq", "kind", "game_id", "game_date_et", "version", "supersedes", "reason", "ct_sha256", "ct_bytes", "pregame", "sealed_utc", "source_asof_utc",
+               "run_id", "code_sha", "prev_hash", "entry_hash"},
+    "DAY": {"v", "seq", "kind", "game_date_et", "scheduled_game_ids", "sealed_game_ids", "missing_pregame_game_ids", "excluded_game_ids", "exclusion_reason", "sealed_utc",
+            "run_id", "code_sha", "prev_hash", "entry_hash"},
 }
 CP_MAX_BYTES = 4096
 
@@ -156,6 +157,7 @@ def verify_store(root: Path, *, recipients_sha256: str | None = None, allow_orph
     last_ver: dict[str, tuple[int, int]] = {}  # game_id -> (version, seq)
     days: set[str] = set()
     v1_by_date: dict[str, list[str]] = {}
+    excluded_ids: set[str] = set()
     band = (0, 0)
     referenced: set[int] = set()
     for i, e in enumerate(entries):
@@ -201,6 +203,8 @@ def verify_store(root: Path, *, recipients_sha256: str | None = None, allow_orph
                 rep.problems.append(f"entry {i}: malformed RECORD")
                 continue
             referenced.add(i)
+            if gid in excluded_ids:
+                rep.problems.append(f"entry {i}: game {gid} was excluded from its day by the owner and must never be sealed")
             if gid not in last_ver:
                 if ver != 1 or sup is not None or e.get("reason") is not None:
                     rep.problems.append(f"entry {i}: first record of game {gid} must be version 1 with no supersedes/reason")
@@ -238,8 +242,16 @@ def verify_store(root: Path, *, recipients_sha256: str | None = None, allow_orph
                     rep.problems.append(f"entry {i}: DAY {d} lists game {gid} that has no earlier RECORD")
             if sorted(v1_by_date.get(str(d), [])) != sorted(e.get("sealed_game_ids", [])):
                 rep.problems.append(f"entry {i}: DAY {d} does not list exactly the games sealed for that date (extra or forged record)")
-            if sorted(set(e.get("sealed_game_ids", [])) | set(e.get("missing_pregame_game_ids", []))) != sorted(e.get("scheduled_game_ids", [])):
+            excl = list(e.get("excluded_game_ids", []))
+            if excl and e.get("exclusion_reason") not in EXCLUSION_REASONS:
+                rep.problems.append(f"entry {i}: DAY {d} excludes games without a valid exclusion_reason")
+            if not excl and e.get("exclusion_reason") is not None:
+                rep.problems.append(f"entry {i}: DAY {d} has an exclusion_reason but no excluded game")
+            if sorted(set(e.get("sealed_game_ids", [])) | set(e.get("missing_pregame_game_ids", [])) | set(excl)) != sorted(e.get("scheduled_game_ids", [])):
                 rep.problems.append(f"entry {i}: DAY {d} does not account for every scheduled game")
+            if set(excl) & set(last_ver):
+                rep.problems.append(f"entry {i}: DAY {d} excludes game(s) that already have a sealed record: {sorted(set(excl) & set(last_ver))}")
+            excluded_ids |= set(excl)
         else:
             rep.problems.append(f"entry {i}: unknown kind {kind!r}")
     rep.head_seq, rep.head_hash = len(entries) - 1, entries[-1].get("entry_hash", "")
@@ -285,3 +297,16 @@ def is_extension(old: list[dict[str, Any]], new: list[dict[str, Any]]) -> list[s
             problems.append(f"entry {i} differs from the previous manifest (history rewritten)")
             break
     return problems
+
+
+def run_scrubbed(fn: Any, *, name: str) -> int:
+    """Run a CLI ``main``; on an unexpected exception print only its TYPE (a library or pandas message can echo record values into a public log)."""
+    import sys
+
+    try:
+        return int(fn())
+    except SystemExit:
+        raise
+    except Exception as e:  # noqa: BLE001
+        print(f"{name} FAILED: {type(e).__name__} (message and traceback suppressed so no record data reaches a public log; reproduce locally on a development-window date)", file=sys.stderr)
+        return 4

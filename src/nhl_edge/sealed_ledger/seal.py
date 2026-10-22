@@ -20,6 +20,7 @@ from pyrage import x25519
 from nhl_edge.sealed_ledger import RECORD_SCHEMA, SCHEMA, protocol_rules_sha256
 from nhl_edge.sealed_ledger.core import (
     CORRECTION_REASONS,
+    EXCLUSION_REASONS,
     PAD_BYTES,
     SEALED_DIR,
     ZERO,
@@ -152,19 +153,19 @@ class SealedStore:
                 out[e["game_id"]] = (e["version"], e["seq"])
         return out
 
-    def _seal_one(self, row: dict[str, Any], version: int, supersedes: int | None, reason: str | None) -> dict[str, Any]:
+    def _seal_one(self, row: dict[str, Any], version: int, supersedes: int | None, reason: str | None, source_asof: str | None = None) -> dict[str, Any]:
         seq = len(self.entries)
         gid = str(row["game_id"])
         ct = pyrage.encrypt(_plaintext(self.ledger_id, seq, gid, version, row), self.recips)
         _atomic_write(ct_path(self.root, seq), ct)  # 1) ciphertext (atomic)   2) manifest line (fsync)
         e = finish_entry({"v": 1, "seq": seq, "kind": "RECORD", "game_id": gid, "game_date_et": str(row["game_date_et"]), "version": version, "supersedes": supersedes,
                           "reason": reason, "ct_sha256": sha256_hex(ct), "ct_bytes": len(ct), "pregame": _pregame(row), "sealed_utc": self._ts(),
-                          "run_id": self.run_id, "code_sha": self.code_sha, "prev_hash": self._head()["entry_hash"]})
+                          "source_asof_utc": source_asof or self._ts(), "run_id": self.run_id, "code_sha": self.code_sha, "prev_hash": self._head()["entry_hash"]})
         _append_line(self.root / "manifest.jsonl", e)
         self.entries.append(e)
         return e
 
-    def seal_rows(self, rows: list[dict[str, Any]], *, correct: dict[str, int] | None = None, reason: str | None = None) -> dict[str, int]:
+    def seal_rows(self, rows: list[dict[str, Any]], *, correct: dict[str, int] | None = None, reason: str | None = None, source_asof: str | None = None) -> dict[str, int]:
         """Seal each row once. ``correct`` maps game id -> the version currently sealed that is to be superseded by this row (a versioned correction). Naming the
         expected version makes a correction idempotent: repeating the same request after it was applied is refused as stale instead of stacking versions."""
         correct = dict(correct or {})
@@ -190,26 +191,36 @@ class SealedStore:
             if gid in have:
                 if gid in correct:
                     ver, seq = have[gid]
-                    self._seal_one(r, ver + 1, seq, reason)
+                    self._seal_one(r, ver + 1, seq, reason, source_asof)
                     n_corr += 1
                 else:
                     n_skip += 1  # idempotent: already sealed, never rewritten
                 continue
-            self._seal_one(r, 1, None, None)
+            self._seal_one(r, 1, None, None, source_asof)
             n_new += 1
         return {"sealed_new": n_new, "skipped_existing": n_skip, "corrections": n_corr}
 
-    def close_day(self, game_date_et: str, scheduled_game_ids: list[str], missing_pregame_game_ids: list[str]) -> bool:
-        """Commit publicly to which games were eligible on a date (public schedule facts), so a later omission is visible. Idempotent per date."""
+    def close_day(self, game_date_et: str, scheduled_game_ids: list[str], missing_pregame_game_ids: list[str], excluded_game_ids: list[str] | None = None,
+                  exclusion_reason: str | None = None) -> bool:
+        """Commit publicly to which games were eligible on a date (public schedule facts), so a later omission is visible. Idempotent per date. ``excluded_game_ids`` are
+        scheduled games that never finished (or whose start moved across the freeze), waived by an explicit, reason-coded owner decision; they can never be sealed."""
+        excluded = sorted(set(excluded_game_ids or []))
+        if excluded and exclusion_reason not in EXCLUSION_REASONS:
+            raise SealError(f"an exclusion needs a reason code from {EXCLUSION_REASONS}")
+        if excluded and not set(excluded) <= set(scheduled_game_ids):
+            raise SealError("excluded games must be scheduled on that date")
         if any(e["kind"] == "DAY" and e["game_date_et"] == game_date_et for e in self.entries):
             return False
         have = {e["game_id"] for e in self.entries if e["kind"] == "RECORD" and e["game_date_et"] == game_date_et}
-        sealed = sorted(have & set(scheduled_game_ids))
-        miss = sorted(set(missing_pregame_game_ids))
-        if sorted(set(sealed) | set(miss)) != sorted(set(scheduled_game_ids)):
-            raise SealError("cannot close the day: some scheduled games are neither sealed nor listed as missing a pregame forecast")
+        if excluded and set(excluded) & {e["game_id"] for e in self.entries if e["kind"] == "RECORD"}:
+            raise SealError("cannot exclude a game that already has a sealed record")
+        sealed = sorted((have & set(scheduled_game_ids)) - set(excluded))
+        miss = sorted(set(missing_pregame_game_ids) - set(excluded))
+        if sorted(set(sealed) | set(miss) | set(excluded)) != sorted(set(scheduled_game_ids)):
+            raise SealError("cannot close the day: some scheduled games are neither sealed, nor listed as missing a pregame forecast, nor explicitly excluded")
         e = finish_entry({"v": 1, "seq": len(self.entries), "kind": "DAY", "game_date_et": game_date_et, "scheduled_game_ids": sorted(set(scheduled_game_ids)),
-                          "sealed_game_ids": sealed, "missing_pregame_game_ids": miss, "sealed_utc": self._ts(), "run_id": self.run_id, "code_sha": self.code_sha,
+                          "sealed_game_ids": sealed, "missing_pregame_game_ids": miss, "excluded_game_ids": excluded,
+                          "exclusion_reason": exclusion_reason if excluded else None, "sealed_utc": self._ts(), "run_id": self.run_id, "code_sha": self.code_sha,
                           "prev_hash": self._head()["entry_hash"]})
         _append_line(self.root / "manifest.jsonl", e)
         self.entries.append(e)

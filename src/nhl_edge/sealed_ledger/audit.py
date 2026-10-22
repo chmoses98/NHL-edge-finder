@@ -7,12 +7,14 @@ The "authoritative historical schedule" available to the workflow is the archive
 freeze and checks, with game ids and counts only (no outcome):
 
 * OPEN DAY: a past date with scheduled games that no DAY entry closed (a skipped or incomplete day) -- PROBLEM, so a gap can never be silently passed over;
-* INCOMPLETE: a scheduled game that is not final long after its start (postponed / unfinished) -- PROBLEM for a past date: the day stays open;
+* INCOMPLETE: a scheduled game that is not final long after its start (postponed / unfinished) -- PROBLEM until the owner EXCLUDES it from its day (public, reason-coded,
+  approval-gated; only a game that is not final, or a boundary game, can be excluded; an excluded game can never be sealed) -- the only way to unblock later days;
 * DRIFT: a closed day whose DAY entry no longer matches the archive's schedule for that date (a game was added or removed after closing) -- PROBLEM;
 * EXTRA / UNSEALED: a sealed game the schedule does not list for that date, or a scheduled final game that is neither sealed nor declared missing -- PROBLEM;
 * ORPHAN RESULT: a result row whose game id is absent from the schedule on or after the first prospective date (an eligible game the schedule missed) -- PROBLEM;
-* RESULT REVISED: the source's final score of an already sealed game changed after sealing and no later versioned correction exists -- PROBLEM (a late revision is never
-  absorbed silently; the runner skips sealed games, so only an explicit ``GAME_ID@VERSION`` correction can supersede a record);
+* RESULT REVISED: the source's final score of an already sealed game differs from the score in the archive snapshot the latest sealed version was derived from
+  (``source_asof_utc``) -- PROBLEM until an explicit, versioned ``GAME_ID@VERSION`` correction re-derives it (a late revision is never absorbed silently; the runner skips
+  sealed games). Correction runs pass ``--allow-revised`` so several revised games on different dates can be corrected one date at a time;
 * BOUNDARY: a game whose start time moved across the freeze instant between snapshots (eligibility is ambiguous) -- PROBLEM, resolved only by an explicit owner decision.
 
 ``--dev-window`` runs the same checks on the DEVELOPMENT side of the freeze (no store), which is how the logic is validated against real history without touching the
@@ -43,10 +45,32 @@ def _dates(first: str, last: str) -> list[str]:
     return [(d0 + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((d1 - d0).days + 1)]
 
 
+_RESULT_COLS = ["game_id", "_file", "_observed_at_utc", "home_final", "away_final", "last_period_type"]
+
+
+def _empty_results() -> pd.DataFrame:
+    return pd.DataFrame({c: [] for c in _RESULT_COLS})
+
+
+def results_asof(results: pd.DataFrame) -> str | None:
+    """The archive snapshot time: the latest observation in the local archive copy a run derives its rows from (NOT the time the record is sealed)."""
+    if results is None or results.empty:
+        return None
+    return str(pd.to_datetime(results["_observed_at_utc"], utc=True).max().strftime("%Y-%m-%dT%H:%M:%SZ"))
+
+
+def boundary_games(g_all: pd.DataFrame) -> set[str]:
+    """Games whose scheduled start moved across the freeze instant between schedule snapshots (their eligibility is ambiguous)."""
+    fz = pd.Timestamp(PROSPECTIVE_FREEZE_UTC)
+    if "first_start_seen" not in g_all.columns:
+        return set()
+    return set(g_all[(g_all["first_start_seen"] < fz) != (g_all["start_time_utc"] < fz)]["game_id"].astype(str))
+
+
 def schedule_audit(archive: Path, through: str, *, store: Path | None = None, dev_window: bool = False, now: datetime | None = None,
-                   games: pd.DataFrame | None = None, results: pd.DataFrame | None = None) -> dict[str, Any]:
+                   games: pd.DataFrame | None = None, results: pd.DataFrame | None = None, ignore_revised: bool = False) -> dict[str, Any]:
     """``games`` (build_games output) and ``results`` (every observed results row: game_id, _observed_at_utc, home_final, away_final, last_period_type, _file) may be
-    injected for tests; otherwise they are read from the archive."""
+    injected for tests; otherwise they are read from the archive. ``ignore_revised`` is for a run whose purpose is to apply the versioned corrections."""
     from nhl_edge.market_audit.games import build_games, read_kind
 
     now = now or datetime.now(UTC)
@@ -62,76 +86,89 @@ def schedule_audit(archive: Path, through: str, *, store: Path | None = None, de
     rows: dict[str, Any] = {}
     entries = read_manifest(store) if store is not None else []
     days = {e["game_date_et"]: e for e in entries if e.get("kind") == "DAY"}
+    excluded_ids = {x for e in entries if e.get("kind") == "DAY" for x in e.get("excluded_game_ids", [])}  # waived by the owner (public, reason-coded)
     sealed_by_date: dict[str, set[str]] = {}
     for e in entries:
         if e.get("kind") == "RECORD" and e.get("version") == 1:
             sealed_by_date.setdefault(e["game_date_et"], set()).add(e["game_id"])
+    today = now.astimezone(UTC).strftime("%Y-%m-%d")
     for d in _dates(first, last):
         day_games = g[side & (g["game_date_et"] == d)]
         sched = sorted(day_games["game_id"])
         final = sorted(day_games[day_games["is_final"]]["game_id"])
-        overdue = sorted(day_games[(~day_games["is_final"]) & (day_games["start_time_utc"] + pd.Timedelta(OVERDUE_AFTER) < pd.Timestamp(now))]["game_id"])
+        overdue = sorted(set(day_games[(~day_games["is_final"]) & (day_games["start_time_utc"] + pd.Timedelta(OVERDUE_AFTER) < pd.Timestamp(now))]["game_id"]) - excluded_ids)
         row: dict[str, Any] = {"scheduled": len(sched), "final": len(final), "overdue_not_final": overdue}
-        past = d < now.astimezone(UTC).strftime("%Y-%m-%d")
+        past = d < today
         if overdue:
-            problems.append(f"INCOMPLETE {d}: scheduled games not final long after their start: {overdue} (postponed or unfinished; the day stays open)")
+            problems.append(f"INCOMPLETE {d}: scheduled games not final long after their start: {overdue} (postponed or unfinished; the day stays open until the owner excludes them)")
         if store is not None:
             day = days.get(d)
             row["closed"] = day is not None
             if sched and past and day is None and d <= through:
                 problems.append(f"OPEN DAY {d}: {len(sched)} scheduled game(s) and no DAY entry (a skipped or incomplete day)")
-            if day is not None and sorted(day["scheduled_game_ids"]) != sched:
-                problems.append(f"DRIFT {d}: the archive's schedule for this closed day now differs from the DAY entry "
-                                f"(added {sorted(set(sched) - set(day['scheduled_game_ids']))}, removed {sorted(set(day['scheduled_game_ids']) - set(sched))})")
+            if day is not None:
+                excl = set(day.get("excluded_game_ids", []))
+                added, removed = set(sched) - set(day["scheduled_game_ids"]), (set(day["scheduled_game_ids"]) - set(sched)) - excl
+                if added or removed:
+                    problems.append(f"DRIFT {d}: the archive's schedule for this closed day now differs from the DAY entry (added {sorted(added)}, removed {sorted(removed)})")
+                unsealed = sorted(set(final) - set(day["sealed_game_ids"]) - set(day["missing_pregame_game_ids"]) - excl)
+                if unsealed:
+                    problems.append(f"UNSEALED {d}: final scheduled game(s) neither sealed nor declared missing: {unsealed}")
             extra = sorted(sealed_by_date.get(d, set()) - set(sched))
             if extra:
                 problems.append(f"EXTRA {d}: sealed game id(s) the schedule does not list for this date: {extra}")
-            if day is not None:
-                unsealed = sorted(set(final) - set(day["sealed_game_ids"]) - set(day["missing_pregame_game_ids"]))
-                if unsealed:
-                    problems.append(f"UNSEALED {d}: final scheduled game(s) neither sealed nor declared missing: {unsealed}")
         rows[d] = row
-    # boundary games: eligibility depends on which snapshot of the start time is believed
+    # boundary games: eligibility depends on which snapshot of the start time is believed (resolved only by an explicit owner exclusion)
     if "first_start_seen" in g.columns:
-        moved = g[(g["first_start_seen"] < fz) != (g["start_time_utc"] < fz)]
-        if len(moved):
-            problems.append(f"BOUNDARY: start time moved across the freeze instant for game(s) {sorted(moved['game_id'])}: eligibility needs an explicit owner decision")
-    # results whose game id the schedule does not know (an eligible game the schedule missed would otherwise vanish silently)
+        moved = sorted(set(g[(g["first_start_seen"] < fz) != (g["start_time_utc"] < fz)]["game_id"]) - excluded_ids)
+        if moved:
+            problems.append(f"BOUNDARY: start time moved across the freeze instant for game(s) {moved}: eligibility needs an explicit owner exclusion (START_TIME_BOUNDARY)")
     if results is None:
         results = read_kind(archive, "results")
-    results = results.copy()
+    results = _empty_results() if results is None or results.empty else results.copy()
     results["game_id"] = results["game_id"].astype(str)
+    obs = pd.to_datetime(results["_observed_at_utc"], utc=True) if len(results) else pd.Series([], dtype="datetime64[ns, UTC]")
+    # results whose game id the schedule does not know: only ids that plausibly belong AFTER the freeze (numerically above every pre-freeze scheduled id) and that were
+    # observed after it; an old game the schedule never captured is a data gap, not an eligible game, and must not wedge the loop
+    pre_ids = [int(i) for i in g_all[g_all["start_time_utc"] < fz]["game_id"] if str(i).isdigit()]
+    max_pre = max(pre_ids) if pre_ids else 0
     known = set(g_all["game_id"])
-    window_files = tuple(f"dt={x}" for x in _dates(first, last))
-    orphans = sorted({a for a, f in zip(results["game_id"], results["_file"].astype(str), strict=True) if a not in known and any(w in f for w in window_files)})
+    orphans = sorted({a for a, t in zip(results["game_id"], obs, strict=True) if a not in known and t >= fz and (not a.isdigit() or int(a) > max_pre)} - excluded_ids)
     if orphans:
-        problems.append(f"ORPHAN RESULT: result row(s) with no schedule row on/after {first}: {orphans}")
-    # a source revision of a final score AFTER the game was sealed must not be absorbed silently: it needs an explicit, versioned correction
-    for gid, e1 in {e["game_id"]: e for e in entries if e.get("kind") == "RECORD" and e.get("version") == 1}.items():
-        rr = results[results["game_id"] == gid].sort_values("_observed_at_utc")
-        if rr.empty:
+        problems.append(f"ORPHAN RESULT: result row(s) with no schedule row, observed after the freeze: {orphans}")
+    # a source revision of a final score AFTER the game was sealed must not be absorbed silently: it needs an explicit, versioned correction. The comparison point is
+    # the archive snapshot time the latest sealed version was derived from (source_asof_utc), not the time it was sealed.
+    latest: dict[str, dict[str, Any]] = {}
+    for e in entries:
+        if e.get("kind") == "RECORD":
+            latest[e["game_id"]] = e
+    cols = [c for c in ("home_final", "away_final", "last_period_type") if c in results.columns]
+    for gid, e in ([] if ignore_revised else sorted(latest.items())):
+        mask = results["game_id"] == gid
+        if not mask.any():
             continue
-        sealed_at = pd.Timestamp(e1["sealed_utc"])
-        at_seal = rr[pd.to_datetime(rr["_observed_at_utc"], utc=True) <= sealed_at]
-        after = rr[pd.to_datetime(rr["_observed_at_utc"], utc=True) > sealed_at]
-        if at_seal.empty or after.empty:
+        rr = results[mask].assign(_t=obs[mask]).sort_values("_t")
+        asof = pd.Timestamp(e.get("source_asof_utc") or e["sealed_utc"])
+        at_asof = rr[rr["_t"] <= asof]
+        if at_asof.empty:
             continue
-        cols = [c for c in ("home_final", "away_final", "last_period_type") if c in rr.columns]
-        if (after[cols].astype(str).drop_duplicates().values.tolist() != [at_seal[cols].astype(str).iloc[-1].tolist()]):
-            later_corr = any(e.get("kind") == "RECORD" and e["game_id"] == gid and e["version"] > 1 and pd.Timestamp(e["sealed_utc"]) > pd.Timestamp(after["_observed_at_utc"].iloc[-1]) for e in entries)
-            if not later_corr:
-                problems.append(f"RESULT REVISED {gid}: the source result changed after the game was sealed and no later versioned correction exists (use GAME_ID@VERSION with SOURCE_SCORE_REVISED)")
+        if [str(rr.iloc[-1][c]) for c in cols] != [str(at_asof.iloc[-1][c]) for c in cols]:
+            problems.append(f"RESULT REVISED {gid}: the source result changed after the sealed version {e['version']} was derived and no later versioned correction covers it "
+                            "(use GAME_ID@VERSION with SOURCE_SCORE_REVISED, one date at a time)")
     return {"through": through, "window": "DEVELOPMENT" if dev_window else "PROSPECTIVE", "dates": rows, "problems": problems, "warnings": warnings, "ok": not problems}
 
 
-def open_days_before(archive: Path, date: str, store: Path, now: datetime | None = None, games: pd.DataFrame | None = None,
-                     results: pd.DataFrame | None = None) -> list[str]:
-    """Used by the sealing path to fail closed: dates strictly before ``date`` that have scheduled games but no DAY entry."""
+def open_days_before(archive: Path, date: str, store: Path, now: datetime | None = None, games: pd.DataFrame | None = None, results: pd.DataFrame | None = None,
+                     ignore_revised: bool = False) -> list[str]:
+    """Used by the sealing path to fail closed: every audit problem for the dates before ``date`` (open, incomplete, drifted, extra, unsealed, boundary days), plus orphan
+    results and revised scores of already sealed games (unless ``ignore_revised``: the run that applies the corrections)."""
     prev = (datetime.fromisoformat(date) - timedelta(days=1)).strftime("%Y-%m-%d")
     if prev < FIRST_PROSPECTIVE_DATE_ET:
         return []
-    rep = schedule_audit(archive, prev, store=store, now=now, games=games, results=results if results is not None else pd.DataFrame({"game_id": [], "_file": [], "_observed_at_utc": []}))
-    return [p for p in rep["problems"] if p.startswith(("OPEN DAY", "INCOMPLETE", "DRIFT", "EXTRA", "UNSEALED", "BOUNDARY", "RESULT REVISED", "ORPHAN"))]
+    if results is None and games is not None:
+        results = _empty_results()
+    rep = schedule_audit(archive, prev, store=store, now=now, games=games, results=results, ignore_revised=ignore_revised)
+    return list(rep["problems"])
 
 
 def nhl_api_crosscheck(first: str, last: str, scheduled_by_date: dict[str, list[str]]) -> list[str]:  # pragma: no cover - needs the network
@@ -155,9 +192,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--through", required=True)
     ap.add_argument("--store", type=Path)
     ap.add_argument("--dev-window", action="store_true")
+    ap.add_argument("--allow-revised", action="store_true", help="for the run that applies versioned corrections: do not fail on revised scores")
     ap.add_argument("--nhl-api", action="store_true", help="also compare with the live NHL API (needs network; run locally)")
     a = ap.parse_args(argv)
-    rep = schedule_audit(a.archive, a.through, store=a.store, dev_window=a.dev_window)
+    rep = schedule_audit(a.archive, a.through, store=a.store, dev_window=a.dev_window, ignore_revised=a.allow_revised)
     if a.nhl_api:
         from nhl_edge.market_audit.games import build_games
 
@@ -172,4 +210,6 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    from nhl_edge.sealed_ledger.core import run_scrubbed
+
+    sys.exit(run_scrubbed(main, name="SCHEDULE AUDIT"))

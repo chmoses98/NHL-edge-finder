@@ -73,6 +73,13 @@ The ledger is created by a one-time `init` that seals **no game**. You verify it
 - [ ] After each publication (at least weekly): `cd ~/sift-ledger/ledger && cp -a . ../ledger_prev && git pull --ff-only && owner verify --store . --dir ~/sift-ledger/witness --recipients ~/sift-ledger/repo/research/sealed_ledger/recipients.txt --previous ../ledger_prev --expect-genesis <genesis_hash> --expect-witness-head <witness_log_head>` → must print `"ok": true`. Then `owner witness … --recipients …` and write down the new `witness_log_head`. Any `TRUNCATED`, `ROLLED BACK`, `REPLACED` or `REWRITTEN` message: stop, keep the copies, do not witness.
 - [ ] The preregistered look (≥ 150 closed-day games): see `SEALED_LEDGER_KEY_SETUP.md` §6. Nothing in this checklist opens real results early.
 
+## G2. If a run fails its audit, or a day is stuck  **[YOU decide; CLAUDE explains and dispatches]**
+
+- [ ] Open the failed run; the log shows `AUDIT PROBLEM:` lines (game ids only) and the artifact holds `SCHEDULE_AUDIT.json`. A failed audit publishes nothing.
+- [ ] `INCOMPLETE` / `OPEN DAY` for a postponed or cancelled game: after you have checked the league schedule yourself, approve a run with `exclude_game_ids=<id>` and `exclusion_reason=POSTPONED_OR_CANCELLED`. This is public in the manifest, only unfinished games can be excluded, and it cannot be undone; note it in the experiment registry.
+- [ ] `RESULT REVISED <id>`: approve a run for that game's date with `correct_game_ids=<id>@<current version>` and `correction_reason=SOURCE_SCORE_REVISED`. One date per run; repeat for each revised game.
+- [ ] `BOUNDARY`, `DRIFT`, `EXTRA`, `ORPHAN`: stop and ask the assistant to investigate before approving anything.
+
 ## H. Only after A–G and your explicit approval: the daily schedule  **[CLAUDE prepares; YOU approve]**
 
 - [ ] Review the (already written, commented-out) `schedule:` block and the failure-alert job; approve enabling it. Until then nothing runs by itself.

@@ -106,8 +106,8 @@ def test_manifest_and_files_contain_no_outcome_field_or_sentinel(tmp_path, keys)
         assert banned not in manifest_text
     for e in st.entries:
         if e["kind"] == "RECORD":
-            assert set(e) == {"v", "seq", "kind", "game_id", "game_date_et", "version", "supersedes", "reason", "ct_sha256", "ct_bytes", "pregame", "sealed_utc", "run_id",
-                              "code_sha", "prev_hash", "entry_hash"}
+            assert set(e) == {"v", "seq", "kind", "game_id", "game_date_et", "version", "supersedes", "reason", "ct_sha256", "ct_bytes", "pregame", "sealed_utc", "source_asof_utc",
+                              "run_id", "code_sha", "prev_hash", "entry_hash"}
             assert set(e["pregame"]) == {"slate_age_min", "sb_present"}
     assert all(re.fullmatch(r"\d{6}\.age", p.name) for p in (st.root / "sealed").iterdir())  # opaque names: no game id, no date
 
@@ -263,7 +263,7 @@ def test_a_correction_is_a_new_version_and_never_overwrites(tmp_path, keys):
 def test_missing_games_must_be_accounted_for_in_the_day_entry(tmp_path, keys):
     st = seal.SealedStore(tmp_path / "s", keys[2], now=T0)
     st.seal_rows(synthetic_rows("2026-10-22", 0, 2))
-    with pytest.raises(seal.SealError, match="neither sealed nor listed"):
+    with pytest.raises(seal.SealError, match="neither sealed"):
         st.close_day("2026-10-22", ["SYN00000", "SYN00001", "SYN00002"], [])
     assert st.close_day("2026-10-22", ["SYN00000", "SYN00001", "SYN00002"], ["SYN00002"])
     d = _copy(st, tmp_path, "m")
@@ -503,7 +503,7 @@ def test_runner_attestation_roundtrip(tmp_path, keys, monkeypatch, capsys):
 
 def _fake_build_rows(monkeypatch, rows, scheduled=None, missing=()):
     ids = scheduled or [r["game_id"] for r in rows]
-    info = {"date": "2026-10-22", "games_scheduled": len(ids), "games_final": len(rows), "scheduled_game_ids": sorted(ids), "all_scheduled_final": True,
+    info = {"date": "2026-10-22", "games_scheduled": len(ids), "games_final": len(rows), "scheduled_game_ids": sorted(ids), "final_game_ids": sorted(r["game_id"] for r in rows), "all_scheduled_final": True,
             "games_with_pregame_forecast": len(rows), "missing_pregame_forecast": list(missing), "reproduction_max_abs_diff": 0.0}
     monkeypatch.setattr(daily, "build_rows", lambda *a, **k: (rows, info))
     monkeypatch.setattr(audit, "open_days_before", lambda *a, **k: [])  # the completeness audit has its own tests (it needs a real archive)
@@ -539,7 +539,8 @@ def test_real_path_ingest_seal_emits_no_plaintext_anywhere(tmp_path, keys, monke
     out = json.loads(summary.read_text())
     assert out["sealed_new"] == 6 and out["day_closed"] is True and out["integrity_ok"] is True
     assert set(out) <= {"date", "mode", "games_scheduled", "games_final", "games_with_pregame_forecast", "missing_pregame_forecast", "reproduction_max_abs_diff",
-                        "all_scheduled_final", "sealed_new", "skipped_existing", "corrections", "day_closed", "integrity_ok", "manifest_entries", "head_seq", "head_hash"}
+                        "all_scheduled_final", "sealed_new", "skipped_existing", "corrections", "day_closed", "integrity_ok", "manifest_entries", "head_seq", "head_hash",
+                        "excluded_game_ids"}
     # re-running the same date is idempotent
     assert runner.main(argv) == 0
     assert json.loads(summary.read_text())["sealed_new"] == 0
@@ -704,7 +705,7 @@ def test_workflows_pass_previous_strictly_and_close_day_refuses_a_suspicious_arc
     rows = synthetic_rows("2026-10-30", 40, 2)
     _fake_build_rows(monkeypatch, rows, scheduled=["SYN00040", "SYN00041"], missing=["SYN00040", "SYN00041"])
     monkeypatch.setitem(__import__("sys").modules["nhl_edge.model_research.daily"].__dict__, "build_rows", lambda *a, **k: (rows[:0], {
-        "date": "2026-10-30", "games_scheduled": 2, "games_final": 2, "scheduled_game_ids": ["SYN00040", "SYN00041"], "all_scheduled_final": True,
+        "date": "2026-10-30", "games_scheduled": 2, "games_final": 2, "scheduled_game_ids": ["SYN00040", "SYN00041"], "final_game_ids": ["SYN00040", "SYN00041"], "all_scheduled_final": True,
         "games_with_pregame_forecast": 0, "missing_pregame_forecast": ["SYN00040", "SYN00041"], "reproduction_max_abs_diff": None}))
     runner.run_init(tmp_path / "s2", rec)
     res = runner.run_ingest(tmp_path / "a", "2026-10-30", Path("."), tmp_path / "s2", rec, seal=True, correct={}, reason=None)
@@ -994,3 +995,144 @@ def test_unexpected_exceptions_print_only_their_type(tmp_path, keys, monkeypatch
         runpy.run_module("nhl_edge.sealed_ledger.runner", run_name="__main__")
     err = capsys.readouterr()
     assert ei.value.code == 4 and "ValueError" in err.err and "SYN-LEAK-SENTINEL" not in err.out + err.err and "home_final" not in err.out + err.err
+
+
+# ---------------------------------------------------------------- second review: wedges, waiver, gate wiring ------------------------------------------------
+
+def _sealed_day(tmp_path, keys, day, ids, asof, name="s", store=None):
+    st = store or seal.SealedStore(tmp_path / name, keys[2], now=datetime(2026, 10, 22, 6, 0, tzinfo=UTC))
+    rows = synthetic_rows(day, 0, len(ids))
+    for r, g in zip(rows, ids, strict=True):
+        r["game_id"] = g
+    st.seal_rows(rows, source_asof=asof)
+    st.close_day(day, ids, [])
+    return st, rows
+
+
+def test_two_revised_games_on_different_dates_are_corrected_one_date_at_a_time_and_do_not_deadlock(tmp_path, keys):
+    st, rows_a = _sealed_day(tmp_path, keys, "2026-10-21", ["A1"], "2026-10-22T06:00:00Z")
+    _sealed_day(tmp_path, keys, "2026-10-22", ["B1"], "2026-10-22T06:00:00Z", store=st)
+    g = _games([("A1", "2026-10-21", "2026-10-21T23:00:00", True, None), ("B1", "2026-10-22", "2026-10-22T23:00:00", True, None)])
+    res = _results([("A1", "2026-10-22T05:00:00Z", 3, 2, "REG", "results/dt=x/a"), ("A1", "2026-10-23T05:00:00Z", 4, 2, "REG", "results/dt=x/a2"),
+                    ("B1", "2026-10-22T05:00:00Z", 1, 0, "REG", "results/dt=x/b"), ("B1", "2026-10-23T05:00:00Z", 1, 1, "REG", "results/dt=x/b2")])
+    probs = audit.open_days_before(Path("."), "2026-10-24", st.root, now=NOW, games=g, results=res)
+    assert sum(p.startswith("RESULT REVISED") for p in probs) == 2  # a normal run is blocked ...
+    assert audit.open_days_before(Path("."), "2026-10-24", st.root, now=NOW, games=g, results=res, ignore_revised=True) == []  # ... a correction run is not
+    # correct A (run for A's date), then B: after both, a normal run passes, with re-observations after the corrections NOT re-flagging
+    seal.SealedStore(st.root, keys[2], now=datetime(2026, 10, 23, 9, 0, tzinfo=UTC)).seal_rows(rows_a, correct={"A1": 1}, reason="SOURCE_SCORE_REVISED", source_asof="2026-10-23T06:00:00Z")
+    rows_b = synthetic_rows("2026-10-22", 0, 1)
+    rows_b[0]["game_id"] = "B1"
+    seal.SealedStore(st.root, keys[2], now=datetime(2026, 10, 23, 9, 5, tzinfo=UTC)).seal_rows(rows_b, correct={"B1": 1}, reason="SOURCE_SCORE_REVISED", source_asof="2026-10-23T06:00:00Z")
+    res2 = _results(list(res.itertuples(index=False, name=None)) + [("A1", "2026-10-23T12:00:00Z", 4, 2, "REG", "results/dt=x/a3")])  # re-observed unchanged after the correction
+    assert audit.open_days_before(Path("."), "2026-10-24", st.root, now=NOW, games=g, results=res2) == []
+
+
+def test_a_change_observed_between_the_archive_snapshot_and_sealing_is_not_missed(tmp_path, keys):
+    # the record was derived from the snapshot taken at 06:00 (source_asof) but sealed at 06:30; a change observed at 06:10 must still be flagged
+    st, _ = _sealed_day(tmp_path, keys, "2026-10-21", ["A1"], "2026-10-22T06:00:00Z")
+    g = _games([("A1", "2026-10-21", "2026-10-21T23:00:00", True, None)])
+    res = _results([("A1", "2026-10-22T05:00:00Z", 3, 2, "REG", "r/a"), ("A1", "2026-10-22T06:10:00Z", 4, 2, "REG", "r/b")])
+    assert any(p.startswith("RESULT REVISED A1") for p in audit.schedule_audit(Path("."), "2026-10-21", store=st.root, now=NOW, games=g, results=res)["problems"])
+
+
+def test_the_sealing_gate_now_enforces_orphans_and_revisions_not_only_open_days(tmp_path, keys):
+    st, _ = _sealed_day(tmp_path, keys, "2026-10-21", ["A1"], "2026-10-22T06:00:00Z")
+    g = _games([("A1", "2026-10-21", "2026-10-21T23:00:00", True, None), ("B1", "2026-10-22", "2026-10-22T23:00:00", True, None)])
+    revised = _results([("A1", "2026-10-22T05:00:00Z", 3, 2, "REG", "r/a"), ("A1", "2026-10-22T07:00:00Z", 4, 2, "REG", "r/b")])
+    assert any(p.startswith("RESULT REVISED") for p in audit.open_days_before(Path("."), "2026-10-23", st.root, now=NOW, games=g, results=revised))
+    orphan = _results([("Z9", "2026-10-22T07:00:00Z", 1, 0, "REG", "results/dt=2026-10-22/z")])
+    assert any(p.startswith("ORPHAN RESULT") for p in audit.open_days_before(Path("."), "2026-10-23", st.root, now=NOW, games=g, results=orphan))
+
+
+def test_an_old_game_the_schedule_never_captured_does_not_wedge_the_loop_but_a_plausible_post_freeze_game_does(tmp_path, keys):
+    st, _ = _sealed_day(tmp_path, keys, "2026-10-21", ["2026020010"], "2026-10-22T06:00:00Z")
+    g = _games([("2026020010", "2026-10-21", "2026-10-21T23:00:00", True, None), ("2026020001", "2026-10-02", "2026-10-02T23:00:00", True, None)])
+    old = _results([("2026019999", "2026-10-22T07:00:00Z", 1, 0, "REG", "results/dt=2026-10-22/o")])  # id below the highest pre-freeze id: an old capture gap
+    new = _results([("2026020099", "2026-10-22T07:00:00Z", 1, 0, "REG", "results/dt=2026-10-22/n")])
+    assert audit.schedule_audit(Path("."), "2026-10-21", store=st.root, now=NOW, games=g, results=old)["ok"]
+    assert any(p.startswith("ORPHAN") for p in audit.schedule_audit(Path("."), "2026-10-21", store=st.root, now=NOW, games=g, results=new)["problems"])
+
+
+def _exclusion_world(monkeypatch, tmp_path, keys, finals=("A1",), scheduled=("A1", "A2")):
+    _a, _b, rec = keys
+    runner.run_init(tmp_path / "s", rec)
+    rows = [r for r in synthetic_rows("2026-10-21", 0, len(finals))]
+    for r, g in zip(rows, finals, strict=True):
+        r["game_id"] = g
+    info = {"date": "2026-10-21", "games_scheduled": len(scheduled), "games_final": len(finals), "scheduled_game_ids": sorted(scheduled), "final_game_ids": sorted(finals),
+            "all_scheduled_final": set(scheduled) <= set(finals), "games_with_pregame_forecast": len(finals), "missing_pregame_forecast": [], "reproduction_max_abs_diff": 0.0}
+    monkeypatch.setattr(daily, "build_rows", lambda *a, **k: (rows, info))
+    monkeypatch.setattr(audit, "open_days_before", lambda *a, **k: [])
+    import nhl_edge.market_audit.games as MG
+
+    monkeypatch.setattr(MG, "read_kind", lambda *a, **k: _results([]))
+    monkeypatch.setattr(MG, "build_games", lambda *a, **k: _games([("A1", "2026-10-21", "2026-10-21T23:00:00", True, None), ("A2", "2026-10-21", "2026-10-21T23:30:00", False, None)]))
+    return rec
+
+
+def test_a_game_that_never_finishes_blocks_the_day_until_the_owner_excludes_it_publicly(tmp_path, keys, monkeypatch):
+    rec = _exclusion_world(monkeypatch, tmp_path, keys)
+    res = runner.run_ingest(tmp_path / "a", "2026-10-21", Path("."), tmp_path / "s", rec, seal=True, correct={}, reason=None)
+    assert res["sealed_new"] == 1 and res["day_closed"] is False  # A2 unfinished: the day stays open, later days are blocked by the gate
+    with pytest.raises(seal.SealError, match="reason code"):
+        runner.run_ingest(tmp_path / "a", "2026-10-21", Path("."), tmp_path / "s", rec, seal=True, correct={}, reason=None, exclude={"A2"})
+    with pytest.raises(seal.SealError, match="not scheduled"):
+        runner.run_ingest(tmp_path / "a", "2026-10-21", Path("."), tmp_path / "s", rec, seal=True, correct={}, reason=None, exclude={"NOPE"}, exclude_reason="OTHER_DOCUMENTED")
+    with pytest.raises(seal.SealError, match="cannot exclude finished"):  # a finished game can never be waived (that would let the owner shape the sample)
+        runner.run_ingest(tmp_path / "a", "2026-10-21", Path("."), tmp_path / "s", rec, seal=True, correct={}, reason=None, exclude={"A1"}, exclude_reason="POSTPONED_OR_CANCELLED")
+    with pytest.raises(seal.SealError, match="cannot exclude finished"):  # ... nor under a boundary pretext unless the schedule really shows a boundary move
+        runner.run_ingest(tmp_path / "a", "2026-10-21", Path("."), tmp_path / "s", rec, seal=True, correct={}, reason=None, exclude={"A1"}, exclude_reason="START_TIME_BOUNDARY")
+    res = runner.run_ingest(tmp_path / "a", "2026-10-21", Path("."), tmp_path / "s", rec, seal=True, correct={}, reason=None, exclude={"A2"}, exclude_reason="POSTPONED_OR_CANCELLED")
+    assert res["day_closed"] is True and res["excluded_game_ids"] == ["A2"] and res["skipped_existing"] == 1
+    day = [e for e in read_manifest(tmp_path / "s") if e["kind"] == "DAY"][0]
+    assert day["excluded_game_ids"] == ["A2"] and day["exclusion_reason"] == "POSTPONED_OR_CANCELLED" and day["sealed_game_ids"] == ["A1"]
+    assert verify_store(tmp_path / "s").ok and runner.blinded_scorecard(read_manifest(tmp_path / "s"))["n_prospective_games"] == 1
+    # the waiver is visible to the audit, and the excluded game can never be sealed afterwards
+    g = _games([("A1", "2026-10-21", "2026-10-21T23:00:00", True, None), ("A2", "2026-10-21", "2026-10-21T23:30:00", False, None)])
+    assert audit.schedule_audit(Path("."), "2026-10-22", store=tmp_path / "s", now=NOW, games=g, results=_results([]))["ok"]
+    late = synthetic_rows("2026-10-21", 5, 1)
+    late[0]["game_id"] = "A2"
+    seal.SealedStore(tmp_path / "s", rec, now=T0).seal_rows(late)
+    assert any("excluded from its day" in p or "after its day" in p for p in verify_store(tmp_path / "s").problems)
+
+
+def test_exclusions_cannot_be_combined_with_corrections_or_close_a_day_with_unaccounted_games(tmp_path, keys, monkeypatch):
+    rec = _exclusion_world(monkeypatch, tmp_path, keys, finals=("A1",), scheduled=("A1", "A2", "A3"))
+    with pytest.raises(seal.SealError, match="separate runs"):
+        runner.run_ingest(tmp_path / "a", "2026-10-21", Path("."), tmp_path / "s", rec, seal=True, correct={"A1": 1}, reason="OTHER_DOCUMENTED", exclude={"A2"}, exclude_reason="OTHER_DOCUMENTED")
+    res = runner.run_ingest(tmp_path / "a", "2026-10-21", Path("."), tmp_path / "s", rec, seal=True, correct={}, reason=None, exclude={"A2"}, exclude_reason="OTHER_DOCUMENTED")
+    assert res["day_closed"] is False  # A3 is still neither final nor excluded
+    st = seal.SealedStore(tmp_path / "s", rec, now=T0)
+    with pytest.raises(seal.SealError, match="exclusion needs a reason"):
+        st.close_day("2026-10-22", ["X1"], [], ["X1"], None)
+    with pytest.raises(seal.SealError, match="must be scheduled"):
+        st.close_day("2026-10-22", ["X1"], [], ["Z"], "OTHER_DOCUMENTED")
+
+
+def test_drift_ignores_a_game_the_owner_excluded_but_flags_any_other_change(tmp_path, keys):
+    st = seal.SealedStore(tmp_path / "s", keys[2], now=T0)
+    rows = synthetic_rows("2026-10-21", 0, 1)
+    rows[0]["game_id"] = "A1"
+    st.seal_rows(rows)
+    st.close_day("2026-10-21", ["A1", "A2"], [], ["A2"], "POSTPONED_OR_CANCELLED")
+    g_moved = _games([("A1", "2026-10-21", "2026-10-21T23:00:00", True, None), ("A2", "2026-10-25", "2026-10-25T23:30:00", False, None)])  # A2 was rescheduled elsewhere
+    assert audit.schedule_audit(Path("."), "2026-10-21", store=st.root, now=NOW, games=g_moved, results=_results([]))["ok"]
+    g_gone = _games([("A2", "2026-10-25", "2026-10-25T23:30:00", False, None)])  # A1 vanished from the schedule: not waived, so a problem
+    assert any(p.startswith("DRIFT") for p in audit.schedule_audit(Path("."), "2026-10-21", store=st.root, now=NOW, games=g_gone, results=_results([]))["problems"])
+
+
+def test_audit_and_selftest_scrub_unexpected_exceptions(tmp_path, monkeypatch, capsys):
+    import runpy
+
+    import pandas as pd_
+
+    def boom(*a, **k):
+        raise ValueError("home_final=7 LEAK-SENTINEL")
+
+    monkeypatch.setattr(pd_, "read_csv", boom)
+    monkeypatch.setattr("nhl_edge.market_audit.games.build_games", boom)
+    monkeypatch.setattr("sys.argv", ["audit", "--archive", str(tmp_path), "--through", "2026-10-22"])
+    with pytest.raises(SystemExit) as ei:
+        runpy.run_module("nhl_edge.sealed_ledger.audit", run_name="__main__")
+    err = capsys.readouterr()
+    assert ei.value.code == 4 and "ValueError" in err.err and "LEAK-SENTINEL" not in err.out + err.err

@@ -99,7 +99,7 @@ def build_rows(archive: Path, date_et: str, repo: Path, dev_dry_run: bool = Fals
     """Derive the ledger rows (in memory only) for the final games of one date, plus an OUTCOME-FREE info dict. Writes nothing."""
     sched = scheduled_games(archive, date_et, dev_dry_run)
     games = sched[sched["is_final"]].reset_index(drop=True)
-    info: dict[str, Any] = {"date": date_et, "games_scheduled": int(len(sched)), "games_final": int(len(games)), "scheduled_game_ids": sorted(sched["game_id"]),
+    info: dict[str, Any] = {"date": date_et, "games_scheduled": int(len(sched)), "games_final": int(len(games)), "scheduled_game_ids": sorted(sched["game_id"]), "final_game_ids": sorted(games["game_id"]),
                             "all_scheduled_final": bool(len(sched)) and bool(sched["is_final"].all())}
     if games.empty:
         return [], {**info, "games_with_pregame_forecast": 0, "missing_pregame_forecast": [], "reproduction_max_abs_diff": None, "note": "no final post-freeze games on this date"}

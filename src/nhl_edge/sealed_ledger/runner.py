@@ -1,7 +1,7 @@
 """Workflow-side CLI of the sealed prospective ledger. Encrypt-only: it imports ``seal``/``core``/``checkpoint`` and NEVER ``owner`` (no decryption path exists here).
 
     python -m nhl_edge.sealed_ledger.runner init      --store S --recipients R [--summary-out F]            # creates GENESIS + a synthetic canary; no game
-    python -m nhl_edge.sealed_ledger.runner ingest    --archive A --date D --repo . --store S --recipients R [--seal] [--correct IDS --reason CODE] [--summary-out F]
+    python -m nhl_edge.sealed_ledger.runner ingest    --archive A --date D --repo . --store S --recipients R [--seal] [--correct IDS --reason CODE | --exclude IDS --exclude-reason CODE] [--summary-out F]
     python -m nhl_edge.sealed_ledger.runner scorecard --store S --out DIR
     python -m nhl_edge.sealed_ledger.runner verify    --store S [--recipients R] [--previous PREV_STORE]
     python -m nhl_edge.sealed_ledger.runner attest    --store S [--out F]       # optional RUNNER signature, key from $LEDGER_ATTEST_KEY_PEM
@@ -62,10 +62,19 @@ def _corrections(s: str | None) -> dict[str, int]:
     return out
 
 
+def _id_list(s: str | None) -> set[str]:
+    out = {x.strip() for x in (s or "").split(",") if x.strip()}
+    bad = [x for x in out if not re.fullmatch(r"[0-9A-Za-z_-]{1,40}", x)]
+    if bad:
+        raise SystemExit(f"invalid game id(s): {bad}")
+    return out
+
+
 def run_ingest(archive: Path, date: str, repo: Path, store: Path, recipients: Path, *, seal: bool, correct: dict[str, int], reason: str | None,
-               run_id: str = "", code_sha: str = "") -> dict[str, Any]:
+               run_id: str = "", code_sha: str = "", exclude: set[str] | None = None, exclude_reason: str | None = None) -> dict[str, Any]:
     from nhl_edge.model_research import daily  # heavy imports only on the ingest path
 
+    exclude = set(exclude or ())
     rows, info = daily.build_rows(archive, date, repo)
     out: dict[str, Any] = {"date": date, "mode": "SEAL" if seal else "DRY_RUN", "games_scheduled": info["games_scheduled"], "games_final": info["games_final"],
                            "games_with_pregame_forecast": info["games_with_pregame_forecast"], "missing_pregame_forecast": info["missing_pregame_forecast"],
@@ -74,17 +83,32 @@ def run_ingest(archive: Path, date: str, repo: Path, store: Path, recipients: Pa
         out.update({"sealed_new": 0, "skipped_existing": 0, "corrections": 0, "day_closed": False, "note": "dry run: nothing was sealed or written"})
         return out
     st = SealedStore(store, recipients, run_id=run_id, code_sha=code_sha, create=False)  # a ledger is only ever created by `init`, which the owner verifies first
-    from nhl_edge.sealed_ledger import (
-        audit,  # fail closed: no day may be skipped, left incomplete, drifted or revised before a later day is sealed
-    )
+    from nhl_edge.market_audit.games import build_games, read_kind
+    from nhl_edge.sealed_ledger import audit
+    from nhl_edge.sealed_ledger.core import EXCLUSION_REASONS
 
-    gaps = audit.open_days_before(archive, date, store)
+    # fail closed: no day may be skipped, left incomplete, drifted or revised, and no orphan result may exist, before a later day is sealed
+    results = read_kind(archive, "results")
+    gaps = audit.open_days_before(archive, date, store, results=results, ignore_revised=bool(correct))
     if gaps:
         raise SealError(f"refusing to seal {date}: earlier day(s) are not cleanly closed: " + "; ".join(gaps[:5]))
-    out.update(st.seal_rows(rows, correct=correct, reason=reason))
+    if exclude:  # an owner decision, public and reason-coded: only a game that did not finish (or a genuine boundary game) may be waived, never a finished game
+        if exclude_reason not in EXCLUSION_REASONS:
+            raise SealError(f"an exclusion needs a reason code from {EXCLUSION_REASONS}")
+        if correct:
+            raise SealError("exclusions and corrections are separate runs")
+        if not exclude <= set(info["scheduled_game_ids"]):
+            raise SealError(f"excluded game(s) are not scheduled on {date}: {sorted(exclude - set(info['scheduled_game_ids']))}")
+        finished = exclude & set(info["final_game_ids"])
+        if finished and (exclude_reason != "START_TIME_BOUNDARY" or not finished <= audit.boundary_games(build_games(archive))):
+            raise SealError(f"cannot exclude finished game(s) {sorted(finished)} (only an unfinished game, or a genuine start-time boundary game with reason START_TIME_BOUNDARY)")
+        rows = [r for r in rows if str(r["game_id"]) not in exclude]
+    out["excluded_game_ids"] = sorted(exclude)
+    out.update(st.seal_rows(rows, correct=correct, reason=reason, source_asof=audit.results_asof(results)))
     # never close a day whose every game lacks a pregame forecast: that is the signature of an incomplete archive fetch, and a DAY entry cannot be undone
     suspicious = bool(info["scheduled_game_ids"]) and info["games_with_pregame_forecast"] == 0
-    out["day_closed"] = bool(info["all_scheduled_final"] and not suspicious and st.close_day(date, info["scheduled_game_ids"], info["missing_pregame_forecast"]))
+    complete = bool(info["scheduled_game_ids"]) and set(info["scheduled_game_ids"]) <= set(info["final_game_ids"]) | exclude
+    out["day_closed"] = bool(complete and not suspicious and st.close_day(date, info["scheduled_game_ids"], info["missing_pregame_forecast"], sorted(exclude), exclude_reason))
     if suspicious:
         out["note"] = "day NOT closed: no scheduled game has a pregame forecast (check the archive fetch)"
     rep = verify_store(store, recipients_sha256=load_recipients(recipients)[1])
@@ -120,6 +144,8 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--seal", action="store_true", help="seal into --store (default: dry run, nothing written)")
     a.add_argument("--correct", help="comma-separated GAME_ID@CURRENT_VERSION whose sealed record is to be superseded by a versioned correction")
     a.add_argument("--reason", help="correction reason code")
+    a.add_argument("--exclude", help="comma-separated game ids waived from this day because they never finished (owner decision; needs --exclude-reason)")
+    a.add_argument("--exclude-reason", help="POSTPONED_OR_CANCELLED | START_TIME_BOUNDARY | OTHER_DOCUMENTED")
     a.add_argument("--summary-out", type=Path)
     i = sub.add_parser("init")
     i.add_argument("--store", type=Path, required=True)
@@ -144,7 +170,7 @@ def main(argv: list[str] | None = None) -> int:
             raise SystemExit(f"no recipients file at {ns.recipients}: configure the owner's PUBLIC key(s) first (fail closed)")
         if ns.seal:
             load_recipients(ns.recipients)  # fail closed on an empty / secret-bearing file BEFORE any data is derived
-        res = run_ingest(ns.archive, ns.date, ns.repo, ns.store, ns.recipients, seal=ns.seal, correct=_corrections(ns.correct), reason=ns.reason,
+        res = run_ingest(ns.archive, ns.date, ns.repo, ns.store, ns.recipients, seal=ns.seal, correct=_corrections(ns.correct), reason=ns.reason, exclude=_id_list(ns.exclude), exclude_reason=ns.exclude_reason,
                          run_id=os.environ.get("GITHUB_RUN_ID", ""), code_sha=os.environ.get("GITHUB_SHA", ""))
         print(json.dumps(res, indent=1))
         if ns.summary_out:

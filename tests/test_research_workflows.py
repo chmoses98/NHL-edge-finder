@@ -241,3 +241,22 @@ def test_committed_research_tables_hold_no_post_freeze_game():
         if "start_time_utc" in df.columns:
             assert (pd.to_datetime(df["start_time_utc"], utc=True) < pd.Timestamp(PROSPECTIVE_FREEZE_UTC)).all(), f.name
     assert checked >= 3
+
+
+def test_audit_verdict_is_applied_after_the_report_is_uploaded_and_exclusions_are_approval_gated():
+    d = load("model_research_daily.yml")
+    steps = d["jobs"]["settle"]["steps"]
+    audit = next(st for st in steps if st.get("id") == "audit")
+    fail = next(st for st in steps if str(st.get("name", "")).startswith("Fail the run if the completeness audit failed"))
+    upload = next(i for i, st in enumerate(steps) if str(st.get("uses", "")).startswith("actions/upload-artifact") and "if" not in st)
+    assert steps.index(audit) < upload < steps.index(fail)  # the owner can read SCHEDULE_AUDIT.json even when the audit fails the run
+    assert "--allow-revised" in audit["run"] and "AUDIT PROBLEM" in audit["run"] and "steps.audit.outputs.rc" in fail["if"]
+    plan = next(st for st in steps if st.get("id") == "plan")
+    assert "exclusions need publish=true" in plan["run"] and "valid exclusion_reason" in plan["run"]
+    on = d[True] if True in d else d["on"]
+    assert on["workflow_dispatch"]["inputs"]["exclude_game_ids"]["default"] == ""
+    # exclusions only reach the sealing path (publish=true) and, like every publish, run in the approval-gated environment
+    ingest = next(st for st in steps if str(st.get("name", "")).startswith("Settle the date"))
+    assert ingest["run"].index("--exclude") > ingest["run"].index('if [ "$PUBLISH" = true ]')
+    gate = next(st for st in d["jobs"]["publish"]["steps"] if "Activation gate" in str(st.get("name", "")))
+    assert "init refused: a genesis hash is already registered" in gate["run"]

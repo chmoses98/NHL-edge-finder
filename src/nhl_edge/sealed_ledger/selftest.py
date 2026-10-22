@@ -128,4 +128,6 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    from nhl_edge.sealed_ledger.core import run_scrubbed
+
+    sys.exit(run_scrubbed(main, name="SEALED LEDGER SELFTEST"))
