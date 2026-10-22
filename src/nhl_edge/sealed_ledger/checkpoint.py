@@ -56,7 +56,9 @@ def generate_key() -> Ed25519PrivateKey:
 
 
 def private_pem(key: Ed25519PrivateKey, passphrase: bytes | None) -> bytes:
-    enc = serialization.BestAvailableEncryption(passphrase) if passphrase else serialization.NoEncryption()
+    if passphrase is not None and len(passphrase) == 0:
+        raise ValueError("an empty passphrase would silently store the private key unencrypted; pass None to do that deliberately")
+    enc = serialization.BestAvailableEncryption(passphrase) if passphrase is not None else serialization.NoEncryption()
     return key.private_bytes(serialization.Encoding.PEM, serialization.PrivateFormat.PKCS8, enc)
 
 

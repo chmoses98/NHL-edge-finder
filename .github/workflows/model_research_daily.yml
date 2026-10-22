@@ -6,7 +6,8 @@ name: model_research_daily
 #   publish=true             seals each game record with `age` (X25519 + ChaCha20-Poly1305) to the owner's PUBLIC key(s) in research/sealed_ledger/recipients.txt, appends
 #                            to a hash-chained manifest and commits ONLY ciphertext + manifest (never plaintext) to the branch `model-research-sealed-ledger`.
 # The owner's private key never touches GitHub; this workflow cannot decrypt anything. publish=true additionally requires the owner to set the repository VARIABLE
-# SEALED_LEDGER_ACTIVATION_SHA to the SHA-256 of recipients.txt (an approval that a pull request cannot supply), so merging this file activates nothing.
+# SEALED_LEDGER_ACTIVATION_SHA to the SHA-256 of recipients.txt (an approval that a pull request cannot supply), so merging this file activates nothing; and it can run
+# with publish=true only from the default branch (`main`), inside the `sealed-ledger` environment (add required reviewers there for a second human gate).
 # Design, threat model and key setup: docs/research/nhl-model-improvement/SEALED_LEDGER_DESIGN.md and SEALED_LEDGER_KEY_SETUP.md. It never writes to the default branch,
 # data-archive or accounting-data, places or routes no wager, changes no model, stake or cap, retrains nothing and promotes nothing.
 on:
@@ -20,7 +21,7 @@ on:
         required: false
         default: "false"
       correct_game_ids:
-        description: "Optional: comma-separated game ids whose sealed record is superseded by a versioned correction (publish=true only)"
+        description: "Optional: comma-separated GAME_ID@CURRENT_VERSION whose sealed record is superseded by a versioned correction (publish=true only)"
         required: false
         default: ""
       correction_reason:
@@ -55,6 +56,7 @@ jobs:
         id: plan
         env:
           EVENT: ${{ github.event_name }}
+          REF: ${{ github.ref }}
           IN_DATE: ${{ github.event.inputs.date }}
           IN_PUBLISH: ${{ github.event.inputs.publish }}
           IN_CORRECT: ${{ github.event.inputs.correct_game_ids }}
@@ -70,7 +72,8 @@ jobs:
           fi
           [[ "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || { echo "::error::bad date"; exit 1; }
           [[ "$publish" =~ ^(true|false)$ ]] || { echo "::error::bad publish value"; exit 1; }
-          [[ "$IN_CORRECT" =~ ^[0-9A-Za-z_,-]*$ ]] || { echo "::error::bad correct_game_ids"; exit 1; }
+          if [ "$publish" = true ] && [ "$REF" != "refs/heads/main" ]; then echo "::error::publish=true is only allowed from refs/heads/main (this run is $REF)"; exit 1; fi
+          [[ "$IN_CORRECT" =~ ^[0-9A-Za-z_,@-]*$ ]] || { echo "::error::bad correct_game_ids (use GAME_ID@CURRENT_VERSION,...)"; exit 1; }
           if [ -n "$IN_CORRECT" ]; then
             [ "$publish" = true ] || { echo "::error::corrections need publish=true"; exit 1; }
             [[ "$IN_REASON" =~ ^(SOURCE_SCORE_REVISED|PIPELINE_DEFECT_FIXED|OTHER_DOCUMENTED)$ ]] || { echo "::error::a correction needs a valid correction_reason"; exit 1; }
@@ -100,7 +103,7 @@ jobs:
       - name: Synthetic self-test (throwaway key, synthetic outcomes; proves the sealing path emits no plaintext)
         run: |
           mkdir -p "$RUNNER_TEMP/rd/out"
-          python -m nhl_edge.sealed_ledger.selftest --out "$RUNNER_TEMP/rd/out" | sed 's/^/selftest: /'
+          python -m nhl_edge.sealed_ledger.selftest --out "$RUNNER_TEMP/rd/out"
       - name: Fetch a sparse read-only copy of the archive
         env:
           SLATE_DATE: ${{ steps.plan.outputs.date }}
@@ -140,11 +143,6 @@ jobs:
       - name: The new manifest must extend the previous one (append-only)
         if: ${{ steps.plan.outputs.publish == 'true' }}
         run: python -m nhl_edge.sealed_ledger.runner verify --store "$RUNNER_TEMP/rd/store" --recipients research/sealed_ledger/recipients.txt --previous "$RUNNER_TEMP/rd/store_prev"
-      - name: Optional runner attestation (only if the owner configured a SIGNING key in a protected environment)
-        if: ${{ steps.plan.outputs.publish == 'true' }}
-        env:
-          LEDGER_ATTEST_KEY_PEM: ${{ secrets.LEDGER_ATTEST_KEY_PEM }}
-        run: python -m nhl_edge.sealed_ledger.runner attest --store "$RUNNER_TEMP/rd/store"
       - name: Blinded scorecard (from the public manifest only)
         run: python -m nhl_edge.sealed_ledger.runner scorecard --store "$RUNNER_TEMP/rd/store" --out "$RUNNER_TEMP/rd/out"
       - name: Verify blinding (fails the run if a look, an outcome-derived field or any plaintext appears)
@@ -194,15 +192,20 @@ jobs:
     if: ${{ needs.settle.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    environment: sealed-ledger   # create/protect this environment in Settings -> Environments (required reviewers = a second human gate; scopes the optional signing secret)
     permissions:
       contents: write   # the only write grant in this workflow; pushes ciphertext + manifest to the ledger branch (and a head tag) and nothing else
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false   # no write token is on disk while dependencies are installed or code runs; the push step supplies it explicitly
       - name: Activation gate (publish job repeats it)
         env:
           ACTIVATION: ${{ vars.SEALED_LEDGER_ACTIVATION_SHA }}
+          REF: ${{ github.ref }}
         run: |
           set -euo pipefail
+          [ "$REF" = "refs/heads/main" ] || { echo "::error::publish refused: not the default branch"; exit 1; }
           f=research/sealed_ledger/recipients.txt
           grep -qE '^age1[0-9a-z]{50,}$' "$f" || { echo "::error::publish refused: no owner public key in $f"; exit 1; }
           actual=$(sha256sum "$f" | cut -d' ' -f1)
@@ -216,7 +219,11 @@ jobs:
         with:
           name: model-research-sealed-staging-${{ github.run_id }}
           path: ${{ runner.temp }}/staged
-      - name: Commit ciphertext + manifest to the ledger branch (normal commit, never forced) and tag the head
+      - name: Optional runner attestation (only if the owner configured a SIGNING key; unrelated to the ledger keys)
+        env:
+          LEDGER_ATTEST_KEY_PEM: ${{ secrets.LEDGER_ATTEST_KEY_PEM }}
+        run: python -m nhl_edge.sealed_ledger.runner attest --store "$RUNNER_TEMP/staged"
+      - name: Build the ledger commit locally (verify, append-only against the CURRENT remote head; no token yet)
         env:
           SLATE_DATE: ${{ needs.settle.outputs.date }}
         run: |
@@ -228,28 +235,32 @@ jobs:
           if git ls-remote --exit-code --heads origin "$LEDGER_BRANCH" >/dev/null 2>&1; then
             git fetch origin "$LEDGER_BRANCH"
             git worktree add -B "$LEDGER_BRANCH" "$wt" "origin/$LEDGER_BRANCH"
-            python -m nhl_edge.sealed_ledger.runner verify --store "$staged" --recipients "$rec" --previous "$wt"   # append-only against the CURRENT remote head
+            python -m nhl_edge.sealed_ledger.runner verify --store "$staged" --recipients "$rec" --previous "$wt"
           else
             git worktree add --detach "$wt"
             (cd "$wt" && git checkout --orphan "$LEDGER_BRANCH" && git rm -rf . >/dev/null)
           fi
           cp -a "$staged/." "$wt/"
-          printf '%s\n' "# Sealed prospective research ledger (ciphertext + manifest only)" "" "Every record is encrypted with age to the owner's public key; there is no plaintext here and the private key is not on GitHub." "See docs/research/nhl-model-improvement/SEALED_LEDGER_DESIGN.md on the default branch." > "$wt/README.md"
           python -m nhl_edge.sealed_ledger.runner verify --store "$wt" --recipients "$rec"
           cd "$wt"
           git add -A
-          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
-          head=$(python - <<'PY'
-          import json, os
-          lines = [json.loads(x) for x in open("manifest.jsonl") if x.strip()]
-          print(f"{len(lines) - 1}:{lines[-1]['entry_hash']}")
-          PY
-          )
-          seq=${head%%:*}; hh=${head#*:}
-          git commit -m "sealed-ledger: settle ${SLATE_DATE} (run ${GITHUB_RUN_ID}; head ${seq}:${hh:0:12})"
-          git push origin "$LEDGER_BRANCH"
-          git tag -a "sealed-ledger-head-${seq}" -m "head ${seq} ${hh} (run ${GITHUB_RUN_ID}, ${SLATE_DATE})"
-          git push origin "sealed-ledger-head-${seq}"
+          if git diff --cached --quiet; then echo "nothing new to commit"; exit 0; fi
+          seq=$(python -c 'import json;print(len([1 for x in open("manifest.jsonl") if x.strip()])-1)')
+          git commit -m "sealed-ledger: settle ${SLATE_DATE} (run ${GITHUB_RUN_ID}; head seq ${seq})"
+      - name: Push the ledger branch and its head tag (the write token exists only in this step; never forced)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          wt="$RUNNER_TEMP/ledger_wt"; cd "$wt"
+          auth="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          git -c "http.https://github.com/.extraheader=$auth" push origin "$LEDGER_BRANCH"
+          read -r seq hh < <(python -c 'import json;L=[json.loads(x) for x in open("manifest.jsonl") if x.strip()];print(len(L)-1, L[-1]["entry_hash"])')
+          tag="sealed-ledger-head-${seq}"
+          if ! git ls-remote --exit-code --tags origin "refs/tags/${tag}" >/dev/null 2>&1; then   # re-runs create a missing tag instead of skipping it
+            git tag -a "$tag" -m "head ${seq} ${hh} (run ${GITHUB_RUN_ID})"
+            git -c "http.https://github.com/.extraheader=$auth" push origin "$tag"
+          fi
           { echo "### Sealed ledger head"; echo "seq: \`${seq}\`"; echo "entry_hash: \`${hh}\`"; echo "Record this head in your witness log (owner.py witness)."; } >> "$GITHUB_STEP_SUMMARY"
 
   alert:

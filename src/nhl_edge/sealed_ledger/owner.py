@@ -3,10 +3,10 @@
     python -m nhl_edge.sealed_ledger.owner keygen         --identity ~/sift-ledger/identity.txt          # prints ONLY the public key
     python -m nhl_edge.sealed_ledger.owner check-key      --identity ~/sift-ledger/identity.txt --recipients <repo>/research/sealed_ledger/recipients.txt
     python -m nhl_edge.sealed_ledger.owner witness-keygen --dir ~/sift-ledger/witness
-    python -m nhl_edge.sealed_ledger.owner witness        --store <ledger checkout> --dir ~/sift-ledger/witness
+    python -m nhl_edge.sealed_ledger.owner witness        --store <ledger checkout> --dir ~/sift-ledger/witness --recipients <repo>/research/sealed_ledger/recipients.txt
     python -m nhl_edge.sealed_ledger.owner verify         --store <ledger checkout> --dir ~/sift-ledger/witness [--recipients ...] [--attest-pub runner_public.pem]
     python -m nhl_edge.sealed_ledger.owner reproduce      --store <ledger checkout> --identity ~/sift-ledger/identity.txt --archive <data-archive checkout> --repo .
-    python -m nhl_edge.sealed_ledger.owner look           --store <ledger checkout> --identity ~/sift-ledger/identity.txt --dir ~/sift-ledger/witness --out ~/sift-ledger/looks
+    python -m nhl_edge.sealed_ledger.owner look           --store <ledger checkout> --identity ~/sift-ledger/identity.txt --dir ~/sift-ledger/witness --recipients <repo>/research/sealed_ledger/recipients.txt --out ~/sift-ledger/looks
 
 ``look`` refuses to decrypt anything before the preregistered 150 distinct games exist, refuses to run twice for the same look, and verifies the whole store (chain,
 ciphertext hashes, witness checkpoints) before it touches a key. It never prints a record. The private key is read from a file path you give; it is never taken from
@@ -31,7 +31,7 @@ from pyrage import x25519
 from nhl_edge.model_research import daily
 from nhl_edge.sealed_ledger import RECORD_SCHEMA
 from nhl_edge.sealed_ledger import checkpoint as CP
-from nhl_edge.sealed_ledger.core import CHECKPOINT_DIR, ct_path, is_extension, read_manifest, verify_store
+from nhl_edge.sealed_ledger.core import CHECKPOINT_DIR, closed_games, ct_path, is_extension, read_manifest, verify_store
 from nhl_edge.sealed_ledger.seal import SealError, load_recipients
 
 _SECRET_PREFIX = "AGE-SECRET-KEY-"
@@ -96,17 +96,15 @@ def decrypt_entry(root: Path, entry: dict[str, Any], identities: list[Any]) -> d
 
 
 def latest_rows(root: Path, identities: list[Any]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    """Latest version of every game, in first-seal order (= the ledger's chronological order)."""
+    """Latest version of every CLOSED game (one that a DAY entry accounts for), in first-seal order (= the ledger's chronological order)."""
     entries = read_manifest(root)
-    order: list[str] = []
+    order = closed_games(entries)
     latest: dict[str, dict[str, Any]] = {}
     corrections: list[dict[str, Any]] = []
     for e in entries:
         if e["kind"] != "RECORD":
             continue
-        if e["version"] == 1:
-            order.append(e["game_id"])
-        else:
+        if e["version"] > 1:
             corrections.append({"game_id": e["game_id"], "version": e["version"], "reason": e["reason"], "seq": e["seq"]})
         latest[e["game_id"]] = e
     rows = [decrypt_entry(root, latest[g], identities)["record"] for g in order]
@@ -114,26 +112,30 @@ def latest_rows(root: Path, identities: list[Any]) -> tuple[list[dict[str, Any]]
 
 
 def reproduce_diff(root: Path, identities: list[Any], archive: Path, repo: Path, tol: float = 1e-9) -> list[str]:
-    """Origin check for the CONTENT of the ledger (encryption alone cannot give it: anyone holding the public key can seal a forged record). For every day the ledger
-    closed, re-derive the rows from an archive checkout you trust and compare with the decrypted FIRST version of each record. Prints/returns mismatches only as
-    ``game_id: field`` names, never values, so a mismatch report is safe to share. Needs the real archive; run it locally, once, before relying on a look."""
+    """Origin check for the CONTENT of the ledger (encryption alone cannot give it: anyone holding the public key can seal a forged record). For every date that has
+    a sealed record or a DAY entry, re-derive the rows from an archive checkout you trust and compare them with the decrypted LATEST version of each game; also flag
+    sealed ids the archive cannot derive and derivable games that were never sealed. Reports ``game_id: field`` names only, never values, so a report is safe to
+    share. Needs the real archive; run it locally before relying on a look."""
     refuse_in_ci()
     entries = read_manifest(root)
-    first = {e["game_id"]: e for e in entries if e["kind"] == "RECORD" and e["version"] == 1}
+    latest: dict[str, dict[str, Any]] = {}
+    for e in entries:
+        if e["kind"] == "RECORD":
+            latest[e["game_id"]] = e
     out: list[str] = []
-    for day in sorted({e["game_date_et"] for e in entries if e["kind"] == "DAY"}):
+    for day in sorted({e["game_date_et"] for e in entries if e["kind"] in ("RECORD", "DAY")}):
         rows, _info = daily.build_rows(archive, day, repo)
-        for r in rows:
-            e = first.get(str(r["game_id"]))
-            if e is None:
-                out.append(f"{r['game_id']}: derivable from the archive but NOT in the ledger (omitted)")
-                continue
-            sealed = decrypt_entry(root, e, identities)["record"]
-            for k in sorted(set(r) | set(sealed)):
-                a, b = r.get(k), sealed.get(k)
+        derived = {str(r["game_id"]): r for r in rows}
+        sealed_ids = {g for g, e in latest.items() if e["game_date_et"] == day}
+        out += [f"{g}: sealed for {day} but not derivable from the archive (extra or forged id)" for g in sorted(sealed_ids - set(derived))]
+        out += [f"{g}: derivable from the archive but NOT in the ledger (omitted)" for g in sorted(set(derived) - sealed_ids)]
+        for gid in sorted(sealed_ids & set(derived)):
+            sealed = decrypt_entry(root, latest[gid], identities)["record"]
+            for k in sorted(set(derived[gid]) | set(sealed)):
+                a, b = derived[gid].get(k), sealed.get(k)
                 same = (abs(a - b) <= tol) if isinstance(a, float) and isinstance(b, float) else a == b
                 if not same:
-                    out.append(f"{r['game_id']}: field {k} differs")
+                    out.append(f"{gid}: field {k} differs (version {latest[gid]['version']})")
     return out
 
 
@@ -145,7 +147,13 @@ def witness_status(root: Path, witness_dir: Path) -> tuple[list[dict[str, Any]],
     return signed, probs + CP.check_store(root, signed)
 
 
-def verify_all(root: Path, witness_dir: Path | None, recipients: Path | None, attest_pub: Path | None) -> dict[str, Any]:
+def witness_log_head(witness_dir: Path) -> tuple[int, str]:
+    log = Path(witness_dir).expanduser() / "witness.jsonl"
+    lines = [json.loads(x) for x in log.read_text().splitlines() if x.strip()] if log.exists() else []
+    return len(lines), (lines[-1]["line_hash"] if lines else "")
+
+
+def verify_all(root: Path, witness_dir: Path | None, recipients: Path | None, attest_pub: Path | None, expect_witness_head: str | None = None) -> dict[str, Any]:
     refuse_in_ci()
     rep = verify_store(root, recipients_sha256=load_recipients(recipients)[1] if recipients else None)
     probs = list(rep.problems)
@@ -154,27 +162,37 @@ def verify_all(root: Path, witness_dir: Path | None, recipients: Path | None, at
         signed, wp = witness_status(root, witness_dir)
         probs += wp
         n_witness = len(signed)
+        if expect_witness_head is not None and witness_log_head(witness_dir)[1] != expect_witness_head:
+            probs.append("the witness log head differs from the value you recorded elsewhere: lines were removed from (or added to) your local log")
     if attest_pub is not None and (root / CHECKPOINT_DIR).exists():
         pub = CP.load_public(Path(attest_pub).read_bytes())
-        runner = [json.loads(p.read_text()) for p in sorted((root / CHECKPOINT_DIR).glob("runner_*.json"))]
-        for s in runner:
-            if not CP.verify_signature(s, pub):
-                probs.append(f"runner checkpoint at seq {s['checkpoint']['seq']}: bad signature")
-        probs += CP.check_against_checkpoints(read_manifest(root), [s for s in runner if CP.verify_signature(s, pub)])
+        good = []
+        for f in sorted((root / CHECKPOINT_DIR).glob("runner_*.json")):
+            try:
+                s = json.loads(f.read_text())
+                if CP.verify_signature(s, pub):
+                    good.append(s)
+                else:
+                    probs.append(f"{f.name}: bad signature")
+            except (ValueError, KeyError, TypeError):
+                probs.append(f"{f.name}: malformed runner checkpoint")
+        probs += CP.check_against_checkpoints(read_manifest(root), good)
     return {**rep.summary(), "problems": probs, "ok": not probs, "witness_checkpoints": n_witness, "warnings": rep.warnings}
 
 
-def witness(root: Path, witness_dir: Path, passphrase: str | None = None) -> dict[str, Any]:
-    """Verify the public ledger, then record a signed checkpoint of its head in YOUR local witness log. Do this regularly (e.g. weekly)."""
+def witness(root: Path, witness_dir: Path, passphrase: str | None = None, recipients: Path | None = None) -> dict[str, Any]:
+    """Verify the public ledger, then record a signed checkpoint of its head in YOUR local witness log. Do this regularly (e.g. weekly).
+    Pass ``recipients`` (the committed file) so that a replacement ledger encrypted to someone else's key cannot be witnessed."""
     refuse_in_ci()
     wd = Path(witness_dir).expanduser()
-    res = verify_all(root, wd, None, None)
+    res = verify_all(root, wd, recipients, None)
     if not res["ok"]:
         raise SystemExit("not witnessing a ledger that fails verification: " + "; ".join(res["problems"][:5]))
     key = CP.load_private((wd / "witness_private.pem").read_bytes(), (passphrase if passphrase is not None else getpass.getpass("Witness key passphrase: ")).encode())
     signed = CP.sign(CP.make_checkpoint(read_manifest(root), "WITNESS"), key)
-    CP.witness_append(wd / "witness.jsonl", signed)
-    return signed["checkpoint"]
+    line = CP.witness_append(wd / "witness.jsonl", signed)
+    return {**signed["checkpoint"], "witness_entries": line["seq"] + 1, "witness_log_head": line["line_hash"],
+            "note": "write witness_log_head down somewhere OTHER than this folder; `verify --expect-witness-head` uses it to detect a truncated log"}
 
 
 def witness_keygen(witness_dir: Path, passphrase: str | None = None) -> str:
@@ -182,7 +200,9 @@ def witness_keygen(witness_dir: Path, passphrase: str | None = None) -> str:
     wd = Path(witness_dir).expanduser()
     if (wd / "witness_private.pem").exists():
         raise SystemExit("witness key already exists")
-    pw = passphrase if passphrase is not None else getpass.getpass("New witness key passphrase: ")
+    pw = passphrase if passphrase is not None else getpass.getpass("New witness key passphrase (>= 8 characters): ")
+    if len(pw) < 8:
+        raise SystemExit("passphrase must be at least 8 characters (an empty one would leave the key unencrypted)")
     wd.mkdir(parents=True, exist_ok=True, mode=0o700)
     key = CP.generate_key()
     fd = os.open(wd / "witness_private.pem", os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
@@ -192,14 +212,26 @@ def witness_keygen(witness_dir: Path, passphrase: str | None = None) -> str:
     return CP.public_pem(key).decode()
 
 
-def take_look(root: Path, identity_path: Path, witness_dir: Path | None, out: Path, passphrase: str | None = None, *, allow_unwitnessed: bool = False) -> dict[str, Any]:
-    """The single preregistered look. Order matters: nothing is decrypted until every check that needs no key has passed."""
+def _looks_taken(root_ledger_id: str, witness_dir: Path | None, out: Path) -> set[int]:
+    taken = {k for k in daily.LOOKS if (out / f"LOOK_{k}.json").exists()}
+    if witness_dir is not None:
+        m = Path(witness_dir).expanduser() / "looks_taken.json"
+        if m.exists():
+            taken |= set(json.loads(m.read_text()).get(root_ledger_id, []))
+    return taken
+
+
+def take_look(root: Path, identity_path: Path, witness_dir: Path | None, out: Path, passphrase: str | None = None, *, allow_unwitnessed: bool = False,
+              recipients: Path | None = None) -> dict[str, Any]:
+    """The preregistered looks. Order matters: nothing is decrypted until every check that needs no key has passed. Each look (150, 300, 450) is taken once per ledger:
+    a marker in the witness directory (and the LOOK file itself) refuses a repeat even with a different ``--out``. The look taken is the SMALLEST untaken level the
+    closed-game count has reached, evaluated on exactly the first k games, so a late first look still reports the preregistered 150-game look."""
     refuse_in_ci()
-    rep = verify_store(root)
+    rep = verify_store(root, recipients_sha256=load_recipients(recipients)[1] if recipients else None)
     if not rep.ok:
         raise SystemExit("ledger fails verification; not decrypting: " + "; ".join(rep.problems[:5]))
-    if rep.n_games < daily.LOOKS[0]:
-        raise SystemExit(f"only {rep.n_games} distinct games sealed; the first look is at {daily.LOOKS[0]}. Nothing was decrypted (the blinding is the point).")
+    if rep.n_games_closed < daily.LOOKS[0]:
+        raise SystemExit(f"only {rep.n_games_closed} closed-day games sealed; the first look is at {daily.LOOKS[0]}. Nothing was decrypted (the blinding is the point).")
     if witness_dir is not None:
         signed, wp = witness_status(root, witness_dir)
         if wp:
@@ -208,16 +240,23 @@ def take_look(root: Path, identity_path: Path, witness_dir: Path | None, out: Pa
             raise SystemExit("your witness log is empty: run `witness` first, or pass --allow-unwitnessed to accept that rollback cannot be ruled out")
     elif not allow_unwitnessed:
         raise SystemExit("--dir (witness) is required, or pass --allow-unwitnessed")
-    k = max(x for x in daily.LOOKS if rep.n_games >= x)
     out = Path(out).expanduser()
+    taken = _looks_taken(rep.ledger_id, witness_dir, out)
+    todo = [x for x in daily.LOOKS if rep.n_games_closed >= x and x not in taken]
+    if not todo:
+        raise SystemExit(f"every look reached so far ({sorted(taken)}) was already taken for this ledger: a look is taken once and never repeated")
+    k = todo[0]
     out.mkdir(parents=True, exist_ok=True)
-    if (out / f"LOOK_{k}.json").exists():
-        raise SystemExit(f"LOOK_{k}.json already exists in {out}: a look is taken once and never overwritten")
     rows, meta = latest_rows(root, load_identities(identity_path, passphrase))
-    sc = daily.scorecard(rows, out)  # the frozen scoring code, unchanged: writes LOOK_k.json exactly once
-    prov = {"look": k, "ledger_id": rep.ledger_id, "head_seq": rep.head_seq, "head_hash": rep.head_hash, "n_games_sealed_at_look": rep.n_games,
+    sc = daily.scorecard(rows[:k], out)  # the frozen scoring code, unchanged, on exactly the first k games: writes LOOK_k.json exactly once
+    prov = {"look": k, "ledger_id": rep.ledger_id, "head_seq": rep.head_seq, "head_hash": rep.head_hash, "n_games_closed_at_look": rep.n_games_closed,
             "corrections_in_ledger": meta["corrections"], "taken_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")}
     (out / f"LOOK_{k}.provenance.json").write_text(json.dumps(prov, indent=1))
+    if witness_dir is not None:
+        m = Path(witness_dir).expanduser() / "looks_taken.json"
+        d = json.loads(m.read_text()) if m.exists() else {}
+        d.setdefault(rep.ledger_id, []).append(k)
+        m.write_text(json.dumps(d))
     return {"status": sc["status"], "look_file": str(out / f"LOOK_{k}.json"), "provenance": prov}
 
 
@@ -235,12 +274,14 @@ def main(argv: list[str] | None = None) -> int:
     s = sub.add_parser("witness")
     s.add_argument("--store", type=Path, required=True)
     s.add_argument("--dir", type=Path, required=True)
+    s.add_argument("--recipients", type=Path, required=True)
     s = sub.add_parser("verify")
     s.add_argument("--store", type=Path, required=True)
     s.add_argument("--dir", type=Path)
     s.add_argument("--recipients", type=Path)
     s.add_argument("--attest-pub", type=Path)
     s.add_argument("--previous", type=Path, help="an earlier copy of the store (e.g. from your last visit); the current one must extend it")
+    s.add_argument("--expect-witness-head", help="the witness_log_head you recorded elsewhere at your last `witness`")
     s = sub.add_parser("reproduce")
     s.add_argument("--store", type=Path, required=True)
     s.add_argument("--identity", type=Path, required=True)
@@ -249,6 +290,7 @@ def main(argv: list[str] | None = None) -> int:
     s = sub.add_parser("look")
     s.add_argument("--store", type=Path, required=True)
     s.add_argument("--identity", type=Path, required=True)
+    s.add_argument("--recipients", type=Path, required=True)
     s.add_argument("--dir", type=Path)
     s.add_argument("--out", type=Path, required=True)
     s.add_argument("--allow-unwitnessed", action="store_true")
@@ -261,11 +303,14 @@ def main(argv: list[str] | None = None) -> int:
     elif a.cmd == "witness-keygen":
         print(witness_keygen(a.dir))
     elif a.cmd == "witness":
-        print(json.dumps(witness(a.store, a.dir), indent=1))
+        print(json.dumps(witness(a.store, a.dir, recipients=a.recipients), indent=1))
     elif a.cmd == "verify":
-        res = verify_all(a.store, a.dir, a.recipients, a.attest_pub)
+        res = verify_all(a.store, a.dir, a.recipients, a.attest_pub, a.expect_witness_head)
         if a.previous:
-            res["problems"] += is_extension(read_manifest(a.previous), read_manifest(a.store))
+            if not a.previous.is_dir():
+                res["problems"].append(f"--previous {a.previous} is not a directory")
+            else:
+                res["problems"] += is_extension(read_manifest(a.previous), read_manifest(a.store))
             res["ok"] = not res["problems"]
         print(json.dumps(res, indent=1))
         return 0 if res["ok"] else 1
@@ -274,7 +319,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps({"mismatches": diffs, "ok": not diffs}, indent=1))
         return 0 if not diffs else 1
     else:
-        print(json.dumps(take_look(a.store, a.identity, a.dir, a.out, allow_unwitnessed=a.allow_unwitnessed), indent=1))
+        print(json.dumps(take_look(a.store, a.identity, a.dir, a.out, allow_unwitnessed=a.allow_unwitnessed, recipients=a.recipients), indent=1))
     return 0
 
 

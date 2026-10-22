@@ -98,8 +98,11 @@ def test_plaintext_is_padded_to_a_fixed_size_and_oversize_fails_closed(tmp_path,
 def test_manifest_and_files_contain_no_outcome_field_or_sentinel(tmp_path, keys):
     st = make_store(tmp_path, keys)
     blob = b"".join(p.read_bytes() for p in st.root.rglob("*") if p.is_file())
-    for banned in (SENTINEL.encode(), b"y_home_win", b"home_final", b"brier", b"pit_", b"attribution", b"roi"):
+    for banned in (SENTINEL.encode(), b"y_home_win", b"home_final", b"v1_p_home_win"):  # long tokens only: random ciphertext bytes could contain a 3-4 letter word by chance
         assert banned not in blob
+    manifest_text = (st.root / "manifest.jsonl").read_text()
+    for banned in ("brier", "pit_", "attribution", "roi", "y_total", "away_final", "home_final", "SYN0000" + "0\"" + ",\"y"):
+        assert banned not in manifest_text
     for e in st.entries:
         if e["kind"] == "RECORD":
             assert set(e) == {"v", "seq", "kind", "game_id", "game_date_et", "version", "supersedes", "reason", "ct_sha256", "ct_bytes", "pregame", "sealed_utc", "run_id",
@@ -166,6 +169,9 @@ def test_truncation_and_rollback_are_detected_by_checkpoints_and_by_extension(tm
     d = _copy(st, tmp_path, "trunc")
     lines = (d / "manifest.jsonl").read_text().splitlines(keepends=True)
     (d / "manifest.jsonl").write_text("".join(lines[:-3]))
+    for f in (d / "sealed").iterdir():  # a careful attacker removes the matching ciphertexts too
+        if int(f.name[:6]) > len(lines) - 4:
+            f.unlink()
     assert verify_store(d).ok  # structurally fine: that is exactly why an external anchor exists
     assert any("TRUNCATED" in p for p in CP.check_against_checkpoints(read_manifest(d), [signed]))
     assert is_extension(before, read_manifest(d))
@@ -215,7 +221,7 @@ def test_reprocessing_a_game_never_duplicates_and_resumes_after_new_games(tmp_pa
     res = st2.seal_rows(changed)
     assert res == {"sealed_new": 0, "skipped_existing": 4, "corrections": 0}
     assert (st.root / "manifest.jsonl").read_bytes() == before
-    res = st2.seal_rows(synthetic_rows("2026-10-22", 0, 4) + synthetic_rows("2026-10-22", 20, 2))  # late-finishing games are added; the first four are skipped
+    res = st2.seal_rows(synthetic_rows("2026-10-22", 0, 4) + synthetic_rows("2026-10-24", 20, 2))  # games of a later (not yet closed) day are added; the first four are skipped
     assert res == {"sealed_new": 2, "skipped_existing": 4, "corrections": 0}
     assert verify_store(st.root).ok
     assert st2.close_day("2026-10-22", [], []) is False  # day already closed (idempotent)
@@ -230,12 +236,15 @@ def test_a_correction_is_a_new_version_and_never_overwrites(tmp_path, keys):
     fixed = synthetic_rows("2026-10-22", 0, 1)
     fixed[0]["home_final"] = 7
     with pytest.raises(seal.SealError, match="reason code"):
-        st.seal_rows(fixed, correct={"SYN00000"})
+        st.seal_rows(fixed, correct={"SYN00000": 1})
     with pytest.raises(seal.SealError, match="never sealed"):
-        st.seal_rows(fixed, correct={"NOPE"}, reason="OTHER_DOCUMENTED")
+        st.seal_rows(fixed, correct={"NOPE": 1}, reason="OTHER_DOCUMENTED")
     with pytest.raises(seal.SealError, match="no re-derived row"):
-        st.seal_rows([], correct={"SYN00000"}, reason="OTHER_DOCUMENTED")
-    assert st.seal_rows(fixed, correct={"SYN00000"}, reason="SOURCE_SCORE_REVISED") == {"sealed_new": 0, "skipped_existing": 0, "corrections": 1}
+        st.seal_rows([], correct={"SYN00000": 1}, reason="OTHER_DOCUMENTED")
+    assert st.seal_rows(fixed, correct={"SYN00000": 1}, reason="SOURCE_SCORE_REVISED") == {"sealed_new": 0, "skipped_existing": 0, "corrections": 1}
+    with pytest.raises(seal.SealError, match="stale correction"):  # repeating the same request (e.g. a workflow re-run) cannot stack versions
+        st.seal_rows(fixed, correct={"SYN00000": 1}, reason="SOURCE_SCORE_REVISED")
+    assert [e["version"] for e in read_manifest(st.root) if e["kind"] == "RECORD" and e["game_id"] == "SYN00000"] == [1, 2]
     assert ct_path(st.root, 1).read_bytes() == old_ct  # the original ciphertext and entry are untouched
     es = [e for e in read_manifest(st.root) if e["kind"] == "RECORD" and e["game_id"] == "SYN00000"]
     assert [(e["version"], e["supersedes"], e["reason"]) for e in es] == [(1, None, None), (2, 1, "SOURCE_SCORE_REVISED")]
@@ -278,7 +287,8 @@ def test_crash_between_ciphertext_and_manifest_leaves_an_orphan_that_the_next_ru
         st.seal_rows(synthetic_rows("2026-10-24", 20, 1))
     monkeypatch.setattr(seal, "_append_line", real)
     assert ct_path(st.root, n0).exists() and len(read_manifest(st.root)) == n0
-    rep = verify_store(st.root)
+    assert not verify_store(st.root).ok  # a PUBLISHED orphan is a problem (it cannot be told from plaintext behind a fake header) ...
+    rep = verify_store(st.root, allow_orphans=True)  # ... but the runner's own working copy may resume after a crash
     assert rep.ok and any("orphan" in w for w in rep.warnings)
     st2 = seal.SealedStore(st.root, keys[2], now=T0)  # a fresh process resumes
     assert st2.seal_rows(synthetic_rows("2026-10-24", 20, 1))["sealed_new"] == 1
@@ -374,7 +384,7 @@ def _owner_setup(tmp_path, keys, n_games):
     idf = tmp_path / "identity.txt"
     idf.write_text(f"{a}\n")
     wd = tmp_path / "witness"
-    owner.witness_keygen(wd, passphrase="pw")
+    owner.witness_keygen(wd, passphrase="correct-horse")
     return st, idf, wd
 
 
@@ -391,23 +401,25 @@ def test_look_at_150_is_written_once_with_provenance_and_requires_a_witness(tmp_
     out = tmp_path / "looks"
     with pytest.raises(SystemExit, match="witness log is empty"):
         owner.take_look(st.root, idf, wd, out)
-    cp = owner.witness(st.root, wd, passphrase="pw")
+    cp = owner.witness(st.root, wd, passphrase="correct-horse")
     assert cp["seq"] == len(st.entries) - 1
     res = owner.take_look(st.root, idf, wd, out)
     assert res["status"] == "AT_LOOK_150" and (out / "LOOK_150.json").exists() and (out / "LOOK_150.provenance.json").exists()
     look = json.loads((out / "LOOK_150.json").read_text())
     assert look["games"] == 150 and "brier" in look
-    with pytest.raises(SystemExit, match="already exists"):
+    with pytest.raises(SystemExit, match="already taken"):
         owner.take_look(st.root, idf, wd, out)
+    with pytest.raises(SystemExit, match="already taken"):  # a different --out directory is no escape: the marker lives in the witness directory
+        owner.take_look(st.root, idf, wd, tmp_path / "elsewhere")
 
 
 def test_look_refuses_a_rolled_back_ledger_and_a_tampered_one(tmp_path, keys):
     st, idf, wd = _owner_setup(tmp_path, keys, 150)
-    owner.witness(st.root, wd, passphrase="pw")
+    owner.witness(st.root, wd, passphrase="correct-horse")
     full = _copy(st, tmp_path, "full")
     st.seal_rows(synthetic_rows("2026-12-01", 500, 3))
     st.close_day("2026-12-01", ["SYN00500", "SYN00501", "SYN00502"], [])
-    owner.witness(st.root, wd, passphrase="pw")  # witnessed the longer ledger
+    owner.witness(st.root, wd, passphrase="correct-horse")  # witnessed the longer ledger
     rolled = full  # the shorter, older, internally valid copy
     assert verify_store(rolled).ok
     with pytest.raises(SystemExit, match="TRUNCATED"):
@@ -418,7 +430,7 @@ def test_look_refuses_a_rolled_back_ledger_and_a_tampered_one(tmp_path, keys):
         owner.take_look(bad, idf, wd, tmp_path / "o2")
 
 
-def test_reproduce_diff_flags_forged_or_omitted_records_without_printing_values(tmp_path, keys, monkeypatch):
+def test_reproduce_diff_flags_forged_extra_and_omitted_records_without_printing_values(tmp_path, keys, monkeypatch):
     a, _b, rec = keys
     st = seal.SealedStore(tmp_path / "s", rec, now=T0)
     real = synthetic_rows("2026-11-01", 0, 3)
@@ -426,15 +438,42 @@ def test_reproduce_diff_flags_forged_or_omitted_records_without_printing_values(
     forged[1]["home_final"] = 8  # the sealed copy of game 1 was forged
     st.seal_rows(forged[:2])  # and game 2 was omitted
     st.close_day("2026-11-01", ["SYN00000", "SYN00001"], [])
+    st.seal_rows(synthetic_rows("2026-11-01", 90, 1))  # an extra id on a closed day, appended later
     monkeypatch.setattr(daily, "build_rows", lambda *a, **k: (real, {}))
     diffs = owner.reproduce_diff(st.root, [a], tmp_path, tmp_path)
-    assert diffs == ["SYN00001: field home_final differs", "SYN00002: derivable from the archive but NOT in the ledger (omitted)"]
+    assert diffs == ["SYN00090: sealed for 2026-11-01 but not derivable from the archive (extra or forged id)",
+                     "SYN00002: derivable from the archive but NOT in the ledger (omitted)", "SYN00001: field home_final differs (version 1)"]
     assert owner.reproduce_diff(make_store(tmp_path, keys, name="ok", days=(("2026-11-01", 0, 3),)).root, [a], tmp_path, tmp_path) == []
+
+
+def test_a_forged_correction_and_forged_extra_games_are_caught_and_never_count_toward_the_threshold(tmp_path, keys, monkeypatch):
+    a, _b, rec = keys
+    st = seal.SealedStore(tmp_path / "s", rec, now=T0)
+    real = synthetic_rows("2026-11-01", 0, 4)
+    st.seal_rows(real)
+    st.close_day("2026-11-01", [r["game_id"] for r in real], [])
+    assert verify_store(st.root).n_games_closed == 4
+    flipped = dict(real[1])
+    flipped["home_final"] = 9
+    # an attacker with write access (the public key is public) appends a forged v2 and extra games for a real date and for an unclosed date
+    seal.SealedStore(st.root, rec, now=T0).seal_rows([flipped], correct={"SYN00001": 1}, reason="OTHER_DOCUMENTED")
+    seal.SealedStore(st.root, rec, now=T0).seal_rows(synthetic_rows("2026-11-02", 70, 5))
+    rep = verify_store(st.root)
+    assert rep.ok and rep.n_games == 9 and rep.n_games_closed == 4 and rep.n_corrections == 1  # structurally valid, but only the 4 closed games count
+    assert runner.blinded_scorecard(read_manifest(st.root))["n_prospective_games"] == 4
+    monkeypatch.setattr(daily, "build_rows", lambda archive, day, *x, **k: (real if day == "2026-11-01" else [], {}))
+    diffs = owner.reproduce_diff(st.root, [a], tmp_path, tmp_path)
+    assert "SYN00001: field home_final differs (version 2)" in diffs and sum("not derivable" in d for d in diffs) == 5
+    rows, meta = owner.latest_rows(st.root, [a])
+    assert len(rows) == 4 and meta["n_games"] == 4  # forged extras never enter a look
+    # a record that appears for a day that was ALREADY closed is a structural error
+    seal.SealedStore(st.root, rec, now=T0).seal_rows(synthetic_rows("2026-11-01", 80, 1))
+    assert any("after its day" in p or "does not list exactly" in p for p in verify_store(st.root).problems)
 
 
 def test_verify_all_with_witness_and_previous_copy(tmp_path, keys):
     st, _idf, wd = _owner_setup(tmp_path, keys, 20)
-    owner.witness(st.root, wd, passphrase="pw")
+    owner.witness(st.root, wd, passphrase="correct-horse")
     res = owner.verify_all(st.root, wd, keys[2], None)
     assert res["ok"] and res["witness_checkpoints"] == 1
     d = _copy(st, tmp_path, "t")
@@ -534,6 +573,8 @@ def test_runner_scorecard_equals_the_frozen_blinded_scorecard_and_never_computes
     rows = synthetic_rows("2026-11-01", 0, 10)
     rows[3]["sb_p_home"] = None
     st.seal_rows(rows)
+    assert runner.blinded_scorecard(st.entries)["n_prospective_games"] == 0  # records of a day nobody closed do not count
+    st.close_day("2026-11-01", [r["game_id"] for r in rows], [])
     mine = runner.blinded_scorecard(st.entries)
     ref = daily.scorecard([{**r, "y_home_win": 1} for r in rows])
     assert set(mine) == set(ref) and mine["status"] == ref["status"] == "ACCUMULATING_BLINDED" and mine["n_prospective_games"] == 10
@@ -541,7 +582,9 @@ def test_runner_scorecard_equals_the_frozen_blinded_scorecard_and_never_computes
     assert mine["data_quality"]["mean_slate_age_min"] == pytest.approx(ref["data_quality"]["mean_slate_age_min"])
     big = seal.SealedStore(tmp_path / "b", rec, now=T0)
     for i in range(0, 150, 15):
-        big.seal_rows(synthetic_rows(f"2026-12-{1 + i // 15:02d}", i, 15))
+        rws = synthetic_rows(f"2026-12-{1 + i // 15:02d}", i, 15)
+        big.seal_rows(rws)
+        big.close_day(rws[0]["game_date_et"], [r["game_id"] for r in rws], [])
     sc = runner.blinded_scorecard(big.entries)
     assert sc["status"] == "LOOK_150_DUE_OWNER_LOCAL" and "look" not in sc and not list((tmp_path / "b").glob("LOOK_*"))
 
@@ -621,3 +664,103 @@ def test_registry_note_for_the_sealed_ledger_design_chains():
     from nhl_edge.model_research import registry
 
     assert registry.verify(ROOT / "docs/research/nhl-model-improvement/experiment_registry.jsonl") == []
+
+
+# ---------------------------------------------------------------- review hardening ---------------------------------------------------------------------
+
+def test_verify_rejects_hidden_channels_in_the_published_tree(tmp_path, keys):
+    st = make_store(tmp_path, keys)
+    lines = (st.root / "manifest.jsonl").read_text().splitlines()
+    cases = {
+        "workflow_file": lambda r: ((r / ".github" / "workflows").mkdir(parents=True), (r / ".github" / "workflows" / "x.yml").write_text("on: push")),
+        "dotfile": lambda r: (r / ".gitattributes").write_text("x"),
+        "readme": lambda r: (r / "README.md").write_text("home_final=3"),
+        "plaintext_orphan": lambda r: (r / "sealed" / "000099.age").write_text("home_final=3 plaintext"),
+        "fake_header_orphan": lambda r: (r / "sealed" / "000098.age").write_bytes(b"age-encryption.org/v1\n" + b"x" * 4500),
+        "extra_manifest_field": lambda r: (r / "manifest.jsonl").write_text("\n".join([lines[0], lines[1][:-1] + ',"leak":"home_final=3"}'] + lines[2:]) + "\n"),
+        "non_canonical_json": lambda r: (r / "manifest.jsonl").write_text("\n".join([lines[0], json.dumps(json.loads(lines[1]), indent=1).replace("\n", " ")] + lines[2:]) + "\n"),
+        "blank_line": lambda r: (r / "manifest.jsonl").write_text(lines[0] + "\n\n" + "\n".join(lines[1:]) + "\n"),
+        "junk_checkpoint": lambda r: ((r / "checkpoints").mkdir(), (r / "checkpoints" / "runner_000001.json").write_text('{"x": "home_final=3"}')),
+        "wrongly_named_checkpoint": lambda r: ((r / "checkpoints").mkdir(), (r / "checkpoints" / "notes.json").write_text("{}")),
+    }
+    for name, mut in cases.items():
+        d = _copy(st, tmp_path, name)
+        mut(d)
+        assert not verify_store(d).ok, name
+    (st.root / ".git").mkdir()  # a bare .git (the store as a working tree) is the one allowed dotfile
+    assert verify_store(st.root).ok
+
+
+def test_workflows_pass_previous_strictly_and_close_day_refuses_a_suspicious_archive(tmp_path, keys, monkeypatch, capsys):
+    _a, _b, rec = keys
+    st = make_store(tmp_path, keys)
+    assert runner.main(["verify", "--store", str(st.root), "--recipients", str(rec), "--previous", str(tmp_path / "typo")]) == 1  # a typo can no longer disable the check
+    empty = tmp_path / "empty_prev"
+    empty.mkdir()
+    assert runner.main(["verify", "--store", str(st.root), "--recipients", str(rec), "--previous", str(empty)]) == 0  # first publish: previous exists and is empty
+    rows = synthetic_rows("2026-10-30", 40, 2)
+    _fake_build_rows(monkeypatch, rows, scheduled=["SYN00040", "SYN00041"], missing=["SYN00040", "SYN00041"])
+    monkeypatch.setitem(__import__("sys").modules["nhl_edge.model_research.daily"].__dict__, "build_rows", lambda *a, **k: (rows[:0], {
+        "date": "2026-10-30", "games_scheduled": 2, "games_final": 2, "scheduled_game_ids": ["SYN00040", "SYN00041"], "all_scheduled_final": True,
+        "games_with_pregame_forecast": 0, "missing_pregame_forecast": ["SYN00040", "SYN00041"], "reproduction_max_abs_diff": None}))
+    res = runner.run_ingest(tmp_path / "a", "2026-10-30", Path("."), tmp_path / "s2", rec, seal=True, correct={}, reason=None)
+    assert res["day_closed"] is False and "NOT closed" in res["note"]
+
+
+def test_look_takes_the_smallest_untaken_level_on_exactly_the_first_k_games_and_each_look_once(tmp_path, keys):
+    st, idf, wd = _owner_setup(tmp_path, keys, 300)
+    owner.witness(st.root, wd, passphrase="correct-horse")
+    out = tmp_path / "looks"
+    r1 = owner.take_look(st.root, idf, wd, out)
+    assert r1["provenance"]["look"] == 150 and json.loads((out / "LOOK_150.json").read_text())["games"] == 150  # a late first look is still the preregistered 150-game look
+    r2 = owner.take_look(st.root, idf, wd, tmp_path / "other")
+    assert r2["provenance"]["look"] == 300 and json.loads((tmp_path / "other" / "LOOK_300.json").read_text())["games"] == 300
+    with pytest.raises(SystemExit, match="already taken"):
+        owner.take_look(st.root, idf, wd, tmp_path / "third")
+
+
+def test_witness_log_head_detects_removal_of_the_last_lines_and_recipients_are_checked(tmp_path, keys):
+    st, _idf, wd = _owner_setup(tmp_path, keys, 20)
+    c1 = owner.witness(st.root, wd, passphrase="correct-horse", recipients=keys[2])
+    st.seal_rows(synthetic_rows("2026-12-20", 300, 2))
+    st.close_day("2026-12-20", ["SYN00300", "SYN00301"], [])
+    c2 = owner.witness(st.root, wd, passphrase="correct-horse", recipients=keys[2])
+    assert c2["witness_entries"] == 2 and owner.verify_all(st.root, wd, keys[2], None, c2["witness_log_head"])["ok"]
+    log = wd / "witness.jsonl"
+    log.write_text(log.read_text().splitlines(keepends=True)[0])  # the owner's log loses its last line: still chains and still signs ...
+    assert CP.witness_read(log, CP.load_public((wd / "witness_public.pem").read_bytes()))[1] == []
+    res = owner.verify_all(st.root, wd, keys[2], None, c2["witness_log_head"])  # ... but the head recorded elsewhere exposes it
+    assert not res["ok"] and any("witness log head" in p for p in res["problems"])
+    assert c1["witness_entries"] == 1
+    other = tmp_path / "other_recipients.txt"
+    other.write_text(f"{x25519.Identity.generate().to_public()}\n")
+    with pytest.raises(SystemExit, match="recipients"):
+        owner.witness(st.root, wd, passphrase="correct-horse", recipients=other)  # a ledger encrypted to someone else's key cannot be witnessed
+    idf = tmp_path / "id2.txt"
+    idf.write_text(f"{keys[0]}\n")
+
+
+def test_empty_witness_passphrase_and_duplicate_recipients_and_torn_genesis(tmp_path, keys):
+    with pytest.raises(SystemExit, match="at least 8"):
+        owner.witness_keygen(tmp_path / "w", passphrase="")
+    with pytest.raises(ValueError, match="unencrypted"):
+        CP.private_pem(CP.generate_key(), b"")
+    a, _b, _rec = keys
+    dup = tmp_path / "dup.txt"
+    dup.write_text(f"{a.to_public()}\n{a.to_public()}\n")
+    with pytest.raises(seal.SealError, match="more than once"):
+        seal.load_recipients(dup)
+    rec = keys[2]
+    st = seal.SealedStore(tmp_path / "g", rec, now=T0)
+    (st.root / "manifest.jsonl").write_bytes((st.root / "manifest.jsonl").read_bytes()[:40])  # crash while writing the genesis line
+    with pytest.raises(seal.SealError):
+        seal.SealedStore(st.root, rec, now=T0)
+    st2 = seal.SealedStore(st.root, rec, now=T0, repair_torn_tail=True)
+    assert st2.seal_rows(synthetic_rows("2026-11-01", 0, 1))["sealed_new"] == 1 and verify_store(st.root).ok
+
+
+def test_correction_syntax_names_the_version_being_superseded():
+    assert runner._corrections("A1@1, B2@3") == {"A1": 1, "B2": 3}
+    for bad in ("A1", "A1@0", "A1@x", "bad id@1", "A1@1@2"):
+        with pytest.raises(SystemExit):
+            runner._corrections(bad)

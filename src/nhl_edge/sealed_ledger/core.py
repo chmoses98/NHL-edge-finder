@@ -30,9 +30,19 @@ SEALED_DIR = "sealed"
 CHECKPOINT_DIR = "checkpoints"
 CORRECTION_REASONS = ("SOURCE_SCORE_REVISED", "PIPELINE_DEFECT_FIXED", "OTHER_DOCUMENTED")
 AGE_HEADER = b"age-encryption.org/v1\n"
-ALLOWED_TOP = {MANIFEST, SEALED_DIR, CHECKPOINT_DIR, "README.md"}
+ALLOWED_TOP = {MANIFEST, SEALED_DIR, CHECKPOINT_DIR}  # exactly these (plus a bare ".git" when the store is a git working tree)
+KEYS = {
+    "GENESIS": {"v", "schema", "seq", "kind", "ledger_id", "created_utc", "recipients_sha256", "recipient_count", "pad_bytes", "protocol_rules_sha256", "run_id", "code_sha",
+                "prev_hash", "entry_hash"},
+    "RECORD": {"v", "seq", "kind", "game_id", "game_date_et", "version", "supersedes", "reason", "ct_sha256", "ct_bytes", "pregame", "sealed_utc", "run_id", "code_sha",
+               "prev_hash", "entry_hash"},
+    "DAY": {"v", "seq", "kind", "game_date_et", "scheduled_game_ids", "sealed_game_ids", "missing_pregame_game_ids", "sealed_utc", "run_id", "code_sha", "prev_hash",
+            "entry_hash"},
+}
+CP_MAX_BYTES = 4096
+
 _CT_NAME = re.compile(r"^\d{6}\.age$")
-_CP_NAME = re.compile(r"^[A-Za-z0-9_.-]+\.json$")
+_CP_NAME = re.compile(r"^runner_\d{6}\.json$")
 
 
 def canon(obj: Any) -> bytes:
@@ -79,6 +89,13 @@ def read_manifest(root: Path, *, allow_torn_tail: bool = False) -> list[dict[str
     return out
 
 
+def closed_games(entries: list[dict[str, Any]]) -> list[str]:
+    """Version-1 game ids, in sealing order, that a DAY entry accounts for. Only these count toward the 150-game threshold and enter a look: a record that no DAY
+    commits to (an extra or forged id, or a day not yet complete) is carried in the ledger but never evaluated."""
+    closed = {e["game_date_et"]: set(e["sealed_game_ids"]) for e in entries if e.get("kind") == "DAY"}
+    return [e["game_id"] for e in entries if e.get("kind") == "RECORD" and e.get("version") == 1 and e.get("game_id") in closed.get(e.get("game_date_et"), ())]
+
+
 def size_band(recipient_count: int) -> tuple[int, int]:
     """Plausible ciphertext length for a fixed-size plaintext: payload + age header (+ one stanza per recipient) + random grease. Outside it => not our padding."""
     return PAD_BYTES, PAD_BYTES + 600 + 250 * max(1, recipient_count)
@@ -97,6 +114,7 @@ class Report:
     head_hash: str = ""
     ledger_id: str = ""
     n_games: int = 0
+    n_games_closed: int = 0  # distinct games listed by a DAY entry: the only games that count toward a look
     n_corrections: int = 0
     days: list[str] = field(default_factory=list)
 
@@ -106,11 +124,13 @@ class Report:
 
     def summary(self) -> dict[str, Any]:
         return {"ok": self.ok, "problems": self.problems, "warnings": self.warnings, "n_entries": self.n_entries, "head_seq": self.head_seq, "head_hash": self.head_hash,
-                "ledger_id": self.ledger_id, "n_games": self.n_games, "n_corrections": self.n_corrections}
+                "ledger_id": self.ledger_id, "n_games": self.n_games, "n_games_closed": self.n_games_closed, "n_corrections": self.n_corrections}
 
 
-def verify_store(root: Path, *, recipients_sha256: str | None = None) -> Report:
-    """Structural verification that needs no secret: chain, hashes, fixed ciphertext size, version discipline, no stray (possibly plaintext) files."""
+def verify_store(root: Path, *, recipients_sha256: str | None = None, allow_orphans: bool = False) -> Report:
+    """Structural verification that needs no secret: chain, hashes, fixed ciphertext size, version discipline, no stray (possibly plaintext) files. A ciphertext that the
+    manifest does not reference is a PROBLEM (it cannot be told from a plaintext file behind a fake header); only ``SealedStore`` resuming a crashed run on the runner's
+    own working copy passes ``allow_orphans=True``. A failed job never commits, so a published orphan means tampering."""
     rep = Report()
     try:
         entries = read_manifest(root)
@@ -121,10 +141,17 @@ def verify_store(root: Path, *, recipients_sha256: str | None = None) -> Report:
     if not entries:
         rep.problems.append("empty or missing manifest")
         return rep
+    raw_lines = (root / MANIFEST).read_bytes().split(b"\n")
+    if raw_lines[-1] != b"" or any(not ln for ln in raw_lines[:-1]):
+        rep.problems.append("manifest has blank lines or no final newline")
+    for i, ln in enumerate(raw_lines[:-1]):
+        if ln and i < len(entries) and ln != canon(entries[i]):
+            rep.problems.append(f"entry {i}: line is not the canonical serialisation of its entry (extra whitespace, field order or unicode escapes)")
     prev = ZERO
     first_ver: dict[str, int] = {}
     last_ver: dict[str, tuple[int, int]] = {}  # game_id -> (version, seq)
     days: set[str] = set()
+    v1_by_date: dict[str, list[str]] = {}
     band = (0, 0)
     referenced: set[int] = set()
     for i, e in enumerate(entries):
@@ -136,6 +163,8 @@ def verify_store(root: Path, *, recipients_sha256: str | None = None) -> Report:
             rep.problems.append(f"entry {i}: entry_hash does not match its contents (entry edited)")
         prev = e.get("entry_hash", "")
         kind = e.get("kind")
+        if kind in KEYS and set(e) != KEYS[kind]:
+            rep.problems.append(f"entry {i}: fields {sorted(set(e) ^ KEYS[kind])} are not part of a {kind} entry (a hidden field could carry data)")
         if i == 0:
             if kind != "GENESIS":
                 rep.problems.append("entry 0 is not GENESIS")
@@ -164,6 +193,9 @@ def verify_store(root: Path, *, recipients_sha256: str | None = None) -> Report:
                     rep.problems.append(f"entry {i}: first record of game {gid} must be version 1 with no supersedes/reason")
                 first_ver[gid] = i
                 rep.n_games += 1
+                if e.get("game_date_et") in days:
+                    rep.problems.append(f"entry {i}: game {gid} sealed after its day {e.get('game_date_et')} was closed")
+                v1_by_date.setdefault(str(e.get("game_date_et")), []).append(gid)
             else:
                 pv, ps = last_ver[gid]
                 rep.n_corrections += 1
@@ -191,6 +223,8 @@ def verify_store(root: Path, *, recipients_sha256: str | None = None) -> Report:
             for gid in e.get("sealed_game_ids", []):
                 if gid not in last_ver:
                     rep.problems.append(f"entry {i}: DAY {d} lists game {gid} that has no earlier RECORD")
+            if sorted(v1_by_date.get(str(d), [])) != sorted(e.get("sealed_game_ids", [])):
+                rep.problems.append(f"entry {i}: DAY {d} does not list exactly the games sealed for that date (extra or forged record)")
             if sorted(set(e.get("sealed_game_ids", [])) | set(e.get("missing_pregame_game_ids", []))) != sorted(e.get("scheduled_game_ids", [])):
                 rep.problems.append(f"entry {i}: DAY {d} does not account for every scheduled game")
         else:
@@ -200,18 +234,31 @@ def verify_store(root: Path, *, recipients_sha256: str | None = None) -> Report:
     sd = root / SEALED_DIR
     if sd.exists():
         for f in sorted(sd.iterdir()):
-            if not _CT_NAME.match(f.name):
+            if not _CT_NAME.match(f.name) or not f.is_file():
                 rep.problems.append(f"unexpected file in {SEALED_DIR}/: {f.name}")
             elif int(f.name[:6]) not in referenced:
-                rep.warnings.append(f"orphan ciphertext {f.name} (an interrupted run; overwritten by the next seal at that sequence number)")
+                if allow_orphans:
+                    rep.warnings.append(f"orphan ciphertext {f.name} (an interrupted run on this working copy; overwritten by the next seal at that sequence number)")
+                else:
+                    rep.problems.append(f"orphan file {f.name} is not referenced by the manifest (a published orphan cannot be told from plaintext behind a fake header)")
     for f in sorted(root.iterdir()):
-        if f.name not in ALLOWED_TOP and not f.name.startswith(".git"):
+        if f.name not in ALLOWED_TOP and f.name != ".git":
             rep.problems.append(f"unexpected top-level file {f.name!r}: only ciphertext, the manifest and checkpoints may be published")
     cd = root / CHECKPOINT_DIR
     if cd.exists():
         for f in sorted(cd.iterdir()):
-            if not _CP_NAME.match(f.name):
+            if not _CP_NAME.match(f.name) or not f.is_file() or f.stat().st_size > CP_MAX_BYTES:
                 rep.problems.append(f"unexpected file in {CHECKPOINT_DIR}/: {f.name}")
+                continue
+            try:
+                obj = json.loads(f.read_text())
+                ok = set(obj) == {"checkpoint", "sig_hex"} and isinstance(obj["sig_hex"], str) and len(obj["sig_hex"]) == 128 and set(obj["checkpoint"]) == {
+                    "schema", "ledger_id", "seq", "head_hash", "n_entries", "signer", "issued_utc"}
+            except (ValueError, TypeError, KeyError):
+                ok = False
+            if not ok:
+                rep.problems.append(f"checkpoint {f.name} is malformed")
+    rep.n_games_closed = len(closed_games(entries))
     return rep
 
 

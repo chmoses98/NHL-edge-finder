@@ -79,6 +79,8 @@ def test_daily_workflow_has_no_decryption_path_or_key_material():
         assert banned not in text, banned
     secrets_used = set(re.findall(r"secrets\.([A-Z0-9_]+)", text))
     assert secrets_used <= {"LEDGER_ATTEST_KEY_PEM"}, secrets_used  # an optional SIGNING key only; no decryption key exists on GitHub
+    d = load("model_research_daily.yml")
+    assert "secrets." not in yaml.safe_dump(d["jobs"]["settle"]) and "secrets." not in yaml.safe_dump(d["jobs"]["alert"])  # the signing secret is only reachable in the publish job
     raw = (WF / "model_research_daily.yml").read_text()
     assert text.count("--seal") == 1  # sealing happens only under the PUBLISH=true branch
     assert 'if [ "$PUBLISH" = true ]; then\n            args+=(--seal)' in raw
@@ -96,3 +98,24 @@ def test_bounded_resources_and_serialised_runs():
     for name, j in d["jobs"].items():
         assert j["timeout-minutes"] <= 30, name
     assert all(st["with"].get("retention-days", 99) <= 14 for j in d["jobs"].values() for st in j["steps"] if str(st.get("uses", "")).startswith("actions/upload-artifact"))
+
+
+def test_publish_runs_only_from_main_in_a_protected_environment_with_a_token_free_checkout():
+    d = load("model_research_daily.yml")
+    raw = (WF / "model_research_daily.yml").read_text()
+    assert d["jobs"]["publish"]["environment"] == "sealed-ledger"
+    assert raw.count('refs/heads/main') >= 3  # the plan step and the publish-job gate both refuse any other ref
+    co = d["jobs"]["publish"]["steps"][0]
+    assert str(co["uses"]).startswith("actions/checkout") and co["with"]["persist-credentials"] is False
+    # the write token appears in exactly one step (push), after dependencies are installed and verification has run
+    token_steps = [st["name"] for st in d["jobs"]["publish"]["steps"] if "github.token" in yaml.safe_dump(st)]
+    assert len(token_steps) == 1 and token_steps[0].startswith("Push the ledger branch")
+    names = [st.get("name", st.get("uses")) for st in d["jobs"]["publish"]["steps"]]
+    assert names.index(token_steps[0]) > max(i for i, n in enumerate(names) if str(n).startswith(("Build the ledger commit", "pip", "Optional runner")) or n is None)
+
+
+def test_selftest_step_can_fail_the_job_and_no_readme_or_extra_files_are_published():
+    d = load("model_research_daily.yml")
+    st = next(s for s in d["jobs"]["settle"]["steps"] if "selftest" in str(s.get("run", "")))
+    assert "|" not in st["run"].replace("||", "")  # no pipeline: a failing self-test fails the step
+    assert "README" not in (WF / "model_research_daily.yml").read_text().replace("README is", "")

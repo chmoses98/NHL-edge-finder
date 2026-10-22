@@ -31,7 +31,7 @@ Losing **both** identities makes the ledger unreadable (§6). Losing the witness
 ```bash
 owner keygen --identity ~/sift-ledger/primary-identity.txt       # prints ONLY the public key (age1…)
 owner keygen --identity ~/sift-ledger/backup-identity.txt        # a second, independent key
-owner witness-keygen --dir ~/sift-ledger/witness                 # asks for a passphrase twice; prints the witness PUBLIC key
+owner witness-keygen --dir ~/sift-ledger/witness                 # asks for a passphrase (>= 8 characters); prints the witness PUBLIC key
 chmod 700 ~/sift-ledger; chmod 600 ~/sift-ledger/*identity.txt
 ```
 
@@ -68,7 +68,7 @@ Both must print `"identity_matches_recipient": true, "canary_roundtrip": true`, 
    shasum -a 256 research/sealed_ledger/recipients.txt
    ```
    The workflow refuses to publish unless this equals the SHA-256 of the committed `recipients.txt`; changing a key later invalidates the activation until you reset it.
-4. *(Recommended hardening)* Settings → Rules → Rulesets: a branch ruleset on `model-research-sealed-ledger` that blocks deletion and force-push, and a tag ruleset for `sealed-ledger-head-*` that blocks deletion and updates.
+4. Settings → Environments → **sealed-ledger** (created automatically by the first run, or create it now): add yourself as a *required reviewer* so every `publish=true` run waits for your click; restrict it to the `main` branch. *(Recommended hardening, too)* Settings → Rules → Rulesets: a branch ruleset on `model-research-sealed-ledger` that blocks deletion and force-push, and a tag ruleset for `sealed-ledger-head-*` that blocks deletion and updates.
 5. Approve **one controlled initialisation**: run `model_research_daily` with `publish=true` for the first post-freeze date (`2026-10-21`), then each later date in ascending order. Check the run: only `model-research-sealed-ledger` received commits; they hold only `manifest.jsonl`, `sealed/*.age`, `README.md`.
 6. Witness it (below). Only then consider the schedule (uncomment `schedule:` after reviewing the configuration — another approval).
 
@@ -78,7 +78,10 @@ Both must print `"identity_matches_recipient": true, "canary_roundtrip": true`, 
 git clone --branch model-research-sealed-ledger --single-branch https://github.com/chmoses98/NHL-edge-finder.git ~/sift-ledger/ledger   # first time
 cd ~/sift-ledger/ledger && cp -a . ../ledger_prev_$(date +%F) && git pull --ff-only                                                      # keep the previous copy
 owner verify  --store ~/sift-ledger/ledger --dir ~/sift-ledger/witness --recipients ~/sift-ledger/repo/research/sealed_ledger/recipients.txt --previous ~/sift-ledger/ledger_prev_YYYY-MM-DD
-owner witness --store ~/sift-ledger/ledger --dir ~/sift-ledger/witness        # signs the verified head into YOUR log; do this weekly
+owner witness --store ~/sift-ledger/ledger --dir ~/sift-ledger/witness --recipients ~/sift-ledger/repo/research/sealed_ledger/recipients.txt   # signs the verified head into YOUR log; do this weekly
+```
+`witness` prints `witness_log_head`. **Write that value down somewhere other than the witness folder** (paper, a note on another device) and pass it next time as `--expect-witness-head <value>` to `verify`: it is what exposes removal of the last lines of your own log.
+```bash
 ```
 
 `verify` must print `"ok": true`. Any `problem` mentioning TRUNCATED, ROLLED BACK, REPLACED or REWRITTEN means the public ledger no longer extends what you witnessed: **stop, do not witness, and keep the copies**. (The strongest evidence is your own earlier copy plus your signed log.)
@@ -86,12 +89,12 @@ owner witness --store ~/sift-ledger/ledger --dir ~/sift-ledger/witness        # 
 ### The look (once, at ≥ 150 games)
 
 ```bash
-owner witness --store ~/sift-ledger/ledger --dir ~/sift-ledger/witness
+owner witness --store ~/sift-ledger/ledger --dir ~/sift-ledger/witness --recipients ~/sift-ledger/repo/research/sealed_ledger/recipients.txt
 owner reproduce --store ~/sift-ledger/ledger --identity ~/sift-ledger/primary-identity.txt --archive <data-archive checkout> --repo ~/sift-ledger/repo   # forgery/omission check; prints no values
-owner look --store ~/sift-ledger/ledger --identity ~/sift-ledger/primary-identity.txt --dir ~/sift-ledger/witness --out ~/sift-ledger/looks
+owner look --store ~/sift-ledger/ledger --identity ~/sift-ledger/primary-identity.txt --dir ~/sift-ledger/witness --recipients ~/sift-ledger/repo/research/sealed_ledger/recipients.txt --out ~/sift-ledger/looks
 ```
 
-`look` refuses before 150 distinct games (and decrypts nothing), refuses a ledger that fails verification or the witness check, and writes `LOOK_150.json` once. Record in the experiment registry that the look was taken. Reading records any other way (for example `age -d`) before the threshold breaks the blinding and must be registered as such in the registry.
+`look` refuses before 150 *closed-day* games (and decrypts nothing), refuses a ledger that fails verification, a recipients mismatch or the witness check, and takes the smallest look level not yet taken (150, then 300, then 450) on exactly the first *k* games, once each: a marker in the witness folder stops a repeat even with a different `--out`, so keep that folder. Record in the experiment registry that the look was taken. Reading records any other way (for example `age -d`) before the threshold breaks the blinding and must be registered as such in the registry.
 
 ## 7. Recovery and incidents
 

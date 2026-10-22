@@ -21,7 +21,7 @@ from statistics import fmean
 from typing import Any
 
 from nhl_edge.sealed_ledger import PROTOCOL_RULES
-from nhl_edge.sealed_ledger.core import is_extension, read_manifest, verify_store
+from nhl_edge.sealed_ledger.core import closed_games, is_extension, read_manifest, verify_store
 from nhl_edge.sealed_ledger.seal import SealedStore, SealError, load_recipients
 
 LOOKS = tuple(PROTOCOL_RULES["looks_games"])  # the frozen 150 / 300 / 450 (a test pins equality with daily.LOOKS)
@@ -29,9 +29,10 @@ _ID = re.compile(r"^[0-9A-Za-z_-]{1,40}$")
 
 
 def blinded_scorecard(entries: list[dict[str, Any]]) -> dict[str, Any]:
-    """The blinded scorecard computed from the PUBLIC manifest alone. It is the same document ``daily.scorecard`` prints before the first look. At >= 150 games the
+    """The blinded scorecard computed from the PUBLIC manifest alone, over games a DAY entry accounts for. It carries the same keys as the document ``daily.scorecard`` prints before the first look (``mean_slate_age_min`` is computed from values rounded to 3 decimals). At >= 150 games the
     runner does NOT compute a look (it cannot: it has no key); it reports that the owner's look is due."""
-    first = {e["game_id"]: e for e in entries if e["kind"] == "RECORD" and e["version"] == 1}
+    closed = set(closed_games(entries))
+    first = {e["game_id"]: e for e in entries if e["kind"] == "RECORD" and e["version"] == 1 and e["game_id"] in closed}
     n = len(first)
     sc: dict[str, Any] = {"n_prospective_games": n, "tier": "PROSPECTIVE", "looks": list(LOOKS)}
     sc["next_look_at_games"] = next((k for k in LOOKS if k > n), None)
@@ -49,15 +50,18 @@ def blinded_scorecard(entries: list[dict[str, Any]]) -> dict[str, Any]:
     return sc
 
 
-def _ids(s: str | None) -> set[str]:
-    out = {x.strip() for x in (s or "").split(",") if x.strip()}
-    bad = [x for x in out if not _ID.match(x)]
-    if bad:
-        raise SystemExit(f"invalid game id(s): {bad}")
+def _corrections(s: str | None) -> dict[str, int]:
+    """``GAME_ID@VERSION,...``: VERSION is the version currently sealed (the one being superseded)."""
+    out: dict[str, int] = {}
+    for x in (t.strip() for t in (s or "").split(",") if t.strip()):
+        m = re.fullmatch(r"([0-9A-Za-z_-]{1,40})@([1-9][0-9]{0,2})", x)
+        if not m:
+            raise SystemExit(f"invalid correction {x!r}: use GAME_ID@CURRENT_VERSION")
+        out[m.group(1)] = int(m.group(2))
     return out
 
 
-def run_ingest(archive: Path, date: str, repo: Path, store: Path, recipients: Path, *, seal: bool, correct: set[str], reason: str | None,
+def run_ingest(archive: Path, date: str, repo: Path, store: Path, recipients: Path, *, seal: bool, correct: dict[str, int], reason: str | None,
                run_id: str = "", code_sha: str = "") -> dict[str, Any]:
     from nhl_edge.model_research import daily  # heavy imports only on the ingest path
 
@@ -68,9 +72,13 @@ def run_ingest(archive: Path, date: str, repo: Path, store: Path, recipients: Pa
     if not seal:
         out.update({"sealed_new": 0, "skipped_existing": 0, "corrections": 0, "day_closed": False, "note": "dry run: nothing was sealed or written"})
         return out
-    st = SealedStore(store, recipients, run_id=run_id, code_sha=code_sha, repair_torn_tail=True)
+    st = SealedStore(store, recipients, run_id=run_id, code_sha=code_sha)
     out.update(st.seal_rows(rows, correct=correct, reason=reason))
-    out["day_closed"] = bool(info["all_scheduled_final"] and st.close_day(date, info["scheduled_game_ids"], info["missing_pregame_forecast"]))
+    # never close a day whose every game lacks a pregame forecast: that is the signature of an incomplete archive fetch, and a DAY entry cannot be undone
+    suspicious = bool(info["scheduled_game_ids"]) and info["games_with_pregame_forecast"] == 0
+    out["day_closed"] = bool(info["all_scheduled_final"] and not suspicious and st.close_day(date, info["scheduled_game_ids"], info["missing_pregame_forecast"]))
+    if suspicious:
+        out["note"] = "day NOT closed: no scheduled game has a pregame forecast (check the archive fetch)"
     rep = verify_store(store, recipients_sha256=load_recipients(recipients)[1])
     out["integrity_ok"] = rep.ok
     out["manifest_entries"], out["head_seq"], out["head_hash"] = rep.n_entries, rep.head_seq, rep.head_hash
@@ -89,7 +97,7 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--store", type=Path, required=True)
     a.add_argument("--recipients", type=Path, required=True)
     a.add_argument("--seal", action="store_true", help="seal into --store (default: dry run, nothing written)")
-    a.add_argument("--correct", help="comma-separated game ids whose sealed record is to be superseded by a versioned correction")
+    a.add_argument("--correct", help="comma-separated GAME_ID@CURRENT_VERSION whose sealed record is to be superseded by a versioned correction")
     a.add_argument("--reason", help="correction reason code")
     a.add_argument("--summary-out", type=Path)
     b = sub.add_parser("scorecard")
@@ -110,7 +118,7 @@ def main(argv: list[str] | None = None) -> int:
             raise SystemExit(f"no recipients file at {ns.recipients}: configure the owner's PUBLIC key(s) first (fail closed)")
         if ns.seal:
             load_recipients(ns.recipients)  # fail closed on an empty / secret-bearing file BEFORE any data is derived
-        res = run_ingest(ns.archive, ns.date, ns.repo, ns.store, ns.recipients, seal=ns.seal, correct=_ids(ns.correct), reason=ns.reason,
+        res = run_ingest(ns.archive, ns.date, ns.repo, ns.store, ns.recipients, seal=ns.seal, correct=_corrections(ns.correct), reason=ns.reason,
                          run_id=os.environ.get("GITHUB_RUN_ID", ""), code_sha=os.environ.get("GITHUB_SHA", ""))
         print(json.dumps(res, indent=1))
         if ns.summary_out:
@@ -127,8 +135,11 @@ def main(argv: list[str] | None = None) -> int:
         sha = load_recipients(ns.recipients)[1] if ns.recipients else None
         rep = verify_store(ns.store, recipients_sha256=sha)
         probs = list(rep.problems)
-        if ns.previous and (ns.previous / "manifest.jsonl").exists():
-            probs += is_extension(read_manifest(ns.previous), read_manifest(ns.store))
+        if ns.previous is not None:
+            if not ns.previous.is_dir():
+                probs.append(f"--previous {ns.previous} is not a directory (a typo would silently disable the append-only check)")
+            else:  # an existing directory without a manifest is the legitimate "first publish" case
+                probs += is_extension(read_manifest(ns.previous), read_manifest(ns.store))
         print(json.dumps({**rep.summary(), "problems": probs, "ok": not probs}, indent=1))
         return 0 if not probs else 1
     if ns.cmd == "attest":

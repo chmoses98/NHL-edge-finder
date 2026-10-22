@@ -54,6 +54,8 @@ def load_recipients(path: Path) -> tuple[list[Any], str]:
             raise SealError(f"not an age public key: {t[:12]}...") from e
     if not recs:
         raise SealError("no recipients configured: nothing can be sealed (fail closed)")
+    if len({str(r) for r in recs}) != len(recs):
+        raise SealError("the same public key is listed more than once; a backup recipient must be a DIFFERENT key")
     return recs, sha256_hex(raw)
 
 
@@ -98,7 +100,7 @@ class SealedStore:
         if repair_torn_tail:
             self._repair_torn_tail()
         if (self.root / "manifest.jsonl").exists():
-            rep = verify_store(self.root, recipients_sha256=self.recipients_sha256)
+            rep = verify_store(self.root, recipients_sha256=self.recipients_sha256, allow_orphans=True)
             if not rep.ok:
                 raise SealError("existing store failed verification; refusing to append: " + "; ".join(rep.problems[:5]))
         else:
@@ -117,7 +119,10 @@ class SealedStore:
         raw = p.read_bytes()
         if raw and not raw.endswith(b"\n"):
             keep = raw[: raw.rfind(b"\n") + 1]
-            p.write_bytes(keep)
+            if keep:
+                p.write_bytes(keep)
+            else:
+                p.unlink()  # a torn GENESIS: nothing was ever committed, start the chain again
 
     def _genesis(self) -> None:
         e = finish_entry({"v": 1, "schema": SCHEMA, "seq": 0, "kind": "GENESIS", "ledger_id": secrets.token_hex(16), "created_utc": self._ts(),
@@ -147,8 +152,10 @@ class SealedStore:
         self.entries.append(e)
         return e
 
-    def seal_rows(self, rows: list[dict[str, Any]], *, correct: set[str] | frozenset[str] = frozenset(), reason: str | None = None) -> dict[str, int]:
-        """Seal each row once. ``correct`` names game ids whose ALREADY SEALED record is to be superseded by this row (a versioned correction)."""
+    def seal_rows(self, rows: list[dict[str, Any]], *, correct: dict[str, int] | None = None, reason: str | None = None) -> dict[str, int]:
+        """Seal each row once. ``correct`` maps game id -> the version currently sealed that is to be superseded by this row (a versioned correction). Naming the
+        expected version makes a correction idempotent: repeating the same request after it was applied is refused as stale instead of stacking versions."""
+        correct = dict(correct or {})
         if len(rows) > MAX_GAMES_PER_RUN:
             raise SealError(f"{len(rows)} rows in one run exceeds the bound of {MAX_GAMES_PER_RUN}")
         if correct and reason not in CORRECTION_REASONS:
@@ -159,6 +166,9 @@ class SealedStore:
         unknown = {g for g in correct if g not in have}
         if unknown:
             raise SealError(f"cannot correct games that were never sealed: {sorted(unknown)}")
+        stale = {g: (v, have[g][0]) for g, v in correct.items() if have[g][0] != v}
+        if stale:
+            raise SealError(f"stale correction (game: requested-version, current-version): {stale}; nothing was changed")
         missing_rows = {g for g in correct if g not in {str(r['game_id']) for r in rows}}
         if missing_rows:
             raise SealError(f"correction requested but no re-derived row supplied for: {sorted(missing_rows)}")

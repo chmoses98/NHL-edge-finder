@@ -97,6 +97,9 @@ def run(out: Path | None = None) -> list[str]:
         shutil.copytree(store, cp)
         lines = (cp / "manifest.jsonl").read_text().splitlines(keepends=True)
         (cp / "manifest.jsonl").write_text("".join(lines[:-2]))
+        for f in (cp / "sealed").iterdir():  # a careful attacker removes the matching ciphertexts too
+            if int(f.name[:6]) > len(lines) - 3:
+                f.unlink()
         check("truncation passes the chain check by itself (as designed: it needs an external anchor)", verify_store(cp).ok)
         check("... but detected by a witnessed checkpoint", bool(CP.check_against_checkpoints(read_manifest(cp), [witnessed])))
         check("... and by the extension check against the previous copy", bool(is_extension(read_manifest(store), read_manifest(cp))))
