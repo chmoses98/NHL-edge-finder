@@ -157,5 +157,130 @@ def main(argv: list[str] | None = None) -> int:
     return 0
 
 
+
+
+# ---------------------------------------------------------------------------------------------------------------------------
+# preregistered tiers + promotion scorecard (docs/research/oa-walk-forward/PREREGISTRATION.md, amendment 1)
+# ---------------------------------------------------------------------------------------------------------------------------
+UNEXPOSED_SEASONS = (2018, 2019, 2020, 2021, 2022, 2023)
+EXPOSED_SEASONS = (2024, 2025)
+PRIMARY_CHALLENGERS = ("OA_SVA", "OA_SVA_C1")
+SECONDARY = ("rps_total", "brier_ot", "rps_margin", "brier_over_5.5", "brier_over_6.5")
+
+
+def _bonferroni(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Rows whose better/worse flags use the 97.5% intervals (two primary challengers)."""
+    return [{**r, "better_game_ci": r["hi975"] < 0, "better_slate_ci": r["hi975_slate"] < 0, "worse_game_ci": r["lo975"] > 0, "worse_slate_ci": r["lo975_slate"] > 0} for r in rows]
+
+
+def evaluate_tiers(games_csv: Path, pmf_npz: Path, incumbent: str = "V1", inference_seconds: float | None = None, reproducible: bool | None = None) -> dict[str, Any]:
+    from nhl_edge.evaluation.metrics import ece
+    from nhl_edge.research.promotion import score_challenger
+
+    df = pd.read_csv(games_csv)
+    pm = dict(np.load(pmf_npz, allow_pickle=False))
+    arms = [str(a) for a in pm["arms"]]
+    losses = per_game_losses(df, pm, arms)
+    challengers = [a for a in arms if a != incumbent]
+    clusters = df["game_date"].astype(str).to_numpy()
+    season = df["season"].to_numpy()
+
+    def sub(mask: np.ndarray) -> dict[str, dict[str, np.ndarray]]:
+        return {a: {k: v[mask] for k, v in losses[a].items()} for a in arms}
+
+    out: dict[str, Any] = {"incumbent": incumbent, "arms": arms, "tiers": {}, "by_season": {}, "scorecards": {}}
+    tiers = {"UNEXPOSED_2018_2023": np.isin(season, UNEXPOSED_SEASONS), "EXPOSED_2024_2025": np.isin(season, EXPOSED_SEASONS)}
+    for name, mask in tiers.items():
+        out["tiers"][name] = {"n": int(mask.sum()), "levels": {a: {k: float(np.mean(v)) for k, v in sub(mask)[a].items()} for a in arms},
+                              "paired": compare(sub(mask), incumbent, challengers, clusters[mask])}
+    for s in sorted(set(int(x) for x in season)):
+        m = season == s
+        out["by_season"][str(s)] = {"n": int(m.sum()), "exposed": s in EXPOSED_SEASONS, "paired": compare(sub(m), incumbent, challengers, clusters[m], PRIMARY + ("rps_margin",), n_boot=1500)}
+    pooled_un = _bonferroni(out["tiers"]["UNEXPOSED_2018_2023"]["paired"])
+    by_un = {str(s): _bonferroni(out["by_season"][str(s)]["paired"]) for s in UNEXPOSED_SEASONS}
+    by_ex = {str(s): out["by_season"][str(s)]["paired"] for s in EXPOSED_SEASONS}
+    mun = np.isin(season, UNEXPOSED_SEASONS)
+    y = df["y_home_win"].to_numpy(float)
+    for ch in PRIMARY_CHALLENGERS:
+        e_ch = ece(df.loc[mun, f"{ch}_p_home_win"].to_numpy(float), y[mun], 10)
+        e_in = ece(df.loc[mun, f"{incumbent}_p_home_win"].to_numpy(float), y[mun], 10)
+        sc = score_challenger(target="game win probability", challenger=ch, incumbent=incumbent, primary_metric="brier_win", pooled_unexposed=pooled_un, by_season_unexposed=by_un,
+                              exposed=by_ex, n_unexposed_games=int(mun.sum()), secondary_metrics=SECONDARY, ece=(e_ch, e_in),
+                              inference_seconds=inference_seconds, reproducible=reproducible)
+        out["scorecards"][ch] = sc.to_dict()
+    out["calibration_win_unexposed"] = {a: reliability(df.loc[mun, f"{a}_p_home_win"].to_numpy(float), y[mun]) for a in (incumbent, *PRIMARY_CHALLENGERS)}
+    return out
+
+
+def render_tiers(res: dict[str, Any]) -> str:
+    lines = ["# OA_RIDGE walk-forward — preregistered tiers", "", "negative Δ = challenger better · intervals 95% (game bootstrap | date-cluster bootstrap) · the primary gate uses 97.5% (Bonferroni, two primary challengers)", ""]
+    for name, t in res["tiers"].items():
+        lines += [f"## {name} (n={t['n']})", "", "| arm | " + " | ".join(next(iter(t["levels"].values()))) + " |", "|---|" + "---:|" * len(next(iter(t["levels"].values())))]
+        for a, v in t["levels"].items():
+            lines.append(f"| {a} | " + " | ".join(f"{x:.4f}" for x in v.values()) + " |")
+        lines += ["", "| challenger | metric | Δ | 95% games | 95% slates | verdict |", "|---|---|---:|---|---|---|"]
+        for r in t["paired"]:
+            if r["metric"] in ("abs_err_total", "logloss_win"):
+                continue
+            v = ("BETTER (meaningful)" if r["practically_meaningful"] and r["delta"] < 0 else "WORSE (meaningful)" if r["practically_meaningful"] and r["delta"] > 0
+                 else "better, CI excludes 0" if r["better_game_ci"] and r["better_slate_ci"] else "worse, CI excludes 0" if r["worse_game_ci"] and r["worse_slate_ci"] else "indistinguishable")
+            lines.append(f"| {r['challenger']} | {r['metric']} | {r['delta']:+.4f} | [{r['lo95']:+.4f}, {r['hi95']:+.4f}] | [{r['lo95_slate']:+.4f}, {r['hi95_slate']:+.4f}] | {v} |")
+        lines.append("")
+    lines += ["## Per season: Δ Brier(home win) vs incumbent", "", "| season | n | tier | " + " | ".join(f"{c}" for c in PRIMARY_CHALLENGERS) + " |", "|---|---:|---|" + "---|" * len(PRIMARY_CHALLENGERS)]
+    for s, d in res["by_season"].items():
+        cells = []
+        for c in PRIMARY_CHALLENGERS:
+            r = next(x for x in d["paired"] if x["challenger"] == c and x["metric"] == "brier_win")
+            cells.append(f"{r['delta']:+.4f} [{r['lo95']:+.4f}, {r['hi95']:+.4f}]")
+        lines.append(f"| {s} | {d['n']} | {'exposed' if d['exposed'] else 'unexposed'} | " + " | ".join(cells) + " |")
+    lines += ["", "## Promotion scorecards (historical gates; G8–G10 need artifacts / live shadow)", ""]
+    for ch, sc in res["scorecards"].items():
+        lines += [f"### {ch} vs {sc['incumbent']} on {sc['target']}: **{sc['verdict']}**", "", "| gate | result | detail |", "|---|---|---|"]
+        for g in sc["gates"]:
+            lines.append(f"| {g['gate']} | {'PASS' if g['passed'] else 'FAIL' if g['passed'] is False else 'pending'} | {g['detail']} |")
+        lines.append("")
+    return "\n".join(lines) + "\n"
+
+
+def main_tiers(argv: list[str] | None = None) -> int:
+    import argparse
+
+    ap = argparse.ArgumentParser(prog="python -m nhl_edge.research.oa_evaluate tiers")
+    ap.add_argument("--dir", required=True)
+    ap.add_argument("--runtime-seconds", type=float, help="measured inference seconds per slate (G7)")
+    ap.add_argument("--reproducible", action="store_true", help="two identical-seed runs produced byte-identical output (G8)")
+    a = ap.parse_args(argv)
+    d = Path(a.dir)
+    res = evaluate_tiers(d / "oa_games.csv", d / "oa_pmfs.npz", inference_seconds=a.runtime_seconds, reproducible=True if a.reproducible else None)
+    (d / "oa_tiers.json").write_text(json.dumps(res, indent=1, default=float))
+    md = render_tiers(res)
+    (d / "oa_tiers.md").write_text(md)
+    print(md)
+    return 0
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main_tiers(sys.argv[2:]) if len(sys.argv) > 1 and sys.argv[1] == "tiers" else main())
+
+
+def control_comparison(dir_: Path) -> dict[str, Any]:
+    """Compare every arm with the tuned-incumbent control ``V1_T`` (see ``v1_tuned_control``) on the two tiers."""
+    df = pd.read_csv(dir_ / "oa_games.csv")
+    pm = dict(np.load(dir_ / "oa_pmfs.npz", allow_pickle=False))
+    v1t = pd.read_csv(dir_ / "v1t_games.csv")
+    ex = np.load(dir_ / "v1t_pmfs.npz")
+    assert (v1t["game_id"].to_numpy() == df["game_id"].to_numpy()).all()
+    df = pd.concat([df, v1t.drop(columns=["game_id"])], axis=1)
+    pm = {"arms": np.array([*pm["arms"], "V1_T"]), "total": np.concatenate([pm["total"], ex["total"][:, None, :]], axis=1),
+          "margin": np.concatenate([pm["margin"], ex["margin"][:, None, :]], axis=1)}
+    arms = [str(a) for a in pm["arms"]]
+    losses = per_game_losses(df, pm, arms)
+    season = df["season"].to_numpy()
+    clusters = df["game_date"].astype(str).to_numpy()
+    out: dict[str, Any] = {"tiers": {}, "tuned_params": {str(s): [float(v1t.loc[df["season"] == s, c].iloc[0]) for c in ("V1_T_half_life", "V1_T_prior", "V1_T_home_adj")] for s in sorted(set(season))}}
+    for name, seasons in (("UNEXPOSED_2018_2023", UNEXPOSED_SEASONS), ("EXPOSED_2024_2025", EXPOSED_SEASONS)):
+        m = np.isin(season, seasons)
+        sub = {a: {k: v[m] for k, v in losses[a].items()} for a in arms}
+        out["tiers"][name] = {"n": int(m.sum()), "levels": {a: {k: float(np.mean(v)) for k, v in sub[a].items()} for a in arms},
+                              "vs_V1_T": compare(sub, "V1_T", [a for a in arms if a != "V1_T"], clusters[m], PRIMARY + ("rps_margin",))}
+    return out
