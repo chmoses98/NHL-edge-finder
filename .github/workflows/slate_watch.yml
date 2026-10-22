@@ -1,0 +1,76 @@
+name: slate-watch
+# Read-only pregame watchdog (RESEARCH_ONLY). Every 30 min on game days it runs `nhl slate-check` on the published packet against the
+# official schedule snapshot and writes the verdict to the job summary. It opens ONE de-duplicated issue only when the slate is NOT_READY
+# with a puck drop inside 4 h (missing/misidentified game, unknown starter close to puck drop, incoherent model output, stale projection),
+# and closes it when the slate recovers. DEGRADED (e.g. a goalie still unconfirmed) is never an alert. It writes nothing to any branch,
+# has no secret beyond the job token, and cannot reach any price, stake, cap or order path.
+# Scheduled runs are best-effort (GitHub delayed them by hours on 2026-10-22); `workflow_dispatch` runs the same check on demand.
+on:
+  schedule:
+    - cron: "11,41 14-23,0-3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: slate-watch
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: Sparse, blobless view of data-archive (latest packet + recent schedule snapshots only)
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 --filter=blob:none origin data-archive
+          git worktree add --no-checkout -f /tmp/archive FETCH_HEAD
+          git -C /tmp/archive sparse-checkout init --no-cone
+          pats=(/slates/latest/)
+          for i in 0 1; do pats+=("/context/schedule/dt=$(date -u -d "-$i days" +%F)/"); done
+          git -C /tmp/archive sparse-checkout set --no-cone "${pats[@]}"
+          git -C /tmp/archive checkout -q
+      - name: Slate readiness
+        id: check
+        run: |
+          set -uo pipefail
+          sched=$(ls -1 /tmp/archive/context/schedule/dt=*/*.jsonl.gz 2>/dev/null | sort | tail -1 || true)
+          args=(--packet /tmp/archive/slates/latest/packet.json --out /tmp/slate_check)
+          [ -n "$sched" ] && args+=(--schedule "$sched")
+          nhl slate-check "${args[@]}" > /tmp/slate_check.txt; rc=$?
+          mkdir -p /tmp/slate_check; cat /tmp/slate_check/slate_check.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || cat /tmp/slate_check.txt >> "$GITHUB_STEP_SUMMARY"
+          verdict=$(python -c "import json;print(json.load(open('/tmp/slate_check/slate_check.json'))['verdict'])" 2>/dev/null || echo NO_REPORT)
+          soon=$(python - <<'PY'
+          import json, datetime as dt
+          try:
+              r = json.load(open('/tmp/slate_check/slate_check.json'))
+              now = dt.datetime.fromisoformat(r['checked_at_utc'].replace('Z', '+00:00'))
+              print(any(0 < (dt.datetime.fromisoformat(g['start_time_utc'].replace('Z', '+00:00')) - now).total_seconds() < 4 * 3600 for g in r['games']))
+          except Exception:
+              print('True')
+          PY
+          )
+          echo "verdict=$verdict" >> "$GITHUB_OUTPUT"; echo "soon=$soon" >> "$GITHUB_OUTPUT"
+          echo "verdict=$verdict soon=$soon rc=$rc"
+      - name: Alert only on a meaningful failure (one de-duplicated issue)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERDICT: ${{ steps.check.outputs.verdict }}
+          SOON: ${{ steps.check.outputs.soon }}
+        run: |
+          set -uo pipefail
+          title="NHL slate NOT_READY ($(TZ=America/New_York date +%F))"
+          existing=$(gh issue list --state open --search "\"NHL slate NOT_READY\" in:title" --json number,title --jq '.[0].number // empty' || true)
+          if [ "$VERDICT" != "READY" ] && [ "$VERDICT" != "DEGRADED" ] && [ "$SOON" = "True" ]; then
+            body=$(printf 'Automated `nhl slate-check` verdict **%s** at %s with a puck drop inside 4 h.\n\n%s\n\nRun: %s/%s/actions/runs/%s\n\n_No action is taken automatically; this issue closes itself when the slate is READY or DEGRADED again._' \
+              "$VERDICT" "$(date -u +%FT%TZ)" "$(head -c 6000 /tmp/slate_check/slate_check.md 2>/dev/null || echo 'no report produced')" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")
+            if [ -n "$existing" ]; then gh issue comment "$existing" --body "$body" || true; else gh issue create --title "$title" --body "$body" || true; fi
+          elif [ -n "$existing" ]; then
+            gh issue close "$existing" --comment "Slate recovered: verdict $VERDICT at $(date -u +%FT%TZ)." || true
+          fi
