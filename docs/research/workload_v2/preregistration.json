@@ -1,0 +1,45 @@
+{
+ "id": "WORKLOAD_V2_PREREG_2026-10-23",
+ "authority": "RESEARCH_ONLY",
+ "challenger": "WORKLOAD_V2",
+ "change_vs_v1": "the shot-rate shrinkage centre is the role multiplier mu[position][quintile of predicted TOI] (fitted on earlier seasons) instead of 1.0; nothing else changes",
+ "frozen_params": {
+  "minutes_mode": "share",
+  "hl_share": 4.0,
+  "k_share": 0.5,
+  "hl_rate": 80.0,
+  "k_rate": {"evreg": 200.0, "pp": 30.0, "sh": 30.0, "ea": 5.0, "en": 5.0},
+  "league_rows": 10000,
+  "beta_opp": 1.0,
+  "hl_opp": 25.0,
+  "k_opp": 15.0,
+  "hl_team": 20.0,
+  "k_team": 10.0,
+  "hl_sa": 15.0,
+  "k_sa": 15.0,
+  "schedule_adjust": true,
+  "k_sv": 1000.0,
+  "league_window": 1200,
+  "league_window_sa": 400
+ },
+ "role_prior": {"positions": ["F", "D"], "n_buckets": 5, "bucket_variable": "point-in-time predicted total TOI (wl_toi)", "edges": "quantiles of the training seasons' predicted TOI per position", "multiplier": "sum(actual shots) / sum(shots at the point-in-time league rate for the minutes actually played), per position x bucket, training seasons only, clipped to [0.5, 1.5]"},
+ "acceptance": {
+  "skaters_all_required": [
+   "CRPS(WORKLOAD_V2) - CRPS(CHAMPION): 95% CI upper < 0",
+   "CRPS(WORKLOAD_V2) - CRPS(CHAMPION_NB): 95% CI upper < 0",
+   "RMSE(WORKLOAD_V2) - RMSE(CHAMPION): 95% CI upper < 0",
+   "ladder Brier(WORKLOAD_V2) - ladder Brier(CHAMPION_NB): 95% CI upper < 0",
+   "|bias(WORKLOAD_V2)| <= 0.05 shots per skater-game  (UNCHANGED from WORKLOAD_V1)",
+   "80% PIT coverage in [0.77, 0.83]",
+   "CRPS no worse than CHAMPION_NB for forwards AND for defencemen (point estimates)",
+   "ADDED: no predicted-TOI quintile has |bias| > 0.06 shots per skater-game"
+  ],
+  "max_abs_bias_sog": 0.05,
+  "coverage80_band": [0.77, 0.83],
+  "max_abs_tier_bias_sog": 0.06,
+  "seasons_required": [2023, 2024, 2025],
+  "verdicts": "ACCEPTED only if every check passes in EVERY one of the three held-out seasons; otherwise REJECTED. ACCEPTED would mean 'eligible for a prospective shadow test' and never promotion; the historical seasons are development evidence, not independent confirmation.",
+  "no_changes_after_seeing_results": true
+ },
+ "secondary_reported": ["WORKLOAD_V2 minus WORKLOAD_V1 (CRPS, RMSE, ladder Brier, MAE with 95% CIs)", "bias by predicted-TOI quintile for CHAMPION, WORKLOAD_V1, WORKLOAD_V2", "bias by position"]
+}

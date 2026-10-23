@@ -283,6 +283,9 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
     v2 = _run_v2_shadow(ledger, v2_items, data_root, cfg.n_sims, now, market_ts, rosters) if v2_items else None
     if v2 is not None:
         slate["v2_shadow"] = {k: v for k, v in v2.items() if k != "rows"} | {"n_rows": len(v2.get("rows") or [])}
+    oa = _run_oa_shadow(ledger, v2_items, data_root, cfg.n_sims, now, mps) if v2_items else None
+    if oa is not None:
+        slate["oa_shadow"] = {k: v for k, v in oa.items() if k != "rows"} | {"n_rows": len(oa.get("rows") or [])}
     player = _run_player_shadow(ledger, v2_items, v2, data_root, now, market_ts, rosters, injuries, series_rows) if (v2_items and v2 and not v2.get("error")) else None
     dists = (player.pop("distributions", None) or []) if player is not None else []
     thesis = _run_thesis_card(ledger, dists, now, player) if dists else None
@@ -303,6 +306,12 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
             except Exception as e:  # noqa: BLE001 - never block V1's slate on the shadow arm
                 log.warning(kv(event="v2_shadow_archive_failed", err=str(e)[:300]))
                 slate["v2_shadow"]["archive_error"] = f"{type(e).__name__}: {str(e)[:200]}"
+        if oa is not None and oa.get("rows"):
+            try:  # a SEPARATE kind: V1's predictions partition is byte-for-byte what it was before this arm existed
+                ledger.append_rows("predictions_oa", oa["rows"], observed_at=now, meta={"date_et": target, "role": "SHADOW", "model_version": "OA_RIDGE_V1"})
+            except Exception as e:  # noqa: BLE001 - never block V1's slate on the shadow arm
+                log.warning(kv(event="oa_shadow_archive_failed", err=str(e)[:300]))
+                slate["oa_shadow"]["archive_error"] = f"{type(e).__name__}: {str(e)[:200]}"
         if player is not None and player.get("rows"):
             try:
                 ledger.append_rows("predictions_player", player["rows"], observed_at=now, meta={"date_et": target, "role": "SHADOW", "model_version": PLAYER_MODEL_VERSION})
@@ -322,8 +331,9 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
         out_dir.mkdir(parents=True, exist_ok=True)
         (out_dir / "slate.json").write_text(json.dumps({k: v for k, v in slate.items() if k != "_player_rows"}, indent=1, default=str))
         (out_dir / "slate.md").write_text(slate_markdown(slate))
-        (out_dir / "packet.json").write_text(json.dumps({"slate": {k: v for k, v in slate.items() if k not in ("contracts", "games", "v2_shadow", "player_shadow", "_player_rows")}, "games": packet_games}
+        (out_dir / "packet.json").write_text(json.dumps({"slate": {k: v for k, v in slate.items() if k not in ("contracts", "games", "v2_shadow", "oa_shadow", "player_shadow", "_player_rows")}, "games": packet_games}
                                                         | ({"v2_shadow": slate["v2_shadow"]} if "v2_shadow" in slate else {})
+                                                        | ({"oa_shadow": slate["oa_shadow"]} if "oa_shadow" in slate else {})
                                                         | ({"player_shadow": slate["player_shadow"] | {"contracts": player.get("rows") or []}} if player is not None else {})
                                                         | ({"thesis_card": thesis["packet"]} if thesis is not None else {}),
                                                         indent=1, default=str))
@@ -361,6 +371,23 @@ def _run_v2_shadow(ledger: Ledger, items: list[dict[str, Any]], data_root: Path,
     except Exception as e:  # noqa: BLE001 - the shadow arm must never take V1 down
         log.warning(kv(event="v2_shadow_failed", err=str(e)[:300]))
         return {"error": f"{type(e).__name__}: {str(e)[:300]}", "rows": [], "blocks": [], "model_version": DATA_ONLY_V2_MODEL_VERSION, "role": "SHADOW"}
+
+
+def _run_oa_shadow(ledger: Ledger, items: list[dict[str, Any]], data_root: Path, n_sims: int, now: datetime, mps: Any) -> dict[str, Any] | None:
+    """OA_RIDGE_V1 shadow arm (RESEARCH_ONLY). Never raises: a failure is recorded and V1 proceeds unchanged."""
+    from nhl_edge.workflows import shadow_oa
+
+    if not shadow_oa.enabled():
+        return None
+    try:
+        live, tg_meta = _read_latest(ledger, "context/team_games", now)
+        ctx = shadow_oa.build_context(data_root, live, shadow_oa.load_params())
+        out = shadow_oa.run_shadow(items, ctx, int(mps), n_sims, now, ledger.run_id)
+        out["context"]["team_games_snapshot"] = tg_meta
+        return out
+    except Exception as e:  # noqa: BLE001 - the shadow arm must never take V1 down
+        log.warning(kv(event="oa_shadow_failed", err=str(e)[:300]))
+        return {"error": f"{type(e).__name__}: {str(e)[:300]}", "rows": [], "blocks": [], "model_version": "OA_RIDGE_V1", "role": "SHADOW"}
 
 
 PLAYER_EVENT_KINDS = ("players", "goalies", "goals", "shots", "coice", "team_states")

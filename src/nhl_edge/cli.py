@@ -89,8 +89,13 @@ def cmd_worker(args: argparse.Namespace) -> int:
     if repo and token and not args.no_successor:
         def dispatch(nonce: str) -> bool:
             return dispatch_successor_via_api(repo, ref, token, args.workflow, nonce)
+    pf_fn = None
+    if repo and token and not args.no_successor and os.environ.get("NHL_EDGE_PF_DISPATCH", "1") not in ("0", "false", "False", ""):
+        from nhl_edge.worker.pf_dispatch import PfDispatcher
+
+        pf_fn = PfDispatcher(repo, ref, token).step
     w = Worker(data_root=Path(args.data), archive_root=Path(args.out), worker_id=str(worker_id), successor_token=args.successor_token or None,
-               dispatch_fn=dispatch, lifetime_minutes=args.lifetime_minutes)
+               dispatch_fn=dispatch, lifetime_minutes=args.lifetime_minutes, pf_fn=pf_fn)
     result = w.run()
     payload = result.to_json()
     print(payload)

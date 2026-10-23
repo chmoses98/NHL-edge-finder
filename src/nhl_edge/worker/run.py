@@ -87,6 +87,9 @@ class CycleRecord:
     # `nhl settle` exits 0 even when results or player events could not be fetched (it records them instead), so the
     # exit code alone cannot show a settlement that has stopped progressing; this can.
     settle: dict | None = None
+    # Compact outcome of the projection-foundation dispatch decision of THIS cycle (worker/pf_dispatch.py): {"action", "code", ...}.
+    # None when no dispatcher is configured. A request is research plumbing only; it never changes how the cycle's own jobs ran.
+    pf: dict | None = None
 
 
 @dataclass
@@ -190,6 +193,7 @@ class Worker:
         schedule_fn: Callable[[], list[dict]] | None = None,
         decide_fn: Callable[[], dict] | None = None,
         lifetime_minutes: float | None = None,
+        pf_fn: Callable[[datetime, list[datetime]], dict] | None = None,
     ) -> None:
         self.data_root = Path(data_root)
         self.archive_root = Path(archive_root)
@@ -202,6 +206,7 @@ class Worker:
         self.schedule_fn = schedule_fn or self._read_schedule
         self.decide_fn = decide_fn or self._decide
         self.lifetime_minutes = lifetime_minutes
+        self.pf_fn = pf_fn
         self.result: WorkerResult | None = None
         self._decision_error: str | None = None
         self._exit_at: datetime | None = None
@@ -340,6 +345,9 @@ class Worker:
         # do, the worker must therefore do itself -- otherwise simulate/settle/evaluate/discover
         # silently stop for as long as a worker is alive. Each is age-gated by decide(), so this is
         # the same cadence they had before, not extra work.
+        # Asked for BEFORE the slow jobs: a refresh that is due must not wait behind several minutes of simulate/settle/export (the call is
+        # one bounded HTTPS request and cannot raise).
+        pf = self._pf_cycle(now, starts)
         jobs_run, jobs_failed = self._run_jobs(decision, capture_ok=capture_ok)
         self._run_research_export(jobs_run, jobs_failed)
         settle_snapshot = self._settle_snapshot(now) if "settle" in jobs_run else None
@@ -375,7 +383,23 @@ class Worker:
             jobs_failed=jobs_failed,
             decision_ok=decision_ok,
             settle=settle_snapshot,
+            pf=pf,
         )
+
+    def _pf_cycle(self, now: datetime, starts: list[datetime]) -> dict | None:
+        """Ask for a projection-foundation run if the policy says one is due (worker/pf_dispatch.py). Never raises, never blocks capture."""
+        if self.pf_fn is None:
+            return None
+        try:
+            out = self.pf_fn(now, starts)
+        except Exception as e:  # noqa: BLE001 - plumbing for a research chain must not end a capture shift
+            return {"action": "wait", "code": "DISPATCHER_ERROR", "reason": f"{type(e).__name__}: {str(e)[:200]}"}
+        keep = ("action", "code", "reason", "dispatched", "stages", "hours_to_next_tip", "last_success_age_min", "median_e2e_min")
+        compact = {k: out[k] for k in keep if k in out}
+        if compact.get("action") in ("idle", "wait") and compact.get("code") not in ("API_UNREADABLE", "DISPATCHER_ERROR", "DISPATCH_REFUSED"):
+            compact.pop("reason", None)         # routine decisions: the code says it; the log line below keeps the sentence
+        print(f"worker: projection-foundation {out.get('action')} {out.get('code')}: {out.get('reason', '')}")
+        return compact
 
     def _settle_snapshot(self, cycle_started: datetime) -> dict:
         """Read (never modify) the STATUS_settle.json that this cycle's settle run wrote.
