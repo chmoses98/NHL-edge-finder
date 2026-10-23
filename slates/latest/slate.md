@@ -1,6 +1,6 @@
 # NHL slate 2026-10-23 — RESEARCH_ONLY
 
-generated 2026-10-23T10:10:45Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-23T11:05:24Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 2 · simulated (not started): 2 · markets on board: 2418 · contracts joined: 102 (unjoined to any game: 1571)
 gates: {'UNSUPPORTED': 52, 'OK': 38, 'NO_EDGE': 12}
@@ -15,11 +15,11 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 
 | ticker | family | P(data) | P(mkt mid) | P(anchored) | yes ask | no ask | best | EV after fee | gate |
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
-| KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL3 | team_total | 0.592 | 0.675 | 0.659 | 69 | 34 | no | +0.052 | OK |
+| KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL3 | team_total | 0.592 | 0.680 | 0.663 | 69 | 33 | no | +0.063 | OK |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL4 | team_total | 0.380 | 0.460 | 0.444 | 48 | 56 | no | +0.043 | OK |
 | KXNHLTOTAL-26OCT23MTLCHI-7 | game_total | 0.410 | 0.475 | 0.462 | 48 | 53 | no | +0.043 | OK |
-| KXNHLGAME-26OCT23MTLCHI-MTL | game_winner | 0.522 | 0.585 | 0.573 | 59 | 42 | no | +0.041 | OK |
 | KXNHLGAME-26OCT23MTLCHI-CHI | game_winner | 0.478 | 0.415 | 0.427 | 42 | 59 | yes | +0.041 | OK |
+| KXNHLGAME-26OCT23MTLCHI-MTL | game_winner | 0.522 | 0.585 | 0.573 | 59 | 42 | no | +0.041 | OK |
 | KXNHLSPREAD-26OCT23MTLCHI-MTL3 | game_spread | 0.177 | 0.240 | 0.226 | 25 | 77 | no | +0.041 | OK |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL5 | team_total | 0.197 | 0.265 | 0.250 | 28 | 75 | no | +0.040 | OK |
 | KXNHLTOTAL-26OCT23MTLCHI-6 | game_total | 0.525 | 0.585 | 0.573 | 59 | 42 | no | +0.038 | OK |
@@ -34,13 +34,12 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTOTAL-26OCT23MTLCHI-9 | game_total | 0.159 | 0.200 | 0.191 | 21 | 81 | no | +0.020 | OK |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL6 | team_total | 0.087 | 0.120 | 0.113 | 13 | 89 | no | +0.016 | OK |
 | KXNHLTOTAL-26OCT23MTLCHI-4 | game_total | 0.836 | 0.870 | 0.864 | 88 | 14 | no | +0.016 | OK |
-| KXNHLTEAMTOTAL-26OCT23TBCOL-COL4 | team_total | 0.398 | 0.440 | 0.432 | 45 | 57 | no | +0.014 | OK |
-| KXNHLTEAMTOTAL-26OCT23TBCOL-TB3 | team_total | 0.559 | 0.595 | 0.588 | 60 | 41 | no | +0.014 | OK |
+| KXNHLTEAMTOTAL-26OCT23TBCOL-COL4 | team_total | 0.398 | 0.445 | 0.436 | 46 | 57 | no | +0.014 | OK |
+| KXNHLTEAMTOTAL-26OCT23TBCOL-TB3 | team_total | 0.559 | 0.600 | 0.592 | 61 | 41 | no | +0.014 | OK |
 | KXNHLTOTAL-26OCT23TBCOL-8 | game_total | 0.243 | 0.280 | 0.272 | 29 | 73 | no | +0.013 | OK |
 | KXNHLTOTAL-26OCT23TBCOL-9 | game_total | 0.168 | 0.195 | 0.189 | 20 | 81 | no | +0.011 | OK |
 | KXNHLSPREAD-26OCT23MTLCHI-CHI2 | game_spread | 0.264 | 0.235 | 0.241 | 24 | 77 | yes | +0.011 | OK |
 | KXNHLTOTAL-26OCT23MTLCHI-3 | game_total | 0.957 | 0.980 | 0.977 | 99 | 3 | no | +0.011 | OK |
-| KXNHLTEAMTOTAL-26OCT23TBCOL-COL5 | team_total | 0.216 | 0.250 | 0.243 | 26 | 76 | no | +0.011 | OK |
 | KXNHLTEAMTOTAL-26OCT23TBCOL-TB4 | team_total | 0.343 | 0.380 | 0.373 | 39 | 63 | no | +0.010 | OK |
 | KXNHLSPREAD-26OCT23TBCOL-COL3 | game_spread | 0.189 | 0.215 | 0.210 | 22 | 79 | no | +0.010 | OK |
 | KXNHLTOTAL-26OCT23TBCOL-10 | game_total | 0.075 | 0.095 | 0.091 | 10 | 91 | no | +0.009 | OK |
@@ -51,50 +50,51 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'game_e
 | KXNHLTOTAL-26OCT23MTLCHI-10 | game_total | 0.069 | 0.090 | 0.085 | 10 | 92 | no | +0.006 | OK |
 | KXNHLTEAMTOTAL-26OCT23TBCOL-TB5 | team_total | 0.175 | 0.205 | 0.199 | 22 | 81 | no | +0.004 | OK |
 | KXNHLTEAMTOTAL-26OCT23TBCOL-COL2 | team_total | 0.816 | 0.835 | 0.831 | 84 | 17 | no | +0.004 | OK |
-| KXNHLTEAMTOTAL-26OCT23TBCOL-COL6 | team_total | 0.100 | 0.115 | 0.112 | 12 | 89 | no | +0.003 | OK |
+| KXNHLTEAMTOTAL-26OCT23TBCOL-COL6 | team_total | 0.100 | 0.120 | 0.116 | 13 | 89 | no | +0.003 | OK |
 | KXNHLTEAMTOTAL-26OCT23TBCOL-TB6 | team_total | 0.072 | 0.085 | 0.082 | 9 | 92 | no | +0.003 | OK |
+| KXNHLTEAMTOTAL-26OCT23TBCOL-COL5 | team_total | 0.216 | 0.250 | 0.243 | 27 | 77 | no | +0.001 | OK |
 | KXNHLTOTAL-26OCT23TBCOL-2 | game_total | 0.982 | 0.985 | 0.984 | 99 | 2 |  | -0.003 | NO_EDGE |
 | KXNHLTOTAL-26OCT23MTLCHI-2 | game_total | 0.982 | 0.985 | 0.984 | 99 | 2 |  | -0.003 | NO_EDGE |
 | KXNHLSPREAD-26OCT23MTLCHI-CHI3 | game_spread | 0.152 | 0.140 | 0.142 | 15 | 87 |  | -0.007 | NO_EDGE |
-| KXNHLSPREAD-26OCT23TBCOL-TB2 | game_spread | 0.248 | 0.255 | 0.254 | 26 | 75 |  | -0.012 | NO_EDGE |
+| KXNHLSPREAD-26OCT23TBCOL-TB2 | game_spread | 0.248 | 0.260 | 0.258 | 27 | 75 |  | -0.012 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-CHI5 | team_total | 0.174 | 0.180 | 0.179 | 19 | 83 |  | -0.014 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-CHI6 | team_total | 0.071 | 0.070 | 0.070 | 8 | 94 |  | -0.014 | NO_EDGE |
-| KXNHLGAME-26OCT23TBCOL-TB | game_winner | 0.460 | 0.455 | 0.456 | 46 | 55 |  | -0.018 | NO_EDGE |
 | KXNHLGAME-26OCT23TBCOL-COL | game_winner | 0.540 | 0.545 | 0.544 | 55 | 46 |  | -0.018 | NO_EDGE |
+| KXNHLGAME-26OCT23TBCOL-TB | game_winner | 0.460 | 0.455 | 0.456 | 46 | 55 |  | -0.018 | NO_EDGE |
+| KXNHLSPREAD-26OCT23TBCOL-COL2 | game_spread | 0.317 | 0.315 | 0.315 | 32 | 69 |  | -0.018 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-CHI2 | team_total | 0.786 | 0.795 | 0.793 | 81 | 22 |  | -0.018 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-CHI4 | team_total | 0.346 | 0.355 | 0.353 | 37 | 66 |  | -0.022 | NO_EDGE |
-| KXNHLSPREAD-26OCT23TBCOL-COL2 | game_spread | 0.317 | 0.320 | 0.319 | 33 | 69 |  | -0.022 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-CHI3 | team_total | 0.569 | 0.575 | 0.574 | 59 | 44 |  | -0.027 | NO_EDGE |
-| KXNHL1P-26OCT23MTLCHI-TIE | period_winner |  | 0.330 |  | 35 | 69 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT23MTLCHI-MTL | period_winner |  | 0.355 |  | 37 | 66 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT23MTLCHI-CHI | period_winner |  | 0.300 |  | 32 | 72 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT23MTLCHI-MTL2 | period_spread |  | 0.115 |  | 13 | 90 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT23MTLCHI-MTL | period_winner |  | 0.355 |  | 37 | 66 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT23MTLCHI-TIE | period_winner |  | 0.330 |  | 35 | 69 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26OCT23MTLCHI-CHI2 | period_spread |  | 0.055 |  | 9 | 98 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.265 |  | 28 | 75 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT23MTLCHI-2 | period_total |  | 0.555 |  | 56 | 45 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT23MTLCHI-MTL2 | period_spread |  | 0.115 |  | 13 | 90 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT23MTLCHI-1 | period_total |  | 0.835 |  | 85 | 18 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT23MTLCHI-2 | period_total |  | 0.555 |  | 56 | 45 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.265 |  | 28 | 75 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT23MTLCHI-CHI | period_winner |  | 0.305 |  | 33 | 72 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT23MTLCHI-MTL | period_winner |  | 0.380 |  | 40 | 64 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT23MTLCHI-TIE | period_winner |  | 0.295 |  | 32 | 73 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT23MTLCHI-MTL | period_winner |  | 0.375 |  | 38 | 63 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT23MTLCHI-CHI | period_winner |  | 0.310 |  | 33 | 71 |  |  | UNSUPPORTED |
-| KXNHL2PSPREAD-26OCT23MTLCHI-MTL2 | period_spread |  | 0.130 |  | 16 | 90 |  |  | UNSUPPORTED |
 | KXNHL2PSPREAD-26OCT23MTLCHI-CHI2 | period_spread |  | 0.095 |  | 11 | 92 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.330 |  | 35 | 69 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT23MTLCHI-2 | period_total |  | 0.615 |  | 64 | 41 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26OCT23MTLCHI-MTL2 | period_spread |  | 0.130 |  | 16 | 90 |  |  | UNSUPPORTED |
 | KXNHL2PTOTAL-26OCT23MTLCHI-1 | period_total |  | 0.900 |  | 93 | 13 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT23MTLCHI-TIE | period_winner |  | 0.270 |  | 30 | 76 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT23MTLCHI-MTL | period_winner |  | 0.420 |  | 45 | 61 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT23MTLCHI-2 | period_total |  | 0.615 |  | 64 | 41 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.330 |  | 35 | 69 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT23MTLCHI-CHI | period_winner |  | 0.310 |  | 34 | 72 |  |  | UNSUPPORTED |
-| KXNHL3PSPREAD-26OCT23MTLCHI-MTL2 | period_spread |  | 0.170 |  | 20 | 86 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT23MTLCHI-MTL | period_winner |  | 0.410 |  | 43 | 61 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT23MTLCHI-TIE | period_winner |  | 0.270 |  | 30 | 76 |  |  | UNSUPPORTED |
 | KXNHL3PSPREAD-26OCT23MTLCHI-CHI2 | period_spread |  | 0.120 |  | 14 | 90 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.385 |  | 42 | 65 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT23MTLCHI-2 | period_total |  | 0.665 |  | 69 | 36 |  |  | UNSUPPORTED |
+| KXNHL3PSPREAD-26OCT23MTLCHI-MTL2 | period_spread |  | 0.170 |  | 20 | 86 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26OCT23MTLCHI-1 | period_total |  | 0.920 |  | 95 | 11 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT23MTLCHI-2 | period_total |  | 0.665 |  | 69 | 36 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.385 |  | 42 | 65 |  |  | UNSUPPORTED |
 | KXNHLF10G-26OCT23MTLCHI-Y | game_early_goal |  | 0.590 |  | 60 | 42 |  |  | UNSUPPORTED |
 | KXNHLOT-26OCT23MTLCHI-1 | game_overtime |  | 0.220 |  | 23 | 79 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT23TBCOL-TIE | period_winner |  | 0.335 |  | 35 | 68 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT23TBCOL-TB | period_winner |  | 0.305 |  | 33 | 72 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT23TBCOL-COL | period_winner |  | 0.340 |  | 36 | 68 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT23TBCOL-TB2 | period_spread |  | 0.090 |  | 11 | 93 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT23TBCOL-TB | period_winner |  | 0.305 |  | 33 | 72 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT23TBCOL-TIE | period_winner |  | 0.335 |  | 35 | 68 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT23TBCOL-COL2 | period_spread |  | 0.110 |  | 13 | 91 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
