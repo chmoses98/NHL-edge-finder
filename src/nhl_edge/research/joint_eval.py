@@ -126,11 +126,12 @@ ARMS = ("V1", "SIM2", "SIM2_ST")
 
 
 def run_joint(history, test_seasons, *, n_sims: int = 4000, first_shots_season: int = 2021, train_window: int | None = None, min_season: int | None = None,
-              extra_shots_dir=None, extra_lams=None, max_games: int | None = None):
+              extra_shots_dir=None, extra_lams=None, max_games: int | None = None, collect=None):
     """Score ``test_seasons`` and return (games frame, {arm: (n,10) cells}, {arm: (n,36) cells}, marginal pmf arrays for ``oa_evaluate``, fits).
 
     ``extra_lams`` (optional): {name: DataFrame(game_id, lam_home, lam_away)} adds arms ``<name>_SIM1`` (nhl-sim-1.1) and ``<name>_SIM2`` (nhl-sim-2.0) on those
     expected goals, so a retuned rating can be put through both simulators. Every simulator draw uses ``game_seed(game_id)`` as everywhere else.
+    ``collect(sims) -> dict`` (optional) adds per-game columns computed from the simulator results of every arm (e.g. team totals); default: nothing.
     """
     import time
     from pathlib import Path
@@ -187,6 +188,8 @@ def run_joint(history, test_seasons, *, n_sims: int = 4000, first_shots_season: 
                 tot_pmf[a].append(pp["total"])
                 mar_pmf[a].append(pp["margin"])
                 rec.update(_row_from_sim(pp, float(sims[a].home_final.mean()), float(sims[a].away_final.mean()), f"{a}_"))
+            if collect is not None:
+                rec.update(collect(sims))
             km, kt = observed_cells(r.home_score, r.away_score, r.last_period_type)
             rec.update({"k_margin": km, "k_total": kt, "home_score": int(r.home_score), "away_score": int(r.away_score), "last_period_type": str(r.last_period_type)})
             rows.append(rec)
