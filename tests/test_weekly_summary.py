@@ -72,3 +72,13 @@ def test_off_days_do_not_alert_on_staleness_by_default(tmp_path):
     ctx["games_today"] = []
     (a / "STATUS_context.json").write_text(json.dumps(ctx))
     assert "STATUS_STALE" not in {x["code"] for x in W.integrity_alerts(a, NOW)}              # no games today: quiet is expected
+
+
+def test_pf_scorecard_alerts_in_the_published_list_form_are_read():
+    from nhl_edge.research.weekly_summary import pf_alert_items
+
+    published = {"alerts": [{"family": "goals", "status": "OK", "what": "within expectations"}, {"family": "saves", "status": "INSUFFICIENT", "what": "32 settled forecasts (< 100)"},
+                            {"family": "shots", "status": "ALERT", "what": "bias outside band"}]}
+    assert pf_alert_items(published) == ["shots: bias outside band"]
+    assert pf_alert_items({"alerts": {"goals": "OK", "shots": "ALERT"}}) == ["shots: ALERT"]
+    assert pf_alert_items({"alerts": []}) == [] and pf_alert_items(None) == [] and pf_alert_items({}) == []

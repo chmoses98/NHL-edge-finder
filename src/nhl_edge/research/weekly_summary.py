@@ -112,12 +112,29 @@ def render_summary(archive: Path, now: datetime, alerts: list[dict[str, str]], p
     return "\n".join(lines) + "\n"
 
 
+def pf_alert_items(pf: dict[str, Any] | None) -> list[str]:
+    """Families the projection-foundation weekly scorecard marks ALERT. The published ``alerts`` is a list of ``{family, status, what}`` (statuses OK /
+    INSUFFICIENT / ALERT); an older dict form ``{family: status}`` is also read. INSUFFICIENT (too few settled forecasts) is not an alert."""
+    raw = (pf or {}).get("alerts") or []
+    out: list[str] = []
+    if isinstance(raw, dict):
+        out = [f"{k}: {v}" for k, v in raw.items() if str(v).upper() == "ALERT"]
+    elif isinstance(raw, list):
+        for a in raw:
+            if isinstance(a, dict) and str(a.get("status", "")).upper() == "ALERT":
+                out.append(f"{a.get('family', '?')}: {a.get('what', 'ALERT')}")
+            elif isinstance(a, str) and a.upper() == "ALERT":
+                out.append(a)
+    return out
+
+
 def run(archive: Path, out: Path | None, pf_dir: Path | None = None, now: datetime | None = None) -> int:
     now = now or utcnow()
     alerts = integrity_alerts(archive, now)
     pf = _load(pf_dir / "scorecards" / "nhl" / "weekly.json") if pf_dir else None
-    if pf and any(str(v).upper() == "ALERT" for v in (pf.get("alerts") or {}).values()):
-        alerts.append({"code": "PF_SCORECARD_ALERT", "message": f"projection-foundation weekly alerts: {pf.get('alerts')}"})
+    bad = pf_alert_items(pf)
+    if bad:
+        alerts.append({"code": "PF_SCORECARD_ALERT", "message": f"projection-foundation weekly alerts: {bad}"})
     md = render_summary(archive, now, alerts, pf)
     print(md)
     if out:
