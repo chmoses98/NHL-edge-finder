@@ -365,8 +365,25 @@ def league_rates(sk: pd.DataFrame, window: int) -> pd.DataFrame:
     return out
 
 
-def skater_predictions(sk: pd.DataFrame, tg: pd.DataFrame, c: TrainedConstants, prm: WorkloadParams) -> pd.DataFrame:
-    """Expected minutes by state, shot rates and mean SOG for every row of ``sk`` (point in time)."""
+def role_multiplier(pos: np.ndarray, pred_toi: np.ndarray, role_prior: dict[str, Any] | None) -> np.ndarray:
+    """Per-row centre of the shot-rate shrinkage: 1.0 without a role prior (WORKLOAD_V1), else mu[position][quintile of predicted TOI]."""
+    mu_row = np.ones(len(pos))
+    if role_prior is None:
+        return mu_row
+    for p_ in ("F", "D"):
+        sel = pos == p_
+        if sel.any():
+            mu = np.asarray(role_prior["mu"][p_], float)
+            b = np.searchsorted(np.asarray(role_prior["edges"][p_], float), pred_toi[sel], side="right")
+            mu_row[sel] = mu[np.clip(b, 0, len(mu) - 1)]
+    return mu_row
+
+
+def skater_predictions(sk: pd.DataFrame, tg: pd.DataFrame, c: TrainedConstants, prm: WorkloadParams, role_prior: dict[str, Any] | None = None) -> pd.DataFrame:
+    """Expected minutes by state, shot rates and mean SOG for every row of ``sk`` (point in time).
+
+    ``role_prior`` (WORKLOAD_V2, ``workload_v2.fit_role_prior``): centre the shrinkage of every player's shot-rate index on the shooting level of his ROLE
+    (position x predicted-TOI quintile, estimated on earlier seasons) instead of on 1.0. ``None`` reproduces WORKLOAD_V1 exactly."""
     d = sk.reset_index(drop=True).copy()
     grp = d["player_id"].to_numpy()
     pos = d["pos"].to_numpy()
@@ -417,9 +434,10 @@ def skater_predictions(sk: pd.DataFrame, tg: pd.DataFrame, c: TrainedConstants, 
         d[f"lgr_{s}"] = lr[f"lgr_{s}"].fillna(pd.Series(fb, index=d.index))
     Xr = np.column_stack([d[f"s_{s}"].to_numpy(float) for s in REG_W] + [d[f"t_{s}"].to_numpy(float) / 3600.0 * d[f"lgr_{s}"].to_numpy(float) for s in REG_W])
     Sr = ew_prior_sums(grp, Xr, prm.hl_rate)
+    mu_row = role_multiplier(pos, d["wl_toi"].to_numpy(float), role_prior)
     for j, s in enumerate(REG_W):
         k_shots = prm.k_rate[s] / 60.0 * d[f"lgr_{s}"].to_numpy(float)  # k minutes of league-rate shots
-        idx = _div(Sr[:, j] + k_shots, Sr[:, len(REG_W) + j] + k_shots, 1.0)
+        idx = _div(Sr[:, j] + k_shots * mu_row, Sr[:, len(REG_W) + j] + k_shots, 1.0)
         d[f"wl_index_{s}"] = idx
         d[f"wl_rate_{s}"] = idx * d[f"lgr_{s}"].to_numpy(float)
     d["wl_rate_ot"] = d["wl_rate_evreg"] * np.array([c.ot_mult[p_] for p_ in pos])
