@@ -126,6 +126,8 @@ def test_production_and_frozen_readers_ask_for_pinned_seasons_only(tmp_path, mon
     # frozen V2 walk-forward default path
     from nhl_edge.research import walk_forward_v2 as W2
 
+    # walk_forward_v2 binds the loader at import time (another test may have imported it first), so spy on its own name too
+    _spy(monkeypatch, "nhl_edge.research.walk_forward_v2", "load_team_games", calls)
     calls.clear()
     with pytest.raises(_Stop):
         W2.load_ctx(h)
