@@ -311,15 +311,18 @@ def _available_seasons(folder: Path, prefix: str) -> list[int]:
     return sorted(out)
 
 
-# Seasons that existed on disk before the extended 2015-2021 research pull. Production shadows and the frozen walk-forwards read
-# these only, so adding older history for research cannot change their inputs or break reproducibility of published results.
+# Seasons that existed on disk before the extended research pulls (2015-2021, then 2008-2014). Production shadows and the frozen walk-forwards read
+# these only, so adding older history for research cannot change their inputs or break reproducibility of published results. A new KIND of table or a
+# deliberate re-pin is a code change that must also update tests/test_research_integrity.py and docs/research/INTEGRITY_REGISTRY.json.
 PINNED_MIN_SEASON = 2022
+PINNED_MIN_SEASONS = {"moneypuck": 2022, "nhl": 2022, "players": 2021, "shots": 2021}
+_PINNED_SOURCES = {"moneypuck": ("moneypuck", "team_games"), "nhl": ("nhl", "games"), "players": ("players", "players"), "shots": ("moneypuck", "shots")}
 
 
 def pinned_seasons(out_root: Path, kind: str) -> list[int]:
-    """Seasons >= PINNED_MIN_SEASON on disk for ``kind`` in ("moneypuck", "nhl")."""
-    root = Path(out_root)
-    return [s for s in _available_seasons(root / kind, "team_games" if kind == "moneypuck" else "games") if s >= PINNED_MIN_SEASON]
+    """Seasons on disk for ``kind`` ("moneypuck" team games, "nhl" results, "players" skater tables, "shots") at or after that kind's pinned minimum."""
+    folder, prefix = _PINNED_SOURCES[kind]
+    return [s for s in _available_seasons(Path(out_root) / folder, prefix) if s >= PINNED_MIN_SEASONS[kind]]
 
 
 def load_team_games(out_root: Path, seasons: Iterable[int] | None = None) -> pd.DataFrame:
