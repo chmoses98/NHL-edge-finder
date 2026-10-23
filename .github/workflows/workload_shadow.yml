@@ -2,11 +2,12 @@ name: workload-shadow
 # Prospective shadow test of WORKLOAD_V1_LC (RESEARCH_ONLY; docs/research/workload_v1/LC_PROSPECTIVE_REGISTRATION.md).
 # Writes write-once pregame records and the scoreboard to the orphan branch `workload-shadow-data` ONLY. It reads settled events from `data-archive` and the
 # incumbent's pre-drop forecasts from `projection-data` (sparse, blobless views) and has no access to the betting engine, the router or the app contract.
+# Four slots a day because GitHub delivers cron late (a later run only adds records for games that have none yet; existing records are never touched).
 # Cron is best-effort (GitHub delivered the PF slots 2-6 h late): a game whose first eligible run starts after its puck drop gets NO record and is listed in the
 # coverage report; nothing is back-filled. Manual dispatch is always allowed.
 on:
   schedule:
-    - cron: "23 8,13,17 * 9-12,1-6 *"
+    - cron: "23 8,13,17,20 * 9-12,1-6 *"
   workflow_dispatch: {}
 permissions:
   contents: write
