@@ -1,0 +1,98 @@
+name: workload-shadow
+# Prospective shadow test of WORKLOAD_V1_LC (RESEARCH_ONLY; docs/research/workload_v1/LC_PROSPECTIVE_REGISTRATION.md).
+# Writes write-once pregame records and the scoreboard to the orphan branch `workload-shadow-data` ONLY. It reads settled events from `data-archive` and the
+# incumbent's pre-drop forecasts from `projection-data` (sparse, blobless views) and has no access to the betting engine, the router or the app contract.
+# Cron is best-effort (GitHub delivered the PF slots 2-6 h late): a game whose first eligible run starts after its puck drop gets NO record and is listed in the
+# coverage report; nothing is back-filled. Manual dispatch is always allowed.
+on:
+  schedule:
+    - cron: "23 8,13,17 * 9-12,1-6 *"
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency:
+  group: workload-shadow
+  cancel-in-progress: false
+defaults:
+  run:
+    shell: bash
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: pip install -q -e .
+      - name: Sparse blobless view of data-archive (manifest, schedule, settled player events)
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 --filter=blob:none origin data-archive
+          git worktree add --no-checkout -f /tmp/archive FETCH_HEAD
+          git -C /tmp/archive sparse-checkout init --no-cone
+          pats=(/manifest.jsonl /player_events/)
+          for i in $(seq -1 3); do pats+=("/context/schedule/dt=$(date -u -d "-$i days" +%F)/"); done
+          git -C /tmp/archive sparse-checkout set --no-cone "${pats[@]}"
+          git -C /tmp/archive checkout -q
+      - name: Sparse view of projection-data forecasts (incumbent pre-drop forecasts)
+        run: |
+          set -uo pipefail
+          if git fetch --depth=1 --filter=blob:none origin projection-data; then
+            git worktree add --no-checkout -f /tmp/pf FETCH_HEAD
+            git -C /tmp/pf sparse-checkout init --no-cone
+            git -C /tmp/pf sparse-checkout set --no-cone /forecasts/nhl/
+            git -C /tmp/pf checkout -q
+          else
+            mkdir -p /tmp/pf
+          fi
+      - name: Check out workload-shadow-data (orphan branch is created on the first run)
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/shadow
+          if git ls-remote --exit-code --heads origin workload-shadow-data >/dev/null 2>&1; then
+            git fetch --depth=1 origin workload-shadow-data
+            git worktree add -f --detach /tmp/shadow FETCH_HEAD
+            git -C /tmp/shadow checkout -q -B workload-shadow-data
+          else
+            git worktree add --detach -f /tmp/shadow HEAD
+            git -C /tmp/shadow checkout -q --orphan workload-shadow-data
+            git -C /tmp/shadow rm -rfq . || true
+            git -C /tmp/shadow clean -fdxq
+          fi
+      - name: Predict (write-once records for games that have not started) and score
+        id: run
+        run: |
+          set -uo pipefail
+          python -m nhl_edge.research.workload_shadow_run predict --archive /tmp/archive --history data/history --out /tmp/shadow | tee /tmp/predict.log
+          rc=${PIPESTATUS[0]}
+          if [ "$rc" != 0 ]; then echo "::error::record guard failed (a record was modified, removed or unlisted): not publishing"; exit 1; fi
+          python -m nhl_edge.research.workload_shadow_run score --archive /tmp/archive --pf /tmp/pf --out /tmp/shadow | tee /tmp/score.log
+          rc=${PIPESTATUS[0]}
+          if [ "$rc" != 0 ]; then echo "::error::record guard failed at scoring: not publishing"; exit 1; fi
+          cat /tmp/shadow/scoreboard/latest.md >> "$GITHUB_STEP_SUMMARY" || true
+      - name: Commit to workload-shadow-data (only after the guard passed; additions only)
+        run: |
+          set -euo pipefail
+          cd /tmp/shadow
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "nothing to publish"; exit 0; fi
+          # records, the manifest and coverage are additions; scoreboard/ is the only rewritable view
+          if git diff --cached --name-status | grep -E '^(D|M)\s+(records|coverage|activation)' ; then echo "::error::refusing to modify or delete an immutable file"; exit 1; fi
+          git commit -qm "workload-shadow $(date -u +%Y-%m-%dT%H:%MZ) (research_only)"
+          for i in 1 2 3 4; do
+            if git push origin HEAD:workload-shadow-data; then echo pushed; exit 0; fi
+            sleep $((2 ** i)); git fetch -q --depth=1 origin workload-shadow-data; git rebase -q FETCH_HEAD || { echo "::error::rebase conflict"; exit 1; }
+          done
+          echo "::error::could not push"; exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: workload-shadow-${{ github.run_id }}
+          path: |
+            /tmp/predict.log
+            /tmp/score.log
+          retention-days: 14

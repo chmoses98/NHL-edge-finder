@@ -28,7 +28,7 @@ from nhl_edge.research import workload_v1 as W
 from nhl_edge.timeutil import iso, parse_iso, utcnow
 
 SHADOW_PARAMS = "data/params/workload-lc-1.0.json"
-HORIZON_H = 30.0
+HORIZON_H = 14.0                                  # a game becomes eligible 14 h before its drop: the first run after that is the best-informed one before the drop
 LOOKS = (10_000, 20_000, 30_000, 60_000)         # interim (descriptive) / interim / DECISION / final
 DECISION_LOOKS = (30_000, 60_000)
 EARLY_FAIL_BIAS = 0.10
