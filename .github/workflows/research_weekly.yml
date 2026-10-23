@@ -32,7 +32,8 @@ jobs:
           git fetch --depth=1 --filter=blob:none origin data-archive
           git worktree add --no-checkout -f /tmp/archive FETCH_HEAD
           git -C /tmp/archive sparse-checkout init --no-cone
-          git -C /tmp/archive sparse-checkout set --no-cone '/STATUS_*.json' '/eval/'
+          mapfile -t pats < <(python -m nhl_edge.research.daily_scoreboard --sparse-patterns)
+          git -C /tmp/archive sparse-checkout set --no-cone '/STATUS_*.json' '/eval/' "${pats[@]}"
           git -C /tmp/archive checkout -q
           if git fetch --depth=1 --filter=blob:none origin projection-data; then
             git worktree add --no-checkout -f /tmp/pf FETCH_HEAD
@@ -49,6 +50,17 @@ jobs:
           cat /tmp/summary/summary.md >> "$GITHUB_STEP_SUMMARY"
           echo "rc=$rc" >> "$GITHUB_OUTPUT"
           if [ "$(date -u +%u)" = 1 ] || [ "$(date -u +%d)" = 01 ]; then echo "keep=90" >> "$GITHUB_OUTPUT"; else echo "keep=7" >> "$GITHUB_OUTPUT"; fi
+      - name: Daily scoreboard (settled games, pregame forecasts only) and pregame audit of the last ET game day (read-only)
+        id: sb
+        run: |
+          set -uo pipefail
+          mkdir -p /tmp/summary
+          python -m nhl_edge.research.daily_scoreboard --archive /tmp/archive --out /tmp/summary/scoreboard > /dev/null || echo "scoreboard failed" >> /tmp/summary/report_errors.txt
+          cat /tmp/summary/scoreboard/scoreboard.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+          day=$(TZ=America/New_York date -d 'yesterday' +%F)
+          python -m nhl_edge.research.pregame_audit --archive /tmp/archive --date "$day" --out /tmp/summary/pregame_audit > /dev/null; arc=$?
+          cat "/tmp/summary/pregame_audit/${day}_pregame_audit.md" >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+          echo "audit_rc=$arc" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
         with:
           name: nhl-research-summary-${{ github.run_id }}
@@ -69,3 +81,8 @@ jobs:
           elif [ -n "$existing" ]; then
             gh issue close "$existing" --comment "Integrity checks pass again at $(date -u +%FT%TZ)." || true
           fi
+      - name: Fail loudly if an archived partition no longer matches its manifest hash
+        if: ${{ steps.sb.outputs.audit_rc == '2' }}
+        run: |
+          echo "::error::pregame audit: an archive partition does not match the sha256 recorded in manifest.jsonl (see the job summary)"
+          exit 1

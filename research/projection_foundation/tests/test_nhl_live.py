@@ -486,14 +486,17 @@ def test_workflow_contract():
     jobs = d["jobs"]
     assert all("timeout-minutes" in j for j in jobs.values())
     pr_job, live = jobs["pr-dry-run"], jobs["live"]
-    assert pr_job["permissions"] == {"contents": "read"} and live["permissions"] == {"contents": "write"}
+    # actions: write is for the in-job gate only (list this workflow's runs; cancel its own run when the policy says nothing is due)
+    assert pr_job["permissions"] == {"contents": "read"} and live["permissions"] == {"contents": "write", "actions": "write"}
+    assert "gate" not in jobs and "needs" not in live          # one runner request per run: the gate is a step of the live job
     pr_runs = " ".join(s.get("run", "") for s in pr_job["steps"])
     assert "--dry-run" in pr_runs and "git push" not in pr_runs and "ci_publish" not in pr_runs
     assert "ci_publish.sh" in " ".join(s.get("run", "") for s in live["steps"])
     assert d["concurrency"]["group"].count("projection-foundation-nhl") >= 1
-    # pregame slots 10:00 / 16:00 / 18:00 ET (EDT + EST variants) and a morning settle
+    # cron is a FALLBACK in UTC without EDT/EST duplicates; the worker (worker/pf_dispatch.py) and slate-watch are the primary triggers
     crons = [s["cron"] for s in on["schedule"]]
-    hours = sorted({c.split()[1] for c in crons})
-    assert hours == ["10", "11", "14", "15", "20", "21", "22", "23"]
+    hours = sorted({int(h) for c in crons for h in c.split()[1].split(",")})
+    assert hours == [0, 1, 10, 11, 12, 14, 16, 18, 20, 21, 22, 23]
+    assert all(c.split()[2:] == ["*", "1-6,10-12", "*"] for c in crons)
     for sh in ("ci_data_archive.sh", "ci_projection_data.sh", "ci_publish.sh"):
         assert subprocess.run(["bash", "-n", str(PF / "nhl" / "live" / sh)]).returncode == 0
