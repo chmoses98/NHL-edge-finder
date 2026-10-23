@@ -92,10 +92,14 @@ def _sk_frames(ctx: Ctx, seasons: list[int], prm: W.WorkloadParams, c: W.Trained
 SK_ARMS = {"BASELINE": "base_sog", "CHAMPION": "ch_sog", "CHAMPION_NB": "ch_sog", "WORKLOAD_ONLY": "cw_sog", "EFFICIENCY_ONLY": "ce_sog", "WORKLOAD_V1": "wl_sog"}
 
 
-def skater_arms(ctx: Ctx, season: int, prm: W.WorkloadParams) -> tuple[pd.DataFrame, dict[str, np.ndarray], dict[str, float]]:
+def skater_arms(ctx: Ctx, season: int, prm: W.WorkloadParams, frames_hook: Any = None) -> tuple[pd.DataFrame, dict[str, np.ndarray], dict[str, float]]:
+    """``frames_hook(frames, season)`` (research variants only, e.g. level calibration) may rewrite the per-season frames before scoring; the default
+    path is unchanged."""
     train = [s for s in SEASONS if s < season]
     c = W.fit_constants(ctx.sk, ctx.tg, ctx.data.goalies, train)
     fr = _sk_frames(ctx, [season, season - 1], prm, c)
+    if frames_hook is not None:
+        fr = frames_hook(fr, season)
     m, prev = fr[season], fr[season - 1]  # dispersion of every NB arm: fit on the previous season's own residuals
     alphas = {a: (0.0 if a in ("BASELINE", "CHAMPION") else E.fit_nb_alpha(prev["y_sog"].to_numpy(), prev[col].to_numpy())) for a, col in SK_ARMS.items()}
     pmfs = {a: E.nb_pmf(m[col].to_numpy(), alphas[a], W.SOG_K) for a, col in SK_ARMS.items()}
