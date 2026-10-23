@@ -32,7 +32,7 @@ DATA_GLOBS = ("data/history/**/*.parquet", "data/history/**/*.jsonl.gz", "data/p
 # Frozen research artifacts (preregistrations, amendments, committed per-game result tables). New files are fine; once registered they cannot change.
 RESULT_GLOBS = (
     "docs/research/**/PREREGISTRATION*.md", "docs/research/**/AMENDMENT_*.md", "docs/research/WORKLOAD_V1_PREREGISTRATION.md",
-    "docs/research/workload_v1/preregistration.json", "docs/research/workload_v1/LEVEL_CALIBRATION_PREREGISTRATION.md",
+    "docs/research/workload_v1/preregistration.json", "docs/research/workload_v1/LEVEL_CALIBRATION_PREREGISTRATION.md", "docs/research/workload_v1/LC_PROSPECTIVE_*.md",
     "docs/research/workload_v1/*.json", "docs/research/workload_v2/*.json",
     "docs/research/oa-walk-forward/data/*", "docs/research/v1-retune/data/*", "docs/research/v2-joint/*.json", "docs/research/v2-joint-retuned/data/*",
     "docs/research/walk_forward_*_games.csv", "docs/research/walk_forward_*.json",
