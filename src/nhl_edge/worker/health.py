@@ -221,7 +221,7 @@ def assess(status: dict[str, Any]) -> dict[str, Any]:
         acts: dict[str, int] = {}
         for r in pf_recs:
             acts[str(r.get("action"))] = acts.get(str(r.get("action")), 0) + 1
-        codes = sorted({re.sub(r"_\d+MIN$", "", str(a).split()[0]) for r in pf_recs for a in (r.get("alerts") or [])})
+        codes = sorted({re.sub(r"_\d+MIN$", "", (str(a).split() or ["?"])[0]) for r in pf_recs for a in (r.get("alerts") or [])})
         components["pf_refresh"] = {"checks": len(pf_recs), "actions": acts, "alerts": codes}
         if acts.get("error", 0) == len(pf_recs):
             warnings.append(f"projection-foundation refresh check failed on all {len(pf_recs)} cycles (last: {pf_recs[-1].get('reason')})")

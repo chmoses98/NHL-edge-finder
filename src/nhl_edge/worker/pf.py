@@ -46,6 +46,10 @@ STUCK_RUN_MIN = 90.0
 STALE_NEAR_TIPOFF_MIN = 120.0
 MAX_DISPATCHES_PER_DAY = 8
 IN_FLIGHT = ("queued", "waiting", "in_progress", "requested", "pending")
+OUR_EVENTS = ("schedule", "workflow_dispatch")   # pull_request runs of this workflow are CI dry-runs of a PR, never refreshes
+CALL_TIMEOUT_S = 10
+FAILURE_BACKOFF_MIN = 60.0
+NO_PUBLISH_BACKOFF = 2                           # dispatched runs that completed OK since the tip last moved
 
 Http = Callable[[str, str, bytes | None], tuple[int, Any]]
 
@@ -82,19 +86,24 @@ def decide_pf(now: datetime, schedule_rows: list[dict[str, Any]], runs: list[dic
     age_min = None if last_pub_at is None else (now - last_pub_at).total_seconds() / 60
     out: dict[str, Any] = {"now_utc": iso(now), "action": "skip", "reason": "", "alerts": [], "published_age_min": None if age_min is None else round(age_min, 1),
                            "lead_min": None, "max_age_min": None}
+    runs = [r for r in runs if r.get("event") in OUR_EVENTS]
 
     # A queued *scheduled* run may be one of the cron entries the gate job skips (4 of the 8 daily entries are no-ops), so it is not evidence that
     # a real refresh is on its way and must not block one. Any run that is executing, and any queued run we or a person dispatched, does.
     inflight = [r for r in runs if r.get("status") == "in_progress" or (r.get("status") in IN_FLIGHT and r.get("event") != "schedule")]
     for r in inflight:
         created = _parse(r.get("created_at"))
-        if created is None:
+        started = _parse(r.get("run_started_at")) or created          # a run waiting on the job-level concurrency group is already "in progress"
+        if created is None or started is None:
             continue
-        waited = (now - created).total_seconds() / 60
-        if r.get("status") in ("queued", "waiting", "requested", "pending") and waited > STUCK_QUEUE_MIN:
-            out["alerts"].append(f"PF_RUN_QUEUED_{waited:.0f}MIN (run {r.get('id')}): GitHub runner capacity")
-        if r.get("status") == "in_progress" and waited > STUCK_RUN_MIN:
-            out["alerts"].append(f"PF_RUN_IN_PROGRESS_{waited:.0f}MIN (run {r.get('id')})")
+        if r.get("status") in ("queued", "waiting", "requested", "pending"):
+            waited = (now - created).total_seconds() / 60
+            if waited > STUCK_QUEUE_MIN:
+                out["alerts"].append(f"PF_RUN_QUEUED_{waited:.0f}MIN (run {r.get('id')}): GitHub runner capacity")
+        elif r.get("status") == "in_progress":
+            ran = (now - started).total_seconds() / 60
+            if ran > STUCK_RUN_MIN:
+                out["alerts"].append(f"PF_RUN_IN_PROGRESS_{ran:.0f}MIN (run {r.get('id')})")
     if next_start is not None and (next_start - now).total_seconds() / 60 <= 60 and (age_min is None or age_min > STALE_NEAR_TIPOFF_MIN):
         out["alerts"].append(f"PF_PUBLICATION_STALE_NEAR_TIPOFF age={'unknown' if age_min is None else f'{age_min:.0f}min'} next_tip_in={(next_start - now).total_seconds() / 60:.0f}min")
 
@@ -113,6 +122,21 @@ def decide_pf(now: datetime, schedule_rows: list[dict[str, Any]], runs: list[dic
         return out
     if inflight:
         out["reason"] = f"{len(inflight)} PF run(s) already queued or running; not stacking a dispatch on it"
+        return out
+    # Back off when our own dispatches are not producing a publication: a failed run recently, or runs that "succeeded" while the tip never moved
+    # (no-op / partial runs). Without this a broken pipeline would be re-dispatched every 15 minutes up to the daily cap.
+    dispatched = [r for r in runs if r.get("event") == "workflow_dispatch"]
+    for r in dispatched:
+        c = _parse(r.get("created_at"))
+        if r.get("status") == "completed" and r.get("conclusion") in ("failure", "timed_out", "startup_failure") and c is not None and (now - c).total_seconds() / 60 < FAILURE_BACKOFF_MIN:
+            out["reason"] = f"dispatched run {r.get('id')} ended {r.get('conclusion')} < {FAILURE_BACKOFF_MIN:.0f} min ago; backing off"
+            out["alerts"].append(f"PF_DISPATCHED_RUN_{str(r.get('conclusion')).upper()} (run {r.get('id')})")
+            return out
+    no_publish = [r for r in dispatched if r.get("status") == "completed" and r.get("conclusion") == "success" and last_pub_at is not None
+                  and (_parse(r.get("created_at")) or now) > last_pub_at and (now - (_parse(r.get("created_at")) or now)).total_seconds() / 60 < 180]
+    if len(no_publish) >= NO_PUBLISH_BACKOFF:
+        out["reason"] = f"{len(no_publish)} dispatched runs completed since the last publication without publishing; backing off"
+        out["alerts"].append("PF_DISPATCHED_BUT_NOT_PUBLISHED")
         return out
     created_times = [t for t in (_parse(r.get("created_at")) for r in runs) if t is not None]
     if created_times and (now - max(created_times)).total_seconds() / 60 < THROTTLE_MIN:
@@ -134,7 +158,7 @@ def _urllib_http(token: str) -> Http:
         req = urllib.request.Request(url, data=body, method=method, headers={
             "Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", "Content-Type": "application/json"})
         try:
-            with urllib.request.urlopen(req, timeout=30) as r:
+            with urllib.request.urlopen(req, timeout=CALL_TIMEOUT_S) as r:
                 raw = r.read()
                 return r.status, (json.loads(raw) if raw else None)
         except urllib.error.HTTPError as e:
@@ -148,8 +172,12 @@ def run_pf_refresh(now: datetime, schedule_rows: list[dict[str, Any]], repo: str
     """One worker-cycle check. Never raises; the returned dict goes into the cycle record."""
     call = http or _urllib_http(token)
     base = f"https://api.github.com/repos/{repo}"
+    near = [t for t in (_parse(g.get("start_time_utc")) for g in schedule_rows if g.get("status") in ("not_started", None)) if t is not None
+            and 0 < (t - now).total_seconds() / 3600 <= HORIZON_H + 1.0]
+    if not near:       # off-season or nothing within reach: no network call, nothing to decide
+        return {"action": "skip", "reason": "no unstarted game within the refresh horizon", "alerts": []}
     try:
-        sc, runs_doc = call("GET", f"{base}/actions/workflows/{PF_WORKFLOW}/runs?per_page=30", None)
+        sc, runs_doc = call("GET", f"{base}/actions/workflows/{PF_WORKFLOW}/runs?per_page=50", None)
         if sc != 200 or not isinstance(runs_doc, dict):
             return {"action": "error", "reason": f"runs list HTTP {sc}: {str(runs_doc)[:120]}", "alerts": []}
         runs = runs_doc.get("workflow_runs") or []
@@ -175,5 +203,7 @@ def run_pf_refresh(now: datetime, schedule_rows: list[dict[str, Any]], repo: str
 def make_pf_fn(repo: str, token: str, ref: str = "main") -> Callable[[datetime, list[dict[str, Any]]], dict[str, Any]] | None:
     if not (repo and token) or not enabled():
         return None
-    return lambda now, rows: run_pf_refresh(now, rows, repo, token, ref)
+    if ref != "main":      # a worker started from a feature branch is an experiment: it must not launch live (publishing) PF runs
+        return None
+    return lambda now, rows: run_pf_refresh(now, rows, repo, token, "main")
 

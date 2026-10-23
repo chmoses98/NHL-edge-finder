@@ -203,8 +203,9 @@ jobs:
     needs: gate
     if: github.event_name != 'pull_request' && needs.gate.outputs.run == 'true'
     # one live writer per sport; a newer pending real run supersedes an older pending one (same work), gate-only runs never reach this job
+    # dry-runs never write, so they get their own group and cannot supersede a pending real refresh
     concurrency:
-      group: projection-foundation-nhl
+      group: ${{ github.event.inputs.dry_run == 'true' && 'projection-foundation-nhl-dry' || 'projection-foundation-nhl' }}
       cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 150

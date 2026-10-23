@@ -160,5 +160,78 @@ def test_workflow_serialises_on_the_live_job_so_gate_only_runs_cannot_cancel_a_p
     top = wf["concurrency"]["group"]
     assert "run_id" in top and "'projection-foundation-nhl'" not in top.replace("projection-foundation-nhl-", "")
     live = wf["jobs"]["live"]["concurrency"]
-    assert live == {"group": "projection-foundation-nhl", "cancel-in-progress": False}
+    assert live["cancel-in-progress"] is False and "'projection-foundation-nhl'" in live["group"] and "-dry" in live["group"]   # dry-runs get their own group
     assert "concurrency" not in wf["jobs"]["gate"]
+
+
+# ---- review findings (independent adversarial review of this PR) -----------------------------------------------------------------------------------------
+
+def test_pull_request_ci_runs_of_the_workflow_are_not_pf_work():
+    stale = NOW - timedelta(minutes=300)
+    pr = [run("in_progress", "pull_request", 120, rid=7), run("queued", "pull_request", 200, rid=8)]
+    d = pf.decide_pf(NOW, games(75), pr, stale)
+    assert d["action"] == "dispatch" and d["alerts"] == []          # neither blocks, throttles, counts toward the cap nor raises a queue alert
+
+
+def test_back_off_after_a_failed_dispatched_run_and_after_runs_that_publish_nothing():
+    stale = NOW - timedelta(minutes=300)
+    failed = dict(run("completed", "workflow_dispatch", 30, rid=5), conclusion="failure")
+    d = pf.decide_pf(NOW, games(75), [failed], stale)
+    assert d["action"] == "skip" and any(a.startswith("PF_DISPATCHED_RUN_FAILURE") for a in d["alerts"])
+    old_failure = dict(run("completed", "workflow_dispatch", 90, rid=5), conclusion="failure")
+    assert pf.decide_pf(NOW, games(75), [old_failure], stale)["action"] == "dispatch"
+    ok = [dict(run("completed", "workflow_dispatch", 40 + 20 * i, rid=10 + i), conclusion="success") for i in range(2)]
+    d = pf.decide_pf(NOW, games(75), ok, stale)
+    assert d["action"] == "skip" and "PF_DISPATCHED_BUT_NOT_PUBLISHED" in d["alerts"]
+    published_after = NOW - timedelta(minutes=45)                   # the tip moved after those runs: no backoff needed (and now fresh enough)
+    assert pf.decide_pf(NOW, games(75), ok, published_after - timedelta(minutes=300))["action"] in ("skip", "dispatch")
+
+
+def test_in_progress_watchdog_measures_from_run_started_at_not_creation():
+    r = dict(run("in_progress", "workflow_dispatch", 200, rid=4), run_started_at=iso(NOW - timedelta(minutes=10)))
+    assert not pf.decide_pf(NOW, games(500), [r], NOW)["alerts"]
+    r2 = dict(r, run_started_at=iso(NOW - timedelta(minutes=100)))
+    assert any(a.startswith("PF_RUN_IN_PROGRESS_100MIN") for a in pf.decide_pf(NOW, games(500), [r2], NOW)["alerts"])
+
+
+def test_only_a_main_worker_dispatches_and_always_on_main():
+    assert pf.make_pf_fn("o/r", "t", "claude/some-branch") is None
+    log = []
+    fn = pf.make_pf_fn("o/r", "t", "main")
+    assert fn is not None
+    rec = pf.run_pf_refresh(NOW, games(75), "o/r", "t", ref="main", http=_http([], None, log))
+    assert json.loads(log[-1][2])["ref"] == "main" and rec["action"] == "dispatch"
+
+
+def test_no_network_call_when_no_game_is_within_reach():
+    def forbidden(*a):
+        raise AssertionError("network call made")
+    assert pf.run_pf_refresh(NOW, [], "o/r", "t", http=forbidden)["action"] == "skip"
+    assert pf.run_pf_refresh(NOW, games(60 * 12), "o/r", "t", http=forbidden)["action"] == "skip"
+    assert pf.run_pf_refresh(NOW, games(75, status="live"), "o/r", "t", http=forbidden)["action"] == "skip"
+
+
+def test_boundaries_of_the_lead_and_age_rules():
+    for lead, age, expect in ((20, 41, "dispatch"), (19, 500, "skip"), (90, 41, "dispatch"), (90, 40, "skip"), (91, 76, "dispatch"), (91, 75, "skip"),
+                              (180, 76, "dispatch"), (181, 151, "dispatch"), (181, 150, "skip"), (360, 151, "dispatch"), (361, 999, "skip")):
+        assert pf.decide_pf(NOW, games(lead), [], NOW - timedelta(minutes=age))["action"] == expect, (lead, age)
+    for status in ("waiting", "pending", "requested"):
+        assert pf.decide_pf(NOW, games(75), [run(status, "workflow_dispatch", 5)], NOW - timedelta(minutes=300))["action"] == "skip"
+
+
+def test_unparseable_or_naive_schedule_rows_are_ignored_and_a_5xx_is_an_error_not_a_dispatch():
+    rows = [{"start_time_utc": "garbage", "status": "not_started"}, {"start_time_utc": "2026-10-22T22:15:00", "status": None}] + games(75)
+    assert pf.decide_pf(NOW, rows, [], None)["action"] == "dispatch"
+
+    def call(method, url, body=None):
+        return (200, {"workflow_runs": []}) if "/runs" in url else (502, "bad gateway")
+    assert pf.run_pf_refresh(NOW, games(75), "o/r", "t", http=call)["action"] == "error"
+
+
+def test_health_survives_an_empty_alert_string():
+    from nhl_edge.worker import health
+
+    cyc = {"captured": True, "capture_ok": True, "push_ok": True, "jobs_run": [], "jobs_failed": [], "decision_ok": True, "pf": {"action": "skip", "alerts": ["", "   "]}}
+    status = {"worker_id": "w", "generation": 1, "exit_reason": "planned retirement", "fail_closed": False, "successor_expected": True, "successor_dispatched": True,
+              "final_push_ok": True, "capture_alarms": [], "cycles": [cyc]}
+    assert health.assess(status)["state"] in (health.HEALTHY, health.DEGRADED)

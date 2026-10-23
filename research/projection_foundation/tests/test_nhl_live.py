@@ -490,7 +490,8 @@ def test_workflow_contract():
     pr_runs = " ".join(s.get("run", "") for s in pr_job["steps"])
     assert "--dry-run" in pr_runs and "git push" not in pr_runs and "ci_publish" not in pr_runs
     assert "ci_publish.sh" in " ".join(s.get("run", "") for s in live["steps"])
-    assert d["concurrency"]["group"].count("projection-foundation-nhl") >= 1
+    assert "run_id" in d["concurrency"]["group"] and "pull_request" in d["concurrency"]["group"]
+    assert "projection-foundation-nhl'" in live["concurrency"]["group"] and live["concurrency"]["cancel-in-progress"] is False
     # pregame slots 10:00 / 16:00 / 18:00 ET (EDT + EST variants) and a morning settle
     crons = [s["cron"] for s in on["schedule"]]
     hours = sorted({c.split()[1] for c in crons})
