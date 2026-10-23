@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-23T18:30:01Z · thesis-postmortem-2.0 · rows (all generations) 25299
+evaluated 2026-10-23T20:03:46Z · thesis-postmortem-2.0 · rows (all generations) 25299
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,22 +33,21 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020166 MTL @ CHI: NOT_STARTED · snapshot snap-ee6bdb2c3ddfb9634797 @ 2026-10-23T17:50:48Z
+#### game 2026020166 MTL @ CHI: NOT_STARTED · snapshot snap-aa738242d9efc36d253f @ 2026-10-23T19:39:33Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes | FUNDED_RESEARCH | 2 | 7.38 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes | SHADOW_ONLY | 0 | 6.71 | - | - | - | FRAGILE | - | - |
-| KXNHLSPREAD-26OCT23MTLCHI-MTL2|no | FUNDED_RESEARCH | 3 | 9.54 | - | - | - | STRUCTURAL | - | - |
-| KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no | SHADOW_ONLY | 0 | 12.84 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes | FUNDED_RESEARCH | 2 | 7.40 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes | SHADOW_ONLY | 0 | 7.41 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no | SHADOW_ONLY | 0 | 18.61 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26OCT23MTLCHI-MTL3|no | FUNDED_RESEARCH | 4 | 15.23 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020167 TBL @ COL: NOT_STARTED · snapshot snap-ee6bdb2c3ddfb9634797 @ 2026-10-23T17:50:48Z
+#### game 2026020167 TBL @ COL: NOT_STARTED · snapshot snap-aa738242d9efc36d253f @ 2026-10-23T19:39:33Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT23TBCOL-TBIMIKHEYEV95-1|yes | FUNDED_RESEARCH | 1 | 3.90 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT23TBCOL-COLPKELLY17-1|yes | SHADOW_ONLY | 0 | 3.07 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT23TBCOL-COLALEHKONEN62-1|yes | SHADOW_ONLY | 0 | 3.92 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT23TBCOL-COLALEHKONEN62-1|yes | FUNDED_RESEARCH | 2 | 4.40 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT23TBCOL-TBBPOINT21-1|yes | SHADOW_ONLY | 0 | 3.61 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-22: **COMPLETE — 12/12 games evaluated**
 

@@ -1,5 +1,5 @@
 {
- "evaluated_at_utc": "2026-10-23T18:30:01Z",
+ "evaluated_at_utc": "2026-10-23T20:03:46Z",
  "authority": "RESEARCH_ONLY",
  "report_version": "thesis-postmortem-2.0",
  "n_rows_all_runs": 25299,
@@ -93520,14 +93520,14 @@
      "state": "NOT_STARTED",
      "matchup": "MTL @ CHI",
      "final_snapshot": {
-      "snapshot_id": "snap-ee6bdb2c3ddfb9634797",
-      "decided_at_utc": "2026-10-23T17:50:48Z",
+      "snapshot_id": "snap-aa738242d9efc36d253f",
+      "decided_at_utc": "2026-10-23T19:39:33Z",
       "run_id": "39991077718",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
       "n_chosen": 4,
-      "n_shortlisted": 7,
-      "n_pregame_snapshots": 15,
+      "n_shortlisted": 10,
+      "n_pregame_snapshots": 17,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-24T00:00:00Z",
       "synthetic_game_row": false,
@@ -93535,103 +93535,139 @@
      },
      "portfolio_result": null,
      "script_check": null,
-     "overrides": [],
+     "overrides": [
+      {
+       "thesis": "MTL:SUPPRESSED",
+       "replaced": "KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no",
+       "selected": "KXNHLSPREAD-26OCT23MTLCHI-MTL3|no",
+       "ev_adjusted_replaced": 0.0243,
+       "ev_adjusted_selected": 0.0145,
+       "edge_difference_pts": -0.98,
+       "thesis_capture_replaced": 0.8927,
+       "thesis_capture_selected": 1.0,
+       "fidelity_replaced": "DIRECT",
+       "fidelity_selected": "STRUCTURAL",
+       "reliability_replaced": "EVIDENCE_MIXED",
+       "reliability_selected": "EVIDENCE_MIXED",
+       "growth_bp_replaced": 6.26,
+       "growth_bp_selected": 2.566,
+       "decided_on": "expression fidelity",
+       "rule": "similar adjusted value (within 1 pt) -> prefer reliability, then fidelity",
+       "applied": true,
+       "text": "Broad expression KXNHLSPREAD-26OCT23MTLCHI-MTL3|no selected over player prop KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no because adjusted EV differs by only 1.0 pts while thesis capture is 1.00 vs 0.89 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)"
+      }
+     ],
      "bets": [
       {
-       "decision_id": "d6a1eb558a57416e512d0fe69f77096a",
+       "decision_id": "eae92309c5738361ab26221fa01b52a5",
        "game_id": "2026020166",
        "bet_id": "KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 7.38,
+       "stake_dollars": 7.4,
        "research_status": "FUNDED_RESEARCH",
        "research_stake_dollars": 2,
        "research_reasons": [],
        "fidelity_class": "FRAGILE",
-       "thesis_capture": 0.3791,
+       "thesis_capture": 0.3637,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
        "primary_thesis": "CHI:OFFENSE_4PLUS",
-       "p_thesis": 0.3735,
+       "p_thesis": 0.3786,
        "entry_price_cents": 20,
-       "ev_raw": 0.038599999999999995,
-       "ev_adjusted": 0.024900000000000005,
-       "p_model": 0.2498,
-       "p_adjusted": 0.2361,
-       "p_kalshi_mid": 0.195,
+       "ev_raw": 0.0388,
+       "ev_adjusted": 0.023799999999999988,
+       "p_model": 0.25,
+       "p_adjusted": 0.235,
+       "p_kalshi_mid": 0.19,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.195,
-        "gap": 0.0548,
-        "abs_gap_pts": 5.5,
+        "p_market": 0.19,
+        "gap": 0.06,
+        "abs_gap_pts": 6.0,
         "threshold_pts": 10.0,
         "large": false
        },
        "selection_override": null,
        "joint_relationships": {
+        "KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.006,
+         "p_both": 0.1958
+        },
         "KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.003,
-         "p_both": 0.0766
-        },
-        "KXNHLSPREAD-26OCT23MTLCHI-MTL2|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.149,
-         "p_both": 0.2047
-        },
-        "KXNHLSPREAD-26OCT23MTLCHI-MTL3|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.133,
-         "p_both": 0.2243
+         "phi": -0.018,
+         "p_both": 0.0704
         },
         "KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no": {
          "relationship": "INTENTIONAL_DIVERSIFIER",
-         "phi": -0.072,
-         "p_both": 0.1583
+         "phi": -0.081,
+         "p_both": 0.1552
         },
-        "KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL4|no": {
+        "KXNHLSPREAD-26OCT23MTLCHI-MTL3|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.011,
-         "p_both": 0.1475
+         "phi": 0.116,
+         "p_both": 0.2223
+        },
+        "KXNHLSPREAD-26OCT23MTLCHI-MTL2|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.14,
+         "p_both": 0.2027
         },
         "KXNHLAST-26OCT23MTLCHI-MTLCCAUFIELD13-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.0,
-         "p_both": 0.164
+         "phi": 0.005,
+         "p_both": 0.1651
+        },
+        "KXNHLGOAL-26OCT23MTLCHI-CHIRDONATO8-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.005,
+         "p_both": 0.0461
+        },
+        "KXNHLAST-26OCT23MTLCHI-CHICBEDARD98-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.031,
+         "p_both": 0.1514
+        },
+        "KXNHLAST-26OCT23MTLCHI-CHIAFRONDELL16-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.001,
+         "p_both": 0.185
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "988fa9b5703f488e851357f88c759345",
+       "decision_id": "6db833fdc3d5ec126ac9c783b26dc064",
        "game_id": "2026020166",
        "bet_id": "KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 6.71,
+       "stake_dollars": 7.41,
        "research_status": "SHADOW_ONLY",
        "research_stake_dollars": 0,
        "research_reasons": [
         "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes)"
        ],
        "fidelity_class": "FRAGILE",
-       "thesis_capture": 0.4576,
+       "thesis_capture": 0.4387,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
        "primary_thesis": "CHI:OFFENSE_4PLUS",
-       "p_thesis": 0.3735,
-       "entry_price_cents": 26,
-       "ev_raw": 0.03593200000000002,
-       "ev_adjusted": 0.019832000000000016,
-       "p_model": 0.3094,
-       "p_adjusted": 0.2933,
+       "p_thesis": 0.3786,
+       "entry_price_cents": 25,
+       "ev_raw": 0.03307500000000002,
+       "ev_adjusted": 0.020274999999999987,
+       "p_model": 0.2962,
+       "p_adjusted": 0.2834,
        "p_kalshi_mid": 0.245,
        "market_disagreement": {
         "reference": "kalshi_mid",
         "p_market": 0.245,
-        "gap": 0.0644,
-        "abs_gap_pts": 6.4,
+        "gap": 0.0512,
+        "abs_gap_pts": 5.1,
         "threshold_pts": 10.0,
         "large": false
        },
@@ -93639,111 +93675,60 @@
        "joint_relationships": {
         "KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.003,
-         "p_both": 0.0766
+         "phi": -0.018,
+         "p_both": 0.0704
+        },
+        "KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.002,
+         "p_both": 0.2303
+        },
+        "KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no": {
+         "relationship": "INTENTIONAL_DIVERSIFIER",
+         "phi": -0.142,
+         "p_both": 0.1732
+        },
+        "KXNHLSPREAD-26OCT23MTLCHI-MTL3|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.133,
+         "p_both": 0.2638
         },
         "KXNHLSPREAD-26OCT23MTLCHI-MTL2|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.149,
-         "p_both": 0.2486
-        },
-        "KXNHLSPREAD-26OCT23MTLCHI-MTL3|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.119,
-         "p_both": 0.2712
-        },
-        "KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no": {
-         "relationship": "INTENTIONAL_DIVERSIFIER",
-         "phi": -0.124,
-         "p_both": 0.1874
-        },
-        "KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL4|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.016,
-         "p_both": 0.1761
+         "relationship": "REINFORCING",
+         "phi": 0.157,
+         "p_both": 0.24
         },
         "KXNHLAST-26OCT23MTLCHI-MTLCCAUFIELD13-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.023,
-         "p_both": 0.198
+         "phi": 0.003,
+         "p_both": 0.195
+        },
+        "KXNHLGOAL-26OCT23MTLCHI-CHIRDONATO8-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.014,
+         "p_both": 0.0512
+        },
+        "KXNHLAST-26OCT23MTLCHI-CHICBEDARD98-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.133,
+         "p_both": 0.1578
+        },
+        "KXNHLAST-26OCT23MTLCHI-CHIAFRONDELL16-1|no": {
+         "relationship": "PARTIALLY_CONTRADICTORY",
+         "phi": -0.222,
+         "p_both": 0.1745
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "534ec42a36cb21832e6f77e93ca1e239",
-       "game_id": "2026020166",
-       "bet_id": "KXNHLSPREAD-26OCT23MTLCHI-MTL2|no",
-       "family": "game_spread",
-       "chosen": true,
-       "stake_dollars": 9.54,
-       "research_status": "FUNDED_RESEARCH",
-       "research_stake_dollars": 3,
-       "research_reasons": [],
-       "fidelity_class": "STRUCTURAL",
-       "thesis_capture": 1.0,
-       "expression_kind": "BROAD",
-       "is_player_prop": false,
-       "primary_thesis": "CHI:WINS",
-       "p_thesis": 0.4826,
-       "entry_price_cents": 63,
-       "ev_raw": 0.05508299999999999,
-       "ev_adjusted": 0.01688299999999998,
-       "p_model": 0.7014,
-       "p_adjusted": 0.6632,
-       "p_kalshi_mid": 0.625,
-       "market_disagreement": {
-        "reference": "kalshi_mid",
-        "p_market": 0.625,
-        "gap": 0.0764,
-        "abs_gap_pts": 7.6,
-        "threshold_pts": 10.0,
-        "large": false
-       },
-       "selection_override": null,
-       "joint_relationships": {
-        "KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.149,
-         "p_both": 0.2047
-        },
-        "KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.149,
-         "p_both": 0.2486
-        },
-        "KXNHLSPREAD-26OCT23MTLCHI-MTL3|no": {
-         "relationship": "DUPLICATIVE",
-         "phi": 0.75,
-         "p_both": 0.7014
-        },
-        "KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no": {
-         "relationship": "INTENTIONAL_DIVERSIFIER",
-         "phi": -0.157,
-         "p_both": 0.4514
-        },
-        "KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL4|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.54,
-         "p_both": 0.5295
-        },
-        "KXNHLAST-26OCT23MTLCHI-MTLCCAUFIELD13-1|no": {
-         "relationship": "REINFORCING",
-         "phi": 0.197,
-         "p_both": 0.5032
-        }
-       },
-       "scored": false,
-       "outcome": null
-      },
-      {
-       "decision_id": "070db7091cc72566c5f9fcbb03561fbc",
+       "decision_id": "c810095850126a373eb31686252e83b2",
        "game_id": "2026020166",
        "bet_id": "KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no",
        "family": "player_assists",
        "chosen": true,
-       "stake_dollars": 12.84,
+       "stake_dollars": 18.61,
        "research_status": "SHADOW_ONLY",
        "research_stake_dollars": 0,
        "research_reasons": [
@@ -93751,22 +93736,22 @@
         "LARGE_MARKET_DISAGREEMENT_UNCORROBORATED"
        ],
        "fidelity_class": "DIRECT",
-       "thesis_capture": 0.8377,
+       "thesis_capture": 0.8388,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
        "primary_thesis": "CHI:SUPPRESSED",
-       "p_thesis": 0.4011,
-       "entry_price_cents": 59,
-       "ev_raw": 0.084067,
-       "ev_adjusted": 0.011917000000000066,
-       "p_model": 0.691,
-       "p_adjusted": 0.61885,
-       "p_kalshi_mid": 0.5800000000000001,
+       "p_thesis": 0.405,
+       "entry_price_cents": 57,
+       "ev_raw": 0.09894300000000011,
+       "ev_adjusted": 0.020228000000000024,
+       "p_model": 0.6861,
+       "p_adjusted": 0.607385,
+       "p_kalshi_mid": 0.565,
        "market_disagreement": {
         "reference": "kalshi_mid",
-        "p_market": 0.58,
-        "gap": 0.111,
-        "abs_gap_pts": 11.1,
+        "p_market": 0.565,
+        "gap": 0.1211,
+        "abs_gap_pts": 12.1,
         "threshold_pts": 10.0,
         "large": true
        },
@@ -93774,33 +93759,148 @@
        "joint_relationships": {
         "KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes": {
          "relationship": "INTENTIONAL_DIVERSIFIER",
-         "phi": -0.072,
-         "p_both": 0.1583
+         "phi": -0.081,
+         "p_both": 0.1552
+        },
+        "KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.012,
+         "p_both": 0.5318
         },
         "KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes": {
          "relationship": "INTENTIONAL_DIVERSIFIER",
-         "phi": -0.124,
-         "p_both": 0.1874
-        },
-        "KXNHLSPREAD-26OCT23MTLCHI-MTL2|no": {
-         "relationship": "INTENTIONAL_DIVERSIFIER",
-         "phi": -0.157,
-         "p_both": 0.4514
+         "phi": -0.142,
+         "p_both": 0.1732
         },
         "KXNHLSPREAD-26OCT23MTLCHI-MTL3|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.126,
-         "p_both": 0.5344
+         "relationship": "INTENTIONAL_DIVERSIFIER",
+         "phi": -0.154,
+         "p_both": 0.528
         },
-        "KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL4|no": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.007,
-         "p_both": 0.4032
+        "KXNHLSPREAD-26OCT23MTLCHI-MTL2|no": {
+         "relationship": "PARTIALLY_CONTRADICTORY",
+         "phi": -0.166,
+         "p_both": 0.4445
         },
         "KXNHLAST-26OCT23MTLCHI-MTLCCAUFIELD13-1|no": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.003,
-         "p_both": 0.4544
+         "phi": -0.017,
+         "p_both": 0.4464
+        },
+        "KXNHLGOAL-26OCT23MTLCHI-CHIRDONATO8-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.024,
+         "p_both": 0.1198
+        },
+        "KXNHLAST-26OCT23MTLCHI-CHICBEDARD98-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.117,
+         "p_both": 0.4596
+        },
+        "KXNHLAST-26OCT23MTLCHI-CHIAFRONDELL16-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.039,
+         "p_both": 0.5151
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "42a81ea2bbe211de9904b733f7f8d2c3",
+       "game_id": "2026020166",
+       "bet_id": "KXNHLSPREAD-26OCT23MTLCHI-MTL3|no",
+       "family": "game_spread",
+       "chosen": true,
+       "stake_dollars": 15.23,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 4,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "CHI:WINS",
+       "p_thesis": 0.4817,
+       "entry_price_cents": 75,
+       "ev_raw": 0.04717499999999997,
+       "ev_adjusted": 0.014524999999999899,
+       "p_model": 0.8103,
+       "p_adjusted": 0.77765,
+       "p_kalshi_mid": 0.745,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.745,
+        "gap": 0.0653,
+        "abs_gap_pts": 6.5,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": {
+        "thesis": "MTL:SUPPRESSED",
+        "replaced": "KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no",
+        "selected": "KXNHLSPREAD-26OCT23MTLCHI-MTL3|no",
+        "ev_adjusted_replaced": 0.0243,
+        "ev_adjusted_selected": 0.0145,
+        "edge_difference_pts": -0.98,
+        "thesis_capture_replaced": 0.8927,
+        "thesis_capture_selected": 1.0,
+        "fidelity_replaced": "DIRECT",
+        "fidelity_selected": "STRUCTURAL",
+        "reliability_replaced": "EVIDENCE_MIXED",
+        "reliability_selected": "EVIDENCE_MIXED",
+        "growth_bp_replaced": 6.26,
+        "growth_bp_selected": 2.566,
+        "decided_on": "expression fidelity",
+        "rule": "similar adjusted value (within 1 pt) -> prefer reliability, then fidelity",
+        "applied": true,
+        "text": "Broad expression KXNHLSPREAD-26OCT23MTLCHI-MTL3|no selected over player prop KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no because adjusted EV differs by only 1.0 pts while thesis capture is 1.00 vs 0.89 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)"
+       },
+       "joint_relationships": {
+        "KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.116,
+         "p_both": 0.2223
+        },
+        "KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.15,
+         "p_both": 0.6553
+        },
+        "KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.133,
+         "p_both": 0.2638
+        },
+        "KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no": {
+         "relationship": "INTENTIONAL_DIVERSIFIER",
+         "phi": -0.154,
+         "p_both": 0.528
+        },
+        "KXNHLSPREAD-26OCT23MTLCHI-MTL2|no": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.738,
+         "p_both": 0.6994
+        },
+        "KXNHLAST-26OCT23MTLCHI-MTLCCAUFIELD13-1|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.166,
+         "p_both": 0.5624
+        },
+        "KXNHLGOAL-26OCT23MTLCHI-CHIRDONATO8-1|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.099,
+         "p_both": 0.1615
+        },
+        "KXNHLAST-26OCT23MTLCHI-CHICBEDARD98-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.147,
+         "p_both": 0.484
+        },
+        "KXNHLAST-26OCT23MTLCHI-CHIAFRONDELL16-1|no": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": -0.113,
+         "p_both": 0.5796
         }
        },
        "scored": false,
@@ -93812,14 +93912,14 @@
      "state": "NOT_STARTED",
      "matchup": "TBL @ COL",
      "final_snapshot": {
-      "snapshot_id": "snap-ee6bdb2c3ddfb9634797",
-      "decided_at_utc": "2026-10-23T17:50:48Z",
+      "snapshot_id": "snap-aa738242d9efc36d253f",
+      "decided_at_utc": "2026-10-23T19:39:33Z",
       "run_id": "39991077718",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
-      "n_chosen": 3,
-      "n_shortlisted": 3,
-      "n_pregame_snapshots": 15,
+      "n_chosen": 2,
+      "n_shortlisted": 2,
+      "n_pregame_snapshots": 17,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-10-24T01:00:00Z",
       "synthetic_game_row": false,
@@ -93830,142 +93930,84 @@
      "overrides": [],
      "bets": [
       {
-       "decision_id": "63efe883165a01f8abaa516564d1564b",
-       "game_id": "2026020167",
-       "bet_id": "KXNHLGOAL-26OCT23TBCOL-TBIMIKHEYEV95-1|yes",
-       "family": "player_goals",
-       "chosen": true,
-       "stake_dollars": 3.9,
-       "research_status": "FUNDED_RESEARCH",
-       "research_stake_dollars": 1,
-       "research_reasons": [],
-       "fidelity_class": "FRAGILE",
-       "thesis_capture": 0.2918,
-       "expression_kind": "FRAGILE_PLAYER",
-       "is_player_prop": true,
-       "primary_thesis": "TBL:OFFENSE_4PLUS",
-       "p_thesis": 0.3249,
-       "entry_price_cents": 15,
-       "ev_raw": 0.022975000000000023,
-       "ev_adjusted": 0.01375000000000004,
-       "p_model": 0.1819,
-       "p_adjusted": 0.17267500000000002,
-       "p_kalshi_mid": 0.14500000000000002,
-       "market_disagreement": {
-        "reference": "kalshi_mid",
-        "p_market": 0.145,
-        "gap": 0.0369,
-        "abs_gap_pts": 3.7,
-        "threshold_pts": 10.0,
-        "large": false
-       },
-       "selection_override": null,
-       "joint_relationships": {
-        "KXNHLGOAL-26OCT23TBCOL-COLPKELLY17-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.009,
-         "p_both": 0.0236
-        },
-        "KXNHLGOAL-26OCT23TBCOL-COLALEHKONEN62-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.01,
-         "p_both": 0.0574
-        }
-       },
-       "scored": false,
-       "outcome": null
-      },
-      {
-       "decision_id": "7c13344c430396704b026571417791af",
-       "game_id": "2026020167",
-       "bet_id": "KXNHLGOAL-26OCT23TBCOL-COLPKELLY17-1|yes",
-       "family": "player_goals",
-       "chosen": true,
-       "stake_dollars": 3.07,
-       "research_status": "SHADOW_ONLY",
-       "research_stake_dollars": 0,
-       "research_reasons": [
-        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT23TBCOL-TBIMIKHEYEV95-1|yes)"
-       ],
-       "fidelity_class": "FRAGILE",
-       "thesis_capture": 0.1989,
-       "expression_kind": "FRAGILE_PLAYER",
-       "is_player_prop": true,
-       "primary_thesis": "COL:OFFENSE_4PLUS",
-       "p_thesis": 0.4485,
-       "entry_price_cents": 11,
-       "ev_raw": 0.019247,
-       "ev_adjusted": 0.011471999999999996,
-       "p_model": 0.1361,
-       "p_adjusted": 0.128325,
-       "p_kalshi_mid": 0.10500000000000001,
-       "market_disagreement": {
-        "reference": "kalshi_mid",
-        "p_market": 0.105,
-        "gap": 0.0311,
-        "abs_gap_pts": 3.1,
-        "threshold_pts": 10.0,
-        "large": false
-       },
-       "selection_override": null,
-       "joint_relationships": {
-        "KXNHLGOAL-26OCT23TBCOL-TBIMIKHEYEV95-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": -0.009,
-         "p_both": 0.0236
-        },
-        "KXNHLGOAL-26OCT23TBCOL-COLALEHKONEN62-1|yes": {
-         "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.009,
-         "p_both": 0.0431
-        }
-       },
-       "scored": false,
-       "outcome": null
-      },
-      {
-       "decision_id": "37904f88fc556d4122a2574826503d17",
+       "decision_id": "7d0d742c89a56b4f7e7d84d4321b738f",
        "game_id": "2026020167",
        "bet_id": "KXNHLGOAL-26OCT23TBCOL-COLALEHKONEN62-1|yes",
        "family": "player_goals",
        "chosen": true,
-       "stake_dollars": 3.92,
-       "research_status": "SHADOW_ONLY",
-       "research_stake_dollars": 0,
-       "research_reasons": [
-        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT23TBCOL-TBIMIKHEYEV95-1|yes)"
-       ],
+       "stake_dollars": 4.4,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 2,
+       "research_reasons": [],
        "fidelity_class": "FRAGILE",
-       "thesis_capture": 0.4301,
+       "thesis_capture": 0.433,
        "expression_kind": "FRAGILE_PLAYER",
        "is_player_prop": true,
        "primary_thesis": "COL:OFFENSE_4PLUS",
-       "p_thesis": 0.4485,
+       "p_thesis": 0.4376,
        "entry_price_cents": 27,
-       "ev_raw": 0.022002999999999995,
-       "ev_adjusted": 0.011803000000000008,
-       "p_model": 0.3058,
-       "p_adjusted": 0.29560000000000003,
+       "ev_raw": 0.02340299999999995,
+       "ev_adjusted": 0.012852999999999948,
+       "p_model": 0.3072,
+       "p_adjusted": 0.29664999999999997,
        "p_kalshi_mid": 0.265,
        "market_disagreement": {
         "reference": "kalshi_mid",
         "p_market": 0.265,
-        "gap": 0.0408,
-        "abs_gap_pts": 4.1,
+        "gap": 0.0422,
+        "abs_gap_pts": 4.2,
         "threshold_pts": 10.0,
         "large": false
        },
        "selection_override": null,
        "joint_relationships": {
-        "KXNHLGOAL-26OCT23TBCOL-TBIMIKHEYEV95-1|yes": {
+        "KXNHLGOAL-26OCT23TBCOL-TBBPOINT21-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.01,
-         "p_both": 0.0574
-        },
-        "KXNHLGOAL-26OCT23TBCOL-COLPKELLY17-1|yes": {
+         "phi": -0.005,
+         "p_both": 0.0935
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "d45b47513d6a93b1c6344b24eb16198a",
+       "game_id": "2026020167",
+       "bet_id": "KXNHLGOAL-26OCT23TBCOL-TBBPOINT21-1|yes",
+       "family": "player_goals",
+       "chosen": true,
+       "stake_dollars": 3.61,
+       "research_status": "SHADOW_ONLY",
+       "research_stake_dollars": 0,
+       "research_reasons": [
+        "PLAYER_PROP_GAME_CAP (max 1 funded player prop per game; kept KXNHLGOAL-26OCT23TBCOL-COLALEHKONEN62-1|yes)"
+       ],
+       "fidelity_class": "FRAGILE",
+       "thesis_capture": 0.4568,
+       "expression_kind": "FRAGILE_PLAYER",
+       "is_player_prop": true,
+       "primary_thesis": "TBL:OFFENSE_4PLUS",
+       "p_thesis": 0.329,
+       "entry_price_cents": 27,
+       "ev_raw": 0.023702999999999974,
+       "ev_adjusted": 0.010577999999999976,
+       "p_model": 0.3075,
+       "p_adjusted": 0.294375,
+       "p_kalshi_mid": 0.255,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.255,
+        "gap": 0.0525,
+        "abs_gap_pts": 5.2,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLGOAL-26OCT23TBCOL-COLALEHKONEN62-1|yes": {
          "relationship": "MOSTLY_INDEPENDENT",
-         "phi": 0.009,
-         "p_both": 0.0431
+         "phi": -0.005,
+         "p_both": 0.0935
         }
        },
        "scored": false,
