@@ -31,6 +31,7 @@ SHADOW_PARAMS = "data/params/workload-lc-1.0.json"
 HORIZON_H = 14.0                                  # a game becomes eligible 14 h before its drop: the first run after that is the best-informed one before the drop
 LOOKS = (10_000, 20_000, 30_000, 60_000)         # interim (descriptive) / interim / DECISION / final
 DECISION_LOOKS = (30_000, 60_000)
+MIN_COMPARATOR_COVERAGE = 0.80      # Amendment 1: a decision look needs a pregame incumbent forecast for at least this share of scored player-games
 EARLY_FAIL_BIAS = 0.10
 
 
@@ -196,7 +197,7 @@ def score_frame(rec: pd.DataFrame, act: pd.DataFrame, inc: pd.DataFrame, shadow_
     K = W.SOG_K
     pm_lc = np.vstack(paired["pmf"].to_numpy()).astype(float)
     ch_mean = paired["champ_mean"].to_numpy(float)
-    pmfs = {"LC": pm_lc, "WORKLOAD_V1_RAW": E.nb_pmf(paired["raw_mean"].to_numpy(float), float(paired["alpha"].iloc[0]), K), "CHAMPION": E.poisson_pmf(ch_mean, K),
+    pmfs = {"LC": pm_lc, "WORKLOAD_V1_RAW": E.nb_pmf(paired["raw_mean"].to_numpy(float), float(shadow_params.get("alpha_workload_v1_raw", paired["alpha"].iloc[0])), K), "CHAMPION": E.poisson_pmf(ch_mean, K),
             "BASELINE": E.poisson_pmf(paired["base_mean"].to_numpy(float), K)}
     a_ch = shadow_params.get("alpha_champion_nb")
     if a_ch is not None:
@@ -226,6 +227,8 @@ def score_frame(rec: pd.DataFrame, act: pd.DataFrame, inc: pd.DataFrame, shadow_
     look = out["look_reached"]
     if early_fail and look is not None:
         out["verdict"] = "FAILS FROZEN RULE (early-failure criterion)"
+    elif look in DECISION_LOOKS and len(paired) < MIN_COMPARATOR_COVERAGE * len(m):
+        out["verdict"] = f"INCONCLUSIVE (comparator coverage {len(paired) / max(len(m), 1):.2f} < {MIN_COMPARATOR_COVERAGE:.2f})"
     elif look in DECISION_LOOKS and ref_nb:
         out["verdict"] = "MEETS FROZEN RULE (recommendation to a human only)" if all(checks.values()) else "FAILS FROZEN RULE"
     else:

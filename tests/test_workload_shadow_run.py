@@ -114,6 +114,15 @@ def test_without_the_frozen_champion_dispersion_the_decision_stays_open():
     assert sc["original_rule_complete"] is False and sc["verdict"].startswith("INCONCLUSIVE")
 
 
+def test_decision_look_is_inconclusive_when_too_few_scored_rows_have_an_incumbent_forecast():
+    rec, act, inc = _synthetic(45_000, late=0)
+    inc = inc.iloc[: int(0.70 * len(inc))]                       # Amendment 1: coverage below 80% at a decision look
+    sc = R.score_frame(rec, act, inc, {"alpha_champion_nb": 0.05}, n_boot=100)
+    assert sc["look_reached"] == 30_000 and sc["verdict"].startswith("INCONCLUSIVE (comparator coverage")
+    full = R.score_frame(rec, act, _synthetic(45_000, late=0)[2], {"alpha_champion_nb": 0.05}, n_boot=100)
+    assert full["verdict"].startswith(("MEETS FROZEN RULE", "FAILS FROZEN RULE"))
+
+
 def test_incumbent_forecasts_take_the_last_pre_drop_row(tmp_path):
     d = tmp_path / "forecasts" / "nhl" / "2026-10-24"
     d.mkdir(parents=True)
