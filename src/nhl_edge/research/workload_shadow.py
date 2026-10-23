@@ -34,7 +34,7 @@ TRAIN_SEASONS = [2021, 2022, 2023, 2024, 2025]            # constants for the 20
 DISPERSION_SEASON = 2025
 CANDIDATE_GAMES = 5                                       # a candidate dressed in any of the team's last five settled games
 MODEL_ID = "WORKLOAD_V1_LC"
-PMF_K = 12                                                # stored probabilities P(0)..P(11) and P(>=12)
+PMF_K = W.SOG_K                                           # 16 bins: P(0)..P(14) and P(>=15), the support the retrospective scoring used
 PARAMS_FILE = "docs/research/workload_v1/preregistration.json"
 INTERNAL_COLS = ("_observed_at_utc", "_run_id")
 
@@ -151,6 +151,7 @@ def predict_day(sk: pd.DataFrame, tg: pd.DataFrame, games: list[dict[str, Any]],
     with stable_sorts():
         d = W.skater_predictions(sk_all, tg_all, c, prm)
     d["y_sog"] = pd.to_numeric(d["sog"], errors="coerce")
+    d["base_sog"] = W.baseline_sog(d).to_numpy()
     stub_ids = {int(g["game_id"]) for g in games}
     prev = d[(d["season"] == dispersion_season) & (d["game_type"] == 2) & d["y_sog"].notna()]
     cur = d[(d["season"] == season) & (d["game_type"] == 2)]
@@ -181,7 +182,7 @@ def records(pred: pd.DataFrame, games: list[dict[str, Any]], fit: Fit, predicted
     for r in pred.itertuples(index=False):
         out.append({"schema": "workload-shadow-1", "model_id": MODEL_ID, "game_id": int(r.game_id), "game_start_utc": start[int(r.game_id)], "predicted_at_utc": predicted_at_utc,
                     "pregame": predicted_at_utc < start[int(r.game_id)], "player_id": int(r.player_id), "name": str(r.name), "pos": str(r.pos), "team_id": int(r.team_id),
-                    "opp_id": int(r.opp_id), "is_home": bool(r.is_home), "raw_mean": round(float(r.raw_mean), 6), "level_factor": round(float(r.level_factor), 6),
+                    "opp_id": int(r.opp_id), "is_home": bool(r.is_home), "raw_mean": round(float(r.raw_mean), 6), "base_mean": round(float(r.base_sog), 6), "level_factor": round(float(r.level_factor), 6),
                     "mean": round(float(r.lc_mean), 6), "alpha": round(fit.alpha, 8), "pmf": [round(float(x), 7) for x in r.pmf], "inputs_sha256": fit.prediction_inputs_sha,
                     "code_commit": code_commit, "conditional_on": "dressing", "authority": "research_only", "role": "shadow"})
     return out
