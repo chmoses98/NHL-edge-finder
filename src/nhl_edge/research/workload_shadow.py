@@ -61,17 +61,31 @@ def stable_sorts() -> Iterator[None]:
         pd.DataFrame.sort_values = orig  # type: ignore[method-assign]
 
 
+def _latest_snapshot_per_game(rows: list[dict[str, Any]]) -> pd.DataFrame:
+    """Live archive rows of one table, one snapshot per game: a game can be observed several times (re-ingests), and only its latest observation is used."""
+    if not rows:
+        return pd.DataFrame()
+    df = pd.DataFrame(rows)
+    if "_observed_at_utc" in df.columns:
+        df["_obs"] = df["_observed_at_utc"].astype(str)
+        df = df[df["_obs"] == df.groupby("game_id")["_obs"].transform("max")].drop(columns="_obs")
+    df = df.drop(columns=[c for c in INTERNAL_COLS if c in df.columns])
+    return df.loc[~df.astype(str).duplicated()].reset_index(drop=True)             # some tables carry list-valued columns, so compare by value as text
+
+
 def load_tables(history_root: Path, live: dict[str, list[dict[str, Any]]] | None = None) -> dict[str, pd.DataFrame]:
     """Pinned history (skater tables >= 2021) plus the settled live events of the archive (rows for games not already in history)."""
     hist = Path(history_root)
     seasons = pinned_seasons(hist, "players")
     t = {k: load_player_tables(hist, k, seasons) for k in TABLES}
+    live_frames = {k: _latest_snapshot_per_game((live or {}).get(k) or []) for k in TABLES}
+    # a live game enters only when ALL five tables carry it (a game observed mid-ingest would otherwise break the team tables)
+    complete = set.intersection(*[set(f["game_id"].unique()) if len(f) else set() for f in live_frames.values()]) if live_frames else set()
     for k in TABLES:
-        rows = (live or {}).get(k) or []
-        if rows:
-            df = pd.DataFrame(rows).drop(columns=[c for c in INTERNAL_COLS if c in rows[0]], errors="ignore")
+        df = live_frames[k]
+        if len(df):
             known = set(t[k]["game_id"].unique()) if len(t[k]) else set()
-            df = df[~df["game_id"].isin(known)]
+            df = df[df["game_id"].isin(complete) & ~df["game_id"].isin(known)]
             t[k] = pd.concat([t[k], df], ignore_index=True) if len(t[k]) else df
     for k in TABLES:                                       # live rows may carry strings; make the keys numeric like the history files
         for col in ("game_id", "team_id", "player_id", "season", "game_type"):
@@ -176,13 +190,30 @@ def predict_day(sk: pd.DataFrame, tg: pd.DataFrame, games: list[dict[str, Any]],
     return out, Fit(c, prm, float(alpha), sha)
 
 
+PREGAME_MARGIN_MIN = 10.0     # a prediction counts as pregame only if it was made at least this long before the drop (a push can land minutes after the run's clock)
+
+
+def _pregame(predicted_at_utc: str, start_utc: str) -> bool:
+    from nhl_edge.timeutil import parse_iso
+
+    return (parse_iso(start_utc) - parse_iso(predicted_at_utc)).total_seconds() >= PREGAME_MARGIN_MIN * 60.0
+
+
+def model_sha(fit: Fit) -> str:
+    """Fingerprint of the frozen model as fitted: constants and dispersion. Identical on every run while the history files and code are unchanged."""
+    import hashlib
+
+    blob = json.dumps({"constants": fit.constants.to_dict(), "alpha": round(float(fit.alpha), 10)}, sort_keys=True, default=float)
+    return hashlib.sha256(blob.encode()).hexdigest()
+
+
 def records(pred: pd.DataFrame, games: list[dict[str, Any]], fit: Fit, predicted_at_utc: str, code_commit: str) -> list[dict[str, Any]]:
     start = {int(g["game_id"]): g["start_time_utc"] for g in games}
     out = []
     for r in pred.itertuples(index=False):
         out.append({"schema": "workload-shadow-1", "model_id": MODEL_ID, "game_id": int(r.game_id), "game_start_utc": start[int(r.game_id)], "predicted_at_utc": predicted_at_utc,
-                    "pregame": predicted_at_utc < start[int(r.game_id)], "player_id": int(r.player_id), "name": str(r.name), "pos": str(r.pos), "team_id": int(r.team_id),
+                    "pregame": _pregame(predicted_at_utc, start[int(r.game_id)]), "player_id": int(r.player_id), "name": str(r.name), "pos": str(r.pos), "team_id": int(r.team_id),
                     "opp_id": int(r.opp_id), "is_home": bool(r.is_home), "raw_mean": round(float(r.raw_mean), 6), "base_mean": round(float(r.base_sog), 6), "level_factor": round(float(r.level_factor), 6),
-                    "mean": round(float(r.lc_mean), 6), "alpha": round(fit.alpha, 8), "pmf": [round(float(x), 7) for x in r.pmf], "inputs_sha256": fit.prediction_inputs_sha,
+                    "mean": round(float(r.lc_mean), 6), "alpha": round(fit.alpha, 8), "pmf": [round(float(x), 7) for x in r.pmf], "inputs_sha256": fit.prediction_inputs_sha, "model_sha256": model_sha(fit),
                     "code_commit": code_commit, "conditional_on": "dressing", "authority": "research_only", "role": "shadow"})
     return out

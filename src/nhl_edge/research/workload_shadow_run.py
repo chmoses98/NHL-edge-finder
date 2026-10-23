@@ -82,12 +82,30 @@ def guard(out: Path) -> list[str]:
 
 
 # ------------------------------------------------------------------------------------------------------------------ archive access
+def _read_all_tagged(ledger: Any, kind: str, cutoff: datetime) -> list[dict[str, Any]]:
+    """Like ``simulate._read_all`` but every row carries the instant its archive file was observed (``_observed_at_utc``), so re-ingested games can be told apart."""
+    from nhl_edge.workflows.simulate import entry_observed_at
+
+    out: list[dict[str, Any]] = []
+    for e in ledger.manifest():
+        seen = entry_observed_at(e)
+        if e.kind != kind or seen > cutoff:
+            continue
+        with gzip.open(ledger.root / e.path, "rt", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    r = json.loads(line)
+                    r["_observed_at_utc"] = iso(seen)
+                    out.append(r)
+    return out
+
+
 def read_archive(archive: Path, now: datetime) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]]]:
     from nhl_edge.archive.ledger import Ledger
-    from nhl_edge.workflows.simulate import _read_all, _read_latest
+    from nhl_edge.workflows.simulate import _read_latest
 
     ledger = Ledger(archive)
-    live = {k: _read_all(ledger, f"player_events/{k}", now) for k in S.TABLES}
+    live = {k: _read_all_tagged(ledger, f"player_events/{k}", now) for k in S.TABLES}
     sched, _meta = _read_latest(ledger, "context/schedule", now)
     return live, sched
 
@@ -118,8 +136,8 @@ def predict(archive: Path, history: Path, out: Path, now: datetime | None = None
             continue
         if int(g["game_id"]) in done:
             skipped.append(int(g["game_id"]))
-        elif start <= now:
-            missed.append(int(g["game_id"]))
+        elif start - now < timedelta(minutes=S.PREGAME_MARGIN_MIN):
+            missed.append(int(g["game_id"]))          # started, or too close to the drop for a prediction to count as pregame
         else:
             todo.append(g)
     report: dict[str, Any] = {"now_utc": iso(now), "games_written": [], "games_already_recorded": skipped, "games_missed_started": missed, "rows": 0}
@@ -128,18 +146,28 @@ def predict(archive: Path, history: Path, out: Path, now: datetime | None = None
     for g in todo:
         by_day.setdefault(str(g["game_date_et"]), []).append(g)
     act = out / "activation.json"
+    errors: list[str] = []
     for day, games in sorted(by_day.items()):
-        pred, fit = S.predict_day(sk, tg, games, t["players"], t["goalies"], pp, season=2026)
-        rows = S.records(pred, games, fit, iso(now), code_commit)
-        if not rows:
-            continue
-        rel = f"records/dt={day}/workload_{now.strftime('%Y%m%dT%H%M%SZ')}_{day.replace('-', '')}.jsonl.gz"
-        write_once(out, rel, rows)
-        report["games_written"] += sorted({int(r["game_id"]) for r in rows})
-        report["rows"] += len(rows)
-        if not act.exists():
-            act.write_text(json.dumps({"activation_utc": iso(now), "code_commit": code_commit, "inputs_sha256": fit.prediction_inputs_sha, "alpha": fit.alpha,
-                                       "registration": "docs/research/workload_v1/LC_PROSPECTIVE_REGISTRATION.md"}, indent=1))
+        try:
+            pred, fit = S.predict_day(sk, tg, games, t["players"], t["goalies"], pp, season=2026)
+            msha = S.model_sha(fit)
+            if act.exists():
+                frozen = json.loads(act.read_text()).get("model_sha256")
+                if frozen and frozen != msha:
+                    raise RuntimeError(f"model fingerprint {msha[:12]} differs from the one frozen at activation {frozen[:12]}: refusing to write (the model may not change during the test)")
+            rows = S.records(pred, games, fit, iso(now), code_commit)
+            if not rows:
+                continue
+            rel = f"records/dt={day}/workload_{now.strftime('%Y%m%dT%H%M%SZ')}_{day.replace('-', '')}.jsonl.gz"
+            write_once(out, rel, rows)
+            report["games_written"] += sorted({int(r["game_id"]) for r in rows})
+            report["rows"] += len(rows)
+            if not act.exists():
+                act.write_text(json.dumps({"activation_utc": iso(now), "code_commit": code_commit, "inputs_sha256": fit.prediction_inputs_sha, "model_sha256": msha, "alpha": fit.alpha,
+                                           "registration": "docs/research/workload_v1/LC_PROSPECTIVE_REGISTRATION.md"}, indent=1))
+        except Exception as e:      # one bad day must not stop the other days, and what was already written must still be published
+            errors.append(f"{day}: {type(e).__name__}: {e}")
+    report["errors"] = errors
     cov = out / "coverage"
     cov.mkdir(parents=True, exist_ok=True)
     (cov / f"coverage_{now.strftime('%Y%m%dT%H%M%SZ')}.json").write_text(json.dumps(report, indent=1))
@@ -149,10 +177,23 @@ def predict(archive: Path, history: Path, out: Path, now: datetime | None = None
 
 # ------------------------------------------------------------------------------------------------------------------ score
 def load_records(out: Path) -> pd.DataFrame:
+    """All records, each with the instant its file was written (from the append-only manifest; a record can only have existed after that)."""
+    written: dict[str, str] = {}
+    mp = out / "MANIFEST.jsonl"
+    if mp.exists():
+        for line in mp.read_text().splitlines():
+            if line.strip():
+                e = json.loads(line)
+                written[e["path"]] = e["written_at_utc"]
     rows = []
     for p in sorted((out / "records").rglob("*.jsonl.gz")) if (out / "records").exists() else []:
+        rel = p.relative_to(out).as_posix()
         with gzip.open(p, "rt", encoding="utf-8") as f:
-            rows += [json.loads(line) for line in f if line.strip()]
+            for line in f:
+                if line.strip():
+                    r = json.loads(line)
+                    r["written_at_utc"] = written.get(rel)
+                    rows.append(r)
     return pd.DataFrame(rows)
 
 
@@ -179,13 +220,45 @@ def actuals(live_players: list[dict[str, Any]]) -> pd.DataFrame:
     return pd.DataFrame({"game_id": pd.to_numeric(d["game_id"]).astype(int), "player_id": pd.to_numeric(d["player_id"]).astype(int), "y_sog": pd.to_numeric(d["sog"], errors="coerce")}).dropna()
 
 
-def score_frame(rec: pd.DataFrame, act: pd.DataFrame, inc: pd.DataFrame, shadow_params: dict[str, Any], n_boot: int = 2000) -> dict[str, Any]:
-    """The frozen rule on everything scored so far. ``rec`` pregame records, ``act`` official SOG of dressed skaters, ``inc`` the incumbent's pregame forecasts."""
-    pre = rec[rec["pregame"]].drop_duplicates(["game_id", "player_id"]) if len(rec) else rec
+def eligible_records(rec: pd.DataFrame, frozen_model_sha: str | None = None) -> tuple[pd.DataFrame, dict[str, int]]:
+    """Records that count: made pregame by their own clock AND written (per the append-only manifest) before the drop, by the frozen model. Others are kept and listed."""
+    if not len(rec):
+        return rec, {"late": 0, "written_after_drop": 0, "other_model": 0}
+    ok = rec["pregame"].astype(bool)
+    n_late = int((~ok).sum())
+    if "written_at_utc" in rec.columns:
+        w = pd.to_datetime(rec["written_at_utc"], utc=True, errors="coerce")
+        st = pd.to_datetime(rec["game_start_utc"], utc=True, errors="coerce")
+        after = ok & ~(w < st)
+    else:
+        after = pd.Series(False, index=rec.index)
+    n_after = int(after.sum())
+    ok = ok & ~after
+    other = pd.Series(False, index=rec.index)
+    if frozen_model_sha and "model_sha256" in rec.columns:
+        other = ok & (rec["model_sha256"] != frozen_model_sha)
+    n_other = int(other.sum())
+    return rec[ok & ~other], {"late": n_late, "written_after_drop": n_after, "other_model": n_other}
+
+
+def score_frame(rec: pd.DataFrame, act: pd.DataFrame, inc: pd.DataFrame, shadow_params: dict[str, Any], n_boot: int = 2000, limit: int | None = None,
+                frozen_model_sha: str | None = None) -> dict[str, Any]:
+    """The frozen rule. ``rec`` records, ``act`` official SOG of dressed skaters, ``inc`` the incumbent's pregame forecasts.
+
+    ``limit`` scores exactly the first ``limit`` paired player-games in (game start, game, player) order, i.e. the sample of a registered look; ``None`` scores everything so far.
+    """
+    pre, excl = eligible_records(rec, frozen_model_sha)
+    pre = pre.drop_duplicates(["game_id", "player_id"]) if len(pre) else pre
     m = pre.merge(act, on=["game_id", "player_id"], how="inner")
-    out: dict[str, Any] = {"n_records_pregame": int(len(pre)), "n_late_records_excluded": int((~rec["pregame"]).sum()) if len(rec) else 0, "n_scored_dressed": int(len(m)),
-                           "n_candidates_not_dressing": int(len(pre) - len(m)), "looks": {}}
+    out: dict[str, Any] = {"n_records_pregame": int(len(pre)), "n_late_records_excluded": excl["late"], "n_records_written_after_drop_excluded": excl["written_after_drop"],
+                           "n_records_other_model_excluded": excl["other_model"], "n_scored_dressed": int(len(m)), "n_candidates_not_dressing": int(len(pre) - len(m)), "looks": {}}
     paired = m.merge(inc, on=["game_id", "player_id"], how="inner")
+    if len(paired):
+        paired = paired.sort_values(["game_start_utc", "game_id", "player_id"], kind="mergesort").reset_index(drop=True)
+    if limit is not None and len(paired) >= limit:
+        paired = paired.iloc[:limit].reset_index(drop=True)
+        m = m[m["game_start_utc"] <= paired["game_start_utc"].iloc[-1]]            # coverage is judged over the same stretch of the season
+    out["n_scored_in_sample"] = int(len(m))
     out["n_paired_with_incumbent"] = int(len(paired))
     n = len(paired)
     out["look_reached"] = max([x for x in LOOKS if n >= x], default=None)
@@ -225,10 +298,12 @@ def score_frame(rec: pd.DataFrame, act: pd.DataFrame, inc: pd.DataFrame, shadow_
     out["lc_development_checks"] = {"abs_bias_le_0.02": abs(lc["bias"]) <= 0.02, "crps_give_back_le_0.001": diffs["LC_minus_WORKLOAD_V1_RAW"]["crps"]["ci95"][1] <= 0.001}
     early_fail = abs(lc["bias"]) > EARLY_FAIL_BIAS or diffs["LC_minus_CHAMPION"]["crps"]["ci95"][0] > 0
     look = out["look_reached"]
-    if early_fail and look is not None:
+    coverage = len(paired) / max(len(m), 1)
+    out["comparator_coverage"] = coverage
+    if look in DECISION_LOOKS and coverage < MIN_COMPARATOR_COVERAGE:
+        out["verdict"] = f"INCONCLUSIVE (comparator coverage {coverage:.2f} < {MIN_COMPARATOR_COVERAGE:.2f})"
+    elif early_fail and look is not None:
         out["verdict"] = "FAILS FROZEN RULE (early-failure criterion)"
-    elif look in DECISION_LOOKS and len(paired) < MIN_COMPARATOR_COVERAGE * len(m):
-        out["verdict"] = f"INCONCLUSIVE (comparator coverage {len(paired) / max(len(m), 1):.2f} < {MIN_COMPARATOR_COVERAGE:.2f})"
     elif look in DECISION_LOOKS and ref_nb:
         out["verdict"] = "MEETS FROZEN RULE (recommendation to a human only)" if all(checks.values()) else "FAILS FROZEN RULE"
     else:
@@ -239,7 +314,7 @@ def score_frame(rec: pd.DataFrame, act: pd.DataFrame, inc: pd.DataFrame, shadow_
 def render(sc: dict[str, Any]) -> str:
     L = ["# WORKLOAD_V1_LC — prospective shadow scoreboard", "", "RESEARCH_ONLY · registration: `docs/research/workload_v1/LC_PROSPECTIVE_REGISTRATION.md` · conditional on dressing · interim looks are descriptive",
          "", f"* pregame records {sc['n_records_pregame']} · late records excluded {sc['n_late_records_excluded']} · scored (dressed) {sc['n_scored_dressed']} · candidates who did not dress {sc['n_candidates_not_dressing']} · paired with the incumbent's pregame forecast {sc['n_paired_with_incumbent']}",
-         f"* **verdict: {sc['verdict']}**", ""]
+         f"* **verdict: {sc['verdict']}**", "* registered looks computed so far: " + ("; ".join(k + ": " + v["verdict"] for k, v in sc.get("looks", {}).items()) or "none"), ""]
     if "arms" in sc:
         L += ["| arm | n | bias | MAE | RMSE | CRPS | ladder Brier | cov80 |", "|---|---:|---:|---:|---:|---:|---:|---:|"]
         for a, v in sc["arms"].items():
@@ -252,13 +327,60 @@ def render(sc: dict[str, Any]) -> str:
     return "\n".join(L) + "\n"
 
 
+def write_look(out: Path, n: int, payload: dict[str, Any]) -> bool:
+    """A look is computed once, on exactly its registered sample, and never rewritten (exclusive create)."""
+    p = out / "looks" / f"look_{n}.json"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with p.open("x") as f:
+            f.write(json.dumps(payload, indent=1, default=float))
+    except FileExistsError:
+        return False
+    return True
+
+
+def sticky_verdict(looks: dict[int, dict[str, Any]], cumulative: str) -> str:
+    early = [n for n, v in sorted(looks.items()) if str(v.get("verdict", "")).startswith("FAILS FROZEN RULE (early")]
+    if early:
+        return f"FAILS FROZEN RULE (early-failure criterion at look {early[0]:,}); the test is stopped"
+    if 60_000 in looks:
+        return f"FINAL LOOK (60,000): {looks[60_000]['verdict']}"
+    if 30_000 in looks:
+        return f"DECISION LOOK (30,000): {looks[30_000]['verdict']} (final look at 60,000 pending)"
+    return cumulative
+
+
 def run_score(archive: Path, pf: Path, out: Path, now: datetime | None = None, params_path: Path | None = None) -> dict[str, Any]:
     now = now or utcnow()
     live, _ = read_archive(archive, now)
     rec = load_records(out)
     shadow = json.loads((params_path or Path(SHADOW_PARAMS)).read_text()) if (params_path or Path(SHADOW_PARAMS)).exists() else {}
-    sc = score_frame(rec, actuals(live["players"]), incumbent_forecasts(pf), shadow) if len(rec) else {"n_records_pregame": 0, "n_late_records_excluded": 0, "n_scored_dressed": 0,
-                                                                                                         "n_candidates_not_dressing": 0, "n_paired_with_incumbent": 0, "verdict": "INCONCLUSIVE AT n=0", "looks": {}}
+    act_p = out / "activation.json"
+    frozen = json.loads(act_p.read_text()).get("model_sha256") if act_p.exists() else None
+    if not len(rec):
+        sc: dict[str, Any] = {"n_records_pregame": 0, "n_late_records_excluded": 0, "n_scored_dressed": 0, "n_candidates_not_dressing": 0, "n_paired_with_incumbent": 0,
+                              "verdict": "INCONCLUSIVE AT n=0", "looks": {}}
+    else:
+        act, inc = actuals(live["players"]), incumbent_forecasts(pf)
+        sc = score_frame(rec, act, inc, shadow, frozen_model_sha=frozen)
+        sc["cumulative_verdict"] = sc["verdict"]
+        looks: dict[int, dict[str, Any]] = {}
+        for n in LOOKS:
+            f = out / "looks" / f"look_{n}.json"
+            if f.exists():
+                looks[n] = json.loads(f.read_text())
+        stopped = any(str(v.get("verdict", "")).startswith("FAILS FROZEN RULE (early") for v in looks.values())
+        for n in LOOKS:
+            if n in looks or stopped or sc["n_paired_with_incumbent"] < n:
+                continue
+            lk = score_frame(rec, act, inc, shadow, limit=n, frozen_model_sha=frozen)
+            lk["look"] = n
+            lk["computed_at_utc"] = iso(now)
+            if write_look(out, n, lk):
+                looks[n] = lk
+            stopped = str(lk.get("verdict", "")).startswith("FAILS FROZEN RULE (early")
+        sc["looks"] = {str(n): {"verdict": v["verdict"], "computed_at_utc": v.get("computed_at_utc"), "n": v["n_paired_with_incumbent"]} for n, v in sorted(looks.items())}
+        sc["verdict"] = sticky_verdict(looks, sc["verdict"])
     sc["generated_at_utc"] = iso(now)
     sc["guard"] = guard(out)
     d = out / "scoreboard"
@@ -290,7 +412,9 @@ def main(argv: list[str] | None = None) -> int:
             commit = ""
         rep = predict(Path(a.archive), Path(a.history), Path(a.out), code_commit=commit)
         print(json.dumps(rep, indent=1)[:2000])
-        return 2 if rep["guard"] else 0
+        if rep["errors"]:
+            print("predict errors:", *rep["errors"], sep="\n  ")
+        return 2 if rep["guard"] else (3 if rep["errors"] else 0)
     res = run_score(Path(a.archive), Path(a.pf), Path(a.out))
     print(render(res)[:3000] if "arms" in res else json.dumps(res)[:800])
     return 2 if res["guard"] else 0

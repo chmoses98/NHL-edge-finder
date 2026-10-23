@@ -15,3 +15,9 @@ Both are produced by the same job from the same settled inputs. As in the origin
 
 ## A1.4 What stays as registered
 Population, pregame rule, looks (10k/20k descriptive, 30k decision, 60k final), the early-failure rule, the bootstrap, and the seven-check acceptance rule with its original thresholds. Seasons 2021–2025 remain exposed development data and are never reported as independent validation of this arm; only records written after activation count.
+
+## A1.5 Operational clarifications (found in independent review, before the first record exists)
+* **Looks are snapshots.** Each look (10k, 20k, 30k, 60k paired player-games) is computed once, on exactly the first N paired player-games in (game start, game, player) order, and written to `looks/look_<N>.json` (exclusive create, never rewritten). The decision at 30k and the final at 60k are those stored files; the cumulative scoreboard beside them is descriptive. An early-failure look stops the test (no later look is computed). At a decision look the comparator-coverage requirement (A1.1) is evaluated before the early-failure criterion.
+* **Pregame means made at least 10 minutes before the drop by the job's clock, and written (per the append-only manifest) before the drop.** A game with less than 10 minutes to the drop is not predicted. A record failing either clause is kept and counted as excluded.
+* **Model fingerprint.** `activation.json` records a sha256 of the fitted constants and dispersion. A later run whose fit differs refuses to write, and the scorer excludes (and counts) any record carrying a different fingerprint, so the model cannot drift silently during the test (history files are pinned by the integrity registry).
+* **Archive re-ingests.** If a game appears in the archive more than once, only its latest observation is used, and a game enters only when all five source tables carry it.

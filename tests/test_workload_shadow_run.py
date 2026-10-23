@@ -5,6 +5,7 @@ from __future__ import annotations
 import gzip
 import json
 from datetime import UTC, datetime
+from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
@@ -52,7 +53,7 @@ def _stub_pipeline(monkeypatch, written: list):
         written.append([int(g["game_id"]) for g in games])
         pred = pd.DataFrame({"game_id": [int(games[0]["game_id"])] * 2, "player_id": [5, 6], "name": ["a", "b"], "pos": ["F", "D"], "team_id": [1, 1], "opp_id": [2, 2], "is_home": [True, True],
                              "raw_mean": [2.0, 1.0], "base_sog": [1.9, 1.1], "level_factor": [0.97, 0.97], "lc_mean": [1.94, 0.97], "pmf": [np.full(S.PMF_K, 1 / S.PMF_K)] * 2})
-        return pred, S.Fit(None, None, 0.1, "sha")                                          # type: ignore[arg-type]
+        return pred, S.Fit(SimpleNamespace(to_dict=lambda: {"c": 1}), None, 0.1, "sha")       # type: ignore[arg-type]
     monkeypatch.setattr(S, "predict_day", fake_predict_day)
 
 
@@ -81,6 +82,9 @@ def _synthetic(n: int, bias: float = 0.0, champ_bias: float = 0.15, late: int = 
     pm = E.nb_pmf(mu * (1 + bias), alpha, W.SOG_K)
     rec = pd.DataFrame({"game_id": np.arange(n) // 20, "player_id": np.arange(n), "pregame": True, "pos": np.where(np.arange(n) % 3 == 0, "D", "F"), "raw_mean": mu * 1.03,
                         "base_mean": np.full(n, mu.mean()), "alpha": alpha, "pmf": list(pm)})
+    start = pd.Timestamp("2026-11-01T23:00:00Z") + pd.to_timedelta(rec["game_id"] * 2, unit="h")
+    rec["game_start_utc"] = start.dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+    rec["written_at_utc"] = "2026-10-20T00:00:00Z"
     late_rows = rec.iloc[:late].copy()
     late_rows["pregame"] = False
     late_rows["player_id"] += 10_000_000
@@ -135,3 +139,63 @@ def test_incumbent_forecasts_take_the_last_pre_drop_row(tmp_path):
             f.write(json.dumps(r) + "\n")
     inc = R.incumbent_forecasts(tmp_path)
     assert len(inc) == 1 and float(inc["champ_mean"].iloc[0]) == 2.0                 # the 23:10 forecast is after the drop; other models/families are ignored
+
+
+def test_a_model_that_differs_from_the_frozen_one_is_refused(tmp_path, monkeypatch):
+    written: list = []
+    _stub_pipeline(monkeypatch, written)
+    R.predict(tmp_path / "arch", tmp_path / "hist", tmp_path / "out", now=NOW, code_commit="abc")
+    # later run, other games, but the fitted model now differs from the fingerprint frozen at activation
+    sched = _sched() + [{"season_type": "regular", "status": "not_started", "home_team_id": "1", "away_team_id": "2", "game_date_et": "2026-10-25", "game_id": "20",
+                         "start_time_utc": "2026-10-25T23:00:00Z"}]
+    monkeypatch.setattr(R, "read_archive", lambda archive, now: ({k: [] for k in S.TABLES}, sched))
+    orig = S.predict_day
+
+    def drift(*a, **k):
+        pred, fit = orig(*a, **k)
+        return pred, S.Fit(SimpleNamespace(to_dict=lambda: {"c": 2}), None, 0.1, "sha")
+    monkeypatch.setattr(S, "predict_day", drift)
+    rep = R.predict(tmp_path / "arch", tmp_path / "hist", tmp_path / "out", now=datetime(2026, 10, 25, 12, 0, tzinfo=UTC), code_commit="abc")
+    assert rep["games_written"] == [] and rep["errors"] and "differs from the one frozen" in rep["errors"][0]
+
+
+def test_games_too_close_to_the_drop_are_not_predicted(tmp_path, monkeypatch):
+    written: list = []
+    _stub_pipeline(monkeypatch, written)
+    rep = R.predict(tmp_path / "arch", tmp_path / "hist", tmp_path / "out", now=datetime(2026, 10, 24, 22, 55, tzinfo=UTC), code_commit="abc")      # 5 minutes before the 23:00 drop
+    assert rep["games_written"] == [] and 10 in rep["games_missed_started"]
+
+
+def test_eligible_records_drop_late_written_after_drop_and_other_model():
+    rec = pd.DataFrame({"game_id": [1, 2, 3, 4], "player_id": [1, 1, 1, 1], "pregame": [True, False, True, True], "game_start_utc": ["2026-10-24T23:00:00Z"] * 4,
+                        "written_at_utc": ["2026-10-24T20:00:00Z", "2026-10-24T20:00:00Z", "2026-10-24T23:05:00Z", "2026-10-24T20:00:00Z"],
+                        "model_sha256": ["m", "m", "m", "other"]})
+    ok, excl = R.eligible_records(rec, "m")
+    assert list(ok["game_id"]) == [1] and excl == {"late": 1, "written_after_drop": 1, "other_model": 1}
+
+
+def test_looks_are_computed_once_on_their_own_sample_and_the_verdict_is_sticky(tmp_path, monkeypatch):
+    rec, act, inc = _synthetic(31_000, late=0)
+    rec["game_start_utc"] = [f"2026-11-{1 + i // 1500:02d}T23:00:00Z" for i in range(len(rec))]
+    rec["written_at_utc"] = "2026-10-20T00:00:00Z"
+    out = tmp_path / "out"
+    monkeypatch.setattr(R, "read_archive", lambda archive, now: ({"players": []}, []))
+    monkeypatch.setattr(R, "load_records", lambda o: rec)
+    monkeypatch.setattr(R, "actuals", lambda players: act)
+    monkeypatch.setattr(R, "incumbent_forecasts", lambda pf: inc)
+    params = tmp_path / "p.json"
+    params.write_text(json.dumps({"alpha_champion_nb": 0.05}))
+    sc = R.run_score(tmp_path, tmp_path, out, params_path=params)
+    assert sorted(sc["looks"]) == ["10000", "20000", "30000"] and sc["verdict"].startswith(("DECISION LOOK (30,000)", "FAILS FROZEN RULE (early"))
+    first = json.loads((out / "looks" / "look_30000.json").read_text()) if (out / "looks" / "look_30000.json").exists() else None
+    # more data arrives: the stored look must not change, even though the cumulative sample is now larger
+    rec2, act2, inc2 = _synthetic(36_000, late=0, seed=1)
+    rec2["game_start_utc"] = [f"2026-11-{1 + i // 1500:02d}T23:00:00Z" for i in range(len(rec2))]
+    rec2["written_at_utc"] = "2026-10-20T00:00:00Z"
+    monkeypatch.setattr(R, "load_records", lambda o: rec2)
+    monkeypatch.setattr(R, "actuals", lambda players: act2)
+    monkeypatch.setattr(R, "incumbent_forecasts", lambda pf: inc2)
+    R.run_score(tmp_path, tmp_path, out, params_path=params)
+    if first is not None:
+        assert json.loads((out / "looks" / "look_30000.json").read_text()) == first
+    assert R.write_look(out, 10_000, {"x": 1}) is False

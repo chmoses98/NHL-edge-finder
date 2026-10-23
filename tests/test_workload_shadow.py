@@ -101,3 +101,21 @@ def test_a_future_outcome_cannot_change_a_stub_prediction():
     poisoned = poisoned[~poisoned["game_id"].isin([g["game_id"] for g in games])]
     b, _ = S.predict_day(poisoned[poisoned["date_int"] < D], pre_tg, games, t["players"], t["goalies"], PARAMS, season=2025, cand=cand, constants=c, dispersion_season=2024)
     assert np.allclose(a.sort_values(["game_id", "player_id"])["lc_mean"].to_numpy(), b.sort_values(["game_id", "player_id"])["lc_mean"].to_numpy())
+
+
+def test_live_rows_observed_twice_use_the_latest_snapshot_and_incomplete_games_are_dropped(monkeypatch):
+    """Regression: a game re-ingested by the archive appeared twice and broke the team tables; a game missing from any table must not enter at all."""
+    hist = {k: pd.DataFrame({"game_id": [1], "team_id": [1], "player_id": [1], "season": [2025], "game_type": [2]}) for k in S.TABLES}
+    monkeypatch.setattr(S, "load_player_tables", lambda root, kind, seasons: hist[kind].copy())
+    monkeypatch.setattr(S, "pinned_seasons", lambda root, kind: [2025])
+
+    def rows(game, observed, n):
+        return [{"game_id": game, "team_id": 7, "player_id": p, "season": 2026, "game_type": 2, "xs": [1, 2], "_observed_at_utc": observed, "_run_id": "r"} for p in range(n)]
+    live = {k: rows(5, "2026-10-23T02:20:00Z", 1) + rows(5, "2026-10-23T03:11:00Z", 2) + rows(6, "2026-10-23T03:11:00Z", 1) for k in S.TABLES}
+    live["shots"] = [r for r in live["shots"] if r["game_id"] != 6]                      # game 6 is missing from one table
+    t = S.load_tables(Path("."), live)
+    for k in S.TABLES:
+        got = t[k][t[k]["game_id"] == 5]
+        assert len(got) == 2 and set(got["player_id"]) == {0, 1}                       # latest snapshot only, no duplicates
+        assert 6 not in set(t[k]["game_id"])                                         # incomplete game excluded everywhere
+        assert not t[k].duplicated(["game_id", "player_id"]).any()
