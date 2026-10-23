@@ -30,6 +30,7 @@ import numpy as np
 import pandas as pd
 
 from nhl_edge import AUTHORITY
+from nhl_edge.data.history import pinned_seasons
 from nhl_edge.data.lines import is_confirmed_source
 from nhl_edge.data.player_history import load_player_tables
 from nhl_edge.log import get_logger, kv
@@ -88,7 +89,7 @@ class PlayerRuntime:
 def load_runtime(data_root: Path, live: dict[str, list[dict[str, Any]]] | None = None, params_path: Path | None = None) -> PlayerRuntime:
     prm = json.loads(Path(params_path or PARAMS_PATH).read_text())
     hist = Path(data_root) / "history"
-    t = {k: load_player_tables(hist, k) for k in TABLES}
+    t = {k: load_player_tables(hist, k, pinned_seasons(hist, "players")) for k in TABLES}
     n_live = 0
     for k in TABLES:
         rows = (live or {}).get(k) or []
