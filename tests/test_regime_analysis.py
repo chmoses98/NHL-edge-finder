@@ -39,7 +39,7 @@ def test_persistence_is_high_when_strength_carries_over():
     strength = rng.normal(0, 1.0, 16)
     for s in (2014, 2015, 2016):
         st = strength if s != 2016 else rng.normal(0, 1.0, 16)           # 2015 repeats 2014's strengths, 2016 is a reshuffle
-        for i in range(800):
+        for _ in range(800):
             h, a = rng.choice(16, 2, replace=False)
             rows.append({"season": s, "home": f"T{h}", "away": f"T{a}", "home_score": rng.poisson(max(3 + 0.4 * (st[h] - st[a]), 0.5)), "away_score": rng.poisson(max(3 - 0.4 * (st[h] - st[a]), 0.5))})
     p = RA.persistence(pd.DataFrame(rows))
