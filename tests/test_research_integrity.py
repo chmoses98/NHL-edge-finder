@@ -154,7 +154,7 @@ PROTECTED = ("workflows/", "research/walk_forward.py", "research/walk_forward_v2
 #: Research modules that deliberately read the whole history (new seasons are meant to enter them). Adding a module here is a reviewed decision.
 FULL_HISTORY_OK = {
     "research/oa_walk_forward.py", "research/v1_tuned_control.py", "research/v1_retune.py", "research/oa_freeze.py", "research/market_benchmark.py",
-    "research/kalshi_history.py", "research/player_market_benchmark.py", "research/thesis_model_audit.py", "research/joint_eval.py",
+    "research/kalshi_history.py", "research/player_market_benchmark.py", "research/thesis_model_audit.py", "research/joint_eval.py", "research/regime_analysis.py",
 }
 
 
