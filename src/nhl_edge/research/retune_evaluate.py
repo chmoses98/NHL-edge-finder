@@ -21,6 +21,9 @@ from nhl_edge.evaluation.metrics import ece
 from nhl_edge.research.oa_evaluate import PRIMARY, compare, per_game_losses, reliability
 
 FRESH = (2017,)
+FRESH2 = tuple(range(2010, 2017))          # Amendment 2: second untouched tier, consistency requirement scaled to 5 of 7
+FRESH2_3V3 = (2015, 2016)                  # descriptive subgroup: the first 3-on-3 overtime seasons
+FRESH2_MIN_FAVOURABLE = 5
 FAMILY_SEEN = (2018, 2019, 2020, 2021, 2022, 2023)
 EXPOSED = (2024, 2025)
 ALL_SEASONS = FRESH + FAMILY_SEEN + EXPOSED
@@ -64,37 +67,50 @@ def _row(rows: list[dict[str, Any]], metric: str) -> dict[str, Any]:
     return next(r for r in rows if r["metric"] == metric)
 
 
-def per_season_favourable(losses: dict[str, dict[str, np.ndarray]], season: np.ndarray, chall: str, inc: str, metric: str = "brier_win") -> dict[str, float]:
-    return {str(s): float(np.mean(losses[chall][metric][season == s] - losses[inc][metric][season == s])) for s in ALL_SEASONS if (season == s).any()}
+def per_season_favourable(losses: dict[str, dict[str, np.ndarray]], season: np.ndarray, chall: str, inc: str, metric: str = "brier_win",
+                          seasons: tuple[int, ...] = ALL_SEASONS) -> dict[str, float]:
+    return {str(s): float(np.mean(losses[chall][metric][season == s] - losses[inc][metric][season == s])) for s in seasons if (season == s).any()}
 
 
-def decide(losses: dict[str, dict[str, np.ndarray]], season: np.ndarray, clusters: np.ndarray, chall: str, inc: str, gate_metrics: tuple[str, ...], need_delta: float | None = None) -> dict[str, Any]:
+def decide(losses: dict[str, dict[str, np.ndarray]], season: np.ndarray, clusters: np.ndarray, chall: str, inc: str, gate_metrics: tuple[str, ...], need_delta: float | None = None,
+           seasons: tuple[int, ...] = ALL_SEASONS, min_fav: int = MIN_SEASONS_FAVOURABLE) -> dict[str, Any]:
     """Apply the preregistered better-than rule to ``chall`` vs ``inc`` pooled over every available season.
 
     BETTER when: every gate metric's 95% interval is below zero under BOTH bootstraps, the Brier(win) delta is at least ``need_delta`` in size (when given),
     at least MIN_SEASONS_FAVOURABLE seasons are favourable on Brier(win), and no primary metric is worse with an interval excluding zero.
     """
-    mask = np.isin(season, ALL_SEASONS)
+    mask = np.isin(season, seasons)
     rows = compare(_sub(losses, mask), inc, [chall], clusters[mask], PRIMARY)
-    per = per_season_favourable(losses, season, chall, inc)
+    per = per_season_favourable(losses, season, chall, inc, seasons=seasons)
     n_fav = sum(1 for v in per.values() if v < 0)
     gate_ok = all(_row(rows, m)["better_game_ci"] and _row(rows, m)["better_slate_ci"] for m in gate_metrics)
     size_ok = True if need_delta is None else bool(_row(rows, "brier_win")["delta"] <= -need_delta)
     none_worse = not any(r["worse_game_ci"] and r["worse_slate_ci"] for r in rows)
     return {"challenger": chall, "incumbent": inc, "pooled": rows, "seasons_favourable": n_fav, "n_seasons": len(per), "per_season_brier_win": per,
-            "gate_ok": gate_ok, "size_ok": size_ok, "season_consistent": n_fav >= MIN_SEASONS_FAVOURABLE, "no_primary_worse": none_worse,
-            "BETTER": bool(gate_ok and size_ok and n_fav >= MIN_SEASONS_FAVOURABLE and none_worse)}
+            "gate_ok": gate_ok, "size_ok": size_ok, "season_consistent": n_fav >= min_fav, "no_primary_worse": none_worse,
+            "BETTER": bool(gate_ok and size_ok and n_fav >= min_fav and none_worse)}
 
 
-def evaluate(dir_: Path, history: Path | None = None, repo_root: Path | None = None) -> dict[str, Any]:
+def evaluate(dir_: Path, history: Path | None = None, repo_root: Path | None = None, fresh2: bool = False, also: Path | None = None) -> dict[str, Any]:
+    """``fresh2``: evaluate the Amendment-2 tier (seasons 2010-2016) with the same rules; the consistency requirement scales from 6/9 to 5/7. ``also`` is the
+    main run's directory, used only to build the descriptive FRESH_ALL (2010-2017) tier."""
     df, pm = assemble(dir_)
+    if fresh2 and also is not None:
+        df2, pm2 = assemble(also)
+        keep = (df2["season"] == FRESH[0]).to_numpy()
+        df = pd.concat([df, df2[keep]], ignore_index=True)
+        pm = {"arms": pm["arms"], "total": np.concatenate([pm["total"], pm2["total"][keep]]), "margin": np.concatenate([pm["margin"], pm2["margin"][keep]])}
+    seasons_all = FRESH2 if fresh2 else ALL_SEASONS
+    min_fav = FRESH2_MIN_FAVOURABLE if fresh2 else MIN_SEASONS_FAVOURABLE
     arms = [a for a in ARM_ORDER if a in [str(x) for x in pm["arms"]]]
     losses = per_game_losses(df, pm, [str(a) for a in pm["arms"]])
     season = df["season"].to_numpy()
     clusters = df["game_date"].astype(str).to_numpy()
     y = df["y_home_win"].to_numpy(float)
-    out: dict[str, Any] = {"arms": arms, "n_games": int(len(df)), "seasons": sorted(int(s) for s in set(season)), "tiers": {}, "rules": {}, "ablations": {}, "by_season": {}}
-    tiers = {"FRESH_2017": FRESH, "FAMILY_SEEN_2018_2023": FAMILY_SEEN, "EXPOSED_2024_2025": EXPOSED, "POOLED_2017_2025": ALL_SEASONS}
+    out: dict[str, Any] = {"arms": arms, "n_games": int(len(df)), "seasons": sorted(int(s) for s in set(season)), "tiers": {}, "rules": {}, "ablations": {}, "by_season": {},
+                           "mode": "FRESH2 (Amendment 2)" if fresh2 else "registered", "min_seasons_favourable": min_fav}
+    tiers = ({"FRESH2_2010_2016": FRESH2, "FRESH2_3V3_2015_2016": FRESH2_3V3, "FRESH_ALL_2010_2017": FRESH2 + FRESH} if fresh2
+             else {"FRESH_2017": FRESH, "FAMILY_SEEN_2018_2023": FAMILY_SEEN, "EXPOSED_2024_2025": EXPOSED, "POOLED_2017_2025": ALL_SEASONS})
     for name, ss in tiers.items():
         m = np.isin(season, ss)
         if not m.any():
@@ -107,35 +123,42 @@ def evaluate(dir_: Path, history: Path | None = None, repo_root: Path | None = N
     for s in out["seasons"]:
         m = season == s
         out["by_season"][str(s)] = {"n": int(m.sum()), "paired_win_vs_V1": {a: float(np.mean(losses[a]["brier_win"][m] - losses["V1"]["brier_win"][m])) for a in arms if a != "V1"}}
-    out["rules"]["R1_retune_vs_V1"] = decide(losses, season, clusters, "V1_R", "V1", ("brier_win",), PRACTICAL["brier_win"])
-    out["rules"]["R2_recalibration_on_retuned"] = decide(losses, season, clusters, "V1_R_C1", "V1_R", ("brier_win", "rps_total"), PRACTICAL["brier_win"])
-    out["rules"]["R3_opponent_adjustment_incremental"] = decide(losses, season, clusters, "OA_SVA_C1", "V1_R_C1", ("brier_win",), PRACTICAL["brier_win"])
+    kw = {"seasons": seasons_all, "min_fav": min_fav}
+    out["rules"]["R1_retune_vs_V1"] = decide(losses, season, clusters, "V1_R", "V1", ("brier_win",), PRACTICAL["brier_win"], **kw)
+    out["rules"]["R2_recalibration_on_retuned"] = decide(losses, season, clusters, "V1_R_C1", "V1_R", ("brier_win", "rps_total"), PRACTICAL["brier_win"], **kw)
+    out["rules"]["R3_opponent_adjustment_incremental"] = decide(losses, season, clusters, "OA_SVA_C1", "V1_R_C1", ("brier_win",), PRACTICAL["brier_win"], **kw)
     for abl, label in ABLATIONS.items():            # informative when REMOVING the feature is worse (ablation minus V1_R > 0, CI excludes 0 under both bootstraps)
-        m = np.isin(season, ALL_SEASONS)
+        m = np.isin(season, seasons_all)
         rows = compare(_sub(losses, m), "V1_R", [abl], clusters[m], ("brier_win", "rps_total", "brier_ot"))
         out["ablations"][abl] = {"feature": label, "pooled": rows,
                                  "informative": bool(any(r["worse_game_ci"] and r["worse_slate_ci"] for r in rows if r["metric"] in ("brier_win", "rps_total")))}
     # R4: leading candidate = lowest pooled Brier(win) among arms with no primary metric worse than V1 (CI excluding 0 under both bootstraps), ties inside the
-    # practical threshold broken toward the simpler arm. Complexity order is declared here, before the results exist.
+    # practical threshold broken toward the simpler arm. Complexity order is declared here, before the results exist. Arms of EQUAL complexity inside the
+    # threshold are reported as tied: the registration defines no tie-break between them, so none is invented after the fact.
     complexity = {"V1": 0, "V1_R": 1, "V1_T": 1, "V1_R_C1": 2, "V1_T_C1": 2, "V1_C1": 2, "OA_SVA": 3, "OA_XG": 3, "OA_SVA_C1": 4}
-    pooled_vs_v1 = out["tiers"]["POOLED_2017_2025"]["vs_V1"]
+    pooled_vs_v1 = out["tiers"][next(iter(out["tiers"]))]["vs_V1"] if fresh2 else out["tiers"]["POOLED_2017_2025"]["vs_V1"]
+    mask_pool = np.isin(season, seasons_all)
     ok = []
     for a in complexity:
         if a == "V1":
-            ok.append(("V1", float(np.mean(losses["V1"]["brier_win"]))))
+            ok.append(("V1", float(np.mean(losses["V1"]["brier_win"][mask_pool]))))
+            continue
+        if a not in arms:
             continue
         rows = [r for r in pooled_vs_v1 if r["challenger"] == a and r["metric"] in PRIMARY]
         if not any(r["worse_game_ci"] and r["worse_slate_ci"] for r in rows):
-            ok.append((a, float(np.mean(losses[a]["brier_win"]))))
+            ok.append((a, float(np.mean(losses[a]["brier_win"][mask_pool]))))
     best = min(v for _, v in ok)
     within = [a for a, v in ok if v - best < PRACTICAL["brier_win"]]
-    lead = min(within, key=lambda a: complexity[a])
-    out["rules"]["R4_leading_candidate"] = {"eligible": [a for a, _ in ok], "lowest_brier_win": best, "within_practical_threshold_of_best": within, "leads": lead,
+    lowest = min(complexity[a] for a in within)
+    simplest = [a for a in within if complexity[a] == lowest]
+    out["rules"]["R4_leading_candidate"] = {"eligible": [a for a, _ in ok], "lowest_brier_win": best, "within_practical_threshold_of_best": within,
+                                            "simplest_within_threshold": simplest, "leads": simplest[0] if len(simplest) == 1 else "TIE: " + ", ".join(simplest),
                                             "note": "'leads' ranks historical evidence only; it is not a promotion"}
-    out["calibration_win_pooled"] = {a: reliability(df[f"{a}_p_home_win"].to_numpy(float), y) for a in ("V1", "V1_R_C1", "OA_SVA_C1") if a in arms}
-    if repo_root is not None:
+    out["calibration_win_pooled"] = {a: reliability(df.loc[mask_pool, f"{a}_p_home_win"].to_numpy(float), y[mask_pool]) for a in ("V1", "V1_R_C1", "OA_SVA_C1") if a in arms}
+    if repo_root is not None and not fresh2:
         out["v2"] = v2_comparison(df, repo_root)
-    if history is not None and (history / "kalshi").exists():
+    if history is not None and (history / "kalshi").exists() and not fresh2:
         out["market"] = market_comparison(df, pm, history)
     bpath = dir_ / "v1r_boundary.json"
     if bpath.exists():
@@ -208,7 +231,7 @@ def render(res: dict[str, Any]) -> str:
     L += ["", "## Preregistered decision rules", ""]
     for k, r in res["rules"].items():
         if k.startswith("R4"):
-            L += [f"**{k}**: leads = `{r['leads']}`; within the practical threshold of the best: {r['within_practical_threshold_of_best']} · {r['note']}", ""]
+            L += [f"**{k}**: leads = `{r['leads']}`; within the practical threshold of the best: {r['within_practical_threshold_of_best']}; simplest of those: {r['simplest_within_threshold']} · {r['note']}", ""]
             continue
         L += [f"**{k}** — `{r['challenger']}` vs `{r['incumbent']}`: **{'BETTER' if r['BETTER'] else 'NOT BETTER'}** "
               f"(gate CIs {'ok' if r['gate_ok'] else 'fail'}; size ≥ threshold {'ok' if r['size_ok'] else 'fail'}; favourable seasons {r['seasons_favourable']}/{r['n_seasons']}; no primary metric worse {'ok' if r['no_primary_worse'] else 'FAIL'})", ""]
@@ -251,9 +274,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--dir", required=True)
     ap.add_argument("--history", default="data/history")
     ap.add_argument("--repo-root", default=".")
+    ap.add_argument("--fresh2", action="store_true", help="evaluate the Amendment-2 tier (2010-2016); --also is the main run directory (for FRESH_ALL)")
+    ap.add_argument("--also")
     a = ap.parse_args(argv)
     d = Path(a.dir)
-    res = evaluate(d, Path(a.history), Path(a.repo_root))
+    res = evaluate(d, Path(a.history), Path(a.repo_root), fresh2=a.fresh2, also=Path(a.also) if a.also else None)
     (d / "retune_eval.json").write_text(json.dumps(res, indent=1, default=float))
     md = render(res)
     (d / "retune_eval.md").write_text(md)
