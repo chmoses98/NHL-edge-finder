@@ -36,7 +36,7 @@ import numpy as np
 import pandas as pd
 
 from nhl_edge import AUTHORITY
-from nhl_edge.data.history import load_nhl_games, load_team_games
+from nhl_edge.data.history import load_nhl_games, load_team_games, pinned_seasons
 from nhl_edge.data.shots import load_shots
 from nhl_edge.evaluation.metrics import brier, ece, log_loss
 from nhl_edge.features import goalie_talent as gt
@@ -156,8 +156,8 @@ def select_params(ctx: Ctx, shots: pd.DataFrame, nhl_games: pd.DataFrame, S: int
 
 
 def load_ctx(history: Path) -> tuple[Ctx, pd.DataFrame, pd.DataFrame]:
-    team_games = load_team_games(history)
-    nhl_games = load_nhl_games(history)
+    team_games = load_team_games(history, pinned_seasons(history, "moneypuck"))
+    nhl_games = load_nhl_games(history, pinned_seasons(history, "nhl"))
     shots = load_shots(history)
     log_df = build_gamelog(team_games)
     st_df = stm.prepare_situation_log(team_games[team_games["game_type"] == 2])
