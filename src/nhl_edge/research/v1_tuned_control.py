@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import itertools
 import sys
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -35,14 +36,18 @@ GRID_HOME = (1.0, 1.03, 1.045, 1.06)
 _SHARED: dict[str, Any] = {}
 
 
-def _lams(game: Any, hl: float, prior: float, gamelog: pd.DataFrame, team_logs: dict[str, pd.DataFrame], league_cache: dict) -> tuple[float, float]:
+def _lams(game: Any, hl: float, prior: float, gamelog: pd.DataFrame, team_logs: dict[str, pd.DataFrame], league_cache: dict,
+          b2b: bool = True, finish: bool = True) -> tuple[float, float]:
+    """V1 expected goals for one game. ``b2b`` / ``finish`` switch V1's back-to-back and finishing-ratio terms off (ablations only)."""
     date, season = str(game.game_date), int(game.season)
     lg = league_cache.get((date, season)) or league_cache.setdefault((date, season), league_rates(gamelog, date, season=season))
     hl_log, al_log = team_logs.get(game.home_abbrev, gamelog), team_logs.get(game.away_abbrev, gamelog)
     hr = team_rating(hl_log, game.home_abbrev, date, lg, current_season=season, half_life=hl, prior_games=prior)
     ar = team_rating(al_log, game.away_abbrev, date, lg, current_season=season, half_life=hl, prior_games=prior)
-    hb = rest_days(last_game_date(hl_log, game.home_abbrev, date), date) == 1
-    ab = rest_days(last_game_date(al_log, game.away_abbrev, date), date) == 1
+    hb = b2b and rest_days(last_game_date(hl_log, game.home_abbrev, date), date) == 1
+    ab = b2b and rest_days(last_game_date(al_log, game.away_abbrev, date), date) == 1
+    if not finish:
+        hr, ar = replace(hr, finish=1.0), replace(ar, finish=1.0)
     lh, la, _ = expected_goals(hr, ar, lg, 1.0, 1.0, hb, ab)
     return lh, la
 
