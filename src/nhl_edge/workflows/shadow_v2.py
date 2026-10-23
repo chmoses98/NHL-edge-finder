@@ -88,7 +88,7 @@ def build_context(data_root: Path, live_st_rows: list[dict[str, Any]] | None) ->
     fparams = load_feature_params()
     book = None
     gsrc = "none (goalie factor 1.0)"
-    shots = load_shots(hist)
+    shots = load_shots(hist, pinned_seasons(hist, "shots"))
     if len(shots):
         glog = gt.goalie_game_log(shots, load_nhl_games(hist, pinned_seasons(hist, "nhl")))
         book = gt.GoalieBook(glog, prior_xg=float(fparams["goalie_prior_xg"]), b2b_mult=float(fparams["goalie_b2b_mult"]))

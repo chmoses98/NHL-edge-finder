@@ -176,7 +176,7 @@ def load_ctx(history: Path, min_season: int | None = None, extra_shots_dir: Path
     else:
         team_games = load_team_games(history, [s for s in H._available_seasons(Path(history) / "moneypuck", "team_games") if s >= min_season])
         nhl_games = load_nhl_games(history, [s for s in H._available_seasons(Path(history) / "nhl", "games") if s >= min_season])
-    shots = load_shots(history)
+    shots = load_shots(history, pinned_seasons(history, "shots"))
     if extra_shots_dir is not None:      # research-only older shot seasons live OUTSIDE data/history/moneypuck so production `load_shots` never reads them
         extra = [pd.read_parquet(p) for p in sorted(Path(extra_shots_dir).glob("shots_*.parquet"))]
         shots = pd.concat([*extra, shots], ignore_index=True) if extra else shots
