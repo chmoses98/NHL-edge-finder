@@ -26,3 +26,13 @@ GitHub delayed *scheduled* workflow runs by up to ~5 hours that day (the 06:37 E
 ## Rollback
 
 Each workflow is read-only; disable it in the Actions tab or delete the file. Reverting the PR removes everything. The dormant sealed-ledger workflows are untouched.
+
+## Projection-foundation delivery (2026-10-23)
+
+Audit of the last 40 scheduled `projection-foundation` runs (2026-10-18 … 10-22): every cron slot fired **2–6.5 h late** (median 3 h 18 min; 20 of 20 real-work slots > 30 min late); no slot was omitted. On 2026-10-22 only the 14:07 Z-slot refresh finished before the first puck drop (23:00 Z); the 20:07 Z and 22:07 Z slots finished 01:29 and 02:06 *after* it. The workflow-level concurrency group also made the four gate-only cron entries per day (which do no work) compete for the single pending slot, queueing real refreshes behind them or cancelling a pending one.
+
+Changes (all operational, no model or betting change):
+
+* **Worker-driven refresh** (`worker/pf.py`, called once per capture cycle): if the published `projection-data` tip is older than the allowed age for the next reachable puck drop (≤ 90 min away: 40 min; ≤ 3 h: 75 min; ≤ 6 h: 150 min) the worker dispatches the same workflow (`stages=all`, live). Freshness is the commit time of `projection-data`, not run metadata; nothing is dispatched while a run is executing or a dispatched run is queued, within 15 min of the last run, or after 8 dispatches/day; API failures are recorded and never stop capture. Kill-switch `NHL_EDGE_PF_DISPATCH=0`. Cron slots remain as the backstop.
+* **Watchdog**: queued > 45 min, running > 90 min, or a publication older than 2 h within the hour before a puck drop appear as `pf` alerts in each cycle record and degrade (never fail) the worker health verdict.
+* **Concurrency**: the workflow-level group is now per-run; serialisation moved to the `live` job so gate-only runs can no longer occupy or cancel the pending refresh.

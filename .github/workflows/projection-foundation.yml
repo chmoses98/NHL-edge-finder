@@ -40,8 +40,10 @@ defaults:
   run:
     shell: bash
 concurrency:
-  # one live writer per sport; PR dry-runs never queue behind (or cancel) a live run
-  group: ${{ github.event_name == 'pull_request' && format('projection-foundation-nhl-pr-{0}', github.ref) || 'projection-foundation-nhl' }}
+  # PR dry-runs never queue behind (or cancel) a live run. Every other run gets a group of its own HERE and serialises on the `live` job
+  # below. Why: with the group at workflow level, the gate-only cron entries (4 of the 8 daily entries are skipped by the gate) joined the
+  # single pending slot and CANCELLED a pending real refresh -- including one dispatched by the capture worker -- without doing its work.
+  group: ${{ github.event_name == 'pull_request' && format('projection-foundation-nhl-pr-{0}', github.ref) || format('projection-foundation-nhl-run-{0}', github.run_id) }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions:
   contents: read
@@ -200,6 +202,10 @@ jobs:
   live:
     needs: gate
     if: github.event_name != 'pull_request' && needs.gate.outputs.run == 'true'
+    # one live writer per sport; a newer pending real run supersedes an older pending one (same work), gate-only runs never reach this job
+    concurrency:
+      group: projection-foundation-nhl
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 150
     permissions:

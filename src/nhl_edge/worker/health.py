@@ -34,6 +34,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -213,6 +214,19 @@ def assess(status: dict[str, Any]) -> dict[str, Any]:
             notes.append(f"archive: {len(pushes) - sum(pushes)} cycle push(es) failed; the final push delivered them")
         else:
             warnings.append(f"archive: {len(pushes) - sum(pushes)}/{len(pushes)} cycle pushes failed (final push pending)")
+
+    # -- projection-foundation refresh checks (worker/pf.py): informational; alerts degrade, they never fail the shift ----------------
+    pf_recs = [c["pf"] for c in cycles if isinstance(c.get("pf"), dict)]
+    if pf_recs:
+        acts: dict[str, int] = {}
+        for r in pf_recs:
+            acts[str(r.get("action"))] = acts.get(str(r.get("action")), 0) + 1
+        codes = sorted({re.sub(r"_\d+MIN$", "", str(a).split()[0]) for r in pf_recs for a in (r.get("alerts") or [])})
+        components["pf_refresh"] = {"checks": len(pf_recs), "actions": acts, "alerts": codes}
+        if acts.get("error", 0) == len(pf_recs):
+            warnings.append(f"projection-foundation refresh check failed on all {len(pf_recs)} cycles (last: {pf_recs[-1].get('reason')})")
+        for code in codes:
+            warnings.append(f"projection-foundation: {code}")
 
     # -- chain renewal ---------------------------------------------------------------------------------
     if status.get("successor_expected") and not status.get("successor_dispatched"):

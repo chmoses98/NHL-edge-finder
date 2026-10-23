@@ -87,6 +87,8 @@ class CycleRecord:
     # `nhl settle` exits 0 even when results or player events could not be fetched (it records them instead), so the
     # exit code alone cannot show a settlement that has stopped progressing; this can.
     settle: dict | None = None
+    # What the projection-foundation refresh check decided this cycle (see worker/pf.py): action, reason, published age, alerts.
+    pf: dict | None = None
 
 
 @dataclass
@@ -190,6 +192,7 @@ class Worker:
         schedule_fn: Callable[[], list[dict]] | None = None,
         decide_fn: Callable[[], dict] | None = None,
         lifetime_minutes: float | None = None,
+        pf_fn: Callable[[datetime, list[dict]], dict] | None = None,
     ) -> None:
         self.data_root = Path(data_root)
         self.archive_root = Path(archive_root)
@@ -202,6 +205,7 @@ class Worker:
         self.schedule_fn = schedule_fn or self._read_schedule
         self.decide_fn = decide_fn or self._decide
         self.lifetime_minutes = lifetime_minutes
+        self.pf_fn = pf_fn
         self.result: WorkerResult | None = None
         self._decision_error: str | None = None
         self._exit_at: datetime | None = None
@@ -343,6 +347,7 @@ class Worker:
         jobs_run, jobs_failed = self._run_jobs(decision, capture_ok=capture_ok)
         self._run_research_export(jobs_run, jobs_failed)
         settle_snapshot = self._settle_snapshot(now) if "settle" in jobs_run else None
+        pf_record = self._pf_check(now)
 
         cur = lease_mod.read_lease(self.archive_root)
         if cur is not None:
@@ -375,7 +380,23 @@ class Worker:
             jobs_failed=jobs_failed,
             decision_ok=decision_ok,
             settle=settle_snapshot,
+            pf=pf_record,
         )
+
+    def _pf_check(self, now: datetime) -> dict | None:
+        """Ask whether the published projection-foundation output is fresh enough for the next puck drop, and dispatch a refresh if not.
+
+        Never raises and never delays the cycle by more than two short API calls: a failed check is recorded and the worker carries on.
+        """
+        if self.pf_fn is None:
+            return None
+        try:
+            rec = self.pf_fn(now, self.schedule_fn())
+        except Exception as e:  # noqa: BLE001 - the capture worker must outlive any problem in this check
+            rec = {"action": "error", "reason": f"{type(e).__name__}: {str(e)[:160]}", "alerts": []}
+        if rec.get("action") != "skip" or rec.get("alerts"):
+            print(f"worker: pf {rec.get('action')}: {rec.get('reason')} {rec.get('alerts') or ''}")
+        return rec
 
     def _settle_snapshot(self, cycle_started: datetime) -> dict:
         """Read (never modify) the STATUS_settle.json that this cycle's settle run wrote.
