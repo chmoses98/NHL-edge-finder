@@ -1,14 +1,14 @@
 # NHL slate 2026-10-23 — RESEARCH_ONLY
 
-generated 2026-10-23T22:09:08Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-23T22:38:55Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 2 · simulated (not started): 2 · markets on board: 2820 · contracts joined: 463 (unjoined to any game: 1538)
-gates: {'UNSUPPORTED': 413, 'OK': 36, 'NO_EDGE': 14}
+gates: {'UNSUPPORTED': 413, 'OK': 37, 'NO_EDGE': 13}
 families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player_assists': 68, 'game_early_goal': 2, 'first_goal': 76, 'game_winner': 4, 'player_goals': 127, 'game_overtime': 2, 'player_points': 86, 'goalie_saves': 4, 'game_spread': 8, 'team_total': 20, 'game_total': 18}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| MTL @ CHI | 2026-10-24T00:00:00Z | T-90m | 0.469 | 0.531 | 0.179 | 5.91 | 2.87 | 3.04 | 227 (25/202) | CONFIRMED/CONFIRMED |
+| MTL @ CHI | 2026-10-24T00:00:00Z | T-60m | 0.469 | 0.531 | 0.179 | 5.91 | 2.87 | 3.04 | 227 (25/202) | CONFIRMED/CONFIRMED |
 | TBL @ COL | 2026-10-24T01:00:00Z | T-90m | 0.522 | 0.478 | 0.176 | 5.94 | 3.05 | 2.89 | 236 (25/211) | CONFIRMED/CONFIRMED |
 
 ## Contracts (research view; sorted by fee-adjusted EV of the best side; NOT recommendations)
@@ -23,78 +23,78 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHLSPREAD-26OCT23MTLCHI-MTL3 | game_spread | 0.177 | 0.255 | 0.238 | 26 | 75 | no | +0.060 | OK |
 | KXNHLTOTAL-26OCT23TBCOL-6 | game_total | 0.516 | 0.600 | 0.584 | 61 | 41 | no | +0.057 | OK |
 | KXNHLSPREAD-26OCT23MTLCHI-MTL2 | game_spread | 0.299 | 0.375 | 0.359 | 38 | 63 | no | +0.055 | OK |
+| KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL2 | team_total | 0.799 | 0.865 | 0.853 | 87 | 14 | no | +0.053 | OK |
 | KXNHLGAME-26OCT23MTLCHI-MTL | game_winner | 0.531 | 0.605 | 0.591 | 61 | 40 | no | +0.052 | OK |
 | KXNHLTOTAL-26OCT23TBCOL-4 | game_total | 0.831 | 0.895 | 0.884 | 90 | 11 | no | +0.052 | OK |
-| KXNHLTEAMTOTAL-26OCT23TBCOL-COL4 | team_total | 0.372 | 0.445 | 0.430 | 45 | 56 | no | +0.051 | OK |
 | KXNHLTOTAL-26OCT23MTLCHI-7 | game_total | 0.402 | 0.475 | 0.460 | 48 | 53 | no | +0.050 | OK |
 | KXNHLTOTAL-26OCT23MTLCHI-6 | game_total | 0.513 | 0.585 | 0.571 | 59 | 42 | no | +0.050 | OK |
+| KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL5 | team_total | 0.197 | 0.275 | 0.258 | 29 | 74 | no | +0.049 | OK |
 | KXNHLTEAMTOTAL-26OCT23TBCOL-TB4 | team_total | 0.340 | 0.410 | 0.396 | 42 | 60 | no | +0.043 | OK |
-| KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL2 | team_total | 0.799 | 0.855 | 0.845 | 86 | 15 | no | +0.042 | OK |
 | KXNHLGAME-26OCT23MTLCHI-CHI | game_winner | 0.469 | 0.405 | 0.418 | 41 | 60 | yes | +0.042 | OK |
-| KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL5 | team_total | 0.197 | 0.270 | 0.254 | 29 | 75 | no | +0.039 | OK |
+| KXNHLTEAMTOTAL-26OCT23TBCOL-COL4 | team_total | 0.372 | 0.440 | 0.426 | 45 | 57 | no | +0.041 | OK |
 | KXNHLTOTAL-26OCT23MTLCHI-4 | game_total | 0.827 | 0.880 | 0.871 | 89 | 13 | no | +0.035 | OK |
 | KXNHLTOTAL-26OCT23TBCOL-8 | game_total | 0.221 | 0.280 | 0.268 | 29 | 73 | no | +0.035 | OK |
 | KXNHLTEAMTOTAL-26OCT23TBCOL-TB3 | team_total | 0.559 | 0.615 | 0.604 | 62 | 39 | no | +0.034 | OK |
+| KXNHLTOTAL-26OCT23MTLCHI-9 | game_total | 0.150 | 0.195 | 0.185 | 20 | 81 | no | +0.029 | OK |
 | KXNHLSPREAD-26OCT23MTLCHI-CHI2 | game_spread | 0.259 | 0.215 | 0.223 | 22 | 79 | yes | +0.027 | OK |
 | KXNHLTOTAL-26OCT23MTLCHI-8 | game_total | 0.220 | 0.270 | 0.260 | 28 | 74 | no | +0.026 | OK |
-| KXNHLTOTAL-26OCT23MTLCHI-9 | game_total | 0.150 | 0.185 | 0.177 | 19 | 82 | no | +0.020 | OK |
 | KXNHLTEAMTOTAL-26OCT23TBCOL-COL5 | team_total | 0.198 | 0.245 | 0.235 | 26 | 77 | no | +0.020 | OK |
-| KXNHLTEAMTOTAL-26OCT23TBCOL-TB2 | team_total | 0.780 | 0.820 | 0.812 | 83 | 19 | no | +0.019 | OK |
-| KXNHLTOTAL-26OCT23TBCOL-9 | game_total | 0.151 | 0.185 | 0.178 | 19 | 82 | no | +0.019 | OK |
+| KXNHLTOTAL-26OCT23TBCOL-9 | game_total | 0.151 | 0.190 | 0.182 | 20 | 82 | no | +0.019 | OK |
+| KXNHLTEAMTOTAL-26OCT23TBCOL-TB5 | team_total | 0.170 | 0.210 | 0.202 | 22 | 80 | no | +0.019 | OK |
 | KXNHLSPREAD-26OCT23TBCOL-COL3 | game_spread | 0.180 | 0.215 | 0.208 | 22 | 79 | no | +0.018 | OK |
 | KXNHLTEAMTOTAL-26OCT23TBCOL-COL2 | team_total | 0.802 | 0.840 | 0.833 | 85 | 17 | no | +0.018 | OK |
 | KXNHLTEAMTOTAL-26OCT23TBCOL-COL3 | team_total | 0.597 | 0.635 | 0.628 | 64 | 37 | no | +0.016 | OK |
-| KXNHLTOTAL-26OCT23MTLCHI-3 | game_total | 0.954 | 0.975 | 0.972 | 98 | 3 | no | +0.014 | OK |
+| KXNHLTOTAL-26OCT23MTLCHI-3 | game_total | 0.954 | 0.980 | 0.976 | 99 | 3 | no | +0.014 | OK |
 | KXNHLTOTAL-26OCT23TBCOL-3 | game_total | 0.955 | 0.980 | 0.976 | 99 | 3 | no | +0.013 | OK |
 | KXNHLSPREAD-26OCT23TBCOL-TB3 | game_spread | 0.149 | 0.175 | 0.169 | 18 | 83 | no | +0.011 | OK |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-MTL6 | team_total | 0.085 | 0.115 | 0.108 | 13 | 90 | no | +0.009 | OK |
-| KXNHLTEAMTOTAL-26OCT23TBCOL-TB5 | team_total | 0.170 | 0.205 | 0.198 | 22 | 81 | no | +0.009 | OK |
+| KXNHLTEAMTOTAL-26OCT23TBCOL-TB2 | team_total | 0.780 | 0.815 | 0.808 | 83 | 20 | no | +0.009 | OK |
+| KXNHLTOTAL-26OCT23TBCOL-10 | game_total | 0.070 | 0.090 | 0.086 | 10 | 92 | no | +0.005 | OK |
 | KXNHLTOTAL-26OCT23MTLCHI-10 | game_total | 0.063 | 0.080 | 0.076 | 9 | 93 | no | +0.002 | OK |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-CHI4 | team_total | 0.334 | 0.355 | 0.351 | 36 | 65 | no | +0.000 | OK |
 | KXNHLTOTAL-26OCT23TBCOL-2 | game_total | 0.980 | 0.985 | 0.984 | 99 | 2 |  | -0.002 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT23TBCOL-COL6 | team_total | 0.086 | 0.105 | 0.101 | 12 | 91 |  | -0.002 | NO_EDGE |
 | KXNHLSPREAD-26OCT23MTLCHI-CHI3 | game_spread | 0.146 | 0.135 | 0.137 | 14 | 87 |  | -0.003 | NO_EDGE |
-| KXNHLTOTAL-26OCT23TBCOL-10 | game_total | 0.070 | 0.080 | 0.078 | 9 | 93 |  | -0.004 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT23TBCOL-TB6 | team_total | 0.070 | 0.080 | 0.078 | 9 | 93 |  | -0.005 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-CHI2 | team_total | 0.777 | 0.785 | 0.783 | 79 | 22 |  | -0.009 | NO_EDGE |
 | KXNHLSPREAD-26OCT23TBCOL-COL2 | game_spread | 0.304 | 0.315 | 0.313 | 32 | 69 |  | -0.009 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT23MTLCHI-CHI3 | team_total | 0.554 | 0.565 | 0.563 | 57 | 44 |  | -0.011 | NO_EDGE |
-| KXNHLTOTAL-26OCT23MTLCHI-2 | game_total | 0.979 | 0.975 | 0.976 | 99 | 4 |  | -0.012 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT23MTLCHI-CHI3 | team_total | 0.554 | 0.570 | 0.567 | 58 | 44 |  | -0.011 | NO_EDGE |
+| KXNHLTOTAL-26OCT23MTLCHI-2 | game_total | 0.979 | 0.980 | 0.980 | 99 | 3 |  | -0.011 | NO_EDGE |
 | KXNHLSPREAD-26OCT23TBCOL-TB2 | game_spread | 0.259 | 0.265 | 0.264 | 27 | 74 |  | -0.013 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-CHI6 | team_total | 0.067 | 0.065 | 0.065 | 8 | 95 |  | -0.018 | NO_EDGE |
-| KXNHLGAME-26OCT23TBCOL-TB | game_winner | 0.478 | 0.475 | 0.476 | 48 | 53 |  | -0.020 | NO_EDGE |
 | KXNHLGAME-26OCT23TBCOL-COL | game_winner | 0.522 | 0.525 | 0.524 | 53 | 48 |  | -0.020 | NO_EDGE |
+| KXNHLGAME-26OCT23TBCOL-TB | game_winner | 0.478 | 0.475 | 0.476 | 48 | 53 |  | -0.020 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT23MTLCHI-CHI5 | team_total | 0.165 | 0.165 | 0.165 | 18 | 85 |  | -0.024 | NO_EDGE |
+| KXNHL1P-26OCT23MTLCHI-CHI | period_winner |  | 0.305 |  | 31 | 70 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT23MTLCHI-MTL | period_winner |  | 0.380 |  | 39 | 63 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT23MTLCHI-TIE | period_winner |  | 0.330 |  | 34 | 68 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT23MTLCHI-MTL | period_winner |  | 0.375 |  | 38 | 63 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT23MTLCHI-CHI | period_winner |  | 0.295 |  | 31 | 72 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT23MTLCHI-MTL2 | period_spread |  | 0.120 |  | 14 | 90 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26OCT23MTLCHI-CHI2 | period_spread |  | 0.095 |  | 10 | 91 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.270 |  | 28 | 74 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT23MTLCHI-2 | period_total |  | 0.565 |  | 57 | 44 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26OCT23MTLCHI-1 | period_total |  | 0.855 |  | 87 | 16 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT23MTLCHI-TIE | period_winner |  | 0.290 |  | 31 | 73 |  |  | UNSUPPORTED |
-| KXNHL2P-26OCT23MTLCHI-MTL | period_winner |  | 0.390 |  | 40 | 62 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT23MTLCHI-MTL2 | period_spread |  | 0.125 |  | 14 | 89 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT23MTLCHI-1 | period_total |  | 0.860 |  | 87 | 15 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT23MTLCHI-2 | period_total |  | 0.575 |  | 58 | 43 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.275 |  | 28 | 73 |  |  | UNSUPPORTED |
 | KXNHL2P-26OCT23MTLCHI-CHI | period_winner |  | 0.300 |  | 32 | 72 |  |  | UNSUPPORTED |
-| KXNHL2PSPREAD-26OCT23MTLCHI-MTL2 | period_spread |  | 0.145 |  | 16 | 87 |  |  | UNSUPPORTED |
-| KXNHL2PSPREAD-26OCT23MTLCHI-CHI2 | period_spread |  | 0.090 |  | 11 | 93 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.330 |  | 34 | 68 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT23MTLCHI-MTL | period_winner |  | 0.390 |  | 40 | 62 |  |  | UNSUPPORTED |
+| KXNHL2P-26OCT23MTLCHI-TIE | period_winner |  | 0.290 |  | 31 | 73 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26OCT23MTLCHI-CHI2 | period_spread |  | 0.085 |  | 10 | 93 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26OCT23MTLCHI-MTL2 | period_spread |  | 0.150 |  | 16 | 86 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT23MTLCHI-1 | period_total |  | 0.905 |  | 92 | 11 |  |  | UNSUPPORTED |
 | KXNHL2PTOTAL-26OCT23MTLCHI-2 | period_total |  | 0.620 |  | 63 | 39 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26OCT23MTLCHI-1 | period_total |  | 0.910 |  | 93 | 11 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT23MTLCHI-TIE | period_winner |  | 0.260 |  | 28 | 76 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT23MTLCHI-MTL | period_winner |  | 0.430 |  | 44 | 58 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.330 |  | 34 | 68 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT23MTLCHI-CHI | period_winner |  | 0.305 |  | 32 | 71 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT23MTLCHI-MTL | period_winner |  | 0.430 |  | 44 | 58 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT23MTLCHI-TIE | period_winner |  | 0.260 |  | 28 | 76 |  |  | UNSUPPORTED |
+| KXNHL3PSPREAD-26OCT23MTLCHI-CHI2 | period_spread |  | 0.100 |  | 11 | 91 |  |  | UNSUPPORTED |
 | KXNHL3PSPREAD-26OCT23MTLCHI-MTL2 | period_spread |  | 0.200 |  | 22 | 82 |  |  | UNSUPPORTED |
-| KXNHL3PSPREAD-26OCT23MTLCHI-CHI2 | period_spread |  | 0.110 |  | 13 | 91 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.390 |  | 40 | 62 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT23MTLCHI-1 | period_total |  | 0.910 |  | 93 | 11 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26OCT23MTLCHI-2 | period_total |  | 0.670 |  | 68 | 34 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT23MTLCHI-1 | period_total |  | 0.885 |  | 91 | 14 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT23MTLCHI-MTLPDANAULT24-1 | player_assists |  | 0.140 |  | 27 | 99 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT23MTLCHI-MTLATEXIER85-1 | player_assists |  | 0.255 |  | 27 | 76 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT23MTLCHI-MTLZBOLDUC76-1 | player_assists |  | 0.210 |  | 23 | 81 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT23MTLCHI-MTLJANDERSON17-1 | player_assists |  | 0.160 |  | 18 | 86 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT23MTLCHI-MTLANEWHOOK15-1 | player_assists |  | 0.250 |  | 26 | 76 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-2 | player_assists |  | 0.075 |  | 9 | 94 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT23MTLCHI-3 | period_total |  | 0.390 |  | 40 | 62 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT23MTLCHI-CHIAFRONDELL16-1 | player_assists |  | 0.325 |  | 33 | 68 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT23MTLCHI-CHIAFRONDELL16-2 | player_assists |  | 0.045 |  | 7 | 98 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT23MTLCHI-CHICBEDARD98-1 | player_assists |  | 0.455 |  | 47 | 56 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT23MTLCHI-CHICBEDARD98-2 | player_assists |  | 0.120 |  | 14 | 90 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT23MTLCHI-CHIFNAZAR91-1 | player_assists |  | 0.285 |  | 30 | 73 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT23MTLCHI-CHIFNAZAR91-2 | player_assists |  | 0.055 |  | 7 | 96 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -106,14 +106,15 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 6 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 7 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Tyler Bertuzzi: 1+ goals YES @ 25c · p 0.2962 (adj 0.2834) · $7.3 · thesis CHI:OFFENSE_4PLUS
-- Patrick Kane: 1+ assists NO @ 57c · p 0.6861 (adj 0.6074) · $18.23 · thesis CHI:SUPPRESSED
-- Anton Frondell: 1+ goals YES @ 21c · p 0.25 (adj 0.2375) · $5.1 · thesis CHI:OFFENSE_4PLUS
-- Montreal wins by over 2.5 goals NO @ 75c · p 0.8103 (adj 0.7776) · $16.23 · thesis CHI:WINS
-- Brayden Point: 1+ goals YES @ 26c · p 0.3075 (adj 0.2944) · $7.0 · thesis TBL:OFFENSE_4PLUS
-- Artturi Lehkonen: 1+ goals YES @ 27c · p 0.3072 (adj 0.2966) · $4.41 · thesis COL:OFFENSE_4PLUS
+- Tyler Bertuzzi: 1+ goals YES @ 25c · p 0.2962 (adj 0.2834) · $7.17 · thesis CHI:OFFENSE_4PLUS
+- Patrick Kane: 1+ assists NO @ 57c · p 0.6861 (adj 0.6074) · $17.72 · thesis CHI:SUPPRESSED
+- Frank Nazar: 1+ goals YES @ 21c · p 0.2483 (adj 0.2375) · $4.76 · thesis CHI:OFFENSE_4PLUS
+- Montreal wins by over 2.5 goals NO @ 75c · p 0.8103 (adj 0.7776) · $16.34 · thesis CHI:WINS
+- Andrei Vasilevskiy: 28+ saves NO @ 54c · p 0.645 (adj 0.5735) · $9.52 · thesis TBL:NET_LOW_VOLUME
+- Artturi Lehkonen: 1+ goals YES @ 27c · p 0.3072 (adj 0.2966) · $4.2 · thesis COL:OFFENSE_4PLUS
+- Brayden Point: 1+ goals YES @ 27c · p 0.3075 (adj 0.2956) · $4.19 · thesis TBL:OFFENSE_4PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -123,12 +124,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Spencer Knight: 27+ saves | 0.341 | 0.485 | 50/53 | +0.112 |  |
+| Spencer Knight: 27+ saves | 0.341 | 0.505 | 51/50 | +0.142 |  |
 | Oliver Kapanen: 1+ points | 0.377 | 0.505 | 51/50 | +0.105 | STANDARD |
 | Patrick Kane: 1+ assists | 0.314 | 0.435 | 44/57 | +0.099 | STANDARD |
 | Connor Bedard: 1+ points | 0.561 | 0.655 | 66/35 | +0.073 | STANDARD |
 | Josh Anderson: 1+ assists | 0.253 | 0.160 | 18/86 | +0.062 | STANDARD |
-| Oliver Kapanen: 1+ assists | 0.221 | 0.310 | 32/70 | +0.064 | STANDARD |
+| Cole Caufield: 2+ points | 0.250 | 0.340 | 35/67 | +0.065 | STANDARD |
 
 **TBL @ COL** · priced 166/185 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - COL net: Mackenzie Blackwood (CONFIRMED) exp shots 26.7, exp saves 23.25 (sd 6.41), pull risk 0.053
@@ -136,12 +137,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
+| Andrei Vasilevskiy: 28+ saves | 0.355 | 0.465 | 47/54 | +0.088 |  |
 | Nikita Kucherov: 1+ assists | 0.476 | 0.585 | 60/43 | +0.077 | STANDARD |
+| Nathan MacKinnon: 2+ points | 0.336 | 0.445 | 46/57 | +0.077 | STANDARD |
 | Cale Makar: 1+ assists | 0.441 | 0.545 | 56/47 | +0.072 | STANDARD |
-| Nathan MacKinnon: 2+ points | 0.336 | 0.440 | 46/58 | +0.067 | STANDARD |
 | Cale Makar: 1+ points | 0.543 | 0.645 | 65/36 | +0.081 | STANDARD |
 | Nikita Kucherov: 2+ points | 0.292 | 0.385 | 39/62 | +0.071 | STANDARD |
-| Andrei Vasilevskiy: 28+ saves | 0.355 | 0.445 | 47/58 | +0.048 |  |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
