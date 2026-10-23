@@ -86,7 +86,7 @@ def decide(losses: dict[str, dict[str, np.ndarray]], season: np.ndarray, cluster
             "BETTER": bool(gate_ok and size_ok and n_fav >= MIN_SEASONS_FAVOURABLE and none_worse)}
 
 
-def evaluate(dir_: Path) -> dict[str, Any]:
+def evaluate(dir_: Path, history: Path | None = None, repo_root: Path | None = None) -> dict[str, Any]:
     df, pm = assemble(dir_)
     arms = [a for a in ARM_ORDER if a in [str(x) for x in pm["arms"]]]
     losses = per_game_losses(df, pm, [str(a) for a in pm["arms"]])
@@ -133,10 +133,54 @@ def evaluate(dir_: Path) -> dict[str, Any]:
     out["rules"]["R4_leading_candidate"] = {"eligible": [a for a, _ in ok], "lowest_brier_win": best, "within_practical_threshold_of_best": within, "leads": lead,
                                             "note": "'leads' ranks historical evidence only; it is not a promotion"}
     out["calibration_win_pooled"] = {a: reliability(df[f"{a}_p_home_win"].to_numpy(float), y) for a in ("V1", "V1_R_C1", "OA_SVA_C1") if a in arms}
+    if repo_root is not None:
+        out["v2"] = v2_comparison(df, repo_root)
+    if history is not None and (history / "kalshi").exists():
+        out["market"] = market_comparison(df, pm, history)
     bpath = dir_ / "v1r_boundary.json"
     if bpath.exists():
         out["grid_boundary"] = json.loads(bpath.read_text())
     return out
+
+
+V2_FILES = ("docs/research/oa-walk-forward/data/walk_forward_v2_wf2_2023_games.csv", "docs/research/walk_forward_v2_wf2_20260929_games.csv")
+V2_ARMS = ("SIM2", "SIM2_ST", "SIM2_ST_GTT")
+MARKET_ARMS = ("V1", "V1_R", "V1_R_C1", "V1_T_C1", "OA_SVA_C1")
+
+
+def v2_comparison(df: pd.DataFrame, repo_root: Path) -> dict[str, Any]:
+    """Exploratory: the V2 simulator (SIM2 on V1's own rates; SIM2_ST with special teams; SIM2_ST_GTT with goalie talent) vs V1 and the
+    retuned arms on the games where ``walk_forward_v2`` ran (2023-2025). Win and overtime Brier only (that is what the committed V2 output carries)."""
+    frames = [pd.read_csv(repo_root / f) for f in V2_FILES if (repo_root / f).exists()]
+    if not frames:
+        return {"note": "walk_forward_v2 output not found"}
+    v2 = pd.concat(frames, ignore_index=True)
+    cols = ["game_id"] + [f"{a}_p_{k}" for a in V2_ARMS for k in ("home_win", "overtime") if f"{a}_p_{k}" in v2.columns]
+    m = df.merge(v2[cols], on="game_id", how="inner", suffixes=("", "__v2"))
+    y, yo = m["y_home_win"].to_numpy(float), m["y_overtime"].to_numpy(float)
+    clusters = m["game_date"].astype(str).to_numpy()
+    losses: dict[str, dict[str, np.ndarray]] = {}
+    for name in ("V1", "V1_R", "V1_R_C1", "OA_SVA_C1", *V2_ARMS):
+        pw, po = m[f"{name}_p_home_win"].to_numpy(float), m[f"{name}_p_overtime"].to_numpy(float)
+        losses[name] = {"brier_win": (pw - y) ** 2, "brier_ot": (po - yo) ** 2}
+    rows = compare(losses, "V1", [a for a in losses if a != "V1"], clusters, ("brier_win", "brier_ot"))
+    return {"n": int(len(m)), "seasons": sorted(int(x) for x in m["season"].unique()), "levels": {a: {k: float(np.mean(v)) for k, v in d.items()} for a, d in losses.items()}, "vs_V1": rows,
+            "note": "exploratory; V2 hazards need shots from 2021 so only 2023-2025 exist; the combination of retuned rates with the V2 simulator was NOT run"}
+
+
+def market_comparison(df: pd.DataFrame, pm: dict[str, np.ndarray], history: Path, season: int = 2025, horizon: str = "T-60m") -> dict[str, Any]:
+    """Kalshi candle-close midpoint at the same instant for every forecaster (2025-26 only); no depth, fee or slippage."""
+    from nhl_edge.research import oa_market as M
+
+    keep = (df["season"] == season).to_numpy()
+    sub = df[keep].reset_index(drop=True)
+    names = [str(a) for a in pm["arms"]]
+    use = [a for a in MARKET_ARMS if a in names]
+    idx = [names.index(a) for a in use]
+    pms = {"arms": np.array(use), "total": pm["total"][keep][:, idx, :], "margin": pm["margin"][keep][:, idx, :]}
+    targets = M.build_targets(history, sub, pms, horizon)
+    return {"horizon": horizon, "season": season, "note": "Kalshi candle-close midpoint; a midpoint advantage is not an execution edge",
+            "targets": {t: M.compare_target(d, use) for t, d in targets.items() if len(d) >= 100}}
 
 
 def _verdict(r: dict[str, Any]) -> str:
@@ -176,6 +220,23 @@ def render(res: dict[str, Any]) -> str:
     for a, d in res["ablations"].items():
         for p in d["pooled"]:
             L.append(f"| {a} | {d['feature']} | {p['metric']} | {p['delta']:+.4f} | [{p['lo95']:+.4f}, {p['hi95']:+.4f}] | [{p['lo95_slate']:+.4f}, {p['hi95_slate']:+.4f}] | {'yes' if d['informative'] else 'not detectable'} |")
+    if "v2" in res and "vs_V1" in res["v2"]:
+        v = res["v2"]
+        L += ["", f"## V2 simulator (exploratory; {v['n']} games, seasons {v['seasons']}) — Δ vs V1", "", "| arm | metric | Δ | 95% games | 95% slates |", "|---|---|---:|---|---|"]
+        for r in v["vs_V1"]:
+            L.append(f"| {r['challenger']} | {r['metric']} | {r['delta']:+.4f} | [{r['lo95']:+.4f}, {r['hi95']:+.4f}] | [{r['lo95_slate']:+.4f}, {r['hi95_slate']:+.4f}] |")
+        L.append(f"\n{v['note']}")
+    if "market" in res:
+        mk = res["market"]
+        L += ["", f"## Against the Kalshi midpoint at {mk['horizon']} (season {mk['season']}); {mk['note']}", ""]
+        for t, r in mk["targets"].items():
+            L += [f"### {t} (n={r['n']}; market Brier {r['market_brier']:.4f})", "", "| forecaster | kind | Brier | Δ vs market | 95% games | verdict |", "|---|---|---:|---:|---|---|"]
+            for a, m in r["forecasters"].items():
+                if "+mkt" in a:
+                    continue
+                v = "model better" if m["model_better_than_market"] else "market better" if m["market_better_than_model"] else "indistinguishable"
+                L.append(f"| {a} | {m['kind']} | {m['brier']:.4f} | {m['delta_brier_vs_market']:+.4f} | [{m['lo95']:+.4f}, {m['hi95']:+.4f}] | {v} |")
+            L.append("")
     if "grid_boundary" in res:
         L += ["", "## Tuning grid boundaries (V1_R)", ""]
         for k, d in res["grid_boundary"].items():
@@ -188,9 +249,11 @@ def main(argv: list[str] | None = None) -> int:
 
     ap = argparse.ArgumentParser(prog="python -m nhl_edge.research.retune_evaluate")
     ap.add_argument("--dir", required=True)
+    ap.add_argument("--history", default="data/history")
+    ap.add_argument("--repo-root", default=".")
     a = ap.parse_args(argv)
     d = Path(a.dir)
-    res = evaluate(d)
+    res = evaluate(d, Path(a.history), Path(a.repo_root))
     (d / "retune_eval.json").write_text(json.dumps(res, indent=1, default=float))
     md = render(res)
     (d / "retune_eval.md").write_text(md)
