@@ -1,0 +1,31 @@
+name: shots-pull-tmp
+# TEMPORARY, never merged: pulls MoneyPuck shot-level data for 2008-2020 on a network-capable runner and commits the slim Parquet files to THIS branch only.
+on:
+  push:
+    branches: ["claude/shots-pull-2008-2020"]
+    paths: [".github/workflows/shots_pull_tmp.yml"]
+permissions:
+  contents: write
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - run: pip install -e .
+      - name: MoneyPuck shots 2008-2020 -> slim parquet in a scratch dir (the existing 2021-2025 files and manifest are untouched)
+        run: python -m nhl_edge.data.shots --out /tmp/shots_out --seasons 2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020
+      - name: Commit to this branch only
+        run: |
+          set -uo pipefail
+          du -sh /tmp/shots_out/moneypuck/* || true
+          mkdir -p data/history/moneypuck data/history/shots_extension
+          cp /tmp/shots_out/moneypuck/shots_*.parquet data/history/moneypuck/ || true
+          cp /tmp/shots_out/SHOTS_MANIFEST.json data/history/shots_extension/SHOTS_MANIFEST_2008_2020.json
+          git config user.name "nhl-edge-bot"; git config user.email "nhl-edge-bot@users.noreply.github.com"
+          git add -f data/history/moneypuck/shots_*.parquet data/history/shots_extension
+          git commit -qm "research: MoneyPuck shots 2008-2020 slim parquet (run ${{ github.run_id }})" || exit 0
+          git pull --rebase -X theirs origin "${GITHUB_REF_NAME}" || true
+          git push origin HEAD:"${GITHUB_REF_NAME}"
