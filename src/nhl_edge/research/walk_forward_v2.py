@@ -36,6 +36,7 @@ import numpy as np
 import pandas as pd
 
 from nhl_edge import AUTHORITY
+from nhl_edge.data import history as H
 from nhl_edge.data.history import load_nhl_games, load_team_games, pinned_seasons
 from nhl_edge.data.shots import load_shots
 from nhl_edge.evaluation.metrics import brier, ece, log_loss
@@ -52,6 +53,18 @@ from nhl_edge.timeutil import utcnow
 log = get_logger(__name__)
 
 ARMS = ("V1", "SIM2", "SIM2_ST", "V1_G1", "SIM2_ST_GTT")
+#: first season of shot-level data the hazards may use, and an optional rolling training window (seasons). The defaults reproduce the published
+#: expanding-from-2021 protocol exactly; ``joint_eval`` passes earlier shots seasons and a 4-season window to score seasons before 2023.
+FIRST_SHOTS_SEASON = 2021
+TRAIN_WINDOW: int | None = None
+
+
+def hazard_seasons(upto: int, first: int | None = None, window: int | None = None) -> list[int]:
+    """Seasons whose shots may fit the hazards for a model scored on ``upto``: ``first .. upto-1``, optionally only the last ``window``."""
+    lo = FIRST_SHOTS_SEASON if first is None else first
+    seasons = list(range(lo, upto))
+    w = TRAIN_WINDOW if window is None else window
+    return seasons[-w:] if w else seasons
 ORACLE_ARMS = ("V1_G1", "SIM2_ST_GTT")
 TOTAL_LINES = (4.5, 5.5, 6.5, 7.5)
 ENV_GRID = (0.0, 0.015, 0.03, 0.05)
@@ -135,7 +148,7 @@ def select_params(ctx: Ctx, shots: pd.DataFrame, nhl_games: pd.DataFrame, S: int
                   env_grid: Sequence[float] = ENV_GRID, k_grid: Sequence[float] = GOALIE_K_GRID) -> dict[str, Any]:
     """Every V2 parameter for scoring season ``S``, fitted on seasons < S (validation season S-1, see module doc)."""
     val = S - 1
-    prm_val = fit_sim_params(shots, nhl_games, [s for s in range(2021, val)])
+    prm_val = fit_sim_params(shots, nhl_games, hazard_seasons(val))
     val_games, _ = evaluation_games(nhl_games, [val])
     vfeat = [game_features(ctx, r, None, league_cache, lst_cache) for r in val_games.itertuples(index=False)]
     vtot = dict(zip(val_games["game_id"].astype(int), (val_games["home_score"] + val_games["away_score"]).astype(int)))
@@ -149,16 +162,24 @@ def select_params(ctx: Ctx, shots: pd.DataFrame, nhl_games: pd.DataFrame, S: int
         env_scores[str(e)] = round(ll / max(len(vfeat), 1), 5)
     env_best = float(max(env_scores, key=lambda k: env_scores[k]))
     gk = gt.choose_prior(ctx.glog, val, tuple(k_grid))
-    prm = fit_sim_params(shots, nhl_games, [s for s in range(2021, S)], env_dispersion=env_best)
-    b2b = gt.estimate_b2b(ctx.glog, [s for s in range(2022, S)], gk["best_prior_xg"])
+    prm = fit_sim_params(shots, nhl_games, hazard_seasons(S), env_dispersion=env_best)
+    b2b = gt.estimate_b2b(ctx.glog, hazard_seasons(S, FIRST_SHOTS_SEASON + 1), gk["best_prior_xg"])
     book = gt.GoalieBook(ctx.glog, prior_xg=gk["best_prior_xg"], b2b_mult=b2b["b2b_mult"])
     return {"prm": prm, "book": book, "env": env_best, "env_scores": env_scores, "goalie_prior": gk, "b2b": b2b}
 
 
-def load_ctx(history: Path) -> tuple[Ctx, pd.DataFrame, pd.DataFrame]:
-    team_games = load_team_games(history, pinned_seasons(history, "moneypuck"))
-    nhl_games = load_nhl_games(history, pinned_seasons(history, "nhl"))
+def load_ctx(history: Path, min_season: int | None = None, extra_shots_dir: Path | None = None) -> tuple[Ctx, pd.DataFrame, pd.DataFrame]:
+    """``min_season=None`` keeps the published inputs (pinned seasons >= 2022); ``joint_eval`` passes an earlier season to score older years."""
+    if min_season is None:
+        team_games = load_team_games(history, pinned_seasons(history, "moneypuck"))
+        nhl_games = load_nhl_games(history, pinned_seasons(history, "nhl"))
+    else:
+        team_games = load_team_games(history, [s for s in H._available_seasons(Path(history) / "moneypuck", "team_games") if s >= min_season])
+        nhl_games = load_nhl_games(history, [s for s in H._available_seasons(Path(history) / "nhl", "games") if s >= min_season])
     shots = load_shots(history)
+    if extra_shots_dir is not None:      # research-only older shot seasons live OUTSIDE data/history/moneypuck so production `load_shots` never reads them
+        extra = [pd.read_parquet(p) for p in sorted(Path(extra_shots_dir).glob("shots_*.parquet"))]
+        shots = pd.concat([*extra, shots], ignore_index=True) if extra else shots
     log_df = build_gamelog(team_games)
     st_df = stm.prepare_situation_log(team_games[team_games["game_type"] == 2])
     glog = gt.goalie_game_log(shots, nhl_games)
@@ -209,7 +230,7 @@ def run(history: Path, test_seasons: Sequence[int] = (2024, 2025), n_sims: int =
         prm, book, env_best, env_scores, gk, b2b, val = fit["prm"], fit["book"], fit["env"], fit["env_scores"], fit["goalie_prior"], fit["b2b"], S - 1
         report["fits"][str(S)] = {"validation_season": val, "env_loglik_per_game": env_scores, "env_dispersion": env_best,
                                   "goalie_prior": gk, "goalie_b2b": b2b, "sim_params": prm.to_dict(),
-                                  "hazard_train_seasons_for_validation": [s for s in range(2021, val)]}
+                                  "hazard_train_seasons_for_validation": hazard_seasons(val)}
         log.info(kv(event="v2_fit", season=S, env=env_best, goalie_k=gk["best_prior_xg"], p_ot_goal=round(prm.p_ot_goal, 3), scale=round(prm.scale, 4)))
         # --- score the test season -----------------------------------------------------------------------
         gs = games[games["season"] == S]
