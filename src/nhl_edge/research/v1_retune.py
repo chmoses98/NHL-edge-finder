@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import itertools
+import json
 import sys
 from pathlib import Path
 from typing import Any
@@ -86,8 +87,20 @@ def run(history: Path, games_csv: Path, out: Path, n_sims: int = 4000, workers: 
     final = ng[(ng["game_type"] == 2) & ng["final"].astype(bool)].dropna(subset=["home_score", "away_score"])
     _SHARED.update({"gamelog": gamelog, "team_logs": {t: d for t, d in gamelog.groupby("team")}, "games": final.sort_values(["game_date", "game_id"]).reset_index(drop=True)})
     seasons = sorted(int(s) for s in base["season"].unique())
-    with mp.get_context("fork").Pool(workers) as pool:
-        parts = pool.map(tune_and_predict, seasons)
+    cache = out / "v1r_cache"                    # one file per tuned season: a restarted job resumes instead of redoing hours of tuning
+    cache.mkdir(parents=True, exist_ok=True)
+    done: dict[int, Any] = {}
+    for s in seasons:
+        f = cache / f"season_{s}.json"
+        if f.exists():
+            done[s] = json.loads(f.read_text())
+    todo = [s for s in seasons if s not in done]
+    if todo:
+        with mp.get_context("fork").Pool(min(workers, len(todo))) as pool:
+            for s, res in zip(todo, pool.imap(tune_and_predict, todo), strict=True):
+                (cache / f"season_{s}.json").write_text(json.dumps(res))
+                done[s] = res
+    parts = [tuple(done[s]) for s in seasons]
     lam = pd.DataFrame([r for p, _ in parts for r in p]).set_index("game_id")
     grids = [g for _, grid in parts for g in grid]
     cal = SlopeCalibrator()
@@ -121,8 +134,6 @@ def run(history: Path, games_csv: Path, out: Path, n_sims: int = 4000, workers: 
 
 
 def main(argv: list[str] | None = None) -> int:
-    import json
-
     ap = argparse.ArgumentParser(prog="python -m nhl_edge.research.v1_retune")
     ap.add_argument("--history", default="data/history")
     ap.add_argument("--games", required=True)
