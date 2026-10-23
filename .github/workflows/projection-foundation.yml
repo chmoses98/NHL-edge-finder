@@ -1,7 +1,11 @@
 name: projection-foundation
+run-name: projection-foundation ${{ github.event_name }}${{ github.event.inputs.stages && format(' [{0}]', github.event.inputs.stages) || '' }}
 # NHL Projection Foundation: live SHADOW operation (RESEARCH ONLY, no betting authority).
 #
-# Pregame runs ~10:00 ET, ~16:00 ET and ~18:00 ET (goalie confirmations arrive late) and a morning settle run ~06:37 ET:
+# WHO STARTS A RUN (docs/research/PROJECTION_DELIVERY.md): the capture worker (worker/pf_dispatch.py) asks for the chain on a horizon-aware
+# cadence, the slate-watch watchdog asks again if the worker is gone, and cron below is the third and last fallback. A cron run does not
+# blindly execute: its first step (the gate) asks the same policy whether a run is wanted and exits in about a minute if not. Explicit
+# requests (workflow_dispatch from the worker/watchdog/a human, and the pull_request dry run) always run.
 #   capture   data-archive DailyFaceoff / ESPN captures (+ direct fetch) -> immutable pf_core availability snapshots
 #   project   frozen models (cached per slate) + participation + gate -> challenger AND incumbent (PLAYER_SIM_V1) forecasts
 #   publish   projections/nhl/latest.json (+ timestamped copy), summary/nhl/latest.json
@@ -13,15 +17,12 @@ name: projection-foundation
 # Schedules fire from the default branch only. No secrets beyond the job token, no paid services.
 on:
   schedule:
-    # UTC. ET = UTC-4 (EDT) / UTC-5 (EST): each slot has an EDT and an EST entry; the gate job runs only the valid one.
-    - cron: "7 14 * 1-6,10-12 *"    # 10:07 EDT   pregame (morning)
-    - cron: "7 15 * 1-6,10-12 *"    # 10:07 EST
-    - cron: "7 20 * 1-6,10-12 *"    # 16:07 EDT   pregame (afternoon)
-    - cron: "7 21 * 1-6,10-12 *"    # 16:07 EST
-    - cron: "7 22 * 1-6,10-12 *"    # 18:07 EDT   pregame (evening, goalie confirmations)
-    - cron: "7 23 * 1-6,10-12 *"    # 18:07 EST
-    - cron: "37 10 * 1-6,10-12 *"   # 06:37 EDT   settle
-    - cron: "37 11 * 1-6,10-12 *"   # 06:37 EST
+    # FALLBACK ONLY, in UTC and without DST duplicates (the in-job gate reads the real schedule, so no ET translation is needed).
+    # 2026-10-22 evidence: cron slots were delivered 2.2-4.4 h late and each needed two runner requests; a no-op duplicate run could
+    # also take the single pending concurrency slot. The gate is now inside the one job and cron has its own concurrency group.
+    - cron: "7 11,14,16,18,20,21,22,23 * 1-6,10-12 *"
+    - cron: "7 0,1 * 1-6,10-12 *"
+    - cron: "37 10,12 * 1-6,10-12 *"       # settle-oriented fallback (the gate picks the stages)
   workflow_dispatch:
     inputs:
       dry_run:
@@ -40,45 +41,19 @@ defaults:
   run:
     shell: bash
 concurrency:
-  # one live writer per sport; PR dry-runs never queue behind (or cancel) a live run
-  group: ${{ github.event_name == 'pull_request' && format('projection-foundation-nhl-pr-{0}', github.ref) || 'projection-foundation-nhl' }}
+  # Three groups, so that a request can never be cancelled by an unrelated one:
+  #   pull_request  one per ref, newer cancels older (a dry run is disposable)
+  #   schedule      cron fallbacks queue among themselves, never behind or in front of a worker-requested run
+  #   everything else (worker / watchdog / human dispatch): one running + one pending; the policy never queues a second while one is in
+  #                 flight, because a later pending run REPLACES the earlier one and the earlier one's place in the runner queue is lost
+  # ci_publish.sh re-applies our files on a moved remote, so two writers are safe; the groups exist for efficiency, not correctness.
+  group: ${{ github.event_name == 'pull_request' && format('projection-foundation-nhl-pr-{0}', github.ref) || (github.event_name == 'schedule' && 'projection-foundation-nhl-cron' || 'projection-foundation-nhl') }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions:
   contents: read
 env:
   PF_DIR: research/projection_foundation
 jobs:
-  gate:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    outputs:
-      run: ${{ steps.slot.outputs.run }}
-      stages: ${{ steps.slot.outputs.stages }}
-    steps:
-      - id: slot
-        env:
-          EVENT: ${{ github.event_name }}
-          SCHEDULE: ${{ github.event.schedule }}
-          DISPATCH_STAGES: ${{ github.event.inputs.stages }}
-        run: |
-          set -euo pipefail
-          run=true; stages=all
-          if [ "$EVENT" = schedule ]; then
-            off=4; [ "$(TZ=America/New_York date +%z)" = "-0400" ] || off=5
-            min=$(echo "$SCHEDULE" | cut -d' ' -f1); hr=$(echo "$SCHEDULE" | cut -d' ' -f2)
-            et=$(( hr - off ))
-            echo "cron '$SCHEDULE' -> ET hour $et (UTC offset $off)"
-            case "$et" in
-              10|16|18) stages=all ;;
-              6) stages="capture,results,settle,score,guard" ;;
-              *) run=false ;;
-            esac
-          elif [ "$EVENT" = workflow_dispatch ] && [ -n "$DISPATCH_STAGES" ]; then
-            stages="$DISPATCH_STAGES"
-          fi
-          echo "run=$run" >> "$GITHUB_OUTPUT"; echo "stages=$stages" >> "$GITHUB_OUTPUT"
-          echo "run=$run stages=$stages"
-
   # ------------------------------------------------------------------------------------------ pull_request: dry run, read-only
   pr-dry-run:
     if: github.event_name == 'pull_request'
@@ -198,23 +173,48 @@ jobs:
 
   # ------------------------------------------------------------------------------------------ schedule / dispatch: live
   live:
-    needs: gate
-    if: github.event_name != 'pull_request' && needs.gate.outputs.run == 'true'
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 150
     permissions:
       contents: write
+      actions: read      # the gate lists THIS workflow's own runs (stdlib only, no install)
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 1 }
-      - uses: actions/setup-python@v5
-        with: { python-version: "3.13" }
-      - run: pip install -q -r research/projection_foundation/requirements-pf.txt
       - name: Sparse, blobless view of data-archive (inputs only)
         run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
+      - name: Gate (policy decides cron runs; explicit requests always run)
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          STAGES_INPUT: ${{ github.event.inputs.stages }}
+          RUN_ID: ${{ github.run_id }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          sched=$(ls -1 /tmp/data_archive/context/schedule/dt=*/*.jsonl.gz 2>/dev/null | sort | tail -1 || true)
+          rc=1
+          if [ -n "$sched" ]; then
+            PYTHONPATH=src python3 -m nhl_edge.worker.pf_dispatch gate --event "$EVENT_NAME" --stages-input "${STAGES_INPUT:-}" \
+              --exclude-run "$RUN_ID" --schedule "$sched" --github-output "$GITHUB_OUTPUT"
+            rc=$?
+          fi
+          if [ "$rc" != 0 ]; then
+            # no schedule snapshot or the gate itself failed: the chain is idempotent, so run rather than skip (fail open)
+            echo "::warning::gate unavailable (rc=$rc); running the chain"
+            { echo "run=true"; echo "stages=${STAGES_INPUT:-all}"; } >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.run == 'true'
+        with: { python-version: "3.13" }
+      - run: pip install -q -r research/projection_foundation/requirements-pf.txt
+        if: steps.gate.outputs.run == 'true'
       - name: Check out projection-data (orphan branch is created on the first run)
+        if: steps.gate.outputs.run == 'true'
         run: bash research/projection_foundation/nhl/live/ci_projection_data.sh /tmp/projection_data live
       - name: Restore frozen-model cache (same slate date)
+        if: steps.gate.outputs.run == 'true'
         id: mc
         uses: actions/cache/restore@v4
         with:
@@ -222,6 +222,7 @@ jobs:
           key: nhl-model-v2-${{ hashFiles('research/projection_foundation/requirements-pf.txt') }}-${{ github.run_id }}
           restore-keys: nhl-model-v2-${{ hashFiles('research/projection_foundation/requirements-pf.txt') }}-
       - name: Run the chain
+        if: steps.gate.outputs.run == 'true'
         id: chain
         working-directory: research/projection_foundation
         env:
@@ -229,7 +230,7 @@ jobs:
           NHL_PF_CACHE: /tmp/nhl_pf_cache/frames
           NHL_PF_MODELS: /tmp/nhl_pf_cache/model_tables
           DRY: ${{ github.event.inputs.dry_run }}
-          STAGES: ${{ needs.gate.outputs.stages }}
+          STAGES: ${{ steps.gate.outputs.stages }}
         run: |
           set -euo pipefail
           mkdir -p "$NHL_PF_CACHE" "$NHL_PF_MODELS" /tmp/nhl_work
@@ -239,7 +240,7 @@ jobs:
           python -W ignore -m nhl.live.run "${args[@]}" 2>&1 | tee /tmp/nhl_work/run.log
           if grep -q '"model_reused": false' /tmp/nhl_work/run.log; then echo "computed=true" >> "$GITHUB_OUTPUT"; fi
       - name: Commit to projection-data (only after every stage succeeded; archive_guard first)
-        if: ${{ github.event.inputs.dry_run != 'true' }}
+        if: ${{ steps.gate.outputs.run == 'true' && github.event.inputs.dry_run != 'true' }}
         run: bash research/projection_foundation/nhl/live/ci_publish.sh /tmp/projection_data
       - name: Save frozen-model cache (only when a new table was computed)
         if: ${{ success() && steps.chain.outputs.computed == 'true' }}
@@ -248,7 +249,7 @@ jobs:
           path: /tmp/nhl_pf_cache/model_tables
           key: nhl-model-v2-${{ hashFiles('research/projection_foundation/requirements-pf.txt') }}-${{ github.run_id }}
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: ${{ always() && steps.gate.outputs.run == 'true' }}
         with:
           name: nhl-live-run
           path: /tmp/nhl_work/

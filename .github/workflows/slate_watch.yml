@@ -4,6 +4,10 @@ name: slate-watch
 # with a puck drop inside 4 h (missing/misidentified game, unknown starter close to puck drop, incoherent model output, stale projection),
 # and closes it when the slate recovers. DEGRADED (e.g. a goalie still unconfirmed) is never an alert. It writes nothing to any branch,
 # has no secret beyond the job token, and cannot reach any price, stake, cap or order path.
+# It is also the SECOND trigger of the player-layer projection chain (the capture worker is the first; projection-foundation cron the third):
+# if the worker has not asked for a run the policy says is due, this job asks (workflow_dispatch of projection-foundation.yml, the only
+# write it can make; `actions: write`). The policy never queues a second run while one is in flight. A second one-issue alert covers a
+# late projection-foundation delivery (puck drop within 90 min, nothing in flight, newest successful run older than 4 h).
 # Scheduled runs are best-effort (GitHub delayed them by hours on 2026-10-22); `workflow_dispatch` runs the same check on demand.
 on:
   schedule:
@@ -12,6 +16,7 @@ on:
 permissions:
   contents: read
   issues: write
+  actions: write      # dispatch projection-foundation.yml when the worker has not (worker/pf_dispatch.py); nothing else
 concurrency:
   group: slate-watch
   cancel-in-progress: true
@@ -80,4 +85,30 @@ jobs:
             fi
           elif [ -n "$existing" ] && { [ "$VERDICT" = "READY" ] || [ "$VERDICT" = "DEGRADED" ]; }; then
             gh issue close "$existing" --comment "Slate recovered: verdict $VERDICT at $(date -u +%FT%TZ)." || true
+          fi
+      - name: Projection-foundation delivery (second trigger and lateness flag)
+        id: pf
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          sched=$(ls -1 /tmp/archive/context/schedule/dt=*/*.jsonl.gz 2>/dev/null | sort | tail -1 || true)
+          echo "stale=false" >> "$GITHUB_OUTPUT"
+          [ -n "$sched" ] || { echo "no schedule snapshot; nothing to decide"; exit 0; }
+          PYTHONPATH=src python -m nhl_edge.worker.pf_dispatch dispatch --schedule "$sched" --github-output "$GITHUB_OUTPUT" > /tmp/pf_decision.json || echo "pf_dispatch failed (non-fatal)"
+          { echo '### projection-foundation delivery'; echo '```json'; cat /tmp/pf_decision.json 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Alert once if the projection delivery is late
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STALE: ${{ steps.pf.outputs.stale }}
+        run: |
+          set -uo pipefail
+          title="NHL projection delivery late"
+          existing=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty' || true)
+          if [ "$STALE" = "true" ]; then
+            body=$(printf 'Puck drop is within 90 minutes, no projection-foundation run is queued or running, and the newest successful run is older than 4 h (or absent).\n\n```json\n%s\n```\n\nRun: %s/%s/actions/runs/%s\n\n_The watchdog has already asked for a run (see the decision above); this issue closes itself when a run succeeds._' \
+              "$(head -c 3000 /tmp/pf_decision.json 2>/dev/null)" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")
+            if [ -z "$existing" ]; then gh issue create --title "$title" --body "$body" || true; fi
+          elif [ -n "$existing" ]; then
+            gh issue close "$existing" --comment "Projection delivery recovered at $(date -u +%FT%TZ)." || true
           fi
