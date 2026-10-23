@@ -46,7 +46,7 @@ import numpy as np
 import pandas as pd
 
 from nhl_edge import AUTHORITY, DATA_ONLY_MODEL_VERSION, FEATURE_VERSION, SIM_VERSION
-from nhl_edge.data.history import load_nhl_games, load_team_games
+from nhl_edge.data.history import load_nhl_games, load_team_games, pinned_seasons
 from nhl_edge.evaluation.metrics import brier, calibration_table, ece, log_loss
 from nhl_edge.features.ratings import (
     HOME_ADJ,
@@ -449,8 +449,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     a = ap.parse_args(argv)
     test_seasons = [int(s) for s in str(a.test_seasons).split(",") if s.strip()]
     hist = Path(a.history)
-    team_games = load_team_games(hist)
-    nhl_games = load_nhl_games(hist)
+    team_games = load_team_games(hist, pinned_seasons(hist, "moneypuck"))
+    nhl_games = load_nhl_games(hist, pinned_seasons(hist, "nhl"))
     if team_games.empty or nhl_games.empty:
         print(f"no history under {hist} (moneypuck rows={len(team_games)}, nhl rows={len(nhl_games)}); run nhl_edge.data.history first", file=sys.stderr)
         return 2

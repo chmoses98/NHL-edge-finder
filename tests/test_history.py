@@ -319,3 +319,15 @@ def test_parquet_roundtrip_preserves_nullable_ids(tmp_path: Path, mp_csv):
     back = H.read_parquet(p)
     assert back["team_id"].isna().sum() == 1 and back["team_id"].dtype.name == "Int64"
     pd.testing.assert_frame_equal(back[["game_id", "mp_team", "situation"]], df[["game_id", "mp_team", "situation"]])
+
+
+def test_pinned_seasons_ignore_pre_2022_research_history(tmp_path):
+    """Production shadows and frozen walk-forwards read pinned_seasons(); older research seasons on disk must not leak into them."""
+    for kind, prefix in (("moneypuck", "team_games"), ("nhl", "games")):
+        d = tmp_path / kind
+        d.mkdir()
+        for s in (2015, 2021, 2022, 2025):
+            (d / f"{prefix}_{s}.parquet").write_bytes(b"")
+    assert H.pinned_seasons(tmp_path, "moneypuck") == [2022, 2025]
+    assert H.pinned_seasons(tmp_path, "nhl") == [2022, 2025]
+    assert H.pinned_seasons(tmp_path / "missing", "nhl") == []

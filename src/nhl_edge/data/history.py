@@ -311,6 +311,17 @@ def _available_seasons(folder: Path, prefix: str) -> list[int]:
     return sorted(out)
 
 
+# Seasons that existed on disk before the extended 2015-2021 research pull. Production shadows and the frozen walk-forwards read
+# these only, so adding older history for research cannot change their inputs or break reproducibility of published results.
+PINNED_MIN_SEASON = 2022
+
+
+def pinned_seasons(out_root: Path, kind: str) -> list[int]:
+    """Seasons >= PINNED_MIN_SEASON on disk for ``kind`` in ("moneypuck", "nhl")."""
+    root = Path(out_root)
+    return [s for s in _available_seasons(root / kind, "team_games" if kind == "moneypuck" else "games") if s >= PINNED_MIN_SEASON]
+
+
 def load_team_games(out_root: Path, seasons: Iterable[int] | None = None) -> pd.DataFrame:
     """Concatenate ``moneypuck/team_games_<season>.parquet`` (all seasons on disk when ``seasons`` is None)."""
     root = Path(out_root)

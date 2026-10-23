@@ -67,11 +67,11 @@ class V2Context:
 
 def build_context(data_root: Path, live_st_rows: list[dict[str, Any]] | None) -> V2Context:
     """Load everything V2 needs once per run. ``data_root`` is the repository ``data`` directory (history lives there)."""
-    from nhl_edge.data.history import load_nhl_games, load_team_games
+    from nhl_edge.data.history import load_nhl_games, load_team_games, pinned_seasons
     from nhl_edge.data.shots import load_shots
 
     hist = Path(data_root) / "history"
-    tg = load_team_games(hist)
+    tg = load_team_games(hist, pinned_seasons(hist, "moneypuck"))
     frames = []
     src = []
     if len(tg):
@@ -90,7 +90,7 @@ def build_context(data_root: Path, live_st_rows: list[dict[str, Any]] | None) ->
     gsrc = "none (goalie factor 1.0)"
     shots = load_shots(hist)
     if len(shots):
-        glog = gt.goalie_game_log(shots, load_nhl_games(hist))
+        glog = gt.goalie_game_log(shots, load_nhl_games(hist, pinned_seasons(hist, "nhl")))
         book = gt.GoalieBook(glog, prior_xg=float(fparams["goalie_prior_xg"]), b2b_mult=float(fparams["goalie_b2b_mult"]))
         gsrc = f"MoneyPuck goalie game logs {sorted(int(s) for s in glog['season'].unique())} (history, strictly before the game date)"
     return V2Context(st_rows, "; ".join(src) or "none", book, gsrc, load_params(), fparams)
