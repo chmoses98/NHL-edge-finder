@@ -93,7 +93,7 @@ jobs:
         run: |
           set -uo pipefail
           sched=$(ls -1 /tmp/archive/context/schedule/dt=*/*.jsonl.gz 2>/dev/null | sort | tail -1 || true)
-          echo "stale=false" >> "$GITHUB_OUTPUT"
+          echo "stale=false" >> "$GITHUB_OUTPUT"; echo "recovered=false" >> "$GITHUB_OUTPUT"
           [ -n "$sched" ] || { echo "no schedule snapshot; nothing to decide"; exit 0; }
           PYTHONPATH=src python -m nhl_edge.worker.pf_dispatch dispatch --schedule "$sched" --github-output "$GITHUB_OUTPUT" > /tmp/pf_decision.json || echo "pf_dispatch failed (non-fatal)"
           { echo '### projection-foundation delivery'; echo '```json'; cat /tmp/pf_decision.json 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
@@ -101,6 +101,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           STALE: ${{ steps.pf.outputs.stale }}
+          RECOVERED: ${{ steps.pf.outputs.recovered }}
         run: |
           set -uo pipefail
           title="NHL projection delivery late"
@@ -109,6 +110,7 @@ jobs:
             body=$(printf 'Puck drop is within 90 minutes, no projection-foundation run is queued or running, and the newest successful run is older than 4 h (or absent).\n\n```json\n%s\n```\n\nRun: %s/%s/actions/runs/%s\n\n_The watchdog has already asked for a run (see the decision above); this issue closes itself when a run succeeds._' \
               "$(head -c 3000 /tmp/pf_decision.json 2>/dev/null)" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")
             if [ -z "$existing" ]; then gh issue create --title "$title" --body "$body" || true; fi
-          elif [ -n "$existing" ]; then
-            gh issue close "$existing" --comment "Projection delivery recovered at $(date -u +%FT%TZ)." || true
+          elif [ -n "$existing" ] && [ "$RECOVERED" = "true" ]; then
+            # only a real, recent projection-refreshing success closes it; "not stale" (a run merely queued, no schedule snapshot, API unreadable) does not
+            gh issue close "$existing" --comment "Projection delivery recovered at $(date -u +%FT%TZ): a projection run succeeded within the last 4 h." || true
           fi

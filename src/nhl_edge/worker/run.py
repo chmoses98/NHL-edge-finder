@@ -345,10 +345,12 @@ class Worker:
         # do, the worker must therefore do itself -- otherwise simulate/settle/evaluate/discover
         # silently stop for as long as a worker is alive. Each is age-gated by decide(), so this is
         # the same cadence they had before, not extra work.
+        # Asked for BEFORE the slow jobs: a refresh that is due must not wait behind several minutes of simulate/settle/export (the call is
+        # one bounded HTTPS request and cannot raise).
+        pf = self._pf_cycle(now, starts)
         jobs_run, jobs_failed = self._run_jobs(decision, capture_ok=capture_ok)
         self._run_research_export(jobs_run, jobs_failed)
         settle_snapshot = self._settle_snapshot(now) if "settle" in jobs_run else None
-        pf = self._pf_cycle(now, starts)
 
         cur = lease_mod.read_lease(self.archive_root)
         if cur is not None:

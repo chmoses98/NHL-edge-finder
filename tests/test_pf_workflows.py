@@ -18,13 +18,17 @@ def test_projection_foundation_is_a_single_runner_request_with_the_gate_inside_t
     assert "gate" not in d["jobs"]                                         # the separate gate job doubled the exposure to runner queues
     live = d["jobs"]["live"]
     assert "needs" not in live and live["if"] == "github.event_name != 'pull_request'"
-    assert live["permissions"] == {"contents": "write", "actions": "read"}
+    assert live["permissions"] == {"contents": "write", "actions": "write"}                 # actions: write only to cancel its own gated-out run
     names = [s.get("name", "") for s in live["steps"]]
     gate_i = next(i for i, n in enumerate(names) if n.startswith("Gate"))
     install_i = next(i for i, s in enumerate(live["steps"]) if "pip install" in str(s.get("run", "")))
     assert gate_i < install_i                                              # a no-op cron run must not pay for the install
     heavy = [s for s in live["steps"][install_i:] if "uses" not in s or "cache/save" in s["uses"] or "upload-artifact" in s["uses"]]
     assert all("steps.gate.outputs" in str(s.get("if", "")) or "steps.chain.outputs" in str(s.get("if", "")) for s in heavy)
+    full_view = next(i for i, s in enumerate(live["steps"]) if "ci_data_archive.sh" in str(s.get("run", "")))
+    assert full_view > gate_i and live["steps"][full_view]["if"] == "steps.gate.outputs.run == 'true'"       # the heavy input view only if the chain runs
+    cancel = next(s for s in live["steps"] if "gh run cancel" in str(s.get("run", "")))
+    assert cancel["if"] == "steps.gate.outputs.run != 'true'"                                               # a no-op must not conclude `success`
 
 
 def test_cron_is_a_fallback_with_its_own_concurrency_group_and_no_dst_duplicates():
@@ -51,6 +55,7 @@ def test_slate_watch_can_dispatch_and_nothing_else_beyond_issues():
     assert d["permissions"] == {"contents": "read", "issues": "write", "actions": "write"}
     text = (WF / "slate_watch.yml").read_text()
     assert "pf_dispatch dispatch" in text and "NHL projection delivery late" in text
+    assert 'RECOVERED" = "true"' in text                                                                     # the alert closes only on a real recent success
     for forbidden in ("contents: write", "git push", "--force"):
         assert forbidden not in text
 

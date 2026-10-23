@@ -1,11 +1,12 @@
 name: projection-foundation
-run-name: projection-foundation ${{ github.event_name }}${{ github.event.inputs.stages && format(' [{0}]', github.event.inputs.stages) || '' }}
+run-name: projection-foundation ${{ github.event_name }}${{ github.event.inputs.stages && format(' [{0}]', github.event.inputs.stages) || '' }}${{ github.event.inputs.dry_run == 'true' && ' dry-run' || '' }}
 # NHL Projection Foundation: live SHADOW operation (RESEARCH ONLY, no betting authority).
 #
 # WHO STARTS A RUN (docs/research/PROJECTION_DELIVERY.md): the capture worker (worker/pf_dispatch.py) asks for the chain on a horizon-aware
 # cadence, the slate-watch watchdog asks again if the worker is gone, and cron below is the third and last fallback. A cron run does not
 # blindly execute: its first step (the gate) asks the same policy whether a run is wanted and exits in about a minute if not. Explicit
-# requests (workflow_dispatch from the worker/watchdog/a human, and the pull_request dry run) always run.
+# requests (workflow_dispatch from the worker/watchdog/a human, and the pull_request dry run) always run. A gated-out cron run cancels itself,
+# so a no-op is never mistaken for a fresh projection by the dispatch policy.
 #   capture   data-archive DailyFaceoff / ESPN captures (+ direct fetch) -> immutable pf_core availability snapshots
 #   project   frozen models (cached per slate) + participation + gate -> challenger AND incumbent (PLAYER_SIM_V1) forecasts
 #   publish   projections/nhl/latest.json (+ timestamped copy), summary/nhl/latest.json
@@ -178,12 +179,19 @@ jobs:
     timeout-minutes: 150
     permissions:
       contents: write
-      actions: read      # the gate lists THIS workflow's own runs (stdlib only, no install)
+      actions: write     # the gate lists THIS workflow's own runs, and cancels its own run when it decides nothing is due (see below)
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 1 }
-      - name: Sparse, blobless view of data-archive (inputs only)
-        run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
+      - name: Latest schedule snapshot only (all the gate needs; the full input view is fetched only if the chain will run)
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 --filter=blob:none origin data-archive
+          git worktree add --no-checkout -f /tmp/gate_archive FETCH_HEAD
+          git -C /tmp/gate_archive sparse-checkout init --no-cone
+          pats=(); for i in 0 1; do pats+=("/context/schedule/dt=$(date -u -d "-$i days" +%F)/"); done
+          git -C /tmp/gate_archive sparse-checkout set --no-cone "${pats[@]}"
+          git -C /tmp/gate_archive checkout -q
       - name: Gate (policy decides cron runs; explicit requests always run)
         id: gate
         env:
@@ -193,7 +201,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -uo pipefail
-          sched=$(ls -1 /tmp/data_archive/context/schedule/dt=*/*.jsonl.gz 2>/dev/null | sort | tail -1 || true)
+          sched=$(ls -1 /tmp/gate_archive/context/schedule/dt=*/*.jsonl.gz 2>/dev/null | sort | tail -1 || true)
           rc=1
           if [ -n "$sched" ]; then
             PYTHONPATH=src python3 -m nhl_edge.worker.pf_dispatch gate --event "$EVENT_NAME" --stages-input "${STAGES_INPUT:-}" \
@@ -205,6 +213,16 @@ jobs:
             echo "::warning::gate unavailable (rc=$rc); running the chain"
             { echo "run=true"; echo "stages=${STAGES_INPUT:-all}"; } >> "$GITHUB_OUTPUT"
           fi
+      - name: "Gated out - mark this run cancelled so it can never be mistaken for a fresh projection"
+        # A skipped run would otherwise conclude `success` and look like a chain run to the dispatcher (worker/pf_dispatch.py counts only
+        # successful runs as fresh). Cancelled runs are ignored by it.
+        if: steps.gate.outputs.run != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run cancel "$GITHUB_RUN_ID" || true
+      - name: Sparse, blobless view of data-archive (inputs only)
+        if: steps.gate.outputs.run == 'true'
+        run: bash research/projection_foundation/nhl/live/ci_data_archive.sh /tmp/data_archive
       - uses: actions/setup-python@v5
         if: steps.gate.outputs.run == 'true'
         with: { python-version: "3.13" }

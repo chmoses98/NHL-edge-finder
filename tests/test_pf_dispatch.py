@@ -9,9 +9,9 @@ NOW = datetime(2026, 10, 22, 17, 0, tzinfo=UTC)
 TIP = datetime(2026, 10, 22, 23, 0, tzinfo=UTC)     # 19:00 ET
 
 
-def _run(i, created, *, status="completed", conclusion="success", event="workflow_dispatch", minutes=10.0):
+def _run(i, created, *, status="completed", conclusion="success", event="workflow_dispatch", minutes=10.0, title=""):
     done = created + timedelta(minutes=minutes) if status == "completed" else None
-    return P.RunInfo(i, status, conclusion, event, created, done)
+    return P.RunInfo(i, status, conclusion, event, created, done, title)
 
 
 def test_far_from_the_slate_nothing_is_wanted():
@@ -102,6 +102,9 @@ def test_parse_runs_drops_malformed_rows_and_sorts_newest_first():
         {"id": 2, "status": "queued", "event": "workflow_dispatch", "created_at": "2026-10-22T11:00:00Z", "updated_at": "2026-10-22T11:00:00Z"},
         {"id": "x", "created_at": None},
         {"status": "queued"},
+        {"id": 3, "status": "in_progress", "event": "pull_request", "created_at": "2026-10-22T11:30:00Z", "updated_at": "2026-10-22T11:30:00Z"},
+        {"id": 4, "status": "completed", "conclusion": "success", "event": "workflow_dispatch", "display_title": "projection-foundation workflow_dispatch [all] dry-run",
+         "created_at": "2026-10-22T11:40:00Z", "updated_at": "2026-10-22T11:45:00Z"},
     ]}
     runs = P.parse_runs(payload)
     assert [r.id for r in runs] == [2, 1] and runs[0].in_flight and runs[1].succeeded
@@ -143,12 +146,13 @@ def test_tips_from_schedule_files_reads_jsonl_and_gz(tmp_path):
     import gzip
     import json
 
-    rows = [{"game_type": 2, "start_time_utc": "2026-10-22T23:00:00Z"}, {"game_type": 1, "start_time_utc": "2026-10-22T20:00:00Z"}, {"start_time_utc": "bad"}, {"game_type": 3, "start_time_utc": "2026-10-23T00:00:00Z"}]
+    rows = [{"season_type": "regular", "start_time_utc": "2026-10-22T23:00:00Z"}, {"season_type": "preseason", "start_time_utc": "2026-10-22T20:00:00Z"}, {"start_time_utc": "bad"},
+            {"season_type": "playoffs", "start_time_utc": "2026-10-23T00:00:00Z"}]
     p = tmp_path / "s.jsonl.gz"
     with gzip.open(p, "wt") as f:
         f.write("\n".join(json.dumps(r) for r in rows) + "\n\nnot json\n")
     q = tmp_path / "t.jsonl"
-    q.write_text(json.dumps({"start_time_utc": "2026-10-22T23:00:00Z"}) + "\n")
+    q.write_text(json.dumps({"season_type": "regular", "start_time_utc": "2026-10-22T23:00:00Z"}) + "\n")
     tips = P.tips_from_schedule_files([p, q, tmp_path / "missing.jsonl"])
     assert tips == [datetime(2026, 10, 22, 23, 0, tzinfo=UTC), datetime(2026, 10, 23, 0, 0, tzinfo=UTC)]
 
@@ -213,7 +217,7 @@ def _main(monkeypatch, tmp_path, runs, argv, now="2026-10-22T20:00:00Z"):
     import json
 
     sched = tmp_path / "s.jsonl"
-    sched.write_text(json.dumps({"game_type": 2, "start_time_utc": "2026-10-22T23:00:00Z"}) + "\n")
+    sched.write_text(json.dumps({"season_type": "regular", "start_time_utc": "2026-10-22T23:00:00Z"}) + "\n")
     out = tmp_path / "out.txt"
     monkeypatch.setenv("GITHUB_TOKEN", "t")
     monkeypatch.setattr(P, "list_runs_via_api", lambda repo, token, workflow=P.PF_WORKFLOW, per_page=30: runs)
@@ -248,3 +252,68 @@ def test_gate_runs_when_the_run_list_cannot_be_read(monkeypatch, tmp_path):
     assert rc == 0 and o["run"] == "true" and o["code"] == "API_UNREADABLE"
     rc, o = _main(monkeypatch, tmp_path, None, ["decide"])
     assert o["run"] == "false"
+
+
+def test_pull_request_runs_and_dry_runs_are_invisible_to_the_policy():
+    runs = P.parse_runs({"workflow_runs": [
+        {"id": 1, "status": "in_progress", "event": "pull_request", "created_at": "2026-10-22T20:30:00Z", "updated_at": "2026-10-22T20:30:00Z"},
+        {"id": 2, "status": "completed", "conclusion": "success", "event": "workflow_dispatch", "display_title": "projection-foundation workflow_dispatch [all] dry-run",
+         "created_at": "2026-10-22T20:40:00Z", "updated_at": "2026-10-22T20:45:00Z"}]})
+    assert runs == []
+    now = TIP - timedelta(hours=2)
+    assert P.decide(now, [TIP], runs).code == "REFRESH_DUE"
+
+
+def test_a_cancelled_gate_noop_is_neither_fresh_nor_a_failure():
+    now = TIP - timedelta(hours=1)
+    stale_real = _run(1, now - timedelta(hours=6))
+    noop = _run(2, now - timedelta(minutes=3), conclusion="cancelled", minutes=1)
+    d = P.decide(now, [TIP], [noop, stale_real])
+    assert d.action == "dispatch" and d.stale is True and d.recovered is False
+
+
+def test_only_projection_refreshing_runs_make_the_slate_fresh_but_any_success_counts_as_settled():
+    now = TIP - timedelta(hours=2)
+    settle_only = _run(5, now - timedelta(minutes=10), title="projection-foundation workflow_dispatch [capture,results,settle,score,guard]")
+    full = _run(1, now - timedelta(hours=5), title="projection-foundation workflow_dispatch [all]")
+    assert settle_only.projects is False and full.projects is True and _run(9, now, title="projection-foundation schedule").projects is True
+    d = P.decide(now, [TIP], [settle_only, full])
+    assert d.action == "dispatch" and d.code == "REFRESH_DUE"                           # the settle-only run did not refresh projections
+    last_tip = datetime(2026, 10, 23, 2, 0, tzinfo=UTC)
+    due = last_tip + timedelta(hours=P.SETTLE_AFTER_LAST_TIP_HOURS) + timedelta(minutes=5)
+    only_settle = _run(6, due - timedelta(minutes=2), title="projection-foundation workflow_dispatch [capture,results,settle,score,guard]")
+    assert P.decide(due + timedelta(minutes=30), [TIP, last_tip], [only_settle]).code != "SETTLE_DUE"      # settle already covered
+
+
+def test_recovered_requires_a_recent_projection_success_not_merely_an_empty_queue():
+    now = TIP - timedelta(minutes=60)
+    queued = _run(2, now - timedelta(minutes=20), status="queued", conclusion=None)
+    d = P.decide(now, [TIP], [queued, _run(1, now - timedelta(hours=7))])
+    assert d.stale is False and d.recovered is False                                      # in flight: not stale, but also NOT recovered
+    ok = _run(3, now - timedelta(minutes=30))
+    assert P.decide(now, [TIP], [ok]).recovered is True
+
+
+def test_repeated_failures_back_off_instead_of_burning_the_daily_cap():
+    now = TIP - timedelta(hours=4)
+    fails = [_run(i, now - timedelta(minutes=10 + 20 * i), conclusion="failure", minutes=5) for i in range(3)]
+    d = P.decide(now, [TIP], fails)
+    assert (d.action, d.code) == ("wait", "FAILURE_BACKOFF")
+    later = P.decide(now + timedelta(minutes=120), [TIP], fails)
+    assert later.action == "dispatch"
+    cancelled_between = [fails[0], _run(8, now - timedelta(minutes=15), conclusion="cancelled"), fails[1], fails[2]]
+    assert P.decide(now, [TIP], cancelled_between).code == "FAILURE_BACKOFF"             # cancelled runs are skipped, not counted as successes
+    assert P.decide(now, [TIP], [fails[0], fails[1], _run(4, now - timedelta(hours=2)), fails[2]]).code != "FAILURE_BACKOFF"
+
+
+def test_gate_always_runs_the_full_chain_for_cron_even_when_a_settle_is_due(monkeypatch, tmp_path):
+    import json
+
+    sched = tmp_path / "s.jsonl"
+    sched.write_text("\n".join(json.dumps({"season_type": "regular", "start_time_utc": t}) for t in ("2026-10-22T23:00:00Z", "2026-10-23T02:00:00Z", "2026-10-24T23:00:00Z")) + "\n")
+    out = tmp_path / "o.txt"
+    monkeypatch.setenv("GITHUB_TOKEN", "t")
+    monkeypatch.setattr(P, "list_runs_via_api", lambda repo, token, workflow=P.PF_WORKFLOW, per_page=100: [_run(1, datetime(2026, 10, 23, 1, 0, tzinfo=UTC))])
+    P.main(["gate", "--event", "schedule", "--schedule", str(sched), "--repo", "o/r", "--now", "2026-10-23T06:00:00Z", "--github-output", str(out)])
+    o = dict(line.split("=", 1) for line in out.read_text().split())
+    assert o["run"] == "true" and o["code"] == "SETTLE_DUE" and o["stages"] == "all" and o["recovered"] in ("true", "false")

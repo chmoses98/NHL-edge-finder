@@ -63,6 +63,19 @@ class RunInfo:
     event: str
     created_at: datetime
     updated_at: datetime | None
+    title: str = ""        # the workflow's ``run-name``: "projection-foundation <event> [stages] [dry-run]"
+
+    @property
+    def dry_run(self) -> bool:
+        return "dry-run" in self.title
+
+    @property
+    def projects(self) -> bool:
+        """Whether the run refreshed projections (stages ``all`` or including ``project``). A title with no ``[stages]`` is a cron/default run: ``all``."""
+        if "[" not in self.title:
+            return True
+        stages = self.title.split("[", 1)[1].split("]", 1)[0]
+        return stages.strip() in ("", "all") or "project" in [x.strip() for x in stages.split(",")]
 
     @property
     def in_flight(self) -> bool:
@@ -98,6 +111,8 @@ class Decision:
     #: True when a puck drop is close, nothing is in flight and the newest successful run is older than STALE_MINUTES (or absent):
     #: the delivery is late and a human-visible alert is warranted. Independent of ``action``.
     stale: bool = False
+    #: True when a projection-refreshing run succeeded within STALE_MINUTES: the only condition under which a "late delivery" alert may close.
+    recovered: bool = False
     details: dict = field(default_factory=dict)
 
     def as_dict(self) -> dict:
@@ -111,14 +126,19 @@ def _dt(s: str | None) -> datetime | None:
 
 
 def parse_runs(payload: dict) -> list[RunInfo]:
-    """GitHub ``workflow runs`` JSON -> RunInfo, newest first. Malformed rows are dropped, never raised on."""
+    """GitHub ``workflow runs`` JSON -> RunInfo, newest first. Malformed rows, pull-request runs and dry runs are dropped, never raised on."""
     out: list[RunInfo] = []
     for r in payload.get("workflow_runs") or []:
         try:
             created = _dt(r["created_at"])
             if created is None:
                 continue
-            out.append(RunInfo(int(r["id"]), str(r.get("status") or ""), r.get("conclusion"), str(r.get("event") or ""), created, _dt(r.get("updated_at"))))
+            ri = RunInfo(int(r["id"]), str(r.get("status") or ""), r.get("conclusion"), str(r.get("event") or ""), created, _dt(r.get("updated_at")),
+                         str(r.get("display_title") or r.get("name") or ""))
+            # pull-request dry runs and human dry runs write nothing: they are neither "in flight" work nor a fresh projection, and they must
+            # not count against the dispatch cap
+            if ri.event in ("schedule", "workflow_dispatch") and not ri.dry_run:
+                out.append(ri)
         except (KeyError, TypeError, ValueError):
             continue
     out.sort(key=lambda x: x.created_at, reverse=True)
@@ -127,7 +147,7 @@ def parse_runs(payload: dict) -> list[RunInfo]:
 
 def median_e2e_minutes(runs: list[RunInfo], n: int = 6) -> float | None:
     """Median request-to-completion of the last ``n`` successful runs (None when there is no history)."""
-    vals = [m for m in (r.e2e_minutes() for r in runs if r.succeeded) if m is not None][:n]
+    vals = [m for m in (r.e2e_minutes() for r in runs if r.succeeded and r.projects) if m is not None][:n]
     return statistics.median(vals) if vals else None
 
 
@@ -154,13 +174,13 @@ def decide(
     """Pure decision: should the projection chain be requested now? ``tips`` are all start times of the current and next slate."""
     d = _decide(now, tips, runs, dispatched_today=dispatched_today, last_dispatch_at=last_dispatch_at)
     now = now.astimezone(UTC)
+    ok = next((r for r in runs if r.succeeded and r.projects), None)
+    asof = ok.data_asof() if ok else None
+    recovered = asof is not None and (now - asof) <= timedelta(minutes=STALE_MINUTES)
     nxt = _next_tip(now, tips)
-    if nxt is not None and (nxt - now) <= timedelta(hours=STALE_WITHIN_HOURS) and not any(r.in_flight and (now - r.created_at) < timedelta(hours=STUCK_HOURS) for r in runs):
-        ok = next((r for r in runs if r.succeeded), None)
-        asof = ok.data_asof() if ok else None
-        if asof is None or (now - asof) > timedelta(minutes=STALE_MINUTES):
-            return Decision(**{**d.__dict__, "stale": True})
-    return d
+    stale = bool(nxt is not None and (nxt - now) <= timedelta(hours=STALE_WITHIN_HOURS) and not any(r.in_flight and (now - r.created_at) < timedelta(hours=STUCK_HOURS) for r in runs)
+                 and not recovered)
+    return Decision(**{**d.__dict__, "stale": stale, "recovered": recovered})
 
 
 def _decide(
@@ -174,7 +194,9 @@ def _decide(
     now = now.astimezone(UTC)
     med = median_e2e_minutes(runs)
     in_flight = [r for r in runs if r.in_flight and (now - r.created_at) < timedelta(hours=STUCK_HOURS)]
-    last_ok = next((r for r in runs if r.succeeded), None)
+    last_any = next((r for r in runs if r.succeeded), None)                       # any stages: covers "was the slate settled"
+    last_any_asof = last_any.data_asof() if last_any else None
+    last_ok = next((r for r in runs if r.succeeded and r.projects), None)         # refreshed projections: drives pregame freshness
     last_ok_asof = last_ok.data_asof() if last_ok else None
     age = (now - last_ok_asof).total_seconds() / 60.0 if last_ok_asof else None
     nxt = _next_tip(now, tips)
@@ -185,10 +207,10 @@ def _decide(
     past = sorted(t for t in tips if t <= now)
     if past and (nxt is None or h is None or h > 0.25):
         settle_due_at = past[-1] + timedelta(hours=SETTLE_AFTER_LAST_TIP_HOURS)
-        if now >= settle_due_at and (last_ok_asof is None or last_ok_asof < settle_due_at):
+        if now >= settle_due_at and (last_any_asof is None or last_any_asof < settle_due_at):
             if in_flight:
                 return Decision("wait", "SETTLE_WAIT_IN_FLIGHT", f"settle run is due but run #{in_flight[0].id} ({in_flight[0].status}) is already in flight", SETTLE_STAGES, **base)
-            gate = _throttle(now, dispatched_today, last_dispatch_at)
+            gate = _backoff(runs, now) or _throttle(now, dispatched_today, last_dispatch_at)
             if gate:
                 return Decision("wait", gate[0], gate[1], SETTLE_STAGES, **base)
             return Decision("dispatch", "SETTLE_DUE", f"slate finished (last start {past[-1].isoformat()}) and no successful run since {settle_due_at.isoformat()}", SETTLE_STAGES, **base)
@@ -207,11 +229,28 @@ def _decide(
         return Decision("idle", "TOO_LATE_FOR_PREGAME", f"puck drop in {h * 60:.0f} min; a run requested now would not finish first (lead {lead:.0f} min); the previous run is the final one", **base)
     if age is not None and age < want:
         return Decision("idle", "FRESH_ENOUGH", f"newest successful run is {age:.0f} min old (< {want:.0f} min wanted at T-{h:.1f} h)", **base)
-    gate = _throttle(now, dispatched_today, last_dispatch_at)
+    gate = _backoff(runs, now) or _throttle(now, dispatched_today, last_dispatch_at)
     if gate:
         return Decision("wait", gate[0], gate[1], **base)
     why = "no successful run on record" if age is None else f"newest successful run is {age:.0f} min old (>= {want:.0f} min wanted at T-{h:.1f} h)"
     return Decision("dispatch", "REFRESH_DUE", why, PREGAME_STAGES, **base)
+
+
+FAILURE_BACKOFF_RUNS = 3
+FAILURE_BACKOFF_MINUTES = 90.0
+
+
+def _backoff(runs: list[RunInfo], now: datetime) -> tuple[str, str] | None:
+    """A chain that keeps failing is not re-requested every few minutes (each attempt can hold a runner for up to 150 min and the daily cap would
+    be spent on a bug): after ``FAILURE_BACKOFF_RUNS`` consecutive failed runs, wait ``FAILURE_BACKOFF_MINUTES`` from the newest failure.
+    Cancelled runs (the gate's own no-op marker, a replaced pending run) are not failures."""
+    done = [r for r in runs if r.status == "completed" and r.conclusion in ("success", "failure", "timed_out")]
+    last = done[:FAILURE_BACKOFF_RUNS]
+    if len(last) == FAILURE_BACKOFF_RUNS and all(r.conclusion != "success" for r in last) and last[0].updated_at is not None:
+        since = (now - last[0].updated_at).total_seconds() / 60.0
+        if since < FAILURE_BACKOFF_MINUTES:
+            return "FAILURE_BACKOFF", f"the last {FAILURE_BACKOFF_RUNS} runs failed; waiting {FAILURE_BACKOFF_MINUTES - since:.0f} more min before another request"
+    return None
 
 
 def _throttle(now: datetime, dispatched_today: int, last_dispatch_at: datetime | None) -> tuple[str, str] | None:
@@ -233,7 +272,7 @@ def _headers(token: str) -> dict:
     return {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
 
 
-def list_runs_via_api(repo: str, token: str, workflow: str = PF_WORKFLOW, per_page: int = 30) -> list[RunInfo] | None:
+def list_runs_via_api(repo: str, token: str, workflow: str = PF_WORKFLOW, per_page: int = 100) -> list[RunInfo] | None:
     """Recent runs of the workflow, newest first; None when the API could not be read (the caller must then not dispatch blindly)."""
     req = urllib.request.Request(f"https://api.github.com/repos/{repo}/actions/workflows/{workflow}/runs?per_page={per_page}", headers=_headers(token))
     try:
@@ -271,7 +310,7 @@ def tips_from_schedule_files(paths: list[Path]) -> list[datetime]:
                         continue
                     try:
                         row = json.loads(line)
-                        if str(row.get("game_type", 2)) not in ("2", "3"):
+                        if str(row.get("season_type", "regular")).lower() not in ("regular", "playoffs", "playoff", "post", "2", "3"):
                             continue
                         t = _dt(row.get("start_time_utc"))
                         if t is not None:
@@ -357,6 +396,7 @@ def main(argv: list[str] | None = None) -> int:
             if a.mode == "gate":
                 out = decide(now, tips, runs).as_dict()
                 run = out["action"] == "dispatch"
+                out["stages"] = PREGAME_STAGES          # a cron run is never a partial run: it must also count as a fresh projection
             else:
                 n, last = count_recent_dispatches(runs, now)
                 out = decide(now, tips, runs, dispatched_today=n, last_dispatch_at=last).as_dict()
@@ -365,7 +405,7 @@ def main(argv: list[str] | None = None) -> int:
     print(json.dumps(out, indent=1, default=str))
     if a.github_output:
         with open(a.github_output, "a") as f:
-            f.write(f"action={out['action']}\ncode={out['code']}\nstages={out.get('stages', PREGAME_STAGES)}\nrun={'true' if run else 'false'}\nstale={'true' if out.get('stale') else 'false'}\n")
+            f.write(f"action={out['action']}\ncode={out['code']}\nstages={out.get('stages', PREGAME_STAGES)}\nrun={'true' if run else 'false'}\nstale={'true' if out.get('stale') else 'false'}\nrecovered={'true' if out.get('recovered') else 'false'}\n")
     return 0
 
 
