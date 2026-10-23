@@ -164,7 +164,7 @@ def test_a_shift_whose_settle_keeps_failing_is_recorded_as_failed(tmp_path):
 
 def test_a_failing_research_job_leaves_the_shift_green_but_degraded(tmp_path):
     clock = FakeClock(T0)
-    w = _with_jobs(make_worker(tmp_path, clock, "run-1", lifetime=45.0), clock, {"evaluate"})
+    w = _with_jobs(make_worker(tmp_path, clock, "run-1", lifetime=120.0), clock, {"evaluate"})  # long enough for the 40 min evaluate budget (the shift-deadline guard is tested in test_worker_job_guards)
     w.decide_fn = lambda: {"evaluate": True, "simulate": True}
     res = w.run()
     assert res.as_dict()["health"]["state"] == H.DEGRADED

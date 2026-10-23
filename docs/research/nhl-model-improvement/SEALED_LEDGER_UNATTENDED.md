@@ -1,3 +1,5 @@
+> **SUPERSEDED 2026-10-22 — not on the active roadmap.** The owner retired the sealed-ledger activation path (no keys, witnesses, deploy credentials or waiting for prospective sample thresholds). This document is preserved unchanged below for reproducibility and audit; the workflows it describes stay dormant. See `docs/research/ROADMAP_RESET_2026-10-22.md`.
+
 # Sealed ledger — unattended operation (architecture, permissions, exceptions, one-time setup)
 
 > RESEARCH ONLY · shadow · **nothing here is activated**: the schedule is commented out, `research/sealed_ledger/recipients.txt` holds no key, no ledger repository, deploy key or variable exists. The NHL betting engine stays PASS-only; no stake, cap, model weight or recommendation can be changed by anything described here. This document supersedes the publication path (environment `sealed-ledger`, branch `model-research-sealed-ledger`) of `SEALED_LEDGER_DESIGN.md`; the cryptography, manifest, checkpoints, audit and threat model there still apply.
