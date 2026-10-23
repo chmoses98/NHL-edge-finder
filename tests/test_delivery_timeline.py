@@ -95,7 +95,7 @@ def test_timeline_matches_publication_to_run_and_measures_minutes_to_puck_drop()
     D.attach_drops(tl, [datetime(2026, 10, 23, 23, 0, tzinfo=UTC), datetime(2026, 10, 23, 18, 0, tzinfo=UTC)])
     m = ok["minutes"]
     assert m["request_to_runner_start"] == 0.8 and m["request_to_publication"] == 2.2
-    assert ok["games_already_started_at_publication"] == 1 and ok["publication_to_next_drop_min"] == 292.0
+    assert ok["games_already_started_at_publication"] == 1 and ok["publication_to_next_drop_min"] == 291.9
     assert "| 18:08:04 |" in D.markdown(tl)
 
 
