@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-23T12:12:39Z · thesis-postmortem-2.0 · rows (all generations) 25299
+evaluated 2026-10-23T13:36:34Z · thesis-postmortem-2.0 · rows (all generations) 25299
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -33,9 +33,16 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020166 MTL @ CHI: NOT_STARTED · snapshot snap-c138df1193613103847a @ 2026-10-23T12:05:24Z
+#### game 2026020166 MTL @ CHI: NOT_STARTED · snapshot snap-4da428aa11dbbd2b9337 @ 2026-10-23T13:02:53Z
 
-#### game 2026020167 TBL @ COL: NOT_STARTED · snapshot snap-c138df1193613103847a @ 2026-10-23T12:05:24Z
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT23MTLCHI-CHIRGREENE20-1|yes | FUNDED_RESEARCH | 2 | 4.77 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no | SHADOW_ONLY | 0 | 12.79 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes | SHADOW_ONLY | 0 | 4.88 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT23MTLCHI-CHICBEDARD98-1|no | SHADOW_ONLY | 0 | 9.43 | - | - | - | DIRECT | - | - |
+
+#### game 2026020167 TBL @ COL: NOT_STARTED · snapshot snap-4da428aa11dbbd2b9337 @ 2026-10-23T13:02:53Z
 
 ## Slate 2026-10-22: **COMPLETE — 12/12 games evaluated**
 
