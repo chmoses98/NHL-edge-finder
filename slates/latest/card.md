@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-23T13:56:26Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-23T14:56:26Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,12 +10,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 58.24 | +8.91 | +2.89 | -4.44 | 0.406 | -33.47 | -33.47 | 22.47 |
-| B thesis-diversified (joint) ← optimiser card | 39.45 | +5.91 | +1.75 | +1.90 | 0.657 | -20.78 | -21.41 | 15.26 |
-| C best expression per thesis | 35.07 | +4.47 | +1.02 | +6.49 | 0.662 | -15.94 | -16.80 | 8.99 |
-| R FUNDED research stakes | 3.00 | +0.72 | +0.36 | -3.00 | 0.415 | -3.00 | -3.00 | 0.00 |
+| A highest edges (independent) | 58.24 | +5.84 | +1.39 | +4.04 | 0.681 | -18.30 | -37.64 | 11.08 |
+| B thesis-diversified (joint) ← optimiser card | 28.77 | +3.54 | +1.22 | +4.34 | 0.594 | -11.65 | -28.77 | 10.71 |
+| C best expression per thesis | 26.72 | +3.26 | +0.89 | +3.06 | 0.669 | -12.27 | -26.73 | 7.81 |
+| R FUNDED research stakes | 4.00 | +0.51 | +0.23 | -4.00 | 0.476 | -4.00 | -4.00 | 0.00 |
 
-## MTL @ CHI  ·  10000 joint draws  ·  406 bet sides mapped, 4 +EV candidates, 4 on card
+## MTL @ CHI  ·  10000 joint draws  ·  406 bet sides mapped, 7 +EV candidates, 4 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -33,25 +33,25 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Ryan Greene: 1+ goals YES | 11 | 0.154 | 0.135 | +0.037 | +0.019 | $4.61 | FUNDED_RESEARCH | $2 | CHI:OFFENSE_4PLUS | FRAGILE (0.24) | EVIDENCE_STRONGER | D |
-| Patrick Kane: 1+ assists NO | 58 | 0.689 | 0.615 | +0.092 | +0.018 | $13.54 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED | $0 | CHI:SUPPRESSED | DIRECT (0.83) | EVIDENCE_MIXED | D |
-| Oliver Kapanen: 1+ assists NO | 67 | 0.772 | 0.699 | +0.087 | +0.014 | $12.80 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED | $0 | MTL:SUPPRESSED | DIRECT (0.89) | EVIDENCE_MIXED | D |
-| Tyler Bertuzzi: 1+ goals YES | 26 | 0.298 | 0.286 | +0.024 | +0.013 | $4.93 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | CHI:OFFENSE_4PLUS | FRAGILE (0.45) | EVIDENCE_STRONGER | D |
-- **Ryan Greene: 1+ goals YES** — thesis: CHI offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes; why: higher confidence-adjusted growth (7.19 vs 1.70 bp); relationships: KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no: MOSTLY_INDEPENDENT (phi -0.012); KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no: MOSTLY_INDEPENDENT (phi 0.014); KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes: MOSTLY_INDEPENDENT (phi 0.009); failure: CHI offense suppressed (<= 2 goals)
-- **Patrick Kane: 1+ assists NO** — thesis: CHI offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT23MTLCHI-CHIAFRONDELL16-1|no; why: higher confidence-adjusted growth (2.92 vs 0.14 bp); alternative not eligible: confidence-adjusted EV +0.0036 below the 0.010/contract floor; relationships: KXNHLGOAL-26OCT23MTLCHI-CHIRGREENE20-1|yes: MOSTLY_INDEPENDENT (phi -0.012); KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no: MOSTLY_INDEPENDENT (phi -0.003); KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.12); failure: CHI offense succeeds (4+ goals)
-- **Oliver Kapanen: 1+ assists NO** — thesis: MTL offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT23MTLCHI-MTLCCAUFIELD13-1|no; why: higher confidence-adjusted growth (1.94 vs 0.79 bp); alternative not eligible: confidence-adjusted EV +0.0093 below the 0.010/contract floor; relationships: KXNHLGOAL-26OCT23MTLCHI-CHIRGREENE20-1|yes: MOSTLY_INDEPENDENT (phi 0.014); KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no: MOSTLY_INDEPENDENT (phi -0.003); KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes: MOSTLY_INDEPENDENT (phi -0.013); failure: MTL offense succeeds (4+ goals)
-- **Tyler Bertuzzi: 1+ goals YES** — thesis: CHI offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes; why: higher confidence-adjusted growth (1.70 vs 0.78 bp); despite a smaller raw edge (+0.024 vs +0.026/contract); alternative not eligible: confidence-adjusted EV +0.0078 below the 0.010/contract floor; relationships: KXNHLGOAL-26OCT23MTLCHI-CHIRGREENE20-1|yes: MOSTLY_INDEPENDENT (phi 0.009); KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no: INTENTIONAL_DIVERSIFIER (phi -0.12); KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no: MOSTLY_INDEPENDENT (phi -0.013); failure: CHI offense suppressed (<= 2 goals)
+| Anton Frondell: 1+ goals YES | 20 | 0.248 | 0.226 | +0.036 | +0.015 | $4.58 | FUNDED_RESEARCH | $2 | CHI:OFFENSE_4PLUS | FRAGILE (0.38) | EVIDENCE_STRONGER | D |
+| Frank Nazar: 1+ goals YES | 21 | 0.248 | 0.236 | +0.026 | +0.015 | $4.58 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | CHI:OFFENSE_4PLUS | FRAGILE (0.38) | EVIDENCE_STRONGER | D |
+| Tyler Bertuzzi: 1+ goals YES | 26 | 0.298 | 0.286 | +0.024 | +0.013 | $4.78 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | CHI:OFFENSE_4PLUS | FRAGILE (0.45) | EVIDENCE_STRONGER | D |
+| Patrick Kane: 1+ assists NO | 59 | 0.689 | 0.618 | +0.082 | +0.011 | $10.39 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED | $0 | CHI:SUPPRESSED | DIRECT (0.83) | EVIDENCE_MIXED | D |
+- **Anton Frondell: 1+ goals YES** — thesis: CHI offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT23MTLCHI-CHIFNAZAR91-1|yes; why: higher confidence-adjusted growth (2.74 vs 2.64 bp); relationships: KXNHLGOAL-26OCT23MTLCHI-CHIFNAZAR91-1|yes: MOSTLY_INDEPENDENT (phi 0.007); KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes: MOSTLY_INDEPENDENT (phi -0.013); KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no: INTENTIONAL_DIVERSIFIER (phi -0.074); failure: CHI offense suppressed (<= 2 goals)
+- **Frank Nazar: 1+ goals YES** — thesis: CHI offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes; why: second expression of the same thesis: KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes has the higher standalone adjusted growth (2.74 vs 2.64 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.007); they share one thesis budget; relationships: KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes: MOSTLY_INDEPENDENT (phi 0.007); KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes: MOSTLY_INDEPENDENT (phi 0.007); KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no: MOSTLY_INDEPENDENT (phi -0.042); failure: CHI offense suppressed (<= 2 goals)
+- **Tyler Bertuzzi: 1+ goals YES** — thesis: CHI offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes; why: second expression of the same thesis: KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes has the higher standalone adjusted growth (2.74 vs 1.70 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it -0.013); they share one thesis budget; relationships: KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes: MOSTLY_INDEPENDENT (phi -0.013); KXNHLGOAL-26OCT23MTLCHI-CHIFNAZAR91-1|yes: MOSTLY_INDEPENDENT (phi 0.007); KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no: INTENTIONAL_DIVERSIFIER (phi -0.12); failure: CHI offense suppressed (<= 2 goals)
+- **Patrick Kane: 1+ assists NO** — thesis: CHI offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT23MTLCHI-CHICBEDARD98-1|no; why: higher confidence-adjusted growth (1.17 vs 1.07 bp); relationships: KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.074); KXNHLGOAL-26OCT23MTLCHI-CHIFNAZAR91-1|yes: MOSTLY_INDEPENDENT (phi -0.042); KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.12); failure: CHI offense succeeds (4+ goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, balanced shots · high event (8+) · decided (2+) 0.10.
-- thesis CHI:SUPPRESSED (p 0.4121): highest fidelity KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no [DIRECT], best adjusted EV KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no (same contract)
-- thesis MTL:SUPPRESSED (p 0.3673): highest fidelity KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no [DIRECT], best adjusted EV KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no (same contract)
-- thesis CHI:OFFENSE_4PLUS (p 0.3733): highest fidelity KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes [FRAGILE], best adjusted EV KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes (same contract)
-- KXNHLGOAL-26OCT23MTLCHI-CHIRGREENE20-1|yes: FUNDED_RESEARCH; family TRUSTED; loses 76% of the draws where the thesis happens; fragile player expression; opposing: failure thesis CHI:SUPPRESSED (p 0.4121, phi -0.184)
-- KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED; family MIXED; loses 17% of the draws where the thesis happens; LARGE MARKET DISAGREEMENT 11.4 pts; fragile player expression; opposing: failure thesis CHI:OFFENSE_4PLUS (p 0.3733, phi -0.239)
-- KXNHLAST-26OCT23MTLCHI-MTLOKAPANEN91-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED; family MIXED; loses 11% of the draws where the thesis happens; LARGE MARKET DISAGREEMENT 11.2 pts; fragile player expression; opposing: failure thesis MTL:OFFENSE_4PLUS (p 0.412, phi -0.21)
+- thesis CHI:OFFENSE_4PLUS (p 0.3733): highest fidelity KXNHLSPREAD-26OCT23MTLCHI-MTL2|no [DIRECT], best adjusted EV KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
+- thesis MTL:SUPPRESSED (p 0.3673): highest fidelity KXNHLSPREAD-26OCT23MTLCHI-MTL2|no [DIRECT], best adjusted EV KXNHLAST-26OCT23MTLCHI-MTLCCAUFIELD13-1|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
+- thesis CHI:WINS (p 0.4728): highest fidelity KXNHLSPREAD-26OCT23MTLCHI-MTL2|no [STRUCTURAL], best adjusted EV KXNHLAST-26OCT23MTLCHI-MTLCCAUFIELD13-1|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
+- KXNHLGOAL-26OCT23MTLCHI-CHIAFRONDELL16-1|yes: FUNDED_RESEARCH; family TRUSTED; loses 62% of the draws where the thesis happens; fragile player expression; opposing: failure thesis CHI:SUPPRESSED (p 0.4121, phi -0.233)
+- KXNHLGOAL-26OCT23MTLCHI-CHIFNAZAR91-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 62% of the draws where the thesis happens; fragile player expression; opposing: failure thesis CHI:SUPPRESSED (p 0.4121, phi -0.242)
 - KXNHLGOAL-26OCT23MTLCHI-CHITBERTUZZI59-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 55% of the draws where the thesis happens; fragile player expression; opposing: failure thesis CHI:SUPPRESSED (p 0.4121, phi -0.262)
+- KXNHLAST-26OCT23MTLCHI-CHIPKANE88-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED; family MIXED; loses 17% of the draws where the thesis happens; LARGE MARKET DISAGREEMENT 10.9 pts; fragile player expression; opposing: failure thesis CHI:OFFENSE_4PLUS (p 0.3733, phi -0.239)
 
-portfolios: A EV +8.23 (adj +2.59) on $50.00, P(profit) 0.7136, adj growth 20.3 bp · B EV +5.61 (adj +1.62) on $35.88, P(profit) 0.7136, adj growth 14.1 bp · C EV +4.17 (adj +0.89) on $31.50, P(profit) 0.6623, adj growth 7.8 bp · R EV +0.63 (adj +0.32) on $2.00, P(profit) 0.1539, adj growth 9.8 bp
+portfolios: A EV +5.15 (adj +1.01) on $50.00, P(profit) 0.5867, adj growth 8.2 bp · B EV +3.17 (adj +1.02) on $24.33, P(profit) 0.4593, adj growth 8.9 bp · C EV +2.89 (adj +0.69) on $22.28, P(profit) 0.5598, adj growth 6.0 bp · R EV +0.34 (adj +0.14) on $2.00, P(profit) 0.2476, adj growth 4.2 bp
 
 ## TBL @ COL  ·  10000 joint draws  ·  414 bet sides mapped, 1 +EV candidates, 1 on card
 
@@ -71,13 +71,13 @@ portfolios: A EV +8.23 (adj +2.59) on $50.00, P(profit) 0.7136, adj growth 20.3 
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Artturi Lehkonen: 1+ goals YES | 27 | 0.307 | 0.294 | +0.024 | +0.011 | $3.57 | FUNDED_RESEARCH | $1 | COL:OFFENSE_4PLUS | FRAGILE (0.43) | EVIDENCE_STRONGER | D |
-- **Artturi Lehkonen: 1+ goals YES** — thesis: COL offense succeeds (4+ goals); alternative: KXNHLSPREAD-26OCT23TBCOL-TB2|no; why: higher confidence-adjusted growth (1.18 vs 0.87 bp); despite a smaller raw edge (+0.024 vs +0.036/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; alternative not eligible: confidence-adjusted EV +0.0086 below the 0.010/contract floor; relationships: only recommended bet in this game; failure: COL offense suppressed (<= 2 goals)
+| Artturi Lehkonen: 1+ goals YES | 27 | 0.307 | 0.297 | +0.024 | +0.013 | $4.44 | FUNDED_RESEARCH | $2 | COL:OFFENSE_4PLUS | FRAGILE (0.43) | EVIDENCE_STRONGER | D |
+- **Artturi Lehkonen: 1+ goals YES** — thesis: COL offense succeeds (4+ goals); alternative: KXNHLSPREAD-26OCT23TBCOL-TB2|no; why: higher confidence-adjusted growth (1.81 vs 0.87 bp); despite a smaller raw edge (+0.024 vs +0.036/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; alternative not eligible: confidence-adjusted EV +0.0086 below the 0.010/contract floor; relationships: only recommended bet in this game; failure: COL offense suppressed (<= 2 goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, COL shot control · normal event (5-7) · decided (2+) 0.10.
 - thesis COL:OFFENSE_4PLUS (p 0.4464): highest fidelity KXNHLGOAL-26OCT23TBCOL-COLALEHKONEN62-1|yes [FRAGILE], best adjusted EV KXNHLGOAL-26OCT23TBCOL-COLALEHKONEN62-1|yes (same contract)
 - KXNHLGOAL-26OCT23TBCOL-COLALEHKONEN62-1|yes: FUNDED_RESEARCH; family TRUSTED; loses 57% of the draws where the thesis happens; fragile player expression; opposing: failure thesis COL:SUPPRESSED (p 0.3368, phi -0.233)
 
-portfolios: A EV +0.69 (adj +0.30) on $8.24, P(profit) 0.3074, adj growth 2.2 bp · B EV +0.30 (adj +0.13) on $3.57, P(profit) 0.3074, adj growth 1.2 bp · C EV +0.30 (adj +0.13) on $3.57, P(profit) 0.3074, adj growth 1.2 bp · R EV +0.08 (adj +0.04) on $1.00, P(profit) 0.3074, adj growth 1.3 bp
+portfolios: A EV +0.69 (adj +0.38) on $8.24, P(profit) 0.3074, adj growth 2.9 bp · B EV +0.37 (adj +0.20) on $4.44, P(profit) 0.3074, adj growth 1.8 bp · C EV +0.37 (adj +0.20) on $4.44, P(profit) 0.3074, adj growth 1.8 bp · R EV +0.17 (adj +0.09) on $2.00, P(profit) 0.3074, adj growth 2.8 bp
 
 _RESEARCH_ONLY thesis card: B stakes are optimiser suggestions for a nominal bankroll; R (FUNDED_RESEARCH) stakes are whole-dollar research stakes under research governance. Nothing is placed or routed. Every recommended bet is +EV at its executable ask under the model AND the confidence-adjusted probability; the card is emitted only when the completion gate passes._
