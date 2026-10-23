@@ -1,0 +1,1688 @@
+{
+  "banner": "HISTORICAL, NOT PROSPECTIVE. These numbers are a walk-forward replay on past seasons and use NO market data (no Kalshi NHL prices have been ingested). They say nothing about edge versus a market.",
+  "authority": "RESEARCH_ONLY",
+  "generated_at_utc": "2026-10-23T02:51:56Z",
+  "model_version": "DATA_ONLY_V1",
+  "feature_version": "nhl-features-1.0",
+  "sim_version": "nhl-sim-1.1",
+  "n_sims": 200,
+  "base_seed": 20240101,
+  "test_seasons": [
+    2025
+  ],
+  "season_convention": "MoneyPuck start year (2024 == NHL 2024-25)",
+  "training": "every MoneyPuck 'all'-situation row dated strictly before each game's date (walk-forward); regular-season rows only",
+  "seasons_in_moneypuck_log": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "seasons_in_nhl_results": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "n_log_team_games": 10496,
+  "skipped": {
+    "not_regular_season": 105,
+    "not_final": 0,
+    "missing_score_or_period": 0,
+    "unresolved_team": 0
+  },
+  "total_lines": [
+    5.5,
+    6.5
+  ],
+  "goalie_note": "Goalie factors are fixed at 1.0 for every game: the history archive has no point-in-time starting-goalie data, so the goalie term of DATA_ONLY_V1 is switched off in this replay. Live predictions include it.",
+  "market_note": "No market comparison: no historical Kalshi NHL prices have been ingested.",
+  "baselines": {
+    "constant_home": "walk-forward home-win rate over prior final regular-season games",
+    "league_poisson": "same simulator with league-average lambdas (as_of game date) and the home adjustment only"
+  },
+  "n_games": 1312,
+  "n_games_cold_team": 0,
+  "metrics": {
+    "model": {
+      "n": 1312,
+      "moneyline": {
+        "n": 1312,
+        "mean_p": 0.5449466463414634,
+        "mean_y": 0.5221036585365854,
+        "brier": 0.24665331554878048,
+        "log_loss": 0.6863478026282809,
+        "ece": 0.02407774390243897,
+        "calibration": [
+          {
+            "bin_lo": 0.0,
+            "bin_hi": 0.1,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.1,
+            "bin_hi": 0.2,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.2,
+            "bin_hi": 0.30000000000000004,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.30000000000000004,
+            "bin_hi": 0.4,
+            "n": 14,
+            "mean_p": 0.3707142857142857,
+            "mean_y": 0.21428571428571427,
+            "gap": -0.15642857142857144
+          },
+          {
+            "bin_lo": 0.4,
+            "bin_hi": 0.5,
+            "n": 286,
+            "mean_p": 0.4620454545454545,
+            "mean_y": 0.46153846153846156,
+            "gap": -0.0005069930069929174
+          },
+          {
+            "bin_lo": 0.5,
+            "bin_hi": 0.6000000000000001,
+            "n": 740,
+            "mean_p": 0.5462972972972973,
+            "mean_y": 0.5175675675675676,
+            "gap": -0.028729729729729647
+          },
+          {
+            "bin_lo": 0.6000000000000001,
+            "bin_hi": 0.7000000000000001,
+            "n": 255,
+            "mean_p": 0.6320980392156863,
+            "mean_y": 0.6039215686274509,
+            "gap": -0.02817647058823536
+          },
+          {
+            "bin_lo": 0.7000000000000001,
+            "bin_hi": 0.8,
+            "n": 17,
+            "mean_p": 0.7170588235294117,
+            "mean_y": 0.7647058823529411,
+            "gap": 0.047647058823529376
+          },
+          {
+            "bin_lo": 0.8,
+            "bin_hi": 0.9,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.9,
+            "bin_hi": 1.0,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          }
+        ]
+      },
+      "overtime": {
+        "n": 1312,
+        "mean_p": 0.17342225609756096,
+        "mean_y": 0.24847560975609756,
+        "brier": 0.1921607088414634,
+        "log_loss": 0.5788309897414389,
+        "ece": 0.07532774390243904,
+        "calibration": [
+          {
+            "bin_lo": 0.0,
+            "bin_hi": 0.1,
+            "n": 2,
+            "mean_p": 0.09,
+            "mean_y": 0.0,
+            "gap": -0.09
+          },
+          {
+            "bin_lo": 0.1,
+            "bin_hi": 0.2,
+            "n": 1058,
+            "mean_p": 0.1640500945179584,
+            "mean_y": 0.24763705103969755,
+            "gap": 0.08358695652173914
+          },
+          {
+            "bin_lo": 0.2,
+            "bin_hi": 0.30000000000000004,
+            "n": 252,
+            "mean_p": 0.21343253968253967,
+            "mean_y": 0.25396825396825395,
+            "gap": 0.040535714285714286
+          },
+          {
+            "bin_lo": 0.30000000000000004,
+            "bin_hi": 0.4,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.4,
+            "bin_hi": 0.5,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.5,
+            "bin_hi": 0.6000000000000001,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.6000000000000001,
+            "bin_hi": 0.7000000000000001,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.7000000000000001,
+            "bin_hi": 0.8,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.8,
+            "bin_hi": 0.9,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.9,
+            "bin_hi": 1.0,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          }
+        ]
+      },
+      "totals": {
+        "5.5": {
+          "n": 1312,
+          "mean_p": 0.5652629573170732,
+          "mean_y": 0.573170731707317,
+          "brier": 0.2450832888719512,
+          "log_loss": 0.6834119742686844,
+          "ece": 0.04190929878048775,
+          "calibration": [
+            {
+              "bin_lo": 0.0,
+              "bin_hi": 0.1,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.1,
+              "bin_hi": 0.2,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.2,
+              "bin_hi": 0.30000000000000004,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.30000000000000004,
+              "bin_hi": 0.4,
+              "n": 1,
+              "mean_p": 0.39,
+              "mean_y": 0.0,
+              "gap": -0.39
+            },
+            {
+              "bin_lo": 0.4,
+              "bin_hi": 0.5,
+              "n": 160,
+              "mean_p": 0.46918750000000004,
+              "mean_y": 0.5,
+              "gap": 0.030812499999999965
+            },
+            {
+              "bin_lo": 0.5,
+              "bin_hi": 0.6000000000000001,
+              "n": 770,
+              "mean_p": 0.550974025974026,
+              "mean_y": 0.587012987012987,
+              "gap": 0.03603896103896098
+            },
+            {
+              "bin_lo": 0.6000000000000001,
+              "bin_hi": 0.7000000000000001,
+              "n": 365,
+              "mean_p": 0.6314109589041095,
+              "mean_y": 0.5753424657534246,
+              "gap": -0.05606849315068485
+            },
+            {
+              "bin_lo": 0.7000000000000001,
+              "bin_hi": 0.8,
+              "n": 16,
+              "mean_p": 0.715625,
+              "mean_y": 0.625,
+              "gap": -0.09062499999999996
+            },
+            {
+              "bin_lo": 0.8,
+              "bin_hi": 0.9,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.9,
+              "bin_hi": 1.0,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            }
+          ]
+        },
+        "6.5": {
+          "n": 1312,
+          "mean_p": 0.4546303353658537,
+          "mean_y": 0.46875,
+          "brier": 0.25010607850609756,
+          "log_loss": 0.6934159198327546,
+          "ece": 0.03854801829268293,
+          "calibration": [
+            {
+              "bin_lo": 0.0,
+              "bin_hi": 0.1,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.1,
+              "bin_hi": 0.2,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.2,
+              "bin_hi": 0.30000000000000004,
+              "n": 3,
+              "mean_p": 0.29,
+              "mean_y": 0.3333333333333333,
+              "gap": 0.043333333333333335
+            },
+            {
+              "bin_lo": 0.30000000000000004,
+              "bin_hi": 0.4,
+              "n": 205,
+              "mean_p": 0.3680487804878048,
+              "mean_y": 0.4292682926829268,
+              "gap": 0.061219512195122006
+            },
+            {
+              "bin_lo": 0.4,
+              "bin_hi": 0.5,
+              "n": 793,
+              "mean_p": 0.44656998738965953,
+              "mean_y": 0.47414880201765447,
+              "gap": 0.02757881462799494
+            },
+            {
+              "bin_lo": 0.5,
+              "bin_hi": 0.6000000000000001,
+              "n": 299,
+              "mean_p": 0.5305016722408027,
+              "mean_y": 0.4816053511705686,
+              "gap": -0.04889632107023412
+            },
+            {
+              "bin_lo": 0.6000000000000001,
+              "bin_hi": 0.7000000000000001,
+              "n": 12,
+              "mean_p": 0.6170833333333333,
+              "mean_y": 0.5,
+              "gap": -0.11708333333333332
+            },
+            {
+              "bin_lo": 0.7000000000000001,
+              "bin_hi": 0.8,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.8,
+              "bin_hi": 0.9,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.9,
+              "bin_hi": 1.0,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            }
+          ]
+        }
+      },
+      "total": {
+        "n": 1312,
+        "mae": 1.8476981707317075,
+        "bias": -0.01333079268292684,
+        "mean_expected": 6.240480182926829,
+        "mean_actual": 6.253810975609756,
+        "sd_actual": 2.2973475136374386
+      },
+      "regulation_moneyline_given_no_ot": {
+        "n": 986,
+        "mean_p": 0.5528922958508311,
+        "mean_y": 0.5324543610547667,
+        "brier": 0.24191555983054241,
+        "log_loss": 0.6766013476346844,
+        "ece": 0.022048438634305056
+      }
+    },
+    "league_poisson": {
+      "n": 1312,
+      "moneyline": {
+        "n": 1312,
+        "mean_p": 0.542282774390244,
+        "mean_y": 0.5221036585365854,
+        "brier": 0.251831650152439,
+        "log_loss": 0.6969088012995692,
+        "ece": 0.022831554878048832,
+        "calibration": [
+          {
+            "bin_lo": 0.0,
+            "bin_hi": 0.1,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.1,
+            "bin_hi": 0.2,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.2,
+            "bin_hi": 0.30000000000000004,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.30000000000000004,
+            "bin_hi": 0.4,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.4,
+            "bin_hi": 0.5,
+            "n": 127,
+            "mean_p": 0.4823622047244094,
+            "mean_y": 0.49606299212598426,
+            "gap": 0.013700787401574877
+          },
+          {
+            "bin_lo": 0.5,
+            "bin_hi": 0.6000000000000001,
+            "n": 1115,
+            "mean_p": 0.5447668161434978,
+            "mean_y": 0.5300448430493273,
+            "gap": -0.014721973094170449
+          },
+          {
+            "bin_lo": 0.6000000000000001,
+            "bin_hi": 0.7000000000000001,
+            "n": 70,
+            "mean_p": 0.6114285714285715,
+            "mean_y": 0.44285714285714284,
+            "gap": -0.1685714285714287
+          },
+          {
+            "bin_lo": 0.7000000000000001,
+            "bin_hi": 0.8,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.8,
+            "bin_hi": 0.9,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.9,
+            "bin_hi": 1.0,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          }
+        ]
+      },
+      "overtime": {
+        "n": 1312,
+        "mean_p": 0.1755754573170732,
+        "mean_y": 0.24847560975609756,
+        "brier": 0.19418557545731707,
+        "log_loss": 0.5855414522238862,
+        "ece": 0.07829649390243902,
+        "calibration": [
+          {
+            "bin_lo": 0.0,
+            "bin_hi": 0.1,
+            "n": 3,
+            "mean_p": 0.08666666666666667,
+            "mean_y": 0.0,
+            "gap": -0.08666666666666667
+          },
+          {
+            "bin_lo": 0.1,
+            "bin_hi": 0.2,
+            "n": 1050,
+            "mean_p": 0.1664904761904762,
+            "mean_y": 0.26095238095238094,
+            "gap": 0.09446190476190475
+          },
+          {
+            "bin_lo": 0.2,
+            "bin_hi": 0.30000000000000004,
+            "n": 259,
+            "mean_p": 0.21343629343629344,
+            "mean_y": 0.20077220077220076,
+            "gap": -0.012664092664092685
+          },
+          {
+            "bin_lo": 0.30000000000000004,
+            "bin_hi": 0.4,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.4,
+            "bin_hi": 0.5,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.5,
+            "bin_hi": 0.6000000000000001,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.6000000000000001,
+            "bin_hi": 0.7000000000000001,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.7000000000000001,
+            "bin_hi": 0.8,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.8,
+            "bin_hi": 0.9,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.9,
+            "bin_hi": 1.0,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          }
+        ]
+      },
+      "totals": {
+        "5.5": {
+          "n": 1312,
+          "mean_p": 0.5612080792682927,
+          "mean_y": 0.573170731707317,
+          "brier": 0.24462661966463417,
+          "log_loss": 0.682364995443473,
+          "ece": 0.02162728658536592,
+          "calibration": [
+            {
+              "bin_lo": 0.0,
+              "bin_hi": 0.1,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.1,
+              "bin_hi": 0.2,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.2,
+              "bin_hi": 0.30000000000000004,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.30000000000000004,
+              "bin_hi": 0.4,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.4,
+              "bin_hi": 0.5,
+              "n": 51,
+              "mean_p": 0.4834313725490197,
+              "mean_y": 0.6274509803921569,
+              "gap": 0.14401960784313717
+            },
+            {
+              "bin_lo": 0.5,
+              "bin_hi": 0.6000000000000001,
+              "n": 1051,
+              "mean_p": 0.5540532825880113,
+              "mean_y": 0.5680304471931494,
+              "gap": 0.013977164605138093
+            },
+            {
+              "bin_lo": 0.6000000000000001,
+              "bin_hi": 0.7000000000000001,
+              "n": 210,
+              "mean_p": 0.6159047619047617,
+              "mean_y": 0.5857142857142857,
+              "gap": -0.03019047619047599
+            },
+            {
+              "bin_lo": 0.7000000000000001,
+              "bin_hi": 0.8,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.8,
+              "bin_hi": 0.9,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.9,
+              "bin_hi": 1.0,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            }
+          ]
+        },
+        "6.5": {
+          "n": 1312,
+          "mean_p": 0.4480411585365854,
+          "mean_y": 0.46875,
+          "brier": 0.24978830030487809,
+          "log_loss": 0.692759798267915,
+          "ece": 0.02465701219512192,
+          "calibration": [
+            {
+              "bin_lo": 0.0,
+              "bin_hi": 0.1,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.1,
+              "bin_hi": 0.2,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.2,
+              "bin_hi": 0.30000000000000004,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.30000000000000004,
+              "bin_hi": 0.4,
+              "n": 101,
+              "mean_p": 0.3800495049504951,
+              "mean_y": 0.39603960396039606,
+              "gap": 0.01599009900990095
+            },
+            {
+              "bin_lo": 0.4,
+              "bin_hi": 0.5,
+              "n": 1101,
+              "mean_p": 0.4476430517711172,
+              "mean_y": 0.4732061762034514,
+              "gap": 0.025563124432334217
+            },
+            {
+              "bin_lo": 0.5,
+              "bin_hi": 0.6000000000000001,
+              "n": 110,
+              "mean_p": 0.5144545454545454,
+              "mean_y": 0.4909090909090909,
+              "gap": -0.02354545454545448
+            },
+            {
+              "bin_lo": 0.6000000000000001,
+              "bin_hi": 0.7000000000000001,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.7000000000000001,
+              "bin_hi": 0.8,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.8,
+              "bin_hi": 0.9,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.9,
+              "bin_hi": 1.0,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            }
+          ]
+        }
+      },
+      "total": {
+        "n": 1312,
+        "mae": 1.8473971036585364,
+        "bias": -0.049127286585365866,
+        "mean_expected": 6.204683689024391,
+        "mean_actual": 6.253810975609756,
+        "sd_actual": 2.2973475136374386
+      },
+      "regulation_moneyline_given_no_ot": {
+        "n": 986,
+        "mean_p": 0.5490131118422882,
+        "mean_y": 0.5324543610547667,
+        "brier": 0.25064883506996294,
+        "log_loss": 0.6945634999775713,
+        "ece": 0.028342976883488278
+      }
+    },
+    "constant_home": {
+      "n": 1312,
+      "moneyline": {
+        "n": 1312,
+        "mean_p": 0.5395847484871849,
+        "mean_y": 0.5221036585365854,
+        "brier": 0.24987440792102858,
+        "log_loss": 0.6928992667611644,
+        "ece": 0.017481089950599493,
+        "calibration": [
+          {
+            "bin_lo": 0.0,
+            "bin_hi": 0.1,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.1,
+            "bin_hi": 0.2,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.2,
+            "bin_hi": 0.30000000000000004,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.30000000000000004,
+            "bin_hi": 0.4,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.4,
+            "bin_hi": 0.5,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.5,
+            "bin_hi": 0.6000000000000001,
+            "n": 1312,
+            "mean_p": 0.5395847484871849,
+            "mean_y": 0.5221036585365854,
+            "gap": -0.017481089950599493
+          },
+          {
+            "bin_lo": 0.6000000000000001,
+            "bin_hi": 0.7000000000000001,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.7000000000000001,
+            "bin_hi": 0.8,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.8,
+            "bin_hi": 0.9,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          },
+          {
+            "bin_lo": 0.9,
+            "bin_hi": 1.0,
+            "n": 0,
+            "mean_p": null,
+            "mean_y": null,
+            "gap": null
+          }
+        ]
+      }
+    }
+  },
+  "by_season": {
+    "2025": {
+      "n": 1312,
+      "model": {
+        "n": 1312,
+        "moneyline": {
+          "n": 1312,
+          "mean_p": 0.5449466463414634,
+          "mean_y": 0.5221036585365854,
+          "brier": 0.24665331554878048,
+          "log_loss": 0.6863478026282809,
+          "ece": 0.02407774390243897,
+          "calibration": [
+            {
+              "bin_lo": 0.0,
+              "bin_hi": 0.1,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.1,
+              "bin_hi": 0.2,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.2,
+              "bin_hi": 0.30000000000000004,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.30000000000000004,
+              "bin_hi": 0.4,
+              "n": 14,
+              "mean_p": 0.3707142857142857,
+              "mean_y": 0.21428571428571427,
+              "gap": -0.15642857142857144
+            },
+            {
+              "bin_lo": 0.4,
+              "bin_hi": 0.5,
+              "n": 286,
+              "mean_p": 0.4620454545454545,
+              "mean_y": 0.46153846153846156,
+              "gap": -0.0005069930069929174
+            },
+            {
+              "bin_lo": 0.5,
+              "bin_hi": 0.6000000000000001,
+              "n": 740,
+              "mean_p": 0.5462972972972973,
+              "mean_y": 0.5175675675675676,
+              "gap": -0.028729729729729647
+            },
+            {
+              "bin_lo": 0.6000000000000001,
+              "bin_hi": 0.7000000000000001,
+              "n": 255,
+              "mean_p": 0.6320980392156863,
+              "mean_y": 0.6039215686274509,
+              "gap": -0.02817647058823536
+            },
+            {
+              "bin_lo": 0.7000000000000001,
+              "bin_hi": 0.8,
+              "n": 17,
+              "mean_p": 0.7170588235294117,
+              "mean_y": 0.7647058823529411,
+              "gap": 0.047647058823529376
+            },
+            {
+              "bin_lo": 0.8,
+              "bin_hi": 0.9,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.9,
+              "bin_hi": 1.0,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            }
+          ]
+        },
+        "overtime": {
+          "n": 1312,
+          "mean_p": 0.17342225609756096,
+          "mean_y": 0.24847560975609756,
+          "brier": 0.1921607088414634,
+          "log_loss": 0.5788309897414389,
+          "ece": 0.07532774390243904,
+          "calibration": [
+            {
+              "bin_lo": 0.0,
+              "bin_hi": 0.1,
+              "n": 2,
+              "mean_p": 0.09,
+              "mean_y": 0.0,
+              "gap": -0.09
+            },
+            {
+              "bin_lo": 0.1,
+              "bin_hi": 0.2,
+              "n": 1058,
+              "mean_p": 0.1640500945179584,
+              "mean_y": 0.24763705103969755,
+              "gap": 0.08358695652173914
+            },
+            {
+              "bin_lo": 0.2,
+              "bin_hi": 0.30000000000000004,
+              "n": 252,
+              "mean_p": 0.21343253968253967,
+              "mean_y": 0.25396825396825395,
+              "gap": 0.040535714285714286
+            },
+            {
+              "bin_lo": 0.30000000000000004,
+              "bin_hi": 0.4,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.4,
+              "bin_hi": 0.5,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.5,
+              "bin_hi": 0.6000000000000001,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.6000000000000001,
+              "bin_hi": 0.7000000000000001,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.7000000000000001,
+              "bin_hi": 0.8,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.8,
+              "bin_hi": 0.9,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.9,
+              "bin_hi": 1.0,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            }
+          ]
+        },
+        "totals": {
+          "5.5": {
+            "n": 1312,
+            "mean_p": 0.5652629573170732,
+            "mean_y": 0.573170731707317,
+            "brier": 0.2450832888719512,
+            "log_loss": 0.6834119742686844,
+            "ece": 0.04190929878048775,
+            "calibration": [
+              {
+                "bin_lo": 0.0,
+                "bin_hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.1,
+                "bin_hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.2,
+                "bin_hi": 0.30000000000000004,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.30000000000000004,
+                "bin_hi": 0.4,
+                "n": 1,
+                "mean_p": 0.39,
+                "mean_y": 0.0,
+                "gap": -0.39
+              },
+              {
+                "bin_lo": 0.4,
+                "bin_hi": 0.5,
+                "n": 160,
+                "mean_p": 0.46918750000000004,
+                "mean_y": 0.5,
+                "gap": 0.030812499999999965
+              },
+              {
+                "bin_lo": 0.5,
+                "bin_hi": 0.6000000000000001,
+                "n": 770,
+                "mean_p": 0.550974025974026,
+                "mean_y": 0.587012987012987,
+                "gap": 0.03603896103896098
+              },
+              {
+                "bin_lo": 0.6000000000000001,
+                "bin_hi": 0.7000000000000001,
+                "n": 365,
+                "mean_p": 0.6314109589041095,
+                "mean_y": 0.5753424657534246,
+                "gap": -0.05606849315068485
+              },
+              {
+                "bin_lo": 0.7000000000000001,
+                "bin_hi": 0.8,
+                "n": 16,
+                "mean_p": 0.715625,
+                "mean_y": 0.625,
+                "gap": -0.09062499999999996
+              },
+              {
+                "bin_lo": 0.8,
+                "bin_hi": 0.9,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.9,
+                "bin_hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              }
+            ]
+          },
+          "6.5": {
+            "n": 1312,
+            "mean_p": 0.4546303353658537,
+            "mean_y": 0.46875,
+            "brier": 0.25010607850609756,
+            "log_loss": 0.6934159198327546,
+            "ece": 0.03854801829268293,
+            "calibration": [
+              {
+                "bin_lo": 0.0,
+                "bin_hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.1,
+                "bin_hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.2,
+                "bin_hi": 0.30000000000000004,
+                "n": 3,
+                "mean_p": 0.29,
+                "mean_y": 0.3333333333333333,
+                "gap": 0.043333333333333335
+              },
+              {
+                "bin_lo": 0.30000000000000004,
+                "bin_hi": 0.4,
+                "n": 205,
+                "mean_p": 0.3680487804878048,
+                "mean_y": 0.4292682926829268,
+                "gap": 0.061219512195122006
+              },
+              {
+                "bin_lo": 0.4,
+                "bin_hi": 0.5,
+                "n": 793,
+                "mean_p": 0.44656998738965953,
+                "mean_y": 0.47414880201765447,
+                "gap": 0.02757881462799494
+              },
+              {
+                "bin_lo": 0.5,
+                "bin_hi": 0.6000000000000001,
+                "n": 299,
+                "mean_p": 0.5305016722408027,
+                "mean_y": 0.4816053511705686,
+                "gap": -0.04889632107023412
+              },
+              {
+                "bin_lo": 0.6000000000000001,
+                "bin_hi": 0.7000000000000001,
+                "n": 12,
+                "mean_p": 0.6170833333333333,
+                "mean_y": 0.5,
+                "gap": -0.11708333333333332
+              },
+              {
+                "bin_lo": 0.7000000000000001,
+                "bin_hi": 0.8,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.8,
+                "bin_hi": 0.9,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.9,
+                "bin_hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              }
+            ]
+          }
+        },
+        "total": {
+          "n": 1312,
+          "mae": 1.8476981707317075,
+          "bias": -0.01333079268292684,
+          "mean_expected": 6.240480182926829,
+          "mean_actual": 6.253810975609756,
+          "sd_actual": 2.2973475136374386
+        },
+        "regulation_moneyline_given_no_ot": {
+          "n": 986,
+          "mean_p": 0.5528922958508311,
+          "mean_y": 0.5324543610547667,
+          "brier": 0.24191555983054241,
+          "log_loss": 0.6766013476346844,
+          "ece": 0.022048438634305056
+        }
+      },
+      "league_poisson": {
+        "n": 1312,
+        "moneyline": {
+          "n": 1312,
+          "mean_p": 0.542282774390244,
+          "mean_y": 0.5221036585365854,
+          "brier": 0.251831650152439,
+          "log_loss": 0.6969088012995692,
+          "ece": 0.022831554878048832,
+          "calibration": [
+            {
+              "bin_lo": 0.0,
+              "bin_hi": 0.1,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.1,
+              "bin_hi": 0.2,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.2,
+              "bin_hi": 0.30000000000000004,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.30000000000000004,
+              "bin_hi": 0.4,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.4,
+              "bin_hi": 0.5,
+              "n": 127,
+              "mean_p": 0.4823622047244094,
+              "mean_y": 0.49606299212598426,
+              "gap": 0.013700787401574877
+            },
+            {
+              "bin_lo": 0.5,
+              "bin_hi": 0.6000000000000001,
+              "n": 1115,
+              "mean_p": 0.5447668161434978,
+              "mean_y": 0.5300448430493273,
+              "gap": -0.014721973094170449
+            },
+            {
+              "bin_lo": 0.6000000000000001,
+              "bin_hi": 0.7000000000000001,
+              "n": 70,
+              "mean_p": 0.6114285714285715,
+              "mean_y": 0.44285714285714284,
+              "gap": -0.1685714285714287
+            },
+            {
+              "bin_lo": 0.7000000000000001,
+              "bin_hi": 0.8,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.8,
+              "bin_hi": 0.9,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.9,
+              "bin_hi": 1.0,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            }
+          ]
+        },
+        "overtime": {
+          "n": 1312,
+          "mean_p": 0.1755754573170732,
+          "mean_y": 0.24847560975609756,
+          "brier": 0.19418557545731707,
+          "log_loss": 0.5855414522238862,
+          "ece": 0.07829649390243902,
+          "calibration": [
+            {
+              "bin_lo": 0.0,
+              "bin_hi": 0.1,
+              "n": 3,
+              "mean_p": 0.08666666666666667,
+              "mean_y": 0.0,
+              "gap": -0.08666666666666667
+            },
+            {
+              "bin_lo": 0.1,
+              "bin_hi": 0.2,
+              "n": 1050,
+              "mean_p": 0.1664904761904762,
+              "mean_y": 0.26095238095238094,
+              "gap": 0.09446190476190475
+            },
+            {
+              "bin_lo": 0.2,
+              "bin_hi": 0.30000000000000004,
+              "n": 259,
+              "mean_p": 0.21343629343629344,
+              "mean_y": 0.20077220077220076,
+              "gap": -0.012664092664092685
+            },
+            {
+              "bin_lo": 0.30000000000000004,
+              "bin_hi": 0.4,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.4,
+              "bin_hi": 0.5,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.5,
+              "bin_hi": 0.6000000000000001,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.6000000000000001,
+              "bin_hi": 0.7000000000000001,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.7000000000000001,
+              "bin_hi": 0.8,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.8,
+              "bin_hi": 0.9,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            },
+            {
+              "bin_lo": 0.9,
+              "bin_hi": 1.0,
+              "n": 0,
+              "mean_p": null,
+              "mean_y": null,
+              "gap": null
+            }
+          ]
+        },
+        "totals": {
+          "5.5": {
+            "n": 1312,
+            "mean_p": 0.5612080792682927,
+            "mean_y": 0.573170731707317,
+            "brier": 0.24462661966463417,
+            "log_loss": 0.682364995443473,
+            "ece": 0.02162728658536592,
+            "calibration": [
+              {
+                "bin_lo": 0.0,
+                "bin_hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.1,
+                "bin_hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.2,
+                "bin_hi": 0.30000000000000004,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.30000000000000004,
+                "bin_hi": 0.4,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.4,
+                "bin_hi": 0.5,
+                "n": 51,
+                "mean_p": 0.4834313725490197,
+                "mean_y": 0.6274509803921569,
+                "gap": 0.14401960784313717
+              },
+              {
+                "bin_lo": 0.5,
+                "bin_hi": 0.6000000000000001,
+                "n": 1051,
+                "mean_p": 0.5540532825880113,
+                "mean_y": 0.5680304471931494,
+                "gap": 0.013977164605138093
+              },
+              {
+                "bin_lo": 0.6000000000000001,
+                "bin_hi": 0.7000000000000001,
+                "n": 210,
+                "mean_p": 0.6159047619047617,
+                "mean_y": 0.5857142857142857,
+                "gap": -0.03019047619047599
+              },
+              {
+                "bin_lo": 0.7000000000000001,
+                "bin_hi": 0.8,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.8,
+                "bin_hi": 0.9,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.9,
+                "bin_hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              }
+            ]
+          },
+          "6.5": {
+            "n": 1312,
+            "mean_p": 0.4480411585365854,
+            "mean_y": 0.46875,
+            "brier": 0.24978830030487809,
+            "log_loss": 0.692759798267915,
+            "ece": 0.02465701219512192,
+            "calibration": [
+              {
+                "bin_lo": 0.0,
+                "bin_hi": 0.1,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.1,
+                "bin_hi": 0.2,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.2,
+                "bin_hi": 0.30000000000000004,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.30000000000000004,
+                "bin_hi": 0.4,
+                "n": 101,
+                "mean_p": 0.3800495049504951,
+                "mean_y": 0.39603960396039606,
+                "gap": 0.01599009900990095
+              },
+              {
+                "bin_lo": 0.4,
+                "bin_hi": 0.5,
+                "n": 1101,
+                "mean_p": 0.4476430517711172,
+                "mean_y": 0.4732061762034514,
+                "gap": 0.025563124432334217
+              },
+              {
+                "bin_lo": 0.5,
+                "bin_hi": 0.6000000000000001,
+                "n": 110,
+                "mean_p": 0.5144545454545454,
+                "mean_y": 0.4909090909090909,
+                "gap": -0.02354545454545448
+              },
+              {
+                "bin_lo": 0.6000000000000001,
+                "bin_hi": 0.7000000000000001,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.7000000000000001,
+                "bin_hi": 0.8,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.8,
+                "bin_hi": 0.9,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              },
+              {
+                "bin_lo": 0.9,
+                "bin_hi": 1.0,
+                "n": 0,
+                "mean_p": null,
+                "mean_y": null,
+                "gap": null
+              }
+            ]
+          }
+        },
+        "total": {
+          "n": 1312,
+          "mae": 1.8473971036585364,
+          "bias": -0.049127286585365866,
+          "mean_expected": 6.204683689024391,
+          "mean_actual": 6.253810975609756,
+          "sd_actual": 2.2973475136374386
+        },
+        "regulation_moneyline_given_no_ot": {
+          "n": 986,
+          "mean_p": 0.5490131118422882,
+          "mean_y": 0.5324543610547667,
+          "brier": 0.25064883506996294,
+          "log_loss": 0.6945634999775713,
+          "ece": 0.028342976883488278
+        }
+      },
+      "constant_home": {
+        "n": 1312,
+        "moneyline": {
+          "n": 1312,
+          "mean_p": 0.5395847484871849,
+          "mean_y": 0.5221036585365854,
+          "brier": 0.24987440792102858,
+          "log_loss": 0.6928992667611644,
+          "ece": 0.017481089950599493
+        }
+      }
+    }
+  },
+  "elapsed_s": 12.3,
+  "run_id": "39891401718",
+  "files": {
+    "json": "walk_forward_39891401718.json",
+    "games_csv": "walk_forward_39891401718_games.csv",
+    "markdown": "WALK_FORWARD_V1.md"
+  }
+}
