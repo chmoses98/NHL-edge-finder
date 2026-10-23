@@ -70,9 +70,11 @@ def normalize_live_team_games(rows: list[dict[str, Any]]) -> pd.DataFrame:
 
 
 def build_context(data_root: Path, live_rows: list[dict[str, Any]], params: dict[str, Any]) -> dict[str, Any]:
-    from nhl_edge.data.history import load_team_games
+    from nhl_edge.data.history import load_team_games, pinned_seasons
 
-    hist = load_team_games(Path(data_root) / "history", None)
+    # fit_oa reads at most MAX_SEASONS_BACK seasons, so the recent pinned seasons are all it can use; reading older research history
+    # (2008-2021) would only cost start-up time in the production simulate job
+    hist = load_team_games(Path(data_root) / "history", pinned_seasons(Path(data_root) / "history", "moneypuck"))
     live = normalize_live_team_games(live_rows)
     frames = [hist]
     src = [f"history parquet seasons {sorted(int(s) for s in hist['season'].dropna().unique())}"]
