@@ -23,7 +23,7 @@ Verdicts: `PROMOTE_CANDIDATE` (all pass), `SHADOW_MORE` (history passes; a gate 
 
 | target | published champion | candidate(s) | scorecard | note |
 |---|---|---|---|---|
-| game win probability | `DATA_ONLY_V1` (market-anchored variant labelled `MARKET_ANCHORED_V1`) | `OA_SVA_C1` | **SHADOW_MORE** — G1–G8 pass on 7,157 unexposed games; G9/G10 pending; but ~2/3 of the gain is re-tuning V1's constants and the exposed seasons show ≈ 0.0007 (n.s.) | `OA_SVA` RETAIN (fails G3 on totals) |
+| game win probability | `DATA_ONLY_V1` (market-anchored variant labelled `MARKET_ANCHORED_V1`) | `OA_SVA_C1` | **SHADOW_MORE** — G1–G8 pass on 7,157 unexposed games; G9/G10 pending; but ~2/3 of the gain is re-tuning V1's constants and the exposed seasons show ≈ 0.0007 (n.s.) | `OA_SVA` RETAIN (fails G3 on totals). A re-tuned + recalibrated V1 (`V1_T_C1`) is statistically tied with `OA_SVA_C1` (−0.0004 [−0.0009, +0.0001]); prefer the simpler model if a promotion is ever proposed |
 | total-goal distribution | `DATA_ONLY_V1` | `OA_SVA_C1` (neutral) | RETAIN — no improvement | totals carry little signal; V1 beats league avg only in 2018–23 |
 | goal-margin distribution | `DATA_ONLY_V1` | `OA_SVA_C1` | G1 passes (RPS −0.0111 unexposed) but exposed n.s. | would ride with the win-probability decision |
 | overtime / regulation tie | `DATA_ONLY_V1` (known defect: 17.5% vs 22.0%) | `nhl-sim-2.0` on V1 rates (`SIM2`) | **SHADOW_MORE** — pooled 2023–25 Δ −0.0022 [−0.0032, −0.0011], no regression; only 1 unexposed season (G5 unmet); V2 already in live shadow | highest-value pending fix |

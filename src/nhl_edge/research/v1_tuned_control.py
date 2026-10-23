@@ -116,3 +116,24 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+def add_c1_arm(dir_: Path, n_sims: int = 4000) -> None:
+    """``V1_T_C1``: the tuned-V1 control with the same strictly-prior slope recalibration as the ``_C1`` arms (post-run, interpretive)."""
+    from nhl_edge.research.oa_model import SlopeCalibrator
+
+    base = pd.read_csv(dir_ / "oa_games.csv")
+    v1t = pd.read_csv(dir_ / "v1t_games.csv")
+    cal = SlopeCalibrator()
+    rows, tot, mar = [], [], []
+    for g, t in zip(base.itertuples(index=False), v1t.itertuples(index=False), strict=True):
+        lh, la = cal.transform(str(g.game_date), t.V1_T_lam_home, t.V1_T_lam_away)
+        pm = pmfs(simulate_row(lh, la, game_seed(int(g.game_id), DEFAULT_SEED), n_sims))
+        ks = np.arange(len(pm["total"]))
+        rows.append({"V1_T_C1_lam_home": lh, "V1_T_C1_lam_away": la, "V1_T_C1_p_home_win": pm["p_home_win"], "V1_T_C1_p_overtime": pm["p_ot"], "V1_T_C1_expected_total": float((pm["total"] * ks).sum()),
+                     **{f"V1_T_C1_p_over_{x}": float(pm["total"][ks > x].sum()) for x in (4.5, 5.5, 6.5, 7.5)}})
+        tot.append(pm["total"])
+        mar.append(pm["margin"])
+        cal.observe(str(g.game_date), t.V1_T_lam_home, t.V1_T_lam_away, float(g.home_score + g.away_score), float(g.home_score - g.away_score))
+    pd.DataFrame(rows).to_csv(dir_ / "v1tc1_games.csv", index=False)
+    np.savez_compressed(dir_ / "v1tc1_pmfs.npz", total=np.asarray(tot), margin=np.asarray(mar))

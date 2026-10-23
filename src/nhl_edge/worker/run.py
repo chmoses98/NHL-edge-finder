@@ -46,6 +46,7 @@ from nhl_edge.timeutil import iso, parse_iso, utcnow
 from nhl_edge.worker import lease as lease_mod
 from nhl_edge.worker.health import assess as assess_health
 from nhl_edge.worker.plan import (
+    RETIREMENT_RESERVE_MINUTES,
     plan_cycle,
     planned_exit,
     should_retire,
@@ -203,6 +204,8 @@ class Worker:
         self.lifetime_minutes = lifetime_minutes
         self.result: WorkerResult | None = None
         self._decision_error: str | None = None
+        self._exit_at: datetime | None = None
+        self._failed_at: dict[str, datetime] = {}
 
     # -- archive I/O -------------------------------------------------------------------------
     def _read_schedule(self) -> list[dict]:
@@ -262,6 +265,7 @@ class Worker:
             planned_exit(started, self.lifetime_minutes) if self.lifetime_minutes else planned_exit(started)
         )
 
+        self._exit_at = exit_at
         ok, why, gen = self.acquire()
         res = WorkerResult(
             worker_id=self.worker_id, generation=gen, exit_reason="", successor_expected=self.dispatch_fn is not None
@@ -408,7 +412,9 @@ class Worker:
         ("settle", ["nhl", "settle", "--data", "DATA", "--out", "ARCHIVE"], 900.0),
         # the evaluation ledger IS the archive (predictions + settlements live there); reports go to ARCHIVE/eval/. The
         # original "ARCHIVE/eval" root read an empty sub-ledger, so production evaluation scored 0 rows (fixed 2026-09-30).
-        ("evaluate", ["nhl", "evaluate", "--data", "DATA", "--out", "ARCHIVE"], 900.0),
+        # 900 s was exceeded on every attempt from 2026-10-22 (the job re-reads ~3.5 M ledger rows per run and the runner is slower than a
+        # dev box); the conductor now keeps it out of the pre-puck-drop window, so a longer budget cannot delay a pregame capture/simulate.
+        ("evaluate", ["nhl", "evaluate", "--data", "DATA", "--out", "ARCHIVE"], 2400.0),
         # The Edge Finder app export (edge_finder.app.v1) reads what the jobs above wrote and publishes ARCHIVE/app/latest,
         # which archive_push.sh carries to the data-archive branch. Not conductor-gated: it is due whenever this cycle
         # changed the archive (a capture or any slow job), so the app never shows a board older than the archive. A failed
@@ -442,6 +448,35 @@ class Worker:
     def _run_due_jobs(self, decision: dict | None = None, *, capture_ok: bool = False) -> list[str]:
         return self._run_jobs(decision, capture_ok=capture_ok)[0]
 
+    #: Slow, research-only jobs. They are never allowed to threaten a pregame capture/simulate or the planned handover.
+    _exit_at: datetime | None = None     # class-level defaults: a Worker built without __init__ (tests) keeps the old behaviour
+    SPECULATIVE_JOBS = ("evaluate", "discover")
+    JOB_FAILURE_BACKOFF_S = 3 * 3600.0
+
+    def _skip_reason(self, name: str, budget: float, decision: dict, now: datetime) -> str | None:
+        """Why a due job must NOT be launched right now (None == run it).
+
+        The conductor decides once per cycle, but context/simulate/settle run before this job and can take many minutes, so
+        the conditions are re-checked at launch: (1) a speculative job that failed is not retried for 3 h (a job that times
+        out every cycle would otherwise cost its whole budget every cycle); (2) it must be able to finish, with the retirement
+        reserve, before the planned exit (a cycle that overruns the shift is killed by the workflow timeout and loses its push);
+        (3) evaluate must be able to finish before the pregame quiet window opens."""
+        if name in self.SPECULATIVE_JOBS:
+            failed = self.__dict__.get("_failed_at", {}).get(name)
+            if failed is not None and (now - failed).total_seconds() < self.JOB_FAILURE_BACKOFF_S:
+                return f"failed at {iso(failed)}; backing off {self.JOB_FAILURE_BACKOFF_S / 3600:.0f} h"
+            if self._exit_at is not None and (self._exit_at - now).total_seconds() < budget + RETIREMENT_RESERVE_MINUTES * 60:
+                return "would overrun the planned exit"
+        if name == "evaluate":
+            from nhl_edge.workflows.conductor import EVALUATE_QUIET_HOURS
+
+            next_h, decided = decision.get("next_start_hours"), decision.get("now_utc")
+            if next_h is not None and decided:
+                left = next_h * 3600.0 - (now - parse_iso(decided)).total_seconds()
+                if left < EVALUATE_QUIET_HOURS * 3600.0 + budget:
+                    return f"would run into the {EVALUATE_QUIET_HOURS:.0f} h pregame quiet window ({left / 60:.0f} min to puck drop)"
+        return None
+
     def _run_jobs(self, decision: dict | None = None, *, capture_ok: bool = False) -> tuple[list[str], list[str]]:
         """Run every due slow job; returns (succeeded, failed) job names in run order.
 
@@ -456,6 +491,10 @@ class Worker:
                 due = capture_ok or bool(done)
             if not due:
                 continue
+            skip = self._skip_reason(name, budget, decision, utcnow() if "now" not in self.__dict__ else self.now())
+            if skip:
+                print(f"worker: job {name} skipped: {skip}")
+                continue
             cmd = [
                 part.replace("ARCHIVE", str(self.archive_root)).replace("DATA", str(self.data_root))
                 for part in template
@@ -464,6 +503,7 @@ class Worker:
             if rc == 0:
                 done.append(name)
             else:
+                self.__dict__.setdefault("_failed_at", {})[name] = utcnow() if "now" not in self.__dict__ else self.now()
                 # Same reasoning as a failed capture: one bad job must never end the worker. The failure is
                 # recorded on the cycle so the shift's health verdict (worker/health.py) can see it.
                 failed.append(name)

@@ -1,3 +1,5 @@
+> **SUPERSEDED 2026-10-22 — not on the active roadmap.** The owner retired the sealed-ledger activation path (no keys, witnesses, deploy credentials or waiting for prospective sample thresholds). This document is preserved unchanged below for reproducibility and audit; the workflows it describes stay dormant. See `docs/research/ROADMAP_RESET_2026-10-22.md`.
+
 # Sealed ledger — owner setup checklist (macOS, unattended operation)
 
 > **You never paste a private key anywhere — not into chat, an issue, a PR, a repository variable, or a synced note.** The one secret that does go into GitHub is the **ledger deploy key** (below): it can write *only* the ledger repository (which holds nothing but ciphertext), it is not an age key, and it cannot decrypt anything. Architecture and permissions analysis: `SEALED_LEDGER_UNATTENDED.md`. Key custody and recovery: `SEALED_LEDGER_KEY_SETUP.md`.

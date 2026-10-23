@@ -1,3 +1,5 @@
+> **SUPERSEDED 2026-10-22 — not on the active roadmap.** The owner retired the sealed-ledger activation path (no keys, witnesses, deploy credentials or waiting for prospective sample thresholds). This document is preserved unchanged below for reproducibility and audit; the workflows it describes stay dormant. See `docs/research/ROADMAP_RESET_2026-10-22.md`.
+
 # Sealed ledger — key setup, recovery and activation (owner procedure, MacBook)
 
 > You do all of this yourself, on your own machine. **Never paste a private key into chat, an issue, a PR, an Actions secret, a note synced to an AI tool, or any file inside a git checkout.** Nobody will ever ask you for it. The only things you ever share are the *public* keys (they start with `age1`) and the SHA-256 of `recipients.txt`.
