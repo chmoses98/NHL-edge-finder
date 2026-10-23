@@ -149,6 +149,26 @@ def relate(gain: pd.Series, features: pd.DataFrame) -> dict[str, Any]:
     return out
 
 
+_G: dict[str, Any] = {}
+
+
+def _oracle_one(season: int) -> dict[str, Any]:
+    """One season's post hoc tuning surface (module level so a fork pool can pickle it; shared tables live in ``v1_tuned_control._SHARED``)."""
+    from nhl_edge.research import v1_tuned_control as T
+
+    g = _G["g"]
+    gs = T._SHARED["games"]
+    gs = gs[gs["season"] == season]
+    gs = gs[gs["game_id"].isin(set(g.loc[g["season"] == season, "game_id"].astype(int)))]
+    combos = {}
+    for hl in GRID_HL:
+        for pr in GRID_PRIOR:
+            cache: dict = {}
+            lam = np.array([T._lams(x, hl, pr, T._SHARED["gamelog"], T._SHARED["team_logs"], cache) for x in gs.itertuples(index=False)])
+            combos[(hl, pr)] = (lam[:, 0], lam[:, 1])
+    return oracle_surface(season, combos, gs["home_score"].to_numpy(float), gs["away_score"].to_numpy(float))
+
+
 def main(argv: list[str] | None = None) -> int:
     import argparse
     import multiprocessing as mp
@@ -180,21 +200,10 @@ def main(argv: list[str] | None = None) -> int:
         T._SHARED.update({"gamelog": gamelog, "team_logs": {t: x for t, x in gamelog.groupby("team")}, "games": fin.reset_index(drop=True)})
         seasons = sorted(int(s) for s in g["season"].unique())
 
-        def one(season: int) -> dict[str, Any]:
-            gs = T._SHARED["games"]
-            gs = gs[gs["season"] == season]
-            keep = set(g.loc[g["season"] == season, "game_id"].astype(int))
-            gs = gs[gs["game_id"].isin(keep)]
-            combos = {}
-            for hl in GRID_HL:
-                for pr in GRID_PRIOR:
-                    cache: dict = {}
-                    lam = np.array([T._lams(x, hl, pr, T._SHARED["gamelog"], T._SHARED["team_logs"], cache) for x in gs.itertuples(index=False)])
-                    combos[(hl, pr)] = (lam[:, 0], lam[:, 1])
-            return oracle_surface(season, combos, gs["home_score"].to_numpy(float), gs["away_score"].to_numpy(float))
+        _G.update(g=g)
 
         with mp.get_context("fork").Pool(a.workers) as pool:
-            res["oracle"] = pool.map(one, seasons)
+            res["oracle"] = pool.map(_oracle_one, seasons)
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     (out / "regime_analysis.json").write_text(json.dumps(res, indent=1, default=float))
