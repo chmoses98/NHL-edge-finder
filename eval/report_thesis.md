@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-24T05:46:21Z · thesis-postmortem-2.0 · rows (all generations) 25509
+evaluated 2026-10-24T07:35:54Z · thesis-postmortem-2.0 · rows (all generations) 25509
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -43,25 +43,29 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020168 ANA @ PHI: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
-
-#### game 2026020169 LAK @ NJD: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
+#### game 2026020168 ANA @ PHI: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26OCT24LANJ-NJ4|no | FUNDED_RESEARCH | 2 | 7.65 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT24ANAPHI-ANAAGREER18-1|yes | SHADOW_ONLY | 0 | 1.87 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020170 SJS @ BOS: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
+#### game 2026020169 LAK @ NJD: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
 
-#### game 2026020171 NYR @ OTT: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLTEAMTOTAL-26OCT24LANJ-NJ4|no | FUNDED_RESEARCH | 2 | 6.19 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020172 NSH @ PIT: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
+#### game 2026020170 SJS @ BOS: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
 
-#### game 2026020173 BUF @ WSH: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
+#### game 2026020171 NYR @ OTT: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
 
-#### game 2026020174 VGK @ CBJ: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
+#### game 2026020172 NSH @ PIT: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
 
-#### game 2026020175 CAR @ STL: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
+#### game 2026020173 BUF @ WSH: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
+
+#### game 2026020174 VGK @ CBJ: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
+
+#### game 2026020175 CAR @ STL: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
@@ -70,24 +74,23 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 | KXNHLSPREAD-26OCT24CARSTL-CAR3|no | FUNDED_RESEARCH | 5 | 16.57 | - | - | - | STRUCTURAL | - | - |
 | KXNHLSPREAD-26OCT24CARSTL-CAR2|no | FUNDED_RESEARCH | 1 | 3.46 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020176 TOR @ EDM: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
+#### game 2026020176 TOR @ EDM: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
 
-#### game 2026020177 TBL @ UTA: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
+#### game 2026020177 TBL @ UTA: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
 
-#### game 2026020178 DET @ CGY: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
+#### game 2026020178 DET @ CGY: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
 | KXNHLSPREAD-26OCT24DETCGY-DET2|no | FUNDED_RESEARCH | 3 | 9.97 | - | - | - | STRUCTURAL | - | - |
 | KXNHLSPREAD-26OCT24DETCGY-DET3|no | FUNDED_RESEARCH | 2 | 5.64 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020179 MIN @ SEA: NOT_STARTED · snapshot snap-6ee069de5b536c80d184 @ 2026-10-24T05:28:45Z
+#### game 2026020179 MIN @ SEA: NOT_STARTED · snapshot snap-eba857373795bd5a082c @ 2026-10-24T07:15:32Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
 | KXNHLSPREAD-26OCT24MINSEA-MIN3|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT24MINSEA-SEA2|yes | FUNDED_RESEARCH | 1 | 3.05 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA3|yes | FUNDED_RESEARCH | 1 | 2.20 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT24MINSEA-SEA2|yes | FUNDED_RESEARCH | 1 | 3.60 | - | - | - | STRUCTURAL | - | - |
 
 ## Slate 2026-10-23: **COMPLETE — 2/2 games evaluated**
 
