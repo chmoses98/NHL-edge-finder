@@ -1,62 +1,66 @@
 {
- "last_capture_utc": "2026-10-24T22:01:16Z",
- "n_markets": 4482,
+ "last_capture_utc": "2026-10-24T22:17:16Z",
+ "n_markets": 4338,
  "n_series": 78,
- "requests": 461,
- "run_id": "40115272102",
+ "requests": 457,
+ "run_id": "40137252134",
  "markets_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/markets/dt=2026-10-24/kalshi_markets_20261024T220116Z_40115272102.jsonl.gz",
-  "bytes": 424666,
-  "n_markets": 4482,
-  "board_sha256": "b185afae24607369df2b6ca7430639e83307aaccc439d2d7aa386d987c413424"
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/markets_delta/dt=2026-10-24/kalshi_markets_delta_20261024T221716Z_40137252134.json.gz",
+  "bytes": 41059,
+  "n_markets": 4338,
+  "n_changed": 2059,
+  "changed_pct": 47.464,
+  "board_sha256": "c3b19c7d1feea880af30b7c735d3c191d6659b55546b64e3c03cd1e2b1026759"
  },
  "orderbooks_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/orderbooks/dt=2026-10-24/kalshi_orderbooks_20261024T220116Z_40115272102.jsonl.gz",
-  "bytes": 48719,
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/orderbooks_delta/dt=2026-10-24/kalshi_orderbooks_delta_20261024T221716Z_40137252134.json.gz",
+  "bytes": 49827,
   "n_markets": 300,
-  "board_sha256": "e6ae574e82d78be6571c0b80012d46aa3c41398fb56bb20d21a3881d41a2da24"
+  "n_changed": 308,
+  "changed_pct": 102.667,
+  "board_sha256": "5201524cd098a4aaf01d15ccf0cadd6de9c6145ec7b771144380117c9b1f3852"
  },
  "by_status": {
-  "active": 4482
+  "active": 4338
  },
  "by_support": {
-  "BUILDABLE": 16,
-  "MODELABLE": 495,
-  "RESEARCH": 3411,
+  "BUILDABLE": 15,
+  "MODELABLE": 486,
+  "RESEARCH": 3277,
   "UNMODELABLE": 515,
   "UNRESOLVED": 45
  },
  "by_family": {
   "first_goal": 369,
   "game_early_goal": 15,
-  "game_overtime": 16,
+  "game_overtime": 15,
   "game_spread": 72,
   "game_total": 162,
   "game_winner": 102,
-  "goalie_saves": 19,
+  "goalie_saves": 18,
   "non_hockey_or_office": 1,
-  "period_spread": 92,
-  "period_total": 139,
-  "period_winner": 138,
-  "player_assists": 414,
-  "player_goals": 692,
-  "player_points": 555,
+  "period_spread": 90,
+  "period_total": 135,
+  "period_winner": 135,
+  "player_assists": 386,
+  "player_goals": 632,
+  "player_points": 519,
   "season_awards": 514,
   "season_champion": 481,
   "season_player_stats": 497,
   "season_unknown": 45,
-  "team_total": 159
+  "team_total": 150
  },
  "alarms": [
   "45 market(s) classified UNRESOLVED across series ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']: the ontology does not describe something on the board",
   "series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']"
  ],
  "notes": [
-  "order books sampled by priority: 4482 live markets, cap 300"
+  "order books sampled by priority: 4338 live markets, cap 300"
  ],
  "alarm": true
 }
