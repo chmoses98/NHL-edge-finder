@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-24T04:28:44Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-24T05:28:45Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -11,11 +11,11 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | A highest edges (independent) | 149.99 | +16.42 | +4.63 | +15.13 | 0.604 | -55.57 | -78.62 | 30.08 |
-| B thesis-diversified (joint) ← optimiser card | 72.98 | +7.20 | +2.34 | +9.64 | 0.638 | -24.46 | -32.90 | 20.67 |
+| B thesis-diversified (joint) ← optimiser card | 72.86 | +7.11 | +2.31 | +9.51 | 0.638 | -24.34 | -32.78 | 20.43 |
 | C best expression per thesis | 46.80 | +4.86 | +1.57 | +11.32 | 0.541 | -21.24 | -27.73 | 13.95 |
 | R FUNDED research stakes | 22.00 | +2.31 | +0.75 | +2.85 | 0.634 | -7.41 | -10.50 | 0.00 |
 
-## ANA @ PHI  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
+## ANA @ PHI  ·  10000 joint draws  ·  210 bet sides mapped, 0 +EV candidates, 0 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -129,12 +129,12 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 | script | freq | p_WSH_win | p_BUF_win | p_overtime | goals | shots WSH/BUF | WSH/BUF starter saves | driver |
 |---|---:|---:|---:|---:|---:|---|---|---|
-| balanced shots · normal event (5-7) · decided (2+) | 0.130 | 0.56 | 0.45 | 0.00 | 6.02 | 27.5/27.7 | 24.5/23.5 | even strength |
-| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.115 | 0.51 | 0.49 | 0.48 | 5.98 | 27.5/27.8 | 24.4/24.2 | even strength |
-| balanced shots · high event (8+) · decided (2+) | 0.100 | 0.56 | 0.44 | 0.00 | 9.42 | 29.3/29.3 | 23.2/22.7 | even strength |
-| BUF shot control · normal event (5-7) · decided (2+) | 0.075 | 0.54 | 0.46 | 0.00 | 5.94 | 22.0/32.9 | 29.5/18.4 | even strength |
-| BUF shot control · normal event (5-7) · tight (1-goal/OT) | 0.068 | 0.49 | 0.51 | 0.47 | 5.9 | 22.1/32.9 | 29.2/19.0 | even strength |
-| WSH shot control · normal event (5-7) · decided (2+) | 0.060 | 0.62 | 0.38 | 0.00 | 6.0 | 32.3/22.1 | 19.3/28.1 | even strength |
+| balanced shots · normal event (5-7) · decided (2+) | 0.130 | 0.56 | 0.44 | 0.00 | 6.02 | 27.5/27.7 | 24.5/23.5 | even strength |
+| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.115 | 0.51 | 0.49 | 0.48 | 5.97 | 27.5/27.8 | 24.4/24.2 | even strength |
+| balanced shots · high event (8+) · decided (2+) | 0.100 | 0.56 | 0.44 | 0.00 | 9.42 | 29.3/29.4 | 23.2/22.7 | even strength |
+| BUF shot control · normal event (5-7) · decided (2+) | 0.075 | 0.54 | 0.46 | 0.00 | 5.94 | 22.0/33.0 | 29.5/18.5 | even strength |
+| BUF shot control · normal event (5-7) · tight (1-goal/OT) | 0.068 | 0.49 | 0.51 | 0.47 | 5.9 | 22.1/32.8 | 29.2/18.9 | even strength |
+| WSH shot control · normal event (5-7) · decided (2+) | 0.061 | 0.62 | 0.38 | 0.00 | 6.01 | 32.3/22.1 | 19.3/28.1 | even strength |
 
 _no bet on this game passes: +EV at the executable ask under both the model and the confidence-adjusted probability_
 
@@ -270,7 +270,7 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 portfolios: A EV +2.51 (adj +0.70) on $37.50, P(profit) 0.7277, adj growth 5.1 bp · B EV +1.09 (adj +0.31) on $15.61, P(profit) 0.7277, adj growth 2.7 bp · C EV +0.99 (adj +0.30) on $12.89, P(profit) 0.7277, adj growth 2.6 bp · R EV +0.34 (adj +0.10) on $5.00, P(profit) 0.7277, adj growth 3.3 bp
 
-## MIN @ SEA  ·  10000 joint draws  ·  98 bet sides mapped, 6 +EV candidates, 3 on card
+## MIN @ SEA  ·  10000 joint draws  ·  98 bet sides mapped, 7 +EV candidates, 3 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -289,8 +289,8 @@ portfolios: A EV +2.51 (adj +0.70) on $37.50, P(profit) 0.7277, adj growth 5.1 b
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
 | Minnesota wins by over 2.5 goals NO | 77 | 0.843 | 0.804 | +0.060 | +0.021 | $20.00 | FUNDED_RESEARCH | $5 | SEA:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Seattle wins by over 1.5 goals YES | 23 | 0.302 | 0.261 | +0.059 | +0.018 | $3.63 | FUNDED_RESEARCH | $1 | SEA:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Seattle over 2.5 goals scored YES | 56 | 0.638 | 0.594 | +0.060 | +0.017 | $1.74 | FUNDED_RESEARCH | $1 | SEA:OFFENSE_4PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Seattle wins by over 1.5 goals YES | 23 | 0.302 | 0.261 | +0.059 | +0.018 | $3.05 | FUNDED_RESEARCH | $1 | SEA:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Seattle over 2.5 goals scored YES | 56 | 0.638 | 0.594 | +0.060 | +0.017 | $2.20 | FUNDED_RESEARCH | $1 | SEA:OFFENSE_4PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
 - **Minnesota wins by over 2.5 goals NO** — thesis: SEA wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT24MINSEA-SEA2|yes; why: higher confidence-adjusted growth (5.99 vs 4.03 bp); wins across more scripts (relative breadth 1.022 vs 0.535); relationships: KXNHLSPREAD-26OCT24MINSEA-SEA2|yes: REINFORCING (phi 0.284); KXNHLTEAMTOTAL-26OCT24MINSEA-SEA3|yes: REINFORCING (phi 0.4); failure: MIN wins by 2+
 - **Seattle wins by over 1.5 goals YES** — thesis: SEA wins by 2+; alternative: KXNHLSPREAD-26OCT24MINSEA-MIN3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT24MINSEA-MIN3|no has the higher standalone adjusted growth (5.99 vs 4.03 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.284); they share one thesis budget; relationships: KXNHLSPREAD-26OCT24MINSEA-MIN3|no: REINFORCING (phi 0.284); KXNHLTEAMTOTAL-26OCT24MINSEA-SEA3|yes: DUPLICATIVE (phi 0.459); failure: MIN wins (incl. OT/SO)
 - **Seattle over 2.5 goals scored YES** — thesis: SEA offense succeeds (4+ goals); alternative: KXNHLSPREAD-26OCT24MINSEA-MIN3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT24MINSEA-MIN3|no has the higher standalone adjusted growth (5.99 vs 2.46 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.400); they share one thesis budget; relationships: KXNHLSPREAD-26OCT24MINSEA-MIN3|no: REINFORCING (phi 0.4); KXNHLSPREAD-26OCT24MINSEA-SEA2|yes: DUPLICATIVE (phi 0.459); failure: SEA offense suppressed (<= 2 goals)
@@ -303,6 +303,6 @@ portfolios: A EV +2.51 (adj +0.70) on $37.50, P(profit) 0.7277, adj growth 5.1 b
 - KXNHLSPREAD-26OCT24MINSEA-SEA2|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis MIN:WINS (p 0.4719, phi -0.621)
 - KXNHLTEAMTOTAL-26OCT24MINSEA-SEA3|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis SEA:SUPPRESSED (p 0.3736, phi -0.976)
 
-portfolios: A EV +4.93 (adj +1.28) on $46.87, P(profit) 0.6074, adj growth 9.5 bp · B EV +2.61 (adj +0.88) on $25.37, P(profit) 0.8428, adj growth 7.8 bp · C EV +1.54 (adj +0.55) on $20.00, P(profit) 0.8428, adj growth 5.1 bp · R EV +0.74 (adj +0.24) on $7.00, P(profit) 0.6155, adj growth 8.5 bp
+portfolios: A EV +4.93 (adj +1.28) on $46.87, P(profit) 0.6074, adj growth 9.5 bp · B EV +2.52 (adj +0.85) on $25.25, P(profit) 0.8428, adj growth 7.6 bp · C EV +1.54 (adj +0.55) on $20.00, P(profit) 0.8428, adj growth 5.1 bp · R EV +0.74 (adj +0.24) on $7.00, P(profit) 0.6155, adj growth 8.5 bp
 
 _RESEARCH_ONLY thesis card: B stakes are optimiser suggestions for a nominal bankroll; R (FUNDED_RESEARCH) stakes are whole-dollar research stakes under research governance. Nothing is placed or routed. Every recommended bet is +EV at its executable ask under the model AND the confidence-adjusted probability; the card is emitted only when the completion gate passes._
