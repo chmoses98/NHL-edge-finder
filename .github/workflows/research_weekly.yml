@@ -12,6 +12,7 @@ on:
 permissions:
   contents: read
   issues: write
+  actions: read       # the delivery timeline reads the workflow run and job records (read-only)
 concurrency:
   group: research-weekly
   cancel-in-progress: true
@@ -33,6 +34,7 @@ jobs:
           git worktree add --no-checkout -f /tmp/archive FETCH_HEAD
           git -C /tmp/archive sparse-checkout init --no-cone
           mapfile -t pats < <(python -m nhl_edge.research.daily_scoreboard --sparse-patterns)
+          for i in 0 1 2; do pats+=("/context/schedule/dt=$(date -u -d "-$i days" +%F)/"); done
           git -C /tmp/archive sparse-checkout set --no-cone '/STATUS_*.json' '/eval/' "${pats[@]}"
           git -C /tmp/archive checkout -q
           if git fetch --depth=1 --filter=blob:none origin projection-data; then
@@ -61,6 +63,18 @@ jobs:
           python -m nhl_edge.research.pregame_audit --archive /tmp/archive --date "$day" --out /tmp/summary/pregame_audit > /dev/null; arc=$?
           cat "/tmp/summary/pregame_audit/${day}_pregame_audit.md" >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
           echo "audit_rc=$arc" >> "$GITHUB_OUTPUT"
+      - name: Projection delivery of the last ET game day (request -> runner -> publication -> minutes to each puck drop; read-only)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          mkdir -p /tmp/summary/delivery
+          day=$(TZ=America/New_York date -d 'yesterday' +%F)
+          sched=$(ls -1 /tmp/archive/context/schedule/dt=*/*.jsonl.gz 2>/dev/null | sort | tail -3 | tr '\n' ' ')
+          args=(--date "$day" --out "/tmp/summary/delivery/${day}_delivery_timeline")
+          [ -n "$sched" ] && args+=(--schedule $sched)
+          python -m nhl_edge.research.delivery_timeline "${args[@]}" > /dev/null || echo "delivery timeline failed (non-fatal)" >> /tmp/summary/report_errors.txt
+          cat "/tmp/summary/delivery/${day}_delivery_timeline.md" >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
       - uses: actions/upload-artifact@v4
         with:
           name: nhl-research-summary-${{ github.run_id }}
