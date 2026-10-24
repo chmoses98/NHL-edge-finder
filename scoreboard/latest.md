@@ -2,7 +2,7 @@
 
 Registration: `docs/research/player_minutes/PREREGISTRATION.md`. Activation: 2026-10-24T07:20:40Z.
 
-Records: 84 (counting: 84) · outcomes: 0 · paired with an incumbent TOI forecast: 0
+Records: 503 (counting: 503) · outcomes: 0 · paired with an incumbent TOI forecast: 0
 
 Not enough paired data yet: INCONCLUSIVE AT n=0.
 
