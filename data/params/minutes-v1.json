@@ -1,0 +1,10 @@
+{
+ "schema": "minutes-v1.0",
+ "model_id": "MINUTES_V1",
+ "status": "RESEARCH_ONLY",
+ "usage_coef": 0.23,
+ "usage_feature": "log((mean ice time of the last three dressed regular-season games + 1) / (WORKLOAD_V1 expected total ice time + 1)); players with fewer than three known games get 0",
+ "multiplier_clip": [-1.0, 1.0],
+ "derived_from": "docs/research/player_challengers/RESULTS.md: stack on WORKLOAD_V1 minutes, fitted on 2023 (scored 2024) and 2023-24 (scored 2025): 0.226 and 0.235; rounded to 0.23. Development evidence only (all seasons exposed); not tuned further.",
+ "registration": "docs/research/player_minutes/PREREGISTRATION.md"
+}
