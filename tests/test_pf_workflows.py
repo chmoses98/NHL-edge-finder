@@ -94,3 +94,10 @@ def test_workload_shadow_workflow_cannot_touch_anything_but_its_own_branch_and_r
     assert d["permissions"] == {"contents": "write"} and "workflow_dispatch" in d["on"] and "schedule" in d["on"]
     assert "HEAD:workload-shadow-data" in text and "--force" not in text and "push origin main" not in text
     assert "--diff-filter=DMRTC" in text and "--no-renames" in text and "only be appended" in text
+
+
+def test_lc_run_step_publishes_what_was_written_even_when_a_day_failed():
+    d = _load("workload_shadow.yml")
+    step = next(s for s in d["jobs"]["run"]["steps"] if s.get("id") == "run")
+    assert step["run"].lstrip().startswith("set +e")          # bash -e would otherwise exit at `predict | tee` (rc 3) before the commit step could publish the other days
+    assert "predict_rc" in step["run"] and "score_rc" in step["run"]
