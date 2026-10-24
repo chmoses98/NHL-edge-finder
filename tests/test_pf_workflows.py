@@ -65,6 +65,21 @@ def test_worker_workflow_keeps_the_permission_the_dispatcher_needs():
     assert d["permissions"]["actions"] == "write" and d["permissions"]["contents"] == "write"
 
 
+def test_slate_watch_judges_forecast_delivery_by_evaluation_not_by_unchanged_values():
+    text = (WF / "slate_watch.yml").read_text()
+    assert "delivery_monitor" in text and "NHL pregame forecast missing or stale" in text
+    assert 'ALERT" = "true"' in text and 'RECOVERED" = "true"' in text
+    assert "did not change is not a problem" in text           # the issue body says so, so a reader is not sent chasing an unchanged value
+    assert "contents: write" not in text
+
+
+def test_research_weekly_records_the_daily_delivery_timeline_read_only():
+    d = _load("research_weekly.yml")
+    text = (WF / "research_weekly.yml").read_text()
+    assert d["permissions"] == {"contents": "read", "issues": "write", "actions": "read"}
+    assert "delivery_timeline" in text and "context/schedule" in text and "git push" not in text
+
+
 def test_slate_watch_asks_for_the_lc_collection_and_alerts_only_on_a_missing_record():
     text = (WF / "slate_watch.yml").read_text()
     assert "lc_dispatch dispatch" in text and "NHL workload shadow collection gap" in text

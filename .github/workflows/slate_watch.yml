@@ -116,6 +116,41 @@ jobs:
             # only a real, recent projection-refreshing success closes it; "not stale" (a run merely queued, no schedule snapshot, API unreadable) does not
             gh issue close "$existing" --comment "Projection delivery recovered at $(date -u +%FT%TZ): a projection run succeeded within the last 4 h." || true
           fi
+      - name: Pregame forecast delivery (missing or stale forecasts only)
+        id: fc
+        run: |
+          set -uo pipefail
+          echo "fc_alert=false" >> "$GITHUB_OUTPUT"; echo "fc_recovered=false" >> "$GITHUB_OUTPUT"
+          sched=$(ls -1 /tmp/archive/context/schedule/dt=*/*.jsonl.gz 2>/dev/null | sort | tail -1 || true)
+          [ -n "$sched" ] || { echo "no schedule snapshot; nothing to judge"; exit 0; }
+          if git fetch --depth=1 --filter=blob:none origin projection-data; then
+            git worktree add --no-checkout -f /tmp/pfdata FETCH_HEAD
+            git -C /tmp/pfdata sparse-checkout init --no-cone
+            pats=()
+            for i in -2 -1 0 1 2; do d=$(date -u -d "$i days" +%F); pats+=("/forecasts/nhl/$d/" "/runs/nhl/$d/"); done
+            git -C /tmp/pfdata sparse-checkout set --no-cone "${pats[@]}"
+            git -C /tmp/pfdata checkout -q
+            PYTHONPATH=src python -m nhl_edge.research.delivery_monitor --pf /tmp/pfdata --schedule "$sched" --out /tmp/fc_report.json --github-output "$GITHUB_OUTPUT" > /dev/null || echo "delivery_monitor failed (non-fatal)"
+            { echo '### Pregame forecast delivery'; echo '```json'; head -c 3500 /tmp/fc_report.json 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "projection-data not readable; not judging"
+          fi
+      - name: Alert once if a pregame forecast is actually missing or stale
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ALERT: ${{ steps.fc.outputs.fc_alert }}
+          RECOVERED: ${{ steps.fc.outputs.fc_recovered }}
+        run: |
+          set -uo pipefail
+          title="NHL pregame forecast missing or stale"
+          existing=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty' || true)
+          if [ "$ALERT" = "true" ]; then
+            body=$(printf 'A game starts within 90 minutes and its player-projection forecast is **missing** (no pregame row exists) or **stale** (the newest projection run that evaluated the game, or the lineup capture it used, is too old). A forecast whose *values* did not change is not a problem and never raises this issue.\n\n```json\n%s\n```\n\nRun: %s/%s/actions/runs/%s\n\n_Opened automatically; nothing is changed automatically. It closes itself when every game within 90 minutes is covered by a recent evaluation._' \
+              "$(head -c 3000 /tmp/fc_report.json 2>/dev/null)" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")
+            if [ -z "$existing" ]; then gh issue create --title "$title" --body "$body" || true; fi
+          elif [ -n "$existing" ] && [ "$RECOVERED" = "true" ]; then
+            gh issue close "$existing" --comment "Forecast delivery recovered at $(date -u +%FT%TZ): every game within 90 minutes has a recent evaluation and a pregame forecast." || true
+          fi
       - name: WORKLOAD_V1_LC collection (third trigger and coverage flag)
         id: lc
         env:
