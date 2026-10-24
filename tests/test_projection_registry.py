@@ -45,7 +45,7 @@ def test_default_leaves_every_game_document_byte_identical():
 
 
 def test_a_switch_without_a_complete_approval_is_ignored_and_says_why(tmp_path):
-    for appr in (None, {}, {"approved_by": "owner"}, {**APPROVAL, "evidence": " "}):
+    for appr in (None, {}, {"approved_by": "owner"}, {**APPROVAL, "evidence": " "}, {**APPROVAL, "approved_by": "PENDING owner approval"}, {**APPROVAL, "evidence": "TBD"}):
         games, before = _games(), copy.deepcopy(_games())
         rep = PR.apply_overtime(games, _blocks(), _registry(tmp_path, approval=appr))
         assert games == before and rep["published_model"] == "DATA_ONLY_V1" and "no complete approval" in rep["default_reason"]

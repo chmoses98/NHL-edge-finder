@@ -27,7 +27,8 @@ APPROVAL_KEYS = ("approved_by", "approved_at_utc", "evidence")
 
 def _approved(entry: dict[str, Any]) -> bool:
     a = entry.get("approval")
-    return isinstance(a, dict) and all(isinstance(a.get(k), str) and a[k].strip() for k in APPROVAL_KEYS)
+    placeholder = ("pending", "todo", "tbd", "placeholder", "xxx")
+    return isinstance(a, dict) and all(isinstance(a.get(k), str) and a[k].strip() and not any(w in a[k].lower() for w in placeholder) for k in APPROVAL_KEYS)
 
 
 def published_model(target: str, path: Path | None = None) -> tuple[str, str | None]:
