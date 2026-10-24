@@ -3,6 +3,8 @@ name: workload-shadow
 # Writes write-once pregame records and the scoreboard to the orphan branch `workload-shadow-data` ONLY. It reads settled events from `data-archive` and the
 # incumbent's pre-drop forecasts from `projection-data` (sparse, blobless views) and has no access to the betting engine, the router or the app contract.
 # Four slots a day because GitHub delivers cron late (a later run only adds records for games that have none yet; existing records are never touched).
+# A second, independent job (`minutes`) writes the player-minutes-1.0 records (docs/research/player_minutes/PREREGISTRATION.md) to the orphan branch `player-minutes-data`
+# on exactly the same triggers; it is continue-on-error so it can never fail this run (and therefore never disturb the LC dispatch/coverage logic), and the LC job is untouched.
 # Cron is best-effort (GitHub delivered the PF slots 2-6 h late): a game whose first eligible run starts after its puck drop gets NO record and is listed in the
 # coverage report; nothing is back-filled. Manual dispatch is always allowed.
 on:
@@ -106,4 +108,94 @@ jobs:
           path: |
             /tmp/predict.log
             /tmp/score.log
+          retention-days: 14
+
+  minutes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    continue-on-error: true
+    concurrency:
+      group: player-minutes
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: pip install -q -e .
+      - name: Sparse blobless view of data-archive (settled events, schedule, lines, injuries, recent incumbent predictions)
+        run: |
+          set -euo pipefail
+          git fetch --depth=1 --filter=blob:none origin data-archive
+          git worktree add --no-checkout -f /tmp/archive FETCH_HEAD
+          git -C /tmp/archive sparse-checkout init --no-cone
+          pats=(/manifest.jsonl /player_events/)
+          for i in -1 0 1 2 3; do pats+=("/context/schedule/dt=$(date -u -d "$i days" +%F)/"); done
+          for i in -3 -2 -1 0; do d=$(date -u -d "$i days" +%F); pats+=("/context/lines/dt=$d/" "/context/injuries/dt=$d/" "/predictions_player/dt=$d/"); done
+          git -C /tmp/archive sparse-checkout set --no-cone "${pats[@]}"
+          git -C /tmp/archive checkout -q
+      - name: Sparse view of projection-data forecasts (incumbent pre-drop ice-time forecasts)
+        run: |
+          set -uo pipefail
+          if git fetch --depth=1 --filter=blob:none origin projection-data; then
+            git worktree add --no-checkout -f /tmp/pf FETCH_HEAD
+            git -C /tmp/pf sparse-checkout init --no-cone
+            git -C /tmp/pf sparse-checkout set --no-cone /forecasts/nhl/
+            git -C /tmp/pf checkout -q
+          else
+            mkdir -p /tmp/pf
+          fi
+      - name: Check out player-minutes-data (orphan branch is created on the first run)
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/minutes
+          rc=0; git ls-remote --exit-code --heads origin player-minutes-data >/dev/null 2>&1 || rc=$?
+          if [ "$rc" != 0 ] && [ "$rc" != 2 ]; then echo "::error::cannot list remote branches (rc=$rc): not bootstrapping"; exit 1; fi
+          if [ "$rc" = 0 ]; then
+            git fetch --depth=1 origin player-minutes-data
+            git worktree add -f --detach /tmp/minutes FETCH_HEAD
+            git -C /tmp/minutes checkout -q -B player-minutes-data
+          else
+            git worktree add --detach -f /tmp/minutes HEAD
+            git -C /tmp/minutes checkout -q --orphan player-minutes-data
+            git -C /tmp/minutes rm -rfq . || true
+            git -C /tmp/minutes clean -fdxq
+          fi
+      - name: Predict (write-once records), settle outcomes, score
+        id: run
+        run: |
+          set -uo pipefail
+          python -m nhl_edge.research.player_minutes_shadow predict --archive /tmp/archive --history data/history --out /tmp/minutes | tee /tmp/minutes_predict.log
+          rc=${PIPESTATUS[0]}
+          if [ "$rc" = 2 ]; then echo "::error::record guard failed: not publishing"; exit 1; fi
+          echo "predict_rc=$rc" >> "$GITHUB_OUTPUT"
+          python -m nhl_edge.research.player_minutes_shadow settle --archive /tmp/archive --out /tmp/minutes | tee /tmp/minutes_settle.log
+          if [ "${PIPESTATUS[0]}" = 2 ]; then echo "::error::record guard failed at settlement: not publishing"; exit 1; fi
+          python -m nhl_edge.research.player_minutes_shadow score --archive /tmp/archive --pf /tmp/pf --out /tmp/minutes | tee /tmp/minutes_score.log || true
+          cat /tmp/minutes/scoreboard/latest.md >> "$GITHUB_STEP_SUMMARY" || true
+      - name: Commit to player-minutes-data (only after the guard passed; additions only)
+        run: |
+          set -euo pipefail
+          cd /tmp/minutes
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "nothing to publish"; exit 0; fi
+          if git diff --cached --no-renames --name-status --diff-filter=DMRTC | grep -E '^[A-Z][0-9]*[[:space:]]+(records|outcomes|coverage|looks|activation)'; then echo "::error::refusing to modify, rename or delete an immutable file"; exit 1; fi
+          if git diff --cached --no-renames --name-only --diff-filter=DRT | grep -qx 'MANIFEST.jsonl'; then echo "::error::refusing to remove the manifest"; exit 1; fi
+          if [ "$(git diff --cached --numstat -- MANIFEST.jsonl | cut -f2)" != "" ] && [ "$(git diff --cached --numstat -- MANIFEST.jsonl | cut -f2)" != "0" ]; then echo "::error::the manifest may only be appended to"; exit 1; fi
+          git commit -qm "player-minutes $(date -u +%Y-%m-%dT%H:%MZ) (research_only)"
+          for i in 1 2 3 4; do
+            if git push origin HEAD:player-minutes-data; then echo pushed; exit 0; fi
+            sleep $((2 ** i)); git fetch -q --depth=1 origin player-minutes-data; git rebase -q FETCH_HEAD || { echo "::error::rebase conflict"; exit 1; }
+          done
+          echo "::error::could not push"; exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: player-minutes-${{ github.run_id }}
+          path: |
+            /tmp/minutes_predict.log
+            /tmp/minutes_settle.log
+            /tmp/minutes_score.log
           retention-days: 14

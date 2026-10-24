@@ -79,3 +79,14 @@ def test_workload_shadow_workflow_cannot_touch_anything_but_its_own_branch_and_r
     assert d["permissions"] == {"contents": "write"} and "workflow_dispatch" in d["on"] and "schedule" in d["on"]
     assert "HEAD:workload-shadow-data" in text and "--force" not in text and "push origin main" not in text
     assert "--diff-filter=DMRTC" in text and "--no-renames" in text and "only be appended" in text
+
+
+def test_player_minutes_job_is_isolated_from_the_lc_job_and_writes_only_its_own_branch():
+    d = _load("workload_shadow.yml")
+    text = (WF / "workload_shadow.yml").read_text()
+    assert set(d["jobs"]) == {"run", "minutes"} and d["jobs"]["minutes"]["continue-on-error"] is True and "continue-on-error" not in d["jobs"]["run"]
+    assert d["permissions"] == {"contents": "write"}
+    assert "HEAD:player-minutes-data" in text and "HEAD:workload-shadow-data" in text and "--force" not in text and "push origin main" not in text
+    minutes = "\n".join(str(s.get("run", "")) for s in d["jobs"]["minutes"]["steps"])
+    assert "HEAD:workload-shadow-data" not in minutes and "player_minutes_shadow predict" in minutes and "player_minutes_shadow settle" in minutes
+    assert "(records|outcomes|coverage|looks|activation)" in minutes and "--diff-filter=DMRTC" in minutes and "only be appended" in minutes
