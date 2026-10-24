@@ -107,3 +107,15 @@ def test_a_success_without_a_commit_is_not_credited_with_a_publication():
         return r
 
     assert D.collect("2026-10-23", fake)["runs"][1]["publication"] is None
+
+
+def test_slate_starts_keep_only_this_slates_games():
+    games = [
+        {"start_utc": "2026-10-23T00:00:00Z"},
+        {"start_utc": "2026-10-24T00:00:00Z"},
+        {"start_utc": "2026-10-24T01:00:00Z"},
+        {"start_utc": "2026-10-24T23:00:02Z"},
+        {"start_utc": None},
+    ]
+    got = D.slate_starts(games, "2026-10-23")
+    assert [g.isoformat() for g in got] == ["2026-10-24T00:00:00+00:00", "2026-10-24T01:00:00+00:00"]

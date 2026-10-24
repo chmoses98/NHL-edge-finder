@@ -137,6 +137,12 @@ def attach_drops(tl: dict[str, Any], starts: list[datetime]) -> None:
         row["publication_to_first_drop_min"] = _minutes(pub, starts[0]) if pub and starts else None
 
 
+def slate_starts(games: list[dict[str, Any]], date: str) -> list[datetime]:
+    """Puck drops of this slate only (the audit reads two UTC partitions, so it also lists the previous evening's tail and the next day's games)."""
+    lo, hi = window(date)
+    return [d for g in games if (d := _dt(g.get("start_utc"))) and lo <= d < hi]
+
+
 def markdown(tl: dict[str, Any]) -> str:
     t = lambda x: x.strftime("%H:%M:%S") if x else "—"  # noqa: E731
     L = [
@@ -173,12 +179,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     tl = collect(a.date)
-    attach_drops(
-        tl,
-        [d for g in json.loads(Path(a.games).read_text())["games"] if (d := _dt(g.get("start_utc")))]
-        if a.games
-        else [],
-    )
+    starts = slate_starts(json.loads(Path(a.games).read_text())["games"], a.date) if a.games else []
+    attach_drops(tl, starts)
     Path(a.out + ".json").write_text(
         json.dumps(tl, indent=1, default=lambda o: _iso(o) if isinstance(o, datetime) else str(o))
     )
