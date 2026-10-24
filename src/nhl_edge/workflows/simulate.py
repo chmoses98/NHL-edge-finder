@@ -29,6 +29,7 @@ from nhl_edge import (
     FEATURE_VERSION,
     MARKET_ANCHORED_MODEL_VERSION,
     SIM_VERSION,
+    projection_registry,
 )
 from nhl_edge.archive.ledger import Ledger, entry_observed_at
 from nhl_edge.archive.reconstruct import DeltaChainError, reconstruct_at
@@ -295,6 +296,11 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
         slate["player_shadow"] = {k: v for k, v in player.items() if k != "rows"} | {"n_rows": len(player.get("rows") or [])}
         slate["_player_rows"] = player.get("rows") or []
         slate["coverage"]["player_shadow"] = {"player_contracts": len(player.get("rows") or []), "priced": sum(1 for r in player.get("rows") or [] if r.get("priced"))}
+    if v2 is not None and not v2.get("error"):
+        # published overtime target: DATA_ONLY_V1 unless the projection registry carries an approved switch; documents are untouched at the default
+        reg = projection_registry.apply_overtime(slate_games, v2.get("blocks"))
+        if reg["published_model"] != projection_registry.DEFAULT_MODEL or reg["default_reason"]:
+            slate["projection_registry"] = reg
     if write:
         if pred_rows:
             ledger.append_rows("predictions", pred_rows, observed_at=now, meta={"date_et": target, "n_games": len(not_started)})

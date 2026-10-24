@@ -1,0 +1,15 @@
+{
+  "schema": "projection-registry-1",
+  "note": "Which model's number is PUBLISHED for each target. Default = the current champion. A non-default value is ignored unless it carries a complete approval record (see src/nhl_edge/projection_registry.py). Changing this file never changes a price, stake, cap or route.",
+  "targets": {
+    "overtime": {
+      "published_model": "DATA_ONLY_V1",
+      "candidate": "DATA_ONLY_V2",
+      "fields": ["p_reg_tie", "p_overtime", "p_home_reg_win", "p_away_reg_win", "p_shootout"],
+      "approval": null
+    }
+  },
+  "history": [
+    {"date": "2026-10-24", "change": "registry introduced; overtime published by DATA_ONLY_V1 (unchanged)", "approval": null}
+  ]
+}
