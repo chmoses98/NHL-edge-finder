@@ -199,3 +199,25 @@ def test_looks_are_computed_once_on_their_own_sample_and_the_verdict_is_sticky(t
     if first is not None:
         assert json.loads((out / "looks" / "look_30000.json").read_text()) == first
     assert R.write_look(out, 10_000, {"x": 1}) is False
+
+
+def test_coverage_audit_lists_recorded_pending_and_missed_games_and_measures_the_lead(tmp_path):
+    from datetime import timedelta
+
+    from nhl_edge.archive.ledger import Ledger
+
+    arch, out = tmp_path / "arch", tmp_path / "out"
+    start = lambda h: (NOW + timedelta(hours=h)).strftime("%Y-%m-%dT%H:%M:%SZ")  # noqa: E731
+    base = {"season_type": "regular", "status": "not_started", "home_team_id": "1", "away_team_id": "2", "game_date_et": "2026-10-24"}
+    rows = [{**base, "game_id": "1", "start_time_utc": start(2)}, {**base, "game_id": "2", "start_time_utc": start(-1)}, {**base, "game_id": "3", "start_time_utc": start(30)},
+            {**base, "game_id": "4", "start_time_utc": start(-6), "status": "postponed"}, {**base, "game_id": "5", "start_time_utc": start(-30)}]       # 5: before activation
+    Ledger(arch).append_rows("context/schedule", rows, observed_at=NOW - timedelta(minutes=5), meta={})
+    out.mkdir()
+    (out / "activation.json").write_text(json.dumps({"activation_utc": (NOW - timedelta(hours=10)).strftime("%Y-%m-%dT%H:%M:%SZ")}))
+    rec = pd.DataFrame({"game_id": [1, 1], "player_id": [5, 6], "pregame": True, "predicted_at_utc": (NOW - timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                        "game_start_utc": start(2), "written_at_utc": (NOW - timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%SZ")})
+    a = R.coverage_audit(arch, out, rec, NOW)
+    states = {g["game_id"]: g["state"] for g in a["games"]}
+    assert states == {"1": "recorded", "2": "missed", "3": "pending"}                       # postponed and pre-activation games are not in the denominator
+    assert a["missed"] == ["2"] and a["games_started"] == 1 and a["coverage_of_started"] == 0.0 and a["median_lead_min"] == 180.0
+    assert R.coverage_audit(arch, tmp_path / "nowhere", rec, NOW) == {"activated": False}

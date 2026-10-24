@@ -78,3 +78,19 @@ def test_research_weekly_records_the_daily_delivery_timeline_read_only():
     text = (WF / "research_weekly.yml").read_text()
     assert d["permissions"] == {"contents": "read", "issues": "write", "actions": "read"}
     assert "delivery_timeline" in text and "context/schedule" in text and "git push" not in text
+
+
+def test_slate_watch_asks_for_the_lc_collection_and_alerts_only_on_a_missing_record():
+    text = (WF / "slate_watch.yml").read_text()
+    assert "lc_dispatch dispatch" in text and "NHL workload shadow collection gap" in text
+    assert 'GAP" = "true"' in text and 'RECOVERED" = "true"' in text and "never back-filled" in text.lower().replace("**", "")
+    steps = {s.get("id") for s in _load("slate_watch.yml")["jobs"]["check"]["steps"]}
+    assert {"pf", "lc"} <= steps
+
+
+def test_workload_shadow_workflow_cannot_touch_anything_but_its_own_branch_and_refuses_immutable_changes():
+    d = _load("workload_shadow.yml")
+    text = (WF / "workload_shadow.yml").read_text()
+    assert d["permissions"] == {"contents": "write"} and "workflow_dispatch" in d["on"] and "schedule" in d["on"]
+    assert "HEAD:workload-shadow-data" in text and "--force" not in text and "push origin main" not in text
+    assert "--diff-filter=DMRTC" in text and "--no-renames" in text and "only be appended" in text

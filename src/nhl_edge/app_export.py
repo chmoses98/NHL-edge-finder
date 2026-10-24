@@ -683,7 +683,7 @@ def build_documents(root: Path, *, accounting_dir: Path | None = None, now: date
             "injuries": [_compact({k: i.get(k) for k in ("team_id", "player_name", "position", "status", "detail", "return_date")})
                          for i in (pg.get("context") or {}).get("injuries", []) if isinstance(i, dict)] or None,
             "model_game": _compact({k: sg.get(k) for k in ("p_home_win", "p_away_win", "p_home_reg_win", "p_away_reg_win", "p_overtime", "p_shootout",
-                                                           "exp_home_goals", "exp_away_goals", "exp_total", "inputs_trusted", "input_reasons", "horizon")}) or None,
+                                                           "exp_home_goals", "exp_away_goals", "exp_total", "inputs_trusted", "input_reasons", "horizon", "overtime_model")}) or None,
             "authority": BET_AUTHORITY,
         })
         docs[f"event_detail/{ev['event_id']}"] = board_mod.build_event_detail(
