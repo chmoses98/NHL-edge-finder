@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-24T08:09:41Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-24T09:16:47Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,10 +10,10 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 149.99 | +20.50 | +5.83 | +17.92 | 0.622 | -55.15 | -70.56 | 41.30 |
-| B thesis-diversified (joint) ← optimiser card | 96.06 | +11.78 | +3.35 | +14.89 | 0.672 | -23.98 | -35.12 | 29.51 |
-| C best expression per thesis | 66.81 | +8.43 | +2.11 | +6.59 | 0.714 | -22.18 | -27.74 | 18.61 |
-| R FUNDED research stakes | 23.00 | +2.70 | +0.94 | +1.85 | 0.605 | -8.64 | -11.50 | 0.00 |
+| A highest edges (independent) | 150.00 | +21.78 | +6.04 | +21.97 | 0.639 | -48.35 | -65.86 | 45.53 |
+| B thesis-diversified (joint) ← optimiser card | 115.74 | +17.87 | +4.90 | +19.32 | 0.729 | -23.83 | -33.74 | 44.39 |
+| C best expression per thesis | 81.98 | +13.93 | +3.55 | +25.16 | 0.653 | -20.53 | -30.71 | 32.46 |
+| R FUNDED research stakes | 22.00 | +2.50 | +0.92 | +0.95 | 0.593 | -7.56 | -11.40 | 0.00 |
 
 ## ANA @ PHI  ·  10000 joint draws  ·  406 bet sides mapped, 1 +EV candidates, 1 on card
 
@@ -33,16 +33,16 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Denver Barkey: 1+ goals YES | 14 | 0.185 | 0.165 | +0.037 | +0.017 | $4.45 | FUNDED_RESEARCH | $2 | PHI:OFFENSE_4PLUS | FRAGILE (0.28) | EVIDENCE_STRONGER | D |
-- **Denver Barkey: 1+ goals YES** — thesis: PHI offense succeeds (4+ goals); alternative: KXNHLAST-26OCT24ANAPHI-PHITSANHEIM6-1|yes; why: higher confidence-adjusted growth (4.83 vs 0.10 bp); despite a smaller raw edge (+0.037 vs +0.072/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; alternative not eligible: confidence-adjusted EV +0.0031 below the 0.010/contract floor; relationships: only recommended bet in this game; failure: PHI offense suppressed (<= 2 goals)
+| Denver Barkey: 1+ goals YES | 15 | 0.185 | 0.175 | +0.026 | +0.016 | $4.61 | FUNDED_RESEARCH | $2 | PHI:OFFENSE_4PLUS | FRAGILE (0.28) | EVIDENCE_STRONGER | D |
+- **Denver Barkey: 1+ goals YES** — thesis: PHI offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT24ANAPHI-PHICDVORAK22-1|yes; why: higher confidence-adjusted growth (4.31 vs 1.25 bp); despite a smaller raw edge (+0.026 vs +0.030/contract); alternative not eligible: confidence-adjusted EV +0.0096 below the 0.010/contract floor; relationships: only recommended bet in this game; failure: PHI offense suppressed (<= 2 goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, ANA shot control · normal event (5-7) · decided (2+) 0.10.
 - thesis PHI:OFFENSE_4PLUS (p 0.3925): highest fidelity - [-], best adjusted EV - — no eligible expression
 - KXNHLGOAL-26OCT24ANAPHI-PHIDBARKEY86-1|yes: FUNDED_RESEARCH; family TRUSTED; loses 72% of the draws where the thesis happens; fragile player expression; opposing: failure thesis PHI:SUPPRESSED (p 0.3884, phi -0.206)
 
-portfolios: A EV +2.11 (adj +0.96) on $8.51, P(profit) 0.1853, adj growth 7.2 bp · B EV +1.11 (adj +0.50) on $4.45, P(profit) 0.1853, adj growth 4.4 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.50 (adj +0.23) on $2.00, P(profit) 0.1853, adj growth 6.9 bp
+portfolios: A EV +0.99 (adj +0.61) on $5.94, P(profit) 0.1853, adj growth 5.1 bp · B EV +0.77 (adj +0.47) on $4.61, P(profit) 0.1853, adj growth 4.1 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.33 (adj +0.21) on $2.00, P(profit) 0.1853, adj growth 6.3 bp
 
-## LAK @ NJD  ·  10000 joint draws  ·  434 bet sides mapped, 2 +EV candidates, 2 on card
+## LAK @ NJD  ·  10000 joint draws  ·  434 bet sides mapped, 4 +EV candidates, 4 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -60,18 +60,24 @@ portfolios: A EV +2.11 (adj +0.96) on $8.51, P(profit) 0.1853, adj growth 7.2 bp
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Mats Zuccarello: 1+ assists NO | 68 | 0.819 | 0.716 | +0.124 | +0.021 | $20.00 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED | $0 | LAK:SUPPRESSED | DIRECT (0.90) | EVIDENCE_MIXED | D |
-| New Jersey over 3.5 goals scored NO | 55 | 0.616 | 0.580 | +0.048 | +0.013 | $7.66 | FUNDED_RESEARCH | $2 | NJD:SUPPRESSED | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **Mats Zuccarello: 1+ assists NO** — thesis: LAK offense suppressed (<= 2 goals); alternative: KXNHLTOTAL-26OCT24LANJ-5|no; why: higher confidence-adjusted growth (4.38 vs 0.07 bp); wins across more scripts (relative breadth 0.999 vs 0.391); alternative not eligible: confidence-adjusted EV +0.0024 below the 0.010/contract floor; relationships: KXNHLTEAMTOTAL-26OCT24LANJ-NJ4|no: MOSTLY_INDEPENDENT (phi -0.002); failure: LAK offense succeeds (4+ goals)
-- **New Jersey over 3.5 goals scored NO** — thesis: NJD offense suppressed (<= 2 goals); alternative: KXNHLSPREAD-26OCT24LANJ-NJ3|no; why: higher confidence-adjusted growth (1.49 vs 1.10 bp); alternative not eligible: confidence-adjusted EV +0.0095 below the 0.010/contract floor; relationships: KXNHLAST-26OCT24LANJ-LAMZUCCARELLO36-1|no: MOSTLY_INDEPENDENT (phi -0.002); failure: NJD offense succeeds (4+ goals)
+| Mats Zuccarello: 1+ assists NO | 65 | 0.819 | 0.706 | +0.153 | +0.040 | $20.00 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED | $0 | LAK:SUPPRESSED | DIRECT (0.90) | EVIDENCE_MIXED | D |
+| Luke Evangelista: 1+ assists NO | 62 | 0.794 | 0.665 | +0.158 | +0.028 | $20.00 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED | $0 | NJD:SUPPRESSED | DIRECT (0.90) | EVIDENCE_MIXED | D |
+| New Jersey over 3.5 goals scored NO | 55 | 0.616 | 0.580 | +0.048 | +0.013 | $2.90 | FUNDED_RESEARCH | $1 | NJD:SUPPRESSED | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Jack Hughes: 1+ assists NO | 50 | 0.602 | 0.529 | +0.084 | +0.012 | $4.73 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED | $0 | NJD:SUPPRESSED | DIRECT (0.78) | EVIDENCE_MIXED | D |
+- **Mats Zuccarello: 1+ assists NO** — thesis: LAK offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT24LANJ-LAAPANARIN10-1|no; why: higher confidence-adjusted growth (15.94 vs 0.83 bp); alternative not eligible: confidence-adjusted EV +0.0096 below the 0.010/contract floor; relationships: KXNHLAST-26OCT24LANJ-NJLEVANGELISTA77-1|no: MOSTLY_INDEPENDENT (phi -0.001); KXNHLTEAMTOTAL-26OCT24LANJ-NJ4|no: MOSTLY_INDEPENDENT (phi -0.002); KXNHLAST-26OCT24LANJ-NJJHUGHES86-1|no: MOSTLY_INDEPENDENT (phi 0.0); failure: LAK offense succeeds (4+ goals)
+- **Luke Evangelista: 1+ assists NO** — thesis: NJD offense suppressed (<= 2 goals); alternative: KXNHLTEAMTOTAL-26OCT24LANJ-NJ4|no; why: higher confidence-adjusted growth (7.54 vs 1.49 bp); wins across more scripts (relative breadth 0.992 vs 0.869); relationships: KXNHLAST-26OCT24LANJ-LAMZUCCARELLO36-1|no: MOSTLY_INDEPENDENT (phi -0.001); KXNHLTEAMTOTAL-26OCT24LANJ-NJ4|no: REINFORCING (phi 0.203); KXNHLAST-26OCT24LANJ-NJJHUGHES86-1|no: MOSTLY_INDEPENDENT (phi 0.049); failure: NJD offense succeeds (4+ goals)
+- **New Jersey over 3.5 goals scored NO** — thesis: NJD offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT24LANJ-NJLEVANGELISTA77-1|no; why: second expression of the same thesis: KXNHLAST-26OCT24LANJ-NJLEVANGELISTA77-1|no has the higher standalone adjusted growth (7.54 vs 1.49 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.203); they share one thesis budget; relationships: KXNHLAST-26OCT24LANJ-LAMZUCCARELLO36-1|no: MOSTLY_INDEPENDENT (phi -0.002); KXNHLAST-26OCT24LANJ-NJLEVANGELISTA77-1|no: REINFORCING (phi 0.203); KXNHLAST-26OCT24LANJ-NJJHUGHES86-1|no: REINFORCING (phi 0.287); failure: NJD offense succeeds (4+ goals)
+- **Jack Hughes: 1+ assists NO** — thesis: NJD offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT24LANJ-NJLEVANGELISTA77-1|no; why: second expression of the same thesis: KXNHLAST-26OCT24LANJ-NJLEVANGELISTA77-1|no has the higher standalone adjusted growth (7.54 vs 1.19 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.049); they share one thesis budget; relationships: KXNHLAST-26OCT24LANJ-LAMZUCCARELLO36-1|no: MOSTLY_INDEPENDENT (phi 0.0); KXNHLAST-26OCT24LANJ-NJLEVANGELISTA77-1|no: MOSTLY_INDEPENDENT (phi 0.049); KXNHLTEAMTOTAL-26OCT24LANJ-NJ4|no: REINFORCING (phi 0.287); failure: NJD offense succeeds (4+ goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, NJD shot control · normal event (5-7) · decided (2+) 0.11, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11.
 - thesis LAK:SUPPRESSED (p 0.4855): highest fidelity KXNHLAST-26OCT24LANJ-LAMZUCCARELLO36-1|no [DIRECT], best adjusted EV KXNHLAST-26OCT24LANJ-LAMZUCCARELLO36-1|no (same contract)
-- thesis NJD:SUPPRESSED (p 0.403): highest fidelity KXNHLTEAMTOTAL-26OCT24LANJ-NJ4|no [STRUCTURAL], best adjusted EV KXNHLTEAMTOTAL-26OCT24LANJ-NJ4|no (same contract)
-- KXNHLAST-26OCT24LANJ-LAMZUCCARELLO36-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED; family MIXED; loses 10% of the draws where the thesis happens; LARGE MARKET DISAGREEMENT 15.9 pts; fragile player expression; opposing: failure thesis LAK:OFFENSE_4PLUS (p 0.2973, phi -0.191)
+- thesis NJD:SUPPRESSED (p 0.403): highest fidelity KXNHLTEAMTOTAL-26OCT24LANJ-NJ4|no [STRUCTURAL], best adjusted EV KXNHLAST-26OCT24LANJ-NJLEVANGELISTA77-1|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
+- KXNHLAST-26OCT24LANJ-LAMZUCCARELLO36-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED; family MIXED; loses 10% of the draws where the thesis happens; LARGE MARKET DISAGREEMENT 17.4 pts; fragile player expression; opposing: failure thesis LAK:OFFENSE_4PLUS (p 0.2973, phi -0.191)
+- KXNHLAST-26OCT24LANJ-NJLEVANGELISTA77-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED; family MIXED; loses 10% of the draws where the thesis happens; LARGE MARKET DISAGREEMENT 19.9 pts; fragile player expression; opposing: failure thesis NJD:OFFENSE_4PLUS (p 0.374, phi -0.202)
 - KXNHLTEAMTOTAL-26OCT24LANJ-NJ4|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis NJD:OFFENSE_4PLUS (p 0.374, phi -0.978)
+- KXNHLAST-26OCT24LANJ-NJJHUGHES86-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED; family MIXED; loses 22% of the draws where the thesis happens; LARGE MARKET DISAGREEMENT 11.2 pts; fragile player expression; opposing: failure thesis NJD:OFFENSE_4PLUS (p 0.374, phi -0.289)
 
-portfolios: A EV +4.14 (adj +0.82) on $31.44, P(profit) 0.504, adj growth 6.9 bp · B EV +4.22 (adj +0.77) on $27.66, P(profit) 0.8194, adj growth 6.8 bp · C EV +4.22 (adj +0.77) on $27.66, P(profit) 0.8194, adj growth 6.8 bp · R EV +0.17 (adj +0.05) on $2.00, P(profit) 0.6155, adj growth 1.6 bp
+portfolios: A EV +6.88 (adj +1.42) on $37.91, P(profit) 0.645, adj growth 12.8 bp · B EV +10.58 (adj +2.26) on $47.63, P(profit) 0.6506, adj growth 20.9 bp · C EV +9.56 (adj +2.09) on $40.00, P(profit) 0.6506, adj growth 19.4 bp · R EV +0.08 (adj +0.02) on $1.00, P(profit) 0.6155, adj growth 0.9 bp
 
 ## SJS @ BOS  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
@@ -209,7 +215,7 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 - KXNHLSPREAD-26OCT24CARSTL-CAR3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis CAR:WINS_BY_2PLUS (p 0.2695, phi -0.744)
 - KXNHLSPREAD-26OCT24CARSTL-CAR2|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis CAR:WINS_BY_2PLUS (p 0.2695, phi -1.0)
 
-portfolios: A EV +6.20 (adj +1.82) on $39.30, P(profit) 0.4866, adj growth 11.4 bp · B EV +2.85 (adj +0.98) on $24.35, P(profit) 0.7305, adj growth 8.6 bp · C EV +1.67 (adj +0.55) on $6.26, P(profit) 0.307, adj growth 4.7 bp · R EV +1.06 (adj +0.36) on $8.00, P(profit) 0.307, adj growth 11.8 bp
+portfolios: A EV +5.98 (adj +1.79) on $37.91, P(profit) 0.4866, adj growth 11.6 bp · B EV +2.85 (adj +0.98) on $24.35, P(profit) 0.7305, adj growth 8.6 bp · C EV +1.67 (adj +0.55) on $6.26, P(profit) 0.307, adj growth 4.7 bp · R EV +1.06 (adj +0.36) on $8.00, P(profit) 0.307, adj growth 11.8 bp
 
 ## TOR @ EDM  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
@@ -269,19 +275,19 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Detroit wins by over 1.5 goals NO | 66 | 0.728 | 0.691 | +0.052 | +0.016 | $9.97 | FUNDED_RESEARCH | $3 | CGY:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Detroit wins by over 2.5 goals NO | 78 | 0.837 | 0.803 | +0.045 | +0.011 | $5.64 | FUNDED_RESEARCH | $2 | CGY:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **Detroit wins by over 1.5 goals NO** — thesis: CGY wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT24DETCGY-DET3|no; why: higher confidence-adjusted growth (2.45 vs 1.75 bp); relationships: KXNHLSPREAD-26OCT24DETCGY-DET3|no: DUPLICATIVE (phi 0.722); failure: DET wins by 2+
-- **Detroit wins by over 2.5 goals NO** — thesis: CGY wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT24DETCGY-DET2|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT24DETCGY-DET2|no has the higher standalone adjusted growth (2.45 vs 1.75 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.722); they share one thesis budget; relationships: KXNHLSPREAD-26OCT24DETCGY-DET2|no: DUPLICATIVE (phi 0.722); failure: DET wins by 2+
+| Detroit wins by over 2.5 goals NO | 78 | 0.837 | 0.803 | +0.045 | +0.011 | $9.93 | FUNDED_RESEARCH | $3 | CGY:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Detroit wins by over 1.5 goals NO | 66 | 0.728 | 0.689 | +0.052 | +0.013 | $5.70 | FUNDED_RESEARCH | $2 | CGY:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Detroit wins by over 2.5 goals NO** — thesis: CGY wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT24DETCGY-DET2|no; why: higher confidence-adjusted growth (1.75 vs 1.73 bp); despite a smaller raw edge (+0.045 vs +0.052/contract); relationships: KXNHLSPREAD-26OCT24DETCGY-DET2|no: DUPLICATIVE (phi 0.722); failure: DET wins by 2+
+- **Detroit wins by over 1.5 goals NO** — thesis: CGY wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT24DETCGY-DET3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT24DETCGY-DET3|no has the higher standalone adjusted growth (1.75 vs 1.73 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.722); they share one thesis budget; relationships: KXNHLSPREAD-26OCT24DETCGY-DET3|no: DUPLICATIVE (phi 0.722); failure: DET wins by 2+
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.12, DET shot control · normal event (5-7) · decided (2+) 0.08.
 - thesis CGY:WINS (p 0.4977): highest fidelity KXNHLSPREAD-26OCT24DETCGY-DET2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT24DETCGY-DET2|no (same contract)
-- KXNHLSPREAD-26OCT24DETCGY-DET2|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis DET:WINS_BY_2PLUS (p 0.2723, phi -1.0)
 - KXNHLSPREAD-26OCT24DETCGY-DET3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis DET:WINS_BY_2PLUS (p 0.2723, phi -0.722)
+- KXNHLSPREAD-26OCT24DETCGY-DET2|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis DET:WINS_BY_2PLUS (p 0.2723, phi -1.0)
 
-portfolios: A EV +2.10 (adj +0.59) on $31.44, P(profit) 0.7277, adj growth 4.5 bp · B EV +1.09 (adj +0.31) on $15.61, P(profit) 0.7277, adj growth 2.7 bp · C EV +0.99 (adj +0.30) on $12.89, P(profit) 0.7277, adj growth 2.6 bp · R EV +0.34 (adj +0.10) on $5.00, P(profit) 0.7277, adj growth 3.3 bp
+portfolios: A EV +2.03 (adj +0.51) on $30.33, P(profit) 0.7277, adj growth 3.9 bp · B EV +1.00 (adj +0.25) on $15.64, P(profit) 0.7277, adj growth 2.2 bp · C EV +0.89 (adj +0.23) on $15.72, P(profit) 0.8369, adj growth 2.0 bp · R EV +0.32 (adj +0.08) on $5.00, P(profit) 0.7277, adj growth 2.8 bp
 
-## MIN @ SEA  ·  10000 joint draws  ·  98 bet sides mapped, 5 +EV candidates, 2 on card
+## MIN @ SEA  ·  10000 joint draws  ·  98 bet sides mapped, 7 +EV candidates, 2 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -299,18 +305,18 @@ portfolios: A EV +2.10 (adj +0.59) on $31.44, P(profit) 0.7277, adj growth 4.5 b
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Minnesota wins by over 2.5 goals NO | 77 | 0.843 | 0.801 | +0.060 | +0.019 | $20.00 | FUNDED_RESEARCH | $5 | SEA:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Seattle wins by over 1.5 goals YES | 23 | 0.302 | 0.261 | +0.059 | +0.018 | $3.99 | FUNDED_RESEARCH | $1 | SEA:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **Minnesota wins by over 2.5 goals NO** — thesis: SEA wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT24MINSEA-SEA2|yes; why: higher confidence-adjusted growth (4.67 vs 4.03 bp); wins across more scripts (relative breadth 1.022 vs 0.535); relationships: KXNHLSPREAD-26OCT24MINSEA-SEA2|yes: REINFORCING (phi 0.284); failure: MIN wins by 2+
-- **Seattle wins by over 1.5 goals YES** — thesis: SEA wins by 2+; alternative: KXNHLSPREAD-26OCT24MINSEA-MIN3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT24MINSEA-MIN3|no has the higher standalone adjusted growth (4.67 vs 4.03 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.284); they share one thesis budget; relationships: KXNHLSPREAD-26OCT24MINSEA-MIN3|no: REINFORCING (phi 0.284); failure: MIN wins (incl. OT/SO)
+| Minnesota wins by over 2.5 goals NO | 76 | 0.843 | 0.799 | +0.070 | +0.026 | $20.00 | FUNDED_RESEARCH | $5 | SEA:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Seattle wins by over 1.5 goals YES | 23 | 0.302 | 0.261 | +0.059 | +0.018 | $3.51 | FUNDED_RESEARCH | $1 | SEA:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Minnesota wins by over 2.5 goals NO** — thesis: SEA wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT24MINSEA-SEA2|yes; why: higher confidence-adjusted growth (8.59 vs 4.03 bp); wins across more scripts (relative breadth 1.022 vs 0.535); relationships: KXNHLSPREAD-26OCT24MINSEA-SEA2|yes: REINFORCING (phi 0.284); failure: MIN wins by 2+
+- **Seattle wins by over 1.5 goals YES** — thesis: SEA wins by 2+; alternative: KXNHLSPREAD-26OCT24MINSEA-MIN3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT24MINSEA-MIN3|no has the higher standalone adjusted growth (8.59 vs 4.03 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.284); they share one thesis budget; relationships: KXNHLSPREAD-26OCT24MINSEA-MIN3|no: REINFORCING (phi 0.284); failure: MIN wins (incl. OT/SO)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, MIN shot control · normal event (5-7) · decided (2+) 0.09.
 - thesis SEA:WINS (p 0.5281): highest fidelity KXNHLSPREAD-26OCT24MINSEA-MIN3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT24MINSEA-MIN3|no (same contract)
 - thesis SEA:WINS_BY_2PLUS (p 0.3017): highest fidelity KXNHLSPREAD-26OCT24MINSEA-MIN3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT24MINSEA-MIN3|no (same contract)
-- thesis SEA:OFFENSE_4PLUS (p 0.4081): highest fidelity KXNHLTEAMTOTAL-26OCT24MINSEA-SEA4|yes [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT24MINSEA-MIN3|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
+- thesis MIN:SUPPRESSED (p 0.4121): highest fidelity KXNHLSPREAD-26OCT24MINSEA-MIN3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT24MINSEA-MIN3|no (same contract)
 - KXNHLSPREAD-26OCT24MINSEA-MIN3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis MIN:WINS_BY_2PLUS (p 0.2562, phi -0.736)
 - KXNHLSPREAD-26OCT24MINSEA-SEA2|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis MIN:WINS (p 0.4719, phi -0.621)
 
-portfolios: A EV +5.94 (adj +1.64) on $39.30, P(profit) 0.3017, adj growth 11.3 bp · B EV +2.52 (adj +0.79) on $23.99, P(profit) 0.8428, adj growth 7.0 bp · C EV +1.54 (adj +0.49) on $20.00, P(profit) 0.8428, adj growth 4.4 bp · R EV +0.63 (adj +0.20) on $6.00, P(profit) 0.8428, adj growth 7.0 bp
+portfolios: A EV +5.90 (adj +1.71) on $37.91, P(profit) 0.3017, adj growth 12.2 bp · B EV +2.67 (adj +0.94) on $23.51, P(profit) 0.8428, adj growth 8.6 bp · C EV +1.81 (adj +0.68) on $20.00, P(profit) 0.8428, adj growth 6.3 bp · R EV +0.70 (adj +0.25) on $6.00, P(profit) 0.8428, adj growth 8.9 bp
 
 _RESEARCH_ONLY thesis card: B stakes are optimiser suggestions for a nominal bankroll; R (FUNDED_RESEARCH) stakes are whole-dollar research stakes under research governance. Nothing is placed or routed. Every recommended bet is +EV at its executable ask under the model AND the confidence-adjusted probability; the card is emitted only when the completion gate passes._

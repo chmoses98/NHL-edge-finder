@@ -1,9 +1,9 @@
 # NHL slate 2026-10-24 — RESEARCH_ONLY
 
-generated 2026-10-24T08:09:41Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-24T09:16:47Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 12 · simulated (not started): 12 · markets on board: 2843 · contracts joined: 947 (unjoined to any game: 1538)
-gates: {'UNSUPPORTED': 647, 'OK': 147, 'NO_EDGE': 153}
+gates: {'UNSUPPORTED': 647, 'OK': 154, 'NO_EDGE': 146}
 families: {'period_winner': 108, 'period_spread': 72, 'period_total': 108, 'player_assists': 60, 'game_early_goal': 12, 'first_goal': 71, 'game_winner': 24, 'player_goals': 127, 'game_overtime': 12, 'player_points': 77, 'game_spread': 48, 'team_total': 120, 'game_total': 108}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -26,48 +26,50 @@ families: {'period_winner': 108, 'period_spread': 72, 'period_total': 108, 'play
 | ticker | family | P(data) | P(mkt mid) | P(anchored) | yes ask | no ask | best | EV after fee | gate |
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
 | KXNHLTEAMTOTAL-26OCT24DETCGY-DET4 | team_total | 0.318 | 0.435 | 0.410 | 45 | 58 | no | +0.085 | OK |
+| KXNHLTEAMTOTAL-26OCT24DETCGY-DET3 | team_total | 0.541 | 0.650 | 0.629 | 66 | 36 | no | +0.083 | OK |
 | KXNHLGAME-26OCT24MINSEA-MIN | game_winner | 0.483 | 0.585 | 0.565 | 59 | 42 | no | +0.080 | OK |
-| KXNHLTEAMTOTAL-26OCT24DETCGY-DET3 | team_total | 0.541 | 0.645 | 0.625 | 66 | 37 | no | +0.073 | OK |
 | KXNHLSPREAD-26OCT24MINSEA-MIN2 | game_spread | 0.272 | 0.365 | 0.345 | 37 | 64 | no | +0.072 | OK |
 | KXNHLGAME-26OCT24MINSEA-SEA | game_winner | 0.517 | 0.425 | 0.443 | 43 | 58 | yes | +0.070 | OK |
+| KXNHLSPREAD-26OCT24MINSEA-MIN3 | game_spread | 0.158 | 0.245 | 0.225 | 25 | 76 | no | +0.069 | OK |
 | KXNHLTOTAL-26OCT24TBUTA-7 | game_total | 0.425 | 0.515 | 0.497 | 52 | 49 | no | +0.068 | OK |
 | KXNHLTEAMTOTAL-26OCT24DETCGY-DET5 | team_total | 0.150 | 0.245 | 0.223 | 26 | 77 | no | +0.068 | OK |
 | KXNHLGAME-26OCT24CARSTL-CAR | game_winner | 0.499 | 0.585 | 0.568 | 59 | 42 | no | +0.064 | OK |
 | KXNHLGAME-26OCT24CARSTL-STL | game_winner | 0.501 | 0.415 | 0.432 | 42 | 59 | yes | +0.064 | OK |
+| KXNHLTEAMTOTAL-26OCT24TBUTA-UTA3 | team_total | 0.602 | 0.685 | 0.669 | 69 | 32 | no | +0.063 | OK |
 | KXNHLTEAMTOTAL-26OCT24MINSEA-MIN4 | team_total | 0.360 | 0.455 | 0.436 | 47 | 56 | no | +0.063 | OK |
 | KXNHLGAME-26OCT24DETCGY-CGY | game_winner | 0.509 | 0.425 | 0.442 | 43 | 58 | yes | +0.062 | OK |
 | KXNHLSPREAD-26OCT24DETCGY-DET3 | game_spread | 0.147 | 0.230 | 0.211 | 24 | 78 | no | +0.061 | OK |
-| KXNHLSPREAD-26OCT24MINSEA-MIN3 | game_spread | 0.158 | 0.240 | 0.222 | 25 | 77 | no | +0.059 | OK |
-| KXNHLSPREAD-26OCT24DETCGY-DET2 | game_spread | 0.266 | 0.345 | 0.328 | 35 | 66 | no | +0.059 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN3 | team_total | 0.585 | 0.670 | 0.654 | 68 | 34 | no | +0.059 | OK |
+| KXNHLTOTAL-26OCT24TBUTA-6 | game_total | 0.535 | 0.615 | 0.599 | 62 | 39 | no | +0.059 | OK |
+| KXNHLSPREAD-26OCT24DETCGY-DET2 | game_spread | 0.266 | 0.350 | 0.332 | 36 | 66 | no | +0.059 | OK |
 | KXNHLGAME-26OCT24NYROTT-OTT | game_winner | 0.464 | 0.545 | 0.529 | 55 | 46 | no | +0.058 | OK |
 | KXNHLGAME-26OCT24NYROTT-NYR | game_winner | 0.536 | 0.455 | 0.471 | 46 | 55 | yes | +0.058 | OK |
 | KXNHLTOTAL-26OCT24DETCGY-5 | game_total | 0.701 | 0.775 | 0.761 | 78 | 23 | no | +0.057 | OK |
 | KXNHLSPREAD-26OCT24CARSTL-CAR3 | game_spread | 0.171 | 0.245 | 0.229 | 25 | 76 | no | +0.057 | OK |
+| KXNHLTEAMTOTAL-26OCT24TBUTA-UTA4 | team_total | 0.386 | 0.475 | 0.457 | 49 | 54 | no | +0.056 | OK |
 | KXNHLTOTAL-26OCT24DETCGY-7 | game_total | 0.357 | 0.435 | 0.419 | 44 | 57 | no | +0.056 | OK |
 | KXNHLSPREAD-26OCT24CARSTL-CAR2 | game_spread | 0.279 | 0.355 | 0.339 | 36 | 65 | no | +0.055 | OK |
 | KXNHLSPREAD-26OCT24MINSEA-SEA2 | game_spread | 0.297 | 0.220 | 0.234 | 23 | 79 | yes | +0.055 | OK |
-| KXNHLTEAMTOTAL-26OCT24TBUTA-UTA3 | team_total | 0.602 | 0.680 | 0.665 | 69 | 33 | no | +0.053 | OK |
+| KXNHLTEAMTOTAL-26OCT24DETCGY-DET2 | team_total | 0.767 | 0.840 | 0.827 | 85 | 17 | no | +0.053 | OK |
+| KXNHLTEAMTOTAL-26OCT24CARSTL-CAR3 | team_total | 0.602 | 0.680 | 0.665 | 69 | 33 | no | +0.052 | OK |
 | KXNHLGAME-26OCT24DETCGY-DET | game_winner | 0.491 | 0.565 | 0.550 | 57 | 44 | no | +0.052 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN3 | team_total | 0.585 | 0.665 | 0.650 | 68 | 35 | no | +0.049 | OK |
-| KXNHLTOTAL-26OCT24TBUTA-6 | game_total | 0.535 | 0.610 | 0.595 | 62 | 40 | no | +0.049 | OK |
 | KXNHLTEAMTOTAL-26OCT24CARSTL-CAR4 | team_total | 0.384 | 0.465 | 0.449 | 48 | 55 | no | +0.049 | OK |
-| KXNHLTEAMTOTAL-26OCT24TBUTA-UTA4 | team_total | 0.386 | 0.470 | 0.453 | 49 | 55 | no | +0.047 | OK |
-| KXNHLTOTAL-26OCT24DETCGY-8 | game_total | 0.182 | 0.245 | 0.231 | 25 | 76 | no | +0.045 | OK |
-| KXNHLTEAMTOTAL-26OCT24DETCGY-DET2 | team_total | 0.767 | 0.835 | 0.823 | 85 | 18 | no | +0.043 | OK |
 | KXNHLTEAMTOTAL-26OCT24TBUTA-UTA5 | team_total | 0.204 | 0.275 | 0.260 | 29 | 74 | no | +0.043 | OK |
-| KXNHLTEAMTOTAL-26OCT24CARSTL-CAR3 | team_total | 0.602 | 0.675 | 0.661 | 69 | 34 | no | +0.042 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN2 | team_total | 0.799 | 0.855 | 0.845 | 86 | 15 | no | +0.042 | OK |
 | KXNHLTOTAL-26OCT24DETCGY-6 | game_total | 0.471 | 0.540 | 0.526 | 55 | 47 | no | +0.042 | OK |
 | KXNHLSPREAD-26OCT24CARSTL-STL2 | game_spread | 0.284 | 0.220 | 0.232 | 23 | 79 | yes | +0.042 | OK |
 | KXNHLSPREAD-26OCT24NYROTT-OTT3 | game_spread | 0.150 | 0.205 | 0.193 | 21 | 80 | no | +0.039 | OK |
 | KXNHLSPREAD-26OCT24NYROTT-NYR2 | game_spread | 0.312 | 0.255 | 0.266 | 26 | 75 | yes | +0.039 | OK |
 | KXNHLTOTAL-26OCT24DETCGY-4 | game_total | 0.802 | 0.855 | 0.845 | 86 | 15 | no | +0.039 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN5 | team_total | 0.189 | 0.255 | 0.241 | 27 | 76 | no | +0.038 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN5 | team_total | 0.189 | 0.260 | 0.245 | 28 | 76 | no | +0.038 | OK |
 | KXNHLSPREAD-26OCT24TBUTA-UTA3 | game_spread | 0.180 | 0.235 | 0.223 | 24 | 77 | no | +0.037 | OK |
 | KXNHLSPREAD-26OCT24DETCGY-CGY2 | game_spread | 0.279 | 0.220 | 0.231 | 23 | 79 | yes | +0.037 | OK |
+| KXNHLTOTAL-26OCT24DETCGY-8 | game_total | 0.182 | 0.240 | 0.228 | 25 | 77 | no | +0.035 | OK |
 | KXNHLSPREAD-26OCT24NYROTT-OTT2 | game_spread | 0.260 | 0.315 | 0.304 | 32 | 69 | no | +0.035 | OK |
 | KXNHLTEAMTOTAL-26OCT24DETCGY-DET6 | team_total | 0.059 | 0.110 | 0.098 | 12 | 90 | no | +0.034 | OK |
+| KXNHLTEAMTOTAL-26OCT24TBUTA-UTA2 | team_total | 0.807 | 0.855 | 0.846 | 86 | 15 | no | +0.034 | OK |
+| KXNHLTEAMTOTAL-26OCT24CARSTL-CAR2 | team_total | 0.808 | 0.855 | 0.846 | 86 | 15 | no | +0.034 | OK |
 | KXNHLTOTAL-26OCT24TBUTA-5 | game_total | 0.756 | 0.805 | 0.796 | 81 | 20 | no | +0.033 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN2 | team_total | 0.799 | 0.850 | 0.841 | 86 | 16 | no | +0.032 | OK |
 | KXNHLTOTAL-26OCT24LANJ-5 | game_total | 0.728 | 0.775 | 0.766 | 78 | 23 | no | +0.029 | OK |
 | KXNHLTOTAL-26OCT24TBUTA-8 | game_total | 0.238 | 0.295 | 0.283 | 31 | 72 | no | +0.028 | OK |
 | KXNHLSPREAD-26OCT24TBUTA-UTA2 | game_spread | 0.297 | 0.345 | 0.335 | 35 | 66 | no | +0.027 | OK |
@@ -76,35 +78,33 @@ families: {'period_winner': 108, 'period_spread': 72, 'period_total': 108, 'play
 | KXNHLTEAMTOTAL-26OCT24NYROTT-OTT3 | team_total | 0.577 | 0.635 | 0.624 | 65 | 38 | no | +0.027 | OK |
 | KXNHLTOTAL-26OCT24DETCGY-9 | game_total | 0.124 | 0.170 | 0.160 | 18 | 84 | no | +0.027 | OK |
 | KXNHLTOTAL-26OCT24TBUTA-4 | game_total | 0.846 | 0.890 | 0.882 | 90 | 12 | no | +0.026 | OK |
+| KXNHLTOTAL-26OCT24VGKCBJ-7 | game_total | 0.416 | 0.465 | 0.455 | 47 | 54 | no | +0.026 | OK |
 | KXNHLTEAMTOTAL-26OCT24VGKCBJ-VGK4 | team_total | 0.378 | 0.435 | 0.423 | 45 | 58 | no | +0.025 | OK |
+| KXNHLTEAMTOTAL-26OCT24VGKCBJ-VGK3 | team_total | 0.599 | 0.650 | 0.640 | 66 | 36 | no | +0.024 | OK |
 | KXNHLTEAMTOTAL-26OCT24TBUTA-UTA6 | team_total | 0.089 | 0.135 | 0.124 | 15 | 88 | no | +0.024 | OK |
-| KXNHLTEAMTOTAL-26OCT24TBUTA-UTA2 | team_total | 0.807 | 0.850 | 0.842 | 86 | 16 | no | +0.023 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN6 | team_total | 0.080 | 0.125 | 0.115 | 14 | 89 | no | +0.023 | OK |
-| KXNHLTEAMTOTAL-26OCT24CARSTL-CAR2 | team_total | 0.808 | 0.850 | 0.842 | 86 | 16 | no | +0.023 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA4 | team_total | 0.389 | 0.335 | 0.345 | 35 | 68 | yes | +0.023 | OK |
-| KXNHLTEAMTOTAL-26OCT24NYROTT-NYR3 | team_total | 0.630 | 0.570 | 0.582 | 59 | 45 | yes | +0.023 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN6 | team_total | 0.080 | 0.120 | 0.111 | 13 | 89 | no | +0.023 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA4 | team_total | 0.389 | 0.340 | 0.350 | 35 | 67 | yes | +0.023 | OK |
+| KXNHLTEAMTOTAL-26OCT24NYROTT-NYR3 | team_total | 0.630 | 0.580 | 0.590 | 59 | 43 | yes | +0.023 | OK |
 | KXNHLSPREAD-26OCT24NYROTT-NYR3 | game_spread | 0.192 | 0.155 | 0.162 | 16 | 85 | yes | +0.022 | OK |
 | KXNHLSPREAD-26OCT24VGKCBJ-VGK3 | game_spread | 0.176 | 0.220 | 0.211 | 23 | 79 | no | +0.022 | OK |
 | KXNHLSPREAD-26OCT24CARSTL-STL3 | game_spread | 0.170 | 0.135 | 0.142 | 14 | 87 | yes | +0.022 | OK |
 | KXNHLTOTAL-26OCT24TBUTA-9 | game_total | 0.167 | 0.205 | 0.197 | 21 | 80 | no | +0.022 | OK |
 | KXNHLTEAMTOTAL-26OCT24ANAPHI-PHI3 | team_total | 0.572 | 0.620 | 0.610 | 63 | 39 | no | +0.022 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA3 | team_total | 0.609 | 0.550 | 0.562 | 57 | 47 | yes | +0.021 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA3 | team_total | 0.609 | 0.560 | 0.570 | 57 | 45 | yes | +0.021 | OK |
 | KXNHLTOTAL-26OCT24TOREDM-9 | game_total | 0.315 | 0.275 | 0.283 | 28 | 73 | yes | +0.021 | OK |
+| KXNHLTOTAL-26OCT24LANJ-6 | game_total | 0.502 | 0.545 | 0.536 | 55 | 46 | no | +0.021 | OK |
 | KXNHLTEAMTOTAL-26OCT24CARSTL-CAR5 | team_total | 0.207 | 0.260 | 0.249 | 28 | 76 | no | +0.020 | OK |
 | KXNHLTOTAL-26OCT24NSHPIT-7 | game_total | 0.527 | 0.485 | 0.493 | 49 | 52 | yes | +0.020 | OK |
 | KXNHLSPREAD-26OCT24MINSEA-SEA3 | game_spread | 0.179 | 0.145 | 0.151 | 15 | 86 | yes | +0.020 | OK |
 | KXNHLTEAMTOTAL-26OCT24NYROTT-OTT4 | team_total | 0.364 | 0.415 | 0.405 | 43 | 60 | no | +0.020 | OK |
 | KXNHLSPREAD-26OCT24VGKCBJ-VGK2 | game_spread | 0.296 | 0.335 | 0.327 | 34 | 67 | no | +0.019 | OK |
+| KXNHLTEAMTOTAL-26OCT24NYROTT-NYR6 | team_total | 0.104 | 0.070 | 0.076 | 8 | 94 | yes | +0.019 | OK |
 | KXNHLTOTAL-26OCT24TOREDM-10 | game_total | 0.177 | 0.140 | 0.147 | 15 | 87 | yes | +0.018 | OK |
 | KXNHLTEAMTOTAL-26OCT24ANAPHI-PHI4 | team_total | 0.356 | 0.395 | 0.387 | 40 | 61 | no | +0.018 | OK |
 | KXNHLSPREAD-26OCT24BUFWSH-WSH3 | game_spread | 0.181 | 0.215 | 0.208 | 22 | 79 | no | +0.018 | OK |
 | KXNHLTEAMTOTAL-26OCT24NYROTT-OTT2 | team_total | 0.792 | 0.835 | 0.827 | 85 | 18 | no | +0.018 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA5 | team_total | 0.208 | 0.170 | 0.177 | 18 | 84 | yes | +0.017 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA5 | team_total | 0.208 | 0.165 | 0.173 | 18 | 85 | yes | +0.017 | OK |
 | KXNHLTOTAL-26OCT24TOREDM-8 | game_total | 0.414 | 0.375 | 0.383 | 38 | 63 | yes | +0.017 | OK |
-| KXNHLTEAMTOTAL-26OCT24CARSTL-STL3 | team_total | 0.604 | 0.555 | 0.565 | 57 | 46 | yes | +0.016 | OK |
-| KXNHLTOTAL-26OCT24VGKCBJ-7 | game_total | 0.416 | 0.460 | 0.451 | 47 | 55 | no | +0.016 | OK |
-| KXNHLSPREAD-26OCT24ANAPHI-PHI3 | game_spread | 0.163 | 0.200 | 0.192 | 21 | 81 | no | +0.016 | OK |
-| KXNHLTOTAL-26OCT24NSHPIT-9 | game_total | 0.237 | 0.205 | 0.211 | 21 | 80 | yes | +0.016 | OK |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -126,19 +126,21 @@ families: {'period_winner': 108, 'period_spread': 72, 'period_total': 108, 'play
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 11 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 13 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Denver Barkey: 1+ goals YES @ 14c · p 0.1853 (adj 0.1652) · $4.45 · thesis PHI:OFFENSE_4PLUS
-- Mats Zuccarello: 1+ assists NO @ 68c · p 0.8194 (adj 0.7158) · $20.0 · thesis LAK:SUPPRESSED
-- New Jersey over 3.5 goals scored NO @ 55c · p 0.6155 (adj 0.5802) · $7.66 · thesis NJD:SUPPRESSED
+- Denver Barkey: 1+ goals YES @ 15c · p 0.1853 (adj 0.1752) · $4.61 · thesis PHI:OFFENSE_4PLUS
+- Mats Zuccarello: 1+ assists NO @ 65c · p 0.8194 (adj 0.706) · $20.0 · thesis LAK:SUPPRESSED
+- Luke Evangelista: 1+ assists NO @ 62c · p 0.7941 (adj 0.6647) · $20.0 · thesis NJD:SUPPRESSED
+- New Jersey over 3.5 goals scored NO @ 55c · p 0.6155 (adj 0.5802) · $2.9 · thesis NJD:SUPPRESSED
+- Jack Hughes: 1+ assists NO @ 50c · p 0.6019 (adj 0.5292) · $4.73 · thesis NJD:SUPPRESSED
 - St. Louis wins by over 1.5 goals YES @ 23c · p 0.307 (adj 0.2635) · $2.07 · thesis STL:WINS_BY_2PLUS
 - St. Louis wins by over 2.5 goals YES @ 14c · p 0.1964 (adj 0.1657) · $2.25 · thesis STL:WINS_BY_2PLUS
 - Carolina wins by over 2.5 goals NO @ 76c · p 0.8303 (adj 0.7927) · $16.57 · thesis STL:WINS
 - Carolina wins by over 1.5 goals NO @ 65c · p 0.7305 (adj 0.6878) · $3.46 · thesis STL:WINS
-- Detroit wins by over 1.5 goals NO @ 66c · p 0.7277 (adj 0.6914) · $9.97 · thesis CGY:WINS
-- Detroit wins by over 2.5 goals NO @ 78c · p 0.8369 (adj 0.8034) · $5.64 · thesis CGY:WINS
-- Minnesota wins by over 2.5 goals NO @ 77c · p 0.8428 (adj 0.8014) · $20.0 · thesis SEA:WINS
-- Seattle wins by over 1.5 goals YES @ 23c · p 0.3017 (adj 0.2609) · $3.99 · thesis SEA:WINS_BY_2PLUS
+- Detroit wins by over 2.5 goals NO @ 78c · p 0.8369 (adj 0.8034) · $9.93 · thesis CGY:WINS
+- Detroit wins by over 1.5 goals NO @ 66c · p 0.7277 (adj 0.6888) · $5.7 · thesis CGY:WINS
+- Minnesota wins by over 2.5 goals NO @ 76c · p 0.8428 (adj 0.7989) · $20.0 · thesis SEA:WINS
+- Seattle wins by over 1.5 goals YES @ 23c · p 0.3017 (adj 0.2609) · $3.51 · thesis SEA:WINS_BY_2PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -148,12 +150,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Denver Barkey: 1+ points | 0.463 | 0.240 | 39/91 | +0.056 | STANDARD |
-| Denver Barkey: 1+ assists | 0.343 | 0.165 | 31/98 | +0.018 | STANDARD |
-| A.J. Greer: 1+ goals | 0.205 | 0.070 | 11/97 | +0.088 | STANDARD |
-| Travis Sanheim: 1+ points | 0.447 | 0.335 | 37/70 | +0.061 | STANDARD |
-| Travis Sanheim: 1+ assists | 0.366 | 0.260 | 28/76 | +0.072 | STANDARD |
+| Denver Barkey: 1+ points | 0.463 | 0.300 | 41/81 | +0.036 | STANDARD |
+| Denver Barkey: 1+ assists | 0.343 | 0.205 | 30/89 | +0.028 | STANDARD |
+| A.J. Greer: 1+ goals | 0.205 | 0.075 | 11/96 | +0.088 | STANDARD |
 | Sean Couturier: 1+ goals | 0.181 | 0.075 | 14/99 | +0.033 | STANDARD |
+| Travis Sanheim: 1+ points | 0.447 | 0.345 | 37/68 | +0.061 | STANDARD |
+| Travis Sanheim: 1+ assists | 0.366 | 0.265 | 28/75 | +0.072 | STANDARD |
 
 **LAK @ NJD** · priced 168/173 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - NJD net: Jake Allen (PROJECTED) exp shots 26.53, exp saves 23.2 (sd 6.26), pull risk 0.043
@@ -161,12 +163,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Luke Evangelista: 1+ assists | 0.206 | 0.390 | 43/65 | +0.128 | STANDARD |
-| Mats Zuccarello: 1+ assists | 0.181 | 0.340 | 36/68 | +0.124 | STANDARD |
-| Luke Evangelista: 1+ points | 0.366 | 0.520 | 56/52 | +0.096 | STANDARD |
+| Luke Evangelista: 1+ assists | 0.206 | 0.405 | 43/62 | +0.158 | STANDARD |
+| Mats Zuccarello: 1+ assists | 0.181 | 0.355 | 36/65 | +0.153 | STANDARD |
+| Luke Evangelista: 1+ points | 0.366 | 0.530 | 56/50 | +0.116 | STANDARD |
 | Erik Haula: 1+ points | 0.315 | 0.190 | 36/98 | -0.061 | STANDARD |
-| Erik Gustafsson: 1+ points | 0.268 | 0.150 | 28/98 | -0.026 | STANDARD |
-| Mats Zuccarello: 1+ points | 0.335 | 0.450 | 49/59 | +0.058 | STANDARD |
+| Mats Zuccarello: 1+ points | 0.335 | 0.455 | 49/58 | +0.068 | STANDARD |
+| Erik Gustafsson: 1+ points | 0.268 | 0.155 | 27/96 | -0.016 | STANDARD |
 
 **SJS @ BOS** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - BOS net: Jeremy Swayman (PROJECTED) exp shots 27.44, exp saves 23.98 (sd 6.54), pull risk 0.055
