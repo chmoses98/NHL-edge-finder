@@ -19,7 +19,7 @@ RESEARCH_ONLY. Read-only evidence from GitHub's run/job records, `projection-dat
 | 00:11:48 | 00:15:45 | 00:17:10 | 4.0 | 5.4 | 43 (game 2) |
 | 00:41:03 | 00:41:07 | **00:42:16** | 0.1 | 1.2 | **17.7** (game 2) |
 
-* **Dispatch → runner start:** median 3.7 min, maximum 24.1 min (one slow runner queue at 21:58Z). **Request → publication:** median 6.0 min, maximum 25.1 min. Chain duration after runner start: 1.1–1.6 min every time (cached model table).
+* **Dispatch → runner start:** median 3.7 min, maximum 24.1 min (one slow runner queue at 21:58Z). **Request → publication:** median 6.0 min, maximum 25.1 min. Runner start → completion: 1.1–3.4 min (median 1.5).
 * **Time to puck drop:** the last refresh before game 1 (00:00Z) published **12.7 min** before the drop; the last before game 2 (01:00Z) **17.7 min** before. Inside the last two hours refreshes were requested every 25–50 minutes, so even the 24-minute queue at 21:58Z did not leave a gap (the next request was already running at 22:45Z).
 * **Failures:** none. Nothing to fix; no freshness or provenance check was touched or relaxed.
 * Compared with 10-22 (audit in `PROJECTION_DELIVERY.md`: cron slots 2–6.5 h late, one of three pregame refreshes finished before the first drop), **every** refresh requested on 10-23 finished before its game.
