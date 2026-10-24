@@ -8,6 +8,8 @@ name: slate-watch
 # if the worker has not asked for a run the policy says is due, this job asks (workflow_dispatch of projection-foundation.yml, the only
 # write it can make; `actions: write`). The policy never queues a second run while one is in flight. A second one-issue alert covers a
 # late projection-foundation delivery (puck drop within 90 min, nothing in flight, newest successful run older than 4 h).
+# It also asks for a `workload_shadow.yml` run (WORKLOAD_V1_LC prospective collection) when a game is within 4 h with no covering run (worker/lc_dispatch.py) and opens ONE de-duplicated
+# issue only when a record is actually about to be missing (game within 90 min, no covering run queued/running/finished). Missing records are never back-filled.
 # Scheduled runs are best-effort (GitHub delayed them by hours on 2026-10-22); `workflow_dispatch` runs the same check on demand.
 on:
   schedule:
@@ -113,4 +115,31 @@ jobs:
           elif [ -n "$existing" ] && [ "$RECOVERED" = "true" ]; then
             # only a real, recent projection-refreshing success closes it; "not stale" (a run merely queued, no schedule snapshot, API unreadable) does not
             gh issue close "$existing" --comment "Projection delivery recovered at $(date -u +%FT%TZ): a projection run succeeded within the last 4 h." || true
+          fi
+      - name: WORKLOAD_V1_LC collection (third trigger and coverage flag)
+        id: lc
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          sched=$(ls -1 /tmp/archive/context/schedule/dt=*/*.jsonl.gz 2>/dev/null | sort | tail -1 || true)
+          echo "lc_gap=false" >> "$GITHUB_OUTPUT"; echo "lc_recovered=false" >> "$GITHUB_OUTPUT"
+          [ -n "$sched" ] || { echo "no schedule snapshot; nothing to decide"; exit 0; }
+          PYTHONPATH=src python -m nhl_edge.worker.lc_dispatch dispatch --schedule "$sched" --github-output "$GITHUB_OUTPUT" > /tmp/lc_decision.json || echo "lc_dispatch failed (non-fatal)"
+          { echo '### WORKLOAD_V1_LC collection'; echo '```json'; cat /tmp/lc_decision.json 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Alert once if a game is about to start with no pregame record on the way
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GAP: ${{ steps.lc.outputs.lc_gap }}
+          RECOVERED: ${{ steps.lc.outputs.lc_recovered }}
+        run: |
+          set -uo pipefail
+          title="NHL workload shadow collection gap"
+          existing=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty' || true)
+          if [ "$GAP" = "true" ]; then
+            body=$(printf 'A regular-season game starts within 90 minutes, no `workload-shadow` run that started inside its 14-hour horizon is queued, running or finished, so its WORKLOAD_V1_LC pregame record may be missing. Missing records are **never back-filled**; they are listed in the coverage report.\n\n```json\n%s\n```\n\nRun: %s/%s/actions/runs/%s\n\n_Opened automatically; it closes itself when every game within 90 minutes is covered. An unchanged prediction is not a reason for this alert._' \
+              "$(head -c 3000 /tmp/lc_decision.json 2>/dev/null)" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")
+            if [ -z "$existing" ]; then gh issue create --title "$title" --body "$body" || true; fi
+          elif [ -n "$existing" ] && [ "$RECOVERED" = "true" ]; then
+            gh issue close "$existing" --comment "Collection covered again at $(date -u +%FT%TZ): every game within 90 minutes has a covering run." || true
           fi

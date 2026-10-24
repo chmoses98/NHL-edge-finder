@@ -90,6 +90,8 @@ class CycleRecord:
     # Compact outcome of the projection-foundation dispatch decision of THIS cycle (worker/pf_dispatch.py): {"action", "code", ...}.
     # None when no dispatcher is configured. A request is research plumbing only; it never changes how the cycle's own jobs ran.
     pf: dict | None = None
+    # Compact outcome of the WORKLOAD_V1_LC collection dispatch decision of THIS cycle (worker/lc_dispatch.py); None when not configured. Research plumbing only.
+    lc: dict | None = None
 
 
 @dataclass
@@ -194,6 +196,7 @@ class Worker:
         decide_fn: Callable[[], dict] | None = None,
         lifetime_minutes: float | None = None,
         pf_fn: Callable[[datetime, list[datetime]], dict] | None = None,
+        lc_fn: Callable[[datetime, list[datetime]], dict] | None = None,
     ) -> None:
         self.data_root = Path(data_root)
         self.archive_root = Path(archive_root)
@@ -207,6 +210,7 @@ class Worker:
         self.decide_fn = decide_fn or self._decide
         self.lifetime_minutes = lifetime_minutes
         self.pf_fn = pf_fn
+        self.lc_fn = lc_fn
         self.result: WorkerResult | None = None
         self._decision_error: str | None = None
         self._exit_at: datetime | None = None
@@ -348,6 +352,7 @@ class Worker:
         # Asked for BEFORE the slow jobs: a refresh that is due must not wait behind several minutes of simulate/settle/export (the call is
         # one bounded HTTPS request and cannot raise).
         pf = self._pf_cycle(now, starts)
+        lc = self._lc_cycle(now, starts)
         jobs_run, jobs_failed = self._run_jobs(decision, capture_ok=capture_ok)
         self._run_research_export(jobs_run, jobs_failed)
         settle_snapshot = self._settle_snapshot(now) if "settle" in jobs_run else None
@@ -384,6 +389,7 @@ class Worker:
             decision_ok=decision_ok,
             settle=settle_snapshot,
             pf=pf,
+            lc=lc,
         )
 
     def _pf_cycle(self, now: datetime, starts: list[datetime]) -> dict | None:
@@ -399,6 +405,22 @@ class Worker:
         if compact.get("action") in ("idle", "wait") and compact.get("code") not in ("API_UNREADABLE", "DISPATCHER_ERROR", "DISPATCH_REFUSED"):
             compact.pop("reason", None)         # routine decisions: the code says it; the log line below keeps the sentence
         print(f"worker: projection-foundation {out.get('action')} {out.get('code')}: {out.get('reason', '')}")
+        return compact
+
+    def _lc_cycle(self, now: datetime, starts: list[datetime]) -> dict | None:
+        """Ask for a WORKLOAD_V1_LC collection run if a game is about to start with no covering run (worker/lc_dispatch.py). Never raises, never blocks capture."""
+        if self.lc_fn is None:
+            return None
+        try:
+            out = self.lc_fn(now, starts)
+        except Exception as e:  # noqa: BLE001 - plumbing for a research collection must not end a capture shift
+            return {"action": "wait", "code": "DISPATCHER_ERROR", "reason": f"{type(e).__name__}: {str(e)[:200]}"}
+        keep = ("action", "code", "dispatched", "uncovered", "next_uncovered_in_min", "gap")
+        compact = {k: out[k] for k in keep if k in out}
+        if out.get("code") in ("API_UNREADABLE", "DISPATCHER_ERROR", "DISPATCH_REFUSED"):
+            compact["reason"] = out.get("reason", "")
+        if out.get("action") == "dispatch" or out.get("gap"):
+            print(f"worker: workload-shadow {out.get('action')} {out.get('code')}: {out.get('reason', '')}")
         return compact
 
     def _settle_snapshot(self, cycle_started: datetime) -> dict:
