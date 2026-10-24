@@ -143,6 +143,27 @@ def slate_starts(games: list[dict[str, Any]], date: str) -> list[datetime]:
     return [d for g in games if (d := _dt(g.get("start_utc"))) and lo <= d < hi]
 
 
+def schedule_games(paths: list[Path]) -> list[dict[str, Any]]:
+    """Regular-season rows of archived ``context/schedule`` snapshots as ``{"start_utc": ...}`` (the same shape ``slate_starts`` takes), latest snapshot wins per game."""
+    import gzip
+
+    by: dict[str, dict[str, Any]] = {}
+    for p in paths:
+        try:
+            with (gzip.open(p, "rt") if str(p).endswith(".gz") else open(p)) as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            r = json.loads(line)
+                        except ValueError:
+                            continue
+                        if str(r.get("season_type", "regular")).lower() in ("regular", "2") and r.get("game_id") is not None:
+                            by[str(r["game_id"])] = {"start_utc": r.get("start_time_utc")}
+        except OSError:
+            continue
+    return list(by.values())
+
+
 def markdown(tl: dict[str, Any]) -> str:
     t = lambda x: x.strftime("%H:%M:%S") if x else "—"  # noqa: E731
     L = [
@@ -176,10 +197,16 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="python -m nhl_edge.research.delivery_timeline")
     ap.add_argument("--date", required=True)
     ap.add_argument("--games", help="snapshot_audit JSON of the same slate (puck drops are read from it)")
+    ap.add_argument("--schedule", nargs="+", help="context/schedule snapshot file(s) (puck drops are read from them when no audit JSON is given)")
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     tl = collect(a.date)
-    starts = slate_starts(json.loads(Path(a.games).read_text())["games"], a.date) if a.games else []
+    if a.games:
+        starts = slate_starts(json.loads(Path(a.games).read_text())["games"], a.date)
+    elif a.schedule:
+        starts = slate_starts(schedule_games([Path(p) for p in a.schedule]), a.date)
+    else:
+        starts = []
     attach_drops(tl, starts)
     Path(a.out + ".json").write_text(
         json.dumps(tl, indent=1, default=lambda o: _iso(o) if isinstance(o, datetime) else str(o))

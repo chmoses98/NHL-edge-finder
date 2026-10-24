@@ -67,7 +67,7 @@ jobs:
       - name: Predict (write-once records for games that have not started) and score
         id: run
         run: |
-          set -uo pipefail
+          set +e -uo pipefail     # the default shell is -e: without this a failed day (rc 3) or a failed score would skip publishing the days that were written
           python -m nhl_edge.research.workload_shadow_run predict --archive /tmp/archive --history data/history --out /tmp/shadow | tee /tmp/predict.log
           rc=${PIPESTATUS[0]}
           # rc 2 = the record guard tripped (never publish); rc 3 = some day failed (publish what was written, then fail the job)

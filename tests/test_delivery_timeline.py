@@ -119,3 +119,14 @@ def test_slate_starts_keep_only_this_slates_games():
     ]
     got = D.slate_starts(games, "2026-10-23")
     assert [g.isoformat() for g in got] == ["2026-10-24T00:00:00+00:00", "2026-10-24T01:00:00+00:00"]
+
+
+def test_schedule_snapshots_give_the_same_puck_drops_as_the_audit(tmp_path):
+    import json
+
+    p = tmp_path / "s.jsonl"
+    rows = [{"game_id": "1", "season_type": "regular", "start_time_utc": "2026-10-24T00:00:00Z"}, {"game_id": "2", "season_type": "preseason", "start_time_utc": "2026-10-24T01:00:00Z"},
+            {"game_id": "3", "season_type": "regular", "start_time_utc": "2026-10-25T23:00:00Z"}]
+    p.write_text("\n".join(json.dumps(r) for r in rows))
+    got = D.slate_starts(D.schedule_games([p]), "2026-10-23")
+    assert [g.isoformat() for g in got] == ["2026-10-24T00:00:00+00:00"]
