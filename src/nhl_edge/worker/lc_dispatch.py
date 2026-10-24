@@ -26,6 +26,7 @@ from pathlib import Path
 from nhl_edge.worker.pf_dispatch import RunInfo, _headers, list_runs_via_api
 
 WORKFLOW = "workload_shadow.yml"
+MINUTES_WORKFLOW = "player_minutes.yml"       # requested together with the LC run (best effort); never read by the decision logic
 HORIZON_H = 14.0                    # keep equal to research/workload_shadow_run.HORIZON_H
 DISPATCH_WINDOW_H = 4.0
 MIN_LEAD_MINUTES = 20.0             # 10-minute pregame margin + runtime; a request closer than this cannot produce a countable record
@@ -119,8 +120,8 @@ def regular_tips_from_schedule(paths: list[Path]) -> list[datetime]:
     return sorted(out)
 
 
-def dispatch_via_api(repo: str, ref: str, token: str) -> bool:
-    req = urllib.request.Request(f"https://api.github.com/repos/{repo}/actions/workflows/{WORKFLOW}/dispatches", data=json.dumps({"ref": ref}).encode(), method="POST",
+def dispatch_via_api(repo: str, ref: str, token: str, workflow: str = WORKFLOW) -> bool:
+    req = urllib.request.Request(f"https://api.github.com/repos/{repo}/actions/workflows/{workflow}/dispatches", data=json.dumps({"ref": ref}).encode(), method="POST",
                                  headers={**_headers(token), "Content-Type": "application/json"})
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
@@ -132,12 +133,20 @@ def dispatch_via_api(repo: str, ref: str, token: str) -> bool:
     return False
 
 
+def _dispatch_both(repo: str, ref: str, token: str) -> bool:
+    """Ask for the LC run (the result that matters) and, best effort, for the player-minutes run on the same occasion; the second one's outcome never changes the first's."""
+    ok = dispatch_via_api(repo, ref, token)
+    if ok:
+        dispatch_via_api(repo, ref, token, MINUTES_WORKFLOW)
+    return ok
+
+
 class LcDispatcher:
     """Per-process state around ``decide``; never raises into the caller; ``list_fn`` / ``dispatch_fn`` are injectable."""
 
     def __init__(self, repo: str, ref: str, token: str, *, list_fn=None, dispatch_fn=None) -> None:
         self.list_fn = list_fn or (lambda: list_runs_via_api(repo, token, workflow=WORKFLOW))
-        self.dispatch_fn = dispatch_fn or (lambda: dispatch_via_api(repo, ref, token))
+        self.dispatch_fn = dispatch_fn or (lambda: _dispatch_both(repo, ref, token))
         self._last: datetime | None = None
         self._n: list[datetime] = []
 
