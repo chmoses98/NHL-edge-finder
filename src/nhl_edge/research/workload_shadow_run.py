@@ -324,6 +324,11 @@ def render(sc: dict[str, Any]) -> str:
             L.append(f"| {k[len('LC_minus_'):]} | {d['crps']['diff']:+.5f} [{d['crps']['ci95'][0]:+.5f}, {d['crps']['ci95'][1]:+.5f}] | {d['rmse']['diff']:+.5f} [{d['rmse']['ci95'][0]:+.5f}, {d['rmse']['ci95'][1]:+.5f}] |")
         L += ["", "Frozen original rule: " + ", ".join(f"{k}={'PASS' if v else 'FAIL'}" for k, v in sc["original_rule_checks"].items()) + ("" if sc["original_rule_complete"] else "  (CHAMPION_NB checks pending: frozen dispersion not yet recorded)"),
               "LC development checks: " + ", ".join(f"{k}={'PASS' if v else 'FAIL'}" for k, v in sc["lc_development_checks"].items())]
+    col = sc.get("collection") or {}
+    if col.get("activated"):
+        L += ["", f"**Collection coverage** (regular-season games since activation {col['activation_utc']}): started {col['games_started']} · recorded before the drop {col['recorded']} · "
+              f"missed {len(col['missed'])} · pending {col['pending']} · coverage of started games {col['coverage_of_started']} · median lead {col['median_lead_min']} min · shortest lead {col['min_lead_min']} min"
+              + (f" · missed: {', '.join(col['missed'])}" if col["missed"] else "")]
     return "\n".join(L) + "\n"
 
 
@@ -348,6 +353,47 @@ def sticky_verdict(looks: dict[int, dict[str, Any]], cumulative: str) -> str:
     if 30_000 in looks:
         return f"DECISION LOOK (30,000): {looks[30_000]['verdict']} (final look at 60,000 pending)"
     return cumulative
+
+
+def coverage_audit(archive: Path, out: Path, rec: pd.DataFrame, now: datetime) -> dict[str, Any]:
+    """Ground truth of the collection: for every regular-season game scheduled to start after activation, did a countable pregame record exist before the drop?
+
+    A game that started without one is listed as ``missed`` (never back-filled). This is what the coverage alert is about -- an actually missing record, not an unchanged value.
+    """
+    act_p = out / "activation.json"
+    if not act_p.exists():
+        return {"activated": False}
+    from nhl_edge.archive.ledger import Ledger
+
+    activation = parse_iso(json.loads(act_p.read_text())["activation_utc"])
+    sched: dict[str, dict[str, Any]] = {}
+    for r in _read_all_tagged(Ledger(archive), "context/schedule", now):
+        if r.get("season_type") == "regular" and r.get("game_id") is not None:
+            prev = sched.get(str(r["game_id"]))
+            if prev is None or str(r["_observed_at_utc"]) >= str(prev["_observed_at_utc"]):
+                sched[str(r["game_id"])] = r
+    eligible_rec = eligible_records(rec)[0] if len(rec) else rec
+    first_rec: dict[str, datetime] = {}
+    for g, grp in eligible_rec.groupby("game_id"):
+        first_rec[str(g)] = parse_iso(grp["predicted_at_utc"].min())
+    rows, missed, leads = [], [], []
+    for gid, g in sorted(sched.items()):
+        start = parse_iso(g["start_time_utc"])
+        if start < activation or g.get("status") in ("postponed", "cancelled"):
+            continue
+        has = gid in first_rec
+        lead = (start - first_rec[gid]).total_seconds() / 60 if has else None
+        state = "recorded" if has else ("missed" if start <= now else "pending")
+        rows.append({"game_id": gid, "start_utc": iso(start), "state": state, "lead_min": None if lead is None else round(lead, 1)})
+        if state == "missed":
+            missed.append(gid)
+        if lead is not None:
+            leads.append(lead)
+    started = [r for r in rows if r["state"] in ("recorded", "missed") and parse_iso(r["start_utc"]) <= now]
+    return {"activated": True, "activation_utc": iso(activation), "games_since_activation": len(rows), "games_started": len(started),
+            "recorded": sum(1 for r in rows if r["state"] == "recorded"), "missed": missed, "pending": sum(1 for r in rows if r["state"] == "pending"),
+            "coverage_of_started": None if not started else round(sum(1 for r in started if r["state"] == "recorded") / len(started), 4),
+            "median_lead_min": None if not leads else round(float(np.median(leads)), 1), "min_lead_min": None if not leads else round(float(min(leads)), 1), "games": rows}
 
 
 def run_score(archive: Path, pf: Path, out: Path, now: datetime | None = None, params_path: Path | None = None) -> dict[str, Any]:
@@ -382,6 +428,10 @@ def run_score(archive: Path, pf: Path, out: Path, now: datetime | None = None, p
         sc["looks"] = {str(n): {"verdict": v["verdict"], "computed_at_utc": v.get("computed_at_utc"), "n": v["n_paired_with_incumbent"]} for n, v in sorted(looks.items())}
         sc["verdict"] = sticky_verdict(looks, sc["verdict"])
     sc["generated_at_utc"] = iso(now)
+    try:
+        sc["collection"] = coverage_audit(archive, out, rec, now)
+    except Exception as e:  # noqa: BLE001 - the audit must never stop the scoreboard
+        sc["collection"] = {"error": f"{type(e).__name__}: {str(e)[:200]}"}
     sc["guard"] = guard(out)
     d = out / "scoreboard"
     d.mkdir(parents=True, exist_ok=True)
