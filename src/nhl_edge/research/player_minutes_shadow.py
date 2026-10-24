@@ -36,6 +36,7 @@ PARAMS_PATH = "data/params/minutes-v1.json"
 REGISTRATION = "docs/research/player_minutes/PREREGISTRATION.md"
 HORIZON_H = LCR.HORIZON_H
 LOOKS = (10_000, 30_000, 60_000)
+DECISION_LOOK, FINAL_LOOK = 30_000, 60_000
 SEED = 20261024
 N_BOOT = 4000
 MIN_PP_PAIRS = 10_000
@@ -65,10 +66,10 @@ def last3_minutes(players: pd.DataFrame, before_date_int: int) -> dict[int, tupl
     return out
 
 
-def usage_adjusted(m0_toi: np.ndarray, last3: np.ndarray, n_known: np.ndarray, b: float, clip: float = 1.0) -> np.ndarray:
+def usage_adjusted(m0_toi: np.ndarray, last3: np.ndarray, n_known: np.ndarray, b: float, clip: tuple[float, float] = (-1.0, 1.0)) -> np.ndarray:
     """M1: total ice time scaled by exp(b * log((last3 + 1) / (M0 + 1))); players with fewer than three known games keep M0."""
     x = np.where(n_known >= 3, np.log((np.nan_to_num(last3) + 1.0) / (np.asarray(m0_toi, float) + 1.0)), 0.0)
-    return np.asarray(m0_toi, float) * np.exp(np.clip(b * x, -clip, clip))
+    return np.asarray(m0_toi, float) * np.exp(np.clip(b * x, clip[0], clip[1]))
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -86,7 +87,7 @@ def read_inputs(archive: Path, now: datetime) -> dict[str, Any]:
         try:
             rows, meta = _read_latest(led, kind, now)
             out[key], out[f"{key}_meta"] = rows, {k: meta.get(k) for k in ("path", "observed_at_utc", "age_min")}
-        except (OSError, ValueError) as e:
+        except Exception as e:      # noqa: BLE001 - truncated gzip (EOFError), bad json, missing file
             out[key], out[f"{key}_meta"] = [], {"error": f"{type(e).__name__}: {str(e)[:120]}"}
     return out
 
@@ -108,7 +109,7 @@ def incumbent_capture(archive: Path, now: datetime, game_ids: set[int]) -> dict[
         if gid not in game_ids or not at or parse_iso(at) > now or r.get("meta_expected_toi_min") is None:
             continue
         cur = best.get((gid, pid))
-        if cur is None or at > cur["at"]:
+        if cur is None or parse_iso(at) > parse_iso(cur["at"]):
             best[(gid, pid)] = {"toi_min": float(r["meta_expected_toi_min"]), "pp_min": None if r.get("meta_expected_pp_toi_min") is None else float(r["meta_expected_pp_toi_min"]), "at": at}
     return best
 
@@ -141,7 +142,7 @@ def build_rows(pred: pd.DataFrame, games: list[dict[str, Any]], fit: S.Fit, para
     last3 = np.array([recent.get(int(p), (np.nan, 0))[0] for p in pred["player_id"]], float)
     nk = np.array([recent.get(int(p), (np.nan, 0))[1] for p in pred["player_id"]], int)
     m0 = pred["wl_toi"].to_numpy(float)
-    m1 = usage_adjusted(m0, last3, nk, float(params["usage_coef"]), float(params["multiplier_clip"][1]))
+    m1 = usage_adjusted(m0, last3, nk, float(params["usage_coef"]), (float(params["multiplier_clip"][0]), float(params["multiplier_clip"][1])))
     inj = _injury_index(observed.get("injuries") or [])
     msha = S.model_sha(fit)
     out = []
@@ -192,11 +193,17 @@ def predict(archive: Path, history: Path, out: Path, now: datetime | None = None
     by_day: dict[str, list[dict[str, Any]]] = {}
     for g in todo:
         by_day.setdefault(str(g["game_date_et"]), []).append(g)
-    if by_day:
-        observed = read_inputs(archive, now)
-        incumbent = incumbent_capture(archive, now, {int(g["game_id"]) for gs in by_day.values() for g in gs})
-    else:
-        observed, incumbent = {"lines": [], "injuries": [], "lines_meta": None, "injuries_meta": None}, {}
+    observed: dict[str, Any] = {"lines": [], "injuries": [], "lines_meta": None, "injuries_meta": None}
+    incumbent: dict[tuple[int, int], dict[str, Any]] = {}
+    if by_day:                                  # optional enrichments: a bad row or file is recorded, never allowed to stop the projections
+        try:
+            observed = read_inputs(archive, now)
+        except Exception as e:      # noqa: BLE001
+            report["errors_optional"] = [f"inputs: {type(e).__name__}: {str(e)[:160]}"]
+        try:
+            incumbent = incumbent_capture(archive, now, {int(g["game_id"]) for gs in by_day.values() for g in gs})
+        except Exception as e:      # noqa: BLE001
+            report.setdefault("errors_optional", []).append(f"incumbent: {type(e).__name__}: {str(e)[:160]}")
     act = out / "activation.json"
     pp = workload_prereg or Path("docs/research/workload_v1/preregistration.json")
     for day, games in sorted(by_day.items()):
@@ -276,11 +283,20 @@ def settle(archive: Path, out: Path, now: datetime | None = None) -> dict[str, A
 # scoring (the registered hypotheses)
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------
 def load_dir(out: Path, sub: str) -> pd.DataFrame:
+    """All rows under ``out/sub``; each carries ``written_at_utc`` from the append-only manifest (a record can only have existed after its file was written)."""
+    written: dict[str, str] = {}
+    mp = out / "MANIFEST.jsonl"
+    if mp.exists():
+        for line in mp.read_text().splitlines():
+            if line.strip():
+                e = json.loads(line)
+                written[e["path"]] = e["written_at_utc"]
     rows: list[dict[str, Any]] = []
     if (out / sub).exists():
         for p in sorted((out / sub).rglob("*.jsonl.gz")):
+            rel = p.relative_to(out).as_posix()
             with gzip.open(p, "rt", encoding="utf-8") as f:
-                rows += [json.loads(line) for line in f if line.strip()]
+                rows += [{**json.loads(line), "written_at_utc": written.get(rel)} for line in f if line.strip()]
     return pd.DataFrame(rows)
 
 
@@ -313,9 +329,7 @@ def paired_sample(rec: pd.DataFrame, outc: pd.DataFrame, inc: pd.DataFrame, froz
     """Pregame records of the frozen model, joined to the official outcome (he played) and to the comparators, in the registered order."""
     if not len(rec) or not len(outc):
         return pd.DataFrame()
-    pre = rec[rec["pregame"].astype(bool)]
-    if frozen_model_sha:
-        pre = pre[pre["model_sha256"] == frozen_model_sha]
+    pre = LCR.eligible_records(rec, frozen_model_sha)[0]       # pregame by its own clock AND written (per the manifest) before the drop, by the frozen model
     pre = pre.drop_duplicates(["game_id", "player_id"])
     if not len(pre):
         return pd.DataFrame()
@@ -328,14 +342,21 @@ def paired_sample(rec: pd.DataFrame, outc: pd.DataFrame, inc: pd.DataFrame, froz
     return m.sort_values(["game_start_utc", "game_id", "player_id"], kind="mergesort").reset_index(drop=True)
 
 
-def score_frame(m: pd.DataFrame, limit: int | None = None) -> dict[str, Any]:
-    """The registered hypotheses on the first ``limit`` paired player-games (all of them when None)."""
+def score_frame(m: pd.DataFrame, limit: int | None = None, with_pass: bool = False) -> dict[str, Any]:
+    """The registered hypotheses on the first ``limit`` paired player-games (all of them when None). ``with_pass`` adds the registered pass flags: only a decision or final look carries them."""
     if limit is not None:
         m = m.iloc[:limit]
     out: dict[str, Any] = {"n_paired": int(len(m))}
+    if len(m):
+        out["sample_sha256"] = hashlib.sha256("\n".join(f"{g}|{p}" for g, p in zip(m["game_id"], m["player_id"], strict=True)).encode()).hexdigest()
+        out["last_key"] = {"game_start_utc": str(m["game_start_utc"].iloc[-1]), "game_id": int(m["game_id"].iloc[-1]), "player_id": int(m["player_id"].iloc[-1])}
     if len(m) < 200:
         out["verdict"] = f"INCONCLUSIVE AT n={len(m)}"
         return out
+    need = ["toi_s", "inc_toi", "p_M0_toi_min", "p_M1_toi_min"]
+    finite = np.isfinite(m[need].apply(pd.to_numeric, errors="coerce").to_numpy(float)).all(axis=1)
+    out["n_nonfinite_dropped"] = int((~finite).sum())
+    m = m[finite]
     game = m["game_id"].to_numpy()
     y = pd.to_numeric(m["toi_s"]).to_numpy(float) / 60.0
     inc, m0, m1 = (m[c].to_numpy(float) for c in ("inc_toi", "p_M0_toi_min", "p_M1_toi_min"))
@@ -343,11 +364,11 @@ def score_frame(m: pd.DataFrame, limit: int | None = None) -> dict[str, Any]:
     out["toi"] = {"mse_incumbent": float(sq(inc, y).mean()), "mse_M0": float(sq(m0, y).mean()), "mse_M1": float(sq(m1, y).mean()), "bias_incumbent": float((inc - y).mean()),
                   "bias_M0": float((m0 - y).mean()), "bias_M1": float((m1 - y).mean())}
     h: dict[str, Any] = {"H1": _ratio_ci(sq(m0, y), sq(inc, y), game), "H3": _ratio_ci(sq(m1, y), sq(m0, y), game)}
-    ypp = pd.to_numeric(m["toi_pp_s"]).to_numpy(float) / 60.0
+    ypp = pd.to_numeric(m["toi_pp_s"], errors="coerce").to_numpy(float) / 60.0
     inc_pp = pd.to_numeric(m["inc_pp"], errors="coerce").to_numpy(float)
-    ok = m["shifts_ok"].fillna(False).astype(bool).to_numpy() & np.isfinite(inc_pp) & np.isfinite(ypp)
+    pp0 = pd.to_numeric(m["p_pp_min"], errors="coerce").to_numpy(float)
+    ok = m["shifts_ok"].fillna(False).astype(bool).to_numpy() & np.isfinite(inc_pp) & np.isfinite(ypp) & np.isfinite(pp0)
     if ok.sum() >= MIN_PP_PAIRS:
-        pp0 = m["p_pp_min"].to_numpy(float)
         h["H2"] = _ratio_ci(sq(pp0, ypp)[ok], sq(inc_pp, ypp)[ok], game[ok])
         out["pp"] = {"mse_incumbent": float(sq(inc_pp, ypp)[ok].mean()), "mse_M0": float(sq(pp0, ypp)[ok].mean()), "bias_incumbent": float((inc_pp - ypp)[ok].mean()), "bias_M0": float((pp0 - ypp)[ok].mean())}
     else:
@@ -355,28 +376,59 @@ def score_frame(m: pd.DataFrame, limit: int | None = None) -> dict[str, Any]:
     for k, v in h.items():
         if "hi95" in v:
             v["required_relative_change"] = REQUIRED[k]
-            v["pass"] = bool(v["hi95"] < REQUIRED[k])
+            if with_pass:
+                v["pass"] = bool(v["hi95"] < REQUIRED[k])
     out["hypotheses"] = h
-    out["verdict"] = "; ".join(f"{k}: {'PASS' if v.get('pass') else v.get('verdict', 'NOT MET')}" for k, v in sorted(h.items()))
+    out["verdict"] = "; ".join(f"{k}: {'PASS' if v.get('pass') else v.get('verdict', 'NOT MET')}" for k, v in sorted(h.items())) if with_pass else "descriptive (no decision at this sample)"
     return out
 
 
-def render(res: dict[str, Any], looks: dict[int, dict[str, Any]], activation: dict[str, Any] | None, counts: dict[str, int]) -> str:
+def registered_verdicts(looks: dict[int, dict[str, Any]]) -> dict[str, str]:
+    """Per hypothesis, as registered: supported at the decision look; otherwise carried to the final look; otherwise not supported. Nothing is said before the decision look."""
+    out = {}
+    for k in sorted(REQUIRED):
+        d, f = looks.get(DECISION_LOOK, {}).get("hypotheses", {}).get(k), looks.get(FINAL_LOOK, {}).get("hypotheses", {}).get(k)
+        if d is None:
+            out[k] = "OPEN (decision look not yet reached)"
+        elif d.get("pass"):
+            out[k] = f"SUPPORTED at the decision look ({DECISION_LOOK:,})"
+        elif f is None:
+            out[k] = f"NOT MET at the decision look ({d.get('verdict') or 'upper bound not below the requirement'}); carried to the final look ({FINAL_LOOK:,})"
+        else:
+            out[k] = f"SUPPORTED at the final look ({FINAL_LOOK:,})" if f.get("pass") else f"NOT SUPPORTED at the final look ({FINAL_LOOK:,})"
+    return out
+
+
+def look_deferral(m: pd.DataFrame, n: int, rec: pd.DataFrame, outc: pd.DataFrame, now: datetime) -> str | None:
+    """A look is computed only once every recorded game starting at or before its N-th pair has its outcome (games more than 7 days old that never settled are ignored), so the first N pairs
+    are final and the look can be recomputed from the finished data. Returns the reason to wait, or None."""
+    if len(m) < n:
+        return f"only {len(m):,} paired"
+    t_n = parse_iso(str(m["game_start_utc"].iloc[n - 1]))
+    pre = rec[rec["pregame"].astype(bool)].drop_duplicates("game_id")
+    settled = set(outc["game_id"]) if len(outc) else set()
+    waiting = [int(g) for g, st in zip(pre["game_id"], pre["game_start_utc"], strict=True) if g not in settled and parse_iso(st) <= t_n and now - parse_iso(st) < timedelta(days=7)]
+    return f"{len(waiting)} recorded game(s) up to the look's last pair have no outcome yet" if waiting else None
+
+
+def render(res: dict[str, Any], looks: dict[int, dict[str, Any]], activation: dict[str, Any] | None, counts: dict[str, int], coverage: dict[str, Any] | None = None) -> str:
     L = ["# player-minutes-1.0 scoreboard (research only)", "", f"Registration: `{REGISTRATION}`. Activation: {activation.get('activation_utc') if activation else 'not yet'}.", "",
-         f"Records: {counts['records']:,} (pregame: {counts['eligible']:,}) · outcomes: {counts['outcomes']:,} · paired with an incumbent TOI forecast: {res.get('n_paired', 0):,}", ""]
+         f"Records: {counts['records']:,} (counting: {counts['eligible']:,}) · outcomes: {counts['outcomes']:,} · paired with an incumbent TOI forecast: {res.get('n_paired', 0):,}"]
+    if coverage and coverage.get("activated"):
+        L.append(f"Collection: games since activation {coverage['games_since_activation']} · recorded {coverage['recorded']} · missed {len(coverage['missed'])} · pending {coverage['pending']} · "
+                 f"coverage of started games {coverage['coverage_of_started']} · median lead {coverage['median_lead_min']} min" + (f" · missed: {', '.join(coverage['missed'])}" if coverage["missed"] else ""))
+    L.append("")
     if "hypotheses" in res:
-        L += ["| hypothesis | relative change in squared error | 95% interval | needs upper bound below | verdict |", "|---|---|---|---|---|"]
+        L += ["Cumulative, **descriptive only** (no decision is taken from it):", "", "| hypothesis | relative change in squared error | 95% interval | n |", "|---|---|---|---|"]
         for k, v in sorted(res["hypotheses"].items()):
-            if "hi95" in v:
-                L.append(f"| {k} (n={v['n']:,}) | {v['relative_change']:+.2%} | {v['lo95']:+.2%} … {v['hi95']:+.2%} | {v['required_relative_change']:+.1%} | {'PASS' if v['pass'] else 'not met'} |")
-            else:
-                L.append(f"| {k} | | | | {v['verdict']} |")
-        L += ["", f"Total ice time MSE: incumbent {res['toi']['mse_incumbent']:.3f} · M0 {res['toi']['mse_M0']:.3f} · M1 {res['toi']['mse_M1']:.3f}; bias (pred − actual): "
-              f"{res['toi']['bias_incumbent']:+.3f} / {res['toi']['bias_M0']:+.3f} / {res['toi']['bias_M1']:+.3f} min"]
+            L.append(f"| {k} | {v['relative_change']:+.2%} | {v['lo95']:+.2%} … {v['hi95']:+.2%} | {v['n']:,} |" if "hi95" in v else f"| {k} | | | {v['verdict']} |")
+        t = res["toi"]
+        L += ["", f"Total ice time MSE: incumbent {t['mse_incumbent']:.3f} · M0 {t['mse_M0']:.3f} · M1 {t['mse_M1']:.3f}; bias (pred − actual): {t['bias_incumbent']:+.3f} / {t['bias_M0']:+.3f} / {t['bias_M1']:+.3f} min"]
     else:
         L.append(f"Not enough paired data yet: {res.get('verdict')}.")
+    L += ["", "Registered verdicts (decision look 30,000 / final look 60,000): " + "; ".join(f"{k}: {v}" for k, v in registered_verdicts(looks).items())]
     if looks:
-        L += ["", "Registered looks (each computed once, never rewritten): " + ", ".join(f"{n:,} → {v.get('verdict')}" for n, v in sorted(looks.items()))]
+        L.append("Looks computed (each once, never rewritten): " + ", ".join(f"{n:,}{' (descriptive)' if n not in (DECISION_LOOK, FINAL_LOOK) else ''}" for n in sorted(looks)))
     L += ["", "Research only: nothing here is published, priced or routed; promotion of any ice-time model needs the owner's explicit approval."]
     return "\n".join(L) + "\n"
 
@@ -388,22 +440,34 @@ def score(archive: Path, pf: Path, out: Path, now: datetime | None = None) -> di
     activation = json.loads(act_p.read_text()) if act_p.exists() else None
     frozen = activation.get("model_sha256") if activation else None
     m = paired_sample(rec, outc, incumbent_toi(pf), frozen)
-    counts = {"records": int(len(rec)), "eligible": int(len(rec[rec["pregame"].astype(bool)])) if len(rec) else 0, "outcomes": int(len(outc))}
+    eligible = LCR.eligible_records(rec, frozen)[0] if len(rec) else rec
+    counts = {"records": int(len(rec)), "eligible": int(len(eligible)), "outcomes": int(len(outc))}
     res = score_frame(m) if len(m) else {"n_paired": 0, "verdict": "INCONCLUSIVE AT n=0"}
     looks: dict[int, dict[str, Any]] = {}
+    waiting: dict[int, str] = {}
     for n in LOOKS:
         p = out / "looks" / f"look_{n}.json"
         if p.exists():
             looks[n] = json.loads(p.read_text())
         elif len(m) >= n:
-            payload = {"look": n, "computed_utc": iso(now), **score_frame(m, n)}
+            why = look_deferral(m, n, rec, outc, now)
+            if why:
+                waiting[n] = why
+                continue
+            payload = {"look": n, "computed_utc": iso(now), "decision_look": n in (DECISION_LOOK, FINAL_LOOK), **score_frame(m, n, with_pass=n in (DECISION_LOOK, FINAL_LOOK))}
             if LCR.write_look(out, n, payload):
                 looks[n] = payload
+    try:
+        coverage = LCR.coverage_audit(archive, out, rec, now)
+    except Exception as e:      # noqa: BLE001 - a missing schedule view must not stop the scoreboard
+        coverage = {"activated": False, "error": f"{type(e).__name__}: {str(e)[:120]}"}
+    verdicts = registered_verdicts(looks)
     sb = out / "scoreboard"
     sb.mkdir(parents=True, exist_ok=True)
-    (sb / "latest.json").write_text(json.dumps({"as_of_utc": iso(now), **res, "looks": {str(k): v.get("verdict") for k, v in looks.items()}, "counts": counts}, indent=1, default=float))
-    (sb / "latest.md").write_text(render(res, looks, activation, counts))
-    return {"result": res, "looks": sorted(looks), "counts": counts, "guard": guard(out)}
+    (sb / "latest.json").write_text(json.dumps({"as_of_utc": iso(now), "cumulative_descriptive": res, "registered_verdicts": verdicts, "looks": sorted(looks), "looks_waiting": waiting, "counts": counts,
+                                                "collection": {k: v for k, v in coverage.items() if k != "games"}}, indent=1, default=float))
+    (sb / "latest.md").write_text(render(res, looks, activation, counts, coverage))
+    return {"result": res, "looks": sorted(looks), "looks_waiting": waiting, "verdicts": verdicts, "counts": counts, "guard": guard(out)}
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -34,7 +34,7 @@ def test_usage_term_only_moves_players_with_three_known_games_and_is_clipped():
     m1 = M.usage_adjusted(m0, last3, nk, 0.23)
     assert m1[0] > 18.0 > m1[1] and m1[2] == 18.0 and m1[3] == 18.0
     assert m1[0] == pytest.approx(18.0 * np.exp(0.23 * np.log(23.0 / 19.0)))
-    assert M.usage_adjusted(np.array([10.0]), np.array([1000.0]), np.array([3]), 5.0, clip=1.0)[0] == pytest.approx(10.0 * np.e)
+    assert M.usage_adjusted(np.array([10.0]), np.array([1000.0]), np.array([3]), 5.0, clip=(-1.0, 1.0))[0] == pytest.approx(10.0 * np.e)
 
 
 def test_last3_minutes_use_only_earlier_dates_and_games_with_ice_time():
@@ -126,6 +126,10 @@ def test_settle_writes_each_games_outcomes_once_and_the_guard_catches_unlisted_f
 
 
 # ------------------------------------------------------------------------------------------------------------------------ scoring
+def _stamp(rec: pd.DataFrame) -> pd.DataFrame:
+    return rec.assign(written_at_utc="2026-10-25T00:00:00Z")           # written before every synthetic drop (November)
+
+
 def _synthetic(n_games: int = 60, per: int = 40, seed: int = 1, better: bool = True):
     rng = np.random.default_rng(seed)
     rows, outs, inc = [], [], []
@@ -147,59 +151,109 @@ def _synthetic(n_games: int = 60, per: int = 40, seed: int = 1, better: bool = T
 
 def test_paired_sample_keeps_only_pregame_frozen_model_rows_of_players_who_played():
     rec, outc, inc = _synthetic(3, 5)
+    rec = _stamp(rec)
     rec.loc[0, "pregame"] = False
     rec.loc[1, "model_sha256"] = "other"
     outc.loc[2, "toi_s"] = 0
+    rec.loc[3, "written_at_utc"] = "2026-11-01T01:00:00Z"                    # written after the drop: never counts
     m = M.paired_sample(rec, outc, inc, "m")
-    assert len(m) == 15 - 3 and not ((m["game_id"] == 0) & (m["player_id"].isin([0, 1, 2]))).any()
+    assert len(m) == 15 - 4 and not ((m["game_id"] == 0) & (m["player_id"].isin([0, 1, 2]))).any()
     assert list(m["game_start_utc"]) == sorted(m["game_start_utc"])
     assert M.paired_sample(pd.DataFrame(), outc, inc).empty
 
 
 def test_scoring_applies_the_registered_thresholds_and_a_look_uses_its_own_sample():
     rec, outc, inc = _synthetic(60, 40)
-    m = M.paired_sample(rec, outc, inc, "m")
-    res = M.score_frame(m)
+    m = M.paired_sample(_stamp(rec), outc, inc, "m")
+    assert "pass" not in M.score_frame(m)["hypotheses"]["H1"]                        # nothing but a decision/final look carries a pass flag
+    res = M.score_frame(m, with_pass=True)
     h = res["hypotheses"]
     assert res["n_paired"] == 2400 and h["H1"]["pass"] and h["H1"]["relative_change"] < -0.02
     assert "verdict" in h["H2"] and "INCONCLUSIVE" in h["H2"]["verdict"]                   # fewer than 10,000 pairs with an incumbent PP value
     assert h["H3"]["required_relative_change"] == -0.005
     sub = M.score_frame(m, 1000)
+    assert sub["sample_sha256"] != M.score_frame(m, 1001)["sample_sha256"] and sub["last_key"]["game_id"] == int(m["game_id"].iloc[999])
     assert sub["n_paired"] == 1000 and sub["hypotheses"]["H1"]["n"] == 1000
     assert M.score_frame(m, 100)["verdict"].startswith("INCONCLUSIVE AT n=100")
 
 
 def test_a_challenger_that_is_not_better_does_not_pass(monkeypatch):
     rec, outc, inc = _synthetic(60, 40, better=False)
-    res = M.score_frame(M.paired_sample(rec, outc, inc, "m"))
+    res = M.score_frame(M.paired_sample(_stamp(rec), outc, inc, "m"), with_pass=True)
     assert not res["hypotheses"]["H1"]["pass"] and not res["hypotheses"]["H3"]["pass"]
 
 
 def test_pp_hypothesis_is_judged_once_enough_pairs_have_an_incumbent_value(monkeypatch):
     monkeypatch.setattr(M, "MIN_PP_PAIRS", 500)
     rec, outc, inc = _synthetic(60, 40)
-    res = M.score_frame(M.paired_sample(rec, outc, inc, "m"))
+    res = M.score_frame(M.paired_sample(_stamp(rec), outc, inc, "m"), with_pass=True)
     assert res["hypotheses"]["H2"]["pass"] and res["hypotheses"]["H2"]["n"] == 2400 and res["pp"]["mse_M0"] < res["pp"]["mse_incumbent"]
+
+
+def _publish(out: Path, rec: pd.DataFrame, outc: pd.DataFrame, written="2026-10-25T00:00:00Z") -> None:
+    """Write records/outcomes the way the runner does (files listed in the append-only manifest), with a fixed write time."""
+    entries = []
+    for name, df in (("records", rec), ("outcomes", outc)):
+        rel = f"{name}/dt=2026-11-01/x.jsonl.gz"
+        (out / rel).parent.mkdir(parents=True, exist_ok=True)
+        with gzip.open(out / rel, "wt") as f:
+            for r in df.to_dict("records"):
+                f.write(json.dumps(r, default=float) + "\n")
+        entries.append({"path": rel, "rows": len(df), "sha256": "x", "written_at_utc": written})
+    (out / "MANIFEST.jsonl").write_text("\n".join(json.dumps(e) for e in entries) + "\n")
+    (out / "activation.json").write_text(json.dumps({"activation_utc": "2026-10-24T15:00:00Z", "model_sha256": "m"}))
 
 
 def test_score_writes_the_registered_looks_once_and_never_rewrites_them(tmp_path, monkeypatch):
     rec, outc, inc = _synthetic(60, 40)
     out = tmp_path / "out"
-    (out / "records" / "dt=2026-11-01").mkdir(parents=True)
-    (out / "outcomes" / "dt=2026-11-01").mkdir(parents=True)
-    for name, df in (("records", rec), ("outcomes", outc)):
-        with gzip.open(out / name / "dt=2026-11-01" / "x.jsonl.gz", "wt") as f:
-            for r in df.to_dict("records"):
-                f.write(json.dumps(r, default=float) + "\n")
-    (out / "activation.json").write_text(json.dumps({"activation_utc": "2026-10-24T15:00:00Z", "model_sha256": "m"}))
+    _publish(out, rec, outc)
     monkeypatch.setattr(M, "incumbent_toi", lambda pf: inc)
+    monkeypatch.setattr(M.LCR, "coverage_audit", lambda archive, out, rec, now: {"activated": True, "games_since_activation": 60, "recorded": 60, "missed": [], "pending": 0,
+                                                                                  "coverage_of_started": 1.0, "median_lead_min": 400.0, "min_lead_min": 30.0})
     monkeypatch.setattr(M, "LOOKS", (1000, 5000))
-    r1 = M.score(tmp_path / "a", tmp_path / "pf", out, now=NOW)
+    monkeypatch.setattr(M, "DECISION_LOOK", 1000)
+    now = datetime(2026, 12, 1, tzinfo=UTC)
+    r1 = M.score(tmp_path / "a", tmp_path / "pf", out, now=now)
     assert r1["looks"] == [1000] and (out / "looks" / "look_1000.json").exists() and not (out / "looks" / "look_5000.json").exists()
     first = (out / "looks" / "look_1000.json").read_text()
-    assert "relative_change" in first and (out / "scoreboard" / "latest.md").exists()
-    M.score(tmp_path / "a", tmp_path / "pf", out, now=datetime(2026, 12, 1, tzinfo=UTC))
+    look = json.loads(first)
+    assert look["decision_look"] and look["hypotheses"]["H1"]["pass"] and len(look["sample_sha256"]) == 64 and look["last_key"]["game_id"] >= 0
+    md = (out / "scoreboard" / "latest.md").read_text()
+    assert "descriptive only" in md and "coverage of started games 1.0" in md and "SUPPORTED at the decision look" in md and "PASS" not in md.replace("SUPPORTED", "")
+    M.score(tmp_path / "a", tmp_path / "pf", out, now=datetime(2026, 12, 2, tzinfo=UTC))
     assert (out / "looks" / "look_1000.json").read_text() == first                     # computed once, on its own sample
+
+
+def test_a_look_waits_until_every_earlier_recorded_game_has_its_outcome(tmp_path, monkeypatch):
+    rec, outc, inc = _synthetic(60, 40)
+    outc = outc[outc["game_id"] != 0]                                                 # game 0 (the earliest) has not settled yet
+    out = tmp_path / "out"
+    _publish(out, rec, outc)
+    monkeypatch.setattr(M, "incumbent_toi", lambda pf: inc)
+    monkeypatch.setattr(M.LCR, "coverage_audit", lambda *a: {"activated": False})
+    monkeypatch.setattr(M, "LOOKS", (1000,))
+    r = M.score(tmp_path / "a", tmp_path / "pf", out, now=datetime(2026, 11, 3, tzinfo=UTC))
+    assert r["looks"] == [] and "no outcome yet" in r["looks_waiting"][1000] and not (out / "looks").exists()
+    r = M.score(tmp_path / "a", tmp_path / "pf", out, now=datetime(2026, 12, 20, tzinfo=UTC))      # an unsettled game older than 7 days is ignored
+    assert r["looks"] == [1000]
+
+
+def test_registered_verdicts_follow_the_decision_then_final_rule():
+    ok, bad = {"hypotheses": {"H1": {"pass": True}, "H2": {"verdict": "INCONCLUSIVE"}, "H3": {"pass": False}}}, {"hypotheses": {"H1": {"pass": True}, "H2": {"pass": True}, "H3": {"pass": True}}}
+    assert all(v.startswith("OPEN") for v in M.registered_verdicts({10_000: ok}).values())          # the descriptive look decides nothing
+    v = M.registered_verdicts({30_000: ok})
+    assert v["H1"].startswith("SUPPORTED at the decision") and v["H3"].startswith("NOT MET") and "carried to the final look" in v["H3"]
+    v = M.registered_verdicts({30_000: ok, 60_000: bad})
+    assert v["H3"].startswith("SUPPORTED at the final") and v["H2"].startswith("SUPPORTED at the final") and v["H1"].startswith("SUPPORTED at the decision")
+
+
+def test_non_finite_rows_are_dropped_not_allowed_to_poison_the_intervals():
+    rec, outc, inc = _synthetic(30, 40)
+    m = M.paired_sample(_stamp(rec), outc, inc, "m")
+    m.loc[5, "p_M0_toi_min"] = float("nan")
+    res = M.score_frame(m, with_pass=True)
+    assert res["n_nonfinite_dropped"] == 1 and np.isfinite(res["hypotheses"]["H1"]["hi95"])
 
 
 def test_incumbent_toi_takes_the_last_forecast_before_the_drop(tmp_path):
@@ -223,3 +277,20 @@ def test_unreadable_context_partitions_do_not_block_the_projections(tmp_path, mo
     monkeypatch.setattr("nhl_edge.archive.ledger.Ledger", lambda root: SimpleNamespace())
     got = M.read_inputs(tmp_path, NOW)
     assert got["lines"] == [] and got["injuries"] == [] and "FileNotFoundError" in got["lines_meta"]["error"]
+
+
+def test_a_bad_optional_input_is_recorded_and_does_not_stop_the_projections(tmp_path, monkeypatch):
+    _stub(monkeypatch)
+    def boom(archive, now, ids):
+        raise ValueError("garbage predicted_at_utc")
+    monkeypatch.setattr(M, "incumbent_capture", boom)
+    rep = M.predict(tmp_path / "a", tmp_path / "h", tmp_path / "out", now=NOW, params_path=ROOT / "data/params/minutes-v1.json")
+    assert rep["games_written"] == [10] and rep["errors"] == [] and "garbage" in rep["errors_optional"][0]
+
+
+def test_incumbent_capture_orders_mixed_timestamp_formats_by_instant(tmp_path, monkeypatch):
+    rows = [{"game_id": 7, "player_id": 5, "predicted_at_utc": "2026-10-24T12:00:00+00:00", "meta_expected_toi_min": 18.0, "meta_expected_pp_toi_min": 2.0},
+            {"game_id": 7, "player_id": 5, "predicted_at_utc": "2026-10-24T09:00:00Z", "meta_expected_toi_min": 17.0, "meta_expected_pp_toi_min": 1.0}]
+    monkeypatch.setattr("nhl_edge.archive.ledger.Ledger", lambda root: SimpleNamespace(iter_rows=lambda kind, dt_from=None: iter(rows)))
+    got = M.incumbent_capture(tmp_path, NOW, {7})
+    assert got[(7, 5)]["toi_min"] == 18.0

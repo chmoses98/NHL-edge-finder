@@ -139,7 +139,16 @@ def test_the_cli_main_dispatches_from_a_schedule_snapshot(monkeypatch, tmp_path)
     monkeypatch.setenv("GITHUB_TOKEN", "t")
     sent = []
     monkeypatch.setattr(L, "list_runs_via_api", lambda repo, token, workflow=L.WORKFLOW, per_page=100: [])
-    monkeypatch.setattr(L, "dispatch_via_api", lambda repo, ref, token: sent.append(1) or True)
+    monkeypatch.setattr(L, "dispatch_via_api", lambda repo, ref, token, workflow=L.WORKFLOW: sent.append(workflow) or True)
     assert L.main(["dispatch", "--schedule", str(sched), "--repo", "o/r", "--now", "2026-11-03T18:00:00Z", "--github-output", str(out)]) == 0
     o = dict(line.split("=", 1) for line in out.read_text().split())
-    assert sent == [1] and o["lc_action"] == "dispatch" and o["lc_gap"] == "false"
+    assert sent == ["workload_shadow.yml", "player_minutes.yml"] and o["lc_action"] == "dispatch" and o["lc_gap"] == "false"
+
+
+def test_the_minutes_request_is_best_effort_and_never_changes_the_lc_result(monkeypatch):
+    sent = []
+    monkeypatch.setattr(L, "dispatch_via_api", lambda repo, ref, token, workflow=L.WORKFLOW: sent.append(workflow) or workflow == L.WORKFLOW)
+    assert L._dispatch_both("o/r", "main", "t") is True and sent == ["workload_shadow.yml", "player_minutes.yml"]
+    sent.clear()
+    monkeypatch.setattr(L, "dispatch_via_api", lambda repo, ref, token, workflow=L.WORKFLOW: sent.append(workflow) or False)
+    assert L._dispatch_both("o/r", "main", "t") is False and sent == ["workload_shadow.yml"]       # LC refused: nothing else is asked for
