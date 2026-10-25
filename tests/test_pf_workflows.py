@@ -115,6 +115,17 @@ def test_lc_run_step_publishes_what_was_written_even_when_a_day_failed():
     assert "predict_rc" in step["run"] and "score_rc" in step["run"]
 
 
+def test_lineup_probe_workflow_writes_only_its_own_branch_and_cannot_poll_nhl_com_sheets():
+    d = _load("nhl_lineup_probe.yml")
+    text = (WF / "nhl_lineup_probe.yml").read_text()
+    assert set(d["on"]) == {"workflow_dispatch"} and d["permissions"] == {"contents": "write"}
+    assert "HEAD:lineup-probe-data" in text and "--force" not in text and "push origin main" not in text
+    assert "sheets" not in d["on"]["workflow_dispatch"]["inputs"] and "--sheets" not in text and "htmlreports" not in text
+    assert "(obs|raw)" in text and "--diff-filter=DMRTC" in text and "only be appended" in text
+    assert d["jobs"]["probe"]["timeout-minutes"] <= 355 and "--max-minutes 330" in text and "from_utc" in d["on"]["workflow_dispatch"]["inputs"]       # hosted runners stop a job at 6 h
+    assert "github.run_id" in d["concurrency"]["group"] and "MANIFEST.*.jsonl" in text and "did not complete" in text
+
+
 def test_source_audit_workflow_is_manual_read_only_and_makes_no_repository_change():
     d = _load("source_audit.yml")
     text = (WF / "source_audit.yml").read_text()

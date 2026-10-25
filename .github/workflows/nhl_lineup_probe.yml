@@ -1,0 +1,91 @@
+name: nhl-lineup-probe
+# Measures when the NHL actually publishes lineup information before a puck drop (RESEARCH_ONLY; docs/research/lineup_sources/NHL_OFFICIAL_SOURCES.md).
+# Polls only the public NHL endpoints the pipeline already reads (api-web landing / right-rail) at fixed offsets T-120 ... T-5 min with the repository's identifying User-Agent and writes
+# write-once observations to the orphan branch `lineup-probe-data` ONLY. Manual dispatch (GitHub cron is hours late); `date` defaults to today (ET); `from_utc`/`to_utc` select a cluster of drops so that one run stays under the hosted-runner time limit.
+# The nhl.com HTML game roster sheet is NOT probed: nhl.com's terms prohibit automated compilation of site content (docs/research/lineup_sources/SOURCE_AUDIT_2026-10-25.md).
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "ET date to watch (YYYY-MM-DD); empty = today"
+        required: false
+        default: ""
+      from_utc:
+        description: "only games starting at or after this UTC instant (YYYY-MM-DDTHH:MM:SSZ); a run lives at most ~5.5 h, so dispatch one run per cluster of drops, about 2 h before its first drop"
+        required: true
+      to_utc:
+        description: "only games starting before this UTC instant"
+        required: true
+permissions:
+  contents: write
+concurrency:
+  group: nhl-lineup-probe-${{ github.run_id }}        # runs for different clusters of drops overlap; each writes its own manifest MANIFEST.<run id>.jsonl
+  cancel-in-progress: false
+defaults:
+  run:
+    shell: bash
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: pip install -q -e .
+      - name: Check out lineup-probe-data (orphan branch is created on the first run)
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/probe
+          rc=0; git ls-remote --exit-code --heads origin lineup-probe-data >/dev/null 2>&1 || rc=$?
+          if [ "$rc" != 0 ] && [ "$rc" != 2 ]; then echo "::error::cannot list remote branches (rc=$rc)"; exit 1; fi
+          if [ "$rc" = 0 ]; then
+            git fetch --depth=1 origin lineup-probe-data
+            git worktree add -f --detach /tmp/probe FETCH_HEAD
+            git -C /tmp/probe checkout -q -B lineup-probe-data
+          else
+            git worktree add --detach -f /tmp/probe HEAD
+            git -C /tmp/probe checkout -q --orphan lineup-probe-data
+            git -C /tmp/probe rm -rfq . || true
+            git -C /tmp/probe clean -fdxq
+          fi
+      - name: Watch the slate
+        id: watch
+        env:
+          DATE_IN: ${{ inputs.date }}
+          FROM_IN: ${{ inputs.from_utc }}
+          TO_IN: ${{ inputs.to_utc }}
+        run: |
+          set +e -uo pipefail
+          d="${DATE_IN:-$(TZ=America/New_York date +%F)}"
+          if ! [[ "$d" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then echo "::error::bad date"; echo "rc=2" >> "$GITHUB_OUTPUT"; exit 0; fi
+          python -m nhl_edge.research.nhl_lineup_probe watch --date "$d" --out /tmp/probe --tag "${GITHUB_RUN_ID}" --from-utc "$FROM_IN" --to-utc "$TO_IN" --max-minutes 330 | tee /tmp/probe_watch.log
+          echo "rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+          python -m nhl_edge.research.nhl_lineup_probe summarize --out /tmp/probe >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+      - name: Commit to lineup-probe-data (additions only)
+        if: always()
+        run: |
+          set -euo pipefail
+          cd /tmp/probe
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          find . -name '*.tmp' -not -path './.git/*' -delete
+          git add -A
+          if git diff --cached --quiet; then echo "nothing to publish"; exit 0; fi
+          if git diff --cached --no-renames --name-status --diff-filter=DMRTC | grep -E '^[A-Z][0-9]*[[:space:]]+(obs|raw)'; then echo "::error::refusing to modify, rename or delete an immutable file"; exit 1; fi
+          for m in $(git diff --cached --name-only -- 'MANIFEST.*.jsonl'); do
+            if [ "$(git diff --cached --numstat -- "$m" | cut -f2)" != "0" ]; then echo "::error::the manifest may only be appended to"; exit 1; fi
+          done
+          git commit -qm "lineup-probe $(date -u +%Y-%m-%dT%H:%MZ) (research_only)"
+          for i in 1 2 3 4; do
+            if git push origin HEAD:lineup-probe-data; then echo pushed; exit 0; fi
+            sleep $((2 ** i)); git fetch -q --depth=1 origin lineup-probe-data; git rebase -q FETCH_HEAD || { echo "::error::rebase conflict"; exit 1; }
+          done
+          echo "::error::could not push"; exit 1
+      - name: Fail the run if nothing was watched or the watcher failed
+        if: always()
+        env:
+          RC: ${{ steps.watch.outputs.rc }}
+        run: |
+          if [ "${RC:-missing}" != "0" ]; then echo "::error::the lineup probe did not complete (rc=${RC:-missing}); see the watch log"; exit 1; fi
