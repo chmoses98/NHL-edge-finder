@@ -24,6 +24,8 @@ from nhl import data
 from . import availability as A
 from . import common as C
 
+HTML_HEADERS = {"Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8"}      # content negotiation only; the identifying User-Agent is set by nhl_edge.data.http.fetch
+
 
 def _default_get() -> Callable[[str, dict | None], tuple[bytes, str]]:
     src = str(data.ROOT / "src")
@@ -91,7 +93,7 @@ def fetch_and_write(out_root: str, now: datetime, archive: str, get: Callable | 
     obs_all: list[av.Observation] = []
     for d in dates:
         try:
-            content, fetched = get(A.URL_GOALIES.format(date=d), {"User-Agent": "Mozilla/5.0", "Accept": "*/*"})
+            content, fetched = get(A.URL_GOALIES.format(date=d), dict(HTML_HEADERS))
             rows, meta = _dfo_goalie_rows(content, fetched, d, sched, abbr)
             obs, st = A.goalie_observations(rows, sched_start, ref, abbr) if len(rows) else ([], {})
             obs_all += obs
@@ -121,7 +123,6 @@ def fetch_and_write(out_root: str, now: datetime, archive: str, get: Callable | 
         if src not in sys.path:
             sys.path.insert(0, src)
         from nhl_edge.data.lines import DFO_SLUGS, line_rows, parse_line_page
-        from nhl_edge.data.http import BROWSER_HEADERS
         teams = {int(t): abbr[int(t)] for r in upcoming.itertuples() for t in (r.home_team_id, r.away_team_id)}
         frames, errs = [], 0
         for tid, ab in sorted(teams.items()):
@@ -129,7 +130,7 @@ def fetch_and_write(out_root: str, now: datetime, archive: str, get: Callable | 
             if not slug:
                 continue
             try:
-                content, fetched = get(A.URL_LINES.format(slug=slug), dict(BROWSER_HEADERS))
+                content, fetched = get(A.URL_LINES.format(slug=slug), dict(HTML_HEADERS))
                 combo = parse_line_page(content)
                 if combo is None:
                     errs += 1

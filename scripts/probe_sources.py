@@ -24,7 +24,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 UA = "nhl-edge-finder-probe/0.1 (+https://github.com/chmoses98/NHL-edge-finder)"
-BROWSER_UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+BROWSER_UA = "nhl-edge-finder/0.1 (+https://github.com/chmoses98/NHL-edge-finder; probe)"      # identifying; name kept for the call sites below
 
 
 def probes(date: str, kalshi_hosts: list[str]) -> list[dict]:

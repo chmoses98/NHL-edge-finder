@@ -73,7 +73,8 @@ def fetch(url: str, ttl_s: float = 0.0, headers: dict[str, str] | None = None, t
                 return Fetched(url, m["status"], cp.read_bytes(), m["fetched_at_utc"], True, m.get("content_type"), m.get("last_modified"))
         except (json.JSONDecodeError, KeyError, OSError):
             pass
-    hdrs = {"User-Agent": cfg.user_agent, **JSON_HEADERS, **(headers or {})}
+    # the User-Agent is not caller-configurable: no request may claim to be another client
+    hdrs = {**JSON_HEADERS, **{k: v for k, v in (headers or {}).items() if k.lower() != "user-agent"}, "User-Agent": cfg.user_agent}
     retries = cfg.http_max_retries if max_retries is None else max_retries
     last: Exception | None = None
     with httpx.Client(timeout=timeout or cfg.http_timeout_s, headers=hdrs, follow_redirects=True, transport=transport) as c:
