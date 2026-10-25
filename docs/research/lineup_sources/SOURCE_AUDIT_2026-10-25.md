@@ -15,3 +15,6 @@ Consequences recorded by this audit:
 1. The spoofed Chrome User-Agent was **not needed**: DailyFaceoff serves both pages to the identifying agent, and robots.txt allows them. It is removed (this PR); no function is lost.
 2. Terms of use for DailyFaceoff could not be located by the tool; that is an open question for the owner, not a finding of permission.
 3. The NHL website terms prohibit automated compilation of site content. The public `api-web` JSON the pipeline already uses is a different host with no terms found; whether the website terms extend to it is a question for the owner. The HTML game sheets are on nhl.com and are therefore **not** probed (the lineup-probe workflow keeps `sheets=false`).
+
+## Production code path (run 40154140260, branch of PR #95)
+The pipeline's own `fetch()` with the HTML `Accept` header and the identifying User-Agent, followed by the production parsers: DailyFaceoff **lines** HTTP 200, 232 KB, parsed by `parse_line_page`: **True**; **goalies** HTTP 200, 143 KB, parsed by `extract_next_data`: **True**. This is the same code path the capture worker's `context` job uses, so removing the browser User-Agent does not change what the lineup and goalie feeds receive.
