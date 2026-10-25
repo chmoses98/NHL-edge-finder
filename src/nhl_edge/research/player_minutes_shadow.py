@@ -414,6 +414,8 @@ def look_deferral(m: pd.DataFrame, n: int, rec: pd.DataFrame, outc: pd.DataFrame
 def render(res: dict[str, Any], looks: dict[int, dict[str, Any]], activation: dict[str, Any] | None, counts: dict[str, int], coverage: dict[str, Any] | None = None) -> str:
     L = ["# player-minutes-1.0 scoreboard (research only)", "", f"Registration: `{REGISTRATION}`. Activation: {activation.get('activation_utc') if activation else 'not yet'}.", "",
          f"Records: {counts['records']:,} (counting: {counts['eligible']:,}) · outcomes: {counts['outcomes']:,} · paired with an incumbent TOI forecast: {res.get('n_paired', 0):,}"]
+    if counts.get("dressed"):
+        L.append(f"Settled candidates {counts['settled_candidates']:,} · played {counts['dressed']:,} · of those with the incumbent's pregame TOI forecast {counts['paired']:,} ({counts['paired'] / counts['dressed']:.0%}) · with a captured power-play value {counts['paired_with_captured_pp']:,}")
     if coverage and coverage.get("activated"):
         L.append(f"Collection: games since activation {coverage['games_since_activation']} · recorded {coverage['recorded']} · missed {len(coverage['missed'])} · pending {coverage['pending']} · "
                  f"coverage of started games {coverage['coverage_of_started']} · median lead {coverage['median_lead_min']} min" + (f" · missed: {', '.join(coverage['missed'])}" if coverage["missed"] else ""))
@@ -433,6 +435,17 @@ def render(res: dict[str, Any], looks: dict[int, dict[str, Any]], activation: di
     return "\n".join(L) + "\n"
 
 
+def coverage_counts(eligible: pd.DataFrame, outc: pd.DataFrame, m: pd.DataFrame) -> dict[str, int]:
+    """Display only: how many counting records belong to a settled game, how many of those players played, and how many of those have the comparators the hypotheses need."""
+    if not len(eligible) or not len(outc):
+        return {"settled_candidates": 0, "dressed": 0, "paired": int(len(m)), "paired_with_captured_pp": 0}
+    settled = eligible[eligible["game_id"].isin(set(outc["game_id"]))].drop_duplicates(["game_id", "player_id"])
+    played = outc[pd.to_numeric(outc["toi_s"], errors="coerce") > 0].drop_duplicates(["game_id", "player_id"])
+    dressed = settled.merge(played[["game_id", "player_id"]], on=["game_id", "player_id"])
+    pp = int(pd.to_numeric(m["inc_pp"], errors="coerce").notna().sum()) if len(m) and "inc_pp" in m.columns else 0
+    return {"settled_candidates": int(len(settled)), "dressed": int(len(dressed)), "paired": int(len(m)), "paired_with_captured_pp": pp}
+
+
 def score(archive: Path, pf: Path, out: Path, now: datetime | None = None) -> dict[str, Any]:
     now = now or utcnow()
     rec, outc = load_dir(out, "records"), load_dir(out, "outcomes")
@@ -442,6 +455,7 @@ def score(archive: Path, pf: Path, out: Path, now: datetime | None = None) -> di
     m = paired_sample(rec, outc, incumbent_toi(pf), frozen)
     eligible = LCR.eligible_records(rec, frozen)[0] if len(rec) else rec
     counts = {"records": int(len(rec)), "eligible": int(len(eligible)), "outcomes": int(len(outc))}
+    counts.update(coverage_counts(eligible, outc, m))
     res = score_frame(m) if len(m) else {"n_paired": 0, "verdict": "INCONCLUSIVE AT n=0"}
     looks: dict[int, dict[str, Any]] = {}
     waiting: dict[int, str] = {}

@@ -250,8 +250,10 @@ def score_frame(rec: pd.DataFrame, act: pd.DataFrame, inc: pd.DataFrame, shadow_
     pre, excl = eligible_records(rec, frozen_model_sha)
     pre = pre.drop_duplicates(["game_id", "player_id"]) if len(pre) else pre
     m = pre.merge(act, on=["game_id", "player_id"], how="inner")
+    awaiting = int((~pre["game_id"].isin(set(act["game_id"]))).sum()) if len(pre) and len(act) else int(len(pre))     # display only: records of games with no official result yet are not "non-dressers"
     out: dict[str, Any] = {"n_records_pregame": int(len(pre)), "n_late_records_excluded": excl["late"], "n_records_written_after_drop_excluded": excl["written_after_drop"],
-                           "n_records_other_model_excluded": excl["other_model"], "n_scored_dressed": int(len(m)), "n_candidates_not_dressing": int(len(pre) - len(m)), "looks": {}}
+                           "n_records_other_model_excluded": excl["other_model"], "n_scored_dressed": int(len(m)), "n_candidates_not_dressing": int(len(pre) - len(m) - awaiting),
+                           "n_candidates_awaiting_outcome": awaiting, "looks": {}}
     paired = m.merge(inc, on=["game_id", "player_id"], how="inner")
     if len(paired):
         paired = paired.sort_values(["game_start_utc", "game_id", "player_id"], kind="mergesort").reset_index(drop=True)
@@ -313,7 +315,7 @@ def score_frame(rec: pd.DataFrame, act: pd.DataFrame, inc: pd.DataFrame, shadow_
 
 def render(sc: dict[str, Any]) -> str:
     L = ["# WORKLOAD_V1_LC — prospective shadow scoreboard", "", "RESEARCH_ONLY · registration: `docs/research/workload_v1/LC_PROSPECTIVE_REGISTRATION.md` · conditional on dressing · interim looks are descriptive",
-         "", f"* pregame records {sc['n_records_pregame']} · late records excluded {sc['n_late_records_excluded']} · scored (dressed) {sc['n_scored_dressed']} · candidates who did not dress {sc['n_candidates_not_dressing']} · paired with the incumbent's pregame forecast {sc['n_paired_with_incumbent']}",
+         "", f"* pregame records {sc['n_records_pregame']} · late records excluded {sc['n_late_records_excluded']} · scored (dressed) {sc['n_scored_dressed']} · candidates who did not dress {sc['n_candidates_not_dressing']} · awaiting the official result {sc.get('n_candidates_awaiting_outcome', 0)} · paired with the incumbent's pregame forecast {sc['n_paired_with_incumbent']}",
          f"* **verdict: {sc['verdict']}**", "* registered looks computed so far: " + ("; ".join(k + ": " + v["verdict"] for k, v in sc.get("looks", {}).items()) or "none"), ""]
     if "arms" in sc:
         L += ["| arm | n | bias | MAE | RMSE | CRPS | ladder Brier | cov80 |", "|---|---:|---:|---:|---:|---:|---:|---:|"]
@@ -404,7 +406,7 @@ def run_score(archive: Path, pf: Path, out: Path, now: datetime | None = None, p
     act_p = out / "activation.json"
     frozen = json.loads(act_p.read_text()).get("model_sha256") if act_p.exists() else None
     if not len(rec):
-        sc: dict[str, Any] = {"n_records_pregame": 0, "n_late_records_excluded": 0, "n_scored_dressed": 0, "n_candidates_not_dressing": 0, "n_paired_with_incumbent": 0,
+        sc: dict[str, Any] = {"n_records_pregame": 0, "n_late_records_excluded": 0, "n_scored_dressed": 0, "n_candidates_not_dressing": 0, "n_candidates_awaiting_outcome": 0, "n_paired_with_incumbent": 0,
                               "verdict": "INCONCLUSIVE AT n=0", "looks": {}}
     else:
         act, inc = actuals(live["players"]), incumbent_forecasts(pf)
