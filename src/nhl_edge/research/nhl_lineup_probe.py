@@ -1,13 +1,13 @@
 """When does the NHL actually publish lineup information before a puck drop? (RESEARCH_ONLY, read-only, identifying User-Agent)
 
 For each regular-season game of a day, poll the same public NHL endpoints the pipeline already reads (``gamecenter/{id}/landing`` and ``/right-rail``) at fixed offsets before the drop
-(T-180 ... T-5 minutes) and record, per poll, what is present: HTTP status, size, content hash, game state, and every structure whose key names look like a lineup, scratch list, roster, starter or
+(T-120 ... T-5 minutes) and record, per poll, what is present: HTTP status, size, content hash, game state, and every structure whose key names look like a lineup, scratch list, roster, starter or
 goalie (with item counts and player ids). Raw bodies are stored whenever the hash changes, so the schema can be re-read offline. Nothing is inferred or back-filled: a poll that does not
 happen is a missing observation. Optionally (``--sheets``, off by default, only after the access audit allows it) the official HTML game roster sheet is probed the same way.
 
 Output: write-once ``obs/`` and ``raw/`` files with an append-only manifest, intended for the orphan branch ``lineup-probe-data``.
 
-    python -m nhl_edge.research.nhl_lineup_probe watch --date 2026-10-25 --out /tmp/probe [--sheets]
+    python -m nhl_edge.research.nhl_lineup_probe watch --date 2026-10-25 --out /tmp/probe --tag A --from-utc 2026-10-25T19:00:00Z --to-utc 2026-10-25T21:00:00Z
     python -m nhl_edge.research.nhl_lineup_probe summarize --out /tmp/probe
 """
 
@@ -29,10 +29,10 @@ from typing import Any
 import httpx
 
 from nhl_edge.config import settings
-from nhl_edge.research import workload_shadow_run as LCR
 from nhl_edge.timeutil import iso, parse_iso
 
-OFFSETS_MIN = (180, 120, 90, 75, 60, 45, 30, 20, 12, 8, 5)
+OFFSETS_MIN = (120, 90, 75, 60, 45, 30, 20, 12, 8, 5)
+LATE_GRACE_MIN = 2.0          # smaller than the smallest gap between offsets (3 min): a late poll can never be labelled as the next offset's
 ENDPOINTS = ("landing", "right-rail")
 KEY_RE = re.compile(r"scratch|lineup|roster|starting|starter|probable|goalie|depth|injur|healthy|dressed", re.I)
 API = "https://api-web.nhle.com/v1"
@@ -105,14 +105,31 @@ def sheet_features(status: int, body: bytes) -> dict[str, Any]:
     return f
 
 
+def write_once(out: Path, tag: str, rel: str, rows: list[dict[str, Any]]) -> None:
+    """Write-once gz file plus one line in this run's own manifest ``MANIFEST.<tag>.jsonl`` (parallel runs never touch the same manifest)."""
+    p = out / rel
+    if p.exists():
+        raise FileExistsError(f"refusing to overwrite {rel}")
+    p.parent.mkdir(parents=True, exist_ok=True)
+    tmp = p.with_suffix(p.suffix + ".tmp")
+    with gzip.open(tmp, "wt", encoding="utf-8") as f:
+        for r in rows:
+            f.write(json.dumps(r, separators=(",", ":")) + "\n")
+    tmp.replace(p)
+    entry = {"path": rel, "rows": len(rows), "sha256": hashlib.sha256(p.read_bytes()).hexdigest(), "written_at_utc": iso(datetime.now(UTC))}
+    with (out / f"MANIFEST.{tag}.jsonl").open("a") as m:
+        m.write(json.dumps(entry) + "\n")
+
+
 class Probe:
-    def __init__(self, out: Path, get: Getter = http_get, sheets: bool = False) -> None:
-        self.out, self.get, self.sheets = out, get, sheets
+    def __init__(self, out: Path, get: Getter = http_get, sheets: bool = False, tag: str = "run", clock: Callable[[], datetime] | None = None) -> None:
+        self.out, self.get, self.sheets, self.tag = out, get, sheets, tag
+        self.clock = clock or (lambda: datetime.now(UTC))
         self.buf: list[dict[str, Any]] = []
         self.raw: list[dict[str, Any]] = []
         self.last_sha: dict[tuple[int, str], str] = {}
 
-    def poll_game(self, g: dict[str, Any], offset: int, now: datetime) -> None:
+    def poll_game(self, g: dict[str, Any], offset: int, now: datetime | None = None) -> None:
         gid, start = int(g["id"]), parse_iso(g["startTimeUTC"])
         targets = [(e, f"{API}/gamecenter/{gid}/{e}", features) for e in ENDPOINTS]
         if self.sheets:
@@ -120,7 +137,7 @@ class Probe:
             targets.append(("game-sheet-RO", SHEET.format(season=season, num=f"{gid % 1_000_000:06d}"), sheet_features))
         for name, url, feat in targets:
             status, body = self.get(url)
-            at = datetime.now(UTC) if now is None else now
+            at = self.clock()                                   # stamped when the response is in hand, not at the start of the tick
             row = {"game_id": gid, "endpoint": name, "offset_min": offset, "polled_at_utc": iso(at), "game_start_utc": g["startTimeUTC"],
                    "lead_min": round((start - at).total_seconds() / 60, 1), **feat(status, body)}
             self.buf.append(row)
@@ -132,18 +149,26 @@ class Probe:
     def flush(self, now: datetime) -> None:
         stamp = now.strftime("%Y%m%dT%H%M%S%fZ")
         if self.buf:
-            LCR.write_once(self.out, f"obs/dt={now:%Y-%m-%d}/probe_{stamp}.jsonl.gz", self.buf)
+            write_once(self.out, self.tag, f"obs/dt={now:%Y-%m-%d}/probe_{self.tag}_{stamp}.jsonl.gz", self.buf)
             self.buf = []
         if self.raw:
-            LCR.write_once(self.out, f"raw/dt={now:%Y-%m-%d}/raw_{stamp}.jsonl.gz", self.raw)
+            write_once(self.out, self.tag, f"raw/dt={now:%Y-%m-%d}/raw_{self.tag}_{stamp}.jsonl.gz", self.raw)
             self.raw = []
 
 
-def schedule_games(get: Getter, date_et: str) -> list[dict[str, Any]]:
-    status, body = get(f"{API}/schedule/{date_et}")
+def schedule_games(get: Getter, date_et: str, attempts: int = 3, sleep_fn: Callable[[float], None] = time.sleep) -> list[dict[str, Any]]:
+    status, body = 0, b""
+    for i in range(attempts):
+        status, body = get(f"{API}/schedule/{date_et}")
+        if status == 200:
+            break
+        sleep_fn(5.0 * (i + 1))
     if status != 200:
-        return []
-    j = json.loads(body)
+        raise RuntimeError(f"schedule for {date_et}: HTTP {status}")
+    try:
+        j = json.loads(body)
+    except ValueError as e:
+        raise RuntimeError(f"schedule for {date_et}: not json ({e})") from e
     for day in j.get("gameWeek") or []:
         if day.get("date") == date_et:
             return [g for g in day.get("games") or [] if g.get("gameType") == 2 and g.get("startTimeUTC")]
@@ -151,38 +176,46 @@ def schedule_games(get: Getter, date_et: str) -> list[dict[str, Any]]:
 
 
 def watch(out: Path, date_et: str, get: Getter = http_get, sheets: bool = False, now_fn: Callable[[], datetime] | None = None, sleep_fn: Callable[[float], None] = time.sleep,
-          max_minutes: float = 600.0, tick_s: float = 30.0) -> dict[str, Any]:
-    """Poll every game of ``date_et`` at the registered offsets until the last drop has passed (or ``max_minutes``). One poll per (game, offset); an offset that is already more than 4 minutes
-    late when first seen is recorded as ``skipped_late`` (never polled retroactively as if it were on time)."""
+          max_minutes: float = 320.0, tick_s: float = 30.0, tag: str = "run", start_from: datetime | None = None, start_to: datetime | None = None) -> dict[str, Any]:
+    """Poll the games of ``date_et`` (optionally only those starting in [start_from, start_to)) at the registered offsets until the last drop has passed (or ``max_minutes``).
+    One poll per (game, offset). An offset that is already more than ``LATE_GRACE_MIN`` late when first seen is not polled: a ``skipped_late`` row is written instead, so a missing
+    observation is visible in the data. Raises if the schedule cannot be read or the selection holds no game (a green run must mean something was watched)."""
     now_fn = now_fn or (lambda: datetime.now(UTC))
-    games = schedule_games(get, date_et)
-    p = Probe(out, get, sheets)
+    games = [g for g in schedule_games(get, date_et, sleep_fn=sleep_fn)
+             if (start_from is None or parse_iso(g["startTimeUTC"]) >= start_from) and (start_to is None or parse_iso(g["startTimeUTC"]) < start_to)]
+    if not games:
+        raise RuntimeError(f"no regular-season game on {date_et} in the selected window")
+    p = Probe(out, get, sheets, tag, clock=now_fn)
     done: set[tuple[int, int]] = set()
     skipped: list[tuple[int, int]] = []
-    t0, last_flush = now_fn(), now_fn()
+    t0 = now_fn()
     while True:
         now = now_fn()
-        if (now - t0) > timedelta(minutes=max_minutes) or not games or all(now > parse_iso(g["startTimeUTC"]) + timedelta(minutes=5) for g in games):
+        if (now - t0) > timedelta(minutes=max_minutes) or all(now > parse_iso(g["startTimeUTC"]) + timedelta(minutes=5) for g in games):
             break
+        polled = False
         for g in games:
             start = parse_iso(g["startTimeUTC"])
             for off in OFFSETS_MIN:
                 key = (int(g["id"]), off)
+                now = now_fn()                                   # requests are sequential and can be slow: re-read the clock before every decision
                 if key in done or now >= start:
                     continue
                 due = start - timedelta(minutes=off)
                 if now >= due:
                     done.add(key)
-                    if now - due > timedelta(minutes=4):
+                    if now - due > timedelta(minutes=LATE_GRACE_MIN):
                         skipped.append(key)
+                        p.buf.append({"game_id": key[0], "endpoint": "skipped_late", "offset_min": off, "polled_at_utc": iso(now), "game_start_utc": g["startTimeUTC"],
+                                      "lead_min": round((start - now).total_seconds() / 60, 1), "status": None})
                     else:
-                        p.poll_game(g, off, now)
-        if now - last_flush > timedelta(minutes=15):
-            p.flush(now)
-            last_flush = now
+                        p.poll_game(g, off)
+                        polled = True
+        if polled:
+            p.flush(now_fn())
         sleep_fn(tick_s)
     p.flush(now_fn())
-    return {"games": len(games), "polls": len(done) - len(skipped), "skipped_late": len(skipped), "date_et": date_et}
+    return {"games": len(games), "polls": len(done) - len(skipped), "skipped_late": len(skipped), "date_et": date_et, "tag": tag}
 
 
 def load_obs(out: Path) -> list[dict[str, Any]]:
@@ -197,6 +230,8 @@ def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
     """Per game and endpoint: the first poll (largest lead) at which a lineup-like structure was non-empty, and whether it changed afterwards."""
     by: dict[tuple[int, str], list[dict[str, Any]]] = {}
     for r in rows:
+        if r["endpoint"] == "skipped_late":
+            continue
         by.setdefault((r["game_id"], r["endpoint"]), []).append(r)
     out = []
     for (gid, ep), rs in sorted(by.items()):
@@ -229,16 +264,24 @@ def main(argv: list[str] | None = None) -> int:
     w.add_argument("--date", required=True)
     w.add_argument("--out", required=True)
     w.add_argument("--sheets", action="store_true")
-    w.add_argument("--max-minutes", type=float, default=600.0)
+    w.add_argument("--max-minutes", type=float, default=320.0)
+    w.add_argument("--tag", default="run")
+    w.add_argument("--from-utc", default=None, help="only games starting at or after this UTC instant")
+    w.add_argument("--to-utc", default=None, help="only games starting before this UTC instant")
     s = sub.add_parser("summarize")
     s.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     if a.cmd == "watch":
         Path(a.out).mkdir(parents=True, exist_ok=True)
-        print(json.dumps(watch(Path(a.out), a.date, sheets=a.sheets, max_minutes=a.max_minutes)))
+        try:
+            rep = watch(Path(a.out), a.date, sheets=a.sheets, max_minutes=a.max_minutes, tag=a.tag, start_from=parse_iso(a.from_utc) if a.from_utc else None,
+                        start_to=parse_iso(a.to_utc) if a.to_utc else None)
+        except RuntimeError as e:
+            print(json.dumps({"error": str(e)}))
+            return 3
+        print(json.dumps(rep))
         return 0
     md = render(summarize(load_obs(Path(a.out))))
-    (Path(a.out) / "SUMMARY.md").write_text(md)
     print(md)
     return 0
 

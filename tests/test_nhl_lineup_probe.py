@@ -38,7 +38,7 @@ def make_get(clock: Clock, log: list):
 
 
 def test_polls_each_regular_game_at_the_registered_offsets_and_records_first_publication(tmp_path):
-    clock, log = Clock(START - timedelta(minutes=200)), []
+    clock, log = Clock(START - timedelta(minutes=140)), []
     rep = P.watch(tmp_path, "2026-10-25", get=make_get(clock, log), now_fn=clock.now, sleep_fn=clock.sleep, tick_s=30)
     assert rep["games"] == 1 and rep["skipped_late"] == 0 and rep["polls"] == len(P.OFFSETS_MIN)             # the preseason game is not probed
     assert not any("2026020181" in u for u, _ in log)
@@ -54,27 +54,60 @@ def test_polls_each_regular_game_at_the_registered_offsets_and_records_first_pub
 
 
 def test_an_offset_that_is_already_late_is_skipped_not_polled_retroactively(tmp_path):
-    clock, log = Clock(START - timedelta(minutes=50)), []              # the run starts at T-50: offsets 180, 120, 90, 75 and 60 are in the past
+    clock, log = Clock(START - timedelta(minutes=50)), []              # the run starts at T-50: offsets 120, 90, 75 and 60 are in the past
     rep = P.watch(tmp_path, "2026-10-25", get=make_get(clock, log), now_fn=clock.now, sleep_fn=clock.sleep, tick_s=30)
     rows = P.load_obs(tmp_path)
-    assert rep["skipped_late"] == 5 and {r["offset_min"] for r in rows} == {45, 30, 20, 12, 8, 5}
-    assert all(r["lead_min"] <= 50 for r in rows)
+    polled = [r for r in rows if r["endpoint"] != "skipped_late"]
+    assert rep["skipped_late"] == 4 and {r["offset_min"] for r in polled} == {45, 30, 20, 12, 8, 5}
+    assert all(r["lead_min"] <= 50 for r in polled)
+    assert {r["offset_min"] for r in rows if r["endpoint"] == "skipped_late"} == {120, 90, 75, 60}           # the gap is visible in the data, not only in the log
 
 
 def test_raw_bodies_are_stored_only_when_the_content_changes_and_files_are_write_once(tmp_path):
-    clock, log = Clock(START - timedelta(minutes=200)), []
+    clock, log = Clock(START - timedelta(minutes=140)), []
     P.watch(tmp_path, "2026-10-25", get=make_get(clock, log), now_fn=clock.now, sleep_fn=clock.sleep, tick_s=30)
     import gzip
     raws = []
     for f in sorted((tmp_path / "raw").rglob("*.jsonl.gz")):
         raws += [json.loads(line) for line in gzip.open(f, "rt")]
     assert sum(1 for r in raws if r["endpoint"] == "right-rail") == 2 and sum(1 for r in raws if r["endpoint"] == "landing") == 1
-    assert LCR_guard_ok(tmp_path)
+    manifest = [json.loads(line) for line in (tmp_path / "MANIFEST.run.jsonl").read_text().splitlines()]
+    assert manifest and all((tmp_path / m["path"]).exists() for m in manifest)
+    import pytest
+    with pytest.raises(FileExistsError):
+        P.write_once(tmp_path, "run", manifest[0]["path"], [{}])
 
 
-def LCR_guard_ok(out: Path) -> bool:
-    manifest = [json.loads(line) for line in (out / "MANIFEST.jsonl").read_text().splitlines()]
-    return all((out / m["path"]).exists() for m in manifest)
+def test_parallel_runs_write_their_own_manifests_and_never_the_same_file(tmp_path):
+    for tag in ("A", "B"):
+        clock, log = Clock(START - timedelta(minutes=140)), []
+        P.watch(tmp_path, "2026-10-25", get=make_get(clock, log), now_fn=clock.now, sleep_fn=clock.sleep, tag=tag)
+    assert (tmp_path / "MANIFEST.A.jsonl").exists() and (tmp_path / "MANIFEST.B.jsonl").exists() and not (tmp_path / "MANIFEST.jsonl").exists()
+    assert len(P.load_obs(tmp_path)) == 2 * 2 * len(P.OFFSETS_MIN)
+
+
+def test_the_window_filter_selects_games_and_an_empty_selection_or_unreadable_schedule_fails_loudly(tmp_path):
+    import pytest
+    clock, log = Clock(START - timedelta(minutes=140)), []
+    with pytest.raises(RuntimeError, match="no regular-season game"):
+        P.watch(tmp_path, "2026-10-25", get=make_get(clock, log), now_fn=clock.now, sleep_fn=clock.sleep, start_from=START + timedelta(hours=1))
+    with pytest.raises(RuntimeError, match="HTTP 503"):
+        P.watch(tmp_path, "2026-10-25", get=lambda u: (503, b""), now_fn=clock.now, sleep_fn=lambda s: None)
+    with pytest.raises(RuntimeError, match="not json"):
+        P.watch(tmp_path, "2026-10-25", get=lambda u: (200, b"<html>"), now_fn=clock.now, sleep_fn=lambda s: None)
+
+
+def test_timestamps_are_taken_when_the_response_arrives_even_if_requests_are_slow(tmp_path):
+    clock = Clock(START - timedelta(minutes=140))
+    base = make_get(clock, [])
+
+    def slow(url):
+        clock.t += timedelta(seconds=20)                              # every request takes 20 s
+        return base(url)
+    P.watch(tmp_path, "2026-10-25", get=slow, now_fn=clock.now, sleep_fn=clock.sleep)
+    rows = [r for r in P.load_obs(tmp_path) if r["endpoint"] == "right-rail"]
+    assert all(r["lead_min"] <= r["offset_min"] + 0.01 for r in rows)                  # never stamped earlier than the real moment (lead only shrinks)
+    assert len({r["polled_at_utc"] for r in rows}) == len(rows)
 
 
 def test_interesting_finds_lineup_like_structures_and_ids():

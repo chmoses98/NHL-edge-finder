@@ -8,9 +8,9 @@ Do official NHL sources publish scratches, the dressed roster or lines early eno
 ## Sources and how each is measured
 | source | what it could add | access | measured by |
 |---|---|---|---|
-| `api-web` `gamecenter/{id}/right-rail` (`gameInfo.{home,away}Team.scratches`) | scratches by player id | public JSON the pipeline already reads, identifying User-Agent | `nhl_lineup_probe` polls at T-180 … T-5 |
+| `api-web` `gamecenter/{id}/right-rail` (`gameInfo.{home,away}Team.scratches`) | scratches by player id | public JSON the pipeline already reads, identifying User-Agent | `nhl_lineup_probe` polls at T-120 … T-5 (one run per cluster of drops, parallel runs write their own manifests) |
 | `api-web` `gamecenter/{id}/landing` | matchup, game state; lineup-like structures if any appear pregame | same | same |
-| official HTML game roster sheet (`nhl.com/scores/htmlreports/{season}/RO{gamenumber}.HTM`) | dressed roster, scratches | web page; **probed only if the access audit (robots.txt, terms) allows it** | `--sheets`, off by default |
+| official HTML game roster sheet (`nhl.com/scores/htmlreports/{season}/RO{gamenumber}.HTM`) | dressed roster, scratches | web page on nhl.com; **not probed**: nhl.com's terms of service prohibit automated compilation of site content (`SOURCE_AUDIT_2026-10-25.md`); the sheet URL tried by the audit was also HTTP 404 | not measured |
 | DailyFaceoff lines / PP units | projected and "confirmed" lines, PP units | see `DAILYFACEOFF_COMPLIANCE.md` | `context/lines` archive (lines + the source's own `updatedAt` and label) |
 
 ## Confirmed vs projected
