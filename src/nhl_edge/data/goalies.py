@@ -13,7 +13,7 @@ import re
 from datetime import datetime
 from typing import Any
 
-from nhl_edge.data.http import FetchError, fetch
+from nhl_edge.data.http import HTML_HEADERS, FetchError, fetch
 from nhl_edge.goalies.state import parse_dailyfaceoff_next_data
 from nhl_edge.identity.teams import registry
 from nhl_edge.log import get_logger, kv
@@ -46,7 +46,7 @@ def strip_market_fields(row: dict[str, Any]) -> dict[str, Any]:
 def fetch_dailyfaceoff(date_et: str) -> tuple[list[GoalieObservation], dict[str, Any]]:
     url = DFO_URL.format(date=date_et)
     try:
-        f = fetch(url, max_retries=2)
+        f = fetch(url, headers=HTML_HEADERS, max_retries=2)
         nd = extract_next_data(f.text())
         pp = nd.get("props", {}).get("pageProps", {})
     except (FetchError, ValueError, json.JSONDecodeError) as e:

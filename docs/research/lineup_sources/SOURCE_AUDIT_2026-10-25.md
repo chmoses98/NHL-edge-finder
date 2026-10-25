@@ -1,6 +1,6 @@
 # Data-source access audit, 2026-10-25 (evidence; not a legal opinion)
 
-Run: GitHub Actions `source-audit` run 40151428029 (a runner, because this development environment's egress policy blocks these hosts). Tool: `src/nhl_edge/research/source_audit.py`. Every request used the repository's identifying User-Agent (`nhl-edge-finder/0.1 (+https://github.com/chmoses98/NHL-edge-finder)`), one GET per document, no retries, no header changes.
+Run: GitHub Actions `source-audit` run 40151428029 (a runner, because this development environment's egress policy blocks these hosts). Tool: `src/nhl_edge/research/source_audit.py`. The first table used `Accept: */*`; the production-path check below uses the pipeline's own fetch (HTML `Accept`) and parsers. Every request used the repository's identifying User-Agent (`nhl-edge-finder/0.1 (+https://github.com/chmoses98/NHL-edge-finder)`), one GET per document, no retries, no header changes.
 
 | host | robots.txt | plain identifying request to the paths we use | terms found |
 |---|---|---|---|

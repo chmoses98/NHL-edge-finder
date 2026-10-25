@@ -23,6 +23,8 @@ from nhl_edge.timeutil import iso, utcnow
 log = get_logger(__name__)
 
 JSON_HEADERS = {"Accept": "application/json"}
+HTML_HEADERS = {"Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8"}      # content negotiation for pages that are HTML (not an identity claim)
+ANY_HEADERS = {"Accept": "*/*"}                                                    # file downloads (history pulls)
 # Every request identifies itself with `settings().user_agent` (project name + repository URL). No request impersonates a browser: access that a host only grants to a spoofed
 # client is access the project does not have (see docs/research/lineup_sources/DAILYFACEOFF_COMPLIANCE.md).
 RETRYABLE = {429, 500, 502, 503, 504}

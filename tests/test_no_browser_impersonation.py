@@ -24,3 +24,17 @@ def test_every_fetch_sends_the_identifying_user_agent():
         return httpx.Response(200, content=b"{}")
     H.fetch("https://example.invalid/x", transport=httpx.MockTransport(handler), max_retries=0)
     assert seen["ua"].startswith("nhl-edge-finder/") and "Mozilla" not in seen["ua"]
+
+
+def test_html_pages_are_requested_with_an_html_accept_not_json():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["accept"] = request.headers["accept"]
+        return httpx.Response(200, content=b"<html></html>")
+    H.fetch("https://example.invalid/x", headers=H.HTML_HEADERS, transport=httpx.MockTransport(handler), max_retries=0)
+    assert seen["accept"].startswith("text/html")
+    import nhl_edge.data.context as C
+    import nhl_edge.data.goalies as G
+    import nhl_edge.data.history as Y
+    assert C.HTML_HEADERS is G.HTML_HEADERS is H.HTML_HEADERS and Y.ANY_HEADERS is H.ANY_HEADERS
