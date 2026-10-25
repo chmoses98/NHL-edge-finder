@@ -294,3 +294,12 @@ def test_incumbent_capture_orders_mixed_timestamp_formats_by_instant(tmp_path, m
     monkeypatch.setattr("nhl_edge.archive.ledger.Ledger", lambda root: SimpleNamespace(iter_rows=lambda kind, dt_from=None: iter(rows)))
     got = M.incumbent_capture(tmp_path, NOW, {7})
     assert got[(7, 5)]["toi_min"] == 18.0
+
+
+def test_coverage_counts_report_how_many_players_have_each_comparator():
+    rec, outc, inc = _synthetic(4, 10)
+    rec = _stamp(rec)
+    m = M.paired_sample(rec, outc, inc.iloc[5:], "m")                       # the incumbent is missing for 5 players
+    c = M.coverage_counts(M.LCR.eligible_records(rec, "m")[0], outc, m)
+    assert c["settled_candidates"] == 40 and c["dressed"] == 40 and c["paired"] == 35 and c["paired_with_captured_pp"] == 35
+    assert M.coverage_counts(rec.iloc[:0], outc, m)["dressed"] == 0
