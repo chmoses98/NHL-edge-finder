@@ -1,9 +1,9 @@
 # NHL slate 2026-10-25 — RESEARCH_ONLY
 
-generated 2026-10-25T08:24:10Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-25T09:20:18Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 5 · simulated (not started): 5 · markets on board: 2337 · contracts joined: 425 (unjoined to any game: 1538)
-gates: {'UNSUPPORTED': 300, 'OK': 83, 'NO_EDGE': 42}
+gates: {'UNSUPPORTED': 300, 'OK': 84, 'NO_EDGE': 41}
 families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'player_assists': 30, 'game_early_goal': 5, 'first_goal': 37, 'game_winner': 10, 'player_goals': 62, 'game_overtime': 5, 'player_points': 41, 'game_spread': 20, 'team_total': 50, 'game_total': 45}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -18,18 +18,18 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'player
 
 | ticker | family | P(data) | P(mkt mid) | P(anchored) | yes ask | no ask | best | EV after fee | gate |
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
-| KXNHLTEAMTOTAL-26OCT25FLACHI-FLA4 | team_total | 0.367 | 0.495 | 0.469 | 50 | 51 | no | +0.106 | OK |
-| KXNHLSPREAD-26OCT25FLACHI-FLA2 | game_spread | 0.283 | 0.410 | 0.383 | 42 | 60 | no | +0.101 | OK |
+| KXNHLSPREAD-26OCT25FLACHI-FLA2 | game_spread | 0.283 | 0.405 | 0.379 | 41 | 60 | no | +0.101 | OK |
 | KXNHLGAME-26OCT25FLACHI-CHI | game_winner | 0.495 | 0.375 | 0.398 | 38 | 63 | yes | +0.099 | OK |
 | KXNHLGAME-26OCT25FLACHI-FLA | game_winner | 0.505 | 0.625 | 0.602 | 63 | 38 | no | +0.099 | OK |
-| KXNHLTEAMTOTAL-26OCT25FLACHI-FLA3 | team_total | 0.588 | 0.705 | 0.683 | 72 | 31 | no | +0.087 | OK |
+| KXNHLTEAMTOTAL-26OCT25FLACHI-FLA3 | team_total | 0.588 | 0.710 | 0.687 | 72 | 30 | no | +0.098 | OK |
+| KXNHLTEAMTOTAL-26OCT25FLACHI-FLA4 | team_total | 0.367 | 0.490 | 0.465 | 50 | 52 | no | +0.096 | OK |
+| KXNHLSPREAD-26OCT25COLNSH-COL2 | game_spread | 0.361 | 0.475 | 0.452 | 48 | 53 | no | +0.092 | OK |
 | KXNHLSPREAD-26OCT25FLACHI-FLA3 | game_spread | 0.170 | 0.275 | 0.251 | 28 | 73 | no | +0.087 | OK |
 | KXNHLSPREAD-26OCT25COLNSH-COL3 | game_spread | 0.231 | 0.340 | 0.316 | 35 | 67 | no | +0.083 | OK |
-| KXNHLSPREAD-26OCT25COLNSH-COL2 | game_spread | 0.361 | 0.465 | 0.444 | 47 | 54 | no | +0.082 | OK |
 | KXNHLGAME-26OCT25COLNSH-COL | game_winner | 0.578 | 0.675 | 0.656 | 68 | 33 | no | +0.077 | OK |
 | KXNHLGAME-26OCT25COLNSH-NSH | game_winner | 0.422 | 0.325 | 0.344 | 33 | 68 | yes | +0.077 | OK |
 | KXNHLSPREAD-26OCT25FLACHI-CHI2 | game_spread | 0.277 | 0.185 | 0.201 | 19 | 82 | yes | +0.076 | OK |
-| KXNHLTEAMTOTAL-26OCT25FLACHI-FLA5 | team_total | 0.193 | 0.290 | 0.268 | 30 | 72 | no | +0.073 | OK |
+| KXNHLTEAMTOTAL-26OCT25FLACHI-FLA5 | team_total | 0.193 | 0.295 | 0.272 | 31 | 72 | no | +0.073 | OK |
 | KXNHLTEAMTOTAL-26OCT25COLNSH-COL4 | team_total | 0.470 | 0.575 | 0.554 | 59 | 44 | no | +0.073 | OK |
 | KXNHLSPREAD-26OCT25NYIDAL-DAL3 | game_spread | 0.195 | 0.275 | 0.257 | 28 | 73 | no | +0.062 | OK |
 | KXNHLTEAMTOTAL-26OCT25COLNSH-COL5 | team_total | 0.273 | 0.365 | 0.346 | 38 | 65 | no | +0.061 | OK |
@@ -56,6 +56,7 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'player
 | KXNHLSPREAD-26OCT25MINVAN-VAN2 | game_spread | 0.243 | 0.190 | 0.200 | 20 | 82 | yes | +0.032 | OK |
 | KXNHLSPREAD-26OCT25MINVAN-MIN3 | game_spread | 0.224 | 0.285 | 0.272 | 30 | 73 | no | +0.032 | OK |
 | KXNHLTEAMTOTAL-26OCT25NYIDAL-DAL2 | team_total | 0.790 | 0.845 | 0.835 | 86 | 17 | no | +0.030 | OK |
+| KXNHLTOTAL-26OCT25COLNSH-4 | game_total | 0.874 | 0.915 | 0.908 | 92 | 9 | no | +0.030 | OK |
 | KXNHLTEAMTOTAL-26OCT25FLACHI-CHI4 | team_total | 0.364 | 0.310 | 0.320 | 32 | 70 | yes | +0.029 | OK |
 | KXNHLTOTAL-26OCT25FLACHI-5 | game_total | 0.752 | 0.795 | 0.787 | 80 | 21 | no | +0.027 | OK |
 | KXNHLTOTAL-26OCT25NYIDAL-5 | game_total | 0.679 | 0.725 | 0.716 | 73 | 28 | no | +0.027 | OK |
@@ -65,16 +66,15 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'player
 | KXNHLTOTAL-26OCT25FLACHI-4 | game_total | 0.838 | 0.875 | 0.868 | 88 | 13 | no | +0.024 | OK |
 | KXNHLTOTAL-26OCT25MINVAN-8 | game_total | 0.338 | 0.295 | 0.303 | 30 | 71 | yes | +0.023 | OK |
 | KXNHLSPREAD-26OCT25COLNSH-NSH3 | game_spread | 0.129 | 0.090 | 0.097 | 10 | 92 | yes | +0.023 | OK |
-| KXNHLTEAMTOTAL-26OCT25COLNSH-NSH3 | team_total | 0.570 | 0.520 | 0.530 | 53 | 49 | yes | +0.022 | OK |
 | KXNHLTEAMTOTAL-26OCT25NYIDAL-DAL6 | team_total | 0.072 | 0.110 | 0.101 | 12 | 90 | no | +0.021 | OK |
 | KXNHLTOTAL-26OCT25NYIDAL-6 | game_total | 0.442 | 0.485 | 0.476 | 49 | 52 | no | +0.021 | OK |
 | KXNHLTOTAL-26OCT25MINVAN-7 | game_total | 0.538 | 0.490 | 0.500 | 50 | 52 | yes | +0.021 | OK |
 | KXNHLTOTAL-26OCT25NYIDAL-7 | game_total | 0.334 | 0.375 | 0.367 | 38 | 63 | no | +0.020 | OK |
 | KXNHLTOTAL-26OCT25MINVAN-6 | game_total | 0.646 | 0.605 | 0.613 | 61 | 40 | yes | +0.020 | OK |
-| KXNHLTOTAL-26OCT25COLNSH-4 | game_total | 0.874 | 0.910 | 0.904 | 92 | 10 | no | +0.019 | OK |
 | KXNHLTEAMTOTAL-26OCT25MINVAN-VAN6 | team_total | 0.104 | 0.065 | 0.072 | 8 | 95 | yes | +0.019 | OK |
 | KXNHLTOTAL-26OCT25NYIDAL-4 | game_total | 0.781 | 0.820 | 0.813 | 83 | 19 | no | +0.018 | OK |
 | KXNHLTEAMTOTAL-26OCT25COLNSH-NSH5 | team_total | 0.187 | 0.150 | 0.157 | 16 | 86 | yes | +0.018 | OK |
+| KXNHLTEAMTOTAL-26OCT25FLACHI-CHI6 | team_total | 0.080 | 0.055 | 0.059 | 6 | 95 | yes | +0.016 | OK |
 | KXNHLTOTAL-26OCT25COLNSH-7 | game_total | 0.486 | 0.525 | 0.517 | 53 | 48 | no | +0.016 | OK |
 | KXNHLSPREAD-26OCT25MINVAN-VAN3 | game_spread | 0.143 | 0.110 | 0.116 | 12 | 90 | yes | +0.016 | OK |
 | KXNHLTEAMTOTAL-26OCT25COLNSH-NSH4 | team_total | 0.351 | 0.305 | 0.314 | 32 | 71 | yes | +0.016 | OK |
@@ -85,6 +85,7 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'player
 | KXNHLTOTAL-26OCT25NYIDAL-10 | game_total | 0.043 | 0.065 | 0.060 | 7 | 94 | no | +0.013 | OK |
 | KXNHLTOTAL-26OCT25NYIDAL-9 | game_total | 0.109 | 0.135 | 0.129 | 14 | 87 | no | +0.013 | OK |
 | KXNHLTOTAL-26OCT25MINVAN-10 | game_total | 0.130 | 0.100 | 0.105 | 11 | 91 | yes | +0.013 | OK |
+| KXNHLTEAMTOTAL-26OCT25COLNSH-NSH3 | team_total | 0.570 | 0.525 | 0.534 | 54 | 49 | yes | +0.012 | OK |
 | KXNHLTOTAL-26OCT25MINVAN-5 | game_total | 0.831 | 0.805 | 0.810 | 81 | 20 | yes | +0.010 | OK |
 | KXNHLTEAMTOTAL-26OCT25FLACHI-CHI2 | team_total | 0.792 | 0.760 | 0.767 | 77 | 25 | yes | +0.010 | OK |
 | KXNHLTOTAL-26OCT25MTLWPG-5 | game_total | 0.738 | 0.765 | 0.760 | 77 | 24 | no | +0.009 | OK |
@@ -93,11 +94,10 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'player
 | KXNHLTOTAL-26OCT25NYIDAL-3 | game_total | 0.938 | 0.960 | 0.956 | 97 | 5 | no | +0.009 | OK |
 | KXNHLTOTAL-26OCT25FLACHI-9 | game_total | 0.162 | 0.190 | 0.184 | 20 | 82 | no | +0.007 | OK |
 | KXNHLTEAMTOTAL-26OCT25COLNSH-NSH2 | team_total | 0.789 | 0.760 | 0.766 | 77 | 25 | yes | +0.006 | OK |
-| KXNHLTEAMTOTAL-26OCT25FLACHI-CHI6 | team_total | 0.080 | 0.060 | 0.064 | 7 | 95 | yes | +0.006 | OK |
 | KXNHLTEAMTOTAL-26OCT25COLNSH-NSH6 | team_total | 0.080 | 0.060 | 0.064 | 7 | 95 | yes | +0.006 | OK |
 | KXNHLTOTAL-26OCT25COLNSH-8 | game_total | 0.290 | 0.320 | 0.314 | 33 | 69 | no | +0.005 | OK |
+| KXNHLTEAMTOTAL-26OCT25NYIDAL-NYI6 | team_total | 0.047 | 0.035 | 0.037 | 4 | 97 | yes | +0.004 | OK |
 | KXNHLSPREAD-26OCT25MTLWPG-WPG3 | game_spread | 0.149 | 0.165 | 0.162 | 17 | 84 | no | +0.002 | OK |
-| KXNHLTOTAL-26OCT25COLNSH-10 | game_total | 0.102 | 0.115 | 0.112 | 12 | 89 | no | +0.001 | OK |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -112,13 +112,14 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'player
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 8 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 9 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Ryan Greene: 1+ goals YES @ 11c · p 0.1555 (adj 0.1366) · $4.14 · thesis CHI:OFFENSE_4PLUS
+- Ryan Greene: 1+ goals YES @ 11c · p 0.1555 (adj 0.1391) · $5.44 · thesis CHI:OFFENSE_4PLUS
 - Florida wins by over 2.5 goals NO @ 73c · p 0.8096 (adj 0.7673) · $20.0 · thesis CHI:WINS
-- Cole Schwindt: 1+ goals YES @ 10c · p 0.1456 (adj 0.123) · $4.88 · thesis FLA:OFFENSE_4PLUS
-- Chicago wins by over 1.5 goals YES @ 19c · p 0.2577 (adj 0.2213) · $4.18 · thesis CHI:WINS_BY_2PLUS
-- Dallas wins by over 2.5 goals NO @ 73c · p 0.7938 (adj 0.7594) · $16.81 · thesis GAME:TIGHT
+- Cole Schwindt: 1+ goals YES @ 10c · p 0.1456 (adj 0.123) · $4.53 · thesis FLA:OFFENSE_4PLUS
+- Patrick Kane: 1+ assists NO @ 59c · p 0.6749 (adj 0.625) · $14.52 · thesis CHI:SUPPRESSED
+- Dallas wins by over 2.5 goals NO @ 73c · p 0.7938 (adj 0.7594) · $13.75 · thesis GAME:TIGHT
+- New York I over 3.5 goals scored YES @ 26c · p 0.3314 (adj 0.2882) · $3.26 · thesis NYI:OFFENSE_4PLUS
 - Colorado wins by over 2.5 goals NO @ 67c · p 0.7536 (adj 0.7068) · $16.81 · thesis GAME:TIGHT
 - Nashville wins by over 1.5 goals YES @ 17c · p 0.216 (adj 0.1905) · $1.36 · thesis NSH:WINS_BY_2PLUS
 - Minnesota wins by over 1.5 goals NO @ 58c · p 0.7053 (adj 0.6206) · $3.93 · thesis VAN:WINS
@@ -132,10 +133,10 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
 | Sam Reinhart: 1+ points | 0.478 | 0.595 | 63/44 | +0.065 | STANDARD |
+| Brady Tkachuk: 1+ assists | 0.320 | 0.435 | 45/58 | +0.083 | STANDARD |
 | Sam Reinhart: 1+ assists | 0.292 | 0.400 | 43/63 | +0.062 | STANDARD |
-| Brady Tkachuk: 1+ assists | 0.320 | 0.425 | 45/60 | +0.063 | STANDARD |
+| Patrick Kane: 1+ assists | 0.325 | 0.425 | 44/59 | +0.068 | STANDARD |
 | Frank Nazar: 1+ goals | 0.238 | 0.140 | 19/91 | +0.038 | STANDARD |
-| Patrick Kane: 1+ assists | 0.325 | 0.420 | 44/60 | +0.058 | STANDARD |
 | Brady Tkachuk: 1+ points | 0.530 | 0.625 | 66/41 | +0.043 | STANDARD |
 
 **NYI @ DAL** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
