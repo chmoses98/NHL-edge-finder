@@ -23,10 +23,10 @@ from nhl_edge.timeutil import iso, utcnow
 log = get_logger(__name__)
 
 JSON_HEADERS = {"Accept": "application/json"}
-BROWSER_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
-    "Accept": "*/*",
-}
+HTML_HEADERS = {"Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8"}      # content negotiation for pages that are HTML (not an identity claim)
+ANY_HEADERS = {"Accept": "*/*"}                                                    # file downloads (history pulls)
+# Every request identifies itself with `settings().user_agent` (project name + repository URL). No request impersonates a browser: access that a host only grants to a spoofed
+# client is access the project does not have (see docs/research/lineup_sources/DAILYFACEOFF_COMPLIANCE.md).
 RETRYABLE = {429, 500, 502, 503, 504}
 
 
@@ -73,7 +73,8 @@ def fetch(url: str, ttl_s: float = 0.0, headers: dict[str, str] | None = None, t
                 return Fetched(url, m["status"], cp.read_bytes(), m["fetched_at_utc"], True, m.get("content_type"), m.get("last_modified"))
         except (json.JSONDecodeError, KeyError, OSError):
             pass
-    hdrs = {"User-Agent": cfg.user_agent, **JSON_HEADERS, **(headers or {})}
+    # the User-Agent is not caller-configurable: no request may claim to be another client
+    hdrs = {**JSON_HEADERS, **{k: v for k, v in (headers or {}).items() if k.lower() != "user-agent"}, "User-Agent": cfg.user_agent}
     retries = cfg.http_max_retries if max_retries is None else max_retries
     last: Exception | None = None
     with httpx.Client(timeout=timeout or cfg.http_timeout_s, headers=hdrs, follow_redirects=True, transport=transport) as c:
