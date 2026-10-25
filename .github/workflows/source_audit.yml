@@ -1,0 +1,27 @@
+name: source-audit
+# One-off, read-only audit of the external data hosts the pipeline reads (robots.txt, linked terms pages, a plain identifying request to the paths we use).
+# Manual dispatch only. One GET per document with the repository's identifying User-Agent; refusals are recorded, never bypassed. No repository content is changed.
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: pip install -q -e .
+      - name: Audit
+        run: |
+          mkdir -p /tmp/audit
+          python -m nhl_edge.research.source_audit --out /tmp/audit/source_audit.json --md /tmp/audit/source_audit.md
+          cat /tmp/audit/source_audit.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-audit-${{ github.run_id }}
+          path: /tmp/audit
+          retention-days: 30

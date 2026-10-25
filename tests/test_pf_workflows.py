@@ -113,3 +113,10 @@ def test_lc_run_step_publishes_what_was_written_even_when_a_day_failed():
     step = next(s for s in d["jobs"]["run"]["steps"] if s.get("id") == "run")
     assert step["run"].lstrip().startswith("set +e")          # bash -e would otherwise exit at `predict | tee` (rc 3) before the commit step could publish the other days
     assert "predict_rc" in step["run"] and "score_rc" in step["run"]
+
+
+def test_source_audit_workflow_is_manual_read_only_and_makes_no_repository_change():
+    d = _load("source_audit.yml")
+    text = (WF / "source_audit.yml").read_text()
+    assert set(d["on"]) == {"workflow_dispatch"} and d["permissions"] == {"contents": "read"}
+    assert "git push" not in text and "contents: write" not in text
