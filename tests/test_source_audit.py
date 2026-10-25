@@ -50,3 +50,20 @@ def test_the_audit_uses_the_identifying_user_agent_by_default(monkeypatch):
     monkeypatch.setattr(A.httpx, "get", lambda url, headers, **k: seen.setdefault("ua", headers["User-Agent"]) and type("R", (), {"status_code": 200, "content": b"", "headers": {}})())
     A.http_get("https://x.example/robots.txt")
     assert seen["ua"].startswith("nhl-edge-finder/") and "Mozilla" not in seen["ua"]
+
+
+def test_production_path_probe_uses_the_pipelines_fetch_with_html_accept_and_reports_parsing():
+    class R:
+        status = 200
+        content = b"<html><script id=\"__NEXT_DATA__\" type=\"application/json\">{\"props\": {\"pageProps\": {\"combinations\": {\"players\": []}}}}</script></html>"
+
+        def text(self):
+            return self.content.decode()
+    seen = []
+
+    def fake_fetch(url, headers=None, max_retries=None):
+        seen.append(headers)
+        return R()
+    out = A.production_path_probe(fake_fetch)
+    assert [o["feed"] for o in out] == ["lines", "goalies"] and all(o["status"] == 200 for o in out)
+    assert all("text/html" in h["Accept"] and "User-Agent" not in h for h in seen)               # content negotiation only; the identifying User-Agent comes from fetch()

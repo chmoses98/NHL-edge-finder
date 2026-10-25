@@ -133,6 +133,26 @@ def audit_target(t: Target, get: Getter, user_agent: str, pause_s: float = 1.0, 
     return rec
 
 
+def production_path_probe(fetch_fn: Callable[..., Any] | None = None) -> list[dict[str, Any]]:
+    """The same DailyFaceoff requests the pipeline makes, through the pipeline's own ``fetch`` (its headers, its parsers): does the production code path still get usable pages?"""
+    from nhl_edge.data.goalies import extract_next_data
+    from nhl_edge.data.http import HTML_HEADERS, FetchError
+    from nhl_edge.data.http import fetch as real_fetch
+    from nhl_edge.data.lines import parse_line_page
+
+    f = fetch_fn or real_fetch
+    day = datetime.now(UTC).strftime("%Y-%m-%d")
+    out = []
+    for name, url in (("lines", "https://www.dailyfaceoff.com/teams/boston-bruins/line-combinations"), ("goalies", f"https://www.dailyfaceoff.com/starting-goalies/{day}")):
+        try:
+            r = f(url, headers=HTML_HEADERS, max_retries=0)
+            parsed = parse_line_page(r.content) is not None if name == "lines" else bool(extract_next_data(r.text()).get("props"))
+            out.append({"feed": name, "url": url, "status": r.status, "bytes": len(r.content), "parsed_by_production_parser": parsed})
+        except (FetchError, ValueError, KeyError) as e:
+            out.append({"feed": name, "url": url, "status": None, "error": str(e)[:200], "parsed_by_production_parser": False})
+    return out
+
+
 def render(rep: dict[str, Any]) -> str:
     L = [f"# Data-source access and terms audit ({rep['run_utc']})", "", f"User-Agent used: `{rep['user_agent']}` (identifying; no browser impersonation). One GET per document; a refusal is recorded, never bypassed.", ""]
     for r in rep["targets"]:
@@ -146,6 +166,11 @@ def render(rep: dict[str, Any]) -> str:
             L.append(f"- policy page {pg['url']}: HTTP {pg['status']}, {pg['chars']} chars; keywords: {', '.join(h['keyword'] for h in pg['hits']) or 'none'}")
             for h in pg["hits"][:8]:
                 L.append(f"  - *{h['keyword']}*: …{h['context']}…")
+        L.append("")
+    if rep.get("production_path"):
+        L += ["## Production code path (the pipeline's own fetch + parsers)"]
+        for p in rep["production_path"]:
+            L.append(f"- {p['feed']}: HTTP {p['status']}, {p.get('bytes')} B, parsed by the production parser: **{p['parsed_by_production_parser']}**" + (f" — {p['error']}" if p.get("error") else ""))
         L.append("")
     L.append("Evidence only; reading and applying the terms is a decision for the owner.")
     return "\n".join(L) + "\n"
@@ -162,8 +187,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--md")
     ap.add_argument("--no-probe", action="store_true")
+    ap.add_argument("--production-path", action="store_true", help="also run the pipeline's own DailyFaceoff fetch + parsers once")
     a = ap.parse_args(argv)
     rep = run(probe=not a.no_probe)
+    if a.production_path:
+        rep["production_path"] = production_path_probe()
     Path(a.out).write_text(json.dumps(rep, indent=1))
     md = render(rep)
     if a.md:

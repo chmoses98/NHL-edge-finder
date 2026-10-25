@@ -12,7 +12,7 @@ import re
 import sys
 from pathlib import Path
 
-from nhl_edge.data.http import BROWSER_HEADERS, FetchError, fetch
+from nhl_edge.data.http import HTML_HEADERS, FetchError, fetch
 
 DFO_TEAMS = ("edmonton-oilers", "boston-bruins", "vegas-golden-knights")
 KALSHI = "https://api.elections.kalshi.com/trade-api/v2"
@@ -37,7 +37,7 @@ def main(argv: list[str] | None = None) -> int:
     report = {}
     for name, (url, browser) in TARGETS.items():
         try:
-            f = fetch(url, headers=BROWSER_HEADERS if browser else None, timeout=60, max_retries=2)
+            f = fetch(url, headers=HTML_HEADERS if browser else None, timeout=60, max_retries=2)
         except FetchError as e:
             report[name] = {"url": url, "error": str(e)[:300]}
             continue
