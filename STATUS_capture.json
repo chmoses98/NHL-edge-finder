@@ -1,36 +1,32 @@
 {
- "last_capture_utc": "2026-10-24T23:59:02Z",
- "n_markets": 4105,
+ "last_capture_utc": "2026-10-25T00:06:02Z",
+ "n_markets": 4096,
  "n_series": 78,
  "requests": 457,
  "run_id": "40137252134",
  "markets_written": {
-  "encoding": "delta",
-  "seq": 15,
-  "path": "kalshi/markets_delta/dt=2026-10-24/kalshi_markets_delta_20261024T235902Z_40137252134.json.gz",
-  "bytes": 29261,
-  "n_markets": 4105,
-  "n_changed": 1553,
-  "changed_pct": 37.832,
-  "board_sha256": "b1dbb1b9c755d494cf7cd10f9f127e1474460fe4e7497337ec74a75fff965244"
+  "encoding": "checkpoint",
+  "reason": "UTC day rolled over; keeping day partitions self-contained",
+  "path": "kalshi/markets/dt=2026-10-25/kalshi_markets_20261025T000602Z_40137252134.jsonl.gz",
+  "bytes": 385555,
+  "n_markets": 4096,
+  "board_sha256": "c9df31fd142d55532a0f3bb7537fdd9440666f4aa7d2a1acc22766c80474d33f"
  },
  "orderbooks_written": {
-  "encoding": "delta",
-  "seq": 15,
-  "path": "kalshi/orderbooks_delta/dt=2026-10-24/kalshi_orderbooks_delta_20261024T235902Z_40137252134.json.gz",
-  "bytes": 37626,
+  "encoding": "checkpoint",
+  "reason": "UTC day rolled over; keeping day partitions self-contained",
+  "path": "kalshi/orderbooks/dt=2026-10-25/kalshi_orderbooks_20261025T000602Z_40137252134.jsonl.gz",
+  "bytes": 39529,
   "n_markets": 300,
-  "n_changed": 280,
-  "changed_pct": 93.333,
-  "board_sha256": "1788a8d1b2091090e7b18927e11ce3574aff612d1d8bfa263687894207160ae8"
+  "board_sha256": "61e52f90b47cf99a2e815a368cac2298c183d1aaf872f7c8ec34ba60cd9501ae"
  },
  "by_status": {
-  "active": 4105
+  "active": 4096
  },
  "by_support": {
   "BUILDABLE": 15,
   "MODELABLE": 514,
-  "RESEARCH": 3016,
+  "RESEARCH": 3007,
   "UNMODELABLE": 515,
   "UNRESOLVED": 45
  },
@@ -43,9 +39,9 @@
   "game_winner": 106,
   "goalie_saves": 19,
   "non_hockey_or_office": 1,
-  "period_spread": 78,
-  "period_total": 146,
-  "period_winner": 117,
+  "period_spread": 76,
+  "period_total": 142,
+  "period_winner": 114,
   "player_assists": 388,
   "player_goals": 619,
   "player_points": 515,
@@ -60,7 +56,7 @@
   "series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']"
  ],
  "notes": [
-  "order books sampled by priority: 4105 live markets, cap 300"
+  "order books sampled by priority: 4096 live markets, cap 300"
  ],
  "alarm": true
 }
