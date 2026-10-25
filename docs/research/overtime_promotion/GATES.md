@@ -4,7 +4,7 @@ RESEARCH_ONLY. Procedures and thresholds are those registered in `PREREGISTRATIO
 
 | gate | status | evidence |
 |---|---|---|
-| G7 runtime | **PASS on the scorecard's definition and on direct measurement; the registered whole-cycle proxy FAILS for reasons unrelated to V2 (owner call below)** | below |
+| G7 runtime | **PASS** (owner decision 2026-10-25: G7 is inference time per slate, scorecard definition, 300 s; measured ≈ 34 s for 16 games). The registered whole-cycle proxy is kept, unchanged, as a separate operational delivery metric and does **not** pass the 300 s threshold. | below, `OWNER_DECISION_G7.md` |
 | G8 reproducibility | **PASS** (all three parts) | below |
 | G9 publication contract | **PASS** (four parts, tested) | below |
 | G10 live non-inferiority | **IN PROGRESS by design — cannot pass before ≈ late March 2027** | below |
@@ -14,7 +14,7 @@ RESEARCH_ONLY. Procedures and thresholds are those registered in `PREREGISTRATIO
 2. *Direct, cold-process measurement* (`run_simulate` on the 5-game fixture archive, 20,000 sims, 5 repetitions): shadow off 0.71 s median, shadow on **11.2 s** median (9.2–12.4 s). Everything that depends on the V2 arm (V2 features and sim, then the player shadow and thesis layers that consume it) therefore costs ≈ 10.5 s for 5 games ≈ 2.1 s/game ≈ **34 s for a 16-game slate**, against the registered 150 s limit for the V2 stage and the scorecard's 300 s per slate.
 3. *Inputs at the cutoff:* the only input V2 reads beyond V1's, the special-teams snapshot, is cut at the run's instant; a snapshot observed later is invisible (`test_g7_inputs_a_late_team_games_st_snapshot_never_reaches_the_v2_run`). V1/V2 share the goalie/roster/schedule readers, which have their own point-in-time tests.
 
-**Owner call:** `promotion.MAX_INFERENCE_SECONDS_PER_SLATE` defines G7 as *inference* time per slate (300 s); criterion 1 of my registration used a coarser proxy (whole cycle) that I should not have chosen. I report it as failed-as-registered rather than quietly redefining it; on the scorecard's own definition and on direct measurement G7 passes by a wide margin. If you agree the scorecard definition governs, I will record that as a dated amendment (written *after* this data, and flagged as such).
+**Owner call (answered 2026-10-25, see `OWNER_DECISION_G7.md`):** `promotion.MAX_INFERENCE_SECONDS_PER_SLATE` defines G7 as *inference* time per slate (300 s); criterion 1 of my registration used a coarser proxy (whole cycle) that I should not have chosen. I report it as failed-as-registered rather than quietly redefining it; on the scorecard's own definition and on direct measurement G7 passes by a wide margin. If you agree the scorecard definition governs, I will record that as a dated amendment (written *after* this data, and flagged as such).
 
 ## G8 — deterministic reproducibility
 1. Fresh processes with `PYTHONHASHSEED` 0, 1 and 12345 produce the same sha256 of the V2 game summary: `242dcdfe…b877c` ✓.

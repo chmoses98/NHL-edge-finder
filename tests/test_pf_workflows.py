@@ -122,3 +122,10 @@ def test_lineup_probe_workflow_writes_only_its_own_branch_and_never_polls_sheets
     assert "HEAD:lineup-probe-data" in text and "--force" not in text and "push origin main" not in text
     assert d["on"]["workflow_dispatch"]["inputs"]["sheets"]["default"] == "false"
     assert "(obs|raw)" in text and "--diff-filter=DMRTC" in text and "only be appended" in text
+
+
+def test_source_audit_workflow_is_manual_read_only_and_makes_no_repository_change():
+    d = _load("source_audit.yml")
+    text = (WF / "source_audit.yml").read_text()
+    assert set(d["on"]) == {"workflow_dispatch"} and d["permissions"] == {"contents": "read"}
+    assert "git push" not in text and "contents: write" not in text
