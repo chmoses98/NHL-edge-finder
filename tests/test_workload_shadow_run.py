@@ -221,3 +221,12 @@ def test_coverage_audit_lists_recorded_pending_and_missed_games_and_measures_the
     assert states == {"1": "recorded", "2": "missed", "3": "pending"}                       # postponed and pre-activation games are not in the denominator
     assert a["missed"] == ["2"] and a["games_started"] == 1 and a["coverage_of_started"] == 0.0 and a["median_lead_min"] == 180.0
     assert R.coverage_audit(arch, tmp_path / "nowhere", rec, NOW) == {"activated": False}
+
+
+def test_scoreboard_separates_candidates_of_unsettled_games_from_non_dressers():
+    rec = pd.DataFrame({"game_id": [1, 1, 2, 2], "player_id": [10, 11, 20, 21], "game_start_utc": ["2026-11-01T00:00:00Z"] * 4, "predicted_at_utc": ["2026-10-31T12:00:00Z"] * 4,
+                        "pregame": [True] * 4, "written_at_utc": ["2026-10-31T12:00:01Z"] * 4, "model_sha256": ["m"] * 4, "pmf": [[0.5, 0.5]] * 4, "raw_mean": [1.0] * 4, "lc_mean": [1.0] * 4, "base_mean": [1.0] * 4,
+                        "pos": ["F"] * 4, "alpha": [0.1] * 4})
+    act = pd.DataFrame({"game_id": [1], "player_id": [10], "y_sog": [2.0]})       # game 1 is final (only player 10 played); game 2 has no result yet
+    out = R.score_frame(rec, act, pd.DataFrame(columns=["game_id", "player_id", "champ_mean"]), {}, frozen_model_sha="m")
+    assert out["n_scored_dressed"] == 1 and out["n_candidates_not_dressing"] == 1 and out["n_candidates_awaiting_outcome"] == 2
