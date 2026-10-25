@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-25T13:35:10Z · thesis-postmortem-2.0 · rows (all generations) 27524
+evaluated 2026-10-25T15:10:50Z · thesis-postmortem-2.0 · rows (all generations) 27524
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -36,46 +36,47 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020180 FLA @ CHI: NOT_STARTED · snapshot snap-a98d61c99345c4303160 @ 2026-10-25T13:20:45Z
+#### game 2026020180 FLA @ CHI: NOT_STARTED · snapshot snap-e09f532c664e07c10617 @ 2026-10-25T15:06:02Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
 | KXNHLGOAL-26OCT25FLACHI-FLASREINHART13-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT25FLACHI-FLACSCHWINDT79-1|yes | SHADOW_ONLY | 0 | 5.77 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT25FLACHI-CHIAFRONDELL16-1|yes | SHADOW_ONLY | 0 | 8.09 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT25FLACHI-CHIFNAZAR91-1|yes | SHADOW_ONLY | 0 | 6.64 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT25FLACHI-FLACSCHWINDT79-1|yes | SHADOW_ONLY | 0 | 5.84 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT25FLACHI-CHIAFRONDELL16-1|yes | SHADOW_ONLY | 0 | 8.01 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT25FLACHI-CHIRGREENE20-1|yes | SHADOW_ONLY | 0 | 4.74 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020181 NYI @ DAL: NOT_STARTED · snapshot snap-a98d61c99345c4303160 @ 2026-10-25T13:20:45Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT25NYIDAL-NYIKPALMIERI21-1|yes | SHADOW_ONLY | 0 | 4.74 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT25NYIDAL-DALMRANTANEN96-1|no | FUNDED_RESEARCH | 4 | 14.19 | - | - | - | DIRECT | - | - |
-| KXNHLSPREAD-26OCT25NYIDAL-DAL3|no | FUNDED_RESEARCH | 3 | 10.52 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT25NYIDAL-NYI4|yes | FUNDED_RESEARCH | 1 | 2.83 | - | - | - | STRUCTURAL | - | - |
-
-#### game 2026020182 MTL @ WPG: NOT_STARTED · snapshot snap-a98d61c99345c4303160 @ 2026-10-25T13:20:45Z
+#### game 2026020181 NYI @ DAL: NOT_STARTED · snapshot snap-e09f532c664e07c10617 @ 2026-10-25T15:06:02Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT25MTLWPG-WPGDSAMBERG54-1|yes | FUNDED_RESEARCH | 1 | 2.70 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT25MTLWPG-MTLJANDERSON17-1|yes | SHADOW_ONLY | 0 | 5.99 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT25MTLWPG-WPGMSCHEIFELE55-1|yes | SHADOW_ONLY | 0 | 6.12 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT25NYIDAL-NYIBSCHENN10-1|yes | SHADOW_ONLY | 0 | 8.10 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT25NYIDAL-NYIKPALMIERI21-1|yes | SHADOW_ONLY | 0 | 5.35 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT25NYIDAL-DALMRANTANEN96-1|no | FUNDED_RESEARCH | 4 | 14.55 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26OCT25NYIDAL-DAL3|no | FUNDED_RESEARCH | 3 | 9.12 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020183 COL @ NSH: NOT_STARTED · snapshot snap-a98d61c99345c4303160 @ 2026-10-25T13:20:45Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT25COLNSH-COL3|no | FUNDED_RESEARCH | 4 | 14.37 | - | - | - | STRUCTURAL | - | - |
-
-#### game 2026020184 MIN @ VAN: NOT_STARTED · snapshot snap-a98d61c99345c4303160 @ 2026-10-25T13:20:45Z
+#### game 2026020182 MTL @ WPG: NOT_STARTED · snapshot snap-e09f532c664e07c10617 @ 2026-10-25T15:06:02Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT25MINVAN-VAN3|yes | FUNDED_RESEARCH | 1 | 3.85 | - | - | - | DIRECT | - | - |
-| KXNHLTEAMTOTAL-26OCT25MINVAN-VAN5|yes | FUNDED_RESEARCH | 1 | 2.34 | - | - | - | DIRECT | - | - |
-| KXNHLSPREAD-26OCT25MINVAN-MIN2|no | FUNDED_RESEARCH | 3 | 10.41 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT25MINVAN-MIN3|no | FUNDED_RESEARCH | 3 | 11.24 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT25MTLWPG-MTLJANDERSON17-1|yes | FUNDED_RESEARCH | 2 | 5.95 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT25MTLWPG-WPGMSCHEIFELE55-1|yes | SHADOW_ONLY | 0 | 6.07 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT25MTLWPG-WPGAIAFALLO9-1|yes | SHADOW_ONLY | 0 | 2.70 | - | - | - | FRAGILE | - | - |
+
+#### game 2026020183 COL @ NSH: NOT_STARTED · snapshot snap-e09f532c664e07c10617 @ 2026-10-25T15:06:02Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLSPREAD-26OCT25COLNSH-COL3|no | FUNDED_RESEARCH | 4 | 13.89 | - | - | - | STRUCTURAL | - | - |
+| KXNHLAST-26OCT25COLNSH-COLNMACKINNON29-1|no | SHADOW_ONLY | 0 | 3.83 | - | - | - | DIRECT | - | - |
+
+#### game 2026020184 MIN @ VAN: NOT_STARTED · snapshot snap-e09f532c664e07c10617 @ 2026-10-25T15:06:02Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT25MINVAN-VANBGALLAGHER7-1|yes | FUNDED_RESEARCH | 2 | 5.97 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT25MINVAN-VANFCHYTIL77-1|yes | SHADOW_ONLY | 0 | 7.38 | - | - | - | FRAGILE | - | - |
+| KXNHLSPREAD-26OCT25MINVAN-MIN2|no | FUNDED_RESEARCH | 5 | 17.24 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT25MINVAN-VANLKARLSSON94-1|yes | SHADOW_ONLY | 0 | 6.64 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-24: **COMPLETE — 12/12 games evaluated**
 
