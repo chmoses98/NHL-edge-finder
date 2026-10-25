@@ -1,14 +1,45 @@
 {
- "as_of_utc": "2026-10-24T22:41:50Z",
+ "as_of_utc": "2026-10-25T13:27:45Z",
  "cumulative_descriptive": {
-  "n_paired": 62,
-  "sample_sha256": "40ba3534a3006d86a2c1cd48f6e2f4414e71445d54e8db2481d90f60890c3e62",
+  "n_paired": 396,
+  "sample_sha256": "2d404f8b68ed149dcbd05f49c848005086d45d877aeede0cec6cdaeafcfa1be1",
   "last_key": {
-   "game_start_utc": "2026-10-24T19:30:00Z",
-   "game_id": 2026020169,
-   "player_id": 8483695
+   "game_start_utc": "2026-10-25T02:00:00Z",
+   "game_id": 2026020179,
+   "player_id": 8484800
   },
-  "verdict": "INCONCLUSIVE AT n=62"
+  "n_nonfinite_dropped": 0,
+  "toi": {
+   "mse_incumbent": 5.1692728114478115,
+   "mse_M0": 5.231480785445707,
+   "mse_M1": 5.08129945116532,
+   "bias_incumbent": -0.5401936026936026,
+   "bias_M0": -0.4906299410774411,
+   "bias_M1": -0.39463370370370365
+  },
+  "hypotheses": {
+   "H1": {
+    "relative_change": 0.012034182808098315,
+    "lo95": -0.05047920032593018,
+    "hi95": 0.09235012401306456,
+    "n": 396,
+    "n_games": 12,
+    "required_relative_change": -0.02
+   },
+   "H3": {
+    "relative_change": -0.02870723231904071,
+    "lo95": -0.0679514332156136,
+    "hi95": 0.015118302423005787,
+    "n": 396,
+    "n_games": 12,
+    "required_relative_change": -0.005
+   },
+   "H2": {
+    "n": 259,
+    "verdict": "INCONCLUSIVE AT n=259 (fewer than 10,000 pairs with a captured incumbent power-play value)"
+   }
+  },
+  "verdict": "descriptive (no decision at this sample)"
  },
  "registered_verdicts": {
   "H1": "OPEN (decision look not yet reached)",
@@ -18,9 +49,13 @@
  "looks": [],
  "looks_waiting": {},
  "counts": {
-  "records": 503,
-  "eligible": 503,
-  "outcomes": 72
+  "records": 709,
+  "eligible": 709,
+  "outcomes": 432,
+  "settled_candidates": 503,
+  "dressed": 422,
+  "paired": 396,
+  "paired_with_captured_pp": 259
  },
  "collection": {
   "activated": false,
