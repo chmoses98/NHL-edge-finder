@@ -1,15 +1,15 @@
 # NHL slate 2026-10-24 — RESEARCH_ONLY
 
-generated 2026-10-25T01:08:40Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-25T01:36:40Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
-games on date: 12 · simulated (not started): 2 · markets on board: 4072 · contracts joined: 466 (unjoined to any game: 1538)
+games on date: 12 · simulated (not started): 2 · markets on board: 4161 · contracts joined: 466 (unjoined to any game: 1538)
 gates: {'UNSUPPORTED': 416, 'OK': 38, 'NO_EDGE': 12}
 families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player_assists': 66, 'game_early_goal': 2, 'first_goal': 75, 'game_winner': 4, 'player_goals': 128, 'game_overtime': 2, 'player_points': 91, 'goalie_saves': 4, 'game_spread': 8, 'team_total': 20, 'game_total': 18}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| DET @ CGY | 2026-10-25T02:00:00Z | T-30m | 0.517 | 0.483 | 0.189 | 5.54 | 2.82 | 2.72 | 234 (25/209) | CONFIRMED/CONFIRMED |
-| MIN @ SEA | 2026-10-25T02:00:00Z | T-30m | 0.469 | 0.531 | 0.174 | 6.26 | 3.04 | 3.22 | 232 (25/207) | PROBABLE/CONFIRMED |
+| DET @ CGY | 2026-10-25T02:00:00Z | T-10m | 0.517 | 0.483 | 0.189 | 5.54 | 2.82 | 2.72 | 234 (25/209) | CONFIRMED/CONFIRMED |
+| MIN @ SEA | 2026-10-25T02:00:00Z | T-10m | 0.469 | 0.531 | 0.174 | 6.26 | 3.04 | 3.22 | 232 (25/207) | PROBABLE/CONFIRMED |
 
 ## Contracts (research view; sorted by fee-adjusted EV of the best side; NOT recommendations)
 
@@ -30,22 +30,22 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHLTOTAL-26OCT24DETCGY-4 | game_total | 0.786 | 0.855 | 0.843 | 86 | 15 | no | +0.055 | OK |
 | KXNHLTOTAL-26OCT24DETCGY-8 | game_total | 0.173 | 0.245 | 0.229 | 25 | 76 | no | +0.054 | OK |
 | KXNHLSPREAD-26OCT24MINSEA-SEA2 | game_spread | 0.264 | 0.195 | 0.208 | 20 | 81 | yes | +0.053 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN4 | team_total | 0.412 | 0.490 | 0.474 | 50 | 52 | no | +0.051 | OK |
 | KXNHLSPREAD-26OCT24DETCGY-DET2 | game_spread | 0.254 | 0.325 | 0.310 | 33 | 68 | no | +0.051 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA4 | team_total | 0.375 | 0.300 | 0.314 | 31 | 71 | yes | +0.050 | OK |
 | KXNHLTEAMTOTAL-26OCT24MINSEA-SEA3 | team_total | 0.590 | 0.525 | 0.538 | 53 | 48 | yes | +0.042 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN4 | team_total | 0.412 | 0.480 | 0.466 | 49 | 53 | no | +0.041 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA4 | team_total | 0.375 | 0.310 | 0.323 | 32 | 70 | yes | +0.040 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN3 | team_total | 0.634 | 0.695 | 0.683 | 70 | 31 | no | +0.041 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN5 | team_total | 0.226 | 0.285 | 0.272 | 29 | 72 | no | +0.040 | OK |
 | KXNHLGAME-26OCT24DETCGY-CGY | game_winner | 0.517 | 0.455 | 0.467 | 46 | 55 | yes | +0.039 | OK |
 | KXNHLGAME-26OCT24DETCGY-DET | game_winner | 0.483 | 0.545 | 0.533 | 55 | 46 | no | +0.039 | OK |
 | KXNHLTOTAL-26OCT24DETCGY-9 | game_total | 0.114 | 0.165 | 0.154 | 17 | 84 | no | +0.036 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN3 | team_total | 0.634 | 0.690 | 0.679 | 70 | 32 | no | +0.030 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA5 | team_total | 0.201 | 0.150 | 0.159 | 16 | 86 | yes | +0.031 | OK |
 | KXNHLTEAMTOTAL-26OCT24DETCGY-DET6 | team_total | 0.054 | 0.095 | 0.085 | 10 | 91 | no | +0.030 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-MIN5 | team_total | 0.226 | 0.280 | 0.269 | 29 | 73 | no | +0.030 | OK |
 | KXNHLSPREAD-26OCT24MINSEA-SEA3 | game_spread | 0.156 | 0.115 | 0.122 | 12 | 89 | yes | +0.029 | OK |
+| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA2 | team_total | 0.799 | 0.755 | 0.764 | 76 | 25 | yes | +0.026 | OK |
 | KXNHLTEAMTOTAL-26OCT24MINSEA-MIN2 | team_total | 0.829 | 0.865 | 0.858 | 87 | 14 | no | +0.022 | OK |
 | KXNHLTOTAL-26OCT24DETCGY-10 | game_total | 0.044 | 0.075 | 0.068 | 8 | 93 | no | +0.021 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA5 | team_total | 0.201 | 0.155 | 0.163 | 17 | 86 | yes | +0.021 | OK |
 | KXNHLTOTAL-26OCT24DETCGY-3 | game_total | 0.939 | 0.970 | 0.965 | 98 | 4 | no | +0.018 | OK |
-| KXNHLTEAMTOTAL-26OCT24MINSEA-SEA2 | team_total | 0.799 | 0.760 | 0.768 | 77 | 25 | yes | +0.016 | OK |
 | KXNHLTEAMTOTAL-26OCT24MINSEA-SEA6 | team_total | 0.086 | 0.065 | 0.069 | 7 | 94 | yes | +0.011 | OK |
 | KXNHLTOTAL-26OCT24DETCGY-2 | game_total | 0.971 | 0.985 | 0.983 | 99 | 2 | no | +0.008 | OK |
 | KXNHLSPREAD-26OCT24DETCGY-CGY2 | game_spread | 0.281 | 0.255 | 0.260 | 26 | 75 | yes | +0.007 | OK |
@@ -68,8 +68,8 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHL1P-26OCT24DETCGY-CGY | period_winner |  | 0.310 |  | 32 | 70 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT24DETCGY-DET | period_winner |  | 0.345 |  | 36 | 67 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT24DETCGY-TIE | period_winner |  | 0.340 |  | 35 | 67 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT24DETCGY-CGY2 | period_spread |  | 0.075 |  | 9 | 94 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT24DETCGY-DET2 | period_spread |  | 0.110 |  | 12 | 90 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT24DETCGY-CGY2 | period_spread |  | 0.080 |  | 9 | 93 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT24DETCGY-DET2 | period_spread |  | 0.115 |  | 13 | 90 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT24DETCGY-1 | period_total |  | 0.830 |  | 84 | 18 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT24DETCGY-2 | period_total |  | 0.545 |  | 55 | 46 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26OCT24DETCGY-3 | period_total |  | 0.255 |  | 26 | 75 |  |  | UNSUPPORTED |
@@ -83,17 +83,17 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHL2PTOTAL-26OCT24DETCGY-3 | period_total |  | 0.315 |  | 33 | 70 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT24DETCGY-CGY | period_winner |  | 0.330 |  | 34 | 68 |  |  | UNSUPPORTED |
 | KXNHL3P-26OCT24DETCGY-DET | period_winner |  | 0.395 |  | 41 | 62 |  |  | UNSUPPORTED |
-| KXNHL3P-26OCT24DETCGY-TIE | period_winner |  | 0.240 |  | 27 | 79 |  |  | UNSUPPORTED |
+| KXNHL3P-26OCT24DETCGY-TIE | period_winner |  | 0.260 |  | 27 | 75 |  |  | UNSUPPORTED |
 | KXNHL3PSPREAD-26OCT24DETCGY-CGY2 | period_spread |  | 0.130 |  | 14 | 88 |  |  | UNSUPPORTED |
 | KXNHL3PSPREAD-26OCT24DETCGY-DET2 | period_spread |  | 0.170 |  | 18 | 84 |  |  | UNSUPPORTED |
-| KXNHL3PTOTAL-26OCT24DETCGY-1 | period_total |  | 0.915 |  | 93 | 10 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26OCT24DETCGY-1 | period_total |  | 0.910 |  | 92 | 10 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26OCT24DETCGY-2 | period_total |  | 0.640 |  | 65 | 37 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26OCT24DETCGY-3 | period_total |  | 0.370 |  | 38 | 64 |  |  | UNSUPPORTED |
 | KXNHLAST-26OCT24DETCGY-CGYASUNIEV61-1 | player_assists |  | 0.130 |  | 24 | 98 |  |  | UNSUPPORTED |
 | KXNHLAST-26OCT24DETCGY-CGYBJONES39-1 | player_assists |  | 0.195 |  | 20 | 81 |  |  | UNSUPPORTED |
 | KXNHLAST-26OCT24DETCGY-CGYJFARABEE86-1 | player_assists |  | 0.320 |  | 33 | 69 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT24DETCGY-CGYJFARABEE86-2 | player_assists |  | 0.070 |  | 8 | 94 |  |  | UNSUPPORTED |
-| KXNHLAST-26OCT24DETCGY-CGYKBAHL7-1 | player_assists |  | 0.205 |  | 21 | 80 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT24DETCGY-CGYJFARABEE86-2 | player_assists |  | 0.065 |  | 8 | 95 |  |  | UNSUPPORTED |
+| KXNHLAST-26OCT24DETCGY-CGYKBAHL7-1 | player_assists |  | 0.200 |  | 21 | 81 |  |  | UNSUPPORTED |
 | KXNHLAST-26OCT24DETCGY-CGYMCORONATO27-1 | player_assists |  | 0.360 |  | 37 | 65 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
@@ -125,12 +125,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Ben Jones: 1+ points | 0.199 | 0.335 | 35/68 | +0.105 | STANDARD |
+| Ben Jones: 1+ points | 0.199 | 0.345 | 35/66 | +0.125 | STANDARD |
 | Aydar Suniev: 1+ assists | 0.237 | 0.130 | 24/98 | -0.015 | STANDARD |
-| Viktor Arvidsson: 1+ assists | 0.281 | 0.370 | 38/64 | +0.063 | STANDARD |
-| Dylan Larkin: 1+ assists | 0.326 | 0.415 | 43/60 | +0.057 | STANDARD |
+| Viktor Arvidsson: 1+ assists | 0.281 | 0.375 | 38/63 | +0.073 | STANDARD |
+| Dylan Larkin: 1+ assists | 0.326 | 0.420 | 43/59 | +0.067 | STANDARD |
 | Ben Jones: 1+ assists | 0.111 | 0.195 | 20/81 | +0.069 | STANDARD |
-| Moritz Seider: 1+ points | 0.452 | 0.525 | 53/48 | +0.051 | STANDARD |
+| Zach Whitecloud: 1+ assists | 0.235 | 0.155 | 18/87 | +0.044 | STANDARD |
 
 **MIN @ SEA** · priced 171/181 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - SEA net: Joey Daccord (PROBABLE) exp shots 30.26, exp saves 26.22 (sd 7.0), pull risk 0.06
@@ -139,11 +139,11 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
 | Adam Larsson: 1+ assists | 0.281 | 0.110 | 20/98 | +0.070 | STANDARD |
-| Kirill Kaprizov: 2+ points | 0.255 | 0.395 | 41/62 | +0.108 | STANDARD |
+| Kirill Kaprizov: 2+ points | 0.255 | 0.400 | 41/61 | +0.118 | STANDARD |
 | Kirill Kaprizov: 1+ points | 0.616 | 0.735 | 75/28 | +0.090 | STANDARD |
 | Kirill Kaprizov: 1+ goals | 0.370 | 0.485 | 49/52 | +0.093 | STANDARD |
-| Kaapo Kakko: 1+ assists | 0.364 | 0.250 | 28/78 | +0.070 | STANDARD |
 | Adam Larsson: 1+ points | 0.334 | 0.220 | 23/79 | +0.091 | STANDARD |
+| Quinn Hughes: 2+ points | 0.233 | 0.345 | 36/67 | +0.081 | STANDARD |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
