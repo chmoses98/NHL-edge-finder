@@ -1,7 +1,7 @@
 {
- "evaluated_at_utc": "2026-10-25T04:14:13Z",
- "n_rows": 568211,
- "n_new": 5763,
+ "evaluated_at_utc": "2026-10-25T05:06:42Z",
+ "n_rows": 580030,
+ "n_new": 11819,
  "run_id": "40156398978",
  "steps": {
   "v1": "OK",
@@ -333,17 +333,34 @@
    "postmortem_complete": true
   },
   "2026-10-24": {
-   "label": "PARTIAL \u2014 10/12 games evaluated",
+   "label": "COMPLETE \u2014 12/12 games evaluated",
    "games_scheduled": 12,
-   "games_final": 10,
-   "games_settled": 10,
-   "games_player_events_ingested": 10,
+   "games_final": 12,
+   "games_settled": 12,
+   "games_player_events_ingested": 12,
    "games_with_final_card_snapshot": 12,
-   "games_thesis_evaluated": 10,
-   "games_terminal": 10,
+   "games_thesis_evaluated": 12,
+   "games_terminal": 12,
+   "games_missing": {},
+   "games_ambiguous": [],
+   "final_card_complete": true,
+   "postmortem_complete": true
+  },
+  "2026-10-25": {
+   "label": "PARTIAL \u2014 0/5 games evaluated",
+   "games_scheduled": 5,
+   "games_final": 0,
+   "games_settled": 0,
+   "games_player_events_ingested": 0,
+   "games_with_final_card_snapshot": 5,
+   "games_thesis_evaluated": 0,
+   "games_terminal": 0,
    "games_missing": {
-    "2026020178": "no official FINAL result yet",
-    "2026020179": "no official FINAL result yet"
+    "2026020180": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020181": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020182": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020183": "game not started: the snapshot shown is the latest so far, not yet final",
+    "2026020184": "game not started: the snapshot shown is the latest so far, not yet final"
    },
    "games_ambiguous": [],
    "final_card_complete": false,
@@ -352,8 +369,8 @@
  },
  "learning": {
   "stage": "CALIBRATION_BUILDING",
-  "script_forecasts_settled": 2794,
-  "games_settled": 177
+  "script_forecasts_settled": 2866,
+  "games_settled": 179
  },
  "canonical_path": "STATUS_evaluate.json"
 }
