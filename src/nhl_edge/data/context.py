@@ -25,7 +25,7 @@ from typing import Any
 from nhl_edge.archive.ledger import Ledger
 from nhl_edge.data import moneypuck, nhl_api
 from nhl_edge.data.goalies import fetch_dailyfaceoff
-from nhl_edge.data.http import BROWSER_HEADERS, FetchError, fetch
+from nhl_edge.data.http import FetchError, fetch
 from nhl_edge.identity.teams import registry
 from nhl_edge.log import get_logger, kv
 from nhl_edge.schemas.core import Game
@@ -230,7 +230,7 @@ def _append_lines(ledger: Ledger, games_today: list[Game], roster_rows: list[dic
             continue
         url = f"https://www.dailyfaceoff.com/teams/{slug}/line-combinations"
         try:
-            f = fetch(url, headers=BROWSER_HEADERS, max_retries=1)
+            f = fetch(url, max_retries=1)
         except FetchError as e:
             rep[ab] = f"error: {str(e)[:80]}"
             continue

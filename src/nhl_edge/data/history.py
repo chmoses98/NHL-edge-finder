@@ -39,7 +39,7 @@ from typing import Any
 import pandas as pd
 
 from nhl_edge.config import settings
-from nhl_edge.data.http import BROWSER_HEADERS, fetch
+from nhl_edge.data.http import fetch
 from nhl_edge.identity.teams import TeamIdentityError, registry
 from nhl_edge.log import get_logger, kv
 from nhl_edge.timeutil import iso, utcnow
@@ -126,7 +126,7 @@ def last_period_type(period: int | None, game_type: int | None) -> str | None:
 def fetch_bytes(url: str, timeout_s: float) -> tuple[bytes, str]:
     """GET ``url`` (no cache TTL: history pulls always hit the source). Returns (content, fetched_at_utc).
     Monkeypatched in tests; the dev container cannot reach moneypuck.com or nhle.com."""
-    f = fetch(url, ttl_s=0.0, headers=BROWSER_HEADERS, timeout=timeout_s)
+    f = fetch(url, ttl_s=0.0, timeout=timeout_s)
     return f.content, f.fetched_at_utc
 
 
