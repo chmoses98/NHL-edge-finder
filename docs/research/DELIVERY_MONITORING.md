@@ -24,5 +24,8 @@ A rule based on the age of the newest *row* would have alerted at each of these 
 * `slate-watch` writes the per-game monitor statuses (evaluation age, lineup age at evaluation, number and age of pregame rows) to its job summary every half hour.
 * Fallback behaviour: a cron fallback run that finds nothing due cancels itself and is listed as `cancelled` in the timeline (not counted as a refresh); the previous published snapshot is what is served until the next publication, and the timeline's "publication → next drop" column shows how old it was.
 
+## Whole-cycle runtime (operational metric, not a promotion gate)
+The capture worker's whole-cycle duration (`STATUS_worker.json` `cycles[].duration_s`, per-job list in `jobs_run`) is tracked as an end-to-end delivery metric. The registered G7 proxy result is preserved as recorded: 655 `simulate` cycles since 2026-09-29, median 127 s, p95 1,081 s, max 1,539 s, 17 % over 300 s. That does **not** pass the 300 s threshold, which applies only to V2 *inference time per slate* (≈ 34 s, passed; `docs/research/overtime_promotion/OWNER_DECISION_G7.md`). Do not read the one as evidence about the other.
+
 ## Limits
 Alerts are only as timely as `slate-watch`'s own schedule (GitHub delivered scheduled runs hours late on 2026-10-22), which is why the capture worker also records its own dispatch decisions each cycle (`pf`, `lc` fields of `STATUS_worker.json`). The monitor cannot make a runner start sooner; it makes a real gap visible while there is still time to act.
