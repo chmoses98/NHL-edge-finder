@@ -113,3 +113,12 @@ def test_lc_run_step_publishes_what_was_written_even_when_a_day_failed():
     step = next(s for s in d["jobs"]["run"]["steps"] if s.get("id") == "run")
     assert step["run"].lstrip().startswith("set +e")          # bash -e would otherwise exit at `predict | tee` (rc 3) before the commit step could publish the other days
     assert "predict_rc" in step["run"] and "score_rc" in step["run"]
+
+
+def test_lineup_probe_workflow_writes_only_its_own_branch_and_never_polls_sheets_by_default():
+    d = _load("nhl_lineup_probe.yml")
+    text = (WF / "nhl_lineup_probe.yml").read_text()
+    assert set(d["on"]) == {"workflow_dispatch"} and d["permissions"] == {"contents": "write"}
+    assert "HEAD:lineup-probe-data" in text and "--force" not in text and "push origin main" not in text
+    assert d["on"]["workflow_dispatch"]["inputs"]["sheets"]["default"] == "false"
+    assert "(obs|raw)" in text and "--diff-filter=DMRTC" in text and "only be appended" in text
