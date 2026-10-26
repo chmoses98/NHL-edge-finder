@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-26T11:06:28Z · thesis-postmortem-2.0 · rows (all generations) 28909
+evaluated 2026-10-26T12:44:58Z · thesis-postmortem-2.0 · rows (all generations) 28909
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -34,17 +34,22 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020185 LAK @ NYR: NOT_STARTED · snapshot snap-c6a7d5c658236834e1db @ 2026-10-26T10:17:40Z
-
-#### game 2026020186 TOR @ CGY: NOT_STARTED · snapshot snap-c6a7d5c658236834e1db @ 2026-10-26T10:17:40Z
+#### game 2026020185 LAK @ NYR: NOT_STARTED · snapshot snap-5e8a9177c65696fc8cc3 @ 2026-10-26T12:26:02Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT26TORCGY-TOR2|no | FUNDED_RESEARCH | 3 | 10.25 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT26TORCGY-TOR3|no | FUNDED_RESEARCH | 4 | 12.50 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT26TORCGY-TOR4|no | FUNDED_RESEARCH | 1 | 1.39 | - | - | - | STRUCTURAL | - | - |
+| KXNHLAST-26OCT26LANYR-LAMZUCCARELLO36-1|no | SHADOW_ONLY | 0 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT26LANYR-NYRPDOROFEYEV16-1|no | FUNDED_RESEARCH | 4 | 14.39 | - | - | - | DIRECT | - | - |
 
-#### game 2026020187 DET @ EDM: NOT_STARTED · snapshot snap-c6a7d5c658236834e1db @ 2026-10-26T10:17:40Z
+#### game 2026020186 TOR @ CGY: NOT_STARTED · snapshot snap-5e8a9177c65696fc8cc3 @ 2026-10-26T12:26:02Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLSPREAD-26OCT26TORCGY-TOR3|no | FUNDED_RESEARCH | 4 | 13.53 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTOTAL-26OCT26TORCGY-4|no | FUNDED_RESEARCH | 1 | 2.47 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26OCT26TORCGY-TOR2|no | FUNDED_RESEARCH | 2 | 5.92 | - | - | - | STRUCTURAL | - | - |
+
+#### game 2026020187 DET @ EDM: NOT_STARTED · snapshot snap-5e8a9177c65696fc8cc3 @ 2026-10-26T12:26:02Z
 
 ## Slate 2026-10-25: **COMPLETE — 5/5 games evaluated**
 
