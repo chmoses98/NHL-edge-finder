@@ -1,3 +1,5 @@
+> **Update 2026-10-26:** raw `context/dailyfaceoff_raw` archiving described below as current has been stopped (PR #98); see `DFO_RIGHTS_PLAN.md` for the inventory, the remediation options and the permission request.
+
 # DailyFaceoff collection: access method, compliance risks, fallback (2026-10-25)
 
 ## What the repository does with DailyFaceoff (DFO)
