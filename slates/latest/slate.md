@@ -1,14 +1,14 @@
 # NHL slate 2026-10-26 — RESEARCH_ONLY
 
-generated 2026-10-26T19:43:34Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-26T20:13:38Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 3 · simulated (not started): 3 · markets on board: 2902 · contracts joined: 685 (unjoined to any game: 1538)
-gates: {'UNSUPPORTED': 610, 'OK': 45, 'NO_EDGE': 30}
+gates: {'UNSUPPORTED': 610, 'OK': 46, 'NO_EDGE': 29}
 families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player_assists': 99, 'game_early_goal': 3, 'first_goal': 108, 'game_winner': 6, 'player_goals': 185, 'game_overtime': 3, 'player_points': 135, 'goalie_saves': 5, 'game_spread': 12, 'team_total': 30, 'game_total': 27}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| LAK @ NYR | 2026-10-26T23:00:00Z | T-3h | 0.595 | 0.405 | 0.177 | 6.12 | 3.35 | 2.77 | 217 (25/192) | CONFIRMED/PROBABLE |
+| LAK @ NYR | 2026-10-26T23:00:00Z | T-90m | 0.595 | 0.405 | 0.177 | 6.12 | 3.35 | 2.77 | 217 (25/192) | CONFIRMED/PROBABLE |
 | TOR @ CGY | 2026-10-27T00:30:00Z | T-3h | 0.555 | 0.445 | 0.173 | 6.33 | 3.33 | 3.00 | 237 (25/212) | CONFIRMED/PROBABLE |
 | DET @ EDM | 2026-10-27T01:30:00Z | T-3h | 0.607 | 0.393 | 0.166 | 6.55 | 3.63 | 2.93 | 231 (25/206) | CONFIRMED/CONFIRMED |
 
@@ -25,9 +25,9 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTEAMTOTAL-26OCT26TORCGY-TOR2 | team_total | 0.792 | 0.875 | 0.861 | 88 | 13 | no | +0.070 | OK |
 | KXNHLSPREAD-26OCT26TORCGY-CGY2 | game_spread | 0.332 | 0.245 | 0.261 | 25 | 76 | yes | +0.069 | OK |
 | KXNHLTEAMTOTAL-26OCT26TORCGY-TOR5 | team_total | 0.191 | 0.280 | 0.260 | 29 | 73 | no | +0.065 | OK |
+| KXNHLTOTAL-26OCT26TORCGY-5 | game_total | 0.784 | 0.845 | 0.834 | 85 | 16 | no | +0.047 | OK |
 | KXNHLTOTAL-26OCT26TORCGY-4 | game_total | 0.866 | 0.915 | 0.907 | 92 | 9 | no | +0.039 | OK |
 | KXNHLSPREAD-26OCT26TORCGY-CGY3 | game_spread | 0.206 | 0.155 | 0.164 | 16 | 85 | yes | +0.037 | OK |
-| KXNHLTOTAL-26OCT26TORCGY-5 | game_total | 0.784 | 0.835 | 0.826 | 84 | 17 | no | +0.036 | OK |
 | KXNHLTOTAL-26OCT26TORCGY-6 | game_total | 0.580 | 0.635 | 0.624 | 64 | 37 | no | +0.034 | OK |
 | KXNHLTOTAL-26OCT26TORCGY-7 | game_total | 0.469 | 0.525 | 0.514 | 53 | 48 | no | +0.033 | OK |
 | KXNHLSPREAD-26OCT26LANYR-LA3 | game_spread | 0.110 | 0.155 | 0.145 | 16 | 85 | no | +0.031 | OK |
@@ -36,9 +36,8 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTEAMTOTAL-26OCT26TORCGY-TOR6 | team_total | 0.086 | 0.130 | 0.120 | 14 | 88 | no | +0.026 | OK |
 | KXNHLTEAMTOTAL-26OCT26TORCGY-CGY4 | team_total | 0.441 | 0.395 | 0.404 | 40 | 61 | yes | +0.024 | OK |
 | KXNHLSPREAD-26OCT26LANYR-LA2 | game_spread | 0.206 | 0.245 | 0.237 | 25 | 76 | no | +0.021 | OK |
-| KXNHLTEAMTOTAL-26OCT26LANYR-NYR4 | team_total | 0.447 | 0.400 | 0.409 | 41 | 61 | yes | +0.020 | OK |
 | KXNHLTOTAL-26OCT26TORCGY-9 | game_total | 0.199 | 0.235 | 0.227 | 24 | 77 | no | +0.019 | OK |
-| KXNHLTEAMTOTAL-26OCT26DETEDM-EDM4 | team_total | 0.505 | 0.550 | 0.541 | 56 | 46 | no | +0.018 | OK |
+| KXNHLTEAMTOTAL-26OCT26DETEDM-EDM4 | team_total | 0.505 | 0.545 | 0.537 | 55 | 46 | no | +0.018 | OK |
 | KXNHLGAME-26OCT26LANYR-LA | game_winner | 0.405 | 0.445 | 0.437 | 45 | 56 | no | +0.018 | OK |
 | KXNHLGAME-26OCT26LANYR-NYR | game_winner | 0.595 | 0.555 | 0.563 | 56 | 45 | yes | +0.018 | OK |
 | KXNHLTEAMTOTAL-26OCT26LANYR-NYR3 | team_total | 0.664 | 0.625 | 0.633 | 63 | 38 | yes | +0.018 | OK |
@@ -48,6 +47,7 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTOTAL-26OCT26TORCGY-8 | game_total | 0.279 | 0.315 | 0.308 | 32 | 69 | no | +0.016 | OK |
 | KXNHLTEAMTOTAL-26OCT26DETEDM-EDM5 | team_total | 0.302 | 0.335 | 0.328 | 34 | 67 | no | +0.012 | OK |
 | KXNHLTEAMTOTAL-26OCT26LANYR-NYR6 | team_total | 0.117 | 0.090 | 0.095 | 10 | 92 | yes | +0.011 | OK |
+| KXNHLTEAMTOTAL-26OCT26LANYR-NYR4 | team_total | 0.447 | 0.415 | 0.421 | 42 | 59 | yes | +0.010 | OK |
 | KXNHLSPREAD-26OCT26LANYR-NYR2 | game_spread | 0.365 | 0.335 | 0.341 | 34 | 67 | yes | +0.009 | OK |
 | KXNHLTOTAL-26OCT26DETEDM-4 | game_total | 0.884 | 0.905 | 0.901 | 91 | 10 | no | +0.009 | OK |
 | KXNHLTEAMTOTAL-26OCT26LANYR-LA3 | team_total | 0.524 | 0.555 | 0.549 | 56 | 45 | no | +0.009 | OK |
@@ -55,6 +55,7 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTEAMTOTAL-26OCT26LANYR-NYR5 | team_total | 0.250 | 0.220 | 0.226 | 23 | 79 | yes | +0.007 | OK |
 | KXNHLTEAMTOTAL-26OCT26TORCGY-CGY5 | team_total | 0.249 | 0.220 | 0.226 | 23 | 79 | yes | +0.007 | OK |
 | KXNHLTOTAL-26OCT26LANYR-10 | game_total | 0.081 | 0.065 | 0.068 | 7 | 94 | yes | +0.006 | OK |
+| KXNHLTOTAL-26OCT26LANYR-8 | game_total | 0.248 | 0.220 | 0.225 | 23 | 79 | yes | +0.006 | OK |
 | KXNHLTEAMTOTAL-26OCT26LANYR-LA4 | team_total | 0.311 | 0.335 | 0.330 | 34 | 67 | no | +0.004 | OK |
 | KXNHLSPREAD-26OCT26DETEDM-EDM2 | game_spread | 0.389 | 0.415 | 0.410 | 42 | 59 | no | +0.004 | OK |
 | KXNHLTEAMTOTAL-26OCT26DETEDM-EDM3 | team_total | 0.713 | 0.740 | 0.735 | 75 | 27 | no | +0.004 | OK |
@@ -63,6 +64,7 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTEAMTOTAL-26OCT26DETEDM-EDM2 | team_total | 0.872 | 0.885 | 0.883 | 89 | 12 | no | +0.000 | OK |
 | KXNHLTEAMTOTAL-26OCT26TORCGY-CGY6 | team_total | 0.116 | 0.100 | 0.103 | 11 | 91 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26OCT26TORCGY-10 | game_total | 0.095 | 0.105 | 0.103 | 11 | 90 |  | -0.001 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT26DETEDM-DET4 | team_total | 0.345 | 0.365 | 0.361 | 37 | 64 |  | -0.002 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT26DETEDM-DET2 | team_total | 0.780 | 0.795 | 0.792 | 80 | 21 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-3 | game_total | 0.960 | 0.965 | 0.964 | 97 | 4 |  | -0.002 | NO_EDGE |
 | KXNHLSPREAD-26OCT26DETEDM-DET3 | game_spread | 0.116 | 0.125 | 0.123 | 13 | 88 |  | -0.003 | NO_EDGE |
@@ -70,10 +72,8 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTOTAL-26OCT26LANYR-2 | game_total | 0.982 | 0.985 | 0.985 | 99 | 2 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26OCT26TORCGY-2 | game_total | 0.986 | 0.985 | 0.985 | 99 | 2 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT26DETEDM-10 | game_total | 0.112 | 0.105 | 0.106 | 11 | 90 |  | -0.005 | NO_EDGE |
-| KXNHLTOTAL-26OCT26LANYR-8 | game_total | 0.248 | 0.230 | 0.234 | 24 | 78 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT26DETEDM-3 | game_total | 0.973 | 0.975 | 0.975 | 98 | 3 |  | -0.005 | NO_EDGE |
 | KXNHLSPREAD-26OCT26LANYR-NYR3 | game_spread | 0.227 | 0.215 | 0.217 | 22 | 79 |  | -0.005 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT26DETEDM-EDM6 | team_total | 0.156 | 0.170 | 0.167 | 18 | 84 |  | -0.006 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-6 | game_total | 0.551 | 0.535 | 0.538 | 54 | 47 |  | -0.007 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-9 | game_total | 0.173 | 0.165 | 0.167 | 17 | 84 |  | -0.007 | NO_EDGE |
 | KXNHLTOTAL-26OCT26DETEDM-9 | game_total | 0.225 | 0.240 | 0.237 | 25 | 77 |  | -0.008 | NO_EDGE |
@@ -82,20 +82,20 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTEAMTOTAL-26OCT26DETEDM-DET3 | team_total | 0.562 | 0.580 | 0.576 | 59 | 43 |  | -0.009 | NO_EDGE |
 | KXNHLTOTAL-26OCT26DETEDM-2 | game_total | 0.988 | 0.990 | 0.990 |  | 2 |  | -0.009 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT26DETEDM-DET5 | team_total | 0.180 | 0.195 | 0.192 | 21 | 82 |  | -0.010 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT26LANYR-LA5 | team_total | 0.151 | 0.160 | 0.158 | 17 | 85 |  | -0.010 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT26LANYR-LA5 | team_total | 0.151 | 0.165 | 0.162 | 18 | 85 |  | -0.010 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-4 | game_total | 0.848 | 0.845 | 0.846 | 85 | 16 |  | -0.011 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT26DETEDM-DET4 | team_total | 0.345 | 0.355 | 0.353 | 36 | 65 |  | -0.011 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT26LANYR-LA6 | team_total | 0.062 | 0.060 | 0.060 | 7 | 95 |  | -0.013 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-5 | game_total | 0.760 | 0.765 | 0.764 | 77 | 24 |  | -0.013 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-7 | game_total | 0.434 | 0.420 | 0.423 | 43 | 59 |  | -0.014 | NO_EDGE |
 | KXNHLGAME-26OCT26DETEDM-DET | game_winner | 0.393 | 0.385 | 0.387 | 39 | 62 |  | -0.014 | NO_EDGE |
 | KXNHLGAME-26OCT26DETEDM-EDM | game_winner | 0.607 | 0.615 | 0.613 | 62 | 39 |  | -0.014 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT26DETEDM-EDM6 | team_total | 0.156 | 0.165 | 0.163 | 18 | 85 |  | -0.015 | NO_EDGE |
 | KXNHLSPREAD-26OCT26DETEDM-DET2 | game_spread | 0.205 | 0.205 | 0.205 | 21 | 80 |  | -0.016 | NO_EDGE |
 | KXNHL1P-26OCT26LANYR-LA | period_winner |  | 0.300 |  | 32 | 72 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT26LANYR-NYR | period_winner |  | 0.345 |  | 36 | 67 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT26LANYR-TIE | period_winner |  | 0.345 |  | 35 | 66 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26OCT26LANYR-LA2 | period_spread |  | 0.075 |  | 9 | 94 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT26LANYR-NYR2 | period_spread |  | 0.095 |  | 11 | 92 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT26LANYR-NYR2 | period_spread |  | 0.105 |  | 12 | 91 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -114,14 +114,14 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 - Pavel Dorofeyev: 1+ goals NO @ 66c · p 0.7111 (adj 0.6971) · $18.24 · thesis NYR:SUPPRESSED
 - Artemi Panarin: 1+ goals YES @ 30c · p 0.3417 (adj 0.33) · $5.53 · thesis LAK:OFFENSE_4PLUS
 - Vladislav Gavrikov: 1+ assists YES @ 23c · p 0.3326 (adj 0.2562) · $4.3 · thesis NYR:OFFENSE_4PLUS
-- Gavin McKenna: 1+ goals NO @ 79c · p 0.8487 (adj 0.8328) · $20.0 · thesis TOR:SUPPRESSED
-- Jonathan Castagna: 1+ goals YES @ 12c · p 0.1661 (adj 0.1521) · $6.11 · thesis CGY:OFFENSE_4PLUS
-- Teddy Blueger: 1+ goals YES @ 12c · p 0.1598 (adj 0.1461) · $5.51 · thesis TOR:OFFENSE_4PLUS
-- Toronto wins by over 2.5 goals NO @ 76c · p 0.8222 (adj 0.7886) · $18.35 · thesis CGY:WINS
-- Connor McDavid: 2+ assists NO @ 63c · p 0.7528 (adj 0.6697) · $20.0 · thesis EDM:SUPPRESSED
-- Leon Draisaitl: 1+ assists NO @ 41c · p 0.4933 (adj 0.4466) · $9.64 · thesis EDM:SUPPRESSED
-- Vasily Podkolzin: 1+ goals YES @ 26c · p 0.2997 (adj 0.2885) · $8.08 · thesis EDM:OFFENSE_4PLUS
-- Alex Formenton: 1+ goals YES @ 16c · p 0.1898 (adj 0.1811) · $3.65 · thesis EDM:OFFENSE_4PLUS
+- Jonathan Castagna: 1+ goals YES @ 12c · p 0.1661 (adj 0.1533) · $6.54 · thesis CGY:OFFENSE_4PLUS
+- Teddy Blueger: 1+ goals YES @ 12c · p 0.1598 (adj 0.1424) · $4.42 · thesis TOR:OFFENSE_4PLUS
+- Aydar Suniev: 1+ goals YES @ 20c · p 0.2385 (adj 0.2276) · $4.52 · thesis CGY:OFFENSE_4PLUS
+- Toronto wins by over 2.5 goals NO @ 76c · p 0.8222 (adj 0.7886) · $17.94 · thesis CGY:WINS
+- Vasily Podkolzin: 1+ assists YES @ 30c · p 0.3908 (adj 0.3429) · $11.03 · thesis EDM:OFFENSE_4PLUS
+- Connor McDavid: 2+ assists NO @ 63c · p 0.7528 (adj 0.6697) · $19.53 · thesis EDM:SUPPRESSED
+- Leon Draisaitl: 1+ assists NO @ 41c · p 0.4933 (adj 0.4466) · $10.47 · thesis EDM:SUPPRESSED
+- Vasily Podkolzin: 1+ goals YES @ 26c · p 0.2997 (adj 0.2885) · $8.25 · thesis EDM:OFFENSE_4PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -133,10 +133,10 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 |---|---:|---:|---|---:|---|
 | Vladislav Gavrikov: 1+ assists | 0.333 | 0.215 | 23/80 | +0.090 | STANDARD |
 | Vladislav Gavrikov: 1+ points | 0.383 | 0.290 | 30/72 | +0.068 | STANDARD |
-| Artemi Panarin: 1+ assists | 0.399 | 0.465 | 47/54 | +0.043 | STANDARD |
+| Artemi Panarin: 1+ assists | 0.399 | 0.460 | 47/55 | +0.033 | STANDARD |
 | Trevor Moore: 1+ points | 0.420 | 0.360 | 37/65 | +0.034 | STANDARD |
+| Alex Laferriere: 1+ points | 0.578 | 0.520 | 54/50 | +0.021 | STANDARD |
 | Alex Laferriere: 1+ goals | 0.313 | 0.255 | 26/75 | +0.039 | STANDARD |
-| Trevor Moore: 1+ assists | 0.266 | 0.210 | 23/81 | +0.024 | STANDARD |
 
 **TOR @ CGY** · priced 177/186 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - CGY net: Devin Cooley (CONFIRMED) exp shots 28.89, exp saves 24.88 (sd 6.83), pull risk 0.065
@@ -146,10 +146,10 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 |---|---:|---:|---|---:|---|
 | Gavin McKenna: 1+ points | 0.356 | 0.490 | 50/52 | +0.106 | STANDARD |
 | Kirill Marchenko: 1+ assists | 0.314 | 0.425 | 43/58 | +0.089 | STANDARD |
-| Kirill Marchenko: 1+ points | 0.510 | 0.620 | 63/39 | +0.083 | STANDARD |
-| Gavin McKenna: 1+ assists | 0.243 | 0.345 | 36/67 | +0.072 | STANDARD |
+| Gavin McKenna: 1+ assists | 0.243 | 0.350 | 36/66 | +0.081 | STANDARD |
+| Kirill Marchenko: 1+ points | 0.510 | 0.615 | 62/39 | +0.083 | STANDARD |
 | William Nylander: 2+ points | 0.230 | 0.325 | 34/69 | +0.065 | STANDARD |
-| Auston Matthews: 1+ assists | 0.373 | 0.465 | 47/54 | +0.070 | STANDARD |
+| Kirill Marchenko: 2+ points | 0.161 | 0.255 | 27/76 | +0.066 | STANDARD |
 
 **DET @ EDM** · priced 167/180 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - EDM net: Tristan Jarry (CONFIRMED) exp shots 27.49, exp saves 24.09 (sd 6.52), pull risk 0.053
@@ -159,10 +159,10 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 |---|---:|---:|---|---:|---|
 | Leon Draisaitl: 2+ points | 0.363 | 0.515 | 52/49 | +0.129 | STANDARD |
 | Connor McDavid: 2+ assists | 0.247 | 0.375 | 38/63 | +0.106 | STANDARD |
-| Ryan Nugent-Hopkins: 1+ assists | 0.293 | 0.410 | 42/60 | +0.090 | STANDARD |
+| Ryan Nugent-Hopkins: 1+ assists | 0.293 | 0.410 | 43/61 | +0.080 | STANDARD |
 | Connor McDavid: 2+ points | 0.469 | 0.575 | 58/43 | +0.084 | STANDARD |
 | Connor Murphy: 1+ assists | 0.216 | 0.115 | 21/98 | -0.006 | STANDARD |
-| Vasily Podkolzin: 1+ assists | 0.391 | 0.290 | 30/72 | +0.076 | STANDARD |
+| Vasily Podkolzin: 1+ assists | 0.391 | 0.295 | 30/71 | +0.076 | STANDARD |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
