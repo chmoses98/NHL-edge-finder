@@ -205,19 +205,32 @@ def resolve_team_minutes() -> tuple[str, TMV.AllocationParams | None, str | None
         prm = TMV.load_params()
     except Exception as e:  # noqa: BLE001 - a missing / corrupt parameter file means "legacy", never a failed run
         prm = None
-        if published != TMV.LEGACY_VERSION:
-            published, why = TMV.LEGACY_VERSION, f"candidate parameters unavailable ({type(e).__name__}: {str(e)[:120]}); legacy template used"
+        why = f"candidate parameters unavailable ({type(e).__name__}: {str(e)[:120]}); legacy template used"
+        published = TMV.LEGACY_VERSION
+        log.warning(kv(event="team_minutes_candidate_unavailable", err=str(e)[:200]))
+    if published not in (TMV.LEGACY_VERSION, TMV.CANDIDATE_VERSION):
+        published, why = TMV.LEGACY_VERSION, "registry names an allocation this code does not implement; legacy template used"
+    elif published == TMV.CANDIDATE_VERSION:
+        # the approval must name the exact parameter set it approved
+        pin = ((projection_registry.team_minutes_entry() or {}).get("approval") or {}).get("candidate_fingerprint")
+        if prm is None or pin != prm.fingerprint():
+            published, why = TMV.LEGACY_VERSION, f"approval does not pin the loaded parameter fingerprint ({pin!r} vs {prm.fingerprint() if prm else None}); legacy template used"
+    if why:
+        log.warning(kv(event="team_minutes_published_default", reason=why))
     return published, prm, why
 
 
 _TM_COLUMNS = ("toi", "ev", "pp", "sh", "ea", "en", "ot", "sog")
+TM_SHADOW_MAX_LEAD_MIN = 360.0       # only runs within six hours of the drop are archived (the scorer uses the last pregame row, 30-60 minutes out): bounds the archive growth
 
 
 def tm_shadow_rows(gi: Any, side: str, rb: Any, book: Any, tm_legacy: dict[str, float], tm_cand: dict[str, float], fallback: bool, published: str, prm: TMV.AllocationParams,
                    now_iso: str, minutes: Any, horizon: Any, run_id: str) -> list[dict[str, Any]]:
     """One row per dressed skater: BOTH allocations' published-field equivalents computed from the same shares at the same instant (an additive archive kind; never published)."""
     ro = rb.roster
-    rows = []
+    rows: list[dict[str, Any]] = []
+    if minutes is None or not (0 < float(minutes) <= TM_SHADOW_MAX_LEAD_MIN):
+        return rows
     for i, pid in enumerate(ro.player_ids):
         pid = int(pid)
         m, pr = rb.player_meta[pid], rb.profiles[pid]
@@ -228,7 +241,7 @@ def tm_shadow_rows(gi: Any, side: str, rb: Any, book: Any, tm_legacy: dict[str, 
                                "projection_quality": m["projection_quality"], "deployment_source": m["deployment_source"], "role": "SHADOW", "authority": AUTHORITY}
         row.update({f"share_{s}": round(float(m["share"][s]), 6) for s in TMV.STATES})
         row.update({f"legacy_{k}": round(float(a[k]), 4) for k in _TM_COLUMNS} | {f"cand_{k}": round(float(c[k]), 4) for k in _TM_COLUMNS})
-        row.update({f"legacy_team_{s}": round(float(tm_legacy[s]), 4) for s in TMV.STATES} | {f"cand_team_{s}": round(float(tm_cand[s]), 4) for s in TMV.STATES})
+        row.update({f"legacy_team_{s}": round(float(tm_legacy[s]), 4) for s in ("ev", "pp", "sh")} | {f"cand_team_{s}": round(float(tm_cand[s]), 4) for s in ("ev", "pp", "sh")})
         rows.append(row)
     return rows
 
@@ -346,9 +359,14 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
                         "role_confidence": pm.get("role_confidence"), "uncertainty_flags": pm.get("uncertainty_flags"), "ev_slot": pm.get("ev_slot"),
                         "pp_unit": pm.get("pp_unit"), "deployment_source": pm.get("deployment_source"), "n_games_history": pm.get("n_games")}
                 if teams[side]["tm_used"] != TMV.LEGACY_VERSION:
-                    # additive, ONLY where a non-default allocation drove the published number: the legacy-equivalent minutes keep the prospective player-minutes comparators on the incumbent they were registered against
-                    leg = TMV.project_player(pm["share"], teams[side]["rb"].profiles[int(pid)], rt.book.priors, teams[side]["tm_legacy"])
-                    meta.update({"team_minutes_version": teams[side]["tm_used"], "expected_toi_min_legacy": round(leg["toi"], 2), "expected_pp_toi_min_legacy": round(leg["pp"], 2)})
+                    # additive, ONLY where a non-default allocation drove the published number: the legacy-equivalent values keep the prospective comparators (player-minutes, projection
+                    # foundation) on the incumbent they were registered against. If they cannot be computed (a player with no profile, whose published minutes are 0 anyway) the failure is counted and the row carries no version field.
+                    try:
+                        leg = TMV.project_player(pm["share"], teams[side]["rb"].profiles[int(pid)], rt.book.priors, teams[side]["tm_legacy"])
+                        meta.update({"team_minutes_version": teams[side]["tm_used"], "expected_toi_min_legacy": round(leg["toi"], 2),
+                                     "expected_pp_toi_min_legacy": round(leg["pp"], 2), "expected_shots_legacy": round(leg["sog"], 2)})
+                    except Exception as e:  # noqa: BLE001
+                        tm_errors.append(f"{gid}|{side}: legacy pin {type(e).__name__}: {str(e)[:100]}")
                 if pr.p is not None:
                     x = {"goals": d.goals[:, i], "assists": d.assists[:, i], "points": d.points[:, i]}.get(PLAYER_FAMILIES[c.family])
                     if x is not None and c.threshold is not None:
@@ -428,6 +446,8 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
             gid = str(getattr(it.get("gi"), "game_id", "?"))
             log.warning(kv(event="player_shadow_game_failed", game=gid, err=str(e)[:200]))
             blocks.append({"game_id": gid, "error": f"{type(e).__name__}: {str(e)[:200]}"})
+    if tm_errors:
+        log.warning(kv(event="team_minutes_shadow_errors", n=len(tm_errors), first=tm_errors[0]))
     return {"rows": rows_all, "blocks": blocks, "context": rt.sources, "distributions": dists, "distribution_errors": dist_errors,
             "tm_shadow": tm_rows, "tm_info": {"published_allocation": tm_published, "default_reason": tm_why, "candidate_available": tm_prm is not None, "errors": tm_errors[:10],
                                               "n_errors": len(tm_errors), "candidate_fingerprint": tm_prm.fingerprint() if tm_prm else None}}

@@ -21,7 +21,7 @@ All values are clock minutes of ONE team in one game; both teams of a game are c
 
 * `PP_A = c x ppmin_A`, `SH_A = c x ppmin_B`. `ppmin` is V2's own expected PP minutes (already in `components`, the same quantity that drives the PP goal expectation); `c = 1.104` converts V2's 5-on-4 minutes to total power-play clock (fitted: regulation games only). So `PP_A = SH_B` and `SH_A = PP_B` **exactly**.
 * `EA_A = EN_B = 0.580` (symmetric league mean).
-* `EV = 60 + E[OT] - (PP_A + PP_B) - (EA + EN)` with `E[OT] = 0.713` min (unconditional expected overtime clock per game; 22% of games reach overtime, 33% of those end in a shootout after the full 5:00): the five states **sum to 60 + E[OT]**, penalty time reduces even strength, and both teams get the bit-identical EV clock.
+* `EV = 60 + E[OT] - (PP_A + PP_B) - (EA + EN)` with `E[OT] = 0.713` min (unconditional expected overtime clock per game; 22% of games reach overtime, about a third of those (32%) end in a shootout after the full 5:00): the five states **sum to 60 + E[OT]**, penalty time reduces even strength, and both teams get the bit-identical EV clock. These clock identities are exact in `clock()`; the projected minutes are `kappa_s x clock_s`, so they satisfy them only up to kappa (the five projected states sum to within 3% of 60 + E[OT] for every matchup, tested).
 * `team_minutes[s] = kappa_s x clock_s`, `ot = 0`. The overtime state is a memo (its seconds are already inside EV/PP/SH), so it is no longer added.
 * `kappa` is the share-normalisation: the dressed skaters' shares sum to *less* than the number of skaters on the ice (EV 4.88 vs 4.99, PP 4.95 vs 5.00, SH 4.00 vs 4.07, EN 3.55 vs 4.89), because the recorded denominators of overtime games are padded and shares are shrunk. `kappa` = observed skater-minutes / (sum of shares x clock) over the training team-games: **EV 1.020, PP 1.006, SH 1.015, EA 0.855, EN 1.150**. Shares themselves are **not** touched (they drive scorer and assist weights), so goals, assists and points cannot change.
 
@@ -56,7 +56,10 @@ Stability by season (candidate vs published, change in MSE; every season's inter
 
 **Team-level coherence** (sum of the dressed skaters' projected minutes per team-game; actual mean 297.2): published template 292.2 (bias -5.1, RMSE 10.9); candidate 296.7 (bias -0.5, RMSE 9.6); share of team-games with an impossible total (<270 or >330 skater-minutes) 0.77% -> 0.44%. Refitting each state independently (L1) overshoots the budget (298.1); the partition keeps it on target.
 
-## 4. What this does not show
+## 4. Reproducing
+`python -m nhl_edge.research.team_minutes_recal --cache <champion frame cache> --history data/history --out ... --write-params data/params/team-minutes-1.0.json` (the cache is the derived `champ_sk_<season>.parquet` set of `nhl_edge.research.workload_replication`, 2022-2025, not committed; the V2 power-play-minute inputs are derived from `data/history` when `--wf` is omitted). The fit is deterministic: re-running it reproduced the committed parameter file bit for bit. The current-games replay and the byte-identity comparison are `scripts/team_minutes_replay.py` and `scripts/team_minutes_golden.py` (they need an archive checkout; paths are at the top of each script).
+
+## 5. What this does not show
 * It is development evidence on seasons that were also used to design the shares and rates; the parameters are nine numbers fitted on 186,841 skater-games, so over-fitting risk is small, but the independent check is the prospective shadow.
 * Shots stay under-predicted (-0.027 per skater-game): minutes explain about a tenth of the shots bias; the rest is the shot-rate level (the LC level calibration's job).
 * The matchup term has weak individual information (the correlation of V2's `ppmin` with actual PP clock is ~0.16) but unbiased scale (slope 1.02); its gain over a league-constant clock is small but significant (above).

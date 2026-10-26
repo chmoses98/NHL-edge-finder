@@ -15,7 +15,8 @@ from nhl_edge import projection_registry as PR
 from nhl_edge.players import team_minutes as TM
 
 REPO = Path(__file__).resolve().parents[1]
-APPROVAL = {"approved_by": "owner", "approved_at_utc": "2026-12-01T00:00:00Z", "evidence": "docs/research/team_minutes/GO_NO_GO.md"}
+PINNED = json.loads((REPO / "data" / "params" / "team-minutes-1.0.json").read_text())["fingerprint"]
+APPROVAL = {"approved_by": "owner", "approved_at_utc": "2026-12-01T00:00:00Z", "evidence": "docs/research/team_minutes/GO_NO_GO.md", "candidate_fingerprint": PINNED}
 
 
 def _prm() -> TM.AllocationParams:
@@ -218,6 +219,7 @@ def test_goals_assists_points_and_every_price_are_bit_identical_under_either_all
     for ra, rb in moved:
         assert rb["meta_team_minutes_version"] == "team-minutes-1.0"
         assert rb["meta_expected_toi_min_legacy"] == ra["meta_expected_toi_min"] and rb["meta_expected_pp_toi_min_legacy"] == ra["meta_expected_pp_toi_min"]
+        assert rb["meta_expected_shots_legacy"] == ra["meta_expected_shots"]
 
 
 @slow_needs
@@ -245,7 +247,7 @@ def test_the_shadow_record_is_allocation_agnostic_and_matches_the_published_fiel
             assert round(s["cand_toi"], 2) == r["meta_expected_toi_min"] and round(s["cand_pp"], 2) == r["meta_expected_pp_toi_min"] and round(s["cand_sog"], 2) == r["meta_expected_shots"]
     for s in a["shadow"]:
         assert s["authority"] == "RESEARCH_ONLY" and s["role"] == "SHADOW" and s["candidate_version"] == "team-minutes-1.0" and s["pregame"] is True
-        assert s["cand_team_ot"] == 0.0 and s["legacy_team_ot"] == 1.2
+        assert s["cand_team_pp"] > s["legacy_team_pp"] and 0 < s["minutes_to_start"] <= 360
 
 
 @slow_needs
@@ -270,9 +272,60 @@ def test_a_failing_candidate_never_changes_the_published_fields(tmp_path, monkey
     monkeypatch.setattr(TM, "allocate", boom)
     broken = _run(tmp_path, "broken", monkeypatch, "team-minutes-0")
     assert broken["player"] == base["player"] and broken["v1"] == base["v1"] and broken["v2"] == base["v2"]
-    assert broken["shadow"] == []                                                              # nothing recorded, nothing published differently
+    assert len(broken["shadow"]) == 1 and broken["shadow"][0]["marker"] is True and broken["shadow"][0]["n_errors"] > 0     # nothing recorded but a visible marker; nothing published differently
     approved = _run(tmp_path, "broken_approved", monkeypatch, "team-minutes-1.0")             # even when the candidate is APPROVED, a per-game allocation failure falls back to legacy
     assert [{k: v for k, v in r.items() if not k.startswith("meta_team_minutes") and not k.endswith("_legacy")} for r in approved["player"]] == base["player"]
+
+
+def test_approval_must_pin_the_parameter_fingerprint_and_unknown_allocations_are_refused(tmp_path, monkeypatch):
+    from nhl_edge.workflows import shadow_player
+
+    monkeypatch.setattr(PR, "REGISTRY_PATH", _registry(tmp_path, approval={k: v for k, v in APPROVAL.items() if k != "candidate_fingerprint"}))
+    pub, prm, why = shadow_player.resolve_team_minutes()
+    assert pub == "team-minutes-0" and "pin" in why and prm is not None                      # approved, but not for these parameters
+    monkeypatch.setattr(PR, "REGISTRY_PATH", _registry(tmp_path, approval={**APPROVAL, "candidate_fingerprint": "0" * 16}))
+    assert shadow_player.resolve_team_minutes()[0] == "team-minutes-0"
+    monkeypatch.setattr(PR, "REGISTRY_PATH", _registry(tmp_path, published="team-minutes-2.0", candidate="team-minutes-2.0", approval=APPROVAL))
+    pub, _, why = shadow_player.resolve_team_minutes()
+    assert pub == "team-minutes-0" and "does not implement" in why
+    monkeypatch.setattr(PR, "REGISTRY_PATH", _registry(tmp_path, approval=APPROVAL))
+    assert shadow_player.resolve_team_minutes()[0] == "team-minutes-1.0"
+
+
+def test_parameter_file_is_validated(tmp_path):
+    d = json.loads(TM.PARAMS_PATH.read_text())
+    cases = []
+    no_fp = {k: v for k, v in d.items() if k != "fingerprint"}
+    cases.append(no_fp)
+    nan = json.loads(json.dumps(d))
+    nan["kappa"]["pp"] = float("nan")
+    cases.append(nan)
+    wild = json.loads(json.dumps(d))
+    wild["kappa"]["ev"] = 9.0
+    p = TM.AllocationParams.from_dict(wild)
+    cases.append({**wild, "fingerprint": p.fingerprint()})                                  # a rewritten file with a recomputed fingerprint
+    for i, c in enumerate(cases):
+        f = tmp_path / f"p{i}.json"
+        f.write_text(json.dumps(c))
+        with pytest.raises(ValueError):
+            TM.load_params(f)
+
+
+def test_numpy_scalars_are_accepted_and_booleans_are_not():
+    import numpy as np
+
+    prm = _prm()
+    assert TM.clock(np.float32(4.7), np.float64(4.5), prm)["fallback"] is False
+    assert TM.clock(np.int64(5), 5, prm)["fallback"] is False
+    assert TM.clock(True, 4.5, prm)["fallback"] is True
+
+
+def test_kappa_scaled_totals_stay_close_to_the_physical_budget():
+    prm, rng = _prm(), random.Random(11)
+    for _ in range(500):
+        a, b = rng.uniform(2.8, 6.2), rng.uniform(2.8, 6.2)
+        tot = sum(v for k, v in TM.allocate(a, b, prm).items() if k != "ot")
+        assert 0.97 * (60 + prm.ot_min) < tot < 1.03 * (60 + prm.ot_min)
 
 
 def test_deepcopy_of_params_is_stable():
@@ -300,3 +353,14 @@ def test_the_activation_template_cannot_activate_until_the_owner_fills_the_appro
     d["targets"]["player_team_minutes"]["approval"] = APPROVAL
     f.write_text(json.dumps(d))
     assert PR.published_team_minutes(f) == ("team-minutes-1.0", None)
+
+
+@slow_needs
+@pytest.mark.slow
+def test_a_degraded_shadow_leaves_a_visible_marker_and_never_changes_published_rows(tmp_path, monkeypatch):
+    base = _run(tmp_path, "ok", monkeypatch, "team-minutes-0")
+    monkeypatch.setattr(TM, "PARAMS_PATH", tmp_path / "missing.json")
+    broken = _run(tmp_path, "nopar", monkeypatch, "team-minutes-0")
+    assert broken["player"] == base["player"] and broken["v1"] == base["v1"] and broken["v2"] == base["v2"]
+    assert len(broken["shadow"]) == 1 and broken["shadow"][0]["marker"] is True
+    assert broken["shadow"][0]["candidate_available"] is False and "parameters unavailable" in broken["shadow"][0]["default_reason"]

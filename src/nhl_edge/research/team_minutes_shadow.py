@@ -38,7 +38,10 @@ def load_rows(archive: Path | None, extra: list[Path]) -> pd.DataFrame:
         rows += list(Ledger(archive).iter_rows("player_tm_shadow"))
     for f in extra:
         rows += json.loads(Path(f).read_text())
-    return pd.DataFrame(rows)
+    d = pd.DataFrame(rows)
+    if len(d) and "player_id" in d.columns:                      # marker rows (a degraded shadow run) carry no player and no minutes
+        d = d[d["player_id"].notna()]
+    return d
 
 
 def load_actuals(archive: Path) -> pd.DataFrame:
@@ -97,7 +100,9 @@ def compare(rows: pd.DataFrame, actuals: pd.DataFrame, n_boot: int = PD.N_BOOT, 
     pos = m["pos"].astype(str).to_numpy()
     res["by_position_bias_toi"] = {p: {a: float((pred[a]["toi"][pos == p] - y["toi"][pos == p]).mean()) for a in ARMS} | {"n": int((pos == p).sum())} for p in sorted(set(pos))}
     out["results"] = res
-    out["identical_timestamps"] = bool(m["candidate_version"].nunique() == 1)
+    out["both_arms_on_the_same_row"] = True                      # every shadow row carries both allocations, computed from the same shares at the same predicted_at_utc
+    out["clock_fallback_share"] = float(m["clock_fallback"].astype(bool).mean()) if "clock_fallback" in m.columns else None
+    out["published_allocation_counts"] = {str(k): int(v) for k, v in m["published_allocation"].value_counts().items()} if "published_allocation" in m.columns else {}
     return out
 
 
@@ -110,6 +115,8 @@ def representatives(m: pd.DataFrame) -> list[dict[str, Any]]:
     if m.empty:
         return []
     F, D = m[m["pos"] == "F"], m[m["pos"] == "D"]
+    if F.empty or D.empty:                                       # a tiny early sample: no archetypes rather than a crash
+        return []
     near = lambda d, col, v: d.iloc[(d[col] - v).abs().argsort().iloc[0]]  # noqa: E731
     picks = [("top-line forward (most ice time)", F.loc[F["legacy_toi"].idxmax()]), ("top-six forward (75th percentile of ice time)", near(F, "legacy_toi", F["legacy_toi"].quantile(0.75))),
              ("fourth-line forward (nearest 10 min)", near(F, "legacy_toi", 10.0)), ("top-pair defenceman (most ice time)", D.loc[D["legacy_toi"].idxmax()]),
@@ -141,10 +148,11 @@ def main(argv: list[str] | None = None) -> int:
     rows = load_rows(None if a.no_archive_rows else a.archive, a.rows)
     actuals = load_actuals(a.archive)
     res = compare(rows, actuals, a.n_boot, a.min_lead) if len(rows) else {"note": "no player_tm_shadow rows"}
+    a.out.parent.mkdir(parents=True, exist_ok=True)
+    a.out.write_text(json.dumps(res, indent=1, sort_keys=True))             # the scores are written before the (optional) archetype table
     if len(rows):
         res["representative_players"] = representatives(merged_pairs(rows, actuals, a.min_lead))
-    a.out.parent.mkdir(parents=True, exist_ok=True)
-    a.out.write_text(json.dumps(res, indent=1, sort_keys=True))
+        a.out.write_text(json.dumps(res, indent=1, sort_keys=True))
     print(json.dumps(res, indent=1, sort_keys=True)[:3000])
     return 0
 

@@ -50,6 +50,13 @@ def published_model(target: str, path: Path | None = None) -> tuple[str, str | N
     return want, None
 
 
+def team_minutes_entry(path: Path | None = None) -> dict[str, Any] | None:
+    try:
+        return json.loads(Path(path or REGISTRY_PATH).read_text())["targets"][TEAM_MINUTES_TARGET]
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
 def published_team_minutes(path: Path | None = None) -> tuple[str, str | None]:
     """(team-minute allocation that drives the published PLAYER_SIM_V1 ice-time and shots fields, reason it is the default despite a request, or None).
 

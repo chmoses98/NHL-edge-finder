@@ -4,8 +4,8 @@
 Two allocations exist side by side:
 
 ``LEGACY`` (``team-minutes-0``, the published default) -- the template that was hard-coded in ``workflows/shadow_player.py``:
-    EV 50.6, PP 4.4 x p_pp / 0.215, SH 4.4, EA 0.6, EN 0.6, OT 1.2 (sum 61.8). Measured against 7,872 team-games it is wrong in three ways: PP/SH are ~14% low, SH ignores the
-    opponent's power play, and OT is added on top of EV/PP/SH minutes that already contain overtime seconds.
+    EV 50.6, PP 4.4 x p_pp / 0.215, SH 4.4, EA 0.6, EN 0.6, OT 1.2 (sum 61.8). Measured against 8,078 regulation team-games it is wrong in four ways: PP/SH are ~14% low, SH ignores the
+    opponent's power play, OT is added on top of EV/PP/SH minutes that already contain overtime seconds, and the states do not partition the game clock.
 
 ``team-minutes-1.0`` (the candidate; activation needs an approval record in ``data/registry/projection-registry.json``) -- one physical clock budget per team-game
     (all values are CLOCK minutes of the team, not skater-minutes):
@@ -16,7 +16,9 @@ Two allocations exist side by side:
         EV_A  = 60 + E[OT] - PP_A - SH_A - EA_A - EN_A   (strength states partition the game clock; penalty time comes out of even strength, as in nhl-features-2.0)
 
     followed by a per-state share-normalisation factor kappa_s (fitted so that the dressed players' expected skater-minutes by state match the observed skater-minutes;
-    kappa is ~1 where the shares sum to the number of skaters on the ice, and 1.38 for EN where the recorded shares are deflated by overtime-padded denominators).
+    kappa is ~1 where the shares sum to the number of skaters on the ice; EN (1.15) and EA (0.85) absorb the overtime-padded denominators of the recorded shares).
+    The clock identities (PP_A = SH_B, EA_A = EN_B, partition of 60 + E[OT]) hold exactly in ``clock()``; ``allocate()`` then multiplies each state by its own kappa, so the
+    PROJECTED minutes satisfy them only up to kappa (a bounded, tested deviation), which is what the share definition requires.
     ``minutes[state] = kappa_s x clock_s``; ``ot`` is a memo (overtime seconds are already inside EV/PP/SH in the player tables), so the allocation carries ``ot = 0``.
 
 Nothing here touches shares, rates or the simulation: goals, assists and points use shares, never minutes, so they are unchanged by construction (tested bit for bit).
@@ -27,6 +29,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import numbers
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -71,15 +74,21 @@ class AllocationParams:
 
 
 def load_params(path: Path | None = None) -> AllocationParams:
+    """Loads and VALIDATES the fingerprinted parameter file: the fingerprint is required and must match, every number must be finite and in a plausible range."""
     d = json.loads(Path(path or PARAMS_PATH).read_text())
     p = AllocationParams.from_dict(d)
-    if d.get("fingerprint") and d["fingerprint"] != p.fingerprint():
-        raise ValueError(f"team-minutes parameter file fingerprint mismatch: {d['fingerprint']} != {p.fingerprint()}")
+    if not d.get("fingerprint") or d["fingerprint"] != p.fingerprint():
+        raise ValueError(f"team-minutes parameter file fingerprint missing or mismatched: {d.get('fingerprint')} != {p.fingerprint()}")
+    nums = {"regulation_min": (p.regulation_min, 59.99, 60.01), "ot_min": (p.ot_min, 0.0, 3.0), "pp_per_ppmin": (p.pp_per_ppmin, 0.5, 2.0), "league_pp_min": (p.league_pp_min, 3.0, 8.0),
+            "ea_min": (p.ea_min, 0.0, 2.0)} | {f"kappa.{k}": (v, 0.5, 2.0) for k, v in p.kappa.items()}
+    bad = [k for k, (v, lo, hi) in nums.items() if not (math.isfinite(v) and lo <= v <= hi)]
+    if bad or set(p.kappa) != {"ev", "pp", "sh", "ea", "en"}:
+        raise ValueError(f"team-minutes parameters out of range or incomplete: {bad or sorted(p.kappa)}")
     return p
 
 
 def _ok(x: Any) -> bool:
-    return isinstance(x, (int, float)) and math.isfinite(float(x)) and x > 0
+    return isinstance(x, numbers.Real) and not isinstance(x, bool) and math.isfinite(float(x)) and x > 0
 
 
 def clock(ppmin_for: float | None, ppmin_against: float | None, prm: AllocationParams) -> dict[str, float | bool]:

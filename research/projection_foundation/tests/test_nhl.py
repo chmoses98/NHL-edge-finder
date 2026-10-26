@@ -151,6 +151,20 @@ def test_incumbent_one_row_per_player_game_from_last_pregame_snapshot(monkeypatc
     assert r["inc_p_goals_1"] == pytest.approx(0.33) and r["inc_p_goals_2"] == pytest.approx(0.05)
 
 
+def test_incumbent_stays_on_the_registered_template_when_another_team_minute_allocation_is_published(monkeypatch):
+    base = {"game_id": 2026020010, "player_id": 8470000.0, "family": "player_goals", "threshold": 0.5, "p_player": 0.3, "predicted_at_utc": "2026-10-05T22:00:00Z", "pregame": True,
+            "minutes_to_start": 30, "meta_expected_toi_min": 18.0, "meta_expected_pp_toi_min": 2.0, "meta_expected_shots": 2.5, "meta_expected_goals": 0.3,
+            "meta_expected_assists": 0.4, "meta_expected_points": 0.7, "meta_expected_saves": None, "meta_projection_quality": "STANDARD", "meta_deployment_source": "LINES_PROJECTED"}
+    pinned = {**base, "meta_expected_toi_min": 18.4, "meta_expected_pp_toi_min": 2.4, "meta_expected_shots": 2.6, "meta_expected_toi_min_legacy": 18.0,
+              "meta_expected_pp_toi_min_legacy": 2.0, "meta_expected_shots_legacy": 2.5, "meta_team_minutes_version": "team-minutes-1.0"}
+    monkeypatch.setattr(inventory, "CACHE_PP", lambda: pd.DataFrame([pinned]))
+    r = incumbent.prospective()[0].iloc[0]
+    assert (r["inc_toi"], r["inc_toi_pp"], r["inc_sog"]) == (18.0, 2.0, 2.5)
+    monkeypatch.setattr(inventory, "CACHE_PP", lambda: pd.DataFrame([base]))                  # the default: no legacy columns, nothing changes
+    r = incumbent.prospective()[0].iloc[0]
+    assert (r["inc_toi"], r["inc_toi_pp"], r["inc_sog"]) == (18.0, 2.0, 2.5)
+
+
 def test_rps_is_sum_of_rung_briers():
     y = np.array([0, 1, 3])
     p = {1: np.array([0.3, 0.6, 0.9]), 2: np.array([0.1, 0.2, 0.5])}

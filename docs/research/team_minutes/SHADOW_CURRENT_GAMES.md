@@ -23,6 +23,8 @@ RESEARCH_ONLY. Descriptive; no pass/fail; nothing here promotes anything. The ca
 | calibration slope, total TOI (actual on predicted; 1 = calibrated) | 1.045 | 1.016 | |
 | calibration slope, PP TOI | 1.232 | 1.062 | |
 
+Two numbers in this sample are **not** favourable and are reported with the rest: the candidate's even-strength bias is +0.18 min (published +0.11), and its expected-shots calibration slope is 0.80 (published 0.84; both below 1, i.e. expected shots vary more than realised shots in this small sample). No league-clock fallback was used (fallback share 0.0).
+
 Reading. The direction and size match the walk-forward result (`RECALIBRATION.md`): the published template under-predicts ice time (total -0.36 min, PP -0.20, SH -0.10), the candidate removes that bias, and total-TOI MSE falls with an interval that excludes zero. With 17 games the PP, SH and shots intervals are wide and include zero: **this sample confirms the direction, it does not add independent precision**. Shots stay under-predicted by the candidate too (-0.068): the remaining shots error is the shot-rate level, not minutes.
 
 By position, total-TOI bias (published -> candidate): forwards -0.319 -> +0.011 (n=393), defence -0.432 -> -0.098 (n=198).
@@ -46,4 +48,5 @@ Single games say little (one player-game is mostly noise); the table shows the *
 ## What is being compared, and what is not
 * Published-field equivalents only: `expected_toi_min`, `expected_pp_toi_min`, `expected_shots` (and through them the `toi_p10_p50_p90_min` band and `top_players` minutes). Goals, assists, points, saves and every price are computed from shares and rates, not minutes, and are **identical to the last bit** under both allocations (`tests/test_team_minutes.py::test_goals_assists_points_and_every_price_are_bit_identical_under_either_allocation`).
 * Selection: the 17 games are every game that had settled when this was run; no game was dropped. The sample is small and covers one weekend, so the intervals above are wide.
+* Reproduction: `scripts/team_minutes_replay.py` (one instant) and `scripts/team_minutes_golden.py` (byte comparison of two source trees); the scoring is `python -m nhl_edge.research.team_minutes_shadow`.
 * The prospective accumulation continues automatically once this change is merged (archive kind `player_tm_shadow`, one row per dressed skater per run); `python -m nhl_edge.research.team_minutes_shadow --archive <archive> --out ...` re-scores it at any time.

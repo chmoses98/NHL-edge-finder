@@ -16,7 +16,10 @@ team's time in a strength state to minutes. ``players/team_minutes.py`` replaces
 
 Shares, shot rates and the simulation are not re-estimated: the only thing that changes between arms is the team-minute dictionary.
 
-    python -m nhl_edge.research.team_minutes_recal --cache <derived cache> --history data/history --wf <derived wf parquet> --out out/team_minutes_recal.json
+    python -m nhl_edge.research.team_minutes_recal --cache <derived cache> --history data/history [--wf <wf parquet>] --out out/team_minutes_recal.json [--write-params data/params/team-minutes-1.0.json]
+
+``--cache`` is the champion per-skater frame cache of the workload replication (``champ_sk_<season>.parquet`` for 2022-2025, built by ``nhl_edge.research.workload_replication``);
+it is a derived artefact and is not committed. Re-running with the same cache and history reproduces ``data/params/team-minutes-1.0.json`` bit for bit (the fit is deterministic).
 """
 
 from __future__ import annotations
@@ -244,12 +247,20 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--cache", type=Path, required=True)
     ap.add_argument("--history", type=Path, default=Path("data/history"))
-    ap.add_argument("--wf", type=Path, required=True, help="parquet of workload_replication.derive_wf rows (game_id, ppmin_home, ppmin_away)")
+    ap.add_argument("--wf", type=Path, default=None, help="parquet of workload_replication.derive_wf rows (game_id, ppmin_home, ppmin_away); derived from --history (about a minute) when omitted")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--write-params", type=Path, default=None)
     ap.add_argument("--n-boot", type=int, default=PD.N_BOOT)
     a = ap.parse_args(argv)
-    res = run(a.cache, a.history, pd.read_parquet(a.wf), a.n_boot)
+    if a.wf is not None and a.wf.exists():
+        wf = pd.read_parquet(a.wf)
+    else:
+        from nhl_edge.research import workload_replication as R
+
+        wf = R.derive_wf(a.history, list(ALL_SEASONS))
+        if a.wf is not None:
+            wf.to_parquet(a.wf)
+    res = run(a.cache, a.history, wf, a.n_boot)
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(res, indent=1, sort_keys=True))
     if a.write_params:
