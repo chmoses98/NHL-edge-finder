@@ -1,0 +1,51 @@
+name: lc-dispatch-drill
+# Production drill for the unattended dispatch fallback (docs/research/workload_v1/LC_COLLECTION_AUDIT.md). Manual only.
+# The decision logic is unit-tested and its "idle" branches are seen live on every worker cycle; what tests cannot show is that the REAL path works with the platform: the workflow
+# token's permission to dispatch, the dispatch endpoint, and that the requested workflows accept it and start. This job builds a synthetic regular-season game starting in 3 hours, tells
+# the dispatcher (--drill) to pretend no run covers it, lets it dispatch for real with this workflow's own GITHUB_TOKEN (the same token type slate-watch uses), and then waits for the two
+# resulting `workflow_dispatch` runs to appear. The dispatched runs are the normal workload-shadow and player-minutes runs: idempotent, they write records only for real games that have none.
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: write
+defaults:
+  run:
+    shell: bash
+jobs:
+  drill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: pip install -q -e .
+      - name: Dispatch for real against a synthetic uncovered game
+        id: drill
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          start=$(date -u -d "+3 hours" +%FT%TZ)
+          echo "{\"season_type\":\"regular\",\"status\":\"not_started\",\"start_time_utc\":\"$start\"}" > /tmp/synthetic_schedule.jsonl
+          date -u +%FT%TZ > /tmp/drill_started
+          python -m nhl_edge.worker.lc_dispatch dispatch --drill --schedule /tmp/synthetic_schedule.jsonl --github-output "$GITHUB_OUTPUT" | tee /tmp/drill.json
+          [ "$(python -c 'import json;print(json.load(open("/tmp/drill.json")).get("dispatched"))')" = "True" ] || { echo "::error::the dispatcher did not report a successful dispatch"; exit 1; }
+      - name: The two requested runs must appear as workflow_dispatch runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          since=$(cat /tmp/drill_started)
+          ok=0
+          for i in $(seq 1 30); do
+            a=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/workload_shadow.yml/runs?event=workflow_dispatch&per_page=5" --jq "[.workflow_runs[]|select(.created_at >= \"$since\")]|length")
+            b=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/player_minutes.yml/runs?event=workflow_dispatch&per_page=5" --jq "[.workflow_runs[]|select(.created_at >= \"$since\")]|length")
+            echo "poll $i: workload_shadow=$a player_minutes=$b"
+            if [ "$a" -ge 1 ] && [ "$b" -ge 1 ]; then ok=1; break; fi
+            sleep 10
+          done
+          { echo '### lc-dispatch drill'; echo "dispatched runs seen: workload_shadow=$a player_minutes=$b"; echo '```json'; cat /tmp/drill.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          [ "$ok" = 1 ] || { echo "::error::a requested run did not appear"; exit 1; }

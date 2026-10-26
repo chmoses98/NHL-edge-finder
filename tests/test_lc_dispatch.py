@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from datetime import UTC, datetime, timedelta
 
 from nhl_edge.worker import lc_dispatch as L
@@ -152,3 +153,18 @@ def test_the_minutes_request_is_best_effort_and_never_changes_the_lc_result(monk
     sent.clear()
     monkeypatch.setattr(L, "dispatch_via_api", lambda repo, ref, token, workflow=L.WORKFLOW: sent.append(workflow) or False)
     assert L._dispatch_both("o/r", "main", "t") is False and sent == ["workload_shadow.yml"]       # LC refused: nothing else is asked for
+
+
+def test_drill_ignores_existing_runs_but_uses_the_real_dispatch_function(tmp_path, monkeypatch):
+    sched = tmp_path / "s.jsonl"
+    sched.write_text(json.dumps({"season_type": "regular", "status": "not_started", "start_time_utc": "2026-11-03T20:00:00Z"}) + "\n")
+    monkeypatch.setenv("GITHUB_TOKEN", "t")
+    sent = []
+    # a covering run exists on the platform; without --drill the game would be COVERED and nothing would be sent
+    covering = [RunInfo(id=1, status="completed", conclusion="success", event="schedule", created_at=datetime(2026, 11, 3, 10, 0, tzinfo=UTC), updated_at=datetime(2026, 11, 3, 10, 5, tzinfo=UTC))]
+    monkeypatch.setattr(L, "list_runs_via_api", lambda repo, token, workflow=L.WORKFLOW, per_page=100: covering)
+    monkeypatch.setattr(L, "dispatch_via_api", lambda repo, ref, token, workflow=L.WORKFLOW: sent.append(workflow) or True)
+    args = ["dispatch", "--schedule", str(sched), "--repo", "o/r", "--now", "2026-11-03T18:00:00Z"]
+    assert L.main(args) == 0 and sent == []
+    assert L.main([*args, "--drill"]) == 0 and sent == ["workload_shadow.yml", "player_minutes.yml"]
+    assert L.main(["decide", "--schedule", str(sched), "--repo", "o/r", "--drill"]) == 2
