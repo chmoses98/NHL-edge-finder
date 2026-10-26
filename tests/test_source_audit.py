@@ -67,3 +67,21 @@ def test_production_path_probe_uses_the_pipelines_fetch_with_html_accept_and_rep
     out = A.production_path_probe(fake_fetch)
     assert [o["feed"] for o in out] == ["lines", "goalies"] and all(o["status"] == 200 for o in out)
     assert all("text/html" in h["Accept"] and "User-Agent" not in h for h in seen)               # content negotiation only; the identifying User-Agent comes from fetch()
+
+
+def test_contact_discovery_records_only_published_addresses():
+    pages = {"https://www.h.example": '<a href="/contact-us">Contact</a><a href="/x1">About us</a><a href="https://other.example/contact">x</a><a href="/_next/static/about.js">a</a><a href="/api/legacy/data">d</a><a href="/teams">Teams</a>',
+             "https://www.h.example/contact-us": '<p>Write to <a href="mailto:Partners@h.example?subject=x">us</a> or press@h.example</p><img src="logo@2x.png">',
+             "https://www.h.example/x1": "<p>No address here</p>"}
+    r = A.contact_discovery(lambda u: (200, pages.get(u, "").encode(), {}), "https://www.h.example", pause_s=0)
+    assert set(r["emails"]) == {"partners@h.example", "press@h.example"} and r["contact_links"] == ["https://www.h.example/contact-us", "https://www.h.example/x1"]
+    assert r["emails"]["press@h.example"] == ["https://www.h.example/contact-us"]
+    md = A.render({"run_utc": "x", "user_agent": "u", "targets": [], "contacts": [r]})
+    assert "partners@h.example" in md and "Publicly listed contact channels" in md
+
+
+def test_passages_return_distinct_scope_passages_in_document_order():
+    t = "Intro. " + "x" * 600 + " You may not use any automated means or scrap the Services. " + "y" * 600 + " Non-commercial personal use only; written consent is required."
+    ps = A.passages(t, width=200)
+    assert [p["keyword"] for p in ps][0] in ("services", "scrap", "automated") and any("written consent" in p["text"] for p in ps)
+    assert len({p["text"] for p in ps}) == len(ps) and all(len(p["text"]) <= 300 for p in ps)
