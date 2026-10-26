@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-26T20:13:38Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-26T20:43:39Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,14 +10,14 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 150.00 | +25.23 | +6.65 | +24.16 | 0.671 | -43.80 | -64.22 | 51.82 |
-| B thesis-diversified (joint) ← optimiser card | 119.06 | +17.37 | +7.04 | +15.87 | 0.642 | -37.34 | -47.80 | 61.61 |
-| C best expression per thesis | 86.93 | +15.10 | +5.93 | +14.19 | 0.625 | -33.35 | -42.37 | 51.71 |
-| R FUNDED research stakes | 15.00 | +1.48 | +0.84 | -1.13 | 0.404 | -8.53 | -8.53 | 0.00 |
+| A highest edges (independent) | 150.00 | +24.83 | +6.74 | +23.69 | 0.669 | -44.05 | -64.44 | 52.18 |
+| B thesis-diversified (joint) ← optimiser card | 133.93 | +17.91 | +7.45 | +16.28 | 0.659 | -34.03 | -51.44 | 65.68 |
+| C best expression per thesis | 100.02 | +15.19 | +5.91 | +11.26 | 0.610 | -30.97 | -47.96 | 51.62 |
+| R FUNDED research stakes | 18.00 | +1.16 | +0.63 | +2.11 | 0.628 | -5.29 | -11.53 | 0.00 |
 
 ## LAK @ NYR  ·  10000 joint draws  ·  428 bet sides mapped, 6 +EV candidates, 4 on card
 
-sportsbook moneyline consensus (5 books): home 0.547 / away 0.453
+sportsbook moneyline consensus (5 books): home 0.549 / away 0.451
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -54,7 +54,7 @@ sportsbook moneyline consensus (5 books): home 0.547 / away 0.453
 
 portfolios: A EV +8.90 (adj +2.74) on $50.00, P(profit) 0.5015, adj growth 20.2 bp · B EV +4.22 (adj +1.84) on $36.36, P(profit) 0.5374, adj growth 16.1 bp · C EV +3.74 (adj +1.57) on $30.74, P(profit) 0.4022, adj growth 13.7 bp · R EV +0.26 (adj +0.16) on $5.00, P(profit) 0.7111, adj growth 5.4 bp
 
-## TOR @ CGY  ·  10000 joint draws  ·  452 bet sides mapped, 13 +EV candidates, 4 on card
+## TOR @ CGY  ·  10000 joint draws  ·  452 bet sides mapped, 11 +EV candidates, 4 on card
 
 sportsbook moneyline consensus (5 books): home 0.449 / away 0.551
 
@@ -73,26 +73,26 @@ sportsbook moneyline consensus (5 books): home 0.449 / away 0.551
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Jonathan Castagna: 1+ goals YES | 12 | 0.166 | 0.153 | +0.039 | +0.026 | $6.54 | FUNDED_RESEARCH | $2 | CGY:OFFENSE_4PLUS | FRAGILE (0.26) | EVIDENCE_STRONGER | D |
+| Gavin McKenna: 1+ goals NO | 79 | 0.849 | 0.833 | +0.047 | +0.031 | $20.00 | FUNDED_RESEARCH | $5 | TOR:SUPPRESSED | DIRECT (0.93) | EVIDENCE_STRONGER | D |
+| Jonathan Castagna: 1+ goals YES | 12 | 0.166 | 0.153 | +0.039 | +0.026 | $6.50 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | CGY:OFFENSE_4PLUS | FRAGILE (0.26) | EVIDENCE_STRONGER | D |
 | Teddy Blueger: 1+ goals YES | 12 | 0.160 | 0.142 | +0.032 | +0.015 | $4.42 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | TOR:OFFENSE_4PLUS | FRAGILE (0.25) | EVIDENCE_STRONGER | D |
-| Aydar Suniev: 1+ goals YES | 20 | 0.238 | 0.228 | +0.027 | +0.016 | $4.52 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | CGY:OFFENSE_4PLUS | FRAGILE (0.34) | EVIDENCE_STRONGER | D |
-| Toronto wins by over 2.5 goals NO | 76 | 0.822 | 0.789 | +0.049 | +0.016 | $17.94 | FUNDED_RESEARCH | $5 | CGY:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **Jonathan Castagna: 1+ goals YES** — thesis: CGY offense succeeds (4+ goals); alternative: KXNHLSPREAD-26OCT26TORCGY-TOR3|no; why: higher confidence-adjusted growth (12.97 vs 3.14 bp); despite a smaller raw edge (+0.039 vs +0.049/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26OCT26TORCGY-TORTBLUEGER73-1|yes: MOSTLY_INDEPENDENT (phi -0.011); KXNHLGOAL-26OCT26TORCGY-CGYASUNIEV61-1|yes: MOSTLY_INDEPENDENT (phi -0.0); KXNHLSPREAD-26OCT26TORCGY-TOR3|no: MOSTLY_INDEPENDENT (phi 0.102); failure: CGY offense suppressed (<= 2 goals)
-- **Teddy Blueger: 1+ goals YES** — thesis: TOR offense succeeds (4+ goals); alternative: KXNHLAST-26OCT26TORCGY-TORJMCCABE22-1|yes; why: higher confidence-adjusted growth (4.35 vs 0.00 bp); evidence EVIDENCE_STRONGER vs CALIBRATION_WARNING; alternative not eligible: confidence-adjusted EV <= 0; relationships: KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes: MOSTLY_INDEPENDENT (phi -0.011); KXNHLGOAL-26OCT26TORCGY-CGYASUNIEV61-1|yes: MOSTLY_INDEPENDENT (phi -0.005); KXNHLSPREAD-26OCT26TORCGY-TOR3|no: INTENTIONAL_DIVERSIFIER (phi -0.159); failure: TOR offense suppressed (<= 2 goals)
-- **Aydar Suniev: 1+ goals YES** — thesis: CGY offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes; why: second expression of the same thesis: KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes has the higher standalone adjusted growth (12.97 vs 3.52 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it -0.000); they share one thesis budget; relationships: KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes: MOSTLY_INDEPENDENT (phi -0.0); KXNHLGOAL-26OCT26TORCGY-TORTBLUEGER73-1|yes: MOSTLY_INDEPENDENT (phi -0.005); KXNHLSPREAD-26OCT26TORCGY-TOR3|no: MOSTLY_INDEPENDENT (phi 0.102); failure: CGY offense suppressed (<= 2 goals)
-- **Toronto wins by over 2.5 goals NO** — thesis: CGY wins (incl. OT/SO); alternative: KXNHLTEAMTOTAL-26OCT26TORCGY-TOR2|no; why: Broad expression KXNHLSPREAD-26OCT26TORCGY-TOR3|no selected over player prop KXNHLAST-26OCT26TORCGY-TORAMATTHEWS34-1|no because adjusted EV differs by only 0.8 pts while thesis capture is 1.00 vs 0.80 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity); relationships: KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes: MOSTLY_INDEPENDENT (phi 0.102); KXNHLGOAL-26OCT26TORCGY-TORTBLUEGER73-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.159); KXNHLGOAL-26OCT26TORCGY-CGYASUNIEV61-1|yes: MOSTLY_INDEPENDENT (phi 0.102); failure: TOR wins by 2+
+| Toronto wins by over 2.5 goals NO | 76 | 0.822 | 0.789 | +0.049 | +0.016 | $17.37 | FUNDED_RESEARCH | $5 | CGY:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Gavin McKenna: 1+ goals NO** — thesis: TOR offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT26TORCGY-TORAMATTHEWS34-1|no; why: higher confidence-adjusted growth (13.55 vs 5.03 bp); despite a smaller raw edge (+0.047 vs +0.070/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes: MOSTLY_INDEPENDENT (phi 0.018); KXNHLGOAL-26OCT26TORCGY-TORTBLUEGER73-1|yes: MOSTLY_INDEPENDENT (phi -0.005); KXNHLSPREAD-26OCT26TORCGY-TOR3|no: MOSTLY_INDEPENDENT (phi 0.125); failure: TOR offense succeeds (4+ goals)
+- **Jonathan Castagna: 1+ goals YES** — thesis: CGY offense succeeds (4+ goals); alternative: KXNHLSPREAD-26OCT26TORCGY-TOR3|no; why: higher confidence-adjusted growth (12.97 vs 3.14 bp); despite a smaller raw edge (+0.039 vs +0.049/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26OCT26TORCGY-TORGMCKENNA92-1|no: MOSTLY_INDEPENDENT (phi 0.018); KXNHLGOAL-26OCT26TORCGY-TORTBLUEGER73-1|yes: MOSTLY_INDEPENDENT (phi -0.011); KXNHLSPREAD-26OCT26TORCGY-TOR3|no: MOSTLY_INDEPENDENT (phi 0.102); failure: CGY offense suppressed (<= 2 goals)
+- **Teddy Blueger: 1+ goals YES** — thesis: TOR offense succeeds (4+ goals); alternative: KXNHLAST-26OCT26TORCGY-TORJMCCABE22-1|yes; why: higher confidence-adjusted growth (4.35 vs 0.00 bp); evidence EVIDENCE_STRONGER vs CALIBRATION_WARNING; alternative not eligible: confidence-adjusted EV <= 0; relationships: KXNHLGOAL-26OCT26TORCGY-TORGMCKENNA92-1|no: MOSTLY_INDEPENDENT (phi -0.005); KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes: MOSTLY_INDEPENDENT (phi -0.011); KXNHLSPREAD-26OCT26TORCGY-TOR3|no: INTENTIONAL_DIVERSIFIER (phi -0.159); failure: TOR offense suppressed (<= 2 goals)
+- **Toronto wins by over 2.5 goals NO** — thesis: CGY wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT26TORCGY-TOR2|no; why: Broad expression KXNHLSPREAD-26OCT26TORCGY-TOR3|no selected over player prop KXNHLAST-26OCT26TORCGY-TORAMATTHEWS34-1|no because adjusted EV differs by only 0.8 pts while thesis capture is 1.00 vs 0.80 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity); relationships: KXNHLGOAL-26OCT26TORCGY-TORGMCKENNA92-1|no: MOSTLY_INDEPENDENT (phi 0.125); KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes: MOSTLY_INDEPENDENT (phi 0.102); KXNHLGOAL-26OCT26TORCGY-TORTBLUEGER73-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.159); failure: TOR wins by 2+
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, CGY shot control · normal event (5-7) · decided (2+) 0.09.
 - thesis CGY:OFFENSE_4PLUS (p 0.4013): highest fidelity KXNHLSPREAD-26OCT26TORCGY-TOR3|no [DIRECT], best adjusted EV KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
 - thesis TOR:SUPPRESSED (p 0.3845): highest fidelity KXNHLSPREAD-26OCT26TORCGY-TOR3|no [STRUCTURAL], best adjusted EV KXNHLAST-26OCT26TORCGY-TORAMATTHEWS34-1|no — Broad expression KXNHLSPREAD-26OCT26TORCGY-TOR3|no selected over player prop KXNHLAST-26OCT26TORCGY-TORAMATTHEWS34-1|no because adjusted EV differs by only 0.8 pts while thesis capture is 1.00 vs 0.80 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)
 - thesis TOR:OFFENSE_4PLUS (p 0.3987): highest fidelity KXNHLGOAL-26OCT26TORCGY-TORTBLUEGER73-1|yes [FRAGILE], best adjusted EV KXNHLGOAL-26OCT26TORCGY-TORTBLUEGER73-1|yes (same contract)
-- KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes: FUNDED_RESEARCH; family TRUSTED; loses 74% of the draws where the thesis happens; fragile player expression; opposing: failure thesis CGY:SUPPRESSED (p 0.3761, phi -0.193)
+- KXNHLGOAL-26OCT26TORCGY-TORGMCKENNA92-1|no: FUNDED_RESEARCH; family TRUSTED; loses 7% of the draws where the thesis happens; fragile player expression; opposing: failure thesis TOR:OFFENSE_4PLUS (p 0.3987, phi -0.186)
+- KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 74% of the draws where the thesis happens; fragile player expression; opposing: failure thesis CGY:SUPPRESSED (p 0.3761, phi -0.193)
 - KXNHLGOAL-26OCT26TORCGY-TORTBLUEGER73-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 75% of the draws where the thesis happens; fragile player expression; opposing: failure thesis TOR:SUPPRESSED (p 0.3845, phi -0.192)
-- KXNHLGOAL-26OCT26TORCGY-CGYASUNIEV61-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 66% of the draws where the thesis happens; fragile player expression; opposing: failure thesis CGY:SUPPRESSED (p 0.3761, phi -0.202)
 - KXNHLSPREAD-26OCT26TORCGY-TOR3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis TOR:WINS_BY_2PLUS (p 0.2806, phi -0.745)
 - override: Broad expression KXNHLSPREAD-26OCT26TORCGY-TOR3|no selected over player prop KXNHLAST-26OCT26TORCGY-TORAMATTHEWS34-1|no because adjusted EV differs by only 0.8 pts while thesis capture is 1.00 vs 0.80 (STRUCTURAL vs DIRECT; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)
 
-portfolios: A EV +6.12 (adj +1.38) on $50.00, P(profit) 0.5781, adj growth 10.7 bp · B EV +4.84 (adj +2.57) on $33.42, P(profit) 0.452, adj growth 22.2 bp · C EV +5.56 (adj +2.71) on $25.81, P(profit) 0.4229, adj growth 23.4 bp · R EV +0.93 (adj +0.51) on $7.00, P(profit) 0.1661, adj growth 17.0 bp
+portfolios: A EV +5.72 (adj +1.47) on $50.00, P(profit) 0.536, adj growth 11.1 bp · B EV +5.39 (adj +2.98) on $48.29, P(profit) 0.2899, adj growth 26.3 bp · C EV +5.64 (adj +2.69) on $38.90, P(profit) 0.6668, adj growth 23.3 bp · R EV +0.61 (adj +0.30) on $10.00, P(profit) 0.7149, adj growth 10.9 bp
 
 ## DET @ EDM  ·  10000 joint draws  ·  432 bet sides mapped, 9 +EV candidates, 4 on card
 
