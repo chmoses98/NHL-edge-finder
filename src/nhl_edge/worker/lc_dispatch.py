@@ -181,6 +181,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--ref", default=os.environ.get("GITHUB_REF_NAME", "main"))
     ap.add_argument("--now", default=None)
     ap.add_argument("--github-output", default=None)
+    ap.add_argument("--drill", action="store_true", help="production drill: pretend no run covers the supplied (synthetic) game, so the REAL dispatch path (token, endpoint, workflows) is exercised")
     a = ap.parse_args(argv)
     token = os.environ.get("GITHUB_TOKEN", "")
     if not a.repo or not token:
@@ -188,7 +189,10 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     now = datetime.fromisoformat(a.now.replace("Z", "+00:00")).astimezone(UTC) if a.now else datetime.now(UTC)
     tips = regular_tips_from_schedule([Path(p) for p in a.schedule])
-    disp = LcDispatcher(a.repo, a.ref, token)
+    disp = LcDispatcher(a.repo, a.ref, token, list_fn=(lambda: []) if a.drill else None)
+    if a.drill and a.mode != "dispatch":
+        print("lc_dispatch: --drill needs mode 'dispatch'", file=sys.stderr)
+        return 2
     if a.mode == "dispatch":
         out = disp.step(now, tips)
     else:
@@ -198,6 +202,8 @@ def main(argv: list[str] | None = None) -> int:
         else:
             n, last = count_recent(runs, now)
             out = decide(now, tips, runs, dispatched_today=n, last_dispatch_at=last).as_dict()
+    if a.drill:
+        out["drill"] = True
     print(json.dumps(out, indent=1, default=str))
     if a.github_output:
         with open(a.github_output, "a") as f:

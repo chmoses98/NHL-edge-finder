@@ -133,6 +133,13 @@ def test_source_audit_workflow_is_manual_read_only_and_makes_no_repository_chang
     assert "git push" not in text and "contents: write" not in text
 
 
+def test_dispatch_drill_workflow_is_manual_and_only_needs_the_dispatch_permission():
+    d = _load("lc_dispatch_drill.yml")
+    text = (WF / "lc_dispatch_drill.yml").read_text()
+    assert set(d["on"]) == {"workflow_dispatch"} and d["permissions"] == {"contents": "read", "actions": "write"}
+    assert "--drill" in text and "git push" not in text and "contents: write" not in text
+
+
 def test_lineup_probe_workflow_refuses_without_the_rights_acknowledgement_and_never_stores_raw_bodies():
     d = _load("nhl_lineup_probe.yml")
     text = (WF / "nhl_lineup_probe.yml").read_text()
