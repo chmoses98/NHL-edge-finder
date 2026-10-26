@@ -39,3 +39,6 @@ Reading: (a) **a recalibration of the constants plus the usage term gets essenti
 | WORKLOAD_V1 minutes as the ice-time engine | prospective test `player-minutes-1.0` H1/H2 | No (looks not reached). |
 
 Draft of the constants change (not applied): `team_min = {"ev": 50.6, "pp": 5.14 × p_pp / 0.215, "sh": 5.14 × opp_p_pp / 0.215, "ea": 0.54, "en": 2.98, "ot": …}` with the OT state re-derived from the player frames (the fitted OT factor of ~3.3 says the share×1.2 convention under-counts OT time and is internally inconsistent with the other states); the factors above are the walk-forward estimates, so any final values should come from a registered fit on seasons through 2025.
+
+---
+**Erratum (2026-10-26, see `docs/research/team_minutes/RECALIBRATION.md` §1).** Finding F1 quotes league team minutes EA 0.54, EN 2.98 and total 64.4. Those three figures are artefacts of the recorded team-state seconds of overtime games, which are padded to a 20:00 overtime grid (80:00 recorded) with the last state held to the end. Regulation games give EA = EN = 0.58 and a total of exactly 60:00. The 14% PP/SH finding and the per-state factors (which use player ice time) are unaffected. This document and `propagation_trace.json` are otherwise left as published.

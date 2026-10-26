@@ -187,8 +187,16 @@ def test_starter_heuristic_uses_only_earlier_games():
 
 
 def test_production_team_minutes_match_the_shadow_workflow_verbatim():
+    """The research replica of the published template (used to rebuild the historical champion frames) equals the template the workflow publishes. The literal now lives in
+    ``players.team_minutes.legacy`` (the registry's default allocation); the workflow must still take its published minutes from it."""
+    from nhl_edge.players import team_minutes as TMV
+
     src = (SRC / "workflows" / "shadow_player.py").read_text()
-    assert 'team_min = {"ev": 50.6, "pp": 4.4 * p_pp / 0.215, "sh": 4.4, "ea": 0.6, "en": 0.6, "ot": 1.2}' in src
+    assert "tm_legacy = TMV.legacy(p_pp)" in src and "team_min, tm_cand, tm_fb = tm_legacy, None, False" in src
+    tm_src = (SRC / "players" / "team_minutes.py").read_text()
+    assert "LEGACY_LEAGUE_P_PP = 0.215" in tm_src and 'return {"ev": 50.6, "pp": 4.4 * p_pp / LEGACY_LEAGUE_P_PP, "sh": 4.4, "ea": 0.6, "en": 0.6, "ot": 1.2}' in tm_src
+    for p in (0.05, 0.215, 0.3, 0.45):
+        assert A.production_team_minutes(p) == TMV.legacy(p)
     assert A.production_team_minutes(0.215) == {"ev": 50.6, "pp": 4.4, "sh": 4.4, "ea": 0.6, "en": 0.6, "ot": 1.2}
 
 

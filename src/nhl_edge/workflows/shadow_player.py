@@ -35,6 +35,7 @@ from nhl_edge.data.lines import is_confirmed_source
 from nhl_edge.data.player_history import load_player_tables
 from nhl_edge.log import get_logger, kv
 from nhl_edge.players import PLAYER_ANCHORED_VERSION, PLAYER_FEATURE_VERSION, PLAYER_MODEL_VERSION, PLAYER_SIM_VERSION
+from nhl_edge.players import team_minutes as TMV
 from nhl_edge.players import xg as X
 from nhl_edge.players.engine import StrengthTable, invariant_violations, simulate_players
 from nhl_edge.players.features import (
@@ -192,6 +193,46 @@ def _anchored(p: float | None, m: float | None, w: float = ANCHOR_WEIGHT) -> flo
     return float(1 / (1 + np.exp(-(w * lg(m) + (1 - w) * lg(p)))))
 
 
+def resolve_team_minutes() -> tuple[str, TMV.AllocationParams | None, str | None]:
+    """(allocation that drives the PUBLISHED ice-time / shots fields, candidate parameters or None, why the published one is the legacy default despite a request).
+
+    The registry decides (``player_team_minutes``; a non-default needs a complete approval record). Parameters that cannot be loaded never stop a run: the legacy template is used
+    and the reason is recorded."""
+    from nhl_edge import projection_registry
+
+    published, why = projection_registry.published_team_minutes()
+    try:
+        prm = TMV.load_params()
+    except Exception as e:  # noqa: BLE001 - a missing / corrupt parameter file means "legacy", never a failed run
+        prm = None
+        if published != TMV.LEGACY_VERSION:
+            published, why = TMV.LEGACY_VERSION, f"candidate parameters unavailable ({type(e).__name__}: {str(e)[:120]}); legacy template used"
+    return published, prm, why
+
+
+_TM_COLUMNS = ("toi", "ev", "pp", "sh", "ea", "en", "ot", "sog")
+
+
+def tm_shadow_rows(gi: Any, side: str, rb: Any, book: Any, tm_legacy: dict[str, float], tm_cand: dict[str, float], fallback: bool, published: str, prm: TMV.AllocationParams,
+                   now_iso: str, minutes: Any, horizon: Any, run_id: str) -> list[dict[str, Any]]:
+    """One row per dressed skater: BOTH allocations' published-field equivalents computed from the same shares at the same instant (an additive archive kind; never published)."""
+    ro = rb.roster
+    rows = []
+    for i, pid in enumerate(ro.player_ids):
+        pid = int(pid)
+        m, pr = rb.player_meta[pid], rb.profiles[pid]
+        a, c = TMV.project_player(m["share"], pr, book.priors, tm_legacy), TMV.project_player(m["share"], pr, book.priors, tm_cand)
+        row: dict[str, Any] = {"game_id": str(gi.game_id), "side": side, "team": ro.abbrev, "team_id": int(ro.team_id), "player_id": pid, "name": ro.names[i], "pos": ro.pos[i],
+                               "predicted_at_utc": now_iso, "minutes_to_start": minutes, "horizon_label": horizon, "pregame": (minutes or 0) > 0, "run_id": run_id,
+                               "published_allocation": published, "candidate_version": prm.version, "candidate_fingerprint": prm.fingerprint(), "clock_fallback": bool(fallback),
+                               "projection_quality": m["projection_quality"], "deployment_source": m["deployment_source"], "role": "SHADOW", "authority": AUTHORITY}
+        row.update({f"share_{s}": round(float(m["share"][s]), 6) for s in TMV.STATES})
+        row.update({f"legacy_{k}": round(float(a[k]), 4) for k in _TM_COLUMNS} | {f"cand_{k}": round(float(c[k]), 4) for k in _TM_COLUMNS})
+        row.update({f"legacy_team_{s}": round(float(tm_legacy[s]), 4) for s in TMV.STATES} | {f"cand_team_{s}": round(float(tm_cand[s]), 4) for s in TMV.STATES})
+        rows.append(row)
+    return rows
+
+
 def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any]], data_root: Path, now: datetime, market_ts: datetime | None, run_id: str,
                       rosters: list[dict[str, Any]], lines: list[dict[str, Any]], injuries: list[dict[str, Any]], live: dict[str, list[dict[str, Any]]],
                       fee_for: Any, goalie_states: dict[str, dict[str, Any]] | None = None, n_sims: int = 10000) -> dict[str, Any]:
@@ -200,6 +241,9 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
 
     rt = load_runtime(data_root, live)
     sp = load_params()
+    tm_published, tm_prm, tm_why = resolve_team_minutes()
+    tm_rows: list[dict[str, Any]] = []
+    tm_errors: list[str] = []
     lam_by_game = {str(b["game_id"]): b for b in v2_blocks or []}
     rows_all: list[dict[str, Any]] = []
     blocks: list[dict[str, Any]] = []
@@ -227,13 +271,30 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
             ev, pp, sh = comp.get(f"ev_{side}"), comp.get(f"pp_{side}"), comp.get(f"sh_{side}")
             p_pp = float(pp / (ev + pp + sh)) if ev and pp is not None and sh is not None and (ev + pp + sh) > 0 else 0.215
             p_sh = float(sh / (ev + pp + sh)) if ev and pp is not None and sh is not None and (ev + pp + sh) > 0 else 0.028
-            team_min = {"ev": 50.6, "pp": 4.4 * p_pp / 0.215, "sh": 4.4, "ea": 0.6, "en": 0.6, "ot": 1.2}
+            tm_legacy = TMV.legacy(p_pp)
+            team_min, tm_cand, tm_fb = tm_legacy, None, False
+            if tm_prm is not None:                                  # the candidate allocation is computed beside the published one; a failure here never touches the run
+                try:
+                    opp_side = "away" if side == "home" else "home"
+                    tm_cand = TMV.allocate(comp.get(f"ppmin_{side}"), comp.get(f"ppmin_{opp_side}"), tm_prm)
+                    tm_fb = bool(TMV.clock(comp.get(f"ppmin_{side}"), comp.get(f"ppmin_{opp_side}"), tm_prm)["fallback"])
+                    if tm_published == TMV.CANDIDATE_VERSION:
+                        team_min = tm_cand
+                except Exception as e:  # noqa: BLE001
+                    tm_cand = None
+                    tm_errors.append(f"{gid}|{side}: {type(e).__name__}: {str(e)[:100]}")
             pids = [p["player_id"] for p in dressed]
             F = coice_fractions(rt.coice, int(tid), di, pids, rt.toi_games)
             G = goal_copresence(rt.goals, int(tid), di, pids) if rt.book.params.k_goal_copresence >= 0 else None
             rb = build_roster(rt.book, int(tid), ab, di, dressed, F, p_pp, p_sh, team_min, season=int(str(gi.game_date_et)[:4]) - (1 if int(str(gi.game_date_et)[5:7]) < 7 else 0),
                               deployment=dep, G_goal=G)
-            teams[side] = {"rb": rb, "notes": notes, "goalies": goalies, "dep": dep}
+            teams[side] = {"rb": rb, "notes": notes, "goalies": goalies, "dep": dep, "tm_legacy": tm_legacy,
+                           "tm_used": TMV.CANDIDATE_VERSION if (tm_cand is not None and team_min is tm_cand) else TMV.LEGACY_VERSION}
+            if tm_cand is not None:
+                try:
+                    tm_rows.extend(tm_shadow_rows(gi, side, rb, rt.book, tm_legacy, tm_cand, tm_fb, tm_published, tm_prm, iso(now), it.get("minutes"), it.get("horizon"), run_id))
+                except Exception as e:  # noqa: BLE001
+                    tm_errors.append(f"{gid}|{side}: rows {type(e).__name__}: {str(e)[:100]}")
         seed = int(it["seed"]) ^ 0x5F3759DF  # the V2 shadow's seed: identical team outcomes
         res = simulate_game_v2(TeamParams(gi.home_team_id, gi.home_abbrev, float(b["v2"]["lam_home"])), TeamParams(gi.away_team_id, gi.away_abbrev, float(b["v2"]["lam_away"])),
                                seed=seed, n_sims=n_sims, params=sp, record_steps=True)
@@ -284,6 +345,10 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
                         "projection_quality": pm.get("projection_quality"),
                         "role_confidence": pm.get("role_confidence"), "uncertainty_flags": pm.get("uncertainty_flags"), "ev_slot": pm.get("ev_slot"),
                         "pp_unit": pm.get("pp_unit"), "deployment_source": pm.get("deployment_source"), "n_games_history": pm.get("n_games")}
+                if teams[side]["tm_used"] != TMV.LEGACY_VERSION:
+                    # additive, ONLY where a non-default allocation drove the published number: the legacy-equivalent minutes keep the prospective player-minutes comparators on the incumbent they were registered against
+                    leg = TMV.project_player(pm["share"], teams[side]["rb"].profiles[int(pid)], rt.book.priors, teams[side]["tm_legacy"])
+                    meta.update({"team_minutes_version": teams[side]["tm_used"], "expected_toi_min_legacy": round(leg["toi"], 2), "expected_pp_toi_min_legacy": round(leg["pp"], 2)})
                 if pr.p is not None:
                     x = {"goals": d.goals[:, i], "assists": d.assists[:, i], "points": d.points[:, i]}.get(PLAYER_FAMILIES[c.family])
                     if x is not None and c.threshold is not None:
@@ -363,7 +428,9 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
             gid = str(getattr(it.get("gi"), "game_id", "?"))
             log.warning(kv(event="player_shadow_game_failed", game=gid, err=str(e)[:200]))
             blocks.append({"game_id": gid, "error": f"{type(e).__name__}: {str(e)[:200]}"})
-    return {"rows": rows_all, "blocks": blocks, "context": rt.sources, "distributions": dists, "distribution_errors": dist_errors}
+    return {"rows": rows_all, "blocks": blocks, "context": rt.sources, "distributions": dists, "distribution_errors": dist_errors,
+            "tm_shadow": tm_rows, "tm_info": {"published_allocation": tm_published, "default_reason": tm_why, "candidate_available": tm_prm is not None, "errors": tm_errors[:10],
+                                              "n_errors": len(tm_errors), "candidate_fingerprint": tm_prm.fingerprint() if tm_prm else None}}
 
 
 def markdown(blocks: list[dict[str, Any]], rows: list[dict[str, Any]], note: str | None = None, per_game: int = 6) -> str:

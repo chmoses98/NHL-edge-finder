@@ -92,6 +92,14 @@ def read_inputs(archive: Path, now: datetime) -> dict[str, Any]:
     return out
 
 
+def _incumbent_minutes(r: dict[str, Any]) -> tuple[float, float | None]:
+    """(total, power-play) minutes of the INCUMBENT allocation in a ``predictions_player`` row. When a different team-minute allocation is published the row carries the legacy-equivalent
+    ``*_legacy`` fields, so the registered comparators stay on the incumbent they were registered against; without them (the default) the published fields are the incumbent."""
+    toi = r.get("meta_expected_toi_min_legacy", r["meta_expected_toi_min"])
+    pp = r.get("meta_expected_pp_toi_min_legacy", r.get("meta_expected_pp_toi_min"))
+    return float(toi), None if pp is None else float(pp)
+
+
 def incumbent_capture(archive: Path, now: datetime, game_ids: set[int]) -> dict[tuple[int, int], dict[str, Any]]:
     """PLAYER_SIM_V1's expected total / power-play minutes for (game, player), from its own immutable ``predictions_player`` rows archived at or before ``now`` (the newest one).
     Only players the production engine priced have one; the others simply have no value (never imputed)."""
@@ -110,7 +118,8 @@ def incumbent_capture(archive: Path, now: datetime, game_ids: set[int]) -> dict[
             continue
         cur = best.get((gid, pid))
         if cur is None or parse_iso(at) > parse_iso(cur["at"]):
-            best[(gid, pid)] = {"toi_min": float(r["meta_expected_toi_min"]), "pp_min": None if r.get("meta_expected_pp_toi_min") is None else float(r["meta_expected_pp_toi_min"]), "at": at}
+            toi, pp = _incumbent_minutes(r)
+            best[(gid, pid)] = {"toi_min": toi, "pp_min": pp, "at": at}
     return best
 
 
@@ -287,7 +296,8 @@ def incumbent_last_predrop(archive: Path, starts: dict[int, str], now: datetime)
             continue
         cur = best.get((gid, pid))
         if cur is None or t_at > parse_iso(cur["at"]):
-            best[(gid, pid)] = {"toi_min": float(r["meta_expected_toi_min"]), "pp_min": None if r.get("meta_expected_pp_toi_min") is None else float(r["meta_expected_pp_toi_min"]), "at": at}
+            toi, pp = _incumbent_minutes(r)
+            best[(gid, pid)] = {"toi_min": toi, "pp_min": pp, "at": at}
     return best
 
 

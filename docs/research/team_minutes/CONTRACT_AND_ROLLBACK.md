@@ -1,0 +1,35 @@
+# Contract compatibility, determinism, runtime, fallback and rollback of the team-minute change
+
+RESEARCH_ONLY. Every statement below is backed by a test in `tests/test_team_minutes.py` or by a replay of a real production instant (see SHADOW_CURRENT_GAMES.md for the replay method); the replay numbers were produced on 2026-10-26 with `/tmp` scripts whose logic is the same as the tests'.
+
+## 1. What this change does when merged (shadow only; published numbers unchanged)
+| surface | at the default (`team-minutes-0` published) |
+|---|---|
+| `slate.json`, `packet.json`, `slate.md` | **byte-identical** to `main` on a full replay of a real instant (2026-10-24T16:14:03Z, 12 games): SHA-256 of the normalised documents equal (slate `228142a882bfbea6`, packet `5dd0f6133726b136`, `slate.md` identical). The only textual difference between two replay *directories* is a temp-path inside an unrelated `thesis_card.error` string. |
+| archive kinds `predictions` (V1), `predictions_v2` (V2), `predictions_player` | identical rows (2,687 / 2,687 / 2,075 rows; hashes equal to `main`). No key is added to any published row at the default. |
+| new archive kind `player_tm_shadow` | **added**: one row per dressed skater per run with both allocations' published-field equivalents (`legacy_*`, `cand_*`), the shares, the team minutes, the candidate fingerprint and `published_allocation`. Role `SHADOW`, authority `RESEARCH_ONLY`. Derived model output only (no third-party page body). Not read by any published document, price, gate, stake, cap or route. |
+| runtime | whole-slate replay 36.4 s with the change vs 36.6 s on `main` (12 games, 300 sims): the added work is one multiply-add per player-state. Not measurable. |
+| failure behaviour | the allocation and the row construction are inside `try/except`; a failure records an error count and changes nothing published (tested by making `allocate` raise: published rows, V1 and V2 identical; shadow rows absent). A missing/corrupt parameter file selects the legacy template with the reason recorded. |
+
+## 2. What changes if the owner activates (registry approval)
+Measured on the same 12-game replay with an approved registry (2,075 contract rows):
+
+* **Existing fields whose values change** (and nothing else): `meta_expected_toi_min` (1,984 rows), `meta_expected_pp_toi_min` (1,982), `meta_expected_shots` (1,887), `meta_toi_p10_p50_p90_min` (1,972); in the slate/packet `player_shadow.blocks[].top_players[].exp_toi_min` and `exp_pp_toi_min`; the thesis layer's `expected_toi_min` evidence value (same numbers). Its only consumer is the `RAW_ROLE_USAGE` note, which compares the projected minutes with 18.0: the status of that check is hard-coded `NEUTRAL`, its authority is WEAK and `corroboration_summary` never counts it, so no gate, decision, stake, cap or route can change; only the wording "consistent with / opposes" of that descriptive note can differ for a player whose projection crosses 18.0 min (the candidate adds about +2% to total minutes, so that is a handful of players per slate).
+* **Fields added, only on rows whose minutes the candidate actually drove:** `meta_team_minutes_version`, `meta_expected_toi_min_legacy`, `meta_expected_pp_toi_min_legacy` (1,988 rows). The slate gains no new top-level key except the existing `projection_registry` note when the registry is unreadable.
+* **Fields removed: none. Type changes: none** (floats stay floats; lists stay 3-element lists). Non-finite values: none. `p10 <= p50 <= p90` holds on every row.
+* **Unchanged to the last bit:** V1 (`predictions`), V2 (`predictions_v2`); in `predictions_player`: `p_player`, `p_player_se`, `p_market_anchored`, `player_minus_market`, all four edge fields, `meta_expected_goals`, `meta_expected_assists`, `meta_expected_points`, saves/goalie fields. Goals, assists and points are computed from shares and rates; the team-minute dictionary is read in exactly one place (`build_roster`'s `exp_toi`), and a test builds the same roster under two allocations and asserts the scorer weights, assist weights, co-ice matrices, TOI noise and exit probabilities are equal (`test_project_player_equals_build_roster_for_any_team_minute_dict`); a second test runs the full RUN NHL path under both allocations and asserts every price/goal/assist/point/save field is equal.
+* **Shot distributions.** The only shots quantity downstream of the minutes is `meta_expected_shots` (a mean). No priced contract, ladder or distribution reads it; the separate shots-count pmf work (WORKLOAD_V1_LC) has its own inputs and is untouched.
+
+## 3. Determinism and no duplicates
+* The allocation is a pure function of two numbers and a fingerprinted parameter file (`allocate(a, b)` called twice and via a reloaded file gives equal dicts; two full runs give equal `predictions_player` and `player_tm_shadow` rows).
+* The replay of 10 real production instants reproduced production's archived published rows in every model quantity (531,348 field comparisons, 0 differences; SHADOW_CURRENT_GAMES.md).
+* One shadow row per (game, player) per run (asserted); `predictions_player` row counts and keys are unchanged at the default and when activated (2,075 rows both).
+
+## 4. The prospective evaluations are not disturbed
+* `player-minutes-1.0` (H1/H2/H3 and the supplementary H2) reads the incumbent's expected minutes from `predictions_player`. If a different allocation were published, those rows would silently change meaning. To prevent that, the published rows carry `*_legacy` minutes **whenever** the candidate drives a row, and the comparators read `*_legacy` when present (`player_minutes_shadow._incumbent_minutes`). At the default nothing is added and the code path returns exactly the old values (tested), so the frozen registration, the frozen comparator definition and the evaluation populations are unchanged before and after activation.
+* WORKLOAD_V1, WORKLOAD_V1_LC, the last-three-games usage term and V2 overtime are not read or written by this change.
+
+## 5. Rollback
+* **One step, one value:** set `targets.player_team_minutes.published_model` back to `"team-minutes-0"` in `data/registry/projection-registry.json` (the approval block can stay or be nulled). The next run publishes the template again; nothing else needs to change (tested: `test_rollback_is_one_value_in_one_file`).
+* **Automatic fallbacks (no human needed):** no approval record -> template; approval but unreadable parameters -> template (reason recorded); approval but the candidate fails for a game -> template for that game and no `_legacy`/version fields on its rows.
+* **Code rollback:** reverting the merge commit removes the module, the registry target and the shadow kind; archived `player_tm_shadow` rows are additive history and are simply no longer produced.
