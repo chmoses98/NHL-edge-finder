@@ -62,9 +62,15 @@ def test_an_offset_that_is_already_late_is_skipped_not_polled_retroactively(tmp_
     assert {r["offset_min"] for r in rows if r["endpoint"] == "skipped_late"} == {120, 90, 75, 60}           # the gap is visible in the data, not only in the log
 
 
-def test_raw_bodies_are_stored_only_when_the_content_changes_and_files_are_write_once(tmp_path):
+def test_raw_bodies_are_not_stored_by_default(tmp_path):
     clock, log = Clock(START - timedelta(minutes=140)), []
     P.watch(tmp_path, "2026-10-25", get=make_get(clock, log), now_fn=clock.now, sleep_fn=clock.sleep, tick_s=30)
+    assert not (tmp_path / "raw").exists() and P.load_obs(tmp_path)
+
+
+def test_raw_bodies_are_stored_only_when_the_content_changes_and_files_are_write_once(tmp_path):
+    clock, log = Clock(START - timedelta(minutes=140)), []
+    P.watch(tmp_path, "2026-10-25", get=make_get(clock, log), now_fn=clock.now, sleep_fn=clock.sleep, tick_s=30, store_raw=True)
     import gzip
     raws = []
     for f in sorted((tmp_path / "raw").rglob("*.jsonl.gz")):

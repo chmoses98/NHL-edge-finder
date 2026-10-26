@@ -131,3 +131,11 @@ def test_source_audit_workflow_is_manual_read_only_and_makes_no_repository_chang
     text = (WF / "source_audit.yml").read_text()
     assert set(d["on"]) == {"workflow_dispatch"} and d["permissions"] == {"contents": "read"}
     assert "git push" not in text and "contents: write" not in text
+
+
+def test_lineup_probe_workflow_refuses_without_the_rights_acknowledgement_and_never_stores_raw_bodies():
+    d = _load("nhl_lineup_probe.yml")
+    text = (WF / "nhl_lineup_probe.yml").read_text()
+    assert d["on"]["workflow_dispatch"]["inputs"]["nhl_rights_ack"]["required"] is True and "written-permission-received" in text
+    steps = d["jobs"]["probe"]["steps"]
+    assert "Rights gate" in steps[0]["name"] and "--store-raw" not in text

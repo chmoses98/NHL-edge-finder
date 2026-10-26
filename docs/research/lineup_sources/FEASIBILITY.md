@@ -1,5 +1,7 @@
 # Pregame lineup and role sources: feasibility study
 
+> Update 2026-10-26: raw DailyFaceoff page archiving mentioned below has been stopped; see `DFO_RIGHTS_PLAN.md` and `NHL_API_TERMS.md`.
+
 > RESEARCH_ONLY. Written 2026-10-24. No repository code, workflow or archive was changed and no source was fetched at scale.
 > **Verification limits (read first).** This session's egress policy blocked every host except GitHub (a direct `curl` to dailyfaceoff.com returned proxy 403, and WebFetch returned `ENOTFOUND` for nhl.com, dailyfaceoff.com, rotowire.com, sportsdata.io, sportradar.com, mysportsfeeds.com and api-sports.io). I did not bypass this. Vendor and terms facts below therefore come from **WebSearch result summaries and GitHub pages, read 2026-10-24**, not from the primary pages. Items marked **[unverified]** must be checked by a person in a browser before anything is built or paid for. The lead-time numbers for the NHL feeds are untested here, because no live API call was possible.
 
