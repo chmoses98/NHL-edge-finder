@@ -1,6 +1,6 @@
 # NHL slate 2026-10-26 — RESEARCH_ONLY
 
-generated 2026-10-26T09:19:50Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-26T10:17:40Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 3 · simulated (not started): 3 · markets on board: 2370 · contracts joined: 153 (unjoined to any game: 1538)
 gates: {'UNSUPPORTED': 78, 'OK': 44, 'NO_EDGE': 31}
@@ -18,17 +18,16 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
 | KXNHLGAME-26OCT26TORCGY-TOR | game_winner | 0.467 | 0.585 | 0.562 | 59 | 42 | no | +0.096 | OK |
 | KXNHLSPREAD-26OCT26TORCGY-TOR2 | game_spread | 0.263 | 0.375 | 0.351 | 38 | 63 | no | +0.090 | OK |
-| KXNHLTEAMTOTAL-26OCT26TORCGY-TOR4 | team_total | 0.384 | 0.505 | 0.480 | 52 | 51 | no | +0.088 | OK |
+| KXNHLTEAMTOTAL-26OCT26TORCGY-TOR4 | team_total | 0.384 | 0.495 | 0.472 | 50 | 51 | no | +0.088 | OK |
 | KXNHLTEAMTOTAL-26OCT26TORCGY-TOR3 | team_total | 0.599 | 0.710 | 0.689 | 72 | 30 | no | +0.086 | OK |
 | KXNHLGAME-26OCT26TORCGY-CGY | game_winner | 0.533 | 0.425 | 0.446 | 43 | 58 | yes | +0.086 | OK |
 | KXNHLSPREAD-26OCT26TORCGY-TOR3 | game_spread | 0.155 | 0.255 | 0.232 | 26 | 75 | no | +0.082 | OK |
 | KXNHLSPREAD-26OCT26TORCGY-CGY2 | game_spread | 0.319 | 0.235 | 0.250 | 24 | 77 | yes | +0.066 | OK |
 | KXNHLTEAMTOTAL-26OCT26TORCGY-TOR5 | team_total | 0.210 | 0.305 | 0.284 | 32 | 71 | no | +0.066 | OK |
 | KXNHLTEAMTOTAL-26OCT26TORCGY-TOR2 | team_total | 0.808 | 0.875 | 0.863 | 88 | 13 | no | +0.054 | OK |
-| KXNHLTEAMTOTAL-26OCT26TORCGY-CGY4 | team_total | 0.439 | 0.375 | 0.387 | 38 | 63 | yes | +0.042 | OK |
 | KXNHLSPREAD-26OCT26TORCGY-CGY3 | game_spread | 0.198 | 0.145 | 0.155 | 15 | 86 | yes | +0.039 | OK |
 | KXNHLSPREAD-26OCT26LANYR-LA3 | game_spread | 0.104 | 0.145 | 0.136 | 15 | 86 | no | +0.028 | OK |
-| KXNHLTEAMTOTAL-26OCT26DETEDM-EDM4 | team_total | 0.495 | 0.550 | 0.539 | 56 | 46 | no | +0.028 | OK |
+| KXNHLTEAMTOTAL-26OCT26DETEDM-EDM4 | team_total | 0.495 | 0.545 | 0.535 | 55 | 46 | no | +0.028 | OK |
 | KXNHLTEAMTOTAL-26OCT26LANYR-LA3 | team_total | 0.496 | 0.555 | 0.543 | 57 | 46 | no | +0.027 | OK |
 | KXNHLSPREAD-26OCT26LANYR-NYR2 | game_spread | 0.382 | 0.330 | 0.340 | 34 | 68 | yes | +0.026 | OK |
 | KXNHLTEAMTOTAL-26OCT26TORCGY-TOR6 | team_total | 0.096 | 0.145 | 0.134 | 16 | 87 | no | +0.026 | OK |
@@ -37,23 +36,24 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLSPREAD-26OCT26LANYR-LA2 | game_spread | 0.194 | 0.235 | 0.226 | 24 | 77 | no | +0.024 | OK |
 | KXNHLGAME-26OCT26LANYR-LA | game_winner | 0.389 | 0.440 | 0.430 | 45 | 57 | no | +0.024 | OK |
 | KXNHLGAME-26OCT26LANYR-NYR | game_winner | 0.611 | 0.565 | 0.574 | 57 | 44 | yes | +0.024 | OK |
+| KXNHLTEAMTOTAL-26OCT26TORCGY-CGY3 | team_total | 0.650 | 0.600 | 0.610 | 61 | 41 | yes | +0.023 | OK |
 | KXNHLTOTAL-26OCT26TORCGY-5 | game_total | 0.797 | 0.835 | 0.828 | 84 | 17 | no | +0.023 | OK |
 | KXNHLTEAMTOTAL-26OCT26LANYR-LA2 | team_total | 0.735 | 0.785 | 0.776 | 80 | 23 | no | +0.023 | OK |
 | KXNHLTEAMTOTAL-26OCT26LANYR-LA4 | team_total | 0.282 | 0.330 | 0.320 | 34 | 68 | no | +0.022 | OK |
+| KXNHLTEAMTOTAL-26OCT26TORCGY-CGY4 | team_total | 0.439 | 0.385 | 0.396 | 40 | 63 | yes | +0.022 | OK |
 | KXNHLTOTAL-26OCT26TORCGY-4 | game_total | 0.872 | 0.905 | 0.899 | 91 | 10 | no | +0.021 | OK |
 | KXNHLTOTAL-26OCT26TORCGY-7 | game_total | 0.484 | 0.525 | 0.517 | 53 | 48 | no | +0.018 | OK |
+| KXNHLTEAMTOTAL-26OCT26DETEDM-EDM2 | team_total | 0.866 | 0.900 | 0.894 | 91 | 11 | no | +0.017 | OK |
 | KXNHLTOTAL-26OCT26TORCGY-6 | game_total | 0.597 | 0.640 | 0.632 | 65 | 37 | no | +0.017 | OK |
 | KXNHLSPREAD-26OCT26DETEDM-EDM3 | game_spread | 0.250 | 0.285 | 0.278 | 29 | 72 | no | +0.016 | OK |
 | KXNHLTEAMTOTAL-26OCT26TORCGY-CGY2 | team_total | 0.836 | 0.805 | 0.812 | 81 | 20 | yes | +0.016 | OK |
-| KXNHLTOTAL-26OCT26TORCGY-8 | game_total | 0.290 | 0.325 | 0.318 | 33 | 68 | no | +0.015 | OK |
 | KXNHLTEAMTOTAL-26OCT26DETEDM-EDM5 | team_total | 0.291 | 0.335 | 0.326 | 35 | 68 | no | +0.014 | OK |
-| KXNHLTEAMTOTAL-26OCT26TORCGY-CGY3 | team_total | 0.650 | 0.605 | 0.614 | 62 | 41 | yes | +0.013 | OK |
 | KXNHLTOTAL-26OCT26DETEDM-7 | game_total | 0.492 | 0.525 | 0.518 | 53 | 48 | no | +0.011 | OK |
 | KXNHLTOTAL-26OCT26DETEDM-4 | game_total | 0.873 | 0.900 | 0.895 | 91 | 11 | no | +0.010 | OK |
 | KXNHLTEAMTOTAL-26OCT26TORCGY-CGY6 | team_total | 0.113 | 0.090 | 0.094 | 10 | 92 | yes | +0.007 | OK |
-| KXNHLTEAMTOTAL-26OCT26DETEDM-EDM2 | team_total | 0.866 | 0.895 | 0.890 | 91 | 12 | no | +0.007 | OK |
 | KXNHLTEAMTOTAL-26OCT26LANYR-LA5 | team_total | 0.135 | 0.165 | 0.159 | 18 | 85 | no | +0.006 | OK |
 | KXNHLTEAMTOTAL-26OCT26LANYR-NYR2 | team_total | 0.845 | 0.825 | 0.829 | 83 | 18 | yes | +0.006 | OK |
+| KXNHLTOTAL-26OCT26TORCGY-8 | game_total | 0.290 | 0.320 | 0.314 | 33 | 69 | no | +0.005 | OK |
 | KXNHLTEAMTOTAL-26OCT26DETEDM-EDM6 | team_total | 0.146 | 0.170 | 0.165 | 18 | 84 | no | +0.004 | OK |
 | KXNHLTEAMTOTAL-26OCT26DETEDM-EDM3 | team_total | 0.702 | 0.735 | 0.729 | 75 | 28 | no | +0.004 | OK |
 | KXNHLTOTAL-26OCT26TORCGY-10 | game_total | 0.099 | 0.115 | 0.112 | 12 | 89 | no | +0.004 | OK |
@@ -67,9 +67,8 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLTOTAL-26OCT26TORCGY-2 | game_total | 0.987 | 0.985 | 0.985 | 99 | 2 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-2 | game_total | 0.982 | 0.985 | 0.984 | 99 | 2 |  | -0.004 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT26LANYR-NYR6 | team_total | 0.113 | 0.100 | 0.103 | 11 | 91 |  | -0.004 | NO_EDGE |
-| KXNHLTOTAL-26OCT26DETEDM-8 | game_total | 0.299 | 0.320 | 0.316 | 33 | 69 |  | -0.004 | NO_EDGE |
+| KXNHLTOTAL-26OCT26DETEDM-8 | game_total | 0.299 | 0.315 | 0.312 | 32 | 69 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26OCT26DETEDM-2 | game_total | 0.986 | 0.985 | 0.985 | 99 | 2 |  | -0.005 | NO_EDGE |
-| KXNHLTOTAL-26OCT26LANYR-9 | game_total | 0.156 | 0.165 | 0.163 | 17 | 84 |  | -0.005 | NO_EDGE |
 | KXNHLSPREAD-26OCT26DETEDM-EDM2 | game_spread | 0.389 | 0.405 | 0.402 | 41 | 60 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-10 | game_total | 0.069 | 0.065 | 0.066 | 7 | 94 |  | -0.006 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-4 | game_total | 0.836 | 0.845 | 0.843 | 85 | 16 |  | -0.006 | NO_EDGE |
@@ -82,20 +81,21 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLTOTAL-26OCT26DETEDM-10 | game_total | 0.103 | 0.110 | 0.109 | 12 | 90 |  | -0.009 | NO_EDGE |
 | KXNHLSPREAD-26OCT26DETEDM-DET3 | game_spread | 0.112 | 0.115 | 0.114 | 12 | 89 |  | -0.009 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-5 | game_total | 0.746 | 0.755 | 0.753 | 76 | 25 |  | -0.009 | NO_EDGE |
-| KXNHLTOTAL-26OCT26LANYR-7 | game_total | 0.413 | 0.425 | 0.423 | 43 | 58 |  | -0.010 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-3 | game_total | 0.958 | 0.960 | 0.960 | 97 | 5 |  | -0.011 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-8 | game_total | 0.229 | 0.235 | 0.234 | 24 | 77 |  | -0.012 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT26DETEDM-DET5 | team_total | 0.173 | 0.180 | 0.179 | 19 | 83 |  | -0.013 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT26DETEDM-DET6 | team_total | 0.072 | 0.070 | 0.070 | 8 | 94 |  | -0.013 | NO_EDGE |
 | KXNHLTOTAL-26OCT26LANYR-6 | game_total | 0.527 | 0.535 | 0.533 | 54 | 47 |  | -0.014 | NO_EDGE |
+| KXNHLTOTAL-26OCT26LANYR-9 | game_total | 0.156 | 0.160 | 0.159 | 17 | 85 |  | -0.015 | NO_EDGE |
 | KXNHLGAME-26OCT26DETEDM-DET | game_winner | 0.391 | 0.385 | 0.386 | 39 | 62 |  | -0.015 | NO_EDGE |
 | KXNHLGAME-26OCT26DETEDM-EDM | game_winner | 0.609 | 0.615 | 0.614 | 62 | 39 |  | -0.015 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT26DETEDM-DET3 | team_total | 0.551 | 0.560 | 0.558 | 57 | 45 |  | -0.018 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT26DETEDM-DET3 | team_total | 0.551 | 0.565 | 0.562 | 58 | 45 |  | -0.018 | NO_EDGE |
+| KXNHLTOTAL-26OCT26LANYR-7 | game_total | 0.413 | 0.420 | 0.419 | 43 | 59 |  | -0.020 | NO_EDGE |
 | KXNHL1P-26OCT26LANYR-LA | period_winner |  | 0.295 |  | 31 | 72 |  |  | UNSUPPORTED |
-| KXNHL1P-26OCT26LANYR-NYR | period_winner |  | 0.335 |  | 35 | 68 |  |  | UNSUPPORTED |
+| KXNHL1P-26OCT26LANYR-NYR | period_winner |  | 0.345 |  | 36 | 67 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT26LANYR-TIE | period_winner |  | 0.335 |  | 35 | 68 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT26LANYR-LA2 | period_spread |  | 0.110 |  | 13 | 91 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT26LANYR-NYR2 | period_spread |  | 0.140 |  | 16 | 88 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT26LANYR-LA2 | period_spread |  | 0.105 |  | 14 | 93 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT26LANYR-NYR2 | period_spread |  | 0.105 |  | 11 | 90 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -110,9 +110,9 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 ## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 3 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Toronto wins by over 1.5 goals NO @ 63c · p 0.7153 (adj 0.6702) · $9.29 · thesis CGY:WINS
-- Toronto wins by over 2.5 goals NO @ 75c · p 0.8216 (adj 0.7833) · $12.97 · thesis CGY:WINS
-- Toronto over 1.5 goals scored NO @ 13c · p 0.1718 (adj 0.1484) · $1.29 · thesis TOR:SUPPRESSED
+- Toronto wins by over 1.5 goals NO @ 63c · p 0.7153 (adj 0.6702) · $10.25 · thesis CGY:WINS
+- Toronto wins by over 2.5 goals NO @ 75c · p 0.8216 (adj 0.7833) · $12.5 · thesis CGY:WINS
+- Toronto over 3.5 goals scored NO @ 51c · p 0.5837 (adj 0.5444) · $1.39 · thesis TOR:SUPPRESSED
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
