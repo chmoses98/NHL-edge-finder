@@ -59,6 +59,12 @@ class RightsError(RuntimeError):
     pass
 
 
+def is_forbidden_kind(kind: str) -> bool:
+    """Exact list plus a normalized pattern check, so slash/case variants of a forbidden kind and any raw Rotowire / DailyFaceoff kind are refused too."""
+    norm = "/".join(part for part in kind.lower().replace("\\", "/").split("/") if part not in ("", "."))
+    return norm in FORBIDDEN_RAW_KINDS or "dailyfaceoff_raw" in norm or ("rotowire" in norm) or ("dailyfaceoff" in norm and norm.endswith("raw"))
+
+
 class ImmutabilityError(RuntimeError):
     pass
 
@@ -103,7 +109,7 @@ class Ledger:
 
     def append_rows(self, kind: str, rows: Iterable[dict[str, Any]], observed_at: datetime | None = None, meta: dict[str, Any] | None = None,
                     part: str | None = None) -> ManifestEntry:
-        if kind in FORBIDDEN_RAW_KINDS:
+        if is_forbidden_kind(kind):
             raise RightsError(f"{kind}: raw third-party page bodies are not published")
         observed_at = observed_at or utcnow()
         path = self.partition_path(kind, observed_at, part=part)
@@ -127,7 +133,7 @@ class Ledger:
         return entry
 
     def write_blob(self, kind: str, payload: bytes, observed_at: datetime | None = None, suffix: str = "json.gz", meta: dict[str, Any] | None = None) -> ManifestEntry:
-        if kind in FORBIDDEN_RAW_KINDS:
+        if is_forbidden_kind(kind):
             raise RightsError(f"{kind}: raw third-party page bodies are not published")
         observed_at = observed_at or utcnow()
         path = self.partition_path(kind, observed_at, suffix=suffix)

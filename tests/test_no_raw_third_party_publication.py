@@ -10,7 +10,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from nhl_edge.archive.ledger import FORBIDDEN_RAW_KINDS, Ledger, RightsError
+from nhl_edge.archive.ledger import FORBIDDEN_RAW_KINDS, Ledger, RightsError, is_forbidden_kind
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -46,3 +46,10 @@ def test_player_source_probe_saves_no_copy_of_third_party_html(tmp_path, monkeyp
     rep = json.loads((tmp_path / "PROBE.json").read_text())
     assert not list(tmp_path.glob("*.html")) and not list(tmp_path.glob("*.next_data.json"))
     assert all(v.get("saved_copy") is False and v.get("next_data_keys") == ["a"] for v in rep.values() if "error" not in v)
+
+
+def test_slash_case_and_pattern_variants_of_forbidden_kinds_are_refused_too():
+    for k in ("context/dailyfaceoff_raw", "context/dailyfaceoff_raw/", "context//dailyfaceoff_raw", "Context/DailyFaceoff_Raw", "./context/dailyfaceoff_raw", "context/rotowire_pages", "x/dailyfaceoff_html_raw"):
+        assert is_forbidden_kind(k), k
+    for k in ("context/goalie_observations", "context/lines", "predictions_player", "player_events/players"):
+        assert not is_forbidden_kind(k), k
