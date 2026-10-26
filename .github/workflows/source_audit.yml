@@ -18,7 +18,7 @@ jobs:
       - name: Audit
         run: |
           mkdir -p /tmp/audit
-          python -m nhl_edge.research.source_audit --production-path --out /tmp/audit/source_audit.json --md /tmp/audit/source_audit.md
+          python -m nhl_edge.research.source_audit --production-path --contacts https://www.dailyfaceoff.com https://www.nhl.com/contact --excerpts https://www.nhl.com/info/terms-of-service --out /tmp/audit/source_audit.json --md /tmp/audit/source_audit.md
           cat /tmp/audit/source_audit.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with:

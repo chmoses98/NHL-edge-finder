@@ -43,12 +43,13 @@ def main(argv: list[str] | None = None) -> int:
             continue
         body = f.content
         ext = "html" if b"<html" in body[:2000].lower() else "json"
-        (out / f"{name}.{ext}").write_bytes(body[:3_000_000])
-        rec = {"url": url, "status": f.status, "bytes": len(body), "fetched_at_utc": f.fetched_at_utc}
+        third_party_page = browser or ext == "html"
+        if not third_party_page:                              # verbatim copies of third-party HTML pages / embedded page data are never saved (rights not established)
+            (out / f"{name}.{ext}").write_bytes(body[:3_000_000])
+        rec = {"url": url, "status": f.status, "bytes": len(body), "fetched_at_utc": f.fetched_at_utc, "saved_copy": not third_party_page}
         if ext == "html":
             m = re.search(rb'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', body, re.S)
             if m:
-                (out / f"{name}.next_data.json").write_bytes(m.group(1))
                 try:
                     nd = json.loads(m.group(1))
                     rec["next_data_keys"] = list(((nd.get("props") or {}).get("pageProps") or {}).keys())[:40]

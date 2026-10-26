@@ -10,6 +10,9 @@ on:
         description: "ET date to watch (YYYY-MM-DD); empty = today"
         required: false
         default: ""
+      nhl_rights_ack:
+        description: "REQUIRED. Type exactly: written-permission-received. The probe polls NHL endpoints at a higher rate than production needs; docs/research/lineup_sources/NHL_API_TERMS.md says no new automated compilation while rights are unresolved."
+        required: true
       from_utc:
         description: "only games starting at or after this UTC instant (YYYY-MM-DDTHH:MM:SSZ); a run lives at most ~5.5 h, so dispatch one run per cluster of drops, about 2 h before its first drop"
         required: true
@@ -29,6 +32,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 350
     steps:
+      - name: Rights gate (no new automated NHL compilation while rights are unresolved)
+        env:
+          ACK: ${{ inputs.nhl_rights_ack }}
+        run: |
+          if [ "$ACK" != "written-permission-received" ]; then echo "::error::refused: see docs/research/lineup_sources/NHL_API_TERMS.md (rights unresolved)"; exit 1; fi
       - uses: actions/checkout@v4
         with: { fetch-depth: 1 }
       - uses: actions/setup-python@v5

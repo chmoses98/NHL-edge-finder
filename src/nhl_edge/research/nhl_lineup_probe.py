@@ -122,8 +122,8 @@ def write_once(out: Path, tag: str, rel: str, rows: list[dict[str, Any]]) -> Non
 
 
 class Probe:
-    def __init__(self, out: Path, get: Getter = http_get, sheets: bool = False, tag: str = "run", clock: Callable[[], datetime] | None = None) -> None:
-        self.out, self.get, self.sheets, self.tag = out, get, sheets, tag
+    def __init__(self, out: Path, get: Getter = http_get, sheets: bool = False, tag: str = "run", clock: Callable[[], datetime] | None = None, store_raw: bool = False) -> None:
+        self.out, self.get, self.sheets, self.tag, self.store_raw = out, get, sheets, tag, store_raw
         self.clock = clock or (lambda: datetime.now(UTC))
         self.buf: list[dict[str, Any]] = []
         self.raw: list[dict[str, Any]] = []
@@ -142,7 +142,7 @@ class Probe:
                    "lead_min": round((start - at).total_seconds() / 60, 1), **feat(status, body)}
             self.buf.append(row)
             sha = row["sha256"]
-            if status == 200 and self.last_sha.get((gid, name)) != sha:
+            if status == 200 and self.store_raw and self.last_sha.get((gid, name)) != sha:
                 self.last_sha[(gid, name)] = sha
                 self.raw.append({"game_id": gid, "endpoint": name, "polled_at_utc": row["polled_at_utc"], "sha256": sha, "body_b64": base64.b64encode(gzip.compress(body)).decode()})
 
@@ -176,7 +176,8 @@ def schedule_games(get: Getter, date_et: str, attempts: int = 3, sleep_fn: Calla
 
 
 def watch(out: Path, date_et: str, get: Getter = http_get, sheets: bool = False, now_fn: Callable[[], datetime] | None = None, sleep_fn: Callable[[float], None] = time.sleep,
-          max_minutes: float = 320.0, tick_s: float = 30.0, tag: str = "run", start_from: datetime | None = None, start_to: datetime | None = None) -> dict[str, Any]:
+          max_minutes: float = 320.0, tick_s: float = 30.0, tag: str = "run", start_from: datetime | None = None, start_to: datetime | None = None,
+          store_raw: bool = False) -> dict[str, Any]:
     """Poll the games of ``date_et`` (optionally only those starting in [start_from, start_to)) at the registered offsets until the last drop has passed (or ``max_minutes``).
     One poll per (game, offset). An offset that is already more than ``LATE_GRACE_MIN`` late when first seen is not polled: a ``skipped_late`` row is written instead, so a missing
     observation is visible in the data. Raises if the schedule cannot be read or the selection holds no game (a green run must mean something was watched)."""
@@ -185,7 +186,7 @@ def watch(out: Path, date_et: str, get: Getter = http_get, sheets: bool = False,
              if (start_from is None or parse_iso(g["startTimeUTC"]) >= start_from) and (start_to is None or parse_iso(g["startTimeUTC"]) < start_to)]
     if not games:
         raise RuntimeError(f"no regular-season game on {date_et} in the selected window")
-    p = Probe(out, get, sheets, tag, clock=now_fn)
+    p = Probe(out, get, sheets, tag, clock=now_fn, store_raw=store_raw)
     done: set[tuple[int, int]] = set()
     skipped: list[tuple[int, int]] = []
     t0 = now_fn()
@@ -266,6 +267,7 @@ def main(argv: list[str] | None = None) -> int:
     w.add_argument("--sheets", action="store_true")
     w.add_argument("--max-minutes", type=float, default=320.0)
     w.add_argument("--tag", default="run")
+    w.add_argument("--store-raw", action="store_true", help="also store raw response bodies (off by default: verbatim NHL responses are not republished while rights are unresolved)")
     w.add_argument("--from-utc", default=None, help="only games starting at or after this UTC instant")
     w.add_argument("--to-utc", default=None, help="only games starting before this UTC instant")
     s = sub.add_parser("summarize")
@@ -274,7 +276,7 @@ def main(argv: list[str] | None = None) -> int:
     if a.cmd == "watch":
         Path(a.out).mkdir(parents=True, exist_ok=True)
         try:
-            rep = watch(Path(a.out), a.date, sheets=a.sheets, max_minutes=a.max_minutes, tag=a.tag, start_from=parse_iso(a.from_utc) if a.from_utc else None,
+            rep = watch(Path(a.out), a.date, sheets=a.sheets, max_minutes=a.max_minutes, tag=a.tag, store_raw=a.store_raw, start_from=parse_iso(a.from_utc) if a.from_utc else None,
                         start_to=parse_iso(a.to_utc) if a.to_utc else None)
         except RuntimeError as e:
             print(json.dumps({"error": str(e)}))

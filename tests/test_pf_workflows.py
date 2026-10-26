@@ -105,7 +105,7 @@ def test_player_minutes_runs_in_its_own_workflow_and_writes_only_its_own_branch(
     assert "HEAD:player-minutes-data" in text and "workload-shadow-data" not in text and "--force" not in text and "push origin main" not in text
     run = "\n".join(str(s.get("run", "")) for s in d["jobs"]["run"]["steps"])
     assert "set +e" in run and "player_minutes_shadow predict" in run and "player_minutes_shadow settle" in run and "player_minutes_shadow score" in run
-    assert "(records|outcomes|coverage|looks|activation)" in run and "--diff-filter=DMRTC" in run and "only be appended" in run
+    assert "(records|outcomes|incumbent|coverage|looks|activation)" in run and "--diff-filter=DMRTC" in run and "only be appended" in run
 
 
 def test_lc_run_step_publishes_what_was_written_even_when_a_day_failed():
@@ -138,3 +138,11 @@ def test_dispatch_drill_workflow_is_manual_and_only_needs_the_dispatch_permissio
     text = (WF / "lc_dispatch_drill.yml").read_text()
     assert set(d["on"]) == {"workflow_dispatch"} and d["permissions"] == {"contents": "read", "actions": "write"}
     assert "--drill" in text and "git push" not in text and "contents: write" not in text
+
+
+def test_lineup_probe_workflow_refuses_without_the_rights_acknowledgement_and_never_stores_raw_bodies():
+    d = _load("nhl_lineup_probe.yml")
+    text = (WF / "nhl_lineup_probe.yml").read_text()
+    assert d["on"]["workflow_dispatch"]["inputs"]["nhl_rights_ack"]["required"] is True and "written-permission-received" in text
+    steps = d["jobs"]["probe"]["steps"]
+    assert "Rights gate" in steps[0]["name"] and "--store-raw" not in text
