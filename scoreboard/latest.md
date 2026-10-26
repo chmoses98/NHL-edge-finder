@@ -17,4 +17,11 @@ Total ice time MSE: incumbent 5.057 · M0 5.046 · M1 4.924; bias (pred − actu
 
 Registered verdicts (decision look 30,000 / final look 60,000): H1: OPEN (decision look not yet reached); H2: OPEN (decision look not yet reached); H3: OPEN (decision look not yet reached)
 
+**Supplementary power-play comparison (not the registered H2; descriptive; comparator = the incumbent's newest expected power-play minutes that existed before the drop)**
+
+Dressed players in games with a captured comparator: 593 · with an incumbent row 560 · with a power-play value 560 · paired 560 (94% of dressed; the registered record-time comparator covers 66%) · missing: {'no_incumbent_row': 33, 'row_without_pp': 0, 'shifts_not_ok': 0, 'other': 0}
+M0 vs incumbent power-play minutes: -7.89% in squared error (95% interval -20.96% … +21.15%, n=560); no pass/fail is attached to it.
+Information asymmetry: the incumbent value was written a median 15 min before the drop; the minutes records a median 609 min before it (the comparison favours the incumbent).
+Selection: covered n=560 (defense 0.336, mean M0 TOI 16.54, actual PP 1.359) vs not covered n=33 (defense 0.303, mean M0 TOI 12.95, actual PP 0.613).
+
 Research only: nothing here is published, priced or routed; promotion of any ice-time model needs the owner's explicit approval.
