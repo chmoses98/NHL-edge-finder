@@ -74,9 +74,9 @@ def probes(date: str, kalshi_hosts: list[str]) -> list[dict]:
         # ---- optional enrichment / fallbacks ---------------------------------------------------
         {"name": "espn_nhl_scoreboard", "url": f"https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard?dates={date.replace('-', '')}&limit=100", "sample": True},
         {"name": "espn_nhl_teams", "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams?limit=50", "sample": True},
-        {"name": "dailyfaceoff_goalies", "url": "https://www.dailyfaceoff.com/starting-goalies", "max_bytes": 1_500_000, "ua": BROWSER_UA, "sample_html": True},
-        {"name": "dailyfaceoff_goalies_date", "url": f"https://www.dailyfaceoff.com/starting-goalies/{date}", "max_bytes": 1_500_000, "ua": BROWSER_UA, "sample_html": True},
-        {"name": "rotowire_goalies", "url": "https://www.rotowire.com/hockey/nhl-lineups.php", "max_bytes": 1_500_000, "ua": BROWSER_UA, "sample_html": True},
+        {"name": "dailyfaceoff_goalies", "url": "https://www.dailyfaceoff.com/starting-goalies", "max_bytes": 1_500_000, "ua": BROWSER_UA},
+        {"name": "dailyfaceoff_goalies_date", "url": f"https://www.dailyfaceoff.com/starting-goalies/{date}", "max_bytes": 1_500_000, "ua": BROWSER_UA},
+        {"name": "rotowire_goalies", "url": "https://www.rotowire.com/hockey/nhl-lineups.php", "max_bytes": 1_500_000, "ua": BROWSER_UA},
         {"name": "nhl_schedule_oct05", "url": "https://api-web.nhle.com/v1/schedule/2026-10-05", "sample": True},
         {"name": "nhl_injuries_espn", "url": "https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/injuries", "sample": True},
     ]
@@ -194,8 +194,7 @@ def main(argv: list[str] | None = None) -> int:
             row.update(desc)
             if spec.get("sample"):
                 (a.out / "samples" / f"{spec['name']}.json").write_text(json.dumps(sample, indent=1, default=str)[:120_000])
-            if spec.get("sample_html"):
-                (a.out / "samples" / f"{spec['name']}.html").write_text(body.decode("utf-8", "replace")[:1_200_000])
+            # verbatim copies of third-party HTML pages are never saved (rights not established); only the structural description above is kept
             if spec.get("kalshi_series_scan"):
                 row["nhl_scan"] = scan_series_for_nhl(body)
                 (a.out / "samples" / f"{spec['name']}_nhl_scan.json").write_text(json.dumps(row["nhl_scan"], indent=1)[:200_000])

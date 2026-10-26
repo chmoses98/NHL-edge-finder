@@ -50,6 +50,15 @@ def _loads_line(line: bytes | str) -> Any:
     return json.loads(line)
 
 
+# Kinds that must never be written to the (public) archive: verbatim bodies of third-party pages whose terms of use for retention and redistribution are not established.
+# Derived, minimal features (for example `context/lines`, `context/goalie_observations`) are separate kinds. See docs/research/lineup_sources/DFO_RIGHTS_PLAN.md.
+FORBIDDEN_RAW_KINDS = frozenset({"context/dailyfaceoff_raw"})
+
+
+class RightsError(RuntimeError):
+    pass
+
+
 class ImmutabilityError(RuntimeError):
     pass
 
@@ -94,6 +103,8 @@ class Ledger:
 
     def append_rows(self, kind: str, rows: Iterable[dict[str, Any]], observed_at: datetime | None = None, meta: dict[str, Any] | None = None,
                     part: str | None = None) -> ManifestEntry:
+        if kind in FORBIDDEN_RAW_KINDS:
+            raise RightsError(f"{kind}: raw third-party page bodies are not published")
         observed_at = observed_at or utcnow()
         path = self.partition_path(kind, observed_at, part=part)
         if path.exists():
@@ -116,6 +127,8 @@ class Ledger:
         return entry
 
     def write_blob(self, kind: str, payload: bytes, observed_at: datetime | None = None, suffix: str = "json.gz", meta: dict[str, Any] | None = None) -> ManifestEntry:
+        if kind in FORBIDDEN_RAW_KINDS:
+            raise RightsError(f"{kind}: raw third-party page bodies are not published")
         observed_at = observed_at or utcnow()
         path = self.partition_path(kind, observed_at, suffix=suffix)
         if path.exists():
