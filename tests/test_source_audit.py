@@ -78,3 +78,10 @@ def test_contact_discovery_records_only_published_addresses():
     assert r["emails"]["press@h.example"] == ["https://www.h.example/contact-us"]
     md = A.render({"run_utc": "x", "user_agent": "u", "targets": [], "contacts": [r]})
     assert "partners@h.example" in md and "Publicly listed contact channels" in md
+
+
+def test_passages_return_distinct_scope_passages_in_document_order():
+    t = "Intro. " + "x" * 600 + " You may not use any automated means or scrap the Services. " + "y" * 600 + " Non-commercial personal use only; written consent is required."
+    ps = A.passages(t, width=200)
+    assert [p["keyword"] for p in ps][0] in ("services", "scrap", "automated") and any("written consent" in p["text"] for p in ps)
+    assert len({p["text"] for p in ps}) == len(ps) and all(len(p["text"]) <= 300 for p in ps)

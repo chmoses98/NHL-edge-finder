@@ -98,6 +98,30 @@ def keyword_hits(text: str, width: int = 140) -> list[dict[str, str]]:
     return out
 
 
+SCOPE_KEYWORDS = ("application programming", " api", "apis", "data feed", "services", "the site", "scrap", "automated", "robot", "spider", "commercial", "personal", "non-commercial", "internal",
+                  "redistribut", "republish", "derivative", "database", "compil", "written consent", "permission", "license", "licence", "statistic")
+
+
+def passages(text: str, keywords: tuple[str, ...] = SCOPE_KEYWORDS, width: int = 420, max_n: int = 60) -> list[dict[str, str]]:
+    """Distinct passages of a policy text around each occurrence of a scope-related keyword (overlapping hits merged), in document order, so a human can read how the terms define their scope."""
+    low, spans = text.lower(), []
+    for k in keywords:
+        i = low.find(k)
+        while i >= 0:
+            spans.append((max(0, i - width // 3), min(len(text), i + width), k))
+            i = low.find(k, i + width)
+    spans.sort()
+    out, last_end = [], -1
+    for a, b, k in spans:
+        if a <= last_end:
+            continue
+        out.append({"keyword": k, "text": text[a:b].strip()})
+        last_end = b
+        if len(out) >= max_n:
+            break
+    return out
+
+
 def probe_path(get: Getter, base: str, path: str) -> dict[str, Any]:
     status, body, hdr = get(urljoin(base, path))
     txt = body[:200_000].decode("utf-8", "replace")
@@ -200,6 +224,10 @@ def render(rep: dict[str, Any]) -> str:
         for p in rep["production_path"]:
             L.append(f"- {p['feed']}: HTTP {p['status']}, {p.get('bytes')} B, parsed by the production parser: **{p['parsed_by_production_parser']}**" + (f" — {p['error']}" if p.get("error") else ""))
         L.append("")
+    for ex in rep.get("excerpts") or []:
+        L += [f"## Scope-related passages: {ex['url']} (HTTP {ex['status']}, {ex['chars']} bytes)"]
+        L += [f"- [{p['keyword']}] {p['text']}" for p in ex["passages"]] or ["- (none read)"]
+        L.append("")
     for c in rep.get("contacts") or []:
         L += [f"## Publicly listed contact channels: {c['base']}", "- pages read: " + ", ".join(f"{p['url']} ({p['status']})" for p in c["pages"])]
         L += [f"- `{e}` (listed on: {', '.join(u)})" for e, u in c["emails"].items()] or ["- no email address listed on the pages read"]
@@ -219,12 +247,18 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--md")
     ap.add_argument("--no-probe", action="store_true")
+    ap.add_argument("--excerpts", nargs="*", default=None, help="policy page URLs whose scope-related passages are printed")
     ap.add_argument("--contacts", nargs="*", default=None, help="base URLs whose publicly listed contact channels are collected")
     ap.add_argument("--production-path", action="store_true", help="also run the pipeline's own DailyFaceoff fetch + parsers once")
     a = ap.parse_args(argv)
     rep = run(probe=not a.no_probe)
     if a.production_path:
         rep["production_path"] = production_path_probe()
+    if a.excerpts:
+        rep["excerpts"] = []
+        for u in a.excerpts:
+            st, b, _ = http_get(u, rep["user_agent"])
+            rep["excerpts"].append({"url": u, "status": st, "chars": len(b), "passages": passages(strip_html(b[:900_000].decode("utf-8", "replace"))) if st == 200 else []})
     if a.contacts:
         rep["contacts"] = [contact_discovery(lambda u: http_get(u, rep["user_agent"]), b) for b in a.contacts]
     Path(a.out).write_text(json.dumps(rep, indent=1))
