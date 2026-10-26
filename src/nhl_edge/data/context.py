@@ -181,19 +181,17 @@ def run_context_refresh(out_root: Path, date_et: str | None = None, with_dfo: bo
     # goalie observations (DailyFaceoff, today + tomorrow)
     if with_dfo:
         obs_rows: list[dict[str, Any]] = []
-        raw_pages: list[dict[str, Any]] = []
         for offset in (0, 1):
             d = (__import__("datetime").date.fromisoformat(today) + timedelta(days=offset)).isoformat()
             obs, meta = fetch_dailyfaceoff(d)
             status["sources"][f"dailyfaceoff_{d}"] = {k: v for k, v in meta.items() if k != "raw_rows"}
-            raw_pages.append({"date": d, "meta": {k: v for k, v in meta.items() if k != "raw_rows"}, "rows": meta.get("raw_rows", [])})
             obs_rows += [o.model_dump(mode="json") for o in obs]
         resolved, problems = resolve_goalie_observations(obs_rows, games)
         status["goalie_observation_problems"] = problems
         status["n_goalie_observations"] = len(resolved)
         if resolved:
             ledger.append_rows("context/goalie_observations", resolved, observed_at=now)
-        ledger.write_blob("context/dailyfaceoff_raw", json.dumps(raw_pages, default=str).encode(), observed_at=now)
+        # no verbatim DailyFaceoff page content is published (rights not established, docs/research/lineup_sources/DFO_RIGHTS_PLAN.md); status["sources"] keeps only url, time, sha256 and counts
     # line combinations / PP units (DailyFaceoff team pages, today's teams only; PLAYER_SIM_V1 deployment input)
     if with_lines:
         try:

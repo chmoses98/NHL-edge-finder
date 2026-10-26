@@ -50,6 +50,21 @@ def _loads_line(line: bytes | str) -> Any:
     return json.loads(line)
 
 
+# Kinds that must never be written to the (public) archive: verbatim bodies of third-party pages whose terms of use for retention and redistribution are not established.
+# Derived, minimal features (for example `context/lines`, `context/goalie_observations`) are separate kinds. See docs/research/lineup_sources/DFO_RIGHTS_PLAN.md.
+FORBIDDEN_RAW_KINDS = frozenset({"context/dailyfaceoff_raw"})
+
+
+class RightsError(RuntimeError):
+    pass
+
+
+def is_forbidden_kind(kind: str) -> bool:
+    """Exact list plus a normalized pattern check, so slash/case variants of a forbidden kind and any raw Rotowire / DailyFaceoff kind are refused too."""
+    norm = "/".join(part for part in kind.lower().replace("\\", "/").split("/") if part not in ("", "."))
+    return norm in FORBIDDEN_RAW_KINDS or "dailyfaceoff_raw" in norm or ("rotowire" in norm) or ("dailyfaceoff" in norm and norm.endswith("raw"))
+
+
 class ImmutabilityError(RuntimeError):
     pass
 
@@ -94,6 +109,8 @@ class Ledger:
 
     def append_rows(self, kind: str, rows: Iterable[dict[str, Any]], observed_at: datetime | None = None, meta: dict[str, Any] | None = None,
                     part: str | None = None) -> ManifestEntry:
+        if is_forbidden_kind(kind):
+            raise RightsError(f"{kind}: raw third-party page bodies are not published")
         observed_at = observed_at or utcnow()
         path = self.partition_path(kind, observed_at, part=part)
         if path.exists():
@@ -116,6 +133,8 @@ class Ledger:
         return entry
 
     def write_blob(self, kind: str, payload: bytes, observed_at: datetime | None = None, suffix: str = "json.gz", meta: dict[str, Any] | None = None) -> ManifestEntry:
+        if is_forbidden_kind(kind):
+            raise RightsError(f"{kind}: raw third-party page bodies are not published")
         observed_at = observed_at or utcnow()
         path = self.partition_path(kind, observed_at, suffix=suffix)
         if path.exists():
