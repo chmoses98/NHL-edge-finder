@@ -157,7 +157,9 @@ def audit_target(t: Target, get: Getter, user_agent: str, pause_s: float = 1.0, 
     return rec
 
 
-CONTACT_LINK_RE = re.compile(r'href="([^"#]*?(?:contact|about|advertis|partner|licens|press|media|support|help|feedback|data|api)[^"#]*)"', re.I)
+ANCHOR_RE = re.compile(r'<a\b[^>]*?href="([^"#]+)"[^>]*>(.*?)</a>', re.I | re.S)
+CONTACT_WORDS = re.compile(r"contact|about|advertis|partner|licens|press|media kit|support|feedback|work with|careers|terms|legal|privacy", re.I)
+ASSET_RE = re.compile(r"(/_next/|/api/|\.(?:png|jpe?g|svg|gif|webp|ico|css|js|woff2?|ttf|json|xml|rss)(?:\?|$))", re.I)
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 MAILTO_RE = re.compile(r'mailto:([^"?]+)', re.I)
 
@@ -167,7 +169,8 @@ def contact_discovery(get: Getter, base: str, pause_s: float = 1.0, max_pages: i
     One GET per page. Only what the site itself publishes is recorded; nothing is guessed (no addresses are constructed from names or patterns)."""
     status, body, _ = get(base)
     html = body[:600_000].decode("utf-8", "replace") if status == 200 else ""
-    links = list(dict.fromkeys(urljoin(base, m.group(1)) for m in CONTACT_LINK_RE.finditer(html)))
+    links = list(dict.fromkeys(urljoin(base, m.group(1)) for m in ANCHOR_RE.finditer(html)
+                               if not ASSET_RE.search(m.group(1)) and (CONTACT_WORDS.search(strip_html(m.group(2))) or CONTACT_WORDS.search(urlparse(m.group(1)).path))))
     host = urlparse(base).netloc.split(":")[0].removeprefix("www.")
     links = [u for u in links if urlparse(u).netloc.split(":")[0].removeprefix("www.").endswith(host)][:max_pages]
     found: dict[str, list[str]] = {}

@@ -70,11 +70,11 @@ def test_production_path_probe_uses_the_pipelines_fetch_with_html_accept_and_rep
 
 
 def test_contact_discovery_records_only_published_addresses():
-    pages = {"https://www.h.example": '<a href="/contact-us">Contact</a><a href="/about">About</a><a href="https://other.example/contact">x</a>',
+    pages = {"https://www.h.example": '<a href="/contact-us">Contact</a><a href="/x1">About us</a><a href="https://other.example/contact">x</a><a href="/_next/static/about.js">a</a><a href="/api/legacy/data">d</a><a href="/teams">Teams</a>',
              "https://www.h.example/contact-us": '<p>Write to <a href="mailto:Partners@h.example?subject=x">us</a> or press@h.example</p><img src="logo@2x.png">',
-             "https://www.h.example/about": "<p>No address here</p>"}
+             "https://www.h.example/x1": "<p>No address here</p>"}
     r = A.contact_discovery(lambda u: (200, pages.get(u, "").encode(), {}), "https://www.h.example", pause_s=0)
-    assert set(r["emails"]) == {"partners@h.example", "press@h.example"} and r["contact_links"] == ["https://www.h.example/contact-us", "https://www.h.example/about"]
+    assert set(r["emails"]) == {"partners@h.example", "press@h.example"} and r["contact_links"] == ["https://www.h.example/contact-us", "https://www.h.example/x1"]
     assert r["emails"]["press@h.example"] == ["https://www.h.example/contact-us"]
     md = A.render({"run_utc": "x", "user_agent": "u", "targets": [], "contacts": [r]})
     assert "partners@h.example" in md and "Publicly listed contact channels" in md
