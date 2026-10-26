@@ -239,11 +239,12 @@ def guard(out: Path) -> list[str]:
     mp = out / "MANIFEST.jsonl"
     if mp.exists():
         listed = {json.loads(line)["path"] for line in mp.read_text().splitlines() if line.strip()}
-    if (out / "outcomes").exists():
-        for p in sorted((out / "outcomes").rglob("*.jsonl.gz")):
-            rel = p.relative_to(out).as_posix()
-            if rel not in listed:
-                bad.append(f"unlisted: {rel}")
+    for sub in ("outcomes", "incumbent"):
+        if (out / sub).exists():
+            for p in sorted((out / sub).rglob("*.jsonl.gz")):
+                rel = p.relative_to(out).as_posix()
+                if rel not in listed:
+                    bad.append(f"unlisted: {rel}")
     return bad
 
 
@@ -261,6 +262,53 @@ def _games_in(out: Path, sub: str) -> set[int]:
     return seen
 
 
+def incumbent_last_predrop(archive: Path, starts: dict[int, str], now: datetime) -> dict[tuple[int, int], dict[str, Any]]:
+    """For each (game, player) the NEWEST PLAYER_SIM_V1 ``predictions_player`` row whose own ``predicted_at_utc`` is before that game's puck drop (and not after ``now``): its expected total
+    and power-play minutes with the row's timestamp. These are immutable, time-stamped archive rows; nothing is recomputed and no row made after the drop is eligible."""
+    from nhl_edge.archive.ledger import Ledger
+
+    if not starts:
+        return {}
+    first = min(parse_iso(v) for v in starts.values()) - timedelta(days=1)
+    best: dict[tuple[int, int], dict[str, Any]] = {}
+    for r in Ledger(archive).iter_rows("predictions_player", dt_from=first.strftime("%Y-%m-%d")):
+        try:
+            gid, pid = int(r["game_id"]), int(r["player_id"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        at = r.get("predicted_at_utc")
+        if gid not in starts or not at or parse_iso(at) >= parse_iso(starts[gid]) or parse_iso(at) > now or r.get("meta_expected_toi_min") is None:
+            continue
+        cur = best.get((gid, pid))
+        if cur is None or parse_iso(at) > parse_iso(cur["at"]):
+            best[(gid, pid)] = {"toi_min": float(r["meta_expected_toi_min"]), "pp_min": None if r.get("meta_expected_pp_toi_min") is None else float(r["meta_expected_pp_toi_min"]), "at": at}
+    return best
+
+
+def capture_incumbent(archive: Path, out: Path, now: datetime | None = None) -> dict[str, Any]:
+    """Supplementary comparator for H2 (NOT the registered one): once a recorded game has started, write once, per game date, the incumbent's latest pre-drop expected minutes for every
+    candidate of that game, with explicit missing values for candidates the production engine never priced. Games whose archive partitions are no longer in the checkout are reported, not guessed."""
+    now = now or utcnow()
+    rec = load_dir(out, "records")
+    if not len(rec):
+        return {"games_captured": [], "pending": []}
+    done = _games_in(out, "incumbent")
+    g = rec.drop_duplicates("game_id")[["game_id", "game_start_utc"]]
+    starts = {int(a): b for a, b in zip(g["game_id"], g["game_start_utc"], strict=True) if int(a) not in done and parse_iso(b) < now}
+    best = incumbent_last_predrop(archive, starts, now)
+    captured: list[int] = []
+    for day, grp in rec[rec["game_id"].astype(int).isin(starts)].drop_duplicates(["game_id", "player_id"]).groupby(rec["game_start_utc"].astype(str).str[:10]):
+        rows = []
+        for r in grp.itertuples():
+            b = best.get((int(r.game_id), int(r.player_id)))
+            rows.append({"game_id": int(r.game_id), "player_id": int(r.player_id), "game_start_utc": r.game_start_utc, "inc_toi_min": None if b is None else b["toi_min"],
+                         "inc_pp_min": None if b is None else b["pp_min"], "incumbent_predicted_at_utc": None if b is None else b["at"],
+                         "incumbent_lead_min": None if b is None else round((parse_iso(r.game_start_utc) - parse_iso(b["at"])).total_seconds() / 60, 1), "captured_at_utc": iso(now)})
+        LCR.write_once(out, f"incumbent/dt={day}/incumbent_{now.strftime('%Y%m%dT%H%M%SZ')}.jsonl.gz", rows)
+        captured += sorted({r["game_id"] for r in rows})
+    return {"games_captured": captured, "pending": sorted(set(starts) - set(captured)), "n_games_with_any_incumbent_row": len({k[0] for k in best})}
+
+
 def settle(archive: Path, out: Path, now: datetime | None = None) -> dict[str, Any]:
     """Append the official outcomes (ice time by state, shots) of every recorded game that is now final and has none yet. Write-once, per game date."""
     now = now or utcnow()
@@ -276,7 +324,11 @@ def settle(archive: Path, out: Path, now: datetime | None = None) -> dict[str, A
                     for rec in grp.reindex(columns=cols).itertuples(index=False)]
             LCR.write_once(out, f"outcomes/dt={day}/outcomes_{now.strftime('%Y%m%dT%H%M%SZ')}.jsonl.gz", rows)
             written += sorted({int(r["game_id"]) for r in rows})
-    return {"games_with_outcomes_written": written, "pending": sorted(todo - set(written)), "guard": guard(out)}
+    try:
+        inc = capture_incumbent(archive, out, now)
+    except Exception as e:      # noqa: BLE001 - the supplementary comparator never blocks settlement
+        inc = {"error": f"{type(e).__name__}: {str(e)[:160]}"}
+    return {"games_with_outcomes_written": written, "pending": sorted(todo - set(written)), "incumbent_capture": inc, "guard": guard(out)}
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -411,7 +463,51 @@ def look_deferral(m: pd.DataFrame, n: int, rec: pd.DataFrame, outc: pd.DataFrame
     return f"{len(waiting)} recorded game(s) up to the look's last pair have no outcome yet" if waiting else None
 
 
-def render(res: dict[str, Any], looks: dict[int, dict[str, Any]], activation: dict[str, Any] | None, counts: dict[str, int], coverage: dict[str, Any] | None = None) -> str:
+def supplementary_h2(rec: pd.DataFrame, outc: pd.DataFrame, incd: pd.DataFrame, frozen_model_sha: str | None = None) -> dict[str, Any]:
+    """SUPPLEMENTARY, descriptive, clearly NOT the registered H2: power-play minutes of M0 vs the incumbent's newest expected power-play minutes that existed before the drop (``capture_incumbent``).
+    Reports paired coverage, why candidates are missing, and how the covered players differ from the uncovered ones (selection)."""
+    if not len(rec) or not len(outc) or not len(incd):
+        return {"label": "supplementary (not the registered H2)", "n_dressed": 0, "verdict": "no data yet"}
+    pre = LCR.eligible_records(rec, frozen_model_sha)[0].drop_duplicates(["game_id", "player_id"])
+    pred = pd.json_normalize(pre["predictions"].tolist()).add_prefix("p_")
+    inp = pd.json_normalize(pre["inputs"].tolist())[["incumbent_pp_min"]].rename(columns={"incumbent_pp_min": "reg_pp"})
+    base = pd.concat([pre.reset_index(drop=True)[["game_id", "player_id", "pos"]], pred, inp], axis=1)
+    o = outc.drop_duplicates(["game_id", "player_id"])[["game_id", "player_id", "toi_s", "toi_pp_s", "shifts_ok"]]
+    d = base.merge(o, on=["game_id", "player_id"], how="inner")
+    d = d[pd.to_numeric(d["toi_s"], errors="coerce") > 0].merge(incd.drop_duplicates(["game_id", "player_id"])[["game_id", "player_id", "inc_toi_min", "inc_pp_min", "incumbent_lead_min"]],
+                                                                  on=["game_id", "player_id"], how="left")
+    if not len(d):
+        return {"label": "supplementary (not the registered H2)", "n_dressed": 0, "verdict": "no settled games with a captured comparator yet"}
+    d["has_row"] = d["inc_toi_min"].notna()
+    d["has_pp"] = pd.to_numeric(d["inc_pp_min"], errors="coerce").notna()
+    ypp = pd.to_numeric(d["toi_pp_s"], errors="coerce") / 60.0
+    ok = d["has_pp"] & d["shifts_ok"].fillna(False).astype(bool) & ypp.notna() & pd.to_numeric(d["p_pp_min"], errors="coerce").notna()
+    out: dict[str, Any] = {"label": "supplementary (not the registered H2)", "n_dressed": int(len(d)), "n_with_incumbent_row": int(d["has_row"].sum()), "n_with_incumbent_pp": int(d["has_pp"].sum()),
+                           "n_pairs": int(ok.sum()), "coverage_of_dressed": round(float(ok.sum()) / len(d), 4), "n_games": int(d["game_id"].nunique()),
+                           "registered_captured_coverage_of_dressed": round(float(d["reg_pp"].notna().mean()), 4),
+                           "missing": {"no_incumbent_row": int((~d["has_row"]).sum()), "row_without_pp": int((d["has_row"] & ~d["has_pp"]).sum()), "shifts_not_ok": int((d["has_pp"] & ~d["shifts_ok"].fillna(False).astype(bool)).sum())}}
+    lead = pd.to_numeric(d.loc[d["has_pp"], "incumbent_lead_min"], errors="coerce").dropna()
+    if len(lead):
+        out["incumbent_lead_min"] = {"median": float(lead.median()), "min": float(lead.min()), "max": float(lead.max())}
+    sel = {}
+    for name, mask in (("covered", ok), ("not_covered", ~ok)):
+        g = d[mask]
+        sel[name] = {"n": int(len(g)), "share_defense": None if not len(g) else round(float((g["pos"] == "D").mean()), 3),
+                     "mean_M0_toi_min": None if not len(g) else round(float(pd.to_numeric(g["p_M0_toi_min"], errors="coerce").mean()), 2),
+                     "mean_actual_toi_min": None if not len(g) else round(float(pd.to_numeric(g["toi_s"], errors="coerce").mean() / 60.0), 2),
+                     "mean_actual_pp_min": None if not len(g) else round(float((pd.to_numeric(g["toi_pp_s"], errors="coerce") / 60.0).mean()), 3)}
+    out["selection"] = sel
+    if ok.sum() >= 200:
+        y, inc, m0 = ypp[ok].to_numpy(float), pd.to_numeric(d.loc[ok, "inc_pp_min"]).to_numpy(float), pd.to_numeric(d.loc[ok, "p_pp_min"]).to_numpy(float)
+        out["relative_change_M0_vs_incumbent"] = _ratio_ci((m0 - y) ** 2, (inc - y) ** 2, d.loc[ok, "game_id"].to_numpy())
+        out["mse"] = {"incumbent": float(((inc - y) ** 2).mean()), "M0": float(((m0 - y) ** 2).mean()), "bias_incumbent": float((inc - y).mean()), "bias_M0": float((m0 - y).mean())}
+    else:
+        out["verdict"] = f"INCONCLUSIVE AT n={int(ok.sum())}"
+    return out
+
+
+def render(res: dict[str, Any], looks: dict[int, dict[str, Any]], activation: dict[str, Any] | None, counts: dict[str, int], coverage: dict[str, Any] | None = None,
+           supp: dict[str, Any] | None = None) -> str:
     L = ["# player-minutes-1.0 scoreboard (research only)", "", f"Registration: `{REGISTRATION}`. Activation: {activation.get('activation_utc') if activation else 'not yet'}.", "",
          f"Records: {counts['records']:,} (counting: {counts['eligible']:,}) · outcomes: {counts['outcomes']:,} · paired with an incumbent TOI forecast: {res.get('n_paired', 0):,}"]
     if counts.get("dressed"):
@@ -428,6 +524,18 @@ def render(res: dict[str, Any], looks: dict[int, dict[str, Any]], activation: di
         L += ["", f"Total ice time MSE: incumbent {t['mse_incumbent']:.3f} · M0 {t['mse_M0']:.3f} · M1 {t['mse_M1']:.3f}; bias (pred − actual): {t['bias_incumbent']:+.3f} / {t['bias_M0']:+.3f} / {t['bias_M1']:+.3f} min"]
     else:
         L.append(f"Not enough paired data yet: {res.get('verdict')}.")
+    if supp and supp.get("n_dressed"):
+        sel = supp["selection"]
+        L += ["", "**Supplementary power-play comparison (not the registered H2; descriptive; comparator = the incumbent's newest expected power-play minutes that existed before the drop)**", "",
+              f"Dressed players in games with a captured comparator: {supp['n_dressed']:,} · with an incumbent row {supp['n_with_incumbent_row']:,} · with a power-play value {supp['n_with_incumbent_pp']:,} · paired {supp['n_pairs']:,} "
+              f"({supp['coverage_of_dressed']:.0%} of dressed; the registered record-time comparator covers {supp['registered_captured_coverage_of_dressed']:.0%}) · missing: {supp['missing']}"]
+        if "relative_change_M0_vs_incumbent" in supp:
+            r = supp["relative_change_M0_vs_incumbent"]
+            L.append(f"M0 vs incumbent power-play minutes: {r['relative_change']:+.2%} in squared error (95% interval {r['lo95']:+.2%} … {r['hi95']:+.2%}, n={r['n']:,}); no pass/fail is attached to it.")
+        else:
+            L.append(supp.get("verdict", ""))
+        L.append(f"Selection: covered n={sel['covered']['n']:,} (defense {sel['covered']['share_defense']}, mean M0 TOI {sel['covered']['mean_M0_toi_min']}, actual PP {sel['covered']['mean_actual_pp_min']}) vs "
+                 f"not covered n={sel['not_covered']['n']:,} (defense {sel['not_covered']['share_defense']}, mean M0 TOI {sel['not_covered']['mean_M0_toi_min']}, actual PP {sel['not_covered']['mean_actual_pp_min']}).")
     L += ["", "Registered verdicts (decision look 30,000 / final look 60,000): " + "; ".join(f"{k}: {v}" for k, v in registered_verdicts(looks).items())]
     if looks:
         L.append("Looks computed (each once, never rewritten): " + ", ".join(f"{n:,}{' (descriptive)' if n not in (DECISION_LOOK, FINAL_LOOK) else ''}" for n in sorted(looks)))
@@ -476,11 +584,12 @@ def score(archive: Path, pf: Path, out: Path, now: datetime | None = None) -> di
     except Exception as e:      # noqa: BLE001 - a missing schedule view must not stop the scoreboard
         coverage = {"activated": False, "error": f"{type(e).__name__}: {str(e)[:120]}"}
     verdicts = registered_verdicts(looks)
+    supp = supplementary_h2(rec, outc, load_dir(out, "incumbent"), frozen)
     sb = out / "scoreboard"
     sb.mkdir(parents=True, exist_ok=True)
-    (sb / "latest.json").write_text(json.dumps({"as_of_utc": iso(now), "cumulative_descriptive": res, "registered_verdicts": verdicts, "looks": sorted(looks), "looks_waiting": waiting, "counts": counts,
+    (sb / "latest.json").write_text(json.dumps({"as_of_utc": iso(now), "supplementary_h2": supp, "cumulative_descriptive": res, "registered_verdicts": verdicts, "looks": sorted(looks), "looks_waiting": waiting, "counts": counts,
                                                 "collection": {k: v for k, v in coverage.items() if k != "games"}}, indent=1, default=float))
-    (sb / "latest.md").write_text(render(res, looks, activation, counts, coverage))
+    (sb / "latest.md").write_text(render(res, looks, activation, counts, coverage, supp))
     return {"result": res, "looks": sorted(looks), "looks_waiting": waiting, "verdicts": verdicts, "counts": counts, "guard": guard(out)}
 
 

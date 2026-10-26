@@ -35,7 +35,7 @@ jobs:
           git -C /tmp/archive sparse-checkout init --no-cone
           pats=(/manifest.jsonl /player_events/)
           for i in -1 0 1 2 3; do pats+=("/context/schedule/dt=$(date -u -d "$i days" +%F)/"); done
-          for i in -3 -2 -1 0; do d=$(date -u -d "$i days" +%F); pats+=("/context/lines/dt=$d/" "/context/injuries/dt=$d/" "/predictions_player/dt=$d/"); done
+          for i in -6 -5 -4 -3 -2 -1 0; do d=$(date -u -d "$i days" +%F); pats+=("/context/lines/dt=$d/" "/context/injuries/dt=$d/" "/predictions_player/dt=$d/"); done
           git -C /tmp/archive sparse-checkout set --no-cone "${pats[@]}"
           git -C /tmp/archive checkout -q
       - name: Sparse view of projection-data forecasts (incumbent pre-drop ice-time forecasts)
@@ -91,7 +91,7 @@ jobs:
           find . -name '*.tmp' -not -path './.git/*' -delete
           git add -A
           if git diff --cached --quiet; then echo "nothing to publish"; exit 0; fi
-          if git diff --cached --no-renames --name-status --diff-filter=DMRTC | grep -E '^[A-Z][0-9]*[[:space:]]+(records|outcomes|coverage|looks|activation)'; then echo "::error::refusing to modify, rename or delete an immutable file"; exit 1; fi
+          if git diff --cached --no-renames --name-status --diff-filter=DMRTC | grep -E '^[A-Z][0-9]*[[:space:]]+(records|outcomes|incumbent|coverage|looks|activation)'; then echo "::error::refusing to modify, rename or delete an immutable file"; exit 1; fi
           if git diff --cached --no-renames --name-only --diff-filter=DRT | grep -qx 'MANIFEST.jsonl'; then echo "::error::refusing to remove the manifest"; exit 1; fi
           if [ "$(git diff --cached --numstat -- MANIFEST.jsonl | cut -f2)" != "" ] && [ "$(git diff --cached --numstat -- MANIFEST.jsonl | cut -f2)" != "0" ]; then echo "::error::the manifest may only be appended to"; exit 1; fi
           git commit -qm "player-minutes $(date -u +%Y-%m-%dT%H:%MZ) (research_only)"
