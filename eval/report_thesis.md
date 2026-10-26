@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-26T05:51:59Z · thesis-postmortem-2.0 · rows (all generations) 28909
+evaluated 2026-10-26T07:38:26Z · thesis-postmortem-2.0 · rows (all generations) 28909
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -34,17 +34,16 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020185 LAK @ NYR: NOT_STARTED · snapshot snap-5f9275559f03d901765e @ 2026-10-26T05:32:14Z
+#### game 2026020185 LAK @ NYR: NOT_STARTED · snapshot snap-40d5a47b788db97df8f6 @ 2026-10-26T07:33:06Z
 
-#### game 2026020186 TOR @ CGY: NOT_STARTED · snapshot snap-5f9275559f03d901765e @ 2026-10-26T05:32:14Z
+#### game 2026020186 TOR @ CGY: NOT_STARTED · snapshot snap-40d5a47b788db97df8f6 @ 2026-10-26T07:33:06Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT26TORCGY-TOR2|no | FUNDED_RESEARCH | 3 | 9.29 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT26TORCGY-TOR3|no | FUNDED_RESEARCH | 4 | 12.97 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT26TORCGY-TOR2|no | FUNDED_RESEARCH | 1 | 1.29 | - | - | - | FRAGILE | - | - |
+| KXNHLSPREAD-26OCT26TORCGY-TOR2|no | FUNDED_RESEARCH | 3 | 10.94 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT26TORCGY-TOR3|no | FUNDED_RESEARCH | 4 | 13.04 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020187 DET @ EDM: NOT_STARTED · snapshot snap-5f9275559f03d901765e @ 2026-10-26T05:32:14Z
+#### game 2026020187 DET @ EDM: NOT_STARTED · snapshot snap-40d5a47b788db97df8f6 @ 2026-10-26T07:33:06Z
 
 ## Slate 2026-10-25: **COMPLETE — 5/5 games evaluated**
 

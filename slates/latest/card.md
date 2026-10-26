@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-26T06:33:06Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-26T07:33:06Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,10 +10,10 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 50.00 | +4.56 | +1.31 | +28.84 | 0.571 | -50.00 | -50.00 | 8.57 |
-| B thesis-diversified (joint) ← optimiser card | 22.67 | +2.10 | +0.70 | +3.54 | 0.822 | -22.67 | -22.67 | 6.16 |
-| C best expression per thesis | 20.00 | +1.53 | +0.53 | +6.21 | 0.822 | -20.00 | -20.00 | 4.78 |
-| R FUNDED research stakes | 7.00 | +0.80 | +0.26 | -0.45 | 0.370 | -7.00 | -7.00 | 0.00 |
+| A highest edges (independent) | 50.00 | +4.21 | +1.30 | +20.63 | 0.646 | -50.00 | -50.00 | 9.73 |
+| B thesis-diversified (joint) ← optimiser card | 23.98 | +2.17 | +0.75 | +10.04 | 0.715 | -23.98 | -23.98 | 6.60 |
+| C best expression per thesis | 18.05 | +1.93 | +0.67 | +9.88 | 0.715 | -18.05 | -18.05 | 5.85 |
+| R FUNDED research stakes | 7.00 | +0.63 | +0.22 | +2.88 | 0.715 | -7.00 | -7.00 | 0.00 |
 
 ## LAK @ NYR  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
@@ -35,7 +35,7 @@ _no bet on this game passes: +EV at the executable ask under both the model and 
 
 portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp
 
-## TOR @ CGY  ·  10000 joint draws  ·  98 bet sides mapped, 6 +EV candidates, 3 on card
+## TOR @ CGY  ·  10000 joint draws  ·  98 bet sides mapped, 3 +EV candidates, 2 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -53,23 +53,17 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Toronto wins by over 2.5 goals NO | 75 | 0.822 | 0.783 | +0.059 | +0.020 | $20.00 | FUNDED_RESEARCH | $5 | CGY:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Toronto over 2.5 goals scored NO | 30 | 0.370 | 0.330 | +0.055 | +0.015 | $1.28 | FUNDED_RESEARCH | $1 | TOR:SUPPRESSED | DIRECT (0.98) | EVIDENCE_MIXED | D |
-| Toronto over 1.5 goals scored NO | 13 | 0.172 | 0.148 | +0.034 | +0.011 | $1.39 | FUNDED_RESEARCH | $1 | TOR:SUPPRESSED | FRAGILE (0.45) | EVIDENCE_MIXED | D |
-- **Toronto wins by over 2.5 goals NO** — thesis: CGY wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT26TORCGY-TOR2|no; why: higher confidence-adjusted growth (4.96 vs 2.65 bp); despite a smaller raw edge (+0.059 vs +0.059/contract); relationships: KXNHLTEAMTOTAL-26OCT26TORCGY-TOR3|no: DUPLICATIVE (phi 0.357); KXNHLTEAMTOTAL-26OCT26TORCGY-TOR2|no: REINFORCING (phi 0.212); failure: TOR wins by 2+
-- **Toronto over 2.5 goals scored NO** — thesis: TOR offense suppressed (<= 2 goals); alternative: KXNHLSPREAD-26OCT26TORCGY-TOR3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT26TORCGY-TOR3|no has the higher standalone adjusted growth (4.96 vs 2.35 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.357); they share one thesis budget; relationships: KXNHLSPREAD-26OCT26TORCGY-TOR3|no: DUPLICATIVE (phi 0.357); KXNHLTEAMTOTAL-26OCT26TORCGY-TOR2|no: DUPLICATIVE (phi 0.594); failure: TOR offense succeeds (4+ goals)
-- **Toronto over 1.5 goals scored NO** — thesis: TOR offense suppressed (<= 2 goals); alternative: KXNHLSPREAD-26OCT26TORCGY-TOR3|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT26TORCGY-TOR3|no has the higher standalone adjusted growth (4.96 vs 2.01 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.212); they share one thesis budget; relationships: KXNHLSPREAD-26OCT26TORCGY-TOR3|no: REINFORCING (phi 0.212); KXNHLTEAMTOTAL-26OCT26TORCGY-TOR3|no: DUPLICATIVE (phi 0.594); failure: TOR wins (incl. OT/SO)
+| Toronto wins by over 1.5 goals NO | 63 | 0.715 | 0.670 | +0.069 | +0.024 | $10.94 | FUNDED_RESEARCH | $3 | CGY:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Toronto wins by over 2.5 goals NO | 75 | 0.822 | 0.783 | +0.059 | +0.020 | $13.04 | FUNDED_RESEARCH | $4 | CGY:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Toronto wins by over 1.5 goals NO** — thesis: CGY wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT26TORCGY-TOR3|no; why: higher confidence-adjusted growth (5.46 vs 4.96 bp); relationships: KXNHLSPREAD-26OCT26TORCGY-TOR3|no: DUPLICATIVE (phi 0.739); failure: TOR wins by 2+
+- **Toronto wins by over 2.5 goals NO** — thesis: CGY wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT26TORCGY-TOR2|no; why: second expression of the same thesis: KXNHLSPREAD-26OCT26TORCGY-TOR2|no has the higher standalone adjusted growth (5.46 vs 4.96 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.739); they share one thesis budget; relationships: KXNHLSPREAD-26OCT26TORCGY-TOR2|no: DUPLICATIVE (phi 0.739); failure: TOR wins by 2+
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, CGY shot control · normal event (5-7) · decided (2+) 0.09.
-- thesis CGY:WINS (p 0.4954): highest fidelity KXNHLSPREAD-26OCT26TORCGY-TOR3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT26TORCGY-TOR3|no (same contract)
-- thesis TOR:SUPPRESSED (p 0.3791): highest fidelity KXNHLSPREAD-26OCT26TORCGY-TOR3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT26TORCGY-TOR3|no (same contract)
+- thesis CGY:WINS (p 0.4954): highest fidelity KXNHLSPREAD-26OCT26TORCGY-TOR2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT26TORCGY-TOR2|no (same contract)
+- KXNHLSPREAD-26OCT26TORCGY-TOR2|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis TOR:WINS_BY_2PLUS (p 0.2847, phi -1.0)
 - KXNHLSPREAD-26OCT26TORCGY-TOR3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis TOR:WINS_BY_2PLUS (p 0.2847, phi -0.739)
-- KXNHLTEAMTOTAL-26OCT26TORCGY-TOR3|no: FUNDED_RESEARCH; family MIXED; loses 2% of the draws where the thesis happens; opposing: failure thesis TOR:OFFENSE_4PLUS (p 0.406, phi -0.633)
-- KXNHLTEAMTOTAL-26OCT26TORCGY-TOR2|no: FUNDED_RESEARCH; family MIXED; loses 55% of the draws where the thesis happens; opposing: failure thesis TOR:WINS (p 0.5046, phi -0.429)
-- override: override declined: the joint re-optimisation gives KXNHLTEAMTOTAL-26OCT26TORCGY-TOR4|no less than the minimum stake; KXNHLTEAMTOTAL-26OCT26TORCGY-TOR2|no kept
-- override: override declined: the joint re-optimisation gives KXNHLTEAMTOTAL-26OCT26TORCGY-TOR4|no less than the minimum stake; KXNHLTEAMTOTAL-26OCT26TORCGY-TOR3|no kept
 
-portfolios: A EV +4.56 (adj +1.31) on $50.00, P(profit) 0.5707, adj growth 8.6 bp · B EV +2.10 (adj +0.70) on $22.67, P(profit) 0.8216, adj growth 6.2 bp · C EV +1.53 (adj +0.53) on $20.00, P(profit) 0.8216, adj growth 4.8 bp · R EV +0.80 (adj +0.26) on $7.00, P(profit) 0.3699, adj growth 8.1 bp
+portfolios: A EV +4.21 (adj +1.30) on $50.00, P(profit) 0.6459, adj growth 9.7 bp · B EV +2.17 (adj +0.75) on $23.98, P(profit) 0.7153, adj growth 6.6 bp · C EV +1.93 (adj +0.67) on $18.05, P(profit) 0.7153, adj growth 5.9 bp · R EV +0.63 (adj +0.22) on $7.00, P(profit) 0.7153, adj growth 7.5 bp
 
 ## DET @ EDM  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
