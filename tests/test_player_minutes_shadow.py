@@ -321,14 +321,39 @@ def test_capture_incumbent_writes_once_with_explicit_missing_and_the_guard_cover
     out = tmp_path / "out"
     _publish(out, rec, pd.DataFrame([{"game_id": 0, "player_id": 0, "toi_s": 600}]))
     monkeypatch.setattr(M, "incumbent_last_predrop", lambda archive, starts, now: {(0, 1): {"toi_min": 18.0, "pp_min": 2.0, "at": "2026-10-24T22:00:00Z"}})
-    r = M.capture_incumbent(tmp_path / "a", out, now=datetime(2026, 10, 25, 12, 0, tzinfo=UTC))
+    arch = tmp_path / "a"
+    # before the drop + 4 h nothing is captured, and while the archive partitions are absent the game waits instead of being frozen as all-null
+    assert M.capture_incumbent(arch, out, now=datetime(2026, 10, 25, 1, 0, tzinfo=UTC))["games_captured"] == []
+    w = M.capture_incumbent(arch, out, now=datetime(2026, 10, 25, 12, 0, tzinfo=UTC))
+    assert w["games_captured"] == [] and w["waiting_for_archive"] == [0, 1] and not (out / "incumbent").exists()
+    (arch / "predictions_player" / "dt=2026-10-24").mkdir(parents=True)
+    r = M.capture_incumbent(arch, out, now=datetime(2026, 10, 25, 12, 0, tzinfo=UTC))
     assert r["games_captured"] == [0, 1]
     inc = M.load_dir(out, "incumbent")
     row = inc[(inc.game_id == 0) & (inc.player_id == 1)].iloc[0]
     assert row["inc_pp_min"] == 2.0 and row["incumbent_lead_min"] == 60.0 and inc[inc.inc_pp_min.notna()].shape[0] == 1 and len(inc) == 6      # missing candidates are rows with nulls
+    assert set(inc[inc.inc_pp_min.isna()]["reason"]) == {"not_priced"}
     assert M.capture_incumbent(tmp_path / "a", out, now=datetime(2026, 10, 25, 13, 0, tzinfo=UTC))["games_captured"] == []                   # write-once per game
     (out / "incumbent" / "dt=2026-10-24" / "stray.jsonl.gz").write_bytes(gzip.compress(b"{}\n"))
     assert any(x.startswith("unlisted: incumbent/") for x in M.guard(out))
+
+
+def test_after_the_grace_period_absent_partitions_become_explicit_null_rows_with_a_reason(tmp_path, monkeypatch):
+    rec, _, _ = _synthetic(1, 3)
+    rec = rec.assign(game_start_utc="2026-10-24T23:00:00Z")
+    out = tmp_path / "out"
+    _publish(out, rec, pd.DataFrame([{"game_id": 0, "player_id": 0, "toi_s": 600}]))
+    monkeypatch.setattr(M, "incumbent_last_predrop", lambda archive, starts, now: {})
+    r = M.capture_incumbent(tmp_path / "a", out, now=datetime(2026, 11, 5, tzinfo=UTC))
+    inc = M.load_dir(out, "incumbent")
+    assert r["games_captured"] == [0] and set(inc["reason"]) == {"archive_window_expired"} and inc["inc_pp_min"].isna().all()
+
+
+def test_incumbent_last_predrop_skips_a_malformed_timestamp_instead_of_losing_every_game(tmp_path, monkeypatch):
+    rows = [{"game_id": 7, "player_id": 5, "predicted_at_utc": "2026-10-24T22:30:00", "meta_expected_toi_min": 99.0},            # naive: skipped
+            {"game_id": 7, "player_id": 5, "predicted_at_utc": "2026-10-24T22:00:00Z", "meta_expected_toi_min": 18.0, "meta_expected_pp_toi_min": 2.0}]
+    monkeypatch.setattr("nhl_edge.archive.ledger.Ledger", lambda root: SimpleNamespace(iter_rows=lambda kind, dt_from=None: iter(rows)))
+    assert M.incumbent_last_predrop(tmp_path, {7: "2026-10-24T23:00:00Z"}, datetime(2026, 10, 26, tzinfo=UTC))[(7, 5)]["toi_min"] == 18.0
 
 
 def test_supplementary_h2_reports_coverage_missingness_and_selection_without_a_pass_flag():
@@ -342,6 +367,7 @@ def test_supplementary_h2_reports_coverage_missingness_and_selection_without_a_p
             ypp = float(outc[(outc.game_id == g) & (outc.player_id == p)]["toi_pp_s"].iloc[0]) / 60
             inc_rows.append({"game_id": g, "player_id": p, "inc_toi_min": 18.0 if priced else None, "inc_pp_min": (ypp + rng.normal(0, 0.7)) if priced else None, "incumbent_lead_min": 45.0 if priced else None})
     rec["pos"] = ["F" if p % 2 else "D" for g in range(30) for p in range(40)]
+    rec["predicted_at_utc"] = "2026-10-31T12:00:00Z"
     res = M.supplementary_h2(rec, outc, pd.DataFrame(inc_rows), "m")
     assert res["n_dressed"] == 1200 and res["n_pairs"] == 720 and abs(res["coverage_of_dressed"] - 0.6) < 1e-9 and res["missing"]["no_incumbent_row"] == 480
     assert res["registered_captured_coverage_of_dressed"] == 1.0 and res["selection"]["covered"]["n"] == 720 and res["selection"]["not_covered"]["n"] == 480
@@ -349,3 +375,13 @@ def test_supplementary_h2_reports_coverage_missingness_and_selection_without_a_p
     md = M.render({"n_paired": 0, "verdict": "x"}, {}, None, {"records": 1, "eligible": 1, "outcomes": 1}, None, res)
     assert "Supplementary power-play comparison (not the registered H2" in md and "no pass/fail" in md
     assert M.supplementary_h2(rec, outc, pd.DataFrame(), "m")["n_dressed"] == 0
+
+
+def test_supplementary_h2_counts_only_games_that_have_a_captured_comparator():
+    rec, outc, _ = _synthetic(30, 40)
+    rec = _stamp(rec).assign(pos="F", predicted_at_utc="2026-10-31T12:00:00Z")
+    inc = pd.DataFrame([{"game_id": g, "player_id": p, "inc_toi_min": 18.0, "inc_pp_min": 2.0, "incumbent_lead_min": 5.0} for g in range(20) for p in range(40)])
+    res = M.supplementary_h2(rec, outc, inc, "m")
+    assert res["n_dressed"] == 800 and res["n_games"] == 20 and res["missing"]["no_incumbent_row"] == 0 and res["record_lead_min"]["median"] > 60 * 24 * 0
+    md = M.render({"n_paired": 0, "verdict": "x"}, {}, None, {"records": 1, "eligible": 1, "outcomes": 1}, None, res)
+    assert "Information asymmetry" in md and md.index("Registered verdicts") < md.index("Supplementary power-play")
