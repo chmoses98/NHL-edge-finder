@@ -54,20 +54,51 @@ index 6e4cab2e..4d461855 100644
 +    {"date": "2026-10-26", "change": "target player_team_minutes introduced: candidate team-minutes-1.0 runs in shadow only; published stays team-minutes-0 (unchanged)", "approval": null}
    ]
  }
+diff --git a/research/projection_foundation/nhl/incumbent.py b/research/projection_foundation/nhl/incumbent.py
+index afa245ab..c3c06dd6 100644
+--- a/research/projection_foundation/nhl/incumbent.py
++++ b/research/projection_foundation/nhl/incumbent.py
+@@ -32,7 +32,11 @@ def prospective() -> tuple[pd.DataFrame, pd.DataFrame]:
+     d["fam"] = d["family"].map(FAM)
+     d["k"] = np.floor(pd.to_numeric(d["threshold"]) + 1).astype(int)  # gt k-0.5  ==  >= k
+     last_t = d.groupby(["game_id", "player_id"])["t"].transform("max")
+-    snap = d[d["t"] == last_t]
++    snap = d[d["t"] == last_t].copy()
++    # the registered incumbent is the published template; when another team-minute allocation is published the rows carry the legacy-equivalent values (absent at the default)
++    for c in ("meta_expected_toi_min", "meta_expected_pp_toi_min", "meta_expected_shots"):
++        if f"{c}_legacy" in snap.columns:
++            snap[c] = snap[f"{c}_legacy"].where(snap[f"{c}_legacy"].notna(), snap[c])
+     # rungs: latest pregame row per (game, player, family, k)
+     rung = d.sort_values("t").groupby(["game_id", "player_id", "fam", "k"]).tail(1)
+     wide = rung.pivot_table(index=["game_id", "player_id"], columns=["fam", "k"], values="p_player", aggfunc="last")
+diff --git a/research/projection_foundation/nhl/live/forecast.py b/research/projection_foundation/nhl/live/forecast.py
+index ebbb1bdc..3da9f8b6 100644
+--- a/research/projection_foundation/nhl/live/forecast.py
++++ b/research/projection_foundation/nhl/live/forecast.py
+@@ -180,7 +180,8 @@ def incumbent_records(archive: str, now: datetime, games: pd.DataFrame) -> tuple
+                  ("assists", "meta_expected_assists", "player_assists"), ("points", "meta_expected_points", "player_points"),
+                  ("toi_minutes", "meta_expected_toi_min", None), ("saves", "meta_expected_saves", "goalie_saves")]
+         for fam, col, lad_fam in pairs:
+-            v = snap.get(col)
++            lv = snap.get(f"{col}_legacy")           # present only when another team-minute allocation is published: the incumbent stays the registered template
++            v = lv if (lv is not None and not (isinstance(lv, float) and not math.isfinite(lv))) else snap.get(col)
+             if v is None or (isinstance(v, float) and not math.isfinite(v)):
+                 continue
+             recs.append({**base, "family": fam, "mean": float(v), "ladder": ladders.get(lad_fam, {}) if lad_fam else {}})
 diff --git a/src/nhl_edge/players/team_minutes.py b/src/nhl_edge/players/team_minutes.py
 new file mode 100644
-index 00000000..b77baa79
+index 00000000..ee129109
 --- /dev/null
 +++ b/src/nhl_edge/players/team_minutes.py
-@@ -0,0 +1,115 @@
+@@ -0,0 +1,124 @@
 +"""Team-minute allocation behind the PLAYER_SIM_V1 ice-time projection (RESEARCH_ONLY shadow arm; no price, stake, cap or route reads it).
 +
 +``build_roster`` turns a player's share of his team's time in a strength state into minutes with ``minutes[state] = share[state] x team_minutes[state]``.
 +Two allocations exist side by side:
 +
 +``LEGACY`` (``team-minutes-0``, the published default) -- the template that was hard-coded in ``workflows/shadow_player.py``:
-+    EV 50.6, PP 4.4 x p_pp / 0.215, SH 4.4, EA 0.6, EN 0.6, OT 1.2 (sum 61.8). Measured against 7,872 team-games it is wrong in three ways: PP/SH are ~14% low, SH ignores the
-+    opponent's power play, and OT is added on top of EV/PP/SH minutes that already contain overtime seconds.
++    EV 50.6, PP 4.4 x p_pp / 0.215, SH 4.4, EA 0.6, EN 0.6, OT 1.2 (sum 61.8). Measured against 8,078 regulation team-games it is wrong in four ways: PP/SH are ~14% low, SH ignores the
++    opponent's power play, OT is added on top of EV/PP/SH minutes that already contain overtime seconds, and the states do not partition the game clock.
 +
 +``team-minutes-1.0`` (the candidate; activation needs an approval record in ``data/registry/projection-registry.json``) -- one physical clock budget per team-game
 +    (all values are CLOCK minutes of the team, not skater-minutes):
@@ -78,7 +109,9 @@ index 00000000..b77baa79
 +        EV_A  = 60 + E[OT] - PP_A - SH_A - EA_A - EN_A   (strength states partition the game clock; penalty time comes out of even strength, as in nhl-features-2.0)
 +
 +    followed by a per-state share-normalisation factor kappa_s (fitted so that the dressed players' expected skater-minutes by state match the observed skater-minutes;
-+    kappa is ~1 where the shares sum to the number of skaters on the ice, and 1.38 for EN where the recorded shares are deflated by overtime-padded denominators).
++    kappa is ~1 where the shares sum to the number of skaters on the ice; EN (1.15) and EA (0.85) absorb the overtime-padded denominators of the recorded shares).
++    The clock identities (PP_A = SH_B, EA_A = EN_B, partition of 60 + E[OT]) hold exactly in ``clock()``; ``allocate()`` then multiplies each state by its own kappa, so the
++    PROJECTED minutes satisfy them only up to kappa (a bounded, tested deviation), which is what the share definition requires.
 +    ``minutes[state] = kappa_s x clock_s``; ``ot`` is a memo (overtime seconds are already inside EV/PP/SH in the player tables), so the allocation carries ``ot = 0``.
 +
 +Nothing here touches shares, rates or the simulation: goals, assists and points use shares, never minutes, so they are unchanged by construction (tested bit for bit).
@@ -89,6 +122,7 @@ index 00000000..b77baa79
 +import hashlib
 +import json
 +import math
++import numbers
 +from dataclasses import asdict, dataclass, field
 +from pathlib import Path
 +from typing import Any
@@ -133,15 +167,21 @@ index 00000000..b77baa79
 +
 +
 +def load_params(path: Path | None = None) -> AllocationParams:
++    """Loads and VALIDATES the fingerprinted parameter file: the fingerprint is required and must match, every number must be finite and in a plausible range."""
 +    d = json.loads(Path(path or PARAMS_PATH).read_text())
 +    p = AllocationParams.from_dict(d)
-+    if d.get("fingerprint") and d["fingerprint"] != p.fingerprint():
-+        raise ValueError(f"team-minutes parameter file fingerprint mismatch: {d['fingerprint']} != {p.fingerprint()}")
++    if not d.get("fingerprint") or d["fingerprint"] != p.fingerprint():
++        raise ValueError(f"team-minutes parameter file fingerprint missing or mismatched: {d.get('fingerprint')} != {p.fingerprint()}")
++    nums = {"regulation_min": (p.regulation_min, 59.99, 60.01), "ot_min": (p.ot_min, 0.0, 3.0), "pp_per_ppmin": (p.pp_per_ppmin, 0.5, 2.0), "league_pp_min": (p.league_pp_min, 3.0, 8.0),
++            "ea_min": (p.ea_min, 0.0, 2.0)} | {f"kappa.{k}": (v, 0.5, 2.0) for k, v in p.kappa.items()}
++    bad = [k for k, (v, lo, hi) in nums.items() if not (math.isfinite(v) and lo <= v <= hi)]
++    if bad or set(p.kappa) != {"ev", "pp", "sh", "ea", "en"}:
++        raise ValueError(f"team-minutes parameters out of range or incomplete: {bad or sorted(p.kappa)}")
 +    return p
 +
 +
 +def _ok(x: Any) -> bool:
-+    return isinstance(x, (int, float)) and math.isfinite(float(x)) and x > 0
++    return isinstance(x, numbers.Real) and not isinstance(x, bool) and math.isfinite(float(x)) and x > 0
 +
 +
 +def clock(ppmin_for: float | None, ppmin_against: float | None, prm: AllocationParams) -> dict[str, float | bool]:
@@ -176,7 +216,7 @@ index 00000000..b77baa79
 +    sog = float(sum(exp[s] * (profile.sog60[s] if np.isfinite(profile.sog60.get(s, np.nan)) else priors.ixg60.get((profile.pos, s), 0) * 10) / 60.0 for s in ("ev", "pp", "sh")))
 +    return {"toi": float(sum(exp.values())), **exp, "sog": sog}
 diff --git a/src/nhl_edge/projection_registry.py b/src/nhl_edge/projection_registry.py
-index 2bad4d4e..dcbea94e 100644
+index 2bad4d4e..e8fd07fc 100644
 --- a/src/nhl_edge/projection_registry.py
 +++ b/src/nhl_edge/projection_registry.py
 @@ -23,6 +23,8 @@ REGISTRY_PATH = REPO_ROOT / "data" / "registry" / "projection-registry.json"
@@ -188,10 +228,17 @@ index 2bad4d4e..dcbea94e 100644
  
  
  def _approved(entry: dict[str, Any]) -> bool:
-@@ -48,6 +50,26 @@ def published_model(target: str, path: Path | None = None) -> tuple[str, str | N
+@@ -48,6 +50,33 @@ def published_model(target: str, path: Path | None = None) -> tuple[str, str | N
      return want, None
  
  
++def team_minutes_entry(path: Path | None = None) -> dict[str, Any] | None:
++    try:
++        return json.loads(Path(path or REGISTRY_PATH).read_text())["targets"][TEAM_MINUTES_TARGET]
++    except (OSError, ValueError, KeyError, TypeError):
++        return None
++
++
 +def published_team_minutes(path: Path | None = None) -> tuple[str, str | None]:
 +    """(team-minute allocation that drives the published PLAYER_SIM_V1 ice-time and shots fields, reason it is the default despite a request, or None).
 +
@@ -256,10 +303,10 @@ index 8e017d64..a3a32a35 100644
  
 diff --git a/src/nhl_edge/research/team_minutes_recal.py b/src/nhl_edge/research/team_minutes_recal.py
 new file mode 100644
-index 00000000..fd20ba03
+index 00000000..19638ab5
 --- /dev/null
 +++ b/src/nhl_edge/research/team_minutes_recal.py
-@@ -0,0 +1,262 @@
+@@ -0,0 +1,273 @@
 +"""Team-minute recalibration for the PLAYER_SIM_V1 ice-time projection (RESEARCH_ONLY; development evidence on the exposed seasons 2022-2025).
 +
 +Question: the hard-coded team-minute template of ``workflows/shadow_player.py`` (EV 50.6, PP 4.4 x p_pp/0.215, SH 4.4, EA 0.6, EN 0.6, OT 1.2) maps a player's share of his
@@ -278,7 +325,10 @@ index 00000000..fd20ba03
 +
 +Shares, shot rates and the simulation are not re-estimated: the only thing that changes between arms is the team-minute dictionary.
 +
-+    python -m nhl_edge.research.team_minutes_recal --cache <derived cache> --history data/history --wf <derived wf parquet> --out out/team_minutes_recal.json
++    python -m nhl_edge.research.team_minutes_recal --cache <derived cache> --history data/history [--wf <wf parquet>] --out out/team_minutes_recal.json [--write-params data/params/team-minutes-1.0.json]
++
++``--cache`` is the champion per-skater frame cache of the workload replication (``champ_sk_<season>.parquet`` for 2022-2025, built by ``nhl_edge.research.workload_replication``);
++it is a derived artefact and is not committed. Re-running with the same cache and history reproduces ``data/params/team-minutes-1.0.json`` bit for bit (the fit is deterministic).
 +"""
 +
 +from __future__ import annotations
@@ -506,12 +556,20 @@ index 00000000..fd20ba03
 +    ap = argparse.ArgumentParser()
 +    ap.add_argument("--cache", type=Path, required=True)
 +    ap.add_argument("--history", type=Path, default=Path("data/history"))
-+    ap.add_argument("--wf", type=Path, required=True, help="parquet of workload_replication.derive_wf rows (game_id, ppmin_home, ppmin_away)")
++    ap.add_argument("--wf", type=Path, default=None, help="parquet of workload_replication.derive_wf rows (game_id, ppmin_home, ppmin_away); derived from --history (about a minute) when omitted")
 +    ap.add_argument("--out", type=Path, required=True)
 +    ap.add_argument("--write-params", type=Path, default=None)
 +    ap.add_argument("--n-boot", type=int, default=PD.N_BOOT)
 +    a = ap.parse_args(argv)
-+    res = run(a.cache, a.history, pd.read_parquet(a.wf), a.n_boot)
++    if a.wf is not None and a.wf.exists():
++        wf = pd.read_parquet(a.wf)
++    else:
++        from nhl_edge.research import workload_replication as R
++
++        wf = R.derive_wf(a.history, list(ALL_SEASONS))
++        if a.wf is not None:
++            wf.to_parquet(a.wf)
++    res = run(a.cache, a.history, wf, a.n_boot)
 +    a.out.parent.mkdir(parents=True, exist_ok=True)
 +    a.out.write_text(json.dumps(res, indent=1, sort_keys=True))
 +    if a.write_params:
@@ -524,10 +582,10 @@ index 00000000..fd20ba03
 +    sys.exit(main())
 diff --git a/src/nhl_edge/research/team_minutes_shadow.py b/src/nhl_edge/research/team_minutes_shadow.py
 new file mode 100644
-index 00000000..30d92338
+index 00000000..668dcab1
 --- /dev/null
 +++ b/src/nhl_edge/research/team_minutes_shadow.py
-@@ -0,0 +1,153 @@
+@@ -0,0 +1,161 @@
 +"""Scores the team-minute allocation SHADOW (RESEARCH_ONLY): candidate ``team-minutes-1.0`` vs the published ``team-minutes-0`` on current games.
 +
 +Inputs are the archive kind ``player_tm_shadow`` (one row per dressed skater per run, BOTH allocations' published-field equivalents computed from the same shares at the same
@@ -568,7 +626,10 @@ index 00000000..30d92338
 +        rows += list(Ledger(archive).iter_rows("player_tm_shadow"))
 +    for f in extra:
 +        rows += json.loads(Path(f).read_text())
-+    return pd.DataFrame(rows)
++    d = pd.DataFrame(rows)
++    if len(d) and "player_id" in d.columns:                      # marker rows (a degraded shadow run) carry no player and no minutes
++        d = d[d["player_id"].notna()]
++    return d
 +
 +
 +def load_actuals(archive: Path) -> pd.DataFrame:
@@ -627,7 +688,9 @@ index 00000000..30d92338
 +    pos = m["pos"].astype(str).to_numpy()
 +    res["by_position_bias_toi"] = {p: {a: float((pred[a]["toi"][pos == p] - y["toi"][pos == p]).mean()) for a in ARMS} | {"n": int((pos == p).sum())} for p in sorted(set(pos))}
 +    out["results"] = res
-+    out["identical_timestamps"] = bool(m["candidate_version"].nunique() == 1)
++    out["both_arms_on_the_same_row"] = True                      # every shadow row carries both allocations, computed from the same shares at the same predicted_at_utc
++    out["clock_fallback_share"] = float(m["clock_fallback"].astype(bool).mean()) if "clock_fallback" in m.columns else None
++    out["published_allocation_counts"] = {str(k): int(v) for k, v in m["published_allocation"].value_counts().items()} if "published_allocation" in m.columns else {}
 +    return out
 +
 +
@@ -640,6 +703,8 @@ index 00000000..30d92338
 +    if m.empty:
 +        return []
 +    F, D = m[m["pos"] == "F"], m[m["pos"] == "D"]
++    if F.empty or D.empty:                                       # a tiny early sample: no archetypes rather than a crash
++        return []
 +    near = lambda d, col, v: d.iloc[(d[col] - v).abs().argsort().iloc[0]]  # noqa: E731
 +    picks = [("top-line forward (most ice time)", F.loc[F["legacy_toi"].idxmax()]), ("top-six forward (75th percentile of ice time)", near(F, "legacy_toi", F["legacy_toi"].quantile(0.75))),
 +             ("fourth-line forward (nearest 10 min)", near(F, "legacy_toi", 10.0)), ("top-pair defenceman (most ice time)", D.loc[D["legacy_toi"].idxmax()]),
@@ -671,10 +736,11 @@ index 00000000..30d92338
 +    rows = load_rows(None if a.no_archive_rows else a.archive, a.rows)
 +    actuals = load_actuals(a.archive)
 +    res = compare(rows, actuals, a.n_boot, a.min_lead) if len(rows) else {"note": "no player_tm_shadow rows"}
++    a.out.parent.mkdir(parents=True, exist_ok=True)
++    a.out.write_text(json.dumps(res, indent=1, sort_keys=True))             # the scores are written before the (optional) archetype table
 +    if len(rows):
 +        res["representative_players"] = representatives(merged_pairs(rows, actuals, a.min_lead))
-+    a.out.parent.mkdir(parents=True, exist_ok=True)
-+    a.out.write_text(json.dumps(res, indent=1, sort_keys=True))
++        a.out.write_text(json.dumps(res, indent=1, sort_keys=True))
 +    print(json.dumps(res, indent=1, sort_keys=True)[:3000])
 +    return 0
 +
@@ -682,7 +748,7 @@ index 00000000..30d92338
 +if __name__ == "__main__":
 +    sys.exit(main())
 diff --git a/src/nhl_edge/workflows/shadow_player.py b/src/nhl_edge/workflows/shadow_player.py
-index 85a3afbd..67a78832 100644
+index 85a3afbd..d2ff0270 100644
 --- a/src/nhl_edge/workflows/shadow_player.py
 +++ b/src/nhl_edge/workflows/shadow_player.py
 @@ -35,6 +35,7 @@ from nhl_edge.data.lines import is_confirmed_source
@@ -693,7 +759,7 @@ index 85a3afbd..67a78832 100644
  from nhl_edge.players import xg as X
  from nhl_edge.players.engine import StrengthTable, invariant_violations, simulate_players
  from nhl_edge.players.features import (
-@@ -192,6 +193,46 @@ def _anchored(p: float | None, m: float | None, w: float = ANCHOR_WEIGHT) -> flo
+@@ -192,6 +193,59 @@ def _anchored(p: float | None, m: float | None, w: float = ANCHOR_WEIGHT) -> flo
      return float(1 / (1 + np.exp(-(w * lg(m) + (1 - w) * lg(p)))))
  
  
@@ -709,19 +775,32 @@ index 85a3afbd..67a78832 100644
 +        prm = TMV.load_params()
 +    except Exception as e:  # noqa: BLE001 - a missing / corrupt parameter file means "legacy", never a failed run
 +        prm = None
-+        if published != TMV.LEGACY_VERSION:
-+            published, why = TMV.LEGACY_VERSION, f"candidate parameters unavailable ({type(e).__name__}: {str(e)[:120]}); legacy template used"
++        why = f"candidate parameters unavailable ({type(e).__name__}: {str(e)[:120]}); legacy template used"
++        published = TMV.LEGACY_VERSION
++        log.warning(kv(event="team_minutes_candidate_unavailable", err=str(e)[:200]))
++    if published not in (TMV.LEGACY_VERSION, TMV.CANDIDATE_VERSION):
++        published, why = TMV.LEGACY_VERSION, "registry names an allocation this code does not implement; legacy template used"
++    elif published == TMV.CANDIDATE_VERSION:
++        # the approval must name the exact parameter set it approved
++        pin = ((projection_registry.team_minutes_entry() or {}).get("approval") or {}).get("candidate_fingerprint")
++        if prm is None or pin != prm.fingerprint():
++            published, why = TMV.LEGACY_VERSION, f"approval does not pin the loaded parameter fingerprint ({pin!r} vs {prm.fingerprint() if prm else None}); legacy template used"
++    if why:
++        log.warning(kv(event="team_minutes_published_default", reason=why))
 +    return published, prm, why
 +
 +
 +_TM_COLUMNS = ("toi", "ev", "pp", "sh", "ea", "en", "ot", "sog")
++TM_SHADOW_MAX_LEAD_MIN = 360.0       # only runs within six hours of the drop are archived (the scorer uses the last pregame row, 30-60 minutes out): bounds the archive growth
 +
 +
 +def tm_shadow_rows(gi: Any, side: str, rb: Any, book: Any, tm_legacy: dict[str, float], tm_cand: dict[str, float], fallback: bool, published: str, prm: TMV.AllocationParams,
 +                   now_iso: str, minutes: Any, horizon: Any, run_id: str) -> list[dict[str, Any]]:
 +    """One row per dressed skater: BOTH allocations' published-field equivalents computed from the same shares at the same instant (an additive archive kind; never published)."""
 +    ro = rb.roster
-+    rows = []
++    rows: list[dict[str, Any]] = []
++    if minutes is None or not (0 < float(minutes) <= TM_SHADOW_MAX_LEAD_MIN):
++        return rows
 +    for i, pid in enumerate(ro.player_ids):
 +        pid = int(pid)
 +        m, pr = rb.player_meta[pid], rb.profiles[pid]
@@ -732,7 +811,7 @@ index 85a3afbd..67a78832 100644
 +                               "projection_quality": m["projection_quality"], "deployment_source": m["deployment_source"], "role": "SHADOW", "authority": AUTHORITY}
 +        row.update({f"share_{s}": round(float(m["share"][s]), 6) for s in TMV.STATES})
 +        row.update({f"legacy_{k}": round(float(a[k]), 4) for k in _TM_COLUMNS} | {f"cand_{k}": round(float(c[k]), 4) for k in _TM_COLUMNS})
-+        row.update({f"legacy_team_{s}": round(float(tm_legacy[s]), 4) for s in TMV.STATES} | {f"cand_team_{s}": round(float(tm_cand[s]), 4) for s in TMV.STATES})
++        row.update({f"legacy_team_{s}": round(float(tm_legacy[s]), 4) for s in ("ev", "pp", "sh")} | {f"cand_team_{s}": round(float(tm_cand[s]), 4) for s in ("ev", "pp", "sh")})
 +        rows.append(row)
 +    return rows
 +
@@ -740,7 +819,7 @@ index 85a3afbd..67a78832 100644
  def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any]], data_root: Path, now: datetime, market_ts: datetime | None, run_id: str,
                        rosters: list[dict[str, Any]], lines: list[dict[str, Any]], injuries: list[dict[str, Any]], live: dict[str, list[dict[str, Any]]],
                        fee_for: Any, goalie_states: dict[str, dict[str, Any]] | None = None, n_sims: int = 10000) -> dict[str, Any]:
-@@ -200,6 +241,9 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
+@@ -200,6 +254,9 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
  
      rt = load_runtime(data_root, live)
      sp = load_params()
@@ -750,7 +829,7 @@ index 85a3afbd..67a78832 100644
      lam_by_game = {str(b["game_id"]): b for b in v2_blocks or []}
      rows_all: list[dict[str, Any]] = []
      blocks: list[dict[str, Any]] = []
-@@ -227,13 +271,30 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
+@@ -227,13 +284,30 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
              ev, pp, sh = comp.get(f"ev_{side}"), comp.get(f"pp_{side}"), comp.get(f"sh_{side}")
              p_pp = float(pp / (ev + pp + sh)) if ev and pp is not None and sh is not None and (ev + pp + sh) > 0 else 0.215
              p_sh = float(sh / (ev + pp + sh)) if ev and pp is not None and sh is not None and (ev + pp + sh) > 0 else 0.028
@@ -783,22 +862,29 @@ index 85a3afbd..67a78832 100644
          seed = int(it["seed"]) ^ 0x5F3759DF  # the V2 shadow's seed: identical team outcomes
          res = simulate_game_v2(TeamParams(gi.home_team_id, gi.home_abbrev, float(b["v2"]["lam_home"])), TeamParams(gi.away_team_id, gi.away_abbrev, float(b["v2"]["lam_away"])),
                                 seed=seed, n_sims=n_sims, params=sp, record_steps=True)
-@@ -284,6 +345,10 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
+@@ -284,6 +358,15 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
                          "projection_quality": pm.get("projection_quality"),
                          "role_confidence": pm.get("role_confidence"), "uncertainty_flags": pm.get("uncertainty_flags"), "ev_slot": pm.get("ev_slot"),
                          "pp_unit": pm.get("pp_unit"), "deployment_source": pm.get("deployment_source"), "n_games_history": pm.get("n_games")}
 +                if teams[side]["tm_used"] != TMV.LEGACY_VERSION:
-+                    # additive, ONLY where a non-default allocation drove the published number: the legacy-equivalent minutes keep the prospective player-minutes comparators on the incumbent they were registered against
-+                    leg = TMV.project_player(pm["share"], teams[side]["rb"].profiles[int(pid)], rt.book.priors, teams[side]["tm_legacy"])
-+                    meta.update({"team_minutes_version": teams[side]["tm_used"], "expected_toi_min_legacy": round(leg["toi"], 2), "expected_pp_toi_min_legacy": round(leg["pp"], 2)})
++                    # additive, ONLY where a non-default allocation drove the published number: the legacy-equivalent values keep the prospective comparators (player-minutes, projection
++                    # foundation) on the incumbent they were registered against. If they cannot be computed (a player with no profile, whose published minutes are 0 anyway) the failure is counted and the row carries no version field.
++                    try:
++                        leg = TMV.project_player(pm["share"], teams[side]["rb"].profiles[int(pid)], rt.book.priors, teams[side]["tm_legacy"])
++                        meta.update({"team_minutes_version": teams[side]["tm_used"], "expected_toi_min_legacy": round(leg["toi"], 2),
++                                     "expected_pp_toi_min_legacy": round(leg["pp"], 2), "expected_shots_legacy": round(leg["sog"], 2)})
++                    except Exception as e:  # noqa: BLE001
++                        tm_errors.append(f"{gid}|{side}: legacy pin {type(e).__name__}: {str(e)[:100]}")
                  if pr.p is not None:
                      x = {"goals": d.goals[:, i], "assists": d.assists[:, i], "points": d.points[:, i]}.get(PLAYER_FAMILIES[c.family])
                      if x is not None and c.threshold is not None:
-@@ -363,7 +428,9 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
+@@ -363,7 +446,11 @@ def run_player_shadow(items: list[dict[str, Any]], v2_blocks: list[dict[str, Any
              gid = str(getattr(it.get("gi"), "game_id", "?"))
              log.warning(kv(event="player_shadow_game_failed", game=gid, err=str(e)[:200]))
              blocks.append({"game_id": gid, "error": f"{type(e).__name__}: {str(e)[:200]}"})
 -    return {"rows": rows_all, "blocks": blocks, "context": rt.sources, "distributions": dists, "distribution_errors": dist_errors}
++    if tm_errors:
++        log.warning(kv(event="team_minutes_shadow_errors", n=len(tm_errors), first=tm_errors[0]))
 +    return {"rows": rows_all, "blocks": blocks, "context": rt.sources, "distributions": dists, "distribution_errors": dist_errors,
 +            "tm_shadow": tm_rows, "tm_info": {"published_allocation": tm_published, "default_reason": tm_why, "candidate_available": tm_prm is not None, "errors": tm_errors[:10],
 +                                              "n_errors": len(tm_errors), "candidate_fingerprint": tm_prm.fingerprint() if tm_prm else None}}
@@ -806,7 +892,7 @@ index 85a3afbd..67a78832 100644
  
  def markdown(blocks: list[dict[str, Any]], rows: list[dict[str, Any]], note: str | None = None, per_game: int = 6) -> str:
 diff --git a/src/nhl_edge/workflows/simulate.py b/src/nhl_edge/workflows/simulate.py
-index ef337f90..c61ab33b 100644
+index ef337f90..fc60b074 100644
 --- a/src/nhl_edge/workflows/simulate.py
 +++ b/src/nhl_edge/workflows/simulate.py
 @@ -289,6 +289,9 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
@@ -819,38 +905,22 @@ index ef337f90..c61ab33b 100644
      thesis = _run_thesis_card(ledger, dists, now, player) if dists else None
      if thesis is not None:
          slate["thesis_card"] = thesis["slate_view"]
-@@ -324,6 +327,12 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
+@@ -324,6 +327,18 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
              except Exception as e:  # noqa: BLE001 - never block V1's slate on the shadow arm
                  log.warning(kv(event="player_shadow_archive_failed", err=str(e)[:300]))
                  slate["player_shadow"]["archive_error"] = f"{type(e).__name__}: {str(e)[:200]}"
-+        if tm_rows:
++        degraded = bool(tm_info.get("n_errors") or tm_info.get("default_reason") or tm_info.get("candidate_available") is False)
++        if tm_rows or degraded:
++            # a degraded shadow (missing parameters, a registry request that was refused, per-game errors) leaves a visible marker row even when no player row could be produced
++            marker = [{"marker": True, "player_id": None, "predicted_at_utc": iso(now), "role": "SHADOW", "authority": "RESEARCH_ONLY", "published_allocation": tm_info.get("published_allocation"),
++                       "default_reason": tm_info.get("default_reason"), "candidate_available": tm_info.get("candidate_available"), "n_errors": tm_info.get("n_errors", 0),
++                       "errors": tm_info.get("errors")}] if degraded else []
 +            try:
-+                ledger.append_rows("player_tm_shadow", tm_rows, observed_at=now, meta={"date_et": target, "role": "SHADOW", "published_allocation": tm_info.get("published_allocation"),
-+                                                                                     "candidate_fingerprint": tm_info.get("candidate_fingerprint"), "n_errors": tm_info.get("n_errors", 0)})
++                ledger.append_rows("player_tm_shadow", marker + tm_rows, observed_at=now,
++                                   meta={"date_et": target, "role": "SHADOW", "published_allocation": tm_info.get("published_allocation"), "candidate_fingerprint": tm_info.get("candidate_fingerprint"),
++                                         "n_errors": tm_info.get("n_errors", 0), "default_reason": tm_info.get("default_reason"), "candidate_available": tm_info.get("candidate_available")})
 +            except Exception as e:  # noqa: BLE001 - never block V1's slate on the shadow arm
 +                log.warning(kv(event="player_tm_shadow_archive_failed", err=str(e)[:300]))
          if thesis is not None and thesis.get("ledger"):
              for kind, rows in thesis["ledger"].items():
                  if rows:
-diff --git a/tests/test_workload_research.py b/tests/test_workload_research.py
-index 0ebb0e67..be1a78dd 100644
---- a/tests/test_workload_research.py
-+++ b/tests/test_workload_research.py
-@@ -187,8 +187,16 @@ def test_starter_heuristic_uses_only_earlier_games():
- 
- 
- def test_production_team_minutes_match_the_shadow_workflow_verbatim():
-+    """The research replica of the published template (used to rebuild the historical champion frames) equals the template the workflow publishes. The literal now lives in
-+    ``players.team_minutes.legacy`` (the registry's default allocation); the workflow must still take its published minutes from it."""
-+    from nhl_edge.players import team_minutes as TMV
-+
-     src = (SRC / "workflows" / "shadow_player.py").read_text()
--    assert 'team_min = {"ev": 50.6, "pp": 4.4 * p_pp / 0.215, "sh": 4.4, "ea": 0.6, "en": 0.6, "ot": 1.2}' in src
-+    assert "tm_legacy = TMV.legacy(p_pp)" in src and "team_min, tm_cand, tm_fb = tm_legacy, None, False" in src
-+    tm_src = (SRC / "players" / "team_minutes.py").read_text()
-+    assert "LEGACY_LEAGUE_P_PP = 0.215" in tm_src and 'return {"ev": 50.6, "pp": 4.4 * p_pp / LEGACY_LEAGUE_P_PP, "sh": 4.4, "ea": 0.6, "en": 0.6, "ot": 1.2}' in tm_src
-+    for p in (0.05, 0.215, 0.3, 0.45):
-+        assert A.production_team_minutes(p) == TMV.legacy(p)
-     assert A.production_team_minutes(0.215) == {"ev": 50.6, "pp": 4.4, "sh": 4.4, "ea": 0.6, "en": 0.6, "ot": 1.2}
- 
- 
