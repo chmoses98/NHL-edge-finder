@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-26T04:33:57Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-26T05:32:14Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,7 +10,7 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 50.00 | +4.83 | +1.51 | +29.22 | 0.571 | -50.00 | -50.00 | 10.47 |
+| A highest edges (independent) | 50.00 | +4.83 | +1.43 | +29.22 | 0.571 | -50.00 | -50.00 | 9.68 |
 | B thesis-diversified (joint) ← optimiser card | 23.55 | +2.30 | +0.78 | +7.82 | 0.715 | -23.55 | -23.55 | 6.92 |
 | C best expression per thesis | 18.05 | +1.93 | +0.67 | +9.88 | 0.715 | -18.05 | -18.05 | 5.85 |
 | R FUNDED research stakes | 8.00 | +0.87 | +0.29 | +1.88 | 0.715 | -8.00 | -8.00 | 0.00 |
@@ -35,7 +35,7 @@ _no bet on this game passes: +EV at the executable ask under both the model and 
 
 portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp
 
-## TOR @ CGY  ·  10000 joint draws  ·  98 bet sides mapped, 6 +EV candidates, 3 on card
+## TOR @ CGY  ·  10000 joint draws  ·  98 bet sides mapped, 7 +EV candidates, 3 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -69,7 +69,7 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 - KXNHLTEAMTOTAL-26OCT26TORCGY-TOR2|no: FUNDED_RESEARCH; family MIXED; loses 55% of the draws where the thesis happens; opposing: failure thesis TOR:WINS (p 0.5046, phi -0.429)
 - override: override declined: the joint re-optimisation gives KXNHLTEAMTOTAL-26OCT26TORCGY-TOR4|no less than the minimum stake; KXNHLTEAMTOTAL-26OCT26TORCGY-TOR2|no kept
 
-portfolios: A EV +4.83 (adj +1.51) on $50.00, P(profit) 0.5707, adj growth 10.5 bp · B EV +2.30 (adj +0.78) on $23.55, P(profit) 0.7153, adj growth 6.9 bp · C EV +1.93 (adj +0.67) on $18.05, P(profit) 0.7153, adj growth 5.9 bp · R EV +0.87 (adj +0.29) on $8.00, P(profit) 0.7153, adj growth 9.5 bp
+portfolios: A EV +4.83 (adj +1.43) on $50.00, P(profit) 0.5707, adj growth 9.7 bp · B EV +2.30 (adj +0.78) on $23.55, P(profit) 0.7153, adj growth 6.9 bp · C EV +1.93 (adj +0.67) on $18.05, P(profit) 0.7153, adj growth 5.9 bp · R EV +0.87 (adj +0.29) on $8.00, P(profit) 0.7153, adj growth 9.5 bp
 
 ## DET @ EDM  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
