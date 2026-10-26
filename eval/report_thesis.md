@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-26T14:19:45Z · thesis-postmortem-2.0 · rows (all generations) 28909
+evaluated 2026-10-26T15:51:42Z · thesis-postmortem-2.0 · rows (all generations) 28909
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -34,29 +34,30 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020185 LAK @ NYR: NOT_STARTED · snapshot snap-5401a83bcae3aa8adc5d @ 2026-10-26T14:14:27Z
+#### game 2026020185 LAK @ NYR: NOT_STARTED · snapshot snap-fd7fffae326e6fca7fa0 @ 2026-10-26T15:01:47Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLAST-26OCT26LANYR-LAMZUCCARELLO36-1|no | SHADOW_ONLY | 0 | 15.00 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT26LANYR-LAMZUCCARELLO36-2|no | SHADOW_ONLY | 0 | 15.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT26LANYR-NYRPDOROFEYEV16-1|no | FUNDED_RESEARCH | 4 | 14.20 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT26LANYR-LAMZUCCARELLO36-1|no | SHADOW_ONLY | 0 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT26LANYR-NYRPDOROFEYEV16-1|no | FUNDED_RESEARCH | 5 | 16.41 | - | - | - | DIRECT | - | - |
 
-#### game 2026020186 TOR @ CGY: NOT_STARTED · snapshot snap-5401a83bcae3aa8adc5d @ 2026-10-26T14:14:27Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes | FUNDED_RESEARCH | 2 | 6.41 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT26TORCGY-TORTBLUEGER73-1|yes | SHADOW_ONLY | 0 | 6.10 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT26TORCGY-CGYBOTHMANN78-1|yes | SHADOW_ONLY | 0 | 3.26 | - | - | - | FRAGILE | - | - |
-| KXNHLTEAMTOTAL-26OCT26TORCGY-TOR5|no | FUNDED_RESEARCH | 4 | 14.93 | - | - | - | DIRECT | - | - |
-
-#### game 2026020187 DET @ EDM: NOT_STARTED · snapshot snap-5401a83bcae3aa8adc5d @ 2026-10-26T14:14:27Z
+#### game 2026020186 TOR @ CGY: NOT_STARTED · snapshot snap-fd7fffae326e6fca7fa0 @ 2026-10-26T15:01:47Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT26DETEDM-EDMFHALLANDER11-1|yes | FUNDED_RESEARCH | 1 | 3.22 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT26DETEDM-EDMCMCDAVID97-2|no | SHADOW_ONLY | 0 | 14.17 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT26TORCGY-CGYJCASTAGNA38-1|yes | SHADOW_ONLY | 0 | 5.29 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT26TORCGY-TORGMCKENNA92-1|no | FUNDED_RESEARCH | 5 | 19.88 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT26TORCGY-TORTBLUEGER73-1|yes | SHADOW_ONLY | 0 | 6.01 | - | - | - | FRAGILE | - | - |
+| KXNHLSPREAD-26OCT26TORCGY-TOR3|no | FUNDED_RESEARCH | 5 | 18.81 | - | - | - | STRUCTURAL | - | - |
+
+#### game 2026020187 DET @ EDM: NOT_STARTED · snapshot snap-fd7fffae326e6fca7fa0 @ 2026-10-26T15:01:47Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT26DETEDM-EDMFHALLANDER11-1|yes | FUNDED_RESEARCH | 1 | 3.21 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT26DETEDM-EDMCMCDAVID97-2|no | SHADOW_ONLY | 0 | 16.24 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT26DETEDM-EDMRNUGENTHOPKINS93-1|no | SHADOW_ONLY | 0 | 9.09 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT26DETEDM-EDMVPODKOLZIN92-1|yes | SHADOW_ONLY | 0 | 5.32 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-25: **COMPLETE — 5/5 games evaluated**
 
