@@ -6,7 +6,7 @@ Evidence only, not a legal opinion. Sources read on a runner (`source-audit`, id
 - **Scope.** "…the digital platforms, websites and online services that display or provide an authorized link to these Terms (collectively, the 'Services'). The Services include, without limitation, nhl.com, and NHL mobile applications…"
 - **Permitted use.** "All content, information, computer code, software, and any other materials that are part of the Services … ('NHL Content') … are the property of the NHL. You may access, use, and display the Services, but only for **non-commercial, informational, personal use, without modification or alteration** in any way, and only so long as you comply with these Terms."
 - **Prohibited.** "Engage in unauthorized spidering, scraping, or harvesting of content or information, or use any other **unauthorized automated means to compile information**." Team and League marks "may not be reproduced or used commercially without the prior written consent of NHL Enterprises, L.P." Embedded NHL content "must be for non-commercial purposes only".
-- **Contact.** The terms point to `NHL.com/contact` (a web form) and give a DMCA-agent postal address and phone; no email address is published on the pages read.
+- **Contact.** Requests for written consent are to be made "via the contact information provided in Section 27" of the Terms; `https://www.nhl.com/contact` (HTTP 200, a web form; no email address on the pages read) and a DMCA-agent postal address/phone are the published channels.
 
 ## Do they apply to `api-web.nhle.com` / `api.nhle.com`?
 **Not established either way.**
