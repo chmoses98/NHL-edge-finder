@@ -105,7 +105,7 @@ def test_player_minutes_runs_in_its_own_workflow_and_writes_only_its_own_branch(
     assert "HEAD:player-minutes-data" in text and "workload-shadow-data" not in text and "--force" not in text and "push origin main" not in text
     run = "\n".join(str(s.get("run", "")) for s in d["jobs"]["run"]["steps"])
     assert "set +e" in run and "player_minutes_shadow predict" in run and "player_minutes_shadow settle" in run and "player_minutes_shadow score" in run
-    assert "(records|outcomes|coverage|looks|activation)" in run and "--diff-filter=DMRTC" in run and "only be appended" in run
+    assert "(records|outcomes|incumbent|coverage|looks|activation)" in run and "--diff-filter=DMRTC" in run and "only be appended" in run
 
 
 def test_lc_run_step_publishes_what_was_written_even_when_a_day_failed():
