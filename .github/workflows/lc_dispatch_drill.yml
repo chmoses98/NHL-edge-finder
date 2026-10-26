@@ -3,12 +3,15 @@ name: lc-dispatch-drill
 # The decision logic is unit-tested and its "idle" branches are seen live on every worker cycle; what tests cannot show is that the REAL path works with the platform: the workflow
 # token's permission to dispatch, the dispatch endpoint, and that the requested workflows accept it and start. This job builds a synthetic regular-season game starting in 3 hours, tells
 # the dispatcher (--drill) to pretend no run covers it, lets it dispatch for real with this workflow's own GITHUB_TOKEN (the same token type slate-watch uses), and then waits for the two
-# resulting `workflow_dispatch` runs to appear. The dispatched runs are the normal workload-shadow and player-minutes runs: idempotent, they write records only for real games that have none.
+# resulting NEW `workflow_dispatch` runs (ids not present before the drill) to appear. Run it only from the default branch, ideally when no unrecorded game is inside the 14-hour horizon: a drill run is the first eligible run for any such game. The dispatched runs are the normal workload-shadow and player-minutes runs: idempotent, they write records only for real games that have none.
 on:
   workflow_dispatch: {}
 permissions:
   contents: read
   actions: write
+concurrency:
+  group: lc-dispatch-drill
+  cancel-in-progress: false
 defaults:
   run:
     shell: bash
@@ -26,11 +29,16 @@ jobs:
         id: drill
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           set -uo pipefail
+          # the dispatched workflows must run the default branch's code (they write real records): refuse anything else
+          if [ "$GITHUB_REF_NAME" != "${DEFAULT_BRANCH}" ]; then echo "::error::run the drill from the default branch only"; exit 1; fi
           start=$(date -u -d "+3 hours" +%FT%TZ)
           echo "{\"season_type\":\"regular\",\"status\":\"not_started\",\"start_time_utc\":\"$start\"}" > /tmp/synthetic_schedule.jsonl
-          date -u +%FT%TZ > /tmp/drill_started
+          date -u -d "-60 seconds" +%FT%TZ > /tmp/drill_started                       # margin for clock skew against GitHub's created_at
+          for w in workload_shadow.yml player_minutes.yml; do gh api "repos/$GITHUB_REPOSITORY/actions/workflows/$w/runs?event=workflow_dispatch&per_page=30" --jq '.workflow_runs[].id' > "/tmp/before_$w.txt" || true; done
           python -m nhl_edge.worker.lc_dispatch dispatch --drill --schedule /tmp/synthetic_schedule.jsonl --github-output "$GITHUB_OUTPUT" | tee /tmp/drill.json
           [ "$(python -c 'import json;print(json.load(open("/tmp/drill.json")).get("dispatched"))')" = "True" ] || { echo "::error::the dispatcher did not report a successful dispatch"; exit 1; }
       - name: The two requested runs must appear as workflow_dispatch runs
@@ -41,8 +49,8 @@ jobs:
           since=$(cat /tmp/drill_started)
           ok=0
           for i in $(seq 1 30); do
-            a=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/workload_shadow.yml/runs?event=workflow_dispatch&per_page=5" --jq "[.workflow_runs[]|select(.created_at >= \"$since\")]|length")
-            b=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/player_minutes.yml/runs?event=workflow_dispatch&per_page=5" --jq "[.workflow_runs[]|select(.created_at >= \"$since\")]|length")
+            a=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/workload_shadow.yml/runs?event=workflow_dispatch&per_page=30" --jq "[.workflow_runs[]|select(.created_at >= \"$since\")|.id]|map(tostring)|join(\" \")" | tr ' ' '\n' | grep -v -x -F -f /tmp/before_workload_shadow.yml.txt | grep -c . || true)
+            b=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/player_minutes.yml/runs?event=workflow_dispatch&per_page=30" --jq "[.workflow_runs[]|select(.created_at >= \"$since\")|.id]|map(tostring)|join(\" \")" | tr ' ' '\n' | grep -v -x -F -f /tmp/before_player_minutes.yml.txt | grep -c . || true)
             echo "poll $i: workload_shadow=$a player_minutes=$b"
             if [ "$a" -ge 1 ] && [ "$b" -ge 1 ]; then ok=1; break; fi
             sleep 10
