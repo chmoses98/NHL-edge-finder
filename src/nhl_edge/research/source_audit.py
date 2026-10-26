@@ -133,6 +133,34 @@ def audit_target(t: Target, get: Getter, user_agent: str, pause_s: float = 1.0, 
     return rec
 
 
+CONTACT_LINK_RE = re.compile(r'href="([^"#]*?(?:contact|about|advertis|partner|licens|press|media|support|help|feedback|data|api)[^"#]*)"', re.I)
+EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
+MAILTO_RE = re.compile(r'mailto:([^"?]+)', re.I)
+
+
+def contact_discovery(get: Getter, base: str, pause_s: float = 1.0, max_pages: int = 6) -> dict[str, Any]:
+    """Publicly listed contact channels of a site: mailto links and addresses in the text of its home page and of the contact / about / advertising / licensing / partner pages it links.
+    One GET per page. Only what the site itself publishes is recorded; nothing is guessed (no addresses are constructed from names or patterns)."""
+    status, body, _ = get(base)
+    html = body[:600_000].decode("utf-8", "replace") if status == 200 else ""
+    links = list(dict.fromkeys(urljoin(base, m.group(1)) for m in CONTACT_LINK_RE.finditer(html)))
+    host = urlparse(base).netloc.split(":")[0].removeprefix("www.")
+    links = [u for u in links if urlparse(u).netloc.split(":")[0].removeprefix("www.").endswith(host)][:max_pages]
+    found: dict[str, list[str]] = {}
+    pages = [{"url": base, "status": status}]
+    for url, text in [(base, html)] + [(u, None) for u in links]:
+        if text is None:
+            time.sleep(pause_s)
+            st, b, _ = get(url)
+            pages.append({"url": url, "status": st})
+            text = b[:600_000].decode("utf-8", "replace") if st == 200 else ""
+        for e in set(MAILTO_RE.findall(text)) | set(EMAIL_RE.findall(strip_html(text))):
+            e = e.strip().lower()
+            if not e.endswith((".png", ".jpg", ".svg", ".gif", ".webp")):
+                found.setdefault(e, []).append(url)
+    return {"base": base, "pages": pages, "contact_links": links, "emails": {e: sorted(set(u)) for e, u in sorted(found.items())}}
+
+
 def production_path_probe(fetch_fn: Callable[..., Any] | None = None) -> list[dict[str, Any]]:
     """The same DailyFaceoff requests the pipeline makes, through the pipeline's own ``fetch`` (its headers, its parsers): does the production code path still get usable pages?"""
     from nhl_edge.data.goalies import extract_next_data
@@ -172,6 +200,10 @@ def render(rep: dict[str, Any]) -> str:
         for p in rep["production_path"]:
             L.append(f"- {p['feed']}: HTTP {p['status']}, {p.get('bytes')} B, parsed by the production parser: **{p['parsed_by_production_parser']}**" + (f" — {p['error']}" if p.get("error") else ""))
         L.append("")
+    for c in rep.get("contacts") or []:
+        L += [f"## Publicly listed contact channels: {c['base']}", "- pages read: " + ", ".join(f"{p['url']} ({p['status']})" for p in c["pages"])]
+        L += [f"- `{e}` (listed on: {', '.join(u)})" for e, u in c["emails"].items()] or ["- no email address listed on the pages read"]
+        L.append("")
     L.append("Evidence only; reading and applying the terms is a decision for the owner.")
     return "\n".join(L) + "\n"
 
@@ -187,11 +219,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--md")
     ap.add_argument("--no-probe", action="store_true")
+    ap.add_argument("--contacts", nargs="*", default=None, help="base URLs whose publicly listed contact channels are collected")
     ap.add_argument("--production-path", action="store_true", help="also run the pipeline's own DailyFaceoff fetch + parsers once")
     a = ap.parse_args(argv)
     rep = run(probe=not a.no_probe)
     if a.production_path:
         rep["production_path"] = production_path_probe()
+    if a.contacts:
+        rep["contacts"] = [contact_discovery(lambda u: http_get(u, rep["user_agent"]), b) for b in a.contacts]
     Path(a.out).write_text(json.dumps(rep, indent=1))
     md = render(rep)
     if a.md:
