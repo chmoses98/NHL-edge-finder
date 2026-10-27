@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-27T10:03:20Z · thesis-postmortem-2.0 · rows (all generations) 29370
+evaluated 2026-10-27T11:48:17Z · thesis-postmortem-2.0 · rows (all generations) 29370
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -42,36 +42,40 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020188 CBJ @ PHI: NOT_STARTED · snapshot snap-bda9f28986fa4fbba11b @ 2026-10-27T09:58:18Z
+#### game 2026020188 CBJ @ PHI: NOT_STARTED · snapshot snap-c26ec052304e31268510 @ 2026-10-27T10:58:24Z
 
-#### game 2026020189 BOS @ CAR: NOT_STARTED · snapshot snap-bda9f28986fa4fbba11b @ 2026-10-27T09:58:18Z
+#### game 2026020189 BOS @ CAR: NOT_STARTED · snapshot snap-c26ec052304e31268510 @ 2026-10-27T10:58:24Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26OCT27BOSCAR-BOS4|yes | FUNDED_RESEARCH | 2 | 5.58 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTOTAL-26OCT27BOSCAR-9|yes | FUNDED_RESEARCH | 1 | 1.65 | - | - | - | DIRECT | - | - |
+| KXNHLTOTAL-26OCT27BOSCAR-9|yes | FUNDED_RESEARCH | 1 | 2.76 | - | - | - | DIRECT | - | - |
+| KXNHLTEAMTOTAL-26OCT27BOSCAR-BOS4|yes | FUNDED_RESEARCH | 1 | 2.22 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020190 LAK @ CHI: NOT_STARTED · snapshot snap-bda9f28986fa4fbba11b @ 2026-10-27T09:58:18Z
+#### game 2026020190 LAK @ CHI: NOT_STARTED · snapshot snap-c26ec052304e31268510 @ 2026-10-27T10:58:24Z
 
-#### game 2026020191 MTL @ STL: NOT_STARTED · snapshot snap-bda9f28986fa4fbba11b @ 2026-10-27T09:58:18Z
+#### game 2026020191 MTL @ STL: NOT_STARTED · snapshot snap-c26ec052304e31268510 @ 2026-10-27T10:58:24Z
 
-#### game 2026020192 NYI @ NSH: NOT_STARTED · snapshot snap-bda9f28986fa4fbba11b @ 2026-10-27T09:58:18Z
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLSPREAD-26OCT27MTLSTL-STL2|yes | FUNDED_RESEARCH | 2 | 4.80 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020193 NJD @ DAL: NOT_STARTED · snapshot snap-bda9f28986fa4fbba11b @ 2026-10-27T09:58:18Z
+#### game 2026020192 NYI @ NSH: NOT_STARTED · snapshot snap-c26ec052304e31268510 @ 2026-10-27T10:58:24Z
 
-#### game 2026020194 FLA @ WPG: NOT_STARTED · snapshot snap-bda9f28986fa4fbba11b @ 2026-10-27T09:58:18Z
+#### game 2026020193 NJD @ DAL: NOT_STARTED · snapshot snap-c26ec052304e31268510 @ 2026-10-27T10:58:24Z
+
+#### game 2026020194 FLA @ WPG: NOT_STARTED · snapshot snap-c26ec052304e31268510 @ 2026-10-27T10:58:24Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
 | KXNHLSPREAD-26OCT27FLAWPG-FLA3|no | FUNDED_RESEARCH | 5 | 18.13 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020195 MIN @ UTA: NOT_STARTED · snapshot snap-bda9f28986fa4fbba11b @ 2026-10-27T09:58:18Z
+#### game 2026020195 MIN @ UTA: NOT_STARTED · snapshot snap-c26ec052304e31268510 @ 2026-10-27T10:58:24Z
 
-#### game 2026020196 OTT @ VGK: NOT_STARTED · snapshot snap-bda9f28986fa4fbba11b @ 2026-10-27T09:58:18Z
+#### game 2026020196 OTT @ VGK: NOT_STARTED · snapshot snap-c26ec052304e31268510 @ 2026-10-27T10:58:24Z
 
-#### game 2026020197 VAN @ ANA: NOT_STARTED · snapshot snap-bda9f28986fa4fbba11b @ 2026-10-27T09:58:18Z
+#### game 2026020197 VAN @ ANA: NOT_STARTED · snapshot snap-c26ec052304e31268510 @ 2026-10-27T10:58:24Z
 
-#### game 2026020198 BUF @ SJS: NOT_STARTED · snapshot snap-bda9f28986fa4fbba11b @ 2026-10-27T09:58:18Z
+#### game 2026020198 BUF @ SJS: NOT_STARTED · snapshot snap-c26ec052304e31268510 @ 2026-10-27T10:58:24Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
