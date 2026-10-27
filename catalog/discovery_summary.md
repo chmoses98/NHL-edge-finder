@@ -1,15 +1,15 @@
 # Kalshi NHL discovery summary
 
-- discovered_at: `2026-10-26T13:43:59Z`  ontology: `2026.09.29.2`  requests: 163
-- series enumerated: 15394; NHL series: 78; markets scanned: 2868
+- discovered_at: `2026-10-27T12:55:47Z`  ontology: `2026.09.29.2`  requests: 158
+- series enumerated: 15406; NHL series: 78; markets scanned: 3713
 
 ## Support states (coverage invariant)
 
 | support | markets |
 |---|---:|
-| MODELABLE | 468 |
-| BUILDABLE | 14 |
-| RESEARCH | 1826 |
+| MODELABLE | 584 |
+| BUILDABLE | 15 |
+| RESEARCH | 2554 |
 | UNMODELABLE | 515 |
 | UNRESOLVED | 45 |
 
@@ -23,25 +23,25 @@
 | KXNBANHL | UNRESOLVED | UNRESOLVED | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
 | KXNEXTTEAMNHL | season_awards | UNMODELABLE | quadratic/1 | 0 | 230 | 0 | 0 | structured | {'low': 230} |
 | KXNHL | season_champion | RESEARCH | quadratic_with_maker_fees/1 | 0 | 32 | 0 | 0 | structured | {'low': 32} |
-| KXNHL1P | period_winner | RESEARCH | quadratic/1 | 0 | 42 | 0 | 0 | structured | {'high': 42} |
+| KXNHL1P | period_winner | RESEARCH | quadratic/1 | 0 | 45 | 0 | 0 | structured | {'high': 45} |
 | KXNHL1PBTTS | period_btts | RESEARCH | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
-| KXNHL1PSPREAD | period_spread | RESEARCH | quadratic/1 | 0 | 28 | 0 | 0 | greater | {'high': 28} |
-| KXNHL1PTOTAL | period_total | RESEARCH | quadratic/1 | 0 | 42 | 0 | 0 | greater | {'high': 42} |
+| KXNHL1PSPREAD | period_spread | RESEARCH | quadratic/1 | 0 | 30 | 0 | 0 | greater | {'high': 30} |
+| KXNHL1PTOTAL | period_total | RESEARCH | quadratic/1 | 0 | 45 | 0 | 0 | greater | {'high': 45} |
 | KXNHL1STTEAM | season_awards | UNMODELABLE | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
 | KXNHL2OT | game_multi_overtime | RESEARCH | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
-| KXNHL2P | period_winner | RESEARCH | quadratic/1 | 0 | 42 | 0 | 0 | structured | {'high': 42} |
+| KXNHL2P | period_winner | RESEARCH | quadratic/1 | 0 | 45 | 0 | 0 | structured | {'high': 45} |
 | KXNHL2PBTTS | period_btts | RESEARCH | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
-| KXNHL2PSPREAD | period_spread | RESEARCH | quadratic/1 | 0 | 28 | 0 | 0 | greater | {'high': 28} |
-| KXNHL2PTOTAL | period_total | RESEARCH | quadratic/1 | 0 | 42 | 0 | 0 | greater | {'high': 42} |
+| KXNHL2PSPREAD | period_spread | RESEARCH | quadratic/1 | 0 | 30 | 0 | 0 | greater | {'high': 30} |
+| KXNHL2PTOTAL | period_total | RESEARCH | quadratic/1 | 0 | 45 | 0 | 0 | greater | {'high': 45} |
 | KXNHL30COMEBACK | season_champion | RESEARCH | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
-| KXNHL3P | period_winner | RESEARCH | quadratic/1 | 0 | 42 | 0 | 0 | structured | {'high': 42} |
+| KXNHL3P | period_winner | RESEARCH | quadratic/1 | 0 | 45 | 0 | 0 | structured | {'high': 45} |
 | KXNHL3PBTTS | period_btts | RESEARCH | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
-| KXNHL3PSPREAD | period_spread | RESEARCH | quadratic/1 | 0 | 28 | 0 | 0 | greater | {'high': 28} |
-| KXNHL3PTOTAL | period_total | RESEARCH | quadratic/1 | 0 | 42 | 0 | 0 | greater | {'high': 42} |
+| KXNHL3PSPREAD | period_spread | RESEARCH | quadratic/1 | 0 | 30 | 0 | 0 | greater | {'high': 30} |
+| KXNHL3PTOTAL | period_total | RESEARCH | quadratic/1 | 0 | 45 | 0 | 0 | greater | {'high': 45} |
 | KXNHL4NATIONS | non_hockey_or_office | UNMODELABLE | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
 | KXNHLADAMS | season_awards | UNMODELABLE | quadratic/1 | 0 | 32 | 0 | 0 | custom | {'low': 32} |
 | KXNHLANYGOAL | player_goals | RESEARCH | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
-| KXNHLAST | player_assists | RESEARCH | quadratic/1 | 0 | 87 | 0 | 0 | greater | {'high': 87} |
+| KXNHLAST | player_assists | RESEARCH | quadratic/1 | 0 | 214 | 0 | 0 | greater | {'high': 214} |
 | KXNHLATLANTIC | season_champion | RESEARCH | quadratic/1 | 0 | 8 | 0 | 0 | structured | {'low': 8} |
 | KXNHLCALDER | season_awards | UNMODELABLE | quadratic/1 | 0 | 40 | 0 | 0 | structured,custom | {'low': 40} |
 | KXNHLCENTRAL | season_champion | RESEARCH | quadratic/1 | 0 | 8 | 0 | 0 | structured | {'low': 8} |
@@ -49,11 +49,11 @@
 | KXNHLDRAFTTOP | season_awards | UNMODELABLE | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
 | KXNHLEAST | season_champion | RESEARCH | quadratic_with_maker_fees/1 | 0 | 16 | 0 | 0 | structured | {'low': 16} |
 | KXNHLEXPANSION | non_hockey_or_office | UNMODELABLE | quadratic/1 | 0 | 1 | 0 | 0 | None | {'low': 1} |
-| KXNHLF10G | game_early_goal | RESEARCH | quadratic/1 | 0 | 14 | 0 | 0 | greater_or_equal | {'high': 14} |
+| KXNHLF10G | game_early_goal | RESEARCH | quadratic/1 | 0 | 15 | 0 | 0 | greater_or_equal | {'high': 15} |
 | KXNHLFINALSEXACT | season_champion | RESEARCH | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
-| KXNHLFIRSTGOAL | first_goal | RESEARCH | quadratic/1 | 0 | 109 | 0 | 0 | structured | {'high': 109} |
-| KXNHLGAME | game_winner | MODELABLE | quadratic_with_maker_fees/1 | 0 | 94 | 0 | 0 | structured | {'high': 94} |
-| KXNHLGOAL | player_goals | RESEARCH | quadratic/1 | 0 | 187 | 0 | 0 | greater | {'high': 187} |
+| KXNHLFIRSTGOAL | first_goal | RESEARCH | quadratic/1 | 0 | 255 | 0 | 0 | structured | {'high': 255} |
+| KXNHLGAME | game_winner | MODELABLE | quadratic_with_maker_fees/1 | 0 | 96 | 0 | 0 | structured | {'high': 96} |
+| KXNHLGOAL | player_goals | RESEARCH | quadratic/1 | 0 | 441 | 0 | 0 | greater | {'high': 441} |
 | KXNHLHART | season_awards | UNMODELABLE | quadratic/1 | 0 | 29 | 0 | 0 | structured | {'low': 29} |
 | KXNHLLINDSAY | UNRESOLVED | UNRESOLVED | quadratic/1 | 0 | 28 | 0 | 0 | structured | {'low': 28} |
 | KXNHLMENTION | non_hockey_or_office | UNMODELABLE | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
@@ -62,7 +62,7 @@
 | KXNHLNEXTGM | season_awards | UNMODELABLE | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
 | KXNHLNEXTTEAM | season_awards | UNMODELABLE | quadratic/1 | 0 | 33 | 0 | 0 | structured | {'low': 33} |
 | KXNHLNORRIS | season_awards | UNMODELABLE | quadratic/1 | 0 | 30 | 0 | 0 | structured | {'low': 30} |
-| KXNHLOT | game_overtime | BUILDABLE | quadratic/1 | 0 | 14 | 0 | 0 | greater | {'high': 14} |
+| KXNHLOT | game_overtime | BUILDABLE | quadratic/1 | 0 | 15 | 0 | 0 | greater | {'high': 15} |
 | KXNHLOVERTIME | game_overtime | BUILDABLE | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
 | KXNHLPACIFIC | season_champion | RESEARCH | quadratic/1 | 0 | 8 | 0 | 0 | structured | {'low': 8} |
 | KXNHLPLAYOFF | season_champion | RESEARCH | quadratic/1 | 0 | 32 | 0 | 0 | structured | {'low': 32} |
@@ -70,7 +70,7 @@
 | KXNHLPRES | season_champion | RESEARCH | quadratic/1 | 0 | 32 | 0 | 0 | structured | {'low': 32} |
 | KXNHLPRICE | non_hockey_or_office | UNMODELABLE | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
 | KXNHLPSEASONGOALS | UNRESOLVED | UNRESOLVED | quadratic/1 | 0 | 17 | 0 | 0 | greater | {'low': 17} |
-| KXNHLPTS | player_points | RESEARCH | quadratic/1 | 0 | 115 | 0 | 0 | greater | {'high': 115} |
+| KXNHLPTS | player_points | RESEARCH | quadratic/1 | 0 | 291 | 0 | 0 | greater | {'high': 291} |
 | KXNHLRECORDWORST | season_champion | RESEARCH | quadratic/1 | 0 | 32 | 0 | 0 | structured | {'low': 32} |
 | KXNHLRETIRE | season_awards | UNMODELABLE | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
 | KXNHLRICHARD | season_awards | UNMODELABLE | quadratic/1 | 0 | 40 | 0 | 0 | structured | {'low': 40} |
@@ -87,9 +87,9 @@
 | KXNHLSERIESSPREAD | playoff_series | RESEARCH | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
 | KXNHLSERIESTOTALGOAL | playoff_series | RESEARCH | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
 | KXNHLSERIESTOTALGOALS | playoff_series | RESEARCH | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
-| KXNHLSPREAD | game_spread | MODELABLE | quadratic/1 | 0 | 72 | 0 | 0 | greater | {'high': 72} |
-| KXNHLTEAMTOTAL | team_total | MODELABLE | quadratic/1 | 0 | 140 | 0 | 0 | greater | {'high': 140} |
-| KXNHLTOTAL | game_total | MODELABLE | quadratic/1 | 0 | 162 | 0 | 0 | greater | {'high': 162} |
+| KXNHLSPREAD | game_spread | MODELABLE | quadratic/1 | 0 | 104 | 0 | 0 | greater | {'high': 104} |
+| KXNHLTEAMTOTAL | team_total | MODELABLE | quadratic/1 | 0 | 150 | 0 | 0 | greater | {'high': 150} |
+| KXNHLTOTAL | game_total | MODELABLE | quadratic/1 | 0 | 234 | 0 | 0 | greater | {'high': 234} |
 | KXNHLVEZINA | season_awards | UNMODELABLE | quadratic/1 | 0 | 40 | 0 | 0 | structured | {'low': 40} |
 | KXNHLWEST | season_champion | RESEARCH | quadratic_with_maker_fees/1 | 0 | 16 | 0 | 0 | structured | {'low': 16} |
 | KXNHLWINS | season_champion | RESEARCH | quadratic/1 | 0 | 0 | 0 | 0 |  | {} |
@@ -123,103 +123,103 @@
 - sample fields: `{"ticker": "KXNHL-27-WSH", "event_ticker": "KXNHL-27", "market_type": "binary", "title": "Will Washington Capitals win the 2026-27 Stanley Cup\u00ae Finals?", "yes_sub_title": "Washington Capitals", "no_sub_title": "Washington Capitals", "strike_type": "structured", "custom_strike": {"hockey_team": "5b474f02-be1a-4aee-8200-4c4eb6e557e9"}, "status": "active", "open_time": "2026-06-15T03:40:00Z", "close_time": "2029-06-30T14:00:00Z", "expected_expiration_time": "2027-07-01T14:00:00Z", "result": "", "rules_primary": "If Washington Capitals wins the 2026-27 Stanley Cup\u00ae Finals, then the marke`
 
 ### KXNHL1P — NHL 1st Period Winner
-- (14) #st period tie
+- (15) #st period tie
 - (4) NAME wins the #st period
-- (1) Buffalo wins the #st period
-- (1) Vegas wins the #st period
-- (1) Ottawa wins the #st period
-- (1) Vancouver wins the #st period
-- (1) Anaheim wins the #st period
-- (1) Utah wins the #st period
-- samples: KXNHL1P-26OCT27BUFSJ-TIE, KXNHL1P-26OCT27BUFSJ-SJ, KXNHL1P-26OCT27BUFSJ-BUF, KXNHL1P-26OCT27OTTVGK-VGK, KXNHL1P-26OCT27OTTVGK-TIE, KXNHL1P-26OCT27OTTVGK-OTT
-- sample fields: `{"ticker": "KXNHL1P-26OCT27BUFSJ-TIE", "event_ticker": "KXNHL1P-26OCT27BUFSJ", "market_type": "binary", "title": "1st period tie", "yes_sub_title": "Tie", "no_sub_title": "Tie", "strike_type": "structured", "custom_strike": {"hockey_team": "570eabab-1214-4e50-a26c-880318169cce"}, "status": "active", "open_time": "2026-10-26T04:09:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If neither team wins the 1st period of the Buffalo vs San Jose NHL game originally scheduled for Oct 27, 2026, then the market resolves to Y`
+- (2) Philadelphia wins the #st period
+- (1) Toronto wins the #st period
+- (1) Seattle wins the #st period
+- (1) Colorado wins the #st period
+- (1) Edmonton wins the #st period
+- (1) Calgary wins the #st period
+- samples: KXNHL1P-26OCT28TORSEA-TOR, KXNHL1P-26OCT28TORSEA-TIE, KXNHL1P-26OCT28TORSEA-SEA, KXNHL1P-26OCT28NJCOL-TIE, KXNHL1P-26OCT28NJCOL-NJ, KXNHL1P-26OCT28NJCOL-COL
+- sample fields: `{"ticker": "KXNHL1P-26OCT28TORSEA-TOR", "event_ticker": "KXNHL1P-26OCT28TORSEA", "market_type": "binary", "title": "Toronto wins the 1st period", "yes_sub_title": "Toronto", "no_sub_title": "Toronto", "strike_type": "structured", "custom_strike": {"hockey_team": "f61f9daa-407b-4c46-96e8-feee19cd6f51"}, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If Toronto wins the 1st period of the Toronto vs Seattle NHL game originally scheduled for Oct 28, 2026, then the mar`
 
 ### KXNHL1PBTTS — NHL Both Teams to Score in 1st Period
 
 ### KXNHL1PSPREAD — 1st Period Spread
 - (4) NAME wins #st Period by over # goals
-- (1) Buffalo wins #st Period by over # goals
-- (1) Vegas wins #st Period by over # goals
-- (1) Ottawa wins #st Period by over # goals
-- (1) Vancouver wins #st Period by over # goals
-- (1) Anaheim wins #st Period by over # goals
-- (1) Utah wins #st Period by over # goals
-- (1) Minnesota wins #st Period by over # goals
-- samples: KXNHL1PSPREAD-26OCT27BUFSJ-SJ2, KXNHL1PSPREAD-26OCT27BUFSJ-BUF2, KXNHL1PSPREAD-26OCT27OTTVGK-VGK2, KXNHL1PSPREAD-26OCT27OTTVGK-OTT2, KXNHL1PSPREAD-26OCT27VANANA-VAN2, KXNHL1PSPREAD-26OCT27VANANA-ANA2
-- sample fields: `{"ticker": "KXNHL1PSPREAD-26OCT27BUFSJ-SJ2", "event_ticker": "KXNHL1PSPREAD-26OCT27BUFSJ", "market_type": "binary", "title": "San Jose wins 1st Period by over 1.5 goals", "yes_sub_title": "San Jose wins by over 1.5 goals", "no_sub_title": "San Jose wins by over 1.5 goals", "strike_type": "greater", "floor_strike": 1.5, "custom_strike": {"hockey_team": "eb4bc183-5966-40eb-8bdb-3dd922ad1752"}, "status": "active", "open_time": "2026-10-26T04:09:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If San Jose wins by more t`
+- (2) Philadelphia wins #st Period by over # goals
+- (1) Toronto wins #st Period by over # goals
+- (1) Seattle wins #st Period by over # goals
+- (1) Colorado wins #st Period by over # goals
+- (1) Edmonton wins #st Period by over # goals
+- (1) Calgary wins #st Period by over # goals
+- (1) Washington wins #st Period by over # goals
+- samples: KXNHL1PSPREAD-26OCT28TORSEA-TOR2, KXNHL1PSPREAD-26OCT28TORSEA-SEA2, KXNHL1PSPREAD-26OCT28NJCOL-NJ2, KXNHL1PSPREAD-26OCT28NJCOL-COL2, KXNHL1PSPREAD-26OCT28CGYEDM-EDM2, KXNHL1PSPREAD-26OCT28CGYEDM-CGY2
+- sample fields: `{"ticker": "KXNHL1PSPREAD-26OCT28TORSEA-TOR2", "event_ticker": "KXNHL1PSPREAD-26OCT28TORSEA", "market_type": "binary", "title": "Toronto wins 1st Period by over 1.5 goals", "yes_sub_title": "Toronto wins by over 1.5 goals", "no_sub_title": "Toronto wins by over 1.5 goals", "strike_type": "greater", "floor_strike": 1.5, "custom_strike": {"hockey_team": "f61f9daa-407b-4c46-96e8-feee19cd6f51"}, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If Toronto wins by more th`
 
 ### KXNHL1PTOTAL — NHL 1st Period Total
-- (42) #st Period: Over # goals scored
-- samples: KXNHL1PTOTAL-26OCT27BUFSJ-3, KXNHL1PTOTAL-26OCT27BUFSJ-2, KXNHL1PTOTAL-26OCT27BUFSJ-1, KXNHL1PTOTAL-26OCT27OTTVGK-3, KXNHL1PTOTAL-26OCT27OTTVGK-2, KXNHL1PTOTAL-26OCT27OTTVGK-1
-- sample fields: `{"ticker": "KXNHL1PTOTAL-26OCT27BUFSJ-3", "event_ticker": "KXNHL1PTOTAL-26OCT27BUFSJ", "market_type": "binary", "title": "1st Period: Over 2.5 goals scored", "yes_sub_title": "Over 2.5 goals", "no_sub_title": "Over 2.5 goals", "strike_type": "greater", "floor_strike": 2.5, "status": "active", "open_time": "2026-10-26T04:09:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If the teams collectively score more than 2.5 goals in the 1st Period of the Buffalo vs San Jose NHL game originally scheduled for Oct 27, 2026, th`
+- (45) #st Period: Over # goals scored
+- samples: KXNHL1PTOTAL-26OCT28TORSEA-3, KXNHL1PTOTAL-26OCT28TORSEA-2, KXNHL1PTOTAL-26OCT28TORSEA-1, KXNHL1PTOTAL-26OCT28NJCOL-3, KXNHL1PTOTAL-26OCT28NJCOL-2, KXNHL1PTOTAL-26OCT28NJCOL-1
+- sample fields: `{"ticker": "KXNHL1PTOTAL-26OCT28TORSEA-3", "event_ticker": "KXNHL1PTOTAL-26OCT28TORSEA", "market_type": "binary", "title": "1st Period: Over 2.5 goals scored", "yes_sub_title": "Over 2.5 goals", "no_sub_title": "Over 2.5 goals", "strike_type": "greater", "floor_strike": 2.5, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If the teams collectively score more than 2.5 goals in the 1st Period of the Toronto vs Seattle NHL game originally scheduled for Oct 28, 2026, t`
 
 ### KXNHL1STTEAM — All NHL First Team
 
 ### KXNHL2OT — NHL Double Overtime
 
 ### KXNHL2P — NHL 2nd Period Winner
-- (14) #nd period tie
+- (15) #nd period tie
 - (4) NAME wins the #nd period
-- (1) Buffalo wins the #nd period
-- (1) Vegas wins the #nd period
-- (1) Ottawa wins the #nd period
-- (1) Vancouver wins the #nd period
-- (1) Anaheim wins the #nd period
-- (1) Utah wins the #nd period
-- samples: KXNHL2P-26OCT27BUFSJ-TIE, KXNHL2P-26OCT27BUFSJ-SJ, KXNHL2P-26OCT27BUFSJ-BUF, KXNHL2P-26OCT27OTTVGK-VGK, KXNHL2P-26OCT27OTTVGK-TIE, KXNHL2P-26OCT27OTTVGK-OTT
-- sample fields: `{"ticker": "KXNHL2P-26OCT27BUFSJ-TIE", "event_ticker": "KXNHL2P-26OCT27BUFSJ", "market_type": "binary", "title": "2nd period tie", "yes_sub_title": "Tie", "no_sub_title": "Tie", "strike_type": "structured", "custom_strike": {"hockey_team": "570eabab-1214-4e50-a26c-880318169cce"}, "status": "active", "open_time": "2026-10-26T04:09:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If neither team wins the 2nd period of the Buffalo vs San Jose NHL game originally scheduled for Oct 27, 2026, then the market resolves to Y`
+- (2) Philadelphia wins the #nd period
+- (1) Toronto wins the #nd period
+- (1) Seattle wins the #nd period
+- (1) Colorado wins the #nd period
+- (1) Edmonton wins the #nd period
+- (1) Calgary wins the #nd period
+- samples: KXNHL2P-26OCT28TORSEA-TOR, KXNHL2P-26OCT28TORSEA-TIE, KXNHL2P-26OCT28TORSEA-SEA, KXNHL2P-26OCT28NJCOL-TIE, KXNHL2P-26OCT28NJCOL-NJ, KXNHL2P-26OCT28NJCOL-COL
+- sample fields: `{"ticker": "KXNHL2P-26OCT28TORSEA-TOR", "event_ticker": "KXNHL2P-26OCT28TORSEA", "market_type": "binary", "title": "Toronto wins the 2nd period", "yes_sub_title": "Toronto", "no_sub_title": "Toronto", "strike_type": "structured", "custom_strike": {"hockey_team": "f61f9daa-407b-4c46-96e8-feee19cd6f51"}, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If Toronto wins the 2nd period of the Toronto vs Seattle NHL game originally scheduled for Oct 28, 2026, then the mar`
 
 ### KXNHL2PBTTS — NHL Both Teams to Score in 2nd Period
 
 ### KXNHL2PSPREAD — 2nd Period Spread
 - (4) NAME wins #nd Period by over # goals
-- (1) Buffalo wins #nd Period by over # goals
-- (1) Vegas wins #nd Period by over # goals
-- (1) Ottawa wins #nd Period by over # goals
-- (1) Vancouver wins #nd Period by over # goals
-- (1) Anaheim wins #nd Period by over # goals
-- (1) Utah wins #nd Period by over # goals
-- (1) Minnesota wins #nd Period by over # goals
-- samples: KXNHL2PSPREAD-26OCT27BUFSJ-SJ2, KXNHL2PSPREAD-26OCT27BUFSJ-BUF2, KXNHL2PSPREAD-26OCT27OTTVGK-VGK2, KXNHL2PSPREAD-26OCT27OTTVGK-OTT2, KXNHL2PSPREAD-26OCT27VANANA-VAN2, KXNHL2PSPREAD-26OCT27VANANA-ANA2
-- sample fields: `{"ticker": "KXNHL2PSPREAD-26OCT27BUFSJ-SJ2", "event_ticker": "KXNHL2PSPREAD-26OCT27BUFSJ", "market_type": "binary", "title": "San Jose wins 2nd Period by over 1.5 goals", "yes_sub_title": "San Jose wins by over 1.5 goals", "no_sub_title": "San Jose wins by over 1.5 goals", "strike_type": "greater", "floor_strike": 1.5, "custom_strike": {"hockey_team": "eb4bc183-5966-40eb-8bdb-3dd922ad1752"}, "status": "active", "open_time": "2026-10-26T04:10:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If San Jose wins by more t`
+- (2) Philadelphia wins #nd Period by over # goals
+- (1) Toronto wins #nd Period by over # goals
+- (1) Seattle wins #nd Period by over # goals
+- (1) Colorado wins #nd Period by over # goals
+- (1) Edmonton wins #nd Period by over # goals
+- (1) Calgary wins #nd Period by over # goals
+- (1) Washington wins #nd Period by over # goals
+- samples: KXNHL2PSPREAD-26OCT28TORSEA-TOR2, KXNHL2PSPREAD-26OCT28TORSEA-SEA2, KXNHL2PSPREAD-26OCT28NJCOL-NJ2, KXNHL2PSPREAD-26OCT28NJCOL-COL2, KXNHL2PSPREAD-26OCT28CGYEDM-EDM2, KXNHL2PSPREAD-26OCT28CGYEDM-CGY2
+- sample fields: `{"ticker": "KXNHL2PSPREAD-26OCT28TORSEA-TOR2", "event_ticker": "KXNHL2PSPREAD-26OCT28TORSEA", "market_type": "binary", "title": "Toronto wins 2nd Period by over 1.5 goals", "yes_sub_title": "Toronto wins by over 1.5 goals", "no_sub_title": "Toronto wins by over 1.5 goals", "strike_type": "greater", "floor_strike": 1.5, "custom_strike": {"hockey_team": "f61f9daa-407b-4c46-96e8-feee19cd6f51"}, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If Toronto wins by more th`
 
 ### KXNHL2PTOTAL — 2nd Period Total
-- (42) #nd Period: Over # goals scored
-- samples: KXNHL2PTOTAL-26OCT27BUFSJ-3, KXNHL2PTOTAL-26OCT27BUFSJ-2, KXNHL2PTOTAL-26OCT27BUFSJ-1, KXNHL2PTOTAL-26OCT27OTTVGK-3, KXNHL2PTOTAL-26OCT27OTTVGK-2, KXNHL2PTOTAL-26OCT27OTTVGK-1
-- sample fields: `{"ticker": "KXNHL2PTOTAL-26OCT27BUFSJ-3", "event_ticker": "KXNHL2PTOTAL-26OCT27BUFSJ", "market_type": "binary", "title": "2nd Period: Over 2.5 goals scored", "yes_sub_title": "Over 2.5 goals", "no_sub_title": "Over 2.5 goals", "strike_type": "greater", "floor_strike": 2.5, "status": "active", "open_time": "2026-10-26T04:10:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If the teams collectively score more than 2.5 goals in the 2nd Period of the Buffalo vs San Jose NHL game originally scheduled for Oct 27, 2026, th`
+- (45) #nd Period: Over # goals scored
+- samples: KXNHL2PTOTAL-26OCT28TORSEA-3, KXNHL2PTOTAL-26OCT28TORSEA-2, KXNHL2PTOTAL-26OCT28TORSEA-1, KXNHL2PTOTAL-26OCT28NJCOL-3, KXNHL2PTOTAL-26OCT28NJCOL-2, KXNHL2PTOTAL-26OCT28NJCOL-1
+- sample fields: `{"ticker": "KXNHL2PTOTAL-26OCT28TORSEA-3", "event_ticker": "KXNHL2PTOTAL-26OCT28TORSEA", "market_type": "binary", "title": "2nd Period: Over 2.5 goals scored", "yes_sub_title": "Over 2.5 goals", "no_sub_title": "Over 2.5 goals", "strike_type": "greater", "floor_strike": 2.5, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If the teams collectively score more than 2.5 goals in the 2nd Period of the Toronto vs Seattle NHL game originally scheduled for Oct 28, 2026, t`
 
 ### KXNHL30COMEBACK — NHL 3-0 Series Comeback
 
 ### KXNHL3P — NHL 3rd Period Winner
-- (14) #rd period tie
+- (15) #rd period tie
 - (4) NAME wins the #rd period
-- (1) Buffalo wins the #rd period
-- (1) Vegas wins the #rd period
-- (1) Ottawa wins the #rd period
-- (1) Vancouver wins the #rd period
-- (1) Anaheim wins the #rd period
-- (1) Utah wins the #rd period
-- samples: KXNHL3P-26OCT27BUFSJ-TIE, KXNHL3P-26OCT27BUFSJ-SJ, KXNHL3P-26OCT27BUFSJ-BUF, KXNHL3P-26OCT27OTTVGK-VGK, KXNHL3P-26OCT27OTTVGK-TIE, KXNHL3P-26OCT27OTTVGK-OTT
-- sample fields: `{"ticker": "KXNHL3P-26OCT27BUFSJ-TIE", "event_ticker": "KXNHL3P-26OCT27BUFSJ", "market_type": "binary", "title": "3rd period tie", "yes_sub_title": "Tie", "no_sub_title": "Tie", "strike_type": "structured", "custom_strike": {"hockey_team": "570eabab-1214-4e50-a26c-880318169cce"}, "status": "active", "open_time": "2026-10-26T04:10:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If neither team wins the 3rd period (excluding overtime) of the Buffalo vs San Jose NHL game originally scheduled for Oct 27, 2026, then the`
+- (2) Philadelphia wins the #rd period
+- (1) Toronto wins the #rd period
+- (1) Seattle wins the #rd period
+- (1) Colorado wins the #rd period
+- (1) Edmonton wins the #rd period
+- (1) Calgary wins the #rd period
+- samples: KXNHL3P-26OCT28TORSEA-TOR, KXNHL3P-26OCT28TORSEA-TIE, KXNHL3P-26OCT28TORSEA-SEA, KXNHL3P-26OCT28NJCOL-TIE, KXNHL3P-26OCT28NJCOL-NJ, KXNHL3P-26OCT28NJCOL-COL
+- sample fields: `{"ticker": "KXNHL3P-26OCT28TORSEA-TOR", "event_ticker": "KXNHL3P-26OCT28TORSEA", "market_type": "binary", "title": "Toronto wins the 3rd period", "yes_sub_title": "Toronto", "no_sub_title": "Toronto", "strike_type": "structured", "custom_strike": {"hockey_team": "f61f9daa-407b-4c46-96e8-feee19cd6f51"}, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If Toronto wins the 3rd period (excluding overtime) of the Toronto vs Seattle NHL game originally scheduled for Oct 2`
 
 ### KXNHL3PBTTS — NHL Both Teams to Score in 3rd Period
 
 ### KXNHL3PSPREAD — NHL 3rd Period Spread
 - (4) NAME wins #rd Period by over # goals
-- (1) Buffalo wins #rd Period by over # goals
-- (1) Vegas wins #rd Period by over # goals
-- (1) Ottawa wins #rd Period by over # goals
-- (1) Vancouver wins #rd Period by over # goals
-- (1) Anaheim wins #rd Period by over # goals
-- (1) Utah wins #rd Period by over # goals
-- (1) Minnesota wins #rd Period by over # goals
-- samples: KXNHL3PSPREAD-26OCT27BUFSJ-SJ2, KXNHL3PSPREAD-26OCT27BUFSJ-BUF2, KXNHL3PSPREAD-26OCT27OTTVGK-VGK2, KXNHL3PSPREAD-26OCT27OTTVGK-OTT2, KXNHL3PSPREAD-26OCT27VANANA-VAN2, KXNHL3PSPREAD-26OCT27VANANA-ANA2
-- sample fields: `{"ticker": "KXNHL3PSPREAD-26OCT27BUFSJ-SJ2", "event_ticker": "KXNHL3PSPREAD-26OCT27BUFSJ", "market_type": "binary", "title": "San Jose wins 3rd Period by over 1.5 goals", "yes_sub_title": "San Jose wins by over 1.5 goals", "no_sub_title": "San Jose wins by over 1.5 goals", "strike_type": "greater", "floor_strike": 1.5, "custom_strike": {"hockey_team": "eb4bc183-5966-40eb-8bdb-3dd922ad1752"}, "status": "active", "open_time": "2026-10-26T04:10:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If San Jose wins by more t`
+- (2) Philadelphia wins #rd Period by over # goals
+- (1) Toronto wins #rd Period by over # goals
+- (1) Seattle wins #rd Period by over # goals
+- (1) Colorado wins #rd Period by over # goals
+- (1) Edmonton wins #rd Period by over # goals
+- (1) Calgary wins #rd Period by over # goals
+- (1) Washington wins #rd Period by over # goals
+- samples: KXNHL3PSPREAD-26OCT28TORSEA-TOR2, KXNHL3PSPREAD-26OCT28TORSEA-SEA2, KXNHL3PSPREAD-26OCT28NJCOL-NJ2, KXNHL3PSPREAD-26OCT28NJCOL-COL2, KXNHL3PSPREAD-26OCT28CGYEDM-EDM2, KXNHL3PSPREAD-26OCT28CGYEDM-CGY2
+- sample fields: `{"ticker": "KXNHL3PSPREAD-26OCT28TORSEA-TOR2", "event_ticker": "KXNHL3PSPREAD-26OCT28TORSEA", "market_type": "binary", "title": "Toronto wins 3rd Period by over 1.5 goals", "yes_sub_title": "Toronto wins by over 1.5 goals", "no_sub_title": "Toronto wins by over 1.5 goals", "strike_type": "greater", "floor_strike": 1.5, "custom_strike": {"hockey_team": "f61f9daa-407b-4c46-96e8-feee19cd6f51"}, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If Toronto wins by more th`
 
 ### KXNHL3PTOTAL — 3rd Period Total
-- (42) #rd Period: Over # goals scored
-- samples: KXNHL3PTOTAL-26OCT27BUFSJ-3, KXNHL3PTOTAL-26OCT27BUFSJ-2, KXNHL3PTOTAL-26OCT27BUFSJ-1, KXNHL3PTOTAL-26OCT27OTTVGK-3, KXNHL3PTOTAL-26OCT27OTTVGK-2, KXNHL3PTOTAL-26OCT27OTTVGK-1
-- sample fields: `{"ticker": "KXNHL3PTOTAL-26OCT27BUFSJ-3", "event_ticker": "KXNHL3PTOTAL-26OCT27BUFSJ", "market_type": "binary", "title": "3rd Period: Over 2.5 goals scored", "yes_sub_title": "Over 2.5 goals", "no_sub_title": "Over 2.5 goals", "strike_type": "greater", "floor_strike": 2.5, "status": "active", "open_time": "2026-10-26T04:11:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If the teams collectively score more than 2.5 goals in the 3rd Period of the Buffalo vs San Jose NHL game originally scheduled for Oct 27, 2026, th`
+- (45) #rd Period: Over # goals scored
+- samples: KXNHL3PTOTAL-26OCT28TORSEA-3, KXNHL3PTOTAL-26OCT28TORSEA-2, KXNHL3PTOTAL-26OCT28TORSEA-1, KXNHL3PTOTAL-26OCT28NJCOL-3, KXNHL3PTOTAL-26OCT28NJCOL-2, KXNHL3PTOTAL-26OCT28NJCOL-1
+- sample fields: `{"ticker": "KXNHL3PTOTAL-26OCT28TORSEA-3", "event_ticker": "KXNHL3PTOTAL-26OCT28TORSEA", "market_type": "binary", "title": "3rd Period: Over 2.5 goals scored", "yes_sub_title": "Over 2.5 goals", "no_sub_title": "Over 2.5 goals", "strike_type": "greater", "floor_strike": 2.5, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If the teams collectively score more than 2.5 goals in the 3rd Period of the Toronto vs Seattle NHL game originally scheduled for Oct 28, 2026, t`
 
 ### KXNHL4NATIONS — 4 nations face off
 
@@ -234,13 +234,16 @@
 ### KXNHLANYGOAL — Pro Hockey Goalscorer
 
 ### KXNHLAST — Pro Hockey Assists
-- (78) NAME: #+ assists
-- (3) Connor McDavid: #+ assists
-- (2) Alex DeBrincat: #+ assists
-- (2) Gavin McKenna: #+ assists
-- (2) J.T. Miller: #+ assists
-- samples: KXNHLAST-26OCT26DETEDM-EDMZHYMAN18-2, KXNHLAST-26OCT26DETEDM-EDMZHYMAN18-1, KXNHLAST-26OCT26DETEDM-EDMVPODKOLZIN92-2, KXNHLAST-26OCT26DETEDM-EDMVPODKOLZIN92-1, KXNHLAST-26OCT26DETEDM-EDMRSHEA6-1, KXNHLAST-26OCT26DETEDM-EDMRNUGENTHOPKINS93-2
-- sample fields: `{"ticker": "KXNHLAST-26OCT26DETEDM-EDMZHYMAN18-2", "event_ticker": "KXNHLAST-26OCT26DETEDM", "market_type": "binary", "title": "Zach Hyman: 2+ assists", "yes_sub_title": "Zach Hyman: 2+", "no_sub_title": "Zach Hyman: 2+", "strike_type": "greater", "floor_strike": 1.5, "custom_strike": {"hockey_player": "2c3d67df-721b-4ea4-8aee-dea4a9715c82", "hockey_team": "e8b67c82-f465-450d-aef9-c8414f2ae83a"}, "status": "active", "open_time": "2026-10-26T13:35:00Z", "close_time": "2026-10-29T01:30:00Z", "expected_expiration_time": "2026-10-27T04:30:00Z", "result": "", "rules_primary": "If Zach Hyman records`
+- (200) NAME: #+ assists
+- (2) Ryan O'Reilly: #+ assists
+- (2) Mason McTavish: #+ assists
+- (2) Connor McMichael: #+ assists
+- (2) Juraj Slafkovský: #+ assists
+- (2) JJ Peterka: #+ assists
+- (2) Charlie McAvoy: #+ assists
+- (1) Tony DeAngelo: #+ assists
+- samples: KXNHLAST-26OCT27NYINSH-NYIVEKLUND73-2, KXNHLAST-26OCT27NYINSH-NYIVEKLUND73-1, KXNHLAST-26OCT27NYINSH-NYITDEANGELO77-1, KXNHLAST-26OCT27NYINSH-NYISHOLMSTROM92-2, KXNHLAST-26OCT27NYINSH-NYISHOLMSTROM92-1, KXNHLAST-26OCT27NYINSH-NYIMSCHAEFER48-2
+- sample fields: `{"ticker": "KXNHLAST-26OCT27NYINSH-NYIVEKLUND73-2", "event_ticker": "KXNHLAST-26OCT27NYINSH", "market_type": "binary", "title": "Victor Eklund: 2+ assists", "yes_sub_title": "Victor Eklund: 2+", "no_sub_title": "Victor Eklund: 2+", "strike_type": "greater", "floor_strike": 1.5, "custom_strike": {"hockey_player": "4dd7ae90-65d7-4a05-8098-22b49fc8859c", "hockey_team": "03f52887-5bb7-4b51-954e-433f73474350"}, "status": "active", "open_time": "2026-10-27T12:08:00Z", "close_time": "2026-10-30T00:00:00Z", "expected_expiration_time": "2026-10-28T03:00:00Z", "result": "", "rules_primary": "If Victor E`
 
 ### KXNHLATLANTIC — NHL Atlantic Division Winner
 - (8) Will the NAME win the NAME?
@@ -277,47 +280,47 @@
 - sample fields: `{"ticker": "KXNHLEXPANSION-27JAN01HOU-Y", "event_ticker": "KXNHLEXPANSION-27JAN01HOU", "market_type": "binary", "title": "Will Houston receive an NHL expansion team before 2027?", "yes_sub_title": "Houston to get an expansion team before 2027", "no_sub_title": "Houston to get an expansion team before 2027", "status": "active", "open_time": "2026-09-01T01:00:00Z", "close_time": "2027-01-01T04:59:00Z", "expected_expiration_time": "2027-01-01T15:00:00Z", "result": "", "rules_primary": "If the NHL officially announces the award of an expansion team franchise to Houston before Jan 1, 2027, then the`
 
 ### KXNHLF10G — NHL Goal in First 10 Minutes
-- (14) Either team to score in the first # minutes
-- samples: KXNHLF10G-26OCT27BUFSJ-Y, KXNHLF10G-26OCT27OTTVGK-Y, KXNHLF10G-26OCT27VANANA-Y, KXNHLF10G-26OCT27MINUTA-Y, KXNHLF10G-26OCT27MTLSTL-Y, KXNHLF10G-26OCT27LACHI-Y
-- sample fields: `{"ticker": "KXNHLF10G-26OCT27BUFSJ-Y", "event_ticker": "KXNHLF10G-26OCT27BUFSJ", "market_type": "binary", "title": "Either team to score in the first 10 minutes", "yes_sub_title": "Goal in first 10 min", "no_sub_title": "Goal in first 10 min", "strike_type": "greater_or_equal", "floor_strike": 1, "status": "active", "open_time": "2026-10-26T04:08:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If at least 1 goal is scored by either Buffalo or San Jose during the first 10 minutes of the first period (from 0:00 elaps`
+- (15) Either team to score in the first # minutes
+- samples: KXNHLF10G-26OCT28TORSEA-Y, KXNHLF10G-26OCT28NJCOL-Y, KXNHLF10G-26OCT28CGYEDM-Y, KXNHLF10G-26OCT28PHIWSH-Y, KXNHLF10G-26OCT27BUFSJ-Y, KXNHLF10G-26OCT27OTTVGK-Y
+- sample fields: `{"ticker": "KXNHLF10G-26OCT28TORSEA-Y", "event_ticker": "KXNHLF10G-26OCT28TORSEA", "market_type": "binary", "title": "Either team to score in the first 10 minutes", "yes_sub_title": "Goal in first 10 min", "no_sub_title": "Goal in first 10 min", "strike_type": "greater_or_equal", "floor_strike": 1, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If at least 1 goal is scored by either Toronto or Seattle during the first 10 minutes of the first period (from 0:00 elap`
 
 ### KXNHLFINALSEXACT — NHL Championship Series Score
 
 ### KXNHLFIRSTGOAL — NHL First Goal
-- (101) NAME: NAME
-- (1) Connor McDavid: NAME
-- (1) NAME-Nygård: NAME
-- (1) J.T. Compher: NAME
-- (1) Alex DeBrincat: NAME
-- (1) Zack MacEwen: NAME
-- (1) Jake McCabe: NAME
-- (1) Gavin McKenna: NAME
-- samples: KXNHLFIRSTGOAL-26OCT26DETEDM-NONE, KXNHLFIRSTGOAL-26OCT26DETEDM-EDMZHYMAN18, KXNHLFIRSTGOAL-26OCT26DETEDM-EDMVPODKOLZIN92, KXNHLFIRSTGOAL-26OCT26DETEDM-EDMTEMBERSON49, KXNHLFIRSTGOAL-26OCT26DETEDM-EDMSMUKHAMADULLIN85, KXNHLFIRSTGOAL-26OCT26DETEDM-EDMRSHEA6
-- sample fields: `{"ticker": "KXNHLFIRSTGOAL-26OCT26DETEDM-NONE", "event_ticker": "KXNHLFIRSTGOAL-26OCT26DETEDM", "market_type": "binary", "title": "No Goalscorer: First Goalscorer", "yes_sub_title": "No Goalscorer", "no_sub_title": "No Goalscorer", "strike_type": "structured", "custom_strike": {"hockey_player": "8898cde1-3f15-597a-9f51-f01f9cb12a49", "hockey_team": "f70f5b5a-699c-45f0-962c-f999fccbf33e"}, "status": "active", "open_time": "2026-10-26T13:35:00Z", "close_time": "2026-10-29T01:30:00Z", "expected_expiration_time": "2026-10-27T04:30:00Z", "result": "", "rules_primary": "If no player scores the 1st g`
+- (244) NAME: NAME
+- (1) Tony DeAngelo: NAME
+- (1) Kyle MacLean: NAME
+- (1) Ryan O'Reilly: NAME
+- (1) Mason McTavish: NAME
+- (1) Connor McMichael: NAME
+- (1) Juraj Slafkovský: NAME
+- (1) Dylan DeMelo: NAME
+- samples: KXNHLFIRSTGOAL-26OCT27NYINSH-NYIVEKLUND73, KXNHLFIRSTGOAL-26OCT27NYINSH-NYITDEANGELO77, KXNHLFIRSTGOAL-26OCT27NYINSH-NYISHOLMSTROM92, KXNHLFIRSTGOAL-26OCT27NYINSH-NYIRPULOCK6, KXNHLFIRSTGOAL-26OCT27NYINSH-NYIOPALAT81, KXNHLFIRSTGOAL-26OCT27NYINSH-NYIMSCHAEFER48
+- sample fields: `{"ticker": "KXNHLFIRSTGOAL-26OCT27NYINSH-NYIVEKLUND73", "event_ticker": "KXNHLFIRSTGOAL-26OCT27NYINSH", "market_type": "binary", "title": "Victor Eklund: First Goalscorer", "yes_sub_title": "Victor Eklund", "no_sub_title": "Victor Eklund", "strike_type": "structured", "custom_strike": {"hockey_player": "4dd7ae90-65d7-4a05-8098-22b49fc8859c", "hockey_team": "03f52887-5bb7-4b51-954e-433f73474350"}, "status": "active", "open_time": "2026-10-27T12:08:00Z", "close_time": "2026-10-30T00:00:00Z", "expected_expiration_time": "2026-10-28T03:00:00Z", "result": "", "rules_primary": "If Victor Eklund scor`
 
 ### KXNHLGAME — NHL Game
 - (12) NAME wins
-- (4) Ottawa wins
-- (4) Edmonton wins
-- (4) Winnipeg wins
 - (4) Calgary wins
-- (3) Anaheim wins
-- (3) Utah wins
-- (3) Philadelphia wins
-- samples: KXNHLGAME-26NOV01OTTANA-OTT, KXNHLGAME-26NOV01OTTANA-ANA, KXNHLGAME-26NOV01EDMNYR-NYR, KXNHLGAME-26NOV01EDMNYR-EDM, KXNHLGAME-26NOV01UTAPHI-UTA, KXNHLGAME-26NOV01UTAPHI-PHI
-- sample fields: `{"ticker": "KXNHLGAME-26NOV01OTTANA-OTT", "event_ticker": "KXNHLGAME-26NOV01OTTANA", "market_type": "binary", "title": "Ottawa wins", "yes_sub_title": "Ottawa", "no_sub_title": "Ottawa", "strike_type": "structured", "custom_strike": {"hockey_team": "a2478063-2ded-4657-923b-e59de696ad21"}, "status": "active", "open_time": "2026-10-26T01:28:00Z", "close_time": "2026-11-04T01:00:00Z", "expected_expiration_time": "2026-11-02T04:00:00Z", "result": "", "rules_primary": "If Ottawa wins the Ottawa vs Anaheim NHL game originally scheduled for Nov 1, 2026, then the market resolves to Yes."}`
+- (4) Chicago wins
+- (4) Boston wins
+- (4) Ottawa wins
+- (4) Winnipeg wins
+- (3) Colorado wins
+- (3) Vegas wins
+- samples: KXNHLGAME-26NOV02CGYSJ-SJ, KXNHLGAME-26NOV02CGYSJ-CGY, KXNHLGAME-26NOV02COLCHI-COL, KXNHLGAME-26NOV02COLCHI-CHI, KXNHLGAME-26NOV02VGKBOS-VGK, KXNHLGAME-26NOV02VGKBOS-BOS
+- sample fields: `{"ticker": "KXNHLGAME-26NOV02CGYSJ-SJ", "event_ticker": "KXNHLGAME-26NOV02CGYSJ", "market_type": "binary", "title": "San Jose wins", "yes_sub_title": "San Jose", "no_sub_title": "San Jose", "strike_type": "structured", "custom_strike": {"hockey_team": "eb4bc183-5966-40eb-8bdb-3dd922ad1752"}, "status": "active", "open_time": "2026-10-27T04:07:00Z", "close_time": "2026-11-05T02:00:00Z", "expected_expiration_time": "2026-11-03T05:00:00Z", "result": "", "rules_primary": "If San Jose wins the Calgary vs San Jose NHL game originally scheduled for Nov 2, 2026, then the market resolves to Yes."}`
 
 ### KXNHLGOAL — NHL Goalscorer
-- (171) NAME: #+ goals
-- (3) Connor McDavid: #+ goals
-- (3) Alex DeBrincat: #+ goals
-- (2) NAME-Nygård: #+ goals
-- (2) J.T. Compher: #+ goals
-- (2) Gavin McKenna: #+ goals
-- (2) J.T. Miller: #+ goals
-- (1) Zack MacEwen: #+ goals
-- samples: KXNHLGOAL-26OCT26DETEDM-EDMZHYMAN18-3, KXNHLGOAL-26OCT26DETEDM-EDMZHYMAN18-2, KXNHLGOAL-26OCT26DETEDM-EDMZHYMAN18-1, KXNHLGOAL-26OCT26DETEDM-EDMVPODKOLZIN92-2, KXNHLGOAL-26OCT26DETEDM-EDMVPODKOLZIN92-1, KXNHLGOAL-26OCT26DETEDM-EDMTEMBERSON49-1
-- sample fields: `{"ticker": "KXNHLGOAL-26OCT26DETEDM-EDMZHYMAN18-3", "event_ticker": "KXNHLGOAL-26OCT26DETEDM", "market_type": "binary", "title": "Zach Hyman: 3+ goals", "yes_sub_title": "Zach Hyman: 3+", "no_sub_title": "Zach Hyman: 3+", "strike_type": "greater", "floor_strike": 2.5, "custom_strike": {"hockey_player": "2c3d67df-721b-4ea4-8aee-dea4a9715c82", "hockey_team": "e8b67c82-f465-450d-aef9-c8414f2ae83a"}, "status": "active", "open_time": "2026-10-26T13:35:00Z", "close_time": "2026-10-29T01:30:00Z", "expected_expiration_time": "2026-10-27T04:30:00Z", "result": "", "rules_primary": "If Zach Hyman records`
+- (423) NAME: #+ goals
+- (3) Ryan O'Reilly: #+ goals
+- (2) Mason McTavish: #+ goals
+- (2) Connor McMichael: #+ goals
+- (2) Juraj Slafkovský: #+ goals
+- (2) JJ Peterka: #+ goals
+- (2) Charlie McAvoy: #+ goals
+- (1) Tony DeAngelo: #+ goals
+- samples: KXNHLGOAL-26OCT27NYINSH-NYIVEKLUND73-2, KXNHLGOAL-26OCT27NYINSH-NYIVEKLUND73-1, KXNHLGOAL-26OCT27NYINSH-NYITDEANGELO77-1, KXNHLGOAL-26OCT27NYINSH-NYISHOLMSTROM92-2, KXNHLGOAL-26OCT27NYINSH-NYISHOLMSTROM92-1, KXNHLGOAL-26OCT27NYINSH-NYIRPULOCK6-1
+- sample fields: `{"ticker": "KXNHLGOAL-26OCT27NYINSH-NYIVEKLUND73-2", "event_ticker": "KXNHLGOAL-26OCT27NYINSH", "market_type": "binary", "title": "Victor Eklund: 2+ goals", "yes_sub_title": "Victor Eklund: 2+", "no_sub_title": "Victor Eklund: 2+", "strike_type": "greater", "floor_strike": 1.5, "custom_strike": {"hockey_player": "4dd7ae90-65d7-4a05-8098-22b49fc8859c", "hockey_team": "03f52887-5bb7-4b51-954e-433f73474350"}, "status": "active", "open_time": "2026-10-27T12:07:00Z", "close_time": "2026-10-30T00:00:00Z", "expected_expiration_time": "2026-10-28T03:00:00Z", "result": "", "rules_primary": "If Victor E`
 
 ### KXNHLHART — NHL Hart Memorial Trophy
 - (28) Who will win NAME?
@@ -358,9 +361,9 @@
 - sample fields: `{"ticker": "KXNHLNORRIS-27-ZWERENSKI8", "event_ticker": "KXNHLNORRIS-27", "market_type": "binary", "title": "James Norris Memorial Trophy: Zach Werenski wins", "subtitle": "::", "yes_sub_title": "Zach Werenski", "no_sub_title": "Zach Werenski", "strike_type": "structured", "custom_strike": {"hockey_player": "036e0c69-c86a-4ab1-8f63-c6d55b72fe09"}, "status": "active", "open_time": "2026-09-01T19:00:00Z", "close_time": "2027-07-07T14:00:00Z", "expected_expiration_time": "2027-06-30T14:00:00Z", "result": "", "rules_primary": "If Zach Werenski wins the NHL James Norris Memorial Trophy in the 2026-`
 
 ### KXNHLOT — NHL Overtime
-- (14) Game goes to overtime
-- samples: KXNHLOT-26OCT27BUFSJ-1, KXNHLOT-26OCT27OTTVGK-1, KXNHLOT-26OCT27VANANA-1, KXNHLOT-26OCT27MINUTA-1, KXNHLOT-26OCT27MTLSTL-1, KXNHLOT-26OCT27LACHI-1
-- sample fields: `{"ticker": "KXNHLOT-26OCT27BUFSJ-1", "event_ticker": "KXNHLOT-26OCT27BUFSJ", "market_type": "binary", "title": "Game goes to overtime", "yes_sub_title": "Game goes to overtime", "no_sub_title": "Game goes to overtime", "strike_type": "greater", "floor_strike": 0.5, "status": "active", "open_time": "2026-10-26T04:11:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If at least 1 overtime period is played in the Buffalo vs San Jose NHL game originally scheduled for Oct 27, 2026, then the market resolves to Yes."}`
+- (15) Game goes to overtime
+- samples: KXNHLOT-26OCT28TORSEA-1, KXNHLOT-26OCT28NJCOL-1, KXNHLOT-26OCT28CGYEDM-1, KXNHLOT-26OCT28PHIWSH-1, KXNHLOT-26OCT27BUFSJ-1, KXNHLOT-26OCT27OTTVGK-1
+- sample fields: `{"ticker": "KXNHLOT-26OCT28TORSEA-1", "event_ticker": "KXNHLOT-26OCT28TORSEA", "market_type": "binary", "title": "Game goes to overtime", "yes_sub_title": "Game goes to overtime", "no_sub_title": "Game goes to overtime", "strike_type": "greater", "floor_strike": 0.5, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If at least 1 overtime period is played in the Toronto vs Seattle NHL game originally scheduled for Oct 28, 2026, then the market resolves to Yes."}`
 
 ### KXNHLOVERTIME — NHL Overtime
 
@@ -393,13 +396,16 @@
 - sample fields: `{"ticker": "KXNHLPSEASONGOALS-27MCELEBRINI71-60", "event_ticker": "KXNHLPSEASONGOALS-27MCELEBRINI71", "market_type": "binary", "title": "Macklin Celebrini: 60+ goals in 2026-27 NHL regular season?", "subtitle": "Macklin Celebrini", "yes_sub_title": "60+ goals", "no_sub_title": "60+ goals", "strike_type": "greater", "floor_strike": 59.5, "custom_strike": {"hockey_player": "264560c4-3624-4c01-924e-879a08799f16"}, "status": "active", "open_time": "2026-10-09T01:30:00Z", "close_time": "2027-04-13T14:00:00Z", "expected_expiration_time": "2027-04-11T14:00:00Z", "result": "", "rules_primary": "If Mac`
 
 ### KXNHLPTS — Pro Hockey Points
-- (103) NAME: #+ points
-- (4) Connor McDavid: #+ points
-- (3) Alex DeBrincat: #+ points
-- (3) J.T. Miller: #+ points
-- (2) Gavin McKenna: #+ points
-- samples: KXNHLPTS-26OCT26DETEDM-EDMZHYMAN18-2, KXNHLPTS-26OCT26DETEDM-EDMZHYMAN18-1, KXNHLPTS-26OCT26DETEDM-EDMVPODKOLZIN92-2, KXNHLPTS-26OCT26DETEDM-EDMVPODKOLZIN92-1, KXNHLPTS-26OCT26DETEDM-EDMRSHEA6-2, KXNHLPTS-26OCT26DETEDM-EDMRSHEA6-1
-- sample fields: `{"ticker": "KXNHLPTS-26OCT26DETEDM-EDMZHYMAN18-2", "event_ticker": "KXNHLPTS-26OCT26DETEDM", "market_type": "binary", "title": "Zach Hyman: 2+ points", "yes_sub_title": "Zach Hyman: 2+", "no_sub_title": "Zach Hyman: 2+", "strike_type": "greater", "floor_strike": 1.5, "custom_strike": {"hockey_player": "2c3d67df-721b-4ea4-8aee-dea4a9715c82", "hockey_team": "e8b67c82-f465-450d-aef9-c8414f2ae83a"}, "status": "active", "open_time": "2026-10-26T13:35:00Z", "close_time": "2026-10-29T01:30:00Z", "expected_expiration_time": "2026-10-27T04:30:00Z", "result": "", "rules_primary": "If Zach Hyman records `
+- (273) NAME: #+ points
+- (3) Ryan O'Reilly: #+ points
+- (3) Juraj Slafkovský: #+ points
+- (2) Tony DeAngelo: #+ points
+- (2) Mason McTavish: #+ points
+- (2) Connor McMichael: #+ points
+- (2) K'NAME: #+ points
+- (2) JJ Peterka: #+ points
+- samples: KXNHLPTS-26OCT27NYINSH-NYIVEKLUND73-2, KXNHLPTS-26OCT27NYINSH-NYIVEKLUND73-1, KXNHLPTS-26OCT27NYINSH-NYITDEANGELO77-2, KXNHLPTS-26OCT27NYINSH-NYITDEANGELO77-1, KXNHLPTS-26OCT27NYINSH-NYISHOLMSTROM92-2, KXNHLPTS-26OCT27NYINSH-NYISHOLMSTROM92-1
+- sample fields: `{"ticker": "KXNHLPTS-26OCT27NYINSH-NYIVEKLUND73-2", "event_ticker": "KXNHLPTS-26OCT27NYINSH", "market_type": "binary", "title": "Victor Eklund: 2+ points", "yes_sub_title": "Victor Eklund: 2+", "no_sub_title": "Victor Eklund: 2+", "strike_type": "greater", "floor_strike": 1.5, "custom_strike": {"hockey_player": "4dd7ae90-65d7-4a05-8098-22b49fc8859c", "hockey_team": "03f52887-5bb7-4b51-954e-433f73474350"}, "status": "active", "open_time": "2026-10-27T12:08:00Z", "close_time": "2026-10-30T00:00:00Z", "expected_expiration_time": "2026-10-28T03:00:00Z", "result": "", "rules_primary": "If Victor Ek`
 
 ### KXNHLRECORDWORST — Worst NHL Record
 - (30) Will the NAME have the worst regular season record in the #-# season?
@@ -471,33 +477,33 @@
 ### KXNHLSERIESTOTALGOALS — NHL Series Total Goals
 
 ### KXNHLSPREAD — NHL Spread
-- (10) NAME wins by over # goals
-- (4) Toronto wins by over # goals
-- (4) Edmonton wins by over # goals
-- (4) Calgary wins by over # goals
-- (4) Philadelphia wins by over # goals
-- (2) Seattle wins by over # goals
-- (2) Colorado wins by over # goals
-- (2) Washington wins by over # goals
-- samples: KXNHLSPREAD-26OCT28TORSEA-TOR3, KXNHLSPREAD-26OCT28TORSEA-TOR2, KXNHLSPREAD-26OCT28TORSEA-SEA3, KXNHLSPREAD-26OCT28TORSEA-SEA2, KXNHLSPREAD-26OCT28NJCOL-NJ3, KXNHLSPREAD-26OCT28NJCOL-NJ2
-- sample fields: `{"ticker": "KXNHLSPREAD-26OCT28TORSEA-TOR3", "event_ticker": "KXNHLSPREAD-26OCT28TORSEA", "market_type": "binary", "title": "Toronto wins by over 2.5 goals", "yes_sub_title": "Toronto wins by over 2.5 goals", "no_sub_title": "Toronto wins by over 2.5 goals", "strike_type": "greater", "floor_strike": 2.5, "custom_strike": {"hockey_team": "f61f9daa-407b-4c46-96e8-feee19cd6f51"}, "status": "active", "open_time": "2026-10-26T04:11:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If Toronto wins by over 2.5 goals in the `
+- (14) NAME wins by over # goals
+- (4) Vancouver wins by over # goals
+- (4) Buffalo wins by over # goals
+- (4) Anaheim wins by over # goals
+- (4) Ottawa wins by over # goals
+- (4) Washington wins by over # goals
+- (4) Nashville wins by over # goals
+- (4) St. Louis wins by over # goals
+- samples: KXNHLSPREAD-26OCT29VANSJ-VAN3, KXNHLSPREAD-26OCT29VANSJ-VAN2, KXNHLSPREAD-26OCT29VANSJ-SJ3, KXNHLSPREAD-26OCT29VANSJ-SJ2, KXNHLSPREAD-26OCT29BUFANA-BUF3, KXNHLSPREAD-26OCT29BUFANA-BUF2
+- sample fields: `{"ticker": "KXNHLSPREAD-26OCT29VANSJ-VAN3", "event_ticker": "KXNHLSPREAD-26OCT29VANSJ", "market_type": "binary", "title": "Vancouver wins by over 2.5 goals", "yes_sub_title": "Vancouver wins by over 2.5 goals", "no_sub_title": "Vancouver wins by over 2.5 goals", "strike_type": "greater", "floor_strike": 2.5, "custom_strike": {"hockey_team": "2d6db4a4-99f2-4547-85f3-9913404577f9"}, "status": "active", "open_time": "2026-10-27T04:06:00Z", "close_time": "2026-11-01T02:00:00Z", "expected_expiration_time": "2026-10-30T05:00:00Z", "result": "", "rules_primary": "If Vancouver wins by over 2.5 goals i`
 
 ### KXNHLTEAMTOTAL — NHL Team Goals Scored During Game
 - (20) NAME over # goals scored
-- (5) Buffalo over # goals scored
-- (5) Vegas over # goals scored
-- (5) Ottawa over # goals scored
-- (5) Vancouver over # goals scored
-- (5) Anaheim over # goals scored
-- (5) Utah over # goals scored
-- (5) Minnesota over # goals scored
-- samples: KXNHLTEAMTOTAL-26OCT27BUFSJ-SJ6, KXNHLTEAMTOTAL-26OCT27BUFSJ-SJ5, KXNHLTEAMTOTAL-26OCT27BUFSJ-SJ4, KXNHLTEAMTOTAL-26OCT27BUFSJ-SJ3, KXNHLTEAMTOTAL-26OCT27BUFSJ-SJ2, KXNHLTEAMTOTAL-26OCT27BUFSJ-BUF6
-- sample fields: `{"ticker": "KXNHLTEAMTOTAL-26OCT27BUFSJ-SJ6", "event_ticker": "KXNHLTEAMTOTAL-26OCT27BUFSJ", "market_type": "binary", "title": "San Jose over 5.5 goals scored", "yes_sub_title": "San Jose over 5.5", "no_sub_title": "San Jose over 5.5", "strike_type": "greater", "floor_strike": 5.5, "custom_strike": {"hockey_team": "eb4bc183-5966-40eb-8bdb-3dd922ad1752"}, "status": "active", "open_time": "2026-10-26T04:08:00Z", "close_time": "2026-10-30T02:30:00Z", "expected_expiration_time": "2026-10-28T05:30:00Z", "result": "", "rules_primary": "If San Jose scores over 5.5 goals in the Buffalo vs San Jose NHL`
+- (10) Philadelphia over # goals scored
+- (5) Toronto over # goals scored
+- (5) Seattle over # goals scored
+- (5) Colorado over # goals scored
+- (5) Edmonton over # goals scored
+- (5) Calgary over # goals scored
+- (5) Washington over # goals scored
+- samples: KXNHLTEAMTOTAL-26OCT28TORSEA-TOR6, KXNHLTEAMTOTAL-26OCT28TORSEA-TOR5, KXNHLTEAMTOTAL-26OCT28TORSEA-TOR4, KXNHLTEAMTOTAL-26OCT28TORSEA-TOR3, KXNHLTEAMTOTAL-26OCT28TORSEA-TOR2, KXNHLTEAMTOTAL-26OCT28TORSEA-SEA6
+- sample fields: `{"ticker": "KXNHLTEAMTOTAL-26OCT28TORSEA-TOR6", "event_ticker": "KXNHLTEAMTOTAL-26OCT28TORSEA", "market_type": "binary", "title": "Toronto over 5.5 goals scored", "yes_sub_title": "Toronto over 5.5", "no_sub_title": "Toronto over 5.5", "strike_type": "greater", "floor_strike": 5.5, "custom_strike": {"hockey_team": "f61f9daa-407b-4c46-96e8-feee19cd6f51"}, "status": "active", "open_time": "2026-10-27T04:05:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If Toronto scores over 5.5 goals in the Toronto vs Seattle NHL g`
 
 ### KXNHLTOTAL — NHL Total Goals
-- (162) NAME: Over # goals scored
-- samples: KXNHLTOTAL-26OCT28TORSEA-9, KXNHLTOTAL-26OCT28TORSEA-8, KXNHLTOTAL-26OCT28TORSEA-7, KXNHLTOTAL-26OCT28TORSEA-6, KXNHLTOTAL-26OCT28TORSEA-5, KXNHLTOTAL-26OCT28TORSEA-4
-- sample fields: `{"ticker": "KXNHLTOTAL-26OCT28TORSEA-9", "event_ticker": "KXNHLTOTAL-26OCT28TORSEA", "market_type": "binary", "title": "Full Game: Over 8.5 goals scored", "yes_sub_title": "Over 8.5 goals scored", "no_sub_title": "Over 8.5 goals scored", "strike_type": "greater", "floor_strike": 8.5, "status": "active", "open_time": "2026-10-26T04:11:00Z", "close_time": "2026-10-31T02:00:00Z", "expected_expiration_time": "2026-10-29T05:00:00Z", "result": "", "rules_primary": "If the teams collectively score more than 8.5 goals in the Toronto vs Seattle NHL game originally scheduled for Oct 28, 2026, then the m`
+- (234) NAME: Over # goals scored
+- samples: KXNHLTOTAL-26OCT29VANSJ-9, KXNHLTOTAL-26OCT29VANSJ-8, KXNHLTOTAL-26OCT29VANSJ-7, KXNHLTOTAL-26OCT29VANSJ-6, KXNHLTOTAL-26OCT29VANSJ-5, KXNHLTOTAL-26OCT29VANSJ-4
+- sample fields: `{"ticker": "KXNHLTOTAL-26OCT29VANSJ-9", "event_ticker": "KXNHLTOTAL-26OCT29VANSJ", "market_type": "binary", "title": "Full Game: Over 8.5 goals scored", "yes_sub_title": "Over 8.5 goals scored", "no_sub_title": "Over 8.5 goals scored", "strike_type": "greater", "floor_strike": 8.5, "status": "active", "open_time": "2026-10-27T04:06:00Z", "close_time": "2026-11-01T02:00:00Z", "expected_expiration_time": "2026-10-30T05:00:00Z", "result": "", "rules_primary": "If the teams collectively score more than 8.5 goals in the Vancouver vs San Jose NHL game originally scheduled for Oct 29, 2026, then the `
 
 ### KXNHLVEZINA — NHL Vezina Trophy
 - (40) NAME: NAME wins
@@ -581,117 +587,117 @@
 
 ## Series decisions (hockey-related)
 
-- NHL  `KXNHLAST` Pro Hockey Assists — ticker prefix KXNHL
-- NHL  `KXNHL1PTOTAL` NHL 1st Period Total — ticker prefix KXNHL
-- NHL  `KXNHLWEST` Western Conference Champion — ticker prefix KXNHL
-- skip `KXNL` National League Champion — no NHL marker
-- NHL  `KXNHLEAST` Eastern Conference Championship — ticker prefix KXNHL
-- NHL  `KXNHLEXPANSION` NHL Expansion — ticker prefix KXNHL
-- NHL  `KXNHLTEAMTOTAL` NHL Team Goals Scored During Game — ticker prefix KXNHL
-- NHL  `KXNHLWSTREAK` Longest NHL win streak in regular season — ticker prefix KXNHL
-- NHL  `KXNHL3PSPREAD` NHL 3rd Period Spread — ticker prefix KXNHL
-- NHL  `KXNHLPRES` NHL President's Trophy Winner — ticker prefix KXNHL
-- skip `KXWOWHOCKEY` Winter Olympics Women's Hockey — non-NHL hockey marker 'OLYMPIC'
-- skip `KXLIIGAGAME` Liiga Game — non-NHL hockey marker 'LIIGA'
-- NHL  `KXNBANHL` NBA + NHL Champion Combo — title mentions NHL
-- NHL  `KXNHL1STTEAM` All NHL First Team — ticker prefix KXNHL
-- skip `KXIIHF` Who will win IIHF championship? — non-NHL hockey marker 'IIHF'
-- skip `KXAHL` AHL Champion — non-NHL hockey marker 'AHL'
-- NHL  `KXNHLATLANTIC` NHL Atlantic Division Winner — ticker prefix KXNHL
-- NHL  `KXCONNSMYTHE` Conn Smythe trophy — NHL trophy/futures marker
-- NHL  `KXNHLOT` NHL Overtime — ticker prefix KXNHL
-- skip `KXELHGAME` ELH Game — no NHL marker
-- NHL  `KXNHLMVP` NHL Hart Memorial Trophy Winner — ticker prefix KXNHL
-- skip `KXKHLGAME` KHL Game — non-NHL hockey marker 'KHL'
-- NHL  `KXNHL3P` NHL 3rd Period Winner — ticker prefix KXNHL
-- NHL  `KXNHLFINALSEXACT` NHL Championship Series Score — ticker prefix KXNHL
-- NHL  `KXNHLHART` NHL Hart Memorial Trophy — ticker prefix KXNHL
-- NHL  `KXNHLSAVE` Goaltender Saves — ticker prefix KXNHL
-- NHL  `KXNHLSPREAD` NHL Spread — ticker prefix KXNHL
-- NHL  `KXNHLTOTAL` NHL Total Goals — ticker prefix KXNHL
-- skip `KXPHLGAME` Polish Hockey Game — no NHL marker
-- skip `KXDEL` DEL Champion — non-NHL hockey marker 'DEL '
-- NHL  `KXNHL1PSPREAD` 1st Period Spread — ticker prefix KXNHL
-- skip `KXEARNINGSMENTIONHLT` HILTON — no NHL marker
-- NHL  `KXNHLRECORDWORST` Worst NHL Record — ticker prefix KXNHL
-- skip `KXAHLGAME` AHL Game — non-NHL hockey marker 'AHL'
-- skip `KXELH` ELH Champion — no NHL marker
-- NHL  `KXNHLSEASONPTS` NHL Season Point Totals — ticker prefix KXNHL
-- skip `KXWOMHOCKEY` Winter Olympics Men's Hockey — non-NHL hockey marker 'OLYMPIC'
-- NHL  `KXNHL2PTOTAL` 2nd Period Total — ticker prefix KXNHL
-- NHL  `KXNHL2P` NHL 2nd Period Winner — ticker prefix KXNHL
-- NHL  `KXNHL1PBTTS` NHL Both Teams to Score in 1st Period — ticker prefix KXNHL
-- NHL  `KXNHLSERIESSPREAD` NHL Series Game Spread — ticker prefix KXNHL
-- NHL  `KXNHLRETIRE` NHL Retire — ticker prefix KXNHL
-- skip `KXIIHFCHAMP` IIHF World Championship winner — non-NHL hockey marker 'IIHF'
-- skip `KXWOMHOCKEYFGOAL` Winter Olympics Hockey First Goal — non-NHL hockey marker 'OLYMPIC'
-- NHL  `KXNHLMENTION` NHL Announcer Mentions — ticker prefix KXNHL
-- skip `KXWOMHOCKEYMVP` Men's Winter Olympics Hockey MVP — non-NHL hockey marker 'OLYMPIC'
-- skip `KXWOMHOCKEYGOAL` Olympic Hockey Goalscorer — non-NHL hockey marker 'OLYMPIC'
-- NHL  `KXNHLSERIESOT` NHL Series Overtime — ticker prefix KXNHL
-- skip `KXWO-HOCKEY` Winter Olympics Hockey — non-NHL hockey marker 'OLYMPIC'
-- NHL  `KXNHLRICHARD` NHL Maurice "Rocket" Richard Trophy — ticker prefix KXNHL
-- NHL  `KXNHL2PBTTS` NHL Both Teams to Score in 2nd Period — ticker prefix KXNHL
-- NHL  `KXNHLPTS` Pro Hockey Points — ticker prefix KXNHL
-- NHL  `KXNHL30COMEBACK` NHL 3-0 Series Comeback — ticker prefix KXNHL
-- skip `KXNCAAHOCKEYGAME` College Hockey Game — non-NHL hockey marker 'NCAA'
-- skip `KXSHL` SHL Champion — non-NHL hockey marker 'SHL'
-- NHL  `KXCANADACUP` Canada winning Stanley Cup — NHL trophy/futures marker
-- NHL  `KXNHLSAVES` Pro Hockey Saves — ticker prefix KXNHL
-- NHL  `KXNHLPLAYOFFGOALS` NHL Playoffs Goal Leader (by Round) — ticker prefix KXNHL
-- NHL  `KXNHLDRAFTPICK` Pro Hockey Draft Pick — ticker prefix KXNHL
-- skip `KXWOMHOCKEYSPREAD` Winter Olympics Men's Hockey Spread — non-NHL hockey marker 'OLYMPIC'
-- NHL  `KXNHLDRAFTTOP` Pro Hockey Top Pick — ticker prefix KXNHL
-- NHL  `KXNHLMETROPOLITAN` NHL Metropolitan Division Winner — ticker prefix KXNHL
-- skip `KXINTHOCKEY` International Hockey — no NHL marker
-- skip `KXKHL` KHL Champion — non-NHL hockey marker 'KHL'
-- NHL  `KXNHLGAME` NHL Game — ticker prefix KXNHL
-- skip `KXWOHOCKEY` Winter Olympics Hockey — non-NHL hockey marker 'OLYMPIC'
-- NHL  `KXNHLPACIFIC` NHL Pacific Division Winner — ticker prefix KXNHL
-- NHL  `KXNHLSERIESGAMES` NHL Series Total Games — ticker prefix KXNHL
-- skip `KXIIHFGAME` IIHF Game — non-NHL hockey marker 'IIHF'
-- NHL  `KXNHLPRICE` NHL Ticket Prices — ticker prefix KXNHL
-- skip `KXWOMHOCKEYFIRSTGOAL` Winter Olympics Hockey First Goal — non-NHL hockey marker 'OLYMPIC'
-- NHL  `KXNHLWINS` NHL wins  — ticker prefix KXNHL
-- NHL  `KXNHLNEXTTEAM` NHL Next Team — ticker prefix KXNHL
-- NHL  `KXNHLSEASONPPTS` Season Player Points — ticker prefix KXNHL
-- skip `KXEUCHLGAME` Champions League Hockey — non-NHL hockey marker 'CHL'
-- skip `KXNCAAH` College Hockey National Champion — non-NHL hockey marker 'NCAA'
-- NHL  `KXNHL3PBTTS` NHL Both Teams to Score in 3rd Period — ticker prefix KXNHL
-- NHL  `KXNHLPSEASONGOALS` Player Goals Scored in Season — ticker prefix KXNHL
-- skip `KXLIIGA` Liiga Champion — non-NHL hockey marker 'LIIGA'
-- NHL  `KXNHLFIRSTGOAL` NHL First Goal — ticker prefix KXNHL
-- NHL  `KXNHL3PTOTAL` 3rd Period Total — ticker prefix KXNHL
-- NHL  `KXNHLSEASONGOALS` Player to score X Goals in Season — ticker prefix KXNHL
-- skip `KXNCAAHGAME` College Hockey Game — non-NHL hockey marker 'NCAA'
-- NHL  `KXNHLADAMS` NHL Jack Adams Award — ticker prefix KXNHL
-- skip `KXSHLGAME` SHL Game — non-NHL hockey marker 'SHL'
-- NHL  `KXTEAMSINSC` Teams in Stanley Cup — NHL trophy/futures marker
-- NHL  `KXNHLLINDSAY` NHL Ted Lindsay Winner — ticker prefix KXNHL
-- NHL  `KXNEXTTEAMNHL` Next Team NHL — title mentions NHL
-- NHL  `KXNHLF10G` NHL Goal in First 10 Minutes — ticker prefix KXNHL
-- NHL  `KXNHL1P` NHL 1st Period Winner — ticker prefix KXNHL
-- NHL  `KXNHLGOAL` NHL Goalscorer — ticker prefix KXNHL
-- NHL  `KXNHLNEXTGM` Next NHL GM — ticker prefix KXNHL
-- NHL  `KXNHLOVERTIME` NHL Overtime — ticker prefix KXNHL
-- NHL  `KXNHL` Stanley Cup — ticker prefix KXNHL
+- NHL  `KXNHLNORRIS` NHL James Norris Memorial Trophy — ticker prefix KXNHL
 - NHL  `KXNHL2PSPREAD` 2nd Period Spread — ticker prefix KXNHL
-- skip `KXNLGAME` National League Game — no NHL marker
-- NHL  `KXNHL4NATIONS` 4 nations face off — ticker prefix KXNHL
-- NHL  `KXNHLCALDER` NHL Calder Memorial Trophy — ticker prefix KXNHL
-- NHL  `KXNHLROSS` NHL Art Ross Trophy — ticker prefix KXNHL
-- NHL  `KXNHLPLAYOFF` Playoff Qualifier — ticker prefix KXNHL
-- NHL  `KXESPYNHL` BEST NHL PLAYER‬ — title mentions NHL
-- NHL  `KXNHLANYGOAL` Pro Hockey Goalscorer — ticker prefix KXNHL
+- skip `KXNCAAHOCKEYGAME` College Hockey Game — non-NHL hockey marker 'NCAA'
+- skip `KXKHLGAME` KHL Game — non-NHL hockey marker 'KHL'
+- skip `KXAHL` AHL Champion — non-NHL hockey marker 'AHL'
+- skip `KXKHL` KHL Champion — non-NHL hockey marker 'KHL'
+- NHL  `KXNHL1P` NHL 1st Period Winner — ticker prefix KXNHL
+- NHL  `KXNHL30COMEBACK` NHL 3-0 Series Comeback — ticker prefix KXNHL
+- NHL  `KXNHLAST` Pro Hockey Assists — ticker prefix KXNHL
+- NHL  `KXNHLDRAFTTOP` Pro Hockey Top Pick — ticker prefix KXNHL
+- NHL  `KXNHLTOTAL` NHL Total Goals — ticker prefix KXNHL
+- NHL  `KXNHL1PTOTAL` NHL 1st Period Total — ticker prefix KXNHL
+- skip `KXNCAAH` College Hockey National Champion — non-NHL hockey marker 'NCAA'
+- skip `KXWOMHOCKEYMVP` Men's Winter Olympics Hockey MVP — non-NHL hockey marker 'OLYMPIC'
+- NHL  `KXNHLNEXTGM` Next NHL GM — ticker prefix KXNHL
+- skip `KXIIHFCHAMP` IIHF World Championship winner — non-NHL hockey marker 'IIHF'
+- NHL  `KXNHLMENTION` NHL Announcer Mentions — ticker prefix KXNHL
 - NHL  `KXNHLCENTRAL` NHL Central Division Winner — ticker prefix KXNHL
+- skip `KXLIIGA` Liiga Champion — non-NHL hockey marker 'LIIGA'
+- NHL  `KXNHLOT` NHL Overtime — ticker prefix KXNHL
+- skip `KXWOMHOCKEYFIRSTGOAL` Winter Olympics Hockey First Goal — non-NHL hockey marker 'OLYMPIC'
+- skip `KXNLGAME` National League Game — no NHL marker
+- skip `KXLIGMAGGAME` Ligue Magnus Game — no NHL marker
+- NHL  `KXNHL1STTEAM` All NHL First Team — ticker prefix KXNHL
+- skip `KXWOMHOCKEYGOAL` Olympic Hockey Goalscorer — non-NHL hockey marker 'OLYMPIC'
+- NHL  `KXNHLPACIFIC` NHL Pacific Division Winner — ticker prefix KXNHL
+- NHL  `KXESPYNHL` BEST NHL PLAYER‬ — title mentions NHL
+- NHL  `KXNHL3PSPREAD` NHL 3rd Period Spread — ticker prefix KXNHL
+- NHL  `KXNHLTEAMTOTAL` NHL Team Goals Scored During Game — ticker prefix KXNHL
+- NHL  `KXNHLMETROPOLITAN` NHL Metropolitan Division Winner — ticker prefix KXNHL
+- NHL  `KXNHLLINDSAY` NHL Ted Lindsay Winner — ticker prefix KXNHL
+- NHL  `KXNHLGOAL` NHL Goalscorer — ticker prefix KXNHL
+- skip `KXIIHF` Who will win IIHF championship? — non-NHL hockey marker 'IIHF'
+- NHL  `KXNHLNEXTTEAM` NHL Next Team — ticker prefix KXNHL
+- NHL  `KXNHLPRES` NHL President's Trophy Winner — ticker prefix KXNHL
+- skip `KXWOMHOCKEYSPREAD` Winter Olympics Men's Hockey Spread — non-NHL hockey marker 'OLYMPIC'
+- skip `KXEUCHLGAME` Champions League Hockey — non-NHL hockey marker 'CHL'
+- NHL  `KXNHLPRICE` NHL Ticket Prices — ticker prefix KXNHL
+- NHL  `KXNHLANYGOAL` Pro Hockey Goalscorer — ticker prefix KXNHL
+- NHL  `KXNHLSAVES` Pro Hockey Saves — ticker prefix KXNHL
+- NHL  `KXNHLSERIESGAMES` NHL Series Total Games — ticker prefix KXNHL
+- NHL  `KXNHLEXPANSION` NHL Expansion — ticker prefix KXNHL
+- skip `KXWOMHOCKEYTOTAL` Winter Olympics Men's Hockey Goal Total — non-NHL hockey marker 'OLYMPIC'
+- NHL  `KXNHLPLAYOFFGOALS` NHL Playoffs Goal Leader (by Round) — ticker prefix KXNHL
+- NHL  `KXNHLSERIESSPREAD` NHL Series Game Spread — ticker prefix KXNHL
+- NHL  `KXNHL4NATIONS` 4 nations face off — ticker prefix KXNHL
+- skip `KXWOMHOCKEY` Winter Olympics Men's Hockey — non-NHL hockey marker 'OLYMPIC'
+- NHL  `KXNHLSERIES` NHL Series Winner — ticker prefix KXNHL
+- NHL  `KXNHLRECORDWORST` Worst NHL Record — ticker prefix KXNHL
+- NHL  `KXNHLHART` NHL Hart Memorial Trophy — ticker prefix KXNHL
+- NHL  `KXNHLSERIESOT` NHL Series Overtime — ticker prefix KXNHL
+- NHL  `KXNHL3PTOTAL` 3rd Period Total — ticker prefix KXNHL
+- NHL  `KXNHLF10G` NHL Goal in First 10 Minutes — ticker prefix KXNHL
+- NHL  `KXNHL2P` NHL 2nd Period Winner — ticker prefix KXNHL
+- NHL  `KXNEXTTEAMNHL` Next Team NHL — title mentions NHL
+- NHL  `KXNHL` Stanley Cup — ticker prefix KXNHL
+- NHL  `KXNHLRICHARD` NHL Maurice "Rocket" Richard Trophy — ticker prefix KXNHL
+- skip `KXDEL` DEL Champion — non-NHL hockey marker 'DEL '
+- skip `KXELH` ELH Champion — no NHL marker
+- skip `KXINTHOCKEY` International Hockey — no NHL marker
+- NHL  `KXNHLADAMS` NHL Jack Adams Award — ticker prefix KXNHL
+- NHL  `KXNHLPTS` Pro Hockey Points — ticker prefix KXNHL
+- NHL  `KXNHLFINALSEXACT` NHL Championship Series Score — ticker prefix KXNHL
+- NHL  `KXNHL2PBTTS` NHL Both Teams to Score in 2nd Period — ticker prefix KXNHL
+- NHL  `KXNHLVEZINA` NHL Vezina Trophy — ticker prefix KXNHL
+- NHL  `KXCONNSMYTHE` Conn Smythe trophy — NHL trophy/futures marker
+- skip `KXWOWHOCKEY` Winter Olympics Women's Hockey — non-NHL hockey marker 'OLYMPIC'
+- NHL  `KXNHLWEST` Western Conference Champion — ticker prefix KXNHL
+- skip `KXSHL` SHL Champion — non-NHL hockey marker 'SHL'
+- NHL  `KXNHL1PSPREAD` 1st Period Spread — ticker prefix KXNHL
+- skip `KXNCAAHGAME` College Hockey Game — non-NHL hockey marker 'NCAA'
+- skip `KXWOMHOCKEYFGOAL` Winter Olympics Hockey First Goal — non-NHL hockey marker 'OLYMPIC'
+- NHL  `KXNHLWSTREAK` Longest NHL win streak in regular season — ticker prefix KXNHL
+- skip `KXWO-HOCKEY` Winter Olympics Hockey — non-NHL hockey marker 'OLYMPIC'
+- NHL  `KXNHL2OT` NHL Double Overtime — ticker prefix KXNHL
+- NHL  `KXNHLSPREAD` NHL Spread — ticker prefix KXNHL
+- NHL  `KXNHLCALDER` NHL Calder Memorial Trophy — ticker prefix KXNHL
+- NHL  `KXNHLPSEASONGOALS` Player Goals Scored in Season — ticker prefix KXNHL
+- NHL  `KXNHLSEASONPTS` NHL Season Point Totals — ticker prefix KXNHL
+- skip `KXPHLGAME` Polish Hockey Game — no NHL marker
+- NHL  `KXNHLEAST` Eastern Conference Championship — ticker prefix KXNHL
+- NHL  `KXNHLMVP` NHL Hart Memorial Trophy Winner — ticker prefix KXNHL
+- NHL  `KXNHLDRAFTPICK` Pro Hockey Draft Pick — ticker prefix KXNHL
+- NHL  `KXNHLROSS` NHL Art Ross Trophy — ticker prefix KXNHL
 - skip `KXNCAAHOCKEY` College Hockey National Champion — non-NHL hockey marker 'NCAA'
 - skip `KXDELGAME` DEL Game — non-NHL hockey marker 'DEL '
+- skip `KXLIIGAGAME` Liiga Game — non-NHL hockey marker 'LIIGA'
+- NHL  `KXNHLOVERTIME` NHL Overtime — ticker prefix KXNHL
+- NHL  `KXNHLWINS` NHL wins  — ticker prefix KXNHL
+- NHL  `KXCANADACUP` Canada winning Stanley Cup — NHL trophy/futures marker
+- NHL  `KXNHLATLANTIC` NHL Atlantic Division Winner — ticker prefix KXNHL
+- NHL  `KXNHL3PBTTS` NHL Both Teams to Score in 3rd Period — ticker prefix KXNHL
 - NHL  `KXNHLSERIESSCORE` NHL Series Exact Score — ticker prefix KXNHL
-- skip `KXWOMHOCKEYTOTAL` Winter Olympics Men's Hockey Goal Total — non-NHL hockey marker 'OLYMPIC'
+- skip `KXNL` National League Champion — no NHL marker
+- NHL  `KXNHLFIRSTGOAL` NHL First Goal — ticker prefix KXNHL
+- NHL  `KXNHLSAVE` Goaltender Saves — ticker prefix KXNHL
+- skip `KXELHGAME` ELH Game — no NHL marker
+- skip `KXWOHOCKEY` Winter Olympics Hockey — non-NHL hockey marker 'OLYMPIC'
+- NHL  `KXNHLGAME` NHL Game — ticker prefix KXNHL
+- skip `KXSHLGAME` SHL Game — non-NHL hockey marker 'SHL'
+- NHL  `KXNHLPLAYOFF` Playoff Qualifier — ticker prefix KXNHL
+- skip `KXAHLGAME` AHL Game — non-NHL hockey marker 'AHL'
 - NHL  `KXNHLSERIESTOTALGOAL` NHL Series Total Goals — ticker prefix KXNHL
+- NHL  `KXNHLSEASONGOALS` Player to score X Goals in Season — ticker prefix KXNHL
+- NHL  `KXNHLRETIRE` NHL Retire — ticker prefix KXNHL
 - NHL  `KXNHLSERIESTOTALGOALS` NHL Series Total Goals — ticker prefix KXNHL
-- NHL  `KXNHL2OT` NHL Double Overtime — ticker prefix KXNHL
-- NHL  `KXNHLSERIES` NHL Series Winner — ticker prefix KXNHL
-- skip `KXLIGMAGGAME` Ligue Magnus Game — no NHL marker
-- NHL  `KXNHLNORRIS` NHL James Norris Memorial Trophy — ticker prefix KXNHL
-- NHL  `KXNHLVEZINA` NHL Vezina Trophy — ticker prefix KXNHL
+- NHL  `KXNHL1PBTTS` NHL Both Teams to Score in 1st Period — ticker prefix KXNHL
+- NHL  `KXNHL3P` NHL 3rd Period Winner — ticker prefix KXNHL
+- NHL  `KXTEAMSINSC` Teams in Stanley Cup — NHL trophy/futures marker
+- NHL  `KXNHLSEASONPPTS` Season Player Points — ticker prefix KXNHL
+- NHL  `KXNBANHL` NBA + NHL Champion Combo — title mentions NHL
+- skip `KXIIHFGAME` IIHF Game — non-NHL hockey marker 'IIHF'
+- skip `KXEARNINGSMENTIONHLT` HILTON — no NHL marker
+- NHL  `KXNHL2PTOTAL` 2nd Period Total — ticker prefix KXNHL
