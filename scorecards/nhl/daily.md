@@ -1,33 +1,33 @@
 ## NHL projection scorecard (daily) — last 7 days
 
-Generated 2026-10-27T23:19:02Z. Research only; nothing here is a betting signal.
+Generated 2026-10-28T00:39:32Z. Research only; nothing here is a betting signal.
 
-Archived pregame forecasts: 40313 across 64 games. Settled: 14051 (void/DNP 539, stat corrections 0).
+Archived pregame forecasts: 40372 across 64 games. Settled: 14051 (void/DNP 539, stat corrections 0).
 
 | Stat | Model | n (games) | MAE | Bias | CRPS | 80% range caught | vs incumbent (CRPS) |
 |---|---|---|---|---|---|---|---|
-| assists | PLAYER_SIM_V1 (incumbent) | 988 (29) | 0.428 | -0.009 | — | — |  |
-| assists | pf-nhl-F_stack (challenger) | 1029 (29) | 0.410 | -0.012 | 0.222 | 81% | — |
-| goals | PLAYER_SIM_V1 (incumbent) | 988 (29) | 0.280 | -0.001 | — | — |  |
-| goals | pf-nhl-F_stack (challenger) | 1029 (29) | 0.274 | -0.002 | 0.142 | 81% | — |
-| points | PLAYER_SIM_V1 (incumbent) | 988 (29) | 0.542 | -0.010 | — | — |  |
-| points | pf-nhl-F_stack (challenger) | 1029 (29) | 0.525 | -0.015 | 0.303 | 80% | — |
-| saves | PLAYER_SIM_V1 (incumbent) | 51 (29) | 4.844 | -1.464 | — | — |  |
-| saves | pf-nhl-F_stack (challenger) | 56 (29) | 4.802 | -1.069 | 3.496 | 86% | — |
-| shots | PLAYER_SIM_V1 (incumbent) | 988 (29) | 1.021 | -0.100 | — | — |  |
-| shots | pf-nhl-F_stack (challenger) | 1029 (29) | 1.017 | -0.005 | 0.692 | 80% | — |
-| team_goals | pf-nhl-F_stack (challenger) | 58 (29) | 1.471 | -0.051 | 1.022 | 81% | — |
-| toi_minutes | PLAYER_SIM_V1 (incumbent) | 988 (29) | 1.803 | -0.424 | — | — |  |
-| toi_minutes | pf-nhl-E_lightgbm (challenger) | 1029 (29) | 1.705 | +0.017 | — | — | — |
+| assists | PLAYER_SIM_V1 (incumbent) | 918 (27) | 0.434 | -0.017 | — | — |  |
+| assists | pf-nhl-F_stack (challenger) | 957 (27) | 0.416 | -0.020 | 0.228 | 80% | — |
+| goals | PLAYER_SIM_V1 (incumbent) | 918 (27) | 0.283 | -0.006 | — | — |  |
+| goals | pf-nhl-F_stack (challenger) | 957 (27) | 0.276 | -0.006 | 0.144 | 82% | — |
+| points | PLAYER_SIM_V1 (incumbent) | 918 (27) | 0.548 | -0.022 | — | — |  |
+| points | pf-nhl-F_stack (challenger) | 957 (27) | 0.531 | -0.027 | 0.309 | 82% | — |
+| saves | PLAYER_SIM_V1 (incumbent) | 47 (27) | 4.877 | -1.435 | — | — |  |
+| saves | pf-nhl-F_stack (challenger) | 52 (27) | 4.814 | -1.019 | 3.523 | 87% | — |
+| shots | PLAYER_SIM_V1 (incumbent) | 918 (27) | 1.011 | -0.100 | — | — |  |
+| shots | pf-nhl-F_stack (challenger) | 957 (27) | 1.007 | -0.005 | 0.686 | 80% | — |
+| team_goals | pf-nhl-F_stack (challenger) | 54 (27) | 1.506 | -0.129 | 1.051 | 78% | — |
+| toi_minutes | PLAYER_SIM_V1 (incumbent) | 918 (27) | 1.810 | -0.417 | — | — |  |
+| toi_minutes | pf-nhl-E_lightgbm (challenger) | 957 (27) | 1.715 | +0.031 | — | — | — |
 
 **Drift checks**
 
 - assists: **OK** — within expectations
 - goals: **OK** — within expectations
 - points: **OK** — within expectations
-- saves: **INSUFFICIENT** — 56 settled forecasts (< 100)
+- saves: **INSUFFICIENT** — 52 settled forecasts (< 100)
 - shots: **OK** — within expectations
-- team_goals: **INSUFFICIENT** — 58 settled forecasts (< 100)
+- team_goals: **INSUFFICIENT** — 54 settled forecasts (< 100)
 - toi_minutes: **OK** — within expectations
 
 ### Live promotion status (challenger vs PLAYER_SIM_V1 incumbent, identical settled player-games)
@@ -36,22 +36,22 @@ A family is **better** only if the game-clustered 95% CI of the paired loss diff
 
 | Family | Loss | Paired n (games) | Challenger - incumbent [95% CI] | promotion_status | Readiness (frozen study) |
 |---|---|---|---|---|---|
-| shots | CRPS (incumbent as Poisson) | 988 (29) | -0.0120 [-0.0194, -0.0056] | **not yet distinguishable** | SHADOW VALIDATION |
-| goals | rung RPS | 988 (29) | -0.0007 [-0.0018, +0.0003] | **not yet distinguishable** | SHADOW VALIDATION |
-| assists | rung RPS | 700 (29) | +0.0008 [-0.0049, +0.0060] | **not yet distinguishable** | SHADOW VALIDATION |
-| points | rung RPS | 699 (29) | +0.0006 [-0.0070, +0.0072] | **not yet distinguishable** | SHADOW VALIDATION |
-| saves | rung RPS | 51 (29) | -0.0122 [-0.0279, +0.0031] | **not yet distinguishable** | NEEDS IMPROVEMENT |
+| shots | CRPS (incumbent as Poisson) | 918 (27) | -0.0123 [-0.0195, -0.0044] | **not yet distinguishable** | SHADOW VALIDATION |
+| goals | rung RPS | 918 (27) | -0.0008 [-0.0019, +0.0003] | **not yet distinguishable** | SHADOW VALIDATION |
+| assists | rung RPS | 650 (27) | +0.0005 [-0.0049, +0.0054] | **not yet distinguishable** | SHADOW VALIDATION |
+| points | rung RPS | 650 (27) | +0.0002 [-0.0071, +0.0070] | **not yet distinguishable** | SHADOW VALIDATION |
+| saves | rung RPS | 47 (27) | -0.0147 [-0.0311, +0.0016] | **not yet distinguishable** | NEEDS IMPROVEMENT |
 | team_goals | n/a | 0 (0) | — | **no incumbent** | SHADOW VALIDATION |
-| toi_minutes | absolute error | 988 (29) | -0.0944 [-0.1579, -0.0323] | **not yet distinguishable** | SHADOW VALIDATION |
+| toi_minutes | absolute error | 918 (27) | -0.0893 [-0.1523, -0.0274] | **not yet distinguishable** | SHADOW VALIDATION |
 
-**Goalie starter check**: 72 projected goalie-games, named goalie started 77.8% (mean published P(start) 0.9122).
-- participation CONFIRMED_ACTIVE: n=40, started 100.0%
+**Goalie starter check**: 68 projected goalie-games, named goalie started 76.5% (mean published P(start) 0.9074).
+- participation CONFIRMED_ACTIVE: n=36, started 100.0%
 - participation LIKELY_ACTIVE: n=32, started 50.0%
 
-**Skater lineup check**: 1070 projected skaters, 96.2% dressed.
+**Skater lineup check**: 995 projected skaters, 96.2% dressed.
 - participation CONFIRMED_ACTIVE: n=199, dressed 99.0%
 - participation CONFIRMED_OUT: n=4, dressed 0.0%
-- participation LIKELY_ACTIVE: n=854, dressed 97.0%
+- participation LIKELY_ACTIVE: n=779, dressed 97.0%
 - participation UNCERTAIN: n=13, dressed 30.8%
 
-**Availability capture**: mean coverage 1.0, newest capture age 10.1 min (median over recent runs), runs summarised: 12.
+**Availability capture**: mean coverage 1.0, newest capture age 12.4 min (median over recent runs), runs summarised: 12.
