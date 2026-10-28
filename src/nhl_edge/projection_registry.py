@@ -23,6 +23,8 @@ REGISTRY_PATH = REPO_ROOT / "data" / "registry" / "projection-registry.json"
 DEFAULT_MODEL = "DATA_ONLY_V1"
 OVERTIME_FIELDS = ("p_reg_tie", "p_overtime", "p_home_reg_win", "p_away_reg_win", "p_shootout")
 APPROVAL_KEYS = ("approved_by", "approved_at_utc", "evidence")
+TEAM_MINUTES_TARGET = "player_team_minutes"
+TEAM_MINUTES_DEFAULT = "team-minutes-0"
 
 
 def _approved(entry: dict[str, Any]) -> bool:
@@ -45,6 +47,33 @@ def published_model(target: str, path: Path | None = None) -> tuple[str, str | N
         return DEFAULT_MODEL, f"{want!r} is not the registered candidate; default {DEFAULT_MODEL}"
     if not _approved(entry):
         return DEFAULT_MODEL, f"{want} requested but no complete approval record; default {DEFAULT_MODEL}"
+    return want, None
+
+
+def team_minutes_entry(path: Path | None = None) -> dict[str, Any] | None:
+    try:
+        return json.loads(Path(path or REGISTRY_PATH).read_text())["targets"][TEAM_MINUTES_TARGET]
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def published_team_minutes(path: Path | None = None) -> tuple[str, str | None]:
+    """(team-minute allocation that drives the published PLAYER_SIM_V1 ice-time and shots fields, reason it is the default despite a request, or None).
+
+    Same rules as :func:`published_model`: the default (``team-minutes-0``, the template that was hard-coded in ``workflows/shadow_player.py``) unless the registry names the
+    registered candidate WITH a complete approval record. Never raises."""
+    p = Path(path) if path else REGISTRY_PATH
+    try:
+        entry = json.loads(p.read_text())["targets"][TEAM_MINUTES_TARGET]
+        want = str(entry["published_model"])
+    except (OSError, ValueError, KeyError, TypeError) as e:
+        return TEAM_MINUTES_DEFAULT, f"registry unreadable or target missing ({type(e).__name__}); default {TEAM_MINUTES_DEFAULT}"
+    if want == TEAM_MINUTES_DEFAULT:
+        return TEAM_MINUTES_DEFAULT, None
+    if want != str(entry.get("candidate")):
+        return TEAM_MINUTES_DEFAULT, f"{want!r} is not the registered candidate; default {TEAM_MINUTES_DEFAULT}"
+    if not _approved(entry):
+        return TEAM_MINUTES_DEFAULT, f"{want} requested but no complete approval record; default {TEAM_MINUTES_DEFAULT}"
     return want, None
 
 

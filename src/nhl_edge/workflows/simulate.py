@@ -289,6 +289,9 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
         slate["oa_shadow"] = {k: v for k, v in oa.items() if k != "rows"} | {"n_rows": len(oa.get("rows") or [])}
     player = _run_player_shadow(ledger, v2_items, v2, data_root, now, market_ts, rosters, injuries, series_rows) if (v2_items and v2 and not v2.get("error")) else None
     dists = (player.pop("distributions", None) or []) if player is not None else []
+    # the team-minute allocation shadow (candidate beside the published template) is an archive-only kind: it never enters the slate document, so the default stays byte-identical
+    tm_rows = (player.pop("tm_shadow", None) or []) if player is not None else []
+    tm_info = (player.pop("tm_info", None) or {}) if player is not None else {}
     thesis = _run_thesis_card(ledger, dists, now, player) if dists else None
     if thesis is not None:
         slate["thesis_card"] = thesis["slate_view"]
@@ -324,6 +327,18 @@ def run_simulate(out_root: Path, data_root: Path, date: str | None = None, n_sim
             except Exception as e:  # noqa: BLE001 - never block V1's slate on the shadow arm
                 log.warning(kv(event="player_shadow_archive_failed", err=str(e)[:300]))
                 slate["player_shadow"]["archive_error"] = f"{type(e).__name__}: {str(e)[:200]}"
+        degraded = bool(tm_info.get("n_errors") or tm_info.get("default_reason") or tm_info.get("candidate_available") is False)
+        if tm_rows or degraded:
+            # a degraded shadow (missing parameters, a registry request that was refused, per-game errors) leaves a visible marker row even when no player row could be produced
+            marker = [{"marker": True, "player_id": None, "predicted_at_utc": iso(now), "role": "SHADOW", "authority": "RESEARCH_ONLY", "published_allocation": tm_info.get("published_allocation"),
+                       "default_reason": tm_info.get("default_reason"), "candidate_available": tm_info.get("candidate_available"), "n_errors": tm_info.get("n_errors", 0),
+                       "errors": tm_info.get("errors")}] if degraded else []
+            try:
+                ledger.append_rows("player_tm_shadow", marker + tm_rows, observed_at=now,
+                                   meta={"date_et": target, "role": "SHADOW", "published_allocation": tm_info.get("published_allocation"), "candidate_fingerprint": tm_info.get("candidate_fingerprint"),
+                                         "n_errors": tm_info.get("n_errors", 0), "default_reason": tm_info.get("default_reason"), "candidate_available": tm_info.get("candidate_available")})
+            except Exception as e:  # noqa: BLE001 - never block V1's slate on the shadow arm
+                log.warning(kv(event="player_tm_shadow_archive_failed", err=str(e)[:300]))
         if thesis is not None and thesis.get("ledger"):
             for kind, rows in thesis["ledger"].items():
                 if rows:

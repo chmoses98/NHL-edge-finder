@@ -32,7 +32,11 @@ def prospective() -> tuple[pd.DataFrame, pd.DataFrame]:
     d["fam"] = d["family"].map(FAM)
     d["k"] = np.floor(pd.to_numeric(d["threshold"]) + 1).astype(int)  # gt k-0.5  ==  >= k
     last_t = d.groupby(["game_id", "player_id"])["t"].transform("max")
-    snap = d[d["t"] == last_t]
+    snap = d[d["t"] == last_t].copy()
+    # the registered incumbent is the published template; when another team-minute allocation is published the rows carry the legacy-equivalent values (absent at the default)
+    for c in ("meta_expected_toi_min", "meta_expected_pp_toi_min", "meta_expected_shots"):
+        if f"{c}_legacy" in snap.columns:
+            snap[c] = snap[f"{c}_legacy"].where(snap[f"{c}_legacy"].notna(), snap[c])
     # rungs: latest pregame row per (game, player, family, k)
     rung = d.sort_values("t").groupby(["game_id", "player_id", "fam", "k"]).tail(1)
     wide = rung.pivot_table(index=["game_id", "player_id"], columns=["fam", "k"], values="p_player", aggfunc="last")

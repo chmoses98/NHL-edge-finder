@@ -7,9 +7,16 @@
       "candidate": "DATA_ONLY_V2",
       "fields": ["p_reg_tie", "p_overtime", "p_home_reg_win", "p_away_reg_win", "p_shootout"],
       "approval": null
+    },
+    "player_team_minutes": {
+      "published_model": "team-minutes-0",
+      "candidate": "team-minutes-1.0",
+      "fields": ["meta_expected_toi_min", "meta_expected_pp_toi_min", "meta_expected_shots", "meta_toi_p10_p50_p90_min", "top_players.exp_toi_min", "top_players.exp_pp_toi_min"],
+      "approval": null
     }
   },
   "history": [
-    {"date": "2026-10-24", "change": "registry introduced; overtime published by DATA_ONLY_V1 (unchanged)", "approval": null}
+    {"date": "2026-10-24", "change": "registry introduced; overtime published by DATA_ONLY_V1 (unchanged)", "approval": null},
+    {"date": "2026-10-26", "change": "target player_team_minutes introduced: candidate team-minutes-1.0 runs in shadow only; published stays team-minutes-0 (unchanged)", "approval": null}
   ]
 }

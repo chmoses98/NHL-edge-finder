@@ -180,7 +180,8 @@ def incumbent_records(archive: str, now: datetime, games: pd.DataFrame) -> tuple
                  ("assists", "meta_expected_assists", "player_assists"), ("points", "meta_expected_points", "player_points"),
                  ("toi_minutes", "meta_expected_toi_min", None), ("saves", "meta_expected_saves", "goalie_saves")]
         for fam, col, lad_fam in pairs:
-            v = snap.get(col)
+            lv = snap.get(f"{col}_legacy")           # present only when another team-minute allocation is published: the incumbent stays the registered template
+            v = lv if (lv is not None and not (isinstance(lv, float) and not math.isfinite(lv))) else snap.get(col)
             if v is None or (isinstance(v, float) and not math.isfinite(v)):
                 continue
             recs.append({**base, "family": fam, "mean": float(v), "ladder": ladders.get(lad_fam, {}) if lad_fam else {}})
