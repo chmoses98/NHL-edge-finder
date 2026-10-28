@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-28T05:07:59Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-28T05:56:40Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -22,12 +22,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | script | freq | p_WSH_win | p_PHI_win | p_overtime | goals | shots WSH/PHI | WSH/PHI starter saves | driver |
 |---|---:|---:|---:|---:|---:|---|---|---|
-| balanced shots · normal event (5-7) · decided (2+) | 0.122 | 0.60 | 0.40 | 0.00 | 5.97 | 26.6/26.4 | 23.3/22.7 | even strength |
-| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.107 | 0.52 | 0.48 | 0.48 | 5.89 | 26.9/26.7 | 23.5/23.6 | even strength |
-| WSH shot control · normal event (5-7) · decided (2+) | 0.093 | 0.65 | 0.35 | 0.00 | 5.98 | 31.5/21.0 | 18.3/27.1 | even strength |
-| WSH shot control · normal event (5-7) · tight (1-goal/OT) | 0.083 | 0.56 | 0.44 | 0.47 | 5.83 | 31.5/21.0 | 18.0/28.2 | even strength |
-| balanced shots · high event (8+) · decided (2+) | 0.074 | 0.60 | 0.40 | 0.00 | 9.23 | 28.4/28.1 | 22.7/21.7 | even strength |
-| balanced shots · low event (<=4) · decided (2+) | 0.064 | 0.57 | 0.43 | 0.00 | 3.49 | 25.7/25.5 | 23.9/23.4 | late empty net |
+| balanced shots · normal event (5-7) · decided (2+) | 0.123 | 0.59 | 0.41 | 0.00 | 5.96 | 26.7/26.4 | 23.2/22.6 | even strength |
+| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.109 | 0.52 | 0.48 | 0.49 | 5.9 | 26.9/26.8 | 23.7/23.7 | even strength |
+| WSH shot control · normal event (5-7) · decided (2+) | 0.092 | 0.65 | 0.35 | 0.00 | 5.99 | 31.3/20.9 | 18.2/27.1 | even strength |
+| WSH shot control · normal event (5-7) · tight (1-goal/OT) | 0.084 | 0.56 | 0.44 | 0.45 | 5.83 | 31.7/21.1 | 18.1/28.1 | even strength |
+| balanced shots · high event (8+) · decided (2+) | 0.073 | 0.59 | 0.41 | 0.00 | 9.26 | 28.4/28.0 | 22.6/21.8 | even strength |
+| balanced shots · low event (<=4) · decided (2+) | 0.064 | 0.57 | 0.43 | 0.00 | 3.45 | 25.7/25.4 | 23.8/23.5 | even strength |
 
 **Card**
 
@@ -35,7 +35,7 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
 | Washington over 4.5 goals scored NO | 70 | 0.777 | 0.731 | +0.062 | +0.016 | $12.38 | FUNDED_RESEARCH | $4 | WSH:SUPPRESSED | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
 | Philadelphia wins by over 1.5 goals YES | 17 | 0.222 | 0.193 | +0.042 | +0.013 | $2.66 | FUNDED_RESEARCH | $1 | PHI:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **Washington over 4.5 goals scored NO** — thesis: WSH offense suppressed (<= 2 goals); alternative: KXNHLSPREAD-26OCT28PHIWSH-PHI2|yes; why: higher confidence-adjusted growth (2.81 vs 2.65 bp); wins across more scripts (relative breadth 0.884 vs 0.531); relationships: KXNHLSPREAD-26OCT28PHIWSH-PHI2|yes: REINFORCING (phi 0.267); failure: WSH offense succeeds (4+ goals)
+- **Washington over 4.5 goals scored NO** — thesis: WSH offense suppressed (<= 2 goals); alternative: KXNHLSPREAD-26OCT28PHIWSH-PHI2|yes; why: higher confidence-adjusted growth (2.81 vs 2.65 bp); wins across more scripts (relative breadth 0.88 vs 0.53); relationships: KXNHLSPREAD-26OCT28PHIWSH-PHI2|yes: REINFORCING (phi 0.267); failure: WSH offense succeeds (4+ goals)
 - **Philadelphia wins by over 1.5 goals YES** — thesis: PHI wins by 2+; alternative: KXNHLTEAMTOTAL-26OCT28PHIWSH-WSH5|no; why: second expression of the same thesis: KXNHLTEAMTOTAL-26OCT28PHIWSH-WSH5|no has the higher standalone adjusted growth (2.81 vs 2.65 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.267); they share one thesis budget; relationships: KXNHLTEAMTOTAL-26OCT28PHIWSH-WSH5|no: REINFORCING (phi 0.267); failure: WSH wins (incl. OT/SO)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, WSH shot control · normal event (5-7) · decided (2+) 0.09.
@@ -54,16 +54,16 @@ portfolios: A EV +5.79 (adj +1.00) on $50.00, P(profit) 0.6643, adj growth 5.9 b
 
 | script | freq | p_EDM_win | p_CGY_win | p_overtime | goals | shots EDM/CGY | EDM/CGY starter saves | driver |
 |---|---:|---:|---:|---:|---:|---|---|---|
-| balanced shots · normal event (5-7) · decided (2+) | 0.127 | 0.74 | 0.26 | 0.00 | 6.09 | 28.7/28.4 | 25.9/23.9 | even strength |
-| EDM shot control · normal event (5-7) · decided (2+) | 0.109 | 0.77 | 0.23 | 0.00 | 6.08 | 34.1/22.4 | 20.0/28.7 | even strength |
-| balanced shots · high event (8+) · decided (2+) | 0.108 | 0.73 | 0.27 | 0.00 | 9.47 | 30.5/29.9 | 25.1/22.5 | even strength |
-| EDM shot control · high event (8+) · decided (2+) | 0.099 | 0.79 | 0.21 | 0.00 | 9.46 | 36.2/24.1 | 19.9/27.3 | even strength |
-| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.097 | 0.56 | 0.44 | 0.47 | 5.99 | 28.8/28.3 | 25.0/25.2 | even strength |
-| EDM shot control · normal event (5-7) · tight (1-goal/OT) | 0.083 | 0.58 | 0.42 | 0.44 | 5.98 | 34.8/22.9 | 19.8/31.1 | even strength |
+| balanced shots · normal event (5-7) · decided (2+) | 0.123 | 0.75 | 0.25 | 0.00 | 6.07 | 28.8/28.4 | 25.9/24.0 | even strength |
+| EDM shot control · normal event (5-7) · decided (2+) | 0.112 | 0.77 | 0.23 | 0.00 | 6.09 | 34.2/22.4 | 20.1/28.8 | even strength |
+| balanced shots · high event (8+) · decided (2+) | 0.110 | 0.72 | 0.28 | 0.00 | 9.44 | 30.6/30.0 | 25.1/22.6 | even strength |
+| EDM shot control · high event (8+) · decided (2+) | 0.097 | 0.79 | 0.21 | 0.00 | 9.47 | 36.3/23.9 | 19.7/27.5 | even strength |
+| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.097 | 0.57 | 0.43 | 0.47 | 5.99 | 28.7/28.3 | 25.1/25.2 | even strength |
+| EDM shot control · normal event (5-7) · tight (1-goal/OT) | 0.082 | 0.59 | 0.41 | 0.44 | 5.98 | 34.7/22.9 | 19.7/30.9 | even strength |
 
 _no bet on this game passes: +EV at the executable ask under both the model and the confidence-adjusted probability_
 
-**Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, EDM shot control · normal event (5-7) · decided (2+) 0.11, balanced shots · high event (8+) · decided (2+) 0.11.
+**Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, EDM shot control · normal event (5-7) · decided (2+) 0.11, balanced shots · high event (8+) · decided (2+) 0.11.
 
 portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp
 
@@ -74,12 +74,12 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 | script | freq | p_COL_win | p_NJD_win | p_overtime | goals | shots COL/NJD | COL/NJD starter saves | driver |
 |---|---:|---:|---:|---:|---:|---|---|---|
-| balanced shots · normal event (5-7) · decided (2+) | 0.130 | 0.68 | 0.32 | 0.00 | 6.03 | 28.6/28.6 | 25.9/24.1 | even strength |
-| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.109 | 0.57 | 0.43 | 0.48 | 5.91 | 28.6/28.5 | 25.4/25.2 | even strength |
-| balanced shots · high event (8+) · decided (2+) | 0.094 | 0.69 | 0.31 | 0.00 | 9.3 | 30.4/30.3 | 25.2/22.9 | even strength |
-| COL shot control · normal event (5-7) · decided (2+) | 0.085 | 0.72 | 0.28 | 0.00 | 6.03 | 33.8/22.8 | 20.4/29.0 | even strength |
-| COL shot control · normal event (5-7) · tight (1-goal/OT) | 0.064 | 0.53 | 0.47 | 0.46 | 5.94 | 33.7/22.9 | 19.7/30.3 | even strength |
-| NJD shot control · normal event (5-7) · decided (2+) | 0.060 | 0.62 | 0.38 | 0.00 | 5.97 | 23.0/33.8 | 30.4/19.1 | even strength |
+| balanced shots · normal event (5-7) · decided (2+) | 0.130 | 0.67 | 0.33 | 0.00 | 6.02 | 28.6/28.6 | 25.8/24.1 | even strength |
+| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.110 | 0.56 | 0.44 | 0.47 | 5.92 | 28.6/28.4 | 25.3/25.2 | even strength |
+| balanced shots · high event (8+) · decided (2+) | 0.094 | 0.69 | 0.31 | 0.00 | 9.3 | 30.5/30.3 | 25.4/22.8 | even strength |
+| COL shot control · normal event (5-7) · decided (2+) | 0.086 | 0.72 | 0.28 | 0.00 | 6.03 | 33.7/22.8 | 20.4/28.9 | even strength |
+| COL shot control · normal event (5-7) · tight (1-goal/OT) | 0.063 | 0.55 | 0.45 | 0.47 | 5.93 | 33.6/22.9 | 19.8/30.2 | even strength |
+| COL shot control · high event (8+) · decided (2+) | 0.060 | 0.75 | 0.25 | 0.00 | 9.29 | 35.3/24.1 | 19.8/26.9 | even strength |
 
 _no bet on this game passes: +EV at the executable ask under both the model and the confidence-adjusted probability_
 
@@ -94,12 +94,12 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 | script | freq | p_SEA_win | p_TOR_win | p_overtime | goals | shots SEA/TOR | SEA/TOR starter saves | driver |
 |---|---:|---:|---:|---:|---:|---|---|---|
-| balanced shots · normal event (5-7) · decided (2+) | 0.128 | 0.58 | 0.42 | 0.00 | 6.07 | 29.2/29.1 | 25.9/25.2 | even strength |
-| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.118 | 0.49 | 0.51 | 0.45 | 6.02 | 29.4/29.3 | 25.8/26.0 | even strength |
+| balanced shots · normal event (5-7) · decided (2+) | 0.128 | 0.58 | 0.42 | 0.00 | 6.06 | 29.2/29.0 | 25.8/25.2 | even strength |
+| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.118 | 0.50 | 0.50 | 0.45 | 6.02 | 29.4/29.3 | 25.7/26.0 | even strength |
 | balanced shots · high event (8+) · decided (2+) | 0.109 | 0.54 | 0.46 | 0.00 | 9.4 | 31.1/30.8 | 24.6/24.7 | even strength |
-| SEA shot control · normal event (5-7) · decided (2+) | 0.082 | 0.61 | 0.39 | 0.00 | 6.05 | 34.9/23.4 | 20.3/30.5 | even strength |
-| SEA shot control · normal event (5-7) · tight (1-goal/OT) | 0.068 | 0.53 | 0.47 | 0.47 | 5.96 | 34.5/23.3 | 20.1/31.0 | even strength |
-| SEA shot control · high event (8+) · decided (2+) | 0.062 | 0.65 | 0.35 | 0.00 | 9.3 | 36.3/24.7 | 19.7/28.5 | even strength |
+| SEA shot control · normal event (5-7) · decided (2+) | 0.082 | 0.61 | 0.39 | 0.00 | 6.06 | 34.9/23.5 | 20.5/30.5 | even strength |
+| SEA shot control · normal event (5-7) · tight (1-goal/OT) | 0.068 | 0.52 | 0.48 | 0.48 | 5.96 | 34.5/23.3 | 20.0/31.0 | even strength |
+| SEA shot control · high event (8+) · decided (2+) | 0.062 | 0.64 | 0.36 | 0.00 | 9.3 | 36.3/24.7 | 19.7/28.5 | even strength |
 
 **Card**
 
