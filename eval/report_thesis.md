@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-28T06:02:10Z · thesis-postmortem-2.0 · rows (all generations) 31531
+evaluated 2026-10-28T07:45:20Z · thesis-postmortem-2.0 · rows (all generations) 31531
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,23 +35,23 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020199 PHI @ WSH: NOT_STARTED · snapshot snap-a740328d83d8ad6edd8c @ 2026-10-28T05:56:40Z
+#### game 2026020199 PHI @ WSH: NOT_STARTED · snapshot snap-6dbfef9c76c716b66466 @ 2026-10-28T06:55:26Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26OCT28PHIWSH-WSH5|no | FUNDED_RESEARCH | 4 | 12.38 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT28PHIWSH-PHI2|yes | FUNDED_RESEARCH | 1 | 2.66 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26OCT28PHIWSH-WSH5|no | FUNDED_RESEARCH | 5 | 17.77 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT28PHIWSH-WSH2|no | FUNDED_RESEARCH | 1 | 3.69 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT28PHIWSH-PHI2|yes | FUNDED_RESEARCH | 1 | 1.82 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020200 CGY @ EDM: NOT_STARTED · snapshot snap-a740328d83d8ad6edd8c @ 2026-10-28T05:56:40Z
+#### game 2026020200 CGY @ EDM: NOT_STARTED · snapshot snap-6dbfef9c76c716b66466 @ 2026-10-28T06:55:26Z
 
-#### game 2026020201 NJD @ COL: NOT_STARTED · snapshot snap-a740328d83d8ad6edd8c @ 2026-10-28T05:56:40Z
+#### game 2026020201 NJD @ COL: NOT_STARTED · snapshot snap-6dbfef9c76c716b66466 @ 2026-10-28T06:55:26Z
 
-#### game 2026020202 TOR @ SEA: NOT_STARTED · snapshot snap-a740328d83d8ad6edd8c @ 2026-10-28T05:56:40Z
+#### game 2026020202 TOR @ SEA: NOT_STARTED · snapshot snap-6dbfef9c76c716b66466 @ 2026-10-28T06:55:26Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT28TORSEA-TOR3|no | FUNDED_RESEARCH | 4 | 13.14 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT28TORSEA-TOR2|no | FUNDED_RESEARCH | 2 | 5.96 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT28TORSEA-TOR3|no | FUNDED_RESEARCH | 5 | 19.17 | - | - | - | STRUCTURAL | - | - |
 
 ## Slate 2026-10-27: **COMPLETE — 11/11 games evaluated**
 
