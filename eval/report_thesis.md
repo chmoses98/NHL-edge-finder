@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-28T10:56:54Z · thesis-postmortem-2.0 · rows (all generations) 31531
+evaluated 2026-10-28T12:27:25Z · thesis-postmortem-2.0 · rows (all generations) 31531
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,20 +35,20 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020199 PHI @ WSH: NOT_STARTED · snapshot snap-c71debb296008d338699 @ 2026-10-28T10:56:23Z
+#### game 2026020199 PHI @ WSH: NOT_STARTED · snapshot snap-0122e8875745b52f1a51 @ 2026-10-28T11:52:34Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26OCT28PHIWSH-WSH5|no | FUNDED_RESEARCH | 5 | 16.52 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT28PHIWSH-PHI2|yes | FUNDED_RESEARCH | 1 | 2.82 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26OCT28PHIWSH-WSH2|no | FUNDED_RESEARCH | 1 | 1.43 | - | - | - | FRAGILE | - | - |
-| KXNHLSPREAD-26OCT28PHIWSH-WSH2|no | FUNDED_RESEARCH | 1 | 1.49 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT28PHIWSH-WSHAPROTAS21-1|yes | SHADOW_ONLY | 0 | 8.58 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT28PHIWSH-WSHJKYROU25-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26OCT28PHIWSH-PHI2|yes | FUNDED_RESEARCH | 2 | 4.73 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT28PHIWSH-PHICDVORAK22-1|yes | SHADOW_ONLY | 0 | 4.43 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020200 CGY @ EDM: NOT_STARTED · snapshot snap-c71debb296008d338699 @ 2026-10-28T10:56:23Z
+#### game 2026020200 CGY @ EDM: NOT_STARTED · snapshot snap-0122e8875745b52f1a51 @ 2026-10-28T11:52:34Z
 
-#### game 2026020201 NJD @ COL: NOT_STARTED · snapshot snap-c71debb296008d338699 @ 2026-10-28T10:56:23Z
+#### game 2026020201 NJD @ COL: NOT_STARTED · snapshot snap-0122e8875745b52f1a51 @ 2026-10-28T11:52:34Z
 
-#### game 2026020202 TOR @ SEA: NOT_STARTED · snapshot snap-c71debb296008d338699 @ 2026-10-28T10:56:23Z
+#### game 2026020202 TOR @ SEA: NOT_STARTED · snapshot snap-0122e8875745b52f1a51 @ 2026-10-28T11:52:34Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
