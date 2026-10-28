@@ -19,14 +19,19 @@ from nhl_edge.market_audit.games import read_kind
 from nhl_edge.model_research import registry
 from nhl_edge.model_research import scoring as S
 from nhl_edge.model_research.live_dataset import dev_games
+from nhl_edge.players import team_minutes as TM
 
+OPTIONAL_META = ["meta_team_minutes_version", "meta_expected_toi_min_legacy", "meta_expected_pp_toi_min_legacy", "meta_expected_shots_legacy"]       # present only once another allocation is published
 META = ["meta_expected_toi_min", "meta_expected_pp_toi_min", "meta_expected_shots", "meta_expected_goals", "meta_expected_assists", "meta_expected_points", "meta_toi_p10_p50_p90_min"]
 
 
 def player_frame(archive: Path, derived: Path) -> pd.DataFrame:
     games = dev_games(archive)
     gm = games.set_index("game_id")
-    pp = pd.read_parquet(derived / "raw_predictions_player.parquet", columns=["game_id", "player_id", "family", "threshold", "predicted_at_utc", "p_player", *META])
+    import pyarrow.parquet as pq
+
+    have = set(pq.read_schema(derived / "raw_predictions_player.parquet").names)
+    pp = pd.read_parquet(derived / "raw_predictions_player.parquet", columns=["game_id", "player_id", "family", "threshold", "predicted_at_utc", "p_player", *META, *[c for c in OPTIONAL_META if c in have]])
     pp["game_id"] = pp["game_id"].astype(str)
     pp = pp[pp["game_id"].isin(gm.index)].copy()
     pp["cut"] = pp["game_id"].map(lambda g: gm.at[g, "start_time_utc"] - pd.Timedelta(minutes=60))
@@ -39,6 +44,7 @@ def player_frame(archive: Path, derived: Path) -> pd.DataFrame:
     act["player_id"] = act["player_id"].astype(float)
     pts["player_id"] = pts["player_id"].astype(float)
     df = pts.merge(act[["game_id", "player_id", "position", "goals", "assists", "points", "sog", "toi_s", "toi_pp_s"]], on=["game_id", "player_id"], how="left")
+    df = TM.with_allocation(df)
     df["dressed"] = df["toi_s"].notna() & (df["toi_s"] > 0)
     for c in ("toi_s", "toi_pp_s"):
         df[c.replace("_s", "_min")] = df[c] / 60.0
@@ -55,11 +61,27 @@ def clustered_mean(x: pd.Series, groups: pd.Series, seed: int = 0) -> dict[str, 
     return {"mean": float(s.sum() / n.sum()), "lo95": float(np.quantile(boots, 0.025)), "hi95": float(np.quantile(boots, 0.975)), "n": int(n.sum()), "games": int(len(s))}
 
 
+def allocation_blocks(d: pd.DataFrame) -> dict[str, Any]:
+    """Mean errors of the PUBLISHED ice time, power-play time and shots, one block per team-minute allocation that drove the rows (allocations are never pooled)."""
+    out: dict[str, Any] = {}
+    for a, g in d.groupby("alloc"):
+        out[str(a)] = {"n": int(len(g)), "games": int(g["game_id"].nunique()),
+                       "bias_toi_min": clustered_mean(g["toi_min"] - g["meta_expected_toi_min"], g["game_id"]), "bias_pp_min": clustered_mean(g["toi_pp_min"] - g["meta_expected_pp_toi_min"], g["game_id"]),
+                       "bias_shots": clustered_mean(g["sog"] - g["meta_expected_shots"], g["game_id"])}
+    return out
+
+
 def run(archive: Path, derived: Path) -> dict[str, Any]:
     df = player_frame(archive, derived)
     d = df[df["dressed"]].copy()
     out: dict[str, Any] = {"n_priced_player_games": int(len(df)), "n_dressed": int(len(d)), "share_priced_not_dressed": float(1 - len(d) / len(df)),
                            "share_priced_not_dressed_by_position": {str(k): float(v) for k, v in (1 - df.groupby("position", dropna=False)["dressed"].mean()).items()}}
+    # allocation-aware: the top-level statistics use the INCUMBENT (team-minutes-0) minutes and shots for every row (the legacy-equivalent field when another allocation was published);
+    # `by_allocation` reports the values exactly as published, one block per allocation, never pooled
+    out["allocations_seen"] = {str(k): int(v) for k, v in d["alloc"].value_counts().items()}
+    out["by_allocation"] = allocation_blocks(d)
+    for c in TM.INCUMBENT_COLUMNS:
+        d[c] = d[f"{c}_incumbent"]
     d["toi_err"] = d["toi_min"] - d["meta_expected_toi_min"]
     d["pp_err"] = d["toi_pp_min"] - d["meta_expected_pp_toi_min"]
     d["shots_err"] = d["sog"] - d["meta_expected_shots"]
@@ -71,9 +93,9 @@ def run(archive: Path, derived: Path) -> dict[str, Any]:
     out["mae_toi_min"] = float(d["toi_err"].abs().mean())
     out["rmse_toi_min"] = float(math.sqrt((d["toi_err"] ** 2).mean()))
     out["mean_expected_toi_min"] = float(d["meta_expected_toi_min"].mean())
-    ok = d[["p10", "p90"]].notna().all(axis=1)
+    ok = d[["p10", "p90"]].notna().all(axis=1) & (d["alloc"] == TM.LEGACY_VERSION)       # the stated band is a published (allocation-specific) quantity: only the incumbent's rows
     inside = ((d["toi_min"] >= d["p10"]) & (d["toi_min"] <= d["p90"]))[ok]
-    out["toi_p10_p90_coverage"] = {"observed": float(inside.mean()), "nominal": 0.80, "n": int(ok.sum()), "note": "< 0.80 means the stated TOI interval is too NARROW"}
+    out["toi_p10_p90_coverage"] = {"observed": float(inside.mean()), "nominal": 0.80, "n": int(ok.sum()), "note": "< 0.80 means the stated TOI interval is too NARROW; incumbent-allocation rows only"}
     # shots dispersion vs Poisson (per player-game): Var(actual)/mean(expected)
     out["shots_dispersion"] = {"obs_var_over_mean_actual": float(d["sog"].var() / d["sog"].mean()), "mean_actual": float(d["sog"].mean()), "mean_expected": float(d["meta_expected_shots"].mean())}
     # expected-vs-actual by decile of expectation (calibration of the mean)

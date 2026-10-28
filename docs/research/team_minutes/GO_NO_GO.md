@@ -21,11 +21,11 @@
 ## Activation checklist (all must hold)
 * PR merged, CI green, shadow rows accruing (`player_tm_shadow` non-empty on recent runs; no `marker` rows).
 * Soak criteria below met; owner reviews the exact change (`PRODUCTION_DIFF.patch`, `ACTIVATION.patch`).
-* Readers that would mix allocations unless they filter on `meta_team_minutes_version`: `research/thesis_model_audit.py`, `model_research/exp_players.py` (descriptive; decide whether to filter before the next report).
+* ~~Readers that would mix allocations~~ **done** (PR after #104): `research/thesis_model_audit.py` and `model_research/exp_players.py` are allocation-version-aware (top level = incumbent minutes for every row; `by_allocation` = as published, never pooled; identical to the old numbers at the default).
 * Rollback rehearsed: set `published_model` back to `team-minutes-0`.
 
 ## Pre-stated NO-GO triggers (to be checked on the accumulating shadow before activation)
-Score with `python -m nhl_edge.research.team_minutes_shadow --archive <archive> --out ...` once >= 100 settled games have rows. Do **not** activate if any of these holds (paired, game-clustered 95% interval):
+Score with `python -m nhl_edge.research.team_minutes_soak --archive <archive> --since 2026-10-28T00:11:43Z --out ... --md ...` (evaluates every trigger below with exactly these thresholds; `activation_evidence_complete` is true only at >= 100 settled games with no trigger failing or undetermined). Do **not** activate if any of these holds (paired, game-clustered 95% interval):
 * the upper bound of the change in total-TOI MSE (candidate minus published) is above 0, or the same for power-play TOI MSE;
 * the candidate's total-TOI or PP-TOI mean bias is larger in magnitude than the published template's;
 * more than 2% of shadow rows use the league-clock fallback (V2 `ppmin` inputs missing), or any shadow-row error count is non-zero for more than one run in ten;

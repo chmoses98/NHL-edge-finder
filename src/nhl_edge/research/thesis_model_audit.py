@@ -27,6 +27,7 @@ import pandas as pd
 
 from nhl_edge.config import REPO_ROOT
 from nhl_edge.data.player_history import load_player_tables
+from nhl_edge.players import team_minutes as TM
 
 WF = REPO_ROOT / "docs" / "research" / "player_sim_v1"
 
@@ -201,16 +202,26 @@ def toi_prospective(archive: Path) -> dict[str, Any]:
         if a is None or not a.get("toi_s"):
             continue
         h = hist[(hist["player_id"] == pid) & (hist["game_date"] < str(p["predicted_at_utc"])[:10])].tail(10)
-        rows.append({"src": p.get("meta_deployment_source"), "model": float(p["meta_expected_toi_min"]), "actual": a["toi_s"] / 60.0,
-                     "recent": float(h["toi_s"].mean() / 60.0) if len(h) else np.nan})
+        inc = p.get("meta_expected_toi_min_legacy", p["meta_expected_toi_min"])          # the incumbent (published template) value, pinned when another allocation was published
+        rows.append({"src": p.get("meta_deployment_source"), "alloc": TM.row_allocation(p.get("meta_team_minutes_version")), "model": float(inc), "model_published": float(p["meta_expected_toi_min"]),
+                     "actual": a["toi_s"] / 60.0, "recent": float(h["toi_s"].mean() / 60.0) if len(h) else np.nan})
     df = pd.DataFrame(rows)
     if df.empty:
         return {"n": 0, "note": "no settled prospective player-games with TOI forecasts in the archive"}
-    out = {"n_player_games": int(len(df)), "n_games": len({k[0] for k in last if k in actual})}
+    out = {"n_player_games": int(len(df)), "n_games": len({k[0] for k in last if k in actual}), "allocation_note": (
+        "top-level statistics use the INCUMBENT (team-minutes-0) minutes for every row (the legacy-equivalent field when another allocation was published); by_allocation reports the "
+        "minutes exactly as published, one block per allocation, and never pools allocations")}
+    out.update(_toi_stats(df, "model"))
+    out["by_allocation"] = {str(a): _toi_stats(g, "model_published") for a, g in df.groupby("alloc")}
+    return out
+
+
+def _toi_stats(df: pd.DataFrame, col: str) -> dict[str, Any]:
+    out: dict[str, Any] = {}
     for src, g in [("ALL", df)] + list(df.groupby("src")):
         gg = g.dropna(subset=["recent"])
-        out[str(src)] = {"n": int(len(g)), "mae_model_min": _r((g["model"] - g["actual"]).abs().mean(), 3), "bias_model_min": _r((g["model"] - g["actual"]).mean(), 3),
-                         "mae_recent_mean_min_same_rows": _r((gg["recent"] - gg["actual"]).abs().mean(), 3), "mae_model_min_same_rows": _r((gg["model"] - gg["actual"]).abs().mean(), 3),
+        out[str(src)] = {"n": int(len(g)), "mae_model_min": _r((g[col] - g["actual"]).abs().mean(), 3), "bias_model_min": _r((g[col] - g["actual"]).mean(), 3),
+                         "mae_recent_mean_min_same_rows": _r((gg["recent"] - gg["actual"]).abs().mean(), 3), "mae_model_min_same_rows": _r((gg[col] - gg["actual"]).abs().mean(), 3),
                          "n_with_recent_mean": int(len(gg))}
     return out
 
