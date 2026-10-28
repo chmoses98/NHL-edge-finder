@@ -28,6 +28,10 @@ from nhl_edge.timeutil import parse_iso
 
 ARMS = ("legacy", "cand")
 TARGETS = {"toi": "toi_s", "pp": "toi_pp_s", "sh": "toi_sh_s", "ev": "toi_ev_s"}
+MAX_LEAD_MIN = 360.0            # mirrors workflows.shadow_player.TM_SHADOW_MAX_LEAD_MIN (a test asserts equality): shadow rows exist only for runs within six hours of the drop
+MIN_PAIRED_PER_GAME = 20        # an ELIGIBLE settled game has at least this many paired skaters (a full game has about 36) ...
+MIN_TEAMS_PER_GAME = 2          # ... from both teams
+VALUE_COLUMNS = tuple(f"{a}_{k}" for a in ("legacy", "cand") for k in ("toi", "ev", "pp", "sh", "sog"))
 
 
 def load_rows(archive: Path | None, extra: list[Path]) -> pd.DataFrame:
@@ -58,8 +62,33 @@ def load_actuals(archive: Path) -> pd.DataFrame:
     return d
 
 
+def eligible_rows(rows: pd.DataFrame, min_lead_min: float = 0.0) -> pd.DataFrame:
+    """The shadow rows that count: pregame, inside the archived lead window, finite values for both arms, one row per (game, player, predicted_at) -- a repeated or re-appended run
+    contributes once. This is the single definition used for pairing AND for the fallback denominator."""
+    if rows.empty:
+        return rows
+    lead = pd.to_numeric(rows["minutes_to_start"], errors="coerce")
+    ok = rows["pregame"].astype(bool) & (lead > min_lead_min) & (lead <= MAX_LEAD_MIN)
+    vals = rows[[c for c in VALUE_COLUMNS if c in rows.columns]].apply(pd.to_numeric, errors="coerce")
+    ok &= np.isfinite(vals.to_numpy(float)).all(axis=1)
+    r = rows[ok].copy()
+    r["game_id"] = r["game_id"].astype(str)
+    r["player_id"] = r["player_id"].astype(int)
+    return r.drop_duplicates(["game_id", "player_id", "predicted_at_utc"], keep="last")
+
+
+def eligible_games(m: pd.DataFrame) -> list[str]:
+    """Unique settled games with valid paired pregame predictions and outcomes: >= MIN_PAIRED_PER_GAME paired skaters from >= MIN_TEAMS_PER_GAME teams."""
+    if m.empty:
+        return []
+    g = m.groupby("game_id").agg(n=("player_id", "nunique"), teams=("team", "nunique"))
+    return sorted(g[(g["n"] >= MIN_PAIRED_PER_GAME) & (g["teams"] >= MIN_TEAMS_PER_GAME)].index.astype(str))
+
+
 def last_pregame(rows: pd.DataFrame, min_lead_min: float = 0.0) -> pd.DataFrame:
-    r = rows[rows["pregame"].astype(bool) & (pd.to_numeric(rows["minutes_to_start"], errors="coerce") > min_lead_min)].copy()
+    r = eligible_rows(rows, min_lead_min)
+    if r.empty:
+        return r
     r["game_id"] = r["game_id"].astype(str)
     r["player_id"] = r["player_id"].astype(int)
     r["_t"] = r["predicted_at_utc"].map(parse_iso)
@@ -73,8 +102,15 @@ def calib_slope(pred: np.ndarray, y: np.ndarray) -> float:
 
 def compare(rows: pd.DataFrame, actuals: pd.DataFrame, n_boot: int = PD.N_BOOT, min_lead_min: float = 0.0) -> dict[str, Any]:
     pre = last_pregame(rows, min_lead_min)
-    m = pre.merge(actuals, on=["game_id", "player_id"], how="inner", suffixes=("", "_act"))
-    out: dict[str, Any] = {"n_shadow_rows_used": int(len(pre)), "n_paired_with_outcome": int(len(m)), "n_games": int(m["game_id"].nunique()) if len(m) else 0,
+    m = pre.merge(actuals, on=["game_id", "player_id"], how="inner", suffixes=("", "_act")) if len(pre) and len(actuals) else pre.iloc[0:0]
+    if len(m):                                                  # an outcome with a missing / non-finite value cannot be paired
+        need = [c for c in (*TARGETS.values(), "sog") if c in m.columns]
+        m = m[np.isfinite(m[need].apply(pd.to_numeric, errors="coerce").to_numpy(float)).all(axis=1)]
+    n_paired_all = int(len(m))
+    elig = eligible_games(m)
+    m = m[m["game_id"].isin(elig)] if len(m) else m             # a game whose outcomes are incomplete contributes neither to the estimates nor to the count
+    out: dict[str, Any] = {"n_shadow_rows_used": int(len(pre)), "n_paired_with_outcome": int(len(m)), "n_paired_before_game_eligibility": n_paired_all, "n_games": len(elig), "n_eligible_games": len(elig),
+                           "eligible_games_rule": f">= {MIN_PAIRED_PER_GAME} paired skaters from >= {MIN_TEAMS_PER_GAME} teams",
                            "coverage_of_shadow_rows": float(len(m) / len(pre)) if len(pre) else None,
                            "lead_minutes": {k: float(v) for k, v in pd.to_numeric(m["minutes_to_start"], errors="coerce").describe(percentiles=[.1, .5, .9])[["min", "10%", "50%", "90%", "max"]].items()} if len(m) else {}}
     if len(m) < 30:
@@ -107,7 +143,8 @@ def compare(rows: pd.DataFrame, actuals: pd.DataFrame, n_boot: int = PD.N_BOOT, 
 
 
 def merged_pairs(rows: pd.DataFrame, actuals: pd.DataFrame, min_lead_min: float = 0.0) -> pd.DataFrame:
-    return last_pregame(rows, min_lead_min).merge(actuals, on=["game_id", "player_id"], how="inner", suffixes=("", "_act"))
+    pre = last_pregame(rows, min_lead_min)
+    return pre.merge(actuals, on=["game_id", "player_id"], how="inner", suffixes=("", "_act")) if len(pre) and len(actuals) else pre.iloc[0:0]
 
 
 def representatives(m: pd.DataFrame) -> list[dict[str, Any]]:

@@ -3,12 +3,13 @@
 Triggers (paired, game-clustered 95% intervals; the shadow compares ``team-minutes-1.0`` with the published ``team-minutes-0`` on the same row):
   T1  the upper bound of the change in total-TOI MSE (candidate minus published) is above 0, or the same for power-play TOI MSE;
   T2  the candidate's total-TOI or PP-TOI mean bias is larger in magnitude than the published template's;
-  T3a more than 2% of the shadow rows used the league-clock fallback;
-  T3b a shadow error (error count in a run's manifest entry, or a marker row) in more than one run in ten;
+  T3a more than 2% of the eligible shadow rows (deduplicated, settled or not) used the league-clock fallback;
+  T3b a shadow failure in more than one run in ten: a run whose manifest entry reports errors or a marker, OR an expected run (a simulate run with a pregame row in the lead window) that left no
+      shadow record at all -- missing runs count as failed, so failures cannot be understated;
   T4  a published field other than the four listed in CONTRACT_AND_ROLLBACK.md section 2 changed -- checked here as: no published row carries ``meta_team_minutes_version`` /
       ``*_legacy`` fields while the template is published, every shadow row says the template is published, the registry on disk still publishes the template with no approval, and the
       published ``meta_expected_*`` of every contract-linked player equals the shadow's published-template arm.
-The soak is complete at 100 settled games (games with at least one paired skater outcome). Before that, T1/T2 are reported as interim. ``activation_evidence_complete`` is true only when the
+The soak is complete at 100 settled games = 100 UNIQUE eligible games (>= 20 paired skaters from both teams, each with a valid finite pregame shadow row inside the archived lead window and a valid outcome; repeated runs and duplicate rows count once). Before that, T1/T2 are reported as interim. ``activation_evidence_complete`` is true only when the
 soak is complete and no trigger fails. Nothing here activates anything or writes to the archive.
 
     python -m nhl_edge.research.team_minutes_soak --archive <archive> --since 2026-10-28T00:11:43Z --out out/soak.json [--md out/soak.md]
@@ -49,30 +50,28 @@ def manifest_entries(archive: Path, kinds: tuple[str, ...], since: str) -> list[
     return out
 
 
-def run_health(archive: Path, since: str) -> dict[str, Any]:
-    sim = manifest_entries(archive, ("predictions_player",), since)
-    tm = manifest_entries(archive, ("player_tm_shadow",), since)
-    err_runs = [e for e in tm if (e.get("meta") or {}).get("n_errors") or (e.get("meta") or {}).get("candidate_available") is False or (e.get("meta") or {}).get("default_reason")]
-    runs = max(len(sim), len(tm))
-    return {"runs_with_player_shadow": len(sim), "runs_with_tm_shadow_records": len(tm), "runs_with_error_or_marker": len(err_runs),
-            "error_run_fraction": float(len(err_runs) / runs) if runs else None, "published_allocations_in_manifest": sorted({str((e.get("meta") or {}).get("published_allocation")) for e in tm}),
-            "first_tm_record_utc": min((e["observed_at_utc"] for e in tm), default=None), "last_tm_record_utc": max((e["observed_at_utc"] for e in tm), default=None)}
-
-
-def published_integrity(archive: Path, since: str, shadow: pd.DataFrame, registry_path: Path | None = None) -> dict[str, Any]:
-    """T4: nothing but the shadow differs from the template at the published surface."""
-    from nhl_edge import projection_registry as PR
+def scan_published(archive: Path, since: str, shadow: pd.DataFrame) -> dict[str, Any]:
+    """One pass over the published ``predictions_player`` rows since the merge: (a) which simulate runs EXPECTED shadow records (a pregame row inside the archived lead window means the
+    player shadow ran with a game in the window, so the allocation shadow must have written for it), (b) T4 integrity (nothing but the shadow differs from the template)."""
     from nhl_edge.archive.ledger import Ledger
 
-    n = n_pinned = n_mismatch = n_compared = 0
     by_key = {}
     if len(shadow):
         for r in shadow.itertuples(index=False):
             by_key[(str(r.game_id), int(r.player_id), str(r.predicted_at_utc))] = r
+    n = n_pinned = n_mismatch = n_compared = 0
+    expected: set[str] = set()
     for r in Ledger(archive).iter_rows("predictions_player", dt_from=since[:10]):
-        if (r.get("_observed_at_utc") or "") < since:
+        at = r.get("_observed_at_utc") or ""
+        if at < since:
             continue
         n += 1
+        try:
+            lead = float(r.get("minutes_to_start"))
+        except (TypeError, ValueError):
+            lead = float("nan")
+        if r.get("pregame") and 0 < lead <= S.MAX_LEAD_MIN:
+            expected.add(at)
         if any(k.startswith("meta_team_minutes") or k.endswith("_legacy") for k in r):
             n_pinned += 1
         s = by_key.get((str(r.get("game_id")), int(r["player_id"]) if r.get("player_id") is not None else -1, str(r.get("predicted_at_utc"))))
@@ -80,20 +79,44 @@ def published_integrity(archive: Path, since: str, shadow: pd.DataFrame, registr
             n_compared += 1
             if (round(s.legacy_toi, 2), round(s.legacy_pp, 2), round(s.legacy_sog, 2)) != (r["meta_expected_toi_min"], r["meta_expected_pp_toi_min"], r["meta_expected_shots"]):
                 n_mismatch += 1
-    model, why = PR.published_team_minutes(registry_path)
+    return {"published_rows_since": n, "rows_with_allocation_or_legacy_fields": n_pinned, "published_vs_shadow_template_arm": {"compared": n_compared, "mismatches": n_mismatch},
+            "expected_shadow_run_instants": sorted(expected)}
+
+
+def run_health(archive: Path, since: str, expected: list[str]) -> dict[str, Any]:
+    """T3b denominators. A run that should have produced shadow records but left neither records nor a marker (a crash, a swallowed append failure, a stale deployment) counts as FAILED, so
+    failures cannot be understated by only looking at the runs that did write."""
+    tm = manifest_entries(archive, ("player_tm_shadow",), since)
+    tm_at = {e["observed_at_utc"]: e for e in tm}
+    exp = set(expected)
+    failed = {at for at, e in tm_at.items() if (e.get("meta") or {}).get("n_errors") or (e.get("meta") or {}).get("candidate_available") is False or (e.get("meta") or {}).get("default_reason")}
+    missing = exp - set(tm_at)
+    universe = exp | set(tm_at)
+    return {"expected_runs": len(exp), "runs_with_tm_shadow_records": len(tm_at), "missing_expected_runs": len(missing), "missing_run_instants_sample": sorted(missing)[:5],
+            "runs_with_error_or_marker": len(failed), "failed_runs": len(failed | missing), "runs_considered": len(universe),
+            "error_run_fraction": float(len(failed | missing) / len(universe)) if universe else None,
+            "published_allocations_in_manifest": sorted({str((e.get("meta") or {}).get("published_allocation")) for e in tm}),
+            "first_tm_record_utc": min(tm_at, default=None), "last_tm_record_utc": max(tm_at, default=None)}
+
+
+def registry_state(shadow: pd.DataFrame, scan: dict[str, Any], registry_path: Path | None = None) -> dict[str, Any]:
+    from nhl_edge import projection_registry as PR
+
+    model, _why = PR.published_team_minutes(registry_path)
     entry = PR.team_minutes_entry(registry_path) or {}
     alloc = set(shadow["published_allocation"].astype(str)) if len(shadow) and "published_allocation" in shadow.columns else set()
+    fps = set(shadow["candidate_fingerprint"].astype(str)) if len(shadow) and "candidate_fingerprint" in shadow.columns else set()
     problems = []
-    if n_pinned:
-        problems.append(f"{n_pinned} published rows carry allocation/legacy fields while the template is published")
-    if n_mismatch:
-        problems.append(f"{n_mismatch} of {n_compared} compared published rows differ from the shadow's template arm")
+    if scan["rows_with_allocation_or_legacy_fields"]:
+        problems.append(f"{scan['rows_with_allocation_or_legacy_fields']} published rows carry allocation/legacy fields while the template is published")
+    if scan["published_vs_shadow_template_arm"]["mismatches"]:
+        problems.append(f"{scan['published_vs_shadow_template_arm']['mismatches']} of {scan['published_vs_shadow_template_arm']['compared']} compared published rows differ from the shadow's template arm")
     if alloc - {LEGACY}:
         problems.append(f"shadow rows report published allocation {sorted(alloc - {LEGACY})}")
     if model != LEGACY or entry.get("approval") is not None:
         problems.append(f"registry publishes {model!r} / approval {entry.get('approval')!r}")
-    return {"published_rows_since": n, "rows_with_allocation_or_legacy_fields": n_pinned, "published_vs_shadow_template_arm": {"compared": n_compared, "mismatches": n_mismatch},
-            "registry_published": model, "registry_approval_present": entry.get("approval") is not None, "shadow_published_allocations": sorted(alloc), "problems": problems}
+    return {**{k: v for k, v in scan.items() if k != "expected_shadow_run_instants"}, "registry_published": model, "registry_approval_present": entry.get("approval") is not None,
+            "shadow_published_allocations": sorted(alloc), "candidate_fingerprints_seen": sorted(fps), "problems": problems}
 
 
 def evaluate(archive: Path, since: str, n_boot: int = PD.N_BOOT, registry_path: Path | None = None) -> dict[str, Any]:
@@ -101,11 +124,13 @@ def evaluate(archive: Path, since: str, n_boot: int = PD.N_BOOT, registry_path: 
     if len(rows):
         rows = rows[rows["predicted_at_utc"].map(lambda t: str(t) >= since)]
     actuals = S.load_actuals(archive)
-    health = run_health(archive, since)
-    res: dict[str, Any] = {"since": since, "soak_target_games": SOAK_GAMES, "n_shadow_rows": int(len(rows)), "run_health": health}
-    cmp = S.compare(rows, actuals, n_boot) if len(rows) else {"n_games": 0, "n_paired_with_outcome": 0, "note": "no shadow rows yet"}
+    elig_rows = S.eligible_rows(rows)
+    scan = scan_published(archive, since, rows)
+    health = run_health(archive, since, scan["expected_shadow_run_instants"])
+    res: dict[str, Any] = {"since": since, "soak_target_games": SOAK_GAMES, "n_shadow_rows": int(len(rows)), "n_eligible_shadow_rows": int(len(elig_rows)), "run_health": health}
+    cmp = S.compare(rows, actuals, n_boot) if len(rows) else {"n_games": 0, "n_eligible_games": 0, "n_paired_with_outcome": 0, "note": "no shadow rows yet"}
     res["comparison"] = cmp
-    n_games = int(cmp.get("n_games", 0))
+    n_games = int(cmp.get("n_eligible_games", 0))                    # unique settled games with valid paired pregame predictions and outcomes -- never rows or runs
     r = cmp.get("results")
     trig: dict[str, Any] = {}
     final = n_games >= SOAK_GAMES
@@ -118,11 +143,12 @@ def evaluate(archive: Path, since: str, n_boot: int = PD.N_BOOT, registry_path: 
     else:
         trig["T1_mse_upper_bound_above_zero"] = {"fails": None, "final": False, "note": "not estimable yet (fewer than 30 paired player-games)"}
         trig["T2_candidate_bias_larger_in_magnitude"] = {"fails": None, "final": False, "note": "not estimable yet"}
-    fb = float(rows["clock_fallback"].astype(bool).mean()) if len(rows) and "clock_fallback" in rows.columns else None           # over ALL shadow rows since the merge, paired with an outcome or not
-    trig["T3a_clock_fallback_share_above_2pct"] = {"share": fb, "n_rows": int(len(rows)), "threshold": MAX_FALLBACK_SHARE, "fails": None if fb is None else bool(fb > MAX_FALLBACK_SHARE)}
+    fb = float(elig_rows["clock_fallback"].astype(bool).mean()) if len(elig_rows) and "clock_fallback" in elig_rows.columns else None     # over ALL eligible shadow rows (deduplicated), settled or not
+    trig["T3a_clock_fallback_share_above_2pct"] = {"share": fb, "n_eligible_rows": int(len(elig_rows)), "threshold": MAX_FALLBACK_SHARE, "fails": None if fb is None else bool(fb > MAX_FALLBACK_SHARE)}
     ef = health["error_run_fraction"]
-    trig["T3b_error_runs_above_one_in_ten"] = {"error_run_fraction": ef, "threshold": MAX_ERROR_RUN_FRACTION, "fails": None if ef is None else bool(ef > MAX_ERROR_RUN_FRACTION)}
-    integ = published_integrity(archive, since, rows, registry_path)
+    trig["T3b_error_runs_above_one_in_ten"] = {"error_run_fraction": ef, "failed_runs": health["failed_runs"], "runs_considered": health["runs_considered"], "missing_expected_runs": health["missing_expected_runs"],
+                                               "threshold": MAX_ERROR_RUN_FRACTION, "fails": None if ef is None else bool(ef > MAX_ERROR_RUN_FRACTION)}
+    integ = registry_state(rows, scan, registry_path)
     trig["T4_published_surface_changed"] = {**integ, "fails": bool(integ["problems"])}
     res["triggers"] = trig
     res["settled_games"] = n_games
@@ -137,8 +163,8 @@ def evaluate(archive: Path, since: str, n_boot: int = PD.N_BOOT, registry_path: 
 
 def markdown(res: dict[str, Any]) -> str:
     c, t, h = res["comparison"], res["triggers"], res["run_health"]
-    L = [f"# Team-minute soak ({res['since']} -> now)", "", f"settled games with paired outcomes: **{res['settled_games']} / {res['soak_target_games']}** · shadow rows: {res['n_shadow_rows']} · paired skater-games: {c.get('n_paired_with_outcome', 0)}",
-         f"runs with player shadow: {h['runs_with_player_shadow']} · runs with shadow records: {h['runs_with_tm_shadow_records']} · runs with error/marker: {h['runs_with_error_or_marker']}", ""]
+    L = [f"# Team-minute soak ({res['since']} -> now)", "", f"unique eligible settled games: **{res['settled_games']} / {res['soak_target_games']}** · shadow rows: {res['n_shadow_rows']} · paired skater-games: {c.get('n_paired_with_outcome', 0)}",
+         f"expected shadow runs: {h['expected_runs']} · runs with shadow records: {h['runs_with_tm_shadow_records']} · missing: {h['missing_expected_runs']} · error/marker: {h['runs_with_error_or_marker']} · eligible shadow rows: {res['n_eligible_shadow_rows']}", ""]
     r = c.get("results")
     if r:
         d = r["cand_minus_legacy"]

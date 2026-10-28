@@ -24,6 +24,11 @@
 * ~~Readers that would mix allocations~~ **done** (PR after #104): `research/thesis_model_audit.py` and `model_research/exp_players.py` are allocation-version-aware (top level = incumbent minutes for every row; `by_allocation` = as published, never pooled; identical to the old numbers at the default).
 * Rollback rehearsed: set `published_model` back to `team-minutes-0`.
 
+## How the evaluator counts (definitions only; the thresholds below are unchanged)
+* **A settled game** is a unique game with >= 20 paired skaters from both teams, each with a valid finite pregame shadow row inside the archived lead window (0 < minutes to start <= 360) and a valid outcome (shift charts present, TOI > 0). Repeated runs, duplicate rows, partial outcomes and non-finite values never add games; the soak is complete at 100 such games.
+* **Fallback share (T3a)** is over every eligible, deduplicated shadow row since the merge, settled or not.
+* **Failed runs (T3b)** are runs whose record reports errors/markers **plus** every expected run that left no record at all (a simulate run with a pregame row inside the lead window must have written shadow records); the denominator is every expected or recorded run, so missing runs cannot understate failures.
+
 ## Pre-stated NO-GO triggers (to be checked on the accumulating shadow before activation)
 Score with `python -m nhl_edge.research.team_minutes_soak --archive <archive> --since 2026-10-28T00:11:43Z --out ... --md ...` (evaluates every trigger below with exactly these thresholds; `activation_evidence_complete` is true only at >= 100 settled games with no trigger failing or undetermined). Do **not** activate if any of these holds (paired, game-clustered 95% interval):
 * the upper bound of the change in total-TOI MSE (candidate minus published) is above 0, or the same for power-play TOI MSE;
