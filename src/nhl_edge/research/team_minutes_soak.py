@@ -118,8 +118,8 @@ def evaluate(archive: Path, since: str, n_boot: int = PD.N_BOOT, registry_path: 
     else:
         trig["T1_mse_upper_bound_above_zero"] = {"fails": None, "final": False, "note": "not estimable yet (fewer than 30 paired player-games)"}
         trig["T2_candidate_bias_larger_in_magnitude"] = {"fails": None, "final": False, "note": "not estimable yet"}
-    fb = cmp.get("clock_fallback_share")
-    trig["T3a_clock_fallback_share_above_2pct"] = {"share": fb, "threshold": MAX_FALLBACK_SHARE, "fails": None if fb is None else bool(fb > MAX_FALLBACK_SHARE)}
+    fb = float(rows["clock_fallback"].astype(bool).mean()) if len(rows) and "clock_fallback" in rows.columns else None           # over ALL shadow rows since the merge, paired with an outcome or not
+    trig["T3a_clock_fallback_share_above_2pct"] = {"share": fb, "n_rows": int(len(rows)), "threshold": MAX_FALLBACK_SHARE, "fails": None if fb is None else bool(fb > MAX_FALLBACK_SHARE)}
     ef = health["error_run_fraction"]
     trig["T3b_error_runs_above_one_in_ten"] = {"error_run_fraction": ef, "threshold": MAX_ERROR_RUN_FRACTION, "fails": None if ef is None else bool(ef > MAX_ERROR_RUN_FRACTION)}
     integ = published_integrity(archive, since, rows, registry_path)
