@@ -63,8 +63,8 @@ def test_identities_and_skater_budget_on_a_consistent_frame():
     assert sb["n_regulation_team_games"] == 80 and 4.0 < sb["by_state"]["ev"]["skaters_on_ice"] < 6.0
 
 
-def _shadow_rows(minutes_to_start, t, pid=1, game="2026020001", pos="F", marker=False):
-    r = {"game_id": game, "player_id": pid, "pos": pos, "name": f"P{pid}", "team": "AAA", "predicted_at_utc": t, "minutes_to_start": minutes_to_start, "pregame": minutes_to_start > 0,
+def _shadow_rows(minutes_to_start, t, pid=1, game="2026020001", pos="F", marker=False, team="AAA"):
+    r = {"game_id": game, "player_id": pid, "pos": pos, "name": f"P{pid}", "team": team, "predicted_at_utc": t, "minutes_to_start": minutes_to_start, "pregame": minutes_to_start > 0,
          "published_allocation": "team-minutes-0", "candidate_version": "team-minutes-1.0", "clock_fallback": False, "projection_quality": "STANDARD"}
     for k, (a, b) in {"toi": (16.0, 16.5), "ev": (13.0, 13.2), "pp": (1.5, 1.8), "sh": (1.0, 1.2), "sog": (2.0, 2.1)}.items():
         r[f"legacy_{k}"], r[f"cand_{k}"] = a, b
@@ -94,7 +94,7 @@ def test_compare_on_a_tiny_or_one_sided_sample_does_not_crash_and_estimates_noth
     rows = pd.DataFrame([_shadow_rows(45, "2026-10-25T21:15:00Z", pid=i) for i in range(5)])
     act = pd.DataFrame([{"game_id": "2026020001", "player_id": i, "toi_s": 1000, "toi_pp_s": 90, "toi_sh_s": 60, "toi_ev_s": 850, "sog": 2} for i in range(5)])
     out = S.compare(rows, act, n_boot=50)
-    assert out["n_paired_with_outcome"] == 5 and "note" in out
+    assert out["n_paired_before_game_eligibility"] == 5 and out["n_paired_with_outcome"] == 0 and out["n_eligible_games"] == 0 and "note" in out       # 5 paired players is not a settled game
     assert S.representatives(S.merged_pairs(rows, act)) == []                                       # forwards only: no archetypes, no exception
 
 
@@ -102,9 +102,9 @@ def test_compare_reports_the_known_difference_between_arms():
     rng = np.random.default_rng(3)
     rows, act = [], []
     for g in range(30):
-        for i in range(6):
-            pid = g * 10 + i
-            rows.append(_shadow_rows(45, "2026-10-25T21:15:00Z", pid=pid, game=f"20260200{g:02d}", pos="F" if i < 4 else "D"))
+        for i in range(20):
+            pid = g * 100 + i
+            rows.append(_shadow_rows(45, "2026-10-25T21:15:00Z", pid=pid, game=f"20260200{g:02d}", pos="F" if i % 3 else "D", team="AAA" if i < 10 else "BBB"))
             act.append({"game_id": f"20260200{g:02d}", "player_id": pid, "toi_s": 16.5 * 60 + rng.normal(0, 60), "toi_pp_s": 108 + rng.normal(0, 20), "toi_sh_s": 72, "toi_ev_s": 800,
                         "sog": int(rng.poisson(2))})
     out = S.compare(pd.DataFrame(rows), pd.DataFrame(act), n_boot=200)

@@ -122,3 +122,28 @@ def project_player(share: dict[str, float], profile: Any, priors: Any, tm: dict[
     exp = {s: float(share[s] * tm.get(s, 0.0)) for s in STATES}
     sog = float(sum(exp[s] * (profile.sog60[s] if np.isfinite(profile.sog60.get(s, np.nan)) else priors.ixg60.get((profile.pos, s), 0) * 10) / 60.0 for s in ("ev", "pp", "sh")))
     return {"toi": float(sum(exp.values())), **exp, "sog": sog}
+
+
+# ---- readers of PUBLISHED player rows: allocation-version awareness -------------------------------------------------------------------------------------------------
+INCUMBENT_COLUMNS = ("meta_expected_toi_min", "meta_expected_pp_toi_min", "meta_expected_shots")
+
+
+def row_allocation(version: Any) -> str:
+    """The allocation that drove a published ``predictions_player`` row: its ``meta_team_minutes_version``, or the legacy template when the field is absent (the default publishes none)."""
+    if version is None or (isinstance(version, float) and math.isnan(version)) or str(version).strip() in ("", "nan", "None"):
+        return LEGACY_VERSION
+    return str(version)
+
+
+def with_allocation(df: Any) -> Any:
+    """Adds ``alloc`` (allocation version per row) and, for each published ice-time/shots column, ``<col>_incumbent``: the legacy-equivalent value when the row carries one
+    (``<col>_legacy``, written only when another allocation was published), else the published value. At the default this changes nothing: ``alloc`` is the legacy version for every row
+    and the ``_incumbent`` columns equal the published ones. Aggregates that must not mix allocations select on ``alloc`` or use the ``_incumbent`` columns."""
+    out = df.copy()
+    out["alloc"] = out["meta_team_minutes_version"].map(row_allocation) if "meta_team_minutes_version" in out.columns else LEGACY_VERSION
+    for c in INCUMBENT_COLUMNS:
+        if c not in out.columns:
+            continue
+        lc = f"{c}_legacy"
+        out[f"{c}_incumbent"] = out[lc].where(out[lc].notna(), out[c]) if lc in out.columns else out[c]
+    return out
