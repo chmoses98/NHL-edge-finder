@@ -1,9 +1,9 @@
 # NHL slate 2026-10-29 — RESEARCH_ONLY
 
-generated 2026-10-29T05:33:25Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-29T06:34:51Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 11 · simulated (not started): 11 · markets on board: 2450 · contracts joined: 561 (unjoined to any game: 1538)
-gates: {'UNSUPPORTED': 286, 'OK': 128, 'NO_EDGE': 147}
+gates: {'UNSUPPORTED': 286, 'OK': 127, 'NO_EDGE': 148}
 families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_early_goal': 11, 'game_winner': 22, 'game_overtime': 11, 'game_spread': 44, 'team_total': 110, 'game_total': 99}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -33,6 +33,7 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 | KXNHLTEAMTOTAL-26OCT29CHIDET-DET4 | team_total | 0.398 | 0.475 | 0.459 | 49 | 54 | no | +0.045 | OK |
 | KXNHLSPREAD-26OCT29WPGTB-TB3 | game_spread | 0.260 | 0.325 | 0.311 | 33 | 68 | no | +0.045 | OK |
 | KXNHLTOTAL-26OCT29CHIDET-7 | game_total | 0.368 | 0.435 | 0.421 | 44 | 57 | no | +0.045 | OK |
+| KXNHLSPREAD-26OCT29WPGTB-TB2 | game_spread | 0.401 | 0.465 | 0.452 | 47 | 54 | no | +0.041 | OK |
 | KXNHLTEAMTOTAL-26OCT29CHIDET-DET3 | team_total | 0.625 | 0.690 | 0.677 | 70 | 32 | no | +0.040 | OK |
 | KXNHLTOTAL-26OCT29WPGTB-7 | game_total | 0.385 | 0.445 | 0.433 | 45 | 56 | no | +0.037 | OK |
 | KXNHLGAME-26OCT29BUFANA-ANA | game_winner | 0.504 | 0.445 | 0.457 | 45 | 56 | yes | +0.037 | OK |
@@ -45,7 +46,6 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 | KXNHLSPREAD-26OCT29BUFANA-BUF3 | game_spread | 0.176 | 0.230 | 0.218 | 24 | 78 | no | +0.032 | OK |
 | KXNHLTOTAL-26OCT29CHIDET-9 | game_total | 0.128 | 0.175 | 0.165 | 18 | 83 | no | +0.032 | OK |
 | KXNHLTOTAL-26OCT29CHIDET-4 | game_total | 0.809 | 0.860 | 0.851 | 87 | 15 | no | +0.032 | OK |
-| KXNHLSPREAD-26OCT29WPGTB-TB2 | game_spread | 0.401 | 0.460 | 0.448 | 47 | 55 | no | +0.031 | OK |
 | KXNHLSPREAD-26OCT29CBJCAR-CAR3 | game_spread | 0.284 | 0.335 | 0.324 | 34 | 67 | no | +0.031 | OK |
 | KXNHLTOTAL-26OCT29MTLDAL-7 | game_total | 0.393 | 0.445 | 0.434 | 45 | 56 | no | +0.030 | OK |
 | KXNHLTEAMTOTAL-26OCT29CBJCAR-CAR4 | team_total | 0.473 | 0.535 | 0.523 | 55 | 48 | no | +0.029 | OK |
@@ -62,21 +62,24 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 | KXNHLTEAMTOTAL-26OCT29BUFANA-BUF6 | team_total | 0.107 | 0.145 | 0.137 | 15 | 86 | no | +0.024 | OK |
 | KXNHLSPREAD-26OCT29OTTLA-LA2 | game_spread | 0.318 | 0.275 | 0.283 | 28 | 73 | yes | +0.024 | OK |
 | KXNHLSPREAD-26OCT29BUFANA-BUF2 | game_spread | 0.291 | 0.340 | 0.330 | 35 | 67 | no | +0.023 | OK |
+| KXNHLTOTAL-26OCT29WPGTB-9 | game_total | 0.137 | 0.175 | 0.167 | 18 | 83 | no | +0.023 | OK |
 | KXNHLTEAMTOTAL-26OCT29BUFANA-BUF2 | team_total | 0.829 | 0.875 | 0.867 | 89 | 14 | no | +0.023 | OK |
 | KXNHLTOTAL-26OCT29WPGTB-8 | game_total | 0.205 | 0.250 | 0.240 | 26 | 76 | no | +0.022 | OK |
 | KXNHLTEAMTOTAL-26OCT29WPGTB-TB6 | team_total | 0.111 | 0.155 | 0.145 | 17 | 86 | no | +0.020 | OK |
-| KXNHLTOTAL-26OCT29BUFANA-7 | game_total | 0.493 | 0.540 | 0.531 | 55 | 47 | no | +0.020 | OK |
+| KXNHLTOTAL-26OCT29BUFANA-7 | game_total | 0.493 | 0.535 | 0.527 | 54 | 47 | no | +0.020 | OK |
+| KXNHLSPREAD-26OCT29CBJCAR-CAR2 | game_spread | 0.433 | 0.475 | 0.467 | 48 | 53 | no | +0.020 | OK |
 | KXNHLGAME-26OCT29WSHNSH-NSH | game_winner | 0.463 | 0.505 | 0.497 | 51 | 50 | no | +0.019 | OK |
 | KXNHLTEAMTOTAL-26OCT29CBJCAR-CAR5 | team_total | 0.276 | 0.325 | 0.315 | 34 | 69 | no | +0.019 | OK |
 | KXNHLTEAMTOTAL-26OCT29CHIDET-DET2 | team_total | 0.822 | 0.860 | 0.853 | 87 | 15 | no | +0.019 | OK |
 | KXNHLTOTAL-26OCT29BUFANA-5 | game_total | 0.801 | 0.835 | 0.829 | 84 | 17 | no | +0.019 | OK |
-| KXNHLSPREAD-26OCT29WSHNSH-NSH3 | game_spread | 0.151 | 0.185 | 0.178 | 19 | 82 | no | +0.019 | OK |
+| KXNHLSPREAD-26OCT29WSHNSH-NSH3 | game_spread | 0.151 | 0.190 | 0.182 | 20 | 82 | no | +0.019 | OK |
 | KXNHLSPREAD-26OCT29OTTLA-OTT3 | game_spread | 0.151 | 0.190 | 0.182 | 20 | 82 | no | +0.019 | OK |
 | KXNHLTEAMTOTAL-26OCT29OTTLA-LA3 | team_total | 0.635 | 0.585 | 0.595 | 60 | 43 | yes | +0.018 | OK |
 | KXNHLGAME-26OCT29OTTLA-LA | game_winner | 0.536 | 0.495 | 0.503 | 50 | 51 | yes | +0.018 | OK |
 | KXNHLGAME-26OCT29OTTLA-OTT | game_winner | 0.464 | 0.505 | 0.497 | 51 | 50 | no | +0.018 | OK |
 | KXNHLTEAMTOTAL-26OCT29CHIDET-CHI2 | team_total | 0.719 | 0.765 | 0.756 | 78 | 25 | no | +0.018 | OK |
 | KXNHLTOTAL-26OCT29CBJCAR-4 | game_total | 0.834 | 0.870 | 0.863 | 88 | 14 | no | +0.018 | OK |
+| KXNHLTOTAL-26OCT29BUFANA-6 | game_total | 0.606 | 0.650 | 0.641 | 66 | 36 | no | +0.018 | OK |
 | KXNHLTEAMTOTAL-26OCT29NYIMIN-MIN3 | team_total | 0.637 | 0.680 | 0.672 | 69 | 33 | no | +0.018 | OK |
 | KXNHLGAME-26OCT29WPGTB-WPG | game_winner | 0.363 | 0.325 | 0.332 | 33 | 68 | yes | +0.017 | OK |
 | KXNHLTOTAL-26OCT29CBJCAR-7 | game_total | 0.405 | 0.445 | 0.437 | 45 | 56 | no | +0.017 | OK |
@@ -86,9 +89,9 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 | KXNHLTOTAL-26OCT29OTTLA-8 | game_total | 0.268 | 0.235 | 0.241 | 24 | 77 | yes | +0.015 | OK |
 | KXNHLTEAMTOTAL-26OCT29WSHNSH-NSH3 | team_total | 0.588 | 0.630 | 0.622 | 64 | 38 | no | +0.015 | OK |
 | KXNHLTEAMTOTAL-26OCT29NYIMIN-MIN4 | team_total | 0.418 | 0.460 | 0.451 | 47 | 55 | no | +0.015 | OK |
+| KXNHLTOTAL-26OCT29NYIMIN-4 | game_total | 0.817 | 0.845 | 0.840 | 85 | 16 | no | +0.014 | OK |
 | KXNHLTOTAL-26OCT29MTLDAL-4 | game_total | 0.827 | 0.860 | 0.854 | 87 | 15 | no | +0.014 | OK |
 | KXNHLTOTAL-26OCT29MTLDAL-9 | game_total | 0.146 | 0.175 | 0.169 | 18 | 83 | no | +0.014 | OK |
-| KXNHLTOTAL-26OCT29WPGTB-9 | game_total | 0.137 | 0.170 | 0.163 | 18 | 84 | no | +0.014 | OK |
 | KXNHLTEAMTOTAL-26OCT29OTTLA-LA4 | team_total | 0.420 | 0.375 | 0.384 | 39 | 64 | yes | +0.013 | OK |
 | KXNHLTEAMTOTAL-26OCT29MTLDAL-MTL3 | team_total | 0.500 | 0.535 | 0.528 | 54 | 47 | no | +0.013 | OK |
 | KXNHLTOTAL-26OCT29CBJCAR-6 | game_total | 0.520 | 0.560 | 0.552 | 57 | 45 | no | +0.012 | OK |
@@ -101,9 +104,6 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 | KXNHLTOTAL-26OCT29BUFANA-8 | game_total | 0.294 | 0.330 | 0.323 | 34 | 68 | no | +0.011 | OK |
 | KXNHLTOTAL-26OCT29WSHNSH-4 | game_total | 0.862 | 0.885 | 0.881 | 89 | 12 | no | +0.011 | OK |
 | KXNHLGAME-26OCT29CBJCAR-CAR | game_winner | 0.665 | 0.695 | 0.689 | 70 | 31 | no | +0.010 | OK |
-| KXNHLSPREAD-26OCT29NYIMIN-MIN2 | game_spread | 0.363 | 0.400 | 0.393 | 41 | 61 | no | +0.010 | OK |
-| KXNHLTOTAL-26OCT29CBJCAR-8 | game_total | 0.227 | 0.255 | 0.249 | 26 | 75 | no | +0.010 | OK |
-| KXNHLTOTAL-26OCT29CBJCAR-9 | game_total | 0.150 | 0.175 | 0.170 | 18 | 83 | no | +0.010 | OK |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -124,8 +124,9 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 9 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 10 recommended · full analysis in card.md / packet.json `thesis_card`
 
+- Tampa Bay wins by over 1.5 goals NO @ 54c · p 0.6025 (adj 0.5688) · $6.55 · thesis GAME:TIGHT
 - Carolina wins by over 2.5 goals NO @ 67c · p 0.7585 (adj 0.7117) · $20.0 · thesis GAME:TIGHT
 - Columbus wins by over 1.5 goals YES @ 16c · p 0.2117 (adj 0.1834) · $1.66 · thesis CBJ:WINS_BY_2PLUS
 - Columbus over 3.5 goals scored YES @ 26c · p 0.3275 (adj 0.2888) · $1.1 · thesis CBJ:OFFENSE_4PLUS
@@ -139,48 +140,48 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
 **WPG @ TBL** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- TBL net: Andrei Vasilevskiy (PROJECTED) exp shots 24.76, exp saves 21.88 (sd 6.0), pull risk 0.041
-- WPG net: Stuart Skinner (PROJECTED) exp shots 28.87, exp saves 24.53 (sd 6.92), pull risk 0.076
+- TBL net: Andrei Vasilevskiy (PROJECTED) exp shots 24.76, exp saves 21.9 (sd 6.0), pull risk 0.042
+- WPG net: Stuart Skinner (PROJECTED) exp shots 28.88, exp saves 24.57 (sd 6.87), pull risk 0.075
 
 **UTA @ PIT** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- PIT net: Arturs Silovs (PROJECTED) exp shots 27.0, exp saves 23.24 (sd 6.6), pull risk 0.078
-- UTA net: Karel Vejmelka (PROJECTED) exp shots 27.12, exp saves 23.23 (sd 6.47), pull risk 0.076
+- PIT net: Arturs Silovs (PROJECTED) exp shots 27.0, exp saves 23.3 (sd 6.55), pull risk 0.074
+- UTA net: Karel Vejmelka (PROJECTED) exp shots 27.13, exp saves 23.29 (sd 6.52), pull risk 0.072
 
 **CBJ @ CAR** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- CAR net: Pyotr Kochetkov (PROJECTED) exp shots 23.86, exp saves 20.92 (sd 5.9), pull risk 0.05
-- CBJ net: Jet Greaves (PROJECTED) exp shots 30.95, exp saves 26.42 (sd 7.19), pull risk 0.075
+- CAR net: Pyotr Kochetkov (PROJECTED) exp shots 23.87, exp saves 20.88 (sd 5.89), pull risk 0.052
+- CBJ net: Jet Greaves (PROJECTED) exp shots 30.96, exp saves 26.39 (sd 7.29), pull risk 0.079
 
 **CHI @ DET** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- DET net: John Gibson (PROJECTED) exp shots 24.08, exp saves 21.09 (sd 5.85), pull risk 0.046
-- CHI net: Spencer Knight (PROJECTED) exp shots 30.25, exp saves 25.92 (sd 7.06), pull risk 0.073
+- DET net: John Gibson (PROJECTED) exp shots 24.08, exp saves 21.12 (sd 5.87), pull risk 0.043
+- CHI net: Spencer Knight (PROJECTED) exp shots 30.26, exp saves 25.94 (sd 7.06), pull risk 0.07
 
 **BOS @ STL** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- STL net: Joel Hofer (PROJECTED) exp shots 26.11, exp saves 22.66 (sd 6.24), pull risk 0.062
-- BOS net: Jeremy Swayman (PROJECTED) exp shots 28.05, exp saves 24.08 (sd 6.68), pull risk 0.071
+- STL net: Joel Hofer (PROJECTED) exp shots 26.11, exp saves 22.67 (sd 6.28), pull risk 0.062
+- BOS net: Jeremy Swayman (PROJECTED) exp shots 28.06, exp saves 24.09 (sd 6.71), pull risk 0.069
 
 **WSH @ NSH** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- NSH net: Juuse Saros (PROJECTED) exp shots 28.23, exp saves 24.38 (sd 6.59), pull risk 0.061
-- WSH net: Logan Thompson (PROJECTED) exp shots 27.81, exp saves 23.91 (sd 6.74), pull risk 0.07
+- NSH net: Juuse Saros (PROJECTED) exp shots 28.24, exp saves 24.38 (sd 6.63), pull risk 0.064
+- WSH net: Logan Thompson (PROJECTED) exp shots 27.82, exp saves 23.92 (sd 6.74), pull risk 0.07
 
 **MTL @ DAL** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- DAL net: Jake Oettinger (PROJECTED) exp shots 24.03, exp saves 20.94 (sd 5.92), pull risk 0.053
-- MTL net: Jakub Dobes (CONFIRMED) exp shots 28.03, exp saves 24.04 (sd 6.67), pull risk 0.07
+- DAL net: Jake Oettinger (PROJECTED) exp shots 24.03, exp saves 20.96 (sd 5.94), pull risk 0.051
+- MTL net: Jakub Dobes (CONFIRMED) exp shots 28.04, exp saves 24.05 (sd 6.68), pull risk 0.07
 
 **NYI @ MIN** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- MIN net: Jesper Wallstedt (PROJECTED) exp shots 27.4, exp saves 23.83 (sd 6.53), pull risk 0.053
-- NYI net: Ilya Sorokin (PROJECTED) exp shots 28.86, exp saves 24.89 (sd 6.87), pull risk 0.067
+- MIN net: Jesper Wallstedt (PROJECTED) exp shots 27.41, exp saves 23.85 (sd 6.5), pull risk 0.053
+- NYI net: Ilya Sorokin (PROJECTED) exp shots 28.87, exp saves 24.9 (sd 6.81), pull risk 0.068
 
 **BUF @ ANA** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- ANA net: Lukas Dostal (PROJECTED) exp shots 27.31, exp saves 23.77 (sd 6.56), pull risk 0.066
-- BUF net: Ukko-Pekka Luukkonen (PROJECTED) exp shots 28.63, exp saves 24.47 (sd 6.86), pull risk 0.079
+- ANA net: Lukas Dostal (PROJECTED) exp shots 27.32, exp saves 23.83 (sd 6.5), pull risk 0.062
+- BUF net: Ukko-Pekka Luukkonen (PROJECTED) exp shots 28.64, exp saves 24.55 (sd 6.83), pull risk 0.073
 
 **OTT @ LAK** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- LAK net: Darcy Kuemper (PROJECTED) exp shots 27.32, exp saves 23.9 (sd 6.5), pull risk 0.05
-- OTT net: Samuel Ersson (PROJECTED) exp shots 26.32, exp saves 22.66 (sd 6.4), pull risk 0.065
+- LAK net: Darcy Kuemper (PROJECTED) exp shots 27.33, exp saves 23.9 (sd 6.44), pull risk 0.052
+- OTT net: Samuel Ersson (PROJECTED) exp shots 26.32, exp saves 22.65 (sd 6.3), pull risk 0.064
 
 **VAN @ SJS** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- SJS net: Alex Nedeljkovic (PROJECTED) exp shots 25.56, exp saves 22.33 (sd 6.26), pull risk 0.059
-- VAN net: Leevi Merilainen (PROJECTED) exp shots 29.41, exp saves 24.98 (sd 6.96), pull risk 0.084
+- SJS net: Alex Nedeljkovic (PROJECTED) exp shots 25.57, exp saves 22.34 (sd 6.26), pull risk 0.059
+- VAN net: Leevi Merilainen (PROJECTED) exp shots 29.42, exp saves 25.03 (sd 6.92), pull risk 0.082
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
