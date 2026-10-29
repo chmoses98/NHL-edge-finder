@@ -13,6 +13,7 @@ import numpy as np
 
 from nhl_edge.scripts_v1 import AUTHORITY, CANDIDATE_RULES_VERSION, SCRIPT_METHODOLOGY, SCRIPT_VERSION, SURVIVAL_VERSION
 from nhl_edge.scripts_v1.candidates import ORDERING, build_candidates
+from nhl_edge.scripts_v1.expression_challenger import build_expression_challenger
 from nhl_edge.scripts_v1.summary import market_effects, script_summaries
 from nhl_edge.scripts_v1.survival import MIN_EV, TIER_RANK, TIERS, game_survival
 from nhl_edge.scripts_v1.taxonomy import SCRIPTS, classify, methodology, taxonomy_doc
@@ -59,6 +60,7 @@ def game_research(a: dict[str, Any], ctx: dict[str, Any] | None = None) -> dict[
             row["no"] = _side(sv, b.price_cents)
     markets = sorted(by_ticker.values(), key=lambda r: r["ticker"])
     cands = build_candidates(a, survival, ctx)
+    expression_challenger = build_expression_challenger(a, survival)
     tiers = {t: sum(1 for c in cands if c["robustness"] == t and c["governance"]["status"] != "REJECTED") for t in TIER_RANK}
     best = next((c for c in cands if c["governance"]["status"] != "REJECTED" and c["robustness"] in ("ROBUST", "MODERATE")), None)
     return {
@@ -71,6 +73,7 @@ def game_research(a: dict[str, Any], ctx: dict[str, Any] | None = None) -> dict[
         "probability_check": {"sum": round(float(freq.sum()), 6), "n_scripts_with_draws": int((freq > 0).sum())},
         "markets": markets, "unpriced": [{k: u.get(k) for k in ("ticker", "family", "title", "reason")} for u in gd.unpriced],
         "candidates": cands,
+        "expression_challenger_v1": expression_challenger,
         "candidate_summary": {"n": len(cands), "by_tier": tiers, "best": None if best is None else {k: best[k] for k in ("bet_id", "title", "side", "robustness")}},
         "context": {k: ctx.get(k) for k in ("goalies", "home_rest_days", "away_rest_days", "home_b2b", "away_b2b", "lam_home", "lam_away", "trusted", "input_reasons")},
         "rules": {"min_ev_per_contract": MIN_EV, "tiers": TIERS, "ordering": ORDERING, "taxonomy": methodology(),
@@ -95,4 +98,8 @@ def forecast_row(gr: dict[str, Any], *, decided_at: str, run_id: str, snapshot_i
                         "governance_status": c["governance"]["status"], "stake_dollars": c["governance"]["stake_dollars"],
                         "exposure_group": c["exposure_group"], "dependencies": [d["flag"] for d in c["dependencies"]]} for c in gr["candidates"]],
         "context": gr["context"], "authority": AUTHORITY,
+        "expression_challenger_v1": {"version": gr["expression_challenger_v1"]["version"],
+            "status": gr["expression_challenger_v1"]["status"],
+            "n_compared": gr["expression_challenger_v1"]["n_compared"],
+            "selected": gr["expression_challenger_v1"]["selected"]},
     }
