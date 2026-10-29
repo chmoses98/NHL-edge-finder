@@ -173,3 +173,20 @@ def test_the_lead_window_constant_mirrors_the_archive_cap():
     from nhl_edge.workflows import shadow_player
 
     assert S.MAX_LEAD_MIN == shadow_player.TM_SHADOW_MAX_LEAD_MIN
+
+
+def test_t4_tolerates_the_published_double_rounding_but_not_a_real_difference(tmp_path):
+    # published 3.34 (rounded from 3.335004) vs the shadow's 4-decimal 3.335: re-rounding gives 3.33 -- a rounding artefact, not a change
+    arch = _build(tmp_path, 30, many_runs=0)
+    led = Ledger(arch, run_id="late")
+    base = K.S.load_rows(arch, [])
+    base = base.iloc[0]
+    row = {"game_id": base.game_id, "player_id": int(base.player_id), "ticker": "TX", "predicted_at_utc": base.predicted_at_utc, "pregame": True, "minutes_to_start": 40.0,
+           "meta_expected_toi_min": float(base.legacy_toi), "meta_expected_pp_toi_min": float(base.legacy_pp), "meta_expected_shots": round(float(base.legacy_sog) + 0.004, 2)}
+    led.append_rows("predictions_player", [row], observed_at=T0 + timedelta(seconds=1), meta={})
+    ok = K.evaluate(arch, SINCE, n_boot=50)["triggers"]["T4_published_surface_changed"]
+    assert ok["published_vs_shadow_template_arm"]["mismatches"] == 0
+    led2 = Ledger(arch, run_id="late2")
+    led2.append_rows("predictions_player", [dict(row, ticker="TY", meta_expected_shots=float(base.legacy_sog) + 0.05)], observed_at=T0 + timedelta(seconds=2), meta={})
+    bad = K.evaluate(arch, SINCE, n_boot=50)["triggers"]["T4_published_surface_changed"]
+    assert bad["published_vs_shadow_template_arm"]["mismatches"] == 1 and bad["fails"] is True
