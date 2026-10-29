@@ -1,8 +1,8 @@
 {
- "evaluated_at_utc": "2026-10-29T02:09:36Z",
+ "evaluated_at_utc": "2026-10-29T02:37:10Z",
  "authority": "RESEARCH_ONLY",
  "report_version": "thesis-postmortem-2.0",
- "n_rows_all_runs": 31531,
+ "n_rows_all_runs": 31861,
  "slates": {
   "2026-10-01": {
    "label": "COMPLETE \u2014 8/8 games evaluated",
@@ -112665,17 +112665,16 @@
    }
   },
   "2026-10-28": {
-   "label": "PARTIAL \u2014 0/4 games evaluated",
+   "label": "PARTIAL \u2014 1/4 games evaluated",
    "completeness": {
     "games_scheduled": 4,
-    "games_final": 0,
-    "games_settled": 0,
-    "games_player_events_ingested": 0,
+    "games_final": 1,
+    "games_settled": 1,
+    "games_player_events_ingested": 1,
     "games_with_final_card_snapshot": 4,
-    "games_thesis_evaluated": 0,
-    "games_terminal": 0,
+    "games_thesis_evaluated": 1,
+    "games_terminal": 1,
     "games_missing": {
-     "2026020199": "no official FINAL result yet",
      "2026020200": "no official FINAL result yet",
      "2026020201": "no official FINAL result yet",
      "2026020202": "no official FINAL result yet"
@@ -112685,81 +112684,183 @@
     "postmortem_complete": false
    },
    "invariants": {
-    "final_card_n": 0,
-    "sum_game_card_caps": 0,
+    "final_card_n": 4,
+    "sum_game_card_caps": 4,
     "holds": true
    },
    "FINAL_CARD_UNIQUE": {
     "THESIS": {
-     "n_bets_with_thesis": 0,
-     "n_distinct_theses": 0,
-     "thesis_hit_rate": null,
-     "mean_p_thesis": null,
-     "thesis_brier": null,
+     "n_bets_with_thesis": 4,
+     "n_distinct_theses": 3,
+     "thesis_hit_rate": 0.3333,
+     "mean_p_thesis": 0.3538,
+     "thesis_brier": 0.1945,
      "calibration_note": "few theses: hit rate vs mean predicted probability is descriptive only",
-     "realized_vs_projected_script": {}
+     "realized_vs_projected_script": {
+      "2026020199": {
+       "realized_script": "CB|EN|MD",
+       "p_projected": 0.1184,
+       "rank": 1,
+       "n_scripts": 18,
+       "top_projected": "CB|EN|MD"
+      }
+     }
     },
     "EXPRESSION": {
-     "thesis_right_expression_won": 0,
+     "thesis_right_expression_won": 1,
      "thesis_right_expression_lost": 0,
-     "thesis_wrong_expression_won": 0,
-     "thesis_wrong_expression_lost": 0,
+     "thesis_wrong_expression_won": 1,
+     "thesis_wrong_expression_lost": 2,
      "no_thesis": {},
-     "by_fidelity_class": {},
-     "broad_vs_player": {}
+     "by_fidelity_class": {
+      "FRAGILE": {
+       "n": 3,
+       "won": 2,
+       "hit_rate": 0.6667,
+       "mean_p_adjusted": 0.1807,
+       "thesis_right_expression_lost": 0,
+       "pl_nominal": 74.7
+      },
+      "STRUCTURAL": {
+       "n": 1,
+       "won": 0,
+       "hit_rate": 0.0,
+       "mean_p_adjusted": 0.543,
+       "thesis_right_expression_lost": 0,
+       "pl_nominal": -17.19
+      }
+     },
+     "broad_vs_player": {
+      "BROAD": {
+       "n": 1,
+       "won": 0,
+       "hit_rate": 0.0,
+       "mean_p_adjusted": 0.543,
+       "thesis_right_expression_lost": 0,
+       "pl_nominal": -17.19
+      },
+      "FRAGILE_PLAYER": {
+       "n": 3,
+       "won": 2,
+       "hit_rate": 0.6667,
+       "mean_p_adjusted": 0.1807,
+       "thesis_right_expression_lost": 0,
+       "pl_nominal": 74.7
+      }
+     }
     },
     "PRICE": {
-     "n": 0,
-     "mean_clv": null,
-     "n_clv": 0,
-     "mean_ev_raw_at_entry": null,
-     "mean_ev_adjusted_at_entry": null,
-     "bets": []
+     "n": 4,
+     "mean_clv": -0.0112,
+     "n_clv": 4,
+     "mean_ev_raw_at_entry": 0.0492,
+     "mean_ev_adjusted_at_entry": 0.0254,
+     "bets": [
+      {
+       "bet_id": "KXNHLGOAL-26OCT28PHIWSH-PHICDVORAK22-1|yes",
+       "entry_cents": 16,
+       "close_prob_yes": 0.155,
+       "clv": -0.005,
+       "ev_adjusted_at_entry": 0.027892
+      },
+      {
+       "bet_id": "KXNHLGOAL-26OCT28PHIWSH-PHISCOUTURIER14-1|yes",
+       "entry_cents": 10,
+       "close_prob_yes": 0.095,
+       "clv": -0.005,
+       "ev_adjusted_at_entry": 0.02207500000000001
+      },
+      {
+       "bet_id": "KXNHLGOAL-26OCT28PHIWSH-WSHAPROTAS21-1|yes",
+       "entry_cents": 18,
+       "close_prob_yes": 0.15,
+       "clv": -0.03,
+       "ev_adjusted_at_entry": 0.02596799999999999
+      },
+      {
+       "bet_id": "KXNHLTEAMTOTAL-26OCT28PHIWSH-WSH4|no",
+       "entry_cents": 50,
+       "close_prob_yes": 0.505,
+       "clv": -0.005,
+       "ev_adjusted_at_entry": 0.025499999999999967
+      }
+     ]
     },
     "MODEL": {
-     "n": 0,
-     "brier_model": null,
-     "brier_adjusted": null,
-     "brier_kalshi_mid": null,
-     "logloss_model": null,
-     "logloss_adjusted": null,
-     "by_family": {}
+     "n": 4,
+     "brier_model": 0.4286,
+     "brier_adjusted": 0.4269,
+     "brier_kalshi_mid": 0.4526,
+     "logloss_model": 1.1338,
+     "logloss_adjusted": 1.1467,
+     "by_family": {
+      "player_goals": {
+       "n": 3,
+       "brier_model": 0.4551,
+       "brier_adjusted": 0.471,
+       "brier_kalshi_mid": 0.5219,
+       "logloss_model": 1.2137,
+       "logloss_adjusted": 1.2679
+      },
+      "team_total": {
+       "n": 1,
+       "brier_model": 0.3493,
+       "brier_adjusted": 0.2949,
+       "brier_kalshi_mid": 0.245,
+       "logloss_model": 0.894,
+       "logloss_adjusted": 0.7831
+      }
+     }
     },
     "PORTFOLIO": {
      "nominal_card": {
-      "n_bets": 0,
-      "stake": 0,
-      "pl": 0,
-      "roi": null,
+      "n_bets": 4,
+      "stake": 39.03,
+      "pl": 57.51,
+      "roi": 1.4735,
       "basis": "optimiser stakes on the nominal bankroll (B)"
      },
      "funded_research": {
-      "note": "no evaluated final-card bets yet"
+      "n_funded": 2,
+      "n_scored": 2,
+      "stake": 7.0,
+      "pl": -7.0,
+      "roi": -1.0,
+      "basis": "whole-dollar FUNDED_RESEARCH stakes (research bankroll)"
      },
-     "n_funded": 0,
-     "n_shadow_on_card": 0,
+     "n_funded": 2,
+     "n_shadow_on_card": 2,
      "correlation_concentration": {
-      "n_pairs": 0,
-      "mean_abs_phi": null,
-      "max_abs_phi": null
+      "n_pairs": 6,
+      "mean_abs_phi": 0.0508,
+      "max_abs_phi": 0.245
      },
      "thesis_concentration": {
-      "mean_largest_thesis_share": null
+      "mean_largest_thesis_share": 0.44
      },
-     "realized_vs_simulated": {}
+     "realized_vs_simulated": {
+      "2026020199": "<= p95"
+     }
     },
     "GOVERNANCE": {
-     "funded_player_props": [],
-     "shadow_player_props": [],
+     "funded_player_props": [
+      "KXNHLGOAL-26OCT28PHIWSH-PHICDVORAK22-1|yes"
+     ],
+     "shadow_player_props": [
+      "KXNHLGOAL-26OCT28PHIWSH-PHISCOUTURIER14-1|yes",
+      "KXNHLGOAL-26OCT28PHIWSH-WSHAPROTAS21-1|yes"
+     ],
      "large_disagreement_gates_triggered": 0,
-     "reason_counts": {},
+     "reason_counts": {
+      "PLAYER_PROP_GAME_CAP": 2
+     },
      "overrides": []
     },
-    "interpretation": "INTERIM (PARTIAL \u2014 0/4 games evaluated): covers evaluated games only; NOT the slate's final ROI"
+    "interpretation": "INTERIM (PARTIAL \u2014 1/4 games evaluated): covers evaluated games only; NOT the slate's final ROI"
    },
    "games": {
     "2026020199": {
-     "state": "NOT_FINAL",
+     "state": "EVALUATED",
      "matchup": "PHI @ WSH",
      "final_snapshot": {
       "snapshot_id": "snap-905c2dadd75a432447a4",
@@ -112775,8 +112876,24 @@
       "synthetic_game_row": false,
       "status": "OK"
      },
-     "portfolio_result": null,
-     "script_check": null,
+     "portfolio_result": {
+      "n_bets": 4,
+      "stake": 39.03,
+      "realized_profit": 57.51,
+      "expected_profit": 8.24,
+      "realized_vs_simulated": "<= p95",
+      "largest_thesis_share": 0.44,
+      "n_theses": 3,
+      "theses_with_multiple_losses": [],
+      "multiple_losses_on_one_thesis": []
+     },
+     "script_check": {
+      "realized_script": "CB|EN|MD",
+      "p_projected": 0.1184,
+      "rank": 1,
+      "n_scripts": 18,
+      "top_projected": "CB|EN|MD"
+     },
      "overrides": [],
      "bets": [
       {
@@ -112902,8 +113019,28 @@
          "p_both": 0.1951
         }
        },
-       "scored": false,
-       "outcome": null
+       "scored": true,
+       "outcome": "YES_NO",
+       "won": false,
+       "thesis_result": false,
+       "expression_result": "THESIS_WRONG_EXPRESSION_LOST",
+       "price_result_clv": -0.005,
+       "close_prob_yes": 0.155,
+       "model_result": {
+        "p_model": 0.2114,
+        "p_adjusted": 0.1973,
+        "p_kalshi_mid": 0.155,
+        "brier_model": 0.04469,
+        "brier_adjusted": 0.03893,
+        "brier_kalshi_mid": 0.02403,
+        "logloss_model": 0.2375,
+        "logloss_adjusted": 0.21977
+       },
+       "realized_script": "CB|EN|MD",
+       "model_p_bet_given_thesis_outcome": 0.1579,
+       "model_p_win_in_realized_script": 0.1968,
+       "realized_profit_nominal": -7.64,
+       "realized_profit_research": -2.0
       },
       {
        "decision_id": "2a3185f17d0fa667beb1649f3ae8d758",
@@ -113030,8 +113167,28 @@
          "p_both": 0.1312
         }
        },
-       "scored": false,
-       "outcome": null
+       "scored": true,
+       "outcome": "YES_NO",
+       "won": true,
+       "thesis_result": false,
+       "expression_result": "THESIS_WRONG_EXPRESSION_WON",
+       "price_result_clv": -0.005,
+       "close_prob_yes": 0.095,
+       "model_result": {
+        "p_model": 0.1395,
+        "p_adjusted": 0.12837500000000002,
+        "p_kalshi_mid": 0.095,
+        "brier_model": 0.74046,
+        "brier_adjusted": 0.75973,
+        "brier_kalshi_mid": 0.81903,
+        "logloss_model": 1.96969,
+        "logloss_adjusted": 2.0528
+       },
+       "realized_script": "CB|EN|MD",
+       "model_p_bet_given_thesis_outcome": 0.0963,
+       "model_p_win_in_realized_script": 0.1453,
+       "realized_profit_nominal": 44.39,
+       "realized_profit_research": 0.0
       },
       {
        "decision_id": "0ce2fd395d027428d3975c57b250b380",
@@ -113158,8 +113315,28 @@
          "p_both": 0.1781
         }
        },
-       "scored": false,
-       "outcome": null
+       "scored": true,
+       "outcome": "YES_NO",
+       "won": true,
+       "thesis_result": true,
+       "expression_result": "THESIS_RIGHT_EXPRESSION_WON",
+       "price_result_clv": -0.03,
+       "close_prob_yes": 0.15,
+       "model_result": {
+        "p_model": 0.2384,
+        "p_adjusted": 0.2163,
+        "p_kalshi_mid": 0.15,
+        "brier_model": 0.58003,
+        "brier_adjusted": 0.61419,
+        "brier_kalshi_mid": 0.7225,
+        "logloss_model": 1.43381,
+        "logloss_adjusted": 1.53109
+       },
+       "realized_script": "CB|EN|MD",
+       "model_p_bet_given_thesis_outcome": 0.3681,
+       "model_p_win_in_realized_script": 0.261,
+       "realized_profit_nominal": 37.95,
+       "realized_profit_research": 0.0
       },
       {
        "decision_id": "dcb45dc8d2a1bd6617fc55cf7aa54733",
@@ -113284,8 +113461,28 @@
          "p_both": 0.451
         }
        },
-       "scored": false,
-       "outcome": null
+       "scored": true,
+       "outcome": "YES_NO",
+       "won": false,
+       "thesis_result": false,
+       "expression_result": "THESIS_WRONG_EXPRESSION_LOST",
+       "price_result_clv": -0.005,
+       "close_prob_yes": 0.505,
+       "model_result": {
+        "p_model": 0.591,
+        "p_adjusted": 0.5429999999999999,
+        "p_kalshi_mid": 0.495,
+        "brier_model": 0.34928,
+        "brier_adjusted": 0.29485,
+        "brier_kalshi_mid": 0.24502,
+        "logloss_model": 0.89404,
+        "logloss_adjusted": 0.78307
+       },
+       "realized_script": "CB|EN|MD",
+       "model_p_bet_given_thesis_outcome": 0.3443,
+       "model_p_win_in_realized_script": 0.3666,
+       "realized_profit_nominal": -17.19,
+       "realized_profit_research": -5.0
       }
      ]
     },
@@ -114634,9 +114831,9 @@
  },
  "ALL_PROSPECTIVE_DECISIONS": {
   "basis": "every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here)",
-  "n_rows": 31531,
-  "n_unique_logical_wagers": 3852,
-  "repeat_factor": 8.19,
+  "n_rows": 31861,
+  "n_unique_logical_wagers": 3884,
+  "repeat_factor": 8.2,
   "by_family": {
    "first_goal": {
     "n_rows": 10,
@@ -114647,12 +114844,12 @@
     "brier_kalshi_mid_last_observation": 0.1317
    },
    "game_spread": {
-    "n_rows": 4580,
-    "n_unique_wagers": 277,
-    "brier_model_all_rows": 0.2062,
-    "brier_model_last_observation": 0.1974,
-    "brier_adjusted_last_observation": 0.1865,
-    "brier_kalshi_mid_last_observation": 0.1823
+    "n_rows": 4660,
+    "n_unique_wagers": 281,
+    "brier_model_all_rows": 0.2084,
+    "brier_model_last_observation": 0.1985,
+    "brier_adjusted_last_observation": 0.187,
+    "brier_kalshi_mid_last_observation": 0.1825
    },
    "game_total": {
     "n_rows": 428,
@@ -114663,20 +114860,20 @@
     "brier_kalshi_mid_last_observation": 0.1779
    },
    "game_winner": {
-    "n_rows": 677,
-    "n_unique_wagers": 80,
-    "brier_model_all_rows": 0.2221,
-    "brier_model_last_observation": 0.2243,
-    "brier_adjusted_last_observation": 0.2076,
-    "brier_kalshi_mid_last_observation": 0.2076
+    "n_rows": 688,
+    "n_unique_wagers": 82,
+    "brier_model_all_rows": 0.2215,
+    "brier_model_last_observation": 0.2233,
+    "brier_adjusted_last_observation": 0.2054,
+    "brier_kalshi_mid_last_observation": 0.2048
    },
    "goalie_saves": {
-    "n_rows": 176,
-    "n_unique_wagers": 51,
-    "brier_model_all_rows": 0.2067,
-    "brier_model_last_observation": 0.239,
-    "brier_adjusted_last_observation": 0.2378,
-    "brier_kalshi_mid_last_observation": 0.2445
+    "n_rows": 182,
+    "n_unique_wagers": 52,
+    "brier_model_all_rows": 0.2022,
+    "brier_model_last_observation": 0.2357,
+    "brier_adjusted_last_observation": 0.2363,
+    "brier_kalshi_mid_last_observation": 0.2436
    },
    "period_spread": {
     "n_rows": 90,
@@ -114695,20 +114892,20 @@
     "brier_kalshi_mid_last_observation": 0.1785
    },
    "player_assists": {
-    "n_rows": 7166,
-    "n_unique_wagers": 1026,
-    "brier_model_all_rows": 0.2201,
-    "brier_model_last_observation": 0.2072,
-    "brier_adjusted_last_observation": 0.1978,
-    "brier_kalshi_mid_last_observation": 0.1971
+    "n_rows": 7209,
+    "n_unique_wagers": 1031,
+    "brier_model_all_rows": 0.2202,
+    "brier_model_last_observation": 0.2069,
+    "brier_adjusted_last_observation": 0.1976,
+    "brier_kalshi_mid_last_observation": 0.1968
    },
    "player_goals": {
-    "n_rows": 12638,
-    "n_unique_wagers": 1727,
-    "brier_model_all_rows": 0.1443,
-    "brier_model_last_observation": 0.1333,
-    "brier_adjusted_last_observation": 0.1323,
-    "brier_kalshi_mid_last_observation": 0.1342
+    "n_rows": 12726,
+    "n_unique_wagers": 1738,
+    "brier_model_all_rows": 0.1456,
+    "brier_model_last_observation": 0.1337,
+    "brier_adjusted_last_observation": 0.1327,
+    "brier_kalshi_mid_last_observation": 0.1347
    },
    "player_points": {
     "n_rows": 732,
@@ -114719,12 +114916,12 @@
     "brier_kalshi_mid_last_observation": 0.2106
    },
    "team_total": {
-    "n_rows": 4935,
-    "n_unique_wagers": 424,
-    "brier_model_all_rows": 0.1851,
-    "brier_model_last_observation": 0.196,
-    "brier_adjusted_last_observation": 0.1897,
-    "brier_kalshi_mid_last_observation": 0.1876
+    "n_rows": 5037,
+    "n_unique_wagers": 433,
+    "brier_model_all_rows": 0.1865,
+    "brier_model_last_observation": 0.1957,
+    "brier_adjusted_last_observation": 0.189,
+    "brier_kalshi_mid_last_observation": 0.1866
    }
   }
  },
