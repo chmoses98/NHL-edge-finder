@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-30T08:49:51Z · thesis-postmortem-2.0 · rows (all generations) 33927
+evaluated 2026-10-30T10:29:27Z · thesis-postmortem-2.0 · rows (all generations) 33927
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -34,21 +34,21 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020214 NJD @ VGK: NOT_STARTED · snapshot snap-b1710229223d995f1a0e @ 2026-10-30T08:01:28Z
+#### game 2026020214 NJD @ VGK: NOT_STARTED · snapshot snap-cdac85ccbff3b6f76005 @ 2026-10-30T10:10:32Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT30NJVGK-NJ2|no | FUNDED_RESEARCH | 3 | 10.97 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT30NJVGK-VGKBMCNABB3-1|yes | FUNDED_RESEARCH | 1 | 2.87 | - | - | - | FRAGILE | - | - |
+| KXNHLSPREAD-26OCT30NJVGK-NJ2|no | FUNDED_RESEARCH | 3 | 9.56 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020215 WPG @ FLA: NOT_STARTED · snapshot snap-b1710229223d995f1a0e @ 2026-10-30T08:01:28Z
+#### game 2026020215 WPG @ FLA: NOT_STARTED · snapshot snap-cdac85ccbff3b6f76005 @ 2026-10-30T10:10:32Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26OCT30WPGFLA-WPG2|yes | FUNDED_RESEARCH | 1 | 3.85 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT30WPGFLA-FLA2|no | FUNDED_RESEARCH | 1 | 2.36 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26OCT30WPGFLA-FLA3|no | FUNDED_RESEARCH | 3 | 8.91 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT30WPGFLA-WPG2|yes | FUNDED_RESEARCH | 1 | 3.82 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26OCT30WPGFLA-FLA3|no | FUNDED_RESEARCH | 4 | 14.39 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020216 SEA @ CGY: NOT_STARTED · snapshot snap-b1710229223d995f1a0e @ 2026-10-30T08:01:28Z
+#### game 2026020216 SEA @ CGY: NOT_STARTED · snapshot snap-cdac85ccbff3b6f76005 @ 2026-10-30T10:10:32Z
 
 ## Slate 2026-10-29: **COMPLETE — 11/11 games evaluated**
 
