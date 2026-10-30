@@ -1,8 +1,8 @@
 ## NHL projection scorecard (season) — season to date
 
-Generated 2026-10-30T17:44:19Z. Research only; nothing here is a betting signal.
+Generated 2026-10-30T19:06:29Z. Research only; nothing here is a betting signal.
 
-Archived pregame forecasts: 51814 across 82 games. Settled: 19666 (void/DNP 761, stat corrections 0).
+Archived pregame forecasts: 51972 across 82 games. Settled: 19666 (void/DNP 761, stat corrections 0).
 
 | Stat | Model | n (games) | MAE | Bias | CRPS | 80% range caught | vs incumbent (CRPS) |
 |---|---|---|---|---|---|---|---|
