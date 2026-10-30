@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-30T21:33:11Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-30T21:54:59Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,12 +10,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 131.36 | +21.96 | +10.25 | +10.28 | 0.584 | -45.72 | -65.39 | 82.93 |
-| B thesis-diversified (joint) ← optimiser card | 98.28 | +14.18 | +8.66 | +3.85 | 0.593 | -36.51 | -47.13 | 75.75 |
-| C best expression per thesis | 80.20 | +9.06 | +4.50 | +10.28 | 0.604 | -28.11 | -38.80 | 40.60 |
+| A highest edges (independent) | 131.36 | +18.22 | +6.84 | +14.96 | 0.605 | -45.05 | -52.88 | 56.09 |
+| B thesis-diversified (joint) ← optimiser card | 97.39 | +16.32 | +10.89 | +3.19 | 0.577 | -37.97 | -49.43 | 93.20 |
+| C best expression per thesis | 87.07 | +10.18 | +4.69 | +9.89 | 0.618 | -28.25 | -38.50 | 42.34 |
 | R FUNDED research stakes | 14.00 | +1.49 | +0.88 | +0.10 | 0.560 | -7.41 | -9.68 | 0.00 |
 
-## NJD @ VGK  ·  10000 joint draws  ·  436 bet sides mapped, 11 +EV candidates, 4 on card
+## NJD @ VGK  ·  10000 joint draws  ·  438 bet sides mapped, 11 +EV candidates, 4 on card
 
 sportsbook moneyline consensus (5 books): home 0.507 / away 0.493
 
@@ -34,28 +34,28 @@ sportsbook moneyline consensus (5 books): home 0.507 / away 0.493
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Brayden McNabb: 1+ goals YES | 5 | 0.092 | 0.080 | +0.038 | +0.027 | $5.86 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | VGK:OFFENSE_4PLUS | FRAGILE (0.14) | EVIDENCE_STRONGER | D |
-| Marc Gatcomb: 1+ goals YES | 9 | 0.118 | 0.110 | +0.023 | +0.014 | $3.60 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | VGK:OFFENSE_4PLUS | FRAGILE (0.18) | EVIDENCE_STRONGER | D |
-| Connor Brown: 1+ goals YES | 13 | 0.165 | 0.155 | +0.027 | +0.017 | $4.77 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | NJD:OFFENSE_4PLUS | FRAGILE (0.28) | EVIDENCE_STRONGER | D |
-| Jack Hughes: 1+ goals NO | 65 | 0.703 | 0.688 | +0.037 | +0.022 | $17.73 | FUNDED_RESEARCH | $5 | NJD:SUPPRESSED | DIRECT (0.84) | EVIDENCE_STRONGER | D |
-- **Brayden McNabb: 1+ goals YES** — thesis: VGK offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT30NJVGK-VGKIBARBASHEV49-1|yes; why: higher confidence-adjusted growth (29.12 vs 3.02 bp); relationships: KXNHLGOAL-26OCT30NJVGK-VGKMGATCOMB17-1|yes: MOSTLY_INDEPENDENT (phi 0.009); KXNHLGOAL-26OCT30NJVGK-NJCBROWN16-1|yes: MOSTLY_INDEPENDENT (phi -0.017); KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no: MOSTLY_INDEPENDENT (phi -0.011); failure: VGK offense suppressed (<= 2 goals)
-- **Marc Gatcomb: 1+ goals YES** — thesis: VGK offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT30NJVGK-VGKIBARBASHEV49-1|yes; why: higher confidence-adjusted growth (5.15 vs 3.02 bp); despite a smaller raw edge (+0.023 vs +0.026/contract); relationships: KXNHLGOAL-26OCT30NJVGK-VGKBMCNABB3-1|yes: MOSTLY_INDEPENDENT (phi 0.009); KXNHLGOAL-26OCT30NJVGK-NJCBROWN16-1|yes: MOSTLY_INDEPENDENT (phi 0.0); KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no: MOSTLY_INDEPENDENT (phi 0.0); failure: VGK offense suppressed (<= 2 goals)
-- **Connor Brown: 1+ goals YES** — thesis: NJD offense succeeds (4+ goals); alternative: KXNHLAST-26OCT30NJVGK-NJDHAMILTON7-1|yes; why: higher confidence-adjusted growth (5.08 vs 0.05 bp); despite a smaller raw edge (+0.027 vs +0.028/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; alternative not eligible: confidence-adjusted EV +0.0021 below the 0.010/contract floor; relationships: KXNHLGOAL-26OCT30NJVGK-VGKBMCNABB3-1|yes: MOSTLY_INDEPENDENT (phi -0.017); KXNHLGOAL-26OCT30NJVGK-VGKMGATCOMB17-1|yes: MOSTLY_INDEPENDENT (phi 0.0); KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no: MOSTLY_INDEPENDENT (phi -0.021); failure: NJD offense suppressed (<= 2 goals)
-- **Jack Hughes: 1+ goals NO** — thesis: NJD offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT30NJVGK-NJJHUGHES86-1|no; why: Player prop expression KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no selected over player prop KXNHLAST-26OCT30NJVGK-NJJHUGHES86-1|no because adjusted EV differs by only 0.5 pts while thesis capture is 0.84 vs 0.80 (DIRECT vs DIRECT; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability); relationships: KXNHLGOAL-26OCT30NJVGK-VGKBMCNABB3-1|yes: MOSTLY_INDEPENDENT (phi -0.011); KXNHLGOAL-26OCT30NJVGK-VGKMGATCOMB17-1|yes: MOSTLY_INDEPENDENT (phi 0.0); KXNHLGOAL-26OCT30NJVGK-NJCBROWN16-1|yes: MOSTLY_INDEPENDENT (phi -0.021); failure: NJD offense succeeds (4+ goals)
+| Brayden McNabb: 1+ goals YES | 5 | 0.092 | 0.080 | +0.039 | +0.027 | $5.86 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | VGK:OFFENSE_4PLUS | FRAGILE (0.14) | EVIDENCE_STRONGER | D |
+| Anthony Mantha: 2+ goals YES | 1 | 0.022 | 0.021 | +0.011 | +0.011 | $2.55 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | NJD:OFFENSE_4PLUS | FRAGILE (0.05) | EVIDENCE_STRONGER | D |
+| Braeden Bowman: 1+ goals YES | 14 | 0.182 | 0.169 | +0.034 | +0.021 | $5.63 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | VGK:OFFENSE_4PLUS | FRAGILE (0.26) | EVIDENCE_STRONGER | D |
+| Jack Hughes: 1+ goals NO | 65 | 0.703 | 0.688 | +0.037 | +0.022 | $17.04 | FUNDED_RESEARCH | $5 | NJD:SUPPRESSED | DIRECT (0.84) | EVIDENCE_STRONGER | D |
+- **Brayden McNabb: 1+ goals YES** — thesis: VGK offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT30NJVGK-VGKIBARBASHEV49-1|yes; why: higher confidence-adjusted growth (29.77 vs 3.06 bp); relationships: KXNHLGOAL-26OCT30NJVGK-NJAMANTHA39-2|yes: MOSTLY_INDEPENDENT (phi 0.002); KXNHLGOAL-26OCT30NJVGK-VGKBBOWMAN42-1|yes: MOSTLY_INDEPENDENT (phi 0.006); KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no: MOSTLY_INDEPENDENT (phi -0.012); failure: VGK offense suppressed (<= 2 goals)
+- **Anthony Mantha: 2+ goals YES** — thesis: NJD offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT30NJVGK-NJCBROWN16-1|yes; why: higher confidence-adjusted growth (20.82 vs 5.08 bp); despite a smaller raw edge (+0.011 vs +0.027/contract); relationships: KXNHLGOAL-26OCT30NJVGK-VGKBMCNABB3-1|yes: MOSTLY_INDEPENDENT (phi 0.002); KXNHLGOAL-26OCT30NJVGK-VGKBBOWMAN42-1|yes: MOSTLY_INDEPENDENT (phi -0.008); KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no: MOSTLY_INDEPENDENT (phi 0.007); failure: NJD offense suppressed (<= 2 goals)
+- **Braeden Bowman: 1+ goals YES** — thesis: VGK offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT30NJVGK-VGKIBARBASHEV49-1|yes; why: higher confidence-adjusted growth (7.44 vs 3.06 bp); relationships: KXNHLGOAL-26OCT30NJVGK-VGKBMCNABB3-1|yes: MOSTLY_INDEPENDENT (phi 0.006); KXNHLGOAL-26OCT30NJVGK-NJAMANTHA39-2|yes: MOSTLY_INDEPENDENT (phi -0.008); KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no: MOSTLY_INDEPENDENT (phi 0.003); failure: VGK offense suppressed (<= 2 goals)
+- **Jack Hughes: 1+ goals NO** — thesis: NJD offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT30NJVGK-NJJHUGHES86-1|no; why: Player prop expression KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no selected over player prop KXNHLAST-26OCT30NJVGK-NJJHUGHES86-1|no because adjusted EV differs by only 0.5 pts while thesis capture is 0.84 vs 0.80 (DIRECT vs DIRECT; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability); relationships: KXNHLGOAL-26OCT30NJVGK-VGKBMCNABB3-1|yes: MOSTLY_INDEPENDENT (phi -0.012); KXNHLGOAL-26OCT30NJVGK-NJAMANTHA39-2|yes: MOSTLY_INDEPENDENT (phi 0.007); KXNHLGOAL-26OCT30NJVGK-VGKBBOWMAN42-1|yes: MOSTLY_INDEPENDENT (phi 0.003); failure: NJD offense succeeds (4+ goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, balanced shots · high event (8+) · decided (2+) 0.09.
 - thesis NJD:SUPPRESSED (p 0.4764): highest fidelity KXNHLSPREAD-26OCT30NJVGK-NJ2|no [DIRECT], best adjusted EV KXNHLAST-26OCT30NJVGK-NJJHUGHES86-1|no — Player prop expression KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no selected over player prop KXNHLAST-26OCT30NJVGK-NJJHUGHES86-1|no because adjusted EV differs by only 0.5 pts while thesis capture is 0.84 vs 0.80 (DIRECT vs DIRECT; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability)
 - thesis VGK:WINS (p 0.5798): highest fidelity KXNHLSPREAD-26OCT30NJVGK-NJ2|no [STRUCTURAL], best adjusted EV KXNHLAST-26OCT30NJVGK-NJJHUGHES86-1|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
 - thesis NJD:OFFENSE_4PLUS (p 0.3147): highest fidelity KXNHLGOAL-26OCT30NJVGK-NJCBROWN16-1|yes [FRAGILE], best adjusted EV KXNHLGOAL-26OCT30NJVGK-NJCBROWN16-1|yes (same contract)
 - KXNHLGOAL-26OCT30NJVGK-VGKBMCNABB3-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 86% of the draws where the thesis happens; fragile player expression; opposing: failure thesis VGK:SUPPRESSED (p 0.3591, phi -0.127)
-- KXNHLGOAL-26OCT30NJVGK-VGKMGATCOMB17-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 82% of the draws where the thesis happens; fragile player expression; opposing: failure thesis VGK:SUPPRESSED (p 0.3591, phi -0.147)
-- KXNHLGOAL-26OCT30NJVGK-NJCBROWN16-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 72% of the draws where the thesis happens; fragile player expression; opposing: failure thesis NJD:SUPPRESSED (p 0.4764, phi -0.216)
+- KXNHLGOAL-26OCT30NJVGK-NJAMANTHA39-2|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 95% of the draws where the thesis happens; fragile player expression; opposing: failure thesis NJD:SUPPRESSED (p 0.4764, phi -0.123)
+- KXNHLGOAL-26OCT30NJVGK-VGKBBOWMAN42-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 74% of the draws where the thesis happens; fragile player expression; opposing: failure thesis VGK:SUPPRESSED (p 0.3591, phi -0.161)
 - KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no: FUNDED_RESEARCH; family TRUSTED; loses 16% of the draws where the thesis happens; fragile player expression; opposing: failure thesis NJD:OFFENSE_4PLUS (p 0.3147, phi -0.251)
 - override: Player prop expression KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no selected over player prop KXNHLAST-26OCT30NJVGK-NJJHUGHES86-1|no because adjusted EV differs by only 0.5 pts while thesis capture is 0.84 vs 0.80 (DIRECT vs DIRECT; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability)
 
-portfolios: A EV +10.10 (adj +4.90) on $50.00, P(profit) 0.4854, adj growth 39.8 bp · B EV +6.96 (adj +4.64) on $31.96, P(profit) 0.3321, adj growth 39.5 bp · C EV +4.00 (adj +1.82) on $27.68, P(profit) 0.7223, adj growth 15.9 bp · R EV +0.28 (adj +0.17) on $5.00, P(profit) 0.7029, adj growth 5.8 bp
+portfolios: A EV +6.37 (adj +1.49) on $50.00, P(profit) 0.6463, adj growth 12.9 bp · B EV +9.11 (adj +6.85) on $31.07, P(profit) 0.2737, adj growth 56.6 bp · C EV +5.13 (adj +1.99) on $34.56, P(profit) 0.5932, adj growth 17.4 bp · R EV +0.28 (adj +0.17) on $5.00, P(profit) 0.7029, adj growth 5.8 bp
 
-## WPG @ FLA  ·  10000 joint draws  ·  438 bet sides mapped, 21 +EV candidates, 4 on card
+## WPG @ FLA  ·  10000 joint draws  ·  438 bet sides mapped, 24 +EV candidates, 4 on card
 
 sportsbook moneyline consensus (5 books): home 0.664 / away 0.336
 
@@ -74,12 +74,12 @@ sportsbook moneyline consensus (5 books): home 0.664 / away 0.336
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Brady Tkachuk: 1+ goals NO | 59 | 0.679 | 0.656 | +0.072 | +0.049 | $14.48 | FUNDED_RESEARCH | $4 | FLA:SUPPRESSED | DIRECT (0.83) | EVIDENCE_STRONGER | D |
-| Sam Reinhart: 1+ goals NO | 63 | 0.698 | 0.678 | +0.052 | +0.032 | $14.43 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | FLA:SUPPRESSED | DIRECT (0.86) | EVIDENCE_STRONGER | D |
-| Florida wins by over 2.5 goals NO | 68 | 0.758 | 0.716 | +0.063 | +0.021 | $9.20 | FUNDED_RESEARCH | $3 | GAME:TIGHT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Elias Salomonsson: 1+ assists NO | 75 | 0.810 | 0.777 | +0.047 | +0.014 | $11.90 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED | $0 | WPG:SUPPRESSED | DIRECT (0.90) | EVIDENCE_MIXED | D |
-- **Brady Tkachuk: 1+ goals NO** — thesis: FLA offense suppressed (<= 2 goals); alternative: KXNHLGOAL-26OCT30WPGFLA-FLASREINHART13-1|no; why: higher confidence-adjusted growth (22.02 vs 9.96 bp); relationships: KXNHLGOAL-26OCT30WPGFLA-FLASREINHART13-1|no: MOSTLY_INDEPENDENT (phi -0.014); KXNHLSPREAD-26OCT30WPGFLA-FLA3|no: REINFORCING (phi 0.152); KXNHLAST-26OCT30WPGFLA-WPGESALOMONSSON57-1|no: MOSTLY_INDEPENDENT (phi 0.001); failure: FLA offense succeeds (4+ goals)
-- **Sam Reinhart: 1+ goals NO** — thesis: FLA offense suppressed (<= 2 goals); alternative: KXNHLGOAL-26OCT30WPGFLA-FLABTKACHUK8-1|no; why: second expression of the same thesis: KXNHLGOAL-26OCT30WPGFLA-FLABTKACHUK8-1|no has the higher standalone adjusted growth (22.02 vs 9.96 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it -0.014); they share one thesis budget; relationships: KXNHLGOAL-26OCT30WPGFLA-FLABTKACHUK8-1|no: MOSTLY_INDEPENDENT (phi -0.014); KXNHLSPREAD-26OCT30WPGFLA-FLA3|no: REINFORCING (phi 0.188); KXNHLAST-26OCT30WPGFLA-WPGESALOMONSSON57-1|no: MOSTLY_INDEPENDENT (phi -0.011); failure: FLA offense succeeds (4+ goals)
+| Brady Tkachuk: 1+ goals NO | 59 | 0.679 | 0.656 | +0.072 | +0.049 | $14.47 | FUNDED_RESEARCH | $4 | FLA:SUPPRESSED | DIRECT (0.83) | EVIDENCE_STRONGER | D |
+| Sam Reinhart: 1+ goals NO | 63 | 0.698 | 0.680 | +0.052 | +0.033 | $14.47 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | FLA:SUPPRESSED | DIRECT (0.86) | EVIDENCE_STRONGER | D |
+| Florida wins by over 2.5 goals NO | 68 | 0.758 | 0.716 | +0.063 | +0.021 | $9.18 | FUNDED_RESEARCH | $3 | GAME:TIGHT | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Elias Salomonsson: 1+ assists NO | 75 | 0.810 | 0.777 | +0.047 | +0.014 | $11.88 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED | $0 | WPG:SUPPRESSED | DIRECT (0.90) | EVIDENCE_MIXED | D |
+- **Brady Tkachuk: 1+ goals NO** — thesis: FLA offense suppressed (<= 2 goals); alternative: KXNHLGOAL-26OCT30WPGFLA-FLASREINHART13-1|no; why: higher confidence-adjusted growth (22.02 vs 10.75 bp); relationships: KXNHLGOAL-26OCT30WPGFLA-FLASREINHART13-1|no: MOSTLY_INDEPENDENT (phi -0.014); KXNHLSPREAD-26OCT30WPGFLA-FLA3|no: REINFORCING (phi 0.152); KXNHLAST-26OCT30WPGFLA-WPGESALOMONSSON57-1|no: MOSTLY_INDEPENDENT (phi 0.001); failure: FLA offense succeeds (4+ goals)
+- **Sam Reinhart: 1+ goals NO** — thesis: FLA offense suppressed (<= 2 goals); alternative: KXNHLGOAL-26OCT30WPGFLA-FLABTKACHUK8-1|no; why: second expression of the same thesis: KXNHLGOAL-26OCT30WPGFLA-FLABTKACHUK8-1|no has the higher standalone adjusted growth (22.02 vs 10.75 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it -0.014); they share one thesis budget; relationships: KXNHLGOAL-26OCT30WPGFLA-FLABTKACHUK8-1|no: MOSTLY_INDEPENDENT (phi -0.014); KXNHLSPREAD-26OCT30WPGFLA-FLA3|no: REINFORCING (phi 0.188); KXNHLAST-26OCT30WPGFLA-WPGESALOMONSSON57-1|no: MOSTLY_INDEPENDENT (phi -0.011); failure: FLA offense succeeds (4+ goals)
 - **Florida wins by over 2.5 goals NO** — thesis: tight game (one-goal final or OT); alternative: KXNHLSPREAD-26OCT30WPGFLA-FLA2|no; why: KXNHLSPREAD-26OCT30WPGFLA-FLA2|no has the higher standalone adjusted growth (4.79 vs 4.65 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.747); relationships: KXNHLGOAL-26OCT30WPGFLA-FLABTKACHUK8-1|no: REINFORCING (phi 0.152); KXNHLGOAL-26OCT30WPGFLA-FLASREINHART13-1|no: REINFORCING (phi 0.188); KXNHLAST-26OCT30WPGFLA-WPGESALOMONSSON57-1|no: INTENTIONAL_DIVERSIFIER (phi -0.112); failure: FLA wins by 2+
 - **Elias Salomonsson: 1+ assists NO** — thesis: WPG offense suppressed (<= 2 goals); alternative: KXNHLTOTAL-26OCT30WPGFLA-3|no; why: higher confidence-adjusted growth (2.48 vs 1.91 bp); wins across more scripts (relative breadth 0.985 vs 0.389); alternative not eligible: confidence-adjusted EV +0.0043 below the 0.010/contract floor; relationships: KXNHLGOAL-26OCT30WPGFLA-FLABTKACHUK8-1|no: MOSTLY_INDEPENDENT (phi 0.001); KXNHLGOAL-26OCT30WPGFLA-FLASREINHART13-1|no: MOSTLY_INDEPENDENT (phi -0.011); KXNHLSPREAD-26OCT30WPGFLA-FLA3|no: INTENTIONAL_DIVERSIFIER (phi -0.112); failure: WPG offense succeeds (4+ goals)
 
@@ -92,7 +92,7 @@ sportsbook moneyline consensus (5 books): home 0.664 / away 0.336
 - KXNHLSPREAD-26OCT30WPGFLA-FLA3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis FLA:WINS_BY_2PLUS (p 0.364, phi -0.747)
 - KXNHLAST-26OCT30WPGFLA-WPGESALOMONSSON57-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; family MIXED; loses 10% of the draws where the thesis happens; fragile player expression; opposing: failure thesis WPG:OFFENSE_4PLUS (p 0.3124, phi -0.223)
 
-portfolios: A EV +6.61 (adj +2.33) on $50.00, P(profit) 0.5744, adj growth 20.5 bp · B EV +4.44 (adj +2.39) on $50.00, P(profit) 0.7059, adj growth 22.2 bp · C EV +4.61 (adj +2.48) on $49.66, P(profit) 0.6475, adj growth 22.9 bp · R EV +0.75 (adj +0.41) on $7.00, P(profit) 0.5452, adj growth 15.3 bp
+portfolios: A EV +6.61 (adj +2.33) on $50.00, P(profit) 0.5744, adj growth 20.5 bp · B EV +4.44 (adj +2.41) on $50.00, P(profit) 0.7059, adj growth 22.5 bp · C EV +4.61 (adj +2.50) on $49.65, P(profit) 0.6475, adj growth 23.2 bp · R EV +0.75 (adj +0.41) on $7.00, P(profit) 0.5452, adj growth 15.3 bp
 
 ## SEA @ CGY  ·  10000 joint draws  ·  452 bet sides mapped, 4 +EV candidates, 4 on card
 
