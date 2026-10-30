@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-30T12:54:34Z · thesis-postmortem-2.0 · rows (all generations) 33927
+evaluated 2026-10-30T13:56:00Z · thesis-postmortem-2.0 · rows (all generations) 33927
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -34,29 +34,31 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020214 NJD @ VGK: NOT_STARTED · snapshot snap-a95f0483c9cf740c3fe4 @ 2026-10-30T12:54:04Z
+#### game 2026020214 NJD @ VGK: NOT_STARTED · snapshot snap-cc16dd90ef4ed7d9fc05 @ 2026-10-30T13:50:04Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT30NJVGK-VGKBMCNABB3-1|yes | SHADOW_ONLY | 0 | 3.99 | - | - | - | FRAGILE | - | - |
 | KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT30NJVGK-VGKMMARNER93-1|no | SHADOW_ONLY | 0 | 9.25 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT30NJVGK-NJNHISCHIER13-1|no | SHADOW_ONLY | 0 | 9.20 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT30NJVGK-VGKBMCNABB3-1|yes | SHADOW_ONLY | 0 | 3.74 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT30NJVGK-NJALOMBARDI93-1|yes | SHADOW_ONLY | 0 | 2.80 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT30NJVGK-VGKMMARNER93-1|no | SHADOW_ONLY | 0 | 8.86 | - | - | - | DIRECT | - | - |
 
-#### game 2026020215 WPG @ FLA: NOT_STARTED · snapshot snap-a95f0483c9cf740c3fe4 @ 2026-10-30T12:54:04Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT30WPGFLA-FLABTKACHUK8-1|no | FUNDED_RESEARCH | 4 | 15.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT30WPGFLA-FLASREINHART13-1|no | SHADOW_ONLY | 0 | 15.00 | - | - | - | DIRECT | - | - |
-| KXNHLSPREAD-26OCT30WPGFLA-FLA3|no | FUNDED_RESEARCH | 3 | 10.26 | - | - | - | STRUCTURAL | - | - |
-| KXNHLGOAL-26OCT30WPGFLA-WPGGVILARDI13-1|yes | SHADOW_ONLY | 0 | 3.28 | - | - | - | FRAGILE | - | - |
-
-#### game 2026020216 SEA @ CGY: NOT_STARTED · snapshot snap-a95f0483c9cf740c3fe4 @ 2026-10-30T12:54:04Z
+#### game 2026020215 WPG @ FLA: NOT_STARTED · snapshot snap-cc16dd90ef4ed7d9fc05 @ 2026-10-30T13:50:04Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT30SEACGY-SEABMEYERS59-1|yes | FUNDED_RESEARCH | 1 | 3.67 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT30WPGFLA-WPGAIAFALLO9-1|yes | SHADOW_ONLY | 0 | 5.26 | - | - | - | FRAGILE | - | - |
+| KXNHLSPREAD-26OCT30WPGFLA-FLA2|no | FUNDED_RESEARCH | 4 | 13.00 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26OCT30WPGFLA-FLASREINHART13-1|no | FUNDED_RESEARCH | 4 | 13.42 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT30WPGFLA-FLACSCHWINDT79-1|yes | SHADOW_ONLY | 0 | 4.49 | - | - | - | FRAGILE | - | - |
+
+#### game 2026020216 SEA @ CGY: NOT_STARTED · snapshot snap-cc16dd90ef4ed7d9fc05 @ 2026-10-30T13:50:04Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT30SEACGY-SEABMEYERS59-1|yes | SHADOW_ONLY | 0 | 4.37 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT30SEACGY-SEABCATTON27-1|yes | SHADOW_ONLY | 0 | 3.38 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT30SEACGY-CGYMGRIDIN92-1|no | FUNDED_RESEARCH | 3 | 9.69 | - | - | - | DIRECT | - | - |
 
 ## Slate 2026-10-29: **COMPLETE — 11/11 games evaluated**
 
