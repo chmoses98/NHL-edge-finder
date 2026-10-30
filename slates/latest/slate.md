@@ -1,8 +1,8 @@
 # NHL slate 2026-10-30 — RESEARCH_ONLY
 
-generated 2026-10-30T19:06:00Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-10-30T19:35:59Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
-games on date: 3 · simulated (not started): 3 · markets on board: 2896 · contracts joined: 678 (unjoined to any game: 1538)
+games on date: 3 · simulated (not started): 3 · markets on board: 2897 · contracts joined: 678 (unjoined to any game: 1538)
 gates: {'UNSUPPORTED': 603, 'NO_EDGE': 54, 'OK': 21}
 families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player_assists': 95, 'game_early_goal': 3, 'first_goal': 109, 'game_winner': 6, 'player_goals': 191, 'game_overtime': 3, 'player_points': 128, 'game_spread': 12, 'team_total': 30, 'game_total': 27, 'goalie_saves': 2}
 
@@ -19,24 +19,24 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTEAMTOTAL-26OCT30WPGFLA-FLA4 | team_total | 0.472 | 0.540 | 0.526 | 55 | 47 | no | +0.041 | OK |
 | KXNHLTEAMTOTAL-26OCT30WPGFLA-FLA5 | team_total | 0.268 | 0.330 | 0.317 | 34 | 68 | no | +0.037 | OK |
 | KXNHLSPREAD-26OCT30WPGFLA-FLA2 | game_spread | 0.400 | 0.455 | 0.444 | 46 | 55 | no | +0.032 | OK |
-| KXNHLSPREAD-26OCT30WPGFLA-FLA3 | game_spread | 0.263 | 0.315 | 0.304 | 32 | 69 | no | +0.032 | OK |
+| KXNHLSPREAD-26OCT30WPGFLA-FLA3 | game_spread | 0.263 | 0.320 | 0.308 | 33 | 69 | no | +0.032 | OK |
 | KXNHLGAME-26OCT30WPGFLA-FLA | game_winner | 0.626 | 0.675 | 0.665 | 68 | 33 | no | +0.029 | OK |
+| KXNHLTEAMTOTAL-26OCT30WPGFLA-FLA2 | team_total | 0.860 | 0.900 | 0.893 | 91 | 11 | no | +0.023 | OK |
 | KXNHLTEAMTOTAL-26OCT30WPGFLA-FLA3 | team_total | 0.687 | 0.735 | 0.726 | 75 | 28 | no | +0.019 | OK |
 | KXNHLGAME-26OCT30WPGFLA-WPG | game_winner | 0.374 | 0.335 | 0.343 | 34 | 67 | yes | +0.019 | OK |
 | KXNHLTOTAL-26OCT30WPGFLA-6 | game_total | 0.548 | 0.585 | 0.578 | 59 | 42 | no | +0.015 | OK |
-| KXNHLSPREAD-26OCT30WPGFLA-WPG2 | game_spread | 0.184 | 0.155 | 0.160 | 16 | 85 | yes | +0.015 | OK |
-| KXNHLTEAMTOTAL-26OCT30WPGFLA-FLA2 | team_total | 0.860 | 0.895 | 0.889 | 91 | 12 | no | +0.013 | OK |
+| KXNHLTOTAL-26OCT30WPGFLA-7 | game_total | 0.438 | 0.475 | 0.468 | 48 | 53 | no | +0.015 | OK |
 | KXNHLTOTAL-26OCT30WPGFLA-5 | game_total | 0.767 | 0.795 | 0.790 | 80 | 21 | no | +0.011 | OK |
-| KXNHLTEAMTOTAL-26OCT30WPGFLA-FLA6 | team_total | 0.132 | 0.155 | 0.150 | 16 | 85 | no | +0.010 | OK |
+| KXNHLTEAMTOTAL-26OCT30WPGFLA-FLA6 | team_total | 0.132 | 0.160 | 0.154 | 17 | 85 | no | +0.010 | OK |
 | KXNHLTOTAL-26OCT30SEACGY-10 | game_total | 0.104 | 0.085 | 0.089 | 9 | 92 | yes | +0.008 | OK |
 | KXNHLTOTAL-26OCT30WPGFLA-3 | game_total | 0.961 | 0.975 | 0.973 | 98 | 3 | no | +0.007 | OK |
 | KXNHLTEAMTOTAL-26OCT30NJVGK-VGK4 | team_total | 0.413 | 0.385 | 0.390 | 39 | 62 | yes | +0.006 | OK |
-| KXNHLTOTAL-26OCT30WPGFLA-7 | game_total | 0.438 | 0.465 | 0.460 | 47 | 54 | no | +0.005 | OK |
 | KXNHLTOTAL-26OCT30NJVGK-10 | game_total | 0.090 | 0.075 | 0.078 | 8 | 93 | yes | +0.005 | OK |
+| KXNHLSPREAD-26OCT30WPGFLA-WPG2 | game_spread | 0.184 | 0.160 | 0.165 | 17 | 85 | yes | +0.004 | OK |
 | KXNHLTEAMTOTAL-26OCT30WPGFLA-WPG3 | team_total | 0.500 | 0.475 | 0.480 | 48 | 53 | yes | +0.002 | OK |
 | KXNHLTOTAL-26OCT30NJVGK-6 | game_total | 0.570 | 0.545 | 0.550 | 55 | 46 | yes | +0.002 | OK |
 | KXNHLSPREAD-26OCT30NJVGK-NJ3 | game_spread | 0.159 | 0.175 | 0.172 | 18 | 83 | no | +0.001 | OK |
-| KXNHLTOTAL-26OCT30NJVGK-9 | game_total | 0.191 | 0.170 | 0.174 | 18 | 84 | yes | +0.000 | OK |
+| KXNHLTOTAL-26OCT30NJVGK-9 | game_total | 0.191 | 0.175 | 0.178 | 18 | 83 | yes | +0.000 | OK |
 | KXNHLTOTAL-26OCT30SEACGY-8 | game_total | 0.294 | 0.275 | 0.279 | 28 | 73 |  | -0.000 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30SEACGY-SEA6 | team_total | 0.116 | 0.100 | 0.103 | 11 | 91 |  | -0.001 | NO_EDGE |
 | KXNHLGAME-26OCT30SEACGY-CGY | game_winner | 0.474 | 0.495 | 0.491 | 50 | 51 |  | -0.001 | NO_EDGE |
@@ -47,10 +47,11 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLTOTAL-26OCT30SEACGY-3 | game_total | 0.970 | 0.980 | 0.978 | 99 | 3 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26OCT30WPGFLA-9 | game_total | 0.172 | 0.185 | 0.182 | 19 | 82 |  | -0.002 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30NJVGK-VGK3 | team_total | 0.624 | 0.605 | 0.609 | 61 | 40 |  | -0.003 | NO_EDGE |
-| KXNHLSPREAD-26OCT30SEACGY-SEA2 | game_spread | 0.310 | 0.295 | 0.298 | 30 | 71 |  | -0.004 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT30NJVGK-VGK6 | team_total | 0.102 | 0.090 | 0.092 | 10 | 92 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26OCT30WPGFLA-2 | game_total | 0.984 | 0.985 | 0.985 | 99 | 2 |  | -0.005 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT30NJVGK-VGK5 | team_total | 0.227 | 0.205 | 0.209 | 22 | 81 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26OCT30SEACGY-5 | game_total | 0.805 | 0.820 | 0.817 | 83 | 19 |  | -0.005 | NO_EDGE |
-| KXNHLTOTAL-26OCT30NJVGK-8 | game_total | 0.268 | 0.250 | 0.253 | 26 | 76 |  | -0.006 | NO_EDGE |
+| KXNHLTOTAL-26OCT30NJVGK-8 | game_total | 0.268 | 0.255 | 0.258 | 26 | 75 |  | -0.006 | NO_EDGE |
 | KXNHLTOTAL-26OCT30NJVGK-2 | game_total | 0.985 | 0.985 | 0.985 | 99 | 2 |  | -0.006 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30NJVGK-NJ6 | team_total | 0.090 | 0.080 | 0.082 | 9 | 93 |  | -0.006 | NO_EDGE |
 | KXNHLTOTAL-26OCT30SEACGY-4 | game_total | 0.879 | 0.885 | 0.884 | 89 | 12 |  | -0.006 | NO_EDGE |
@@ -68,34 +69,33 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'player
 | KXNHLSPREAD-26OCT30SEACGY-SEA3 | game_spread | 0.189 | 0.200 | 0.198 | 21 | 81 |  | -0.009 | NO_EDGE |
 | KXNHLTOTAL-26OCT30NJVGK-7 | game_total | 0.458 | 0.445 | 0.448 | 45 | 56 |  | -0.010 | NO_EDGE |
 | KXNHLSPREAD-26OCT30NJVGK-VGK2 | game_spread | 0.305 | 0.295 | 0.297 | 30 | 71 |  | -0.010 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT30WPGFLA-WPG6 | team_total | 0.054 | 0.050 | 0.051 | 6 | 96 |  | -0.010 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30SEACGY-CGY2 | team_total | 0.820 | 0.825 | 0.824 | 83 | 18 |  | -0.011 | NO_EDGE |
 | KXNHLTOTAL-26OCT30WPGFLA-8 | game_total | 0.248 | 0.260 | 0.258 | 27 | 75 |  | -0.011 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30WPGFLA-WPG5 | team_total | 0.137 | 0.125 | 0.127 | 14 | 89 |  | -0.011 | NO_EDGE |
 | KXNHLTOTAL-26OCT30NJVGK-5 | game_total | 0.779 | 0.785 | 0.784 | 79 | 22 |  | -0.011 | NO_EDGE |
 | KXNHLTOTAL-26OCT30SEACGY-9 | game_total | 0.210 | 0.200 | 0.202 | 21 | 81 |  | -0.011 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT30NJVGK-VGK2 | team_total | 0.821 | 0.830 | 0.828 | 84 | 18 |  | -0.011 | NO_EDGE |
 | KXNHLSPREAD-26OCT30NJVGK-NJ2 | game_spread | 0.268 | 0.275 | 0.274 | 28 | 73 |  | -0.011 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT30SEACGY-CGY3 | team_total | 0.615 | 0.625 | 0.623 | 63 | 38 |  | -0.012 | NO_EDGE |
+| KXNHLTEAMTOTAL-26OCT30SEACGY-CGY3 | team_total | 0.615 | 0.630 | 0.627 | 64 | 38 |  | -0.012 | NO_EDGE |
 | KXNHLTOTAL-26OCT30SEACGY-6 | game_total | 0.605 | 0.595 | 0.597 | 60 | 41 |  | -0.012 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30SEACGY-SEA5 | team_total | 0.240 | 0.230 | 0.232 | 24 | 78 |  | -0.013 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30SEACGY-CGY4 | team_total | 0.396 | 0.410 | 0.407 | 42 | 60 |  | -0.013 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30NJVGK-NJ4 | team_total | 0.377 | 0.390 | 0.387 | 40 | 62 |  | -0.014 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30NJVGK-NJ2 | team_total | 0.802 | 0.810 | 0.808 | 82 | 20 |  | -0.014 | NO_EDGE |
 | KXNHLSPREAD-26OCT30SEACGY-CGY2 | game_spread | 0.270 | 0.275 | 0.274 | 28 | 73 |  | -0.014 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT30NJVGK-VGK6 | team_total | 0.102 | 0.095 | 0.096 | 11 | 92 |  | -0.015 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT30NJVGK-VGK5 | team_total | 0.227 | 0.210 | 0.213 | 23 | 81 |  | -0.016 | NO_EDGE |
+| KXNHLSPREAD-26OCT30SEACGY-SEA2 | game_spread | 0.310 | 0.305 | 0.306 | 31 | 70 |  | -0.015 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30SEACGY-SEA2 | team_total | 0.837 | 0.845 | 0.843 | 86 | 17 |  | -0.016 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT30WPGFLA-WPG6 | team_total | 0.054 | 0.055 | 0.055 | 7 | 96 |  | -0.017 | NO_EDGE |
+| KXNHLTOTAL-26OCT30SEACGY-7 | game_total | 0.491 | 0.485 | 0.486 | 49 | 52 |  | -0.017 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30SEACGY-SEA3 | team_total | 0.649 | 0.645 | 0.646 | 65 | 36 |  | -0.017 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30NJVGK-NJ5 | team_total | 0.202 | 0.200 | 0.200 | 21 | 81 |  | -0.019 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30NJVGK-NJ3 | team_total | 0.596 | 0.595 | 0.595 | 60 | 41 |  | -0.021 | NO_EDGE |
-| KXNHLTEAMTOTAL-26OCT30NJVGK-VGK2 | team_total | 0.821 | 0.825 | 0.824 | 84 | 19 |  | -0.022 | NO_EDGE |
 | KXNHLTEAMTOTAL-26OCT30SEACGY-SEA4 | team_total | 0.435 | 0.430 | 0.431 | 44 | 58 |  | -0.022 | NO_EDGE |
-| KXNHLTOTAL-26OCT30SEACGY-7 | game_total | 0.491 | 0.490 | 0.490 | 50 | 52 |  | -0.027 | NO_EDGE |
 | KXNHL1P-26OCT30NJVGK-NJ | period_winner |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT30NJVGK-TIE | period_winner |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
 | KXNHL1P-26OCT30NJVGK-VGK | period_winner |  | 0.345 |  | 35 | 66 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26OCT30NJVGK-NJ2 | period_spread |  | 0.095 |  | 11 | 92 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26OCT30NJVGK-VGK2 | period_spread |  | 0.095 |  | 11 | 92 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26OCT30NJVGK-VGK2 | period_spread |  | 0.090 |  | 10 | 92 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -114,10 +114,10 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 - Jack Hughes: 1+ goals NO @ 65c · p 0.7215 (adj 0.7024) · $15.0 · thesis NJD:SUPPRESSED
 - Luke Evangelista: 1+ assists NO @ 64c · p 0.7736 (adj 0.6835) · $15.0 · thesis NJD:SUPPRESSED
 - Connor Brown: 1+ goals YES @ 13c · p 0.1625 (adj 0.1531) · $4.28 · thesis NJD:OFFENSE_4PLUS
-- Brady Tkachuk: 1+ goals NO @ 59c · p 0.6794 (adj 0.6558) · $14.62 · thesis FLA:SUPPRESSED
-- Elias Salomonsson: 1+ goals NO @ 91c · p 0.9499 (adj 0.9387) · $14.62 · thesis WPG:SUPPRESSED
-- Sam Reinhart: 1+ goals NO @ 63c · p 0.698 (adj 0.6785) · $14.57 · thesis FLA:SUPPRESSED
-- Florida wins by over 1.5 goals NO @ 55c · p 0.636 (adj 0.5905) · $6.2 · thesis GAME:TIGHT
+- Brady Tkachuk: 1+ goals NO @ 59c · p 0.6794 (adj 0.6558) · $20.0 · thesis FLA:SUPPRESSED
+- Alex Iafallo: 1+ goals YES @ 11c · p 0.1489 (adj 0.1379) · $5.2 · thesis WPG:OFFENSE_4PLUS
+- Cole Schwindt: 1+ goals YES @ 10c · p 0.1362 (adj 0.1259) · $5.54 · thesis FLA:OFFENSE_4PLUS
+- Florida wins by over 1.5 goals NO @ 55c · p 0.636 (adj 0.5905) · $11.75 · thesis GAME:TIGHT
 - Aydar Suniev: 1+ goals YES @ 19c · p 0.2219 (adj 0.2127) · $3.6 · thesis CGY:OFFENSE_4PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
@@ -129,9 +129,9 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
 | Luke Evangelista: 1+ assists | 0.226 | 0.365 | 37/64 | +0.117 | STANDARD |
-| Luke Evangelista: 1+ points | 0.379 | 0.505 | 51/50 | +0.104 | STANDARD |
+| Luke Evangelista: 1+ points | 0.379 | 0.500 | 51/51 | +0.094 | STANDARD |
 | Mitch Marner: 1+ assists | 0.390 | 0.510 | 52/50 | +0.093 | STANDARD |
-| Jack Hughes: 1+ points | 0.534 | 0.640 | 65/37 | +0.080 | STANDARD |
+| Jack Hughes: 1+ points | 0.534 | 0.645 | 65/36 | +0.090 | STANDARD |
 | Jack Hughes: 1+ assists | 0.352 | 0.455 | 46/55 | +0.080 | STANDARD |
 | Jack Eichel: 2+ points | 0.249 | 0.350 | 36/66 | +0.075 | STANDARD |
 
@@ -144,9 +144,9 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | Sam Reinhart: 1+ assists | 0.327 | 0.455 | 46/55 | +0.106 | STANDARD |
 | Matthew Tkachuk: 1+ assists | 0.481 | 0.605 | 61/40 | +0.102 | STANDARD |
 | Brady Tkachuk: 2+ points | 0.199 | 0.310 | 32/70 | +0.086 | STANDARD |
+| Sam Reinhart: 1+ points | 0.530 | 0.640 | 65/37 | +0.083 | STANDARD |
 | Sam Reinhart: 2+ points | 0.171 | 0.280 | 29/73 | +0.085 | STANDARD |
-| Sam Reinhart: 1+ points | 0.530 | 0.635 | 65/38 | +0.073 | STANDARD |
-| Brady Tkachuk: 1+ points | 0.558 | 0.655 | 66/35 | +0.076 | STANDARD |
+| Elias Salomonsson: 1+ points | 0.230 | 0.335 | 34/67 | +0.084 | STANDARD |
 
 **SEA @ CGY** · priced 177/178 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - CGY net: Dustin Wolf (CONFIRMED) exp shots 27.63, exp saves 23.8 (sd 6.59), pull risk 0.065
@@ -154,12 +154,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Dustin Wolf: 27+ saves | 0.331 | 0.410 | 43/61 | +0.042 |  |
+| Dustin Wolf: 27+ saves | 0.331 | 0.405 | 42/61 | +0.042 |  |
 | Freddy Gaudreau: 1+ goals | 0.172 | 0.110 | 14/92 | +0.023 | STANDARD |
 | Brandon Montour: 1+ assists | 0.377 | 0.325 | 34/69 | +0.021 | STANDARD |
-| Berkly Catton: 1+ points | 0.440 | 0.390 | 40/62 | +0.023 | STANDARD |
 | Vince Dunn: 1+ points | 0.435 | 0.485 | 50/53 | +0.017 | STANDARD |
-| Vince Dunn: 1+ assists | 0.360 | 0.410 | 42/60 | +0.023 | STANDARD |
+| Berkly Catton: 1+ goals | 0.221 | 0.175 | 19/84 | +0.020 | STANDARD |
+| Berkly Catton: 1+ points | 0.440 | 0.395 | 41/62 | +0.013 | STANDARD |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
