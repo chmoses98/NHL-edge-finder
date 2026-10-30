@@ -1,26 +1,21 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-30T02:07:51Z · thesis-postmortem-2.0 · rows (all generations) 33099
+evaluated 2026-10-30T03:15:44Z · thesis-postmortem-2.0 · rows (all generations) 33427
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
-## Slate 2026-10-29: **PARTIAL — 3/11 games evaluated**
+## Slate 2026-10-29: **PARTIAL — 8/11 games evaluated**
 
-scheduled 11 · final 3 · settled 3 · events ingested 3 · thesis-evaluated 3 · final_card_complete False · postmortem_complete False
+scheduled 11 · final 8 · settled 8 · events ingested 8 · thesis-evaluated 8 · final_card_complete False · postmortem_complete False
 
 missing / pending:
-- 2026020203: no official FINAL result yet
-- 2026020207: no official FINAL result yet
-- 2026020208: no official FINAL result yet
-- 2026020209: no official FINAL result yet
-- 2026020210: no official FINAL result yet
 - 2026020211: no official FINAL result yet
 - 2026020212: no official FINAL result yet
 - 2026020213: no official FINAL result yet
 
-> INTERIM (PARTIAL — 3/11 games evaluated): covers evaluated games only; NOT the slate's final ROI
+> INTERIM (PARTIAL — 8/11 games evaluated): covers evaluated games only; NOT the slate's final ROI
 
-invariant final_card_n 0 <= sum(game card caps) 12: OK
+invariant final_card_n 0 <= sum(game card caps) 32: OK
 
 ### FINAL_CARD_UNIQUE
 
@@ -39,7 +34,7 @@ invariant final_card_n 0 <= sum(game card caps) 12: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020203 CHI @ DET: NOT_FINAL · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
+#### game 2026020203 CHI @ DET: EVALUATED · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
 
 #### game 2026020204 WPG @ TBL: EVALUATED · snapshot snap-d149b3bf99a0a32d1b43 @ 2026-10-29T22:35:35Z
 
@@ -47,13 +42,13 @@ invariant final_card_n 0 <= sum(game card caps) 12: OK
 
 #### game 2026020206 CBJ @ CAR: EVALUATED · snapshot snap-d149b3bf99a0a32d1b43 @ 2026-10-29T22:35:35Z
 
-#### game 2026020207 BOS @ STL: NOT_FINAL · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
+#### game 2026020207 BOS @ STL: EVALUATED · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
 
-#### game 2026020208 WSH @ NSH: NOT_FINAL · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
+#### game 2026020208 WSH @ NSH: EVALUATED · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
 
-#### game 2026020209 MTL @ DAL: NOT_FINAL · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
+#### game 2026020209 MTL @ DAL: EVALUATED · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
 
-#### game 2026020210 NYI @ MIN: NOT_FINAL · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
+#### game 2026020210 NYI @ MIN: EVALUATED · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
 
 #### game 2026020211 BUF @ ANA: NOT_FINAL · snapshot snap-1fc3d2e1b7ee0d236193 @ 2026-10-30T01:36:52Z
 
@@ -2503,20 +2498,20 @@ invariant final_card_n 30 <= sum(game card caps) 32: OK
 
 ## ALL_PROSPECTIVE_DECISIONS (calibration research; no P/L)
 
-33099 scored rows = 4017 unique logical wagers (repeat factor 8.24). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
+33427 scored rows = 4067 unique logical wagers (repeat factor 8.22). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
 
 | family | rows | unique | Brier all rows | Brier last obs | adjusted | Kalshi mid |
 |---|---:|---:|---:|---:|---:|---:|
 | first_goal | 10 | 6 | 0.3500 | 0.1469 | 0.1392 | 0.1317 |
-| game_spread | 4816 | 292 | 0.2040 | 0.1944 | 0.1836 | 0.1795 |
-| game_total | 428 | 57 | 0.1763 | 0.1927 | 0.1843 | 0.1779 |
+| game_spread | 4860 | 296 | 0.2028 | 0.1927 | 0.1822 | 0.1783 |
+| game_total | 429 | 58 | 0.1767 | 0.1956 | 0.1867 | 0.1798 |
 | game_winner | 702 | 86 | 0.2209 | 0.2219 | 0.2052 | 0.2049 |
 | goalie_saves | 199 | 54 | 0.2095 | 0.2365 | 0.2370 | 0.2441 |
 | period_spread | 90 | 25 | 0.1861 | 0.1773 | 0.1587 | 0.1513 |
 | period_winner | 99 | 19 | 0.2096 | 0.2030 | 0.1843 | 0.1785 |
-| player_assists | 7473 | 1061 | 0.2215 | 0.2075 | 0.1979 | 0.1968 |
-| player_goals | 13359 | 1807 | 0.1444 | 0.1327 | 0.1318 | 0.1338 |
+| player_assists | 7524 | 1072 | 0.2210 | 0.2071 | 0.1978 | 0.1970 |
+| player_goals | 13559 | 1838 | 0.1440 | 0.1328 | 0.1319 | 0.1339 |
 | player_points | 734 | 161 | 0.2665 | 0.2396 | 0.2133 | 0.2095 |
-| team_total | 5189 | 449 | 0.1857 | 0.1941 | 0.1874 | 0.1850 |
+| team_total | 5221 | 452 | 0.1862 | 0.1943 | 0.1880 | 0.1858 |
 
 _Prospective thesis-card evidence. All P/L is FINAL_CARD_UNIQUE (one latest complete pregame snapshot per game). THESIS / EXPRESSION / PRICE / MODEL / PORTFOLIO / GOVERNANCE are kept separate: a right thesis expressed through a contract that lost is not a wrong prediction. A handful of games proves nothing; never tune to one slate._
