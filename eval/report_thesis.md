@@ -1,29 +1,26 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-29T18:54:23Z · thesis-postmortem-2.0 · rows (all generations) 32515
+evaluated 2026-10-30T02:07:51Z · thesis-postmortem-2.0 · rows (all generations) 33099
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
-## Slate 2026-10-29: **PARTIAL — 0/11 games evaluated**
+## Slate 2026-10-29: **PARTIAL — 3/11 games evaluated**
 
-scheduled 11 · final 0 · settled 0 · events ingested 0 · thesis-evaluated 0 · final_card_complete False · postmortem_complete False
+scheduled 11 · final 3 · settled 3 · events ingested 3 · thesis-evaluated 3 · final_card_complete False · postmortem_complete False
 
 missing / pending:
-- 2026020203: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020204: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020205: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020206: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020207: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020208: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020209: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020210: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020211: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020212: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020213: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020203: no official FINAL result yet
+- 2026020207: no official FINAL result yet
+- 2026020208: no official FINAL result yet
+- 2026020209: no official FINAL result yet
+- 2026020210: no official FINAL result yet
+- 2026020211: no official FINAL result yet
+- 2026020212: no official FINAL result yet
+- 2026020213: no official FINAL result yet
 
-> INTERIM (PARTIAL — 0/11 games evaluated): covers evaluated games only; NOT the slate's final ROI
+> INTERIM (PARTIAL — 3/11 games evaluated): covers evaluated games only; NOT the slate's final ROI
 
-invariant final_card_n 0 <= sum(game card caps) 0: OK
+invariant final_card_n 0 <= sum(game card caps) 12: OK
 
 ### FINAL_CARD_UNIQUE
 
@@ -42,93 +39,48 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020203 CHI @ DET: NOT_STARTED · snapshot snap-d592df224e51f21869d2 @ 2026-10-29T18:39:09Z
+#### game 2026020203 CHI @ DET: NOT_FINAL · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
+
+#### game 2026020204 WPG @ TBL: EVALUATED · snapshot snap-d149b3bf99a0a32d1b43 @ 2026-10-29T22:35:35Z
+
+#### game 2026020205 UTA @ PIT: EVALUATED · snapshot snap-d149b3bf99a0a32d1b43 @ 2026-10-29T22:35:35Z
+
+#### game 2026020206 CBJ @ CAR: EVALUATED · snapshot snap-d149b3bf99a0a32d1b43 @ 2026-10-29T22:35:35Z
+
+#### game 2026020207 BOS @ STL: NOT_FINAL · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
+
+#### game 2026020208 WSH @ NSH: NOT_FINAL · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
+
+#### game 2026020209 MTL @ DAL: NOT_FINAL · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
+
+#### game 2026020210 NYI @ MIN: NOT_FINAL · snapshot snap-95c9416dfce79e50f4fb @ 2026-10-29T23:19:50Z
+
+#### game 2026020211 BUF @ ANA: NOT_FINAL · snapshot snap-1fc3d2e1b7ee0d236193 @ 2026-10-30T01:36:52Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLAST-26OCT29CHIDET-DETEFINNIE58-1|yes | SHADOW_ONLY | 0 | 3.73 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT29CHIDET-CHIPKANE88-1|no | SHADOW_ONLY | 0 | 8.12 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT29CHIDET-CHIAFRONDELL16-1|yes | SHADOW_ONLY | 0 | 2.02 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29CHIDET-DETADEBRINCAT93-1|yes | FUNDED_RESEARCH | 1 | 1.44 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT29BUFANA-ANATWASHE42-1|yes | SHADOW_ONLY | 0 | 8.94 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT29BUFANA-BUFTTHOMPSON72-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT29BUFANA-ANAAKILLORN17-1|yes | SHADOW_ONLY | 0 | 7.54 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT29BUFANA-ANABSENNECKE45-1|yes | SHADOW_ONLY | 0 | 7.58 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020204 WPG @ TBL: NOT_STARTED · snapshot snap-d592df224e51f21869d2 @ 2026-10-29T18:39:09Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT29WPGTB-TBCDASTOUS51-1|no | FUNDED_RESEARCH | 3 | 9.39 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT29WPGTB-WPGALOWRY17-1|yes | SHADOW_ONLY | 0 | 1.68 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29WPGTB-WPGMSCHEIFELE55-1|yes | SHADOW_ONLY | 0 | 2.39 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29WPGTB-WPGAIAFALLO9-1|yes | SHADOW_ONLY | 0 | 1.36 | - | - | - | FRAGILE | - | - |
-
-#### game 2026020205 UTA @ PIT: NOT_STARTED · snapshot snap-d592df224e51f21869d2 @ 2026-10-29T18:39:09Z
+#### game 2026020212 OTT @ LAK: NOT_FINAL · snapshot snap-1fc3d2e1b7ee0d236193 @ 2026-10-30T01:36:52Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT29UTAPIT-PITNROBERTSON14-1|yes | SHADOW_ONLY | 0 | 6.18 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29UTAPIT-PITBLIZOTTE46-1|yes | SHADOW_ONLY | 0 | 3.70 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29UTAPIT-PITSCROSBY87-1|yes | FUNDED_RESEARCH | 2 | 4.21 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT29UTAPIT-UTALCROUSE67-1|yes | SHADOW_ONLY | 0 | 1.94 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT29OTTLA-OTTTCHABOT72-1|no | SHADOW_ONLY | 0 | 18.95 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT29OTTLA-LAJEDMUNDSON6-1|yes | SHADOW_ONLY | 0 | 3.05 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT29OTTLA-OTTDBATHERSON19-1|no | FUNDED_RESEARCH | 3 | 11.05 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT29OTTLA-LAEGUSTAFSSON64-1|no | SHADOW_ONLY | 0 | 12.42 | - | - | - | DIRECT | - | - |
 
-#### game 2026020206 CBJ @ CAR: NOT_STARTED · snapshot snap-d592df224e51f21869d2 @ 2026-10-29T18:39:09Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT29CBJCAR-CBJMOLIVIER24-1|yes | SHADOW_ONLY | 0 | 3.91 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29CBJCAR-CBJSMONAHAN23-1|yes | SHADOW_ONLY | 0 | 2.73 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29CBJCAR-CARSJARVIS24-1|no | FUNDED_RESEARCH | 2 | 7.80 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT29CBJCAR-CARSAHO20-1|no | SHADOW_ONLY | 0 | 6.29 | - | - | - | DIRECT | - | - |
-
-#### game 2026020207 BOS @ STL: NOT_STARTED · snapshot snap-d592df224e51f21869d2 @ 2026-10-29T18:39:09Z
+#### game 2026020213 VAN @ SJS: NOT_FINAL · snapshot snap-1fc3d2e1b7ee0d236193 @ 2026-10-30T01:36:52Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT29BOSSTL-BOSCMITTELSTADT11-1|yes | FUNDED_RESEARCH | 1 | 2.37 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29BOSSTL-STLRTHOMAS18-1|yes | SHADOW_ONLY | 0 | 2.71 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29BOSSTL-STLJSNUGGERUD21-1|yes | SHADOW_ONLY | 0 | 2.44 | - | - | - | FRAGILE | - | - |
-
-#### game 2026020208 WSH @ NSH: NOT_STARTED · snapshot snap-d592df224e51f21869d2 @ 2026-10-29T18:39:09Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT29WSHNSH-WSHAPROTAS21-1|yes | FUNDED_RESEARCH | 1 | 3.90 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29WSHNSH-NSHROREILLY90-1|yes | SHADOW_ONLY | 0 | 2.55 | - | - | - | FRAGILE | - | - |
-
-#### game 2026020209 MTL @ DAL: NOT_STARTED · snapshot snap-d592df224e51f21869d2 @ 2026-10-29T18:39:09Z
-
-#### game 2026020210 NYI @ MIN: NOT_STARTED · snapshot snap-d592df224e51f21869d2 @ 2026-10-29T18:39:09Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT29NYIMIN-NYIBSCHENN10-1|yes | SHADOW_ONLY | 0 | 5.26 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29NYIMIN-MINKKAPRIZOV97-1|no | FUNDED_RESEARCH | 3 | 9.39 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT29NYIMIN-MINOMAATTA3-1|yes | SHADOW_ONLY | 0 | 1.26 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29NYIMIN-NYIJPAGEAU44-1|yes | SHADOW_ONLY | 0 | 1.63 | - | - | - | FRAGILE | - | - |
-
-#### game 2026020211 BUF @ ANA: NOT_STARTED · snapshot snap-d592df224e51f21869d2 @ 2026-10-29T18:39:09Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT29BUFANA-ANATWASHE42-1|yes | SHADOW_ONLY | 0 | 4.45 | - | - | - | FRAGILE | - | - |
-| KXNHLSPREAD-26OCT29BUFANA-BUF3|no | FUNDED_RESEARCH | 3 | 9.39 | - | - | - | STRUCTURAL | - | - |
-| KXNHLGOAL-26OCT29BUFANA-BUFTTHOMPSON72-1|no | FUNDED_RESEARCH | 3 | 8.95 | - | - | - | DIRECT | - | - |
-
-#### game 2026020212 OTT @ LAK: NOT_STARTED · snapshot snap-d592df224e51f21869d2 @ 2026-10-29T18:39:09Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT29OTTLA-LASLAUGHTON21-1|yes | SHADOW_ONLY | 0 | 2.80 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29OTTLA-LAJEDMUNDSON6-1|yes | SHADOW_ONLY | 0 | 1.46 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29OTTLA-OTTDBATHERSON19-1|no | FUNDED_RESEARCH | 2 | 6.86 | - | - | - | DIRECT | - | - |
-| KXNHLAST-26OCT29OTTLA-OTTJSANDERSON85-1|no | SHADOW_ONLY | 0 | 3.80 | - | - | - | DIRECT | - | - |
-
-#### game 2026020213 VAN @ SJS: NOT_STARTED · snapshot snap-d592df224e51f21869d2 @ 2026-10-29T18:39:09Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT29VANSJ-SJISTENBERG41-1|no | SHADOW_ONLY | 0 | 8.79 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT29VANSJ-VANLKARLSSON94-1|yes | SHADOW_ONLY | 0 | 1.87 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT29VANSJ-VANLOHGREN92-1|yes | SHADOW_ONLY | 0 | 1.33 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT29VANSJ-SJTTOFFOLI73-1|yes | SHADOW_ONLY | 0 | 1.89 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT29VANSJ-SJISTENBERG41-1|no | FUNDED_RESEARCH | 5 | 19.32 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26OCT29VANSJ-SJTTOFFOLI73-1|yes | SHADOW_ONLY | 0 | 6.45 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT29VANSJ-VANMROSSI23-1|yes | SHADOW_ONLY | 0 | 5.06 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26OCT29VANSJ-VANFCHYTIL77-1|no | SHADOW_ONLY | 0 | 19.16 | - | - | - | DIRECT | - | - |
 
 ## Slate 2026-10-28: **COMPLETE — 4/4 games evaluated**
 
@@ -2551,20 +2503,20 @@ invariant final_card_n 30 <= sum(game card caps) 32: OK
 
 ## ALL_PROSPECTIVE_DECISIONS (calibration research; no P/L)
 
-32515 scored rows = 3946 unique logical wagers (repeat factor 8.24). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
+33099 scored rows = 4017 unique logical wagers (repeat factor 8.24). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
 
 | family | rows | unique | Brier all rows | Brier last obs | adjusted | Kalshi mid |
 |---|---:|---:|---:|---:|---:|---:|
 | first_goal | 10 | 6 | 0.3500 | 0.1469 | 0.1392 | 0.1317 |
-| game_spread | 4750 | 285 | 0.2055 | 0.1966 | 0.1852 | 0.1808 |
+| game_spread | 4816 | 292 | 0.2040 | 0.1944 | 0.1836 | 0.1795 |
 | game_total | 428 | 57 | 0.1763 | 0.1927 | 0.1843 | 0.1779 |
-| game_winner | 693 | 84 | 0.2214 | 0.2227 | 0.2072 | 0.2076 |
+| game_winner | 702 | 86 | 0.2209 | 0.2219 | 0.2052 | 0.2049 |
 | goalie_saves | 199 | 54 | 0.2095 | 0.2365 | 0.2370 | 0.2441 |
 | period_spread | 90 | 25 | 0.1861 | 0.1773 | 0.1587 | 0.1513 |
 | period_winner | 99 | 19 | 0.2096 | 0.2030 | 0.1843 | 0.1785 |
-| player_assists | 7388 | 1047 | 0.2212 | 0.2075 | 0.1979 | 0.1969 |
-| player_goals | 13032 | 1769 | 0.1459 | 0.1336 | 0.1326 | 0.1345 |
+| player_assists | 7473 | 1061 | 0.2215 | 0.2075 | 0.1979 | 0.1968 |
+| player_goals | 13359 | 1807 | 0.1444 | 0.1327 | 0.1318 | 0.1338 |
 | player_points | 734 | 161 | 0.2665 | 0.2396 | 0.2133 | 0.2095 |
-| team_total | 5092 | 439 | 0.1866 | 0.1951 | 0.1885 | 0.1862 |
+| team_total | 5189 | 449 | 0.1857 | 0.1941 | 0.1874 | 0.1850 |
 
 _Prospective thesis-card evidence. All P/L is FINAL_CARD_UNIQUE (one latest complete pregame snapshot per game). THESIS / EXPRESSION / PRICE / MODEL / PORTFOLIO / GOVERNANCE are kept separate: a right thesis expressed through a contract that lost is not a wrong prediction. A handful of games proves nothing; never tune to one slate._
