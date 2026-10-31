@@ -1,27 +1,32 @@
 {
- "last_capture_utc": "2026-10-31T17:29:43Z",
+ "last_capture_utc": "2026-10-31T17:36:43Z",
  "n_markets": 4166,
  "n_series": 78,
- "requests": 457,
+ "requests": 459,
  "run_id": "41205204844",
  "markets_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/markets/dt=2026-10-31/kalshi_markets_20261031T172943Z_41205204844.jsonl.gz",
-  "bytes": 392575,
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/markets_delta/dt=2026-10-31/kalshi_markets_delta_20261031T173643Z_41205204844.json.gz",
+  "bytes": 33621,
   "n_markets": 4166,
-  "board_sha256": "dd2ec2b9e268908e2b76f35b1aba29c9522bba6724b402f77c5e428dcee60c51"
+  "n_changed": 1633,
+  "changed_pct": 39.198,
+  "board_sha256": "ef427a12ef98a68d646d69d2b246014fa3a8eaa2718e5dda16cf2109dc8db859"
  },
  "orderbooks_written": {
-  "encoding": "checkpoint",
-  "reason": "chain reached 24 deltas (limit 24)",
-  "path": "kalshi/orderbooks/dt=2026-10-31/kalshi_orderbooks_20261031T172943Z_41205204844.jsonl.gz",
-  "bytes": 46036,
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/orderbooks_delta/dt=2026-10-31/kalshi_orderbooks_delta_20261031T173643Z_41205204844.json.gz",
+  "bytes": 43513,
   "n_markets": 300,
-  "board_sha256": "23183d246faf67228550af381a96511bdd908a539202629eece1cd587024109f"
+  "n_changed": 276,
+  "changed_pct": 92.0,
+  "board_sha256": "8aebdb39e2793ca75e966cd411c5da202a3281382870b8e1168ba33c205c00e2"
  },
  "by_status": {
-  "active": 4166
+  "active": 4165,
+  "initialized": 1
  },
  "by_support": {
   "BUILDABLE": 15,
@@ -40,9 +45,9 @@
   "goalie_saves": 11,
   "non_hockey_or_office": 1,
   "period_spread": 92,
-  "period_total": 145,
+  "period_total": 144,
   "period_winner": 135,
-  "player_assists": 344,
+  "player_assists": 345,
   "player_goals": 624,
   "player_points": 465,
   "season_awards": 514,
@@ -56,7 +61,7 @@
   "series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']"
  ],
  "notes": [
-  "order books sampled by priority: 4166 live markets, cap 300"
+  "order books sampled by priority: 4165 live markets, cap 300"
  ],
  "alarm": true
 }
