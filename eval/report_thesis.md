@@ -1,35 +1,30 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-31T02:18:52Z · thesis-postmortem-2.0 · rows (all generations) 34440
+evaluated 2026-10-31T03:08:52Z · thesis-postmortem-2.0 · rows (all generations) 34484
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
-## Slate 2026-10-30: **PARTIAL — 2/3 games evaluated**
+## Slate 2026-10-30: **COMPLETE — 3/3 games evaluated**
 
-scheduled 3 · final 2 · settled 2 · events ingested 2 · thesis-evaluated 2 · final_card_complete False · postmortem_complete False
+scheduled 3 · final 3 · settled 3 · events ingested 3 · thesis-evaluated 3 · final_card_complete True · postmortem_complete True
 
-missing / pending:
-- 2026020216: no official FINAL result yet
-
-> INTERIM (PARTIAL — 2/3 games evaluated): covers evaluated games only; NOT the slate's final ROI
-
-invariant final_card_n 8 <= sum(game card caps) 8: OK
+invariant final_card_n 11 <= sum(game card caps) 12: OK
 
 ### FINAL_CARD_UNIQUE
 
 | view | bets | stake | P/L | ROI |
 |---|---:|---:|---:|---:|
-| nominal optimiser card (B) | 8 | 79.00 | -52.43 | -0.664 |
-| FUNDED research stakes | 3 | 13.00 | -4.89 | -0.376 |
+| nominal optimiser card (B) | 11 | 97.89 | +2.53 | 0.026 |
+| FUNDED research stakes | 4 | 16.00 | +17.78 | 1.111 |
 
-- THESIS: 6 distinct theses, hit rate 0.167 vs mean p 0.348 (Brier 0.197)
-- EXPRESSION: thesis right + won 0 · right + lost 1 · wrong + won 1 · wrong + lost 6
-  - by fidelity: DIRECT 1/4; FRAGILE 0/3; STRUCTURAL 0/1
-  - broad vs player: BROAD 0/1 (P/L -11.61); FRAGILE_PLAYER 1/7 (P/L -40.82)
-- PRICE: mean CLV -0.0038 (n 8), mean adjusted EV at entry 0.0233
-- MODEL: Brier raw 0.2418 · adjusted 0.2220 · Kalshi mid 0.1999 (n 8)
-- PORTFOLIO: funded 3 · shadow on card 5 · mean |phi| among card pairs 0.044 · mean largest thesis share 0.587
-- GOVERNANCE: funded player props 2 · shadow player props 5 · large-disagreement gates 1 · overrides 2
+- THESIS: 8 distinct theses, hit rate 0.125 vs mean p 0.351 (Brier 0.181)
+- EXPRESSION: thesis right + won 0 · right + lost 1 · wrong + won 2 · wrong + lost 8
+  - by fidelity: DIRECT 1/4; FRAGILE 1/6; STRUCTURAL 0/1
+  - broad vs player: BROAD 0/1 (P/L -11.61); FRAGILE_PLAYER 2/10 (P/L +14.14)
+- PRICE: mean CLV -0.0068 (n 11), mean adjusted EV at entry 0.0236
+- MODEL: Brier raw 0.2447 · adjusted 0.2327 · Kalshi mid 0.2246 (n 11)
+- PORTFOLIO: funded 4 · shadow on card 7 · mean |phi| among card pairs 0.038 · mean largest thesis share 0.572
+- GOVERNANCE: funded player props 3 · shadow player props 7 · large-disagreement gates 1 · overrides 2
 
   - override: Player prop expression KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no selected over player prop KXNHLAST-26OCT30NJVGK-NJJHUGHES86-1|no because adjusted EV differs by only 0.5 pts while thesis capture is 0.84 vs 0.80 (DIRECT vs DIRECT; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability)
   - override: Player prop expression KXNHLGOAL-26OCT30WPGFLA-FLASREINHART13-1|no selected over player prop KXNHLAST-26OCT30WPGFLA-FLASREINHART13-1|no because adjusted EV is 0.3 pts higher while thesis capture is 0.86 vs 0.83 (DIRECT vs DIRECT; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability)
@@ -52,13 +47,13 @@ invariant final_card_n 8 <= sum(game card caps) 8: OK
 | KXNHLSPREAD-26OCT30WPGFLA-FLA3|no | FUNDED_RESEARCH | 3 | 11.61 | False | False | THESIS_WRONG_EXPRESSION_LOST | STRUCTURAL | -0.0050 | -11.61 |
 | KXNHLSAVE-26OCT30WPGFLA-FLAASCHMID40-23|yes | SHADOW_ONLY | 0 | 6.31 | False | False | THESIS_WRONG_EXPRESSION_LOST | DIRECT | 0.0000 | -6.31 |
 
-#### game 2026020216 SEA @ CGY: NOT_FINAL · snapshot snap-824ecb14561dde21503f @ 2026-10-30T23:36:26Z
+#### game 2026020216 SEA @ CGY: EVALUATED · snapshot snap-824ecb14561dde21503f @ 2026-10-30T23:36:26Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT30SEACGY-SEAFGAUDREAU89-1|yes | FUNDED_RESEARCH | 3 | 8.63 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT30SEACGY-SEABMEYERS59-1|yes | SHADOW_ONLY | 0 | 4.84 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT30SEACGY-SEABCATTON27-1|yes | SHADOW_ONLY | 0 | 5.42 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT30SEACGY-SEAFGAUDREAU89-1|yes | FUNDED_RESEARCH | 3 | 8.63 | True | False | THESIS_WRONG_EXPRESSION_WON | FRAGILE | -0.0150 | 65.22 |
+| KXNHLGOAL-26OCT30SEACGY-SEABMEYERS59-1|yes | SHADOW_ONLY | 0 | 4.84 | False | False | THESIS_WRONG_EXPRESSION_LOST | FRAGILE | -0.0200 | -4.84 |
+| KXNHLGOAL-26OCT30SEACGY-SEABCATTON27-1|yes | SHADOW_ONLY | 0 | 5.42 | False | False | THESIS_WRONG_EXPRESSION_LOST | FRAGILE | -0.0100 | -5.42 |
 
 ## Slate 2026-10-29: **COMPLETE — 11/11 games evaluated**
 
@@ -2548,7 +2543,7 @@ invariant final_card_n 30 <= sum(game card caps) 32: OK
 
 ## ALL_PROSPECTIVE_DECISIONS (calibration research; no P/L)
 
-34440 scored rows = 4181 unique logical wagers (repeat factor 8.24). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
+34484 scored rows = 4189 unique logical wagers (repeat factor 8.23). every scored pregame decision of every generation (repeated observations of one wager are NOT independent; no P/L here).
 
 | family | rows | unique | Brier all rows | Brier last obs | adjusted | Kalshi mid |
 |---|---:|---:|---:|---:|---:|---:|
@@ -2560,7 +2555,7 @@ invariant final_card_n 30 <= sum(game card caps) 32: OK
 | period_spread | 96 | 27 | 0.1764 | 0.1663 | 0.1495 | 0.1430 |
 | period_winner | 99 | 19 | 0.2096 | 0.2030 | 0.1843 | 0.1785 |
 | player_assists | 7721 | 1099 | 0.2205 | 0.2066 | 0.1974 | 0.1966 |
-| player_goals | 13998 | 1887 | 0.1450 | 0.1336 | 0.1326 | 0.1345 |
+| player_goals | 14042 | 1895 | 0.1455 | 0.1341 | 0.1332 | 0.1351 |
 | player_points | 742 | 164 | 0.2653 | 0.2387 | 0.2130 | 0.2094 |
 | team_total | 5357 | 468 | 0.1893 | 0.1968 | 0.1901 | 0.1876 |
 
