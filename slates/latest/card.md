@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-10-31T22:09:18Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-10-31T22:37:15Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,14 +10,14 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 150.01 | +25.19 | +6.95 | +24.57 | 0.672 | -50.11 | -70.46 | 52.78 |
-| B thesis-diversified (joint) ← optimiser card | 142.89 | +28.21 | +17.21 | +20.54 | 0.629 | -51.41 | -70.37 | 149.04 |
-| C best expression per thesis | 121.63 | +19.47 | +9.26 | +11.30 | 0.603 | -40.22 | -52.01 | 80.90 |
-| R FUNDED research stakes | 18.00 | +3.40 | +1.90 | -1.26 | 0.492 | -7.98 | -11.28 | 0.00 |
+| A highest edges (independent) | 150.01 | +26.67 | +7.18 | +28.55 | 0.663 | -56.49 | -79.18 | 52.19 |
+| B thesis-diversified (joint) ← optimiser card | 137.50 | +29.71 | +18.90 | +22.84 | 0.625 | -56.11 | -71.72 | 163.48 |
+| C best expression per thesis | 103.19 | +18.74 | +9.03 | +13.44 | 0.613 | -34.73 | -52.86 | 78.45 |
+| R FUNDED research stakes | 16.00 | +3.04 | +1.82 | -2.56 | 0.492 | -9.28 | -9.28 | 0.00 |
 
 ## PIT @ MTL  ·  10000 joint draws  ·  504 bet sides mapped, 3 +EV candidates, 3 on card
 
-sportsbook moneyline consensus (5 books): home 0.532 / away 0.468
+sportsbook moneyline consensus (5 books): home 0.528 / away 0.472
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -49,7 +49,7 @@ sportsbook moneyline consensus (5 books): home 0.532 / away 0.468
 
 portfolios: A EV +2.92 (adj +1.74) on $18.58, P(profit) 0.5078, adj growth 13.6 bp · B EV +1.82 (adj +1.09) on $11.25, P(profit) 0.5078, adj growth 9.4 bp · C EV +0.49 (adj +0.26) on $3.14, P(profit) 0.1592, adj growth 2.3 bp · R EV +0.52 (adj +0.34) on $2.00, P(profit) 0.1208, adj growth 9.9 bp
 
-## TOR @ VAN  ·  10000 joint draws  ·  424 bet sides mapped, 28 +EV candidates, 4 on card
+## TOR @ VAN  ·  10000 joint draws  ·  424 bet sides mapped, 27 +EV candidates, 3 on card
 
 sportsbook moneyline consensus (5 books): home 0.371 / away 0.629
 
@@ -68,29 +68,25 @@ sportsbook moneyline consensus (5 books): home 0.371 / away 0.629
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Linus Karlsson: 1+ goals YES | 19 | 0.269 | 0.248 | +0.069 | +0.048 | $13.05 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | VAN:OFFENSE_4PLUS | FRAGILE (0.39) | EVIDENCE_STRONGER | D |
-| Gavin McKenna: 1+ goals NO | 73 | 0.784 | 0.769 | +0.040 | +0.025 | $19.80 | FUNDED_RESEARCH | $5 | TOR:SUPPRESSED | DIRECT (0.90) | EVIDENCE_STRONGER | D |
-| Toronto wins by over 1.5 goals NO | 59 | 0.716 | 0.631 | +0.110 | +0.024 | $7.28 | FUNDED_RESEARCH | $2 | VAN:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Auston Matthews: 1+ goals NO | 53 | 0.583 | 0.569 | +0.036 | +0.021 | $9.86 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | TOR:SUPPRESSED | DIRECT (0.77) | EVIDENCE_STRONGER | D |
-- **Linus Karlsson: 1+ goals YES** — thesis: VAN offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT31TORVAN-VANMROSSI23-1|yes; why: higher confidence-adjusted growth (30.17 vs 20.61 bp); relationships: KXNHLGOAL-26OCT31TORVAN-TORGMCKENNA92-1|no: MOSTLY_INDEPENDENT (phi 0.016); KXNHLSPREAD-26OCT31TORVAN-TOR2|no: MOSTLY_INDEPENDENT (phi 0.144); KXNHLGOAL-26OCT31TORVAN-TORAMATTHEWS34-1|no: MOSTLY_INDEPENDENT (phi 0.017); failure: VAN offense suppressed (<= 2 goals)
-- **Gavin McKenna: 1+ goals NO** — thesis: TOR offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT31TORVAN-TORWNYLANDER88-2|no; why: KXNHLAST-26OCT31TORVAN-TORWNYLANDER88-2|no has the higher standalone adjusted growth (8.86 vs 7.36 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.103); relationships: KXNHLGOAL-26OCT31TORVAN-VANLKARLSSON94-1|yes: MOSTLY_INDEPENDENT (phi 0.016); KXNHLSPREAD-26OCT31TORVAN-TOR2|no: REINFORCING (phi 0.16); KXNHLGOAL-26OCT31TORVAN-TORAMATTHEWS34-1|no: MOSTLY_INDEPENDENT (phi -0.009); failure: TOR offense succeeds (4+ goals)
-- **Toronto wins by over 1.5 goals NO** — thesis: VAN wins (incl. OT/SO); alternative: KXNHLSPREAD-26OCT31TORVAN-VAN2|yes; why: KXNHLSPREAD-26OCT31TORVAN-VAN2|yes has the higher standalone adjusted growth (8.10 vs 5.32 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.401); relationships: KXNHLGOAL-26OCT31TORVAN-VANLKARLSSON94-1|yes: MOSTLY_INDEPENDENT (phi 0.144); KXNHLGOAL-26OCT31TORVAN-TORGMCKENNA92-1|no: REINFORCING (phi 0.16); KXNHLGOAL-26OCT31TORVAN-TORAMATTHEWS34-1|no: REINFORCING (phi 0.192); failure: TOR wins by 2+
-- **Auston Matthews: 1+ goals NO** — thesis: TOR offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT31TORVAN-TORWNYLANDER88-2|no; why: Player prop expression KXNHLGOAL-26OCT31TORVAN-TORAMATTHEWS34-1|no selected over broad KXNHLSPREAD-26OCT31TORVAN-TOR3|no because adjusted EV differs by only 0.0 pts while thesis capture is 0.69 vs 1.00 (DIRECT vs STRUCTURAL; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability); relationships: KXNHLGOAL-26OCT31TORVAN-VANLKARLSSON94-1|yes: MOSTLY_INDEPENDENT (phi 0.017); KXNHLGOAL-26OCT31TORVAN-TORGMCKENNA92-1|no: MOSTLY_INDEPENDENT (phi -0.009); KXNHLSPREAD-26OCT31TORVAN-TOR2|no: REINFORCING (phi 0.192); failure: TOR offense succeeds (4+ goals)
+| Linus Karlsson: 1+ goals YES | 19 | 0.269 | 0.248 | +0.069 | +0.048 | $13.64 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | VAN:OFFENSE_4PLUS | FRAGILE (0.39) | EVIDENCE_STRONGER | D |
+| Marco Rossi: 1+ goals YES | 18 | 0.247 | 0.229 | +0.056 | +0.038 | $10.97 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | VAN:OFFENSE_4PLUS | FRAGILE (0.36) | EVIDENCE_STRONGER | D |
+| Gavin McKenna: 1+ goals NO | 73 | 0.784 | 0.769 | +0.040 | +0.025 | $20.00 | FUNDED_RESEARCH | $5 | TOR:SUPPRESSED | DIRECT (0.90) | EVIDENCE_STRONGER | D |
+- **Linus Karlsson: 1+ goals YES** — thesis: VAN offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT31TORVAN-VANMROSSI23-1|yes; why: higher confidence-adjusted growth (30.17 vs 20.61 bp); relationships: KXNHLGOAL-26OCT31TORVAN-VANMROSSI23-1|yes: MOSTLY_INDEPENDENT (phi -0.002); KXNHLGOAL-26OCT31TORVAN-TORGMCKENNA92-1|no: MOSTLY_INDEPENDENT (phi 0.016); failure: VAN offense suppressed (<= 2 goals)
+- **Marco Rossi: 1+ goals YES** — thesis: VAN offense succeeds (4+ goals); alternative: KXNHLGOAL-26OCT31TORVAN-VANLKARLSSON94-1|yes; why: second expression of the same thesis: KXNHLGOAL-26OCT31TORVAN-VANLKARLSSON94-1|yes has the higher standalone adjusted growth (30.17 vs 20.61 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it -0.002); they share one thesis budget; relationships: KXNHLGOAL-26OCT31TORVAN-VANLKARLSSON94-1|yes: MOSTLY_INDEPENDENT (phi -0.002); KXNHLGOAL-26OCT31TORVAN-TORGMCKENNA92-1|no: MOSTLY_INDEPENDENT (phi 0.004); failure: VAN offense suppressed (<= 2 goals)
+- **Gavin McKenna: 1+ goals NO** — thesis: TOR offense suppressed (<= 2 goals); alternative: KXNHLSPREAD-26OCT31TORVAN-VAN2|yes; why: KXNHLSPREAD-26OCT31TORVAN-VAN2|yes has the higher standalone adjusted growth (12.30 vs 7.36 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.119); relationships: KXNHLGOAL-26OCT31TORVAN-VANLKARLSSON94-1|yes: MOSTLY_INDEPENDENT (phi 0.016); KXNHLGOAL-26OCT31TORVAN-VANMROSSI23-1|yes: MOSTLY_INDEPENDENT (phi 0.004); failure: TOR offense succeeds (4+ goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, balanced shots · high event (8+) · decided (2+) 0.11.
-- thesis VAN:OFFENSE_4PLUS (p 0.4305): highest fidelity KXNHLTEAMTOTAL-26OCT31TORVAN-VAN3|yes [STRUCTURAL], best adjusted EV KXNHLGOAL-26OCT31TORVAN-VANLKARLSSON94-1|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
+- thesis VAN:OFFENSE_4PLUS (p 0.4305): highest fidelity KXNHLTEAMTOTAL-26OCT31TORVAN-VAN4|yes [STRUCTURAL], best adjusted EV KXNHLGOAL-26OCT31TORVAN-VANLKARLSSON94-1|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
 - thesis VAN:WINS_BY_2PLUS (p 0.289): highest fidelity KXNHLSPREAD-26OCT31TORVAN-VAN2|yes [STRUCTURAL], best adjusted EV KXNHLGOAL-26OCT31TORVAN-VANLKARLSSON94-1|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
 - thesis TOR:SUPPRESSED (p 0.3557): highest fidelity KXNHLSPREAD-26OCT31TORVAN-TOR3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26OCT31TORVAN-VAN2|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
 - KXNHLGOAL-26OCT31TORVAN-VANLKARLSSON94-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 61% of the draws where the thesis happens; fragile player expression; opposing: failure thesis VAN:SUPPRESSED (p 0.3565, phi -0.239)
+- KXNHLGOAL-26OCT31TORVAN-VANMROSSI23-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 64% of the draws where the thesis happens; fragile player expression; opposing: failure thesis VAN:SUPPRESSED (p 0.3565, phi -0.223)
 - KXNHLGOAL-26OCT31TORVAN-TORGMCKENNA92-1|no: FUNDED_RESEARCH; family TRUSTED; loses 10% of the draws where the thesis happens; fragile player expression; opposing: failure thesis TOR:OFFENSE_4PLUS (p 0.4235, phi -0.203)
-- KXNHLSPREAD-26OCT31TORVAN-TOR2|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); LARGE MARKET DISAGREEMENT 13.1 pts; opposing: failure thesis TOR:WINS_BY_2PLUS (p 0.2836, phi -1.0)
-- KXNHLGOAL-26OCT31TORVAN-TORAMATTHEWS34-1|no: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 23% of the draws where the thesis happens; fragile player expression; opposing: failure thesis TOR:OFFENSE_4PLUS (p 0.4235, phi -0.288)
-- override: Player prop expression KXNHLGOAL-26OCT31TORVAN-TORAMATTHEWS34-1|no selected over broad KXNHLSPREAD-26OCT31TORVAN-TOR3|no because adjusted EV differs by only 0.0 pts while thesis capture is 0.69 vs 1.00 (DIRECT vs STRUCTURAL; reliability EVIDENCE_STRONGER vs EVIDENCE_MIXED; decided on family reliability)
 
-portfolios: A EV +9.31 (adj +1.72) on $43.81, P(profit) 0.5959, adj growth 12.4 bp · B EV +7.48 (adj +4.43) on $50.00, P(profit) 0.5296, adj growth 38.5 bp · C EV +7.20 (adj +4.07) on $36.90, P(profit) 0.4319, adj growth 35.5 bp · R EV +0.63 (adj +0.25) on $7.00, P(profit) 0.5911, adj growth 9.0 bp
+portfolios: A EV +10.78 (adj +1.95) on $43.81, P(profit) 0.6025, adj growth 11.9 bp · B EV +8.98 (adj +6.12) on $44.61, P(profit) 0.45, adj growth 53.0 bp · C EV +6.47 (adj +3.84) on $18.46, P(profit) 0.4368, adj growth 33.0 bp · R EV +0.27 (adj +0.17) on $5.00, P(profit) 0.7837, adj growth 6.2 bp
 equivalent contracts collapsed: KXNHLGAME-26OCT31TORVAN-TOR|no == KXNHLGAME-26OCT31TORVAN-VAN|yes
 
-## CBJ @ DAL  ·  10000 joint draws  ·  462 bet sides mapped, 15 +EV candidates, 4 on card
+## CBJ @ DAL  ·  10000 joint draws  ·  462 bet sides mapped, 16 +EV candidates, 4 on card
 
 sportsbook moneyline consensus (5 books): home 0.620 / away 0.380
 
