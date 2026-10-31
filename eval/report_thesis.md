@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-10-30T17:47:34Z · thesis-postmortem-2.0 · rows (all generations) 33927
+evaluated 2026-10-31T00:06:20Z · thesis-postmortem-2.0 · rows (all generations) 33927
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -9,9 +9,9 @@ All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE 
 scheduled 3 · final 0 · settled 0 · events ingested 0 · thesis-evaluated 0 · final_card_complete False · postmortem_complete False
 
 missing / pending:
-- 2026020214: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020215: game not started: the snapshot shown is the latest so far, not yet final
-- 2026020216: game not started: the snapshot shown is the latest so far, not yet final
+- 2026020214: no official FINAL result yet
+- 2026020215: no official FINAL result yet
+- 2026020216: no official FINAL result yet
 
 > INTERIM (PARTIAL — 0/3 games evaluated): covers evaluated games only; NOT the slate's final ROI
 
@@ -34,29 +34,31 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020214 NJD @ VGK: NOT_STARTED · snapshot snap-35a35d59ad9b1a8c1ce9 @ 2026-10-30T17:43:35Z
+#### game 2026020214 NJD @ VGK: NOT_FINAL · snapshot snap-5c9ab9c8c387cc8d3ff3 @ 2026-10-30T21:54:59Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no | FUNDED_RESEARCH | 5 | 17.28 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT30NJVGK-NJCBROWN16-1|yes | SHADOW_ONLY | 0 | 4.12 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT30NJVGK-VGKIBARBASHEV49-1|yes | SHADOW_ONLY | 0 | 4.40 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26OCT30NJVGK-NJTMEIER28-1|no | SHADOW_ONLY | 0 | 12.72 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT30NJVGK-VGKBMCNABB3-1|yes | SHADOW_ONLY | 0 | 5.86 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT30NJVGK-NJAMANTHA39-2|yes | SHADOW_ONLY | 0 | 2.55 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT30NJVGK-VGKBBOWMAN42-1|yes | SHADOW_ONLY | 0 | 5.63 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT30NJVGK-NJJHUGHES86-1|no | FUNDED_RESEARCH | 5 | 17.04 | - | - | - | DIRECT | - | - |
 
-#### game 2026020215 WPG @ FLA: NOT_STARTED · snapshot snap-35a35d59ad9b1a8c1ce9 @ 2026-10-30T17:43:35Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT30WPGFLA-FLABTKACHUK8-1|no | FUNDED_RESEARCH | 4 | 15.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT30WPGFLA-FLASREINHART13-1|no | SHADOW_ONLY | 0 | 15.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26OCT30WPGFLA-WPGAIAFALLO9-1|yes | SHADOW_ONLY | 0 | 3.93 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26OCT30WPGFLA-WPGESALOMONSSON57-1|no | SHADOW_ONLY | 0 | 13.79 | - | - | - | DIRECT | - | - |
-
-#### game 2026020216 SEA @ CGY: NOT_STARTED · snapshot snap-35a35d59ad9b1a8c1ce9 @ 2026-10-30T17:43:35Z
+#### game 2026020215 WPG @ FLA: NOT_FINAL · snapshot snap-c4fd5b5627f8e79e6006 @ 2026-10-30T22:18:58Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26OCT30SEACGY-SEABMEYERS59-1|yes | FUNDED_RESEARCH | 2 | 5.04 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT30WPGFLA-FLABTKACHUK8-1|no | FUNDED_RESEARCH | 5 | 16.39 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26OCT30WPGFLA-FLASREINHART13-1|no | SHADOW_ONLY | 0 | 13.61 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26OCT30WPGFLA-FLA3|no | FUNDED_RESEARCH | 3 | 11.61 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSAVE-26OCT30WPGFLA-FLAASCHMID40-23|yes | SHADOW_ONLY | 0 | 6.31 | - | - | - | DIRECT | - | - |
+
+#### game 2026020216 SEA @ CGY: NOT_FINAL · snapshot snap-824ecb14561dde21503f @ 2026-10-30T23:36:26Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26OCT30SEACGY-SEAFGAUDREAU89-1|yes | FUNDED_RESEARCH | 3 | 8.63 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT30SEACGY-SEABMEYERS59-1|yes | SHADOW_ONLY | 0 | 4.84 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26OCT30SEACGY-SEABCATTON27-1|yes | SHADOW_ONLY | 0 | 5.42 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-29: **COMPLETE — 11/11 games evaluated**
 
