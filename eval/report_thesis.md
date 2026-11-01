@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-11-01T07:30:34Z · thesis-postmortem-2.0 · rows (all generations) 36528
+evaluated 2026-11-01T09:12:25Z · thesis-postmortem-2.0 · rows (all generations) 36528
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -36,33 +36,38 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020227 WPG @ CAR: NOT_STARTED · snapshot snap-496f388d8f37fa916a83 @ 2026-11-01T06:41:16Z
+#### game 2026020227 WPG @ CAR: NOT_STARTED · snapshot snap-5211e6f44ad6065b4bea @ 2026-11-01T08:53:11Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26NOV01WPGCAR-CAR2|no | FUNDED_RESEARCH | 3 | 8.19 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26NOV01WPGCAR-WPG4|yes | FUNDED_RESEARCH | 1 | 2.20 | - | - | - | STRUCTURAL | - | - |
+| KXNHLGOAL-26NOV01WPGCAR-WPGAIAFALLO9-1|yes | FUNDED_RESEARCH | 2 | 5.17 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV01WPGCAR-WPGMSCHEIFELE55-1|yes | SHADOW_ONLY | 0 | 6.45 | - | - | - | FRAGILE | - | - |
+| KXNHLSPREAD-26NOV01WPGCAR-CAR2|no | FUNDED_RESEARCH | 2 | 5.08 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26NOV01WPGCAR-CAR3|no | FUNDED_RESEARCH | 1 | 1.67 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020228 MIN @ WSH: NOT_STARTED · snapshot snap-496f388d8f37fa916a83 @ 2026-11-01T06:41:16Z
-
-#### game 2026020229 UTA @ PHI: NOT_STARTED · snapshot snap-496f388d8f37fa916a83 @ 2026-11-01T06:41:16Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26NOV01UTAPHI-PHI2|yes | FUNDED_RESEARCH | 1 | 2.78 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26NOV01UTAPHI-PHI6|yes | FUNDED_RESEARCH | 1 | 1.48 | - | - | - | FRAGILE | - | - |
-| KXNHLSPREAD-26NOV01UTAPHI-UTA3|no | FUNDED_RESEARCH | 5 | 16.04 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26NOV01UTAPHI-UTA2|no | FUNDED_RESEARCH | 1 | 1.36 | - | - | - | FRAGILE | - | - |
-
-#### game 2026020230 EDM @ NYR: NOT_STARTED · snapshot snap-496f388d8f37fa916a83 @ 2026-11-01T06:41:16Z
-
-#### game 2026020231 OTT @ ANA: NOT_STARTED · snapshot snap-496f388d8f37fa916a83 @ 2026-11-01T06:41:16Z
+#### game 2026020228 MIN @ WSH: NOT_STARTED · snapshot snap-5211e6f44ad6065b4bea @ 2026-11-01T08:53:11Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26NOV01OTTANA-OTT2|no | FUNDED_RESEARCH | 4 | 13.60 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26NOV01OTTANA-OTT3|no | FUNDED_RESEARCH | 3 | 11.64 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26NOV01OTTANA-OTT2|no | FUNDED_RESEARCH | 1 | 2.11 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV01MINWSH-MINKKAPRIZOV97-1|no | FUNDED_RESEARCH | 3 | 10.67 | - | - | - | DIRECT | - | - |
+
+#### game 2026020229 UTA @ PHI: NOT_STARTED · snapshot snap-5211e6f44ad6065b4bea @ 2026-11-01T08:53:11Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLSPREAD-26NOV01UTAPHI-PHI2|yes | FUNDED_RESEARCH | 2 | 4.50 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26NOV01UTAPHI-UTA3|no | FUNDED_RESEARCH | 5 | 16.82 | - | - | - | STRUCTURAL | - | - |
+
+#### game 2026020230 EDM @ NYR: NOT_STARTED · snapshot snap-5211e6f44ad6065b4bea @ 2026-11-01T08:53:11Z
+
+#### game 2026020231 OTT @ ANA: NOT_STARTED · snapshot snap-5211e6f44ad6065b4bea @ 2026-11-01T08:53:11Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLSPREAD-26NOV01OTTANA-OTT2|no | FUNDED_RESEARCH | 4 | 14.86 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26NOV01OTTANA-ANA2|yes | FUNDED_RESEARCH | 1 | 3.95 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26NOV01OTTANA-OTT3|no | FUNDED_RESEARCH | 1 | 3.89 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26NOV01OTTANA-OTT2|no | FUNDED_RESEARCH | 1 | 1.33 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-10-31: **COMPLETE — 10/10 games evaluated**
 
