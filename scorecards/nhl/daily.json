@@ -18,7 +18,7 @@
   {
    "family": "saves",
    "status": "INSUFFICIENT",
-   "what": "66 settled forecasts (< 100)"
+   "what": "64 settled forecasts (< 100)"
   },
   {
    "family": "shots",
@@ -28,7 +28,7 @@
   {
    "family": "team_goals",
    "status": "INSUFFICIENT",
-   "what": "68 settled forecasts (< 100)"
+   "what": "66 settled forecasts (< 100)"
   },
   {
    "family": "toi_minutes",
@@ -38,16 +38,11 @@
  ],
  "authority": "research_only",
  "capture": {
-  "forecasts_archived": 61847,
+  "forecasts_archived": 62040,
   "games": 97,
   "mean_coverage": 1.0,
-  "newest_age_minutes_median": 17.6,
+  "newest_age_minutes_median": 16.8,
   "recent_project_runs": [
-   {
-    "late_rejected": 0,
-    "unchanged": 854,
-    "written": 61
-   },
    {
     "late_rejected": 0,
     "unchanged": 910,
@@ -67,19 +62,19 @@
     "late_rejected": 0,
     "unchanged": 736,
     "written": 0
+   },
+   {
+    "late_rejected": 0,
+    "unchanged": 734,
+    "written": 2
    }
   ],
   "runs": 12
  },
  "capture_stats": {
   "mean_coverage": 1.0,
-  "newest_age_minutes_median": 17.6,
+  "newest_age_minutes_median": 16.8,
   "recent_project_runs": [
-   {
-    "late_rejected": 0,
-    "unchanged": 854,
-    "written": 61
-   },
    {
     "late_rejected": 0,
     "unchanged": 910,
@@ -99,6 +94,11 @@
     "late_rejected": 0,
     "unchanged": 736,
     "written": 0
+   },
+   {
+    "late_rejected": 0,
+    "unchanged": 734,
+    "written": 2
    }
   ],
   "runs": 12
@@ -108,41 +108,41 @@
    "family": "assists",
    "models": [
     {
-     "bias": -0.005287852112676055,
+     "bias": -0.006712079927338782,
      "bias_ci95": [
-      -0.04399175191275309,
-      0.029157488781130697
+      -0.047799591651542635,
+      0.033690344963578735
      ],
-     "mae": 0.425925176056338,
-     "mean_actual": 0.3107394366197183,
+     "mae": 0.4276548592188919,
+     "mean_actual": 0.31244323342415986,
      "model_id": "PLAYER_SIM_V1",
      "model_role": "incumbent",
-     "n": 1136,
-     "n_games": 34,
+     "n": 1101,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
      "primary_metric": "mae",
-     "rmse": 0.5535805021486532
+     "rmse": 0.5572349978869938
     },
     {
-     "bias": -0.017675616415410385,
+     "bias": -0.019310502590673576,
      "bias_ci95": [
-      -0.05026861819059684,
-      0.015207106196138884
+      -0.05568767673308647,
+      0.01169244395934428
      ],
-     "cover_50": 0.501675041876047,
-     "cover_80": 0.804857621440536,
-     "cover_90": 0.9087102177554439,
-     "crps": 0.22022937829979689,
-     "mae": 0.40656441373534336,
-     "mean_actual": 0.3065326633165829,
+     "cover_50": 0.5060449050086355,
+     "cover_80": 0.7953367875647669,
+     "cover_90": 0.917098445595855,
+     "crps": 0.22197479769310066,
+     "mae": 0.40870972193436955,
+     "mean_actual": 0.3082901554404145,
      "model_id": "pf-nhl-F_stack",
      "model_role": "challenger",
-     "n": 1194,
-     "n_games": 34,
+     "n": 1158,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
-     "pit_var_ratio": 0.9978951178928538,
+     "pit_var_ratio": 0.9908461572339896,
      "primary_metric": "crps",
-     "rmse": 0.5446846792332118
+     "rmse": 0.5486482767265318
     }
    ],
    "outcome_type": "continuous_or_count",
@@ -150,17 +150,17 @@
     "ambiguous_keys": 0,
     "mae_diff": {
      "ci95": [
-      -0.01906236430952486,
-      -0.01098969109805806
+      -0.01814992007366483,
+      -0.010794942040025304
      ],
-     "mean_diff": -0.014908211267605635,
-     "n_clusters": 34,
-     "n_obs": 1136,
-     "se": 0.002016074073052824,
-     "z": -7.39467436582377
+     "mean_diff": -0.014465164396003632,
+     "n_clusters": 33,
+     "n_obs": 1101,
+     "se": 0.0019002806015965361,
+     "z": -7.612120222587447
     },
-    "n": 1136,
-    "n_games": 34,
+    "n": 1101,
+    "n_games": 33,
     "primary_metric": "mae"
    },
    "scoring_version": "1.3.0"
@@ -169,41 +169,41 @@
    "family": "goals",
    "models": [
     {
-     "bias": -0.006925176056338026,
+     "bias": -0.008207084468664845,
      "bias_ci95": [
-      -0.027138688975840035,
-      0.01315249891394197
+      -0.03158701250511307,
+      0.012455586204336205
      ],
-     "mae": 0.2869762323943662,
-     "mean_actual": 0.18661971830985916,
+     "mae": 0.28781834695731157,
+     "mean_actual": 0.1880108991825613,
      "model_id": "PLAYER_SIM_V1",
      "model_role": "incumbent",
-     "n": 1136,
-     "n_games": 34,
+     "n": 1101,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
      "primary_metric": "mae",
-     "rmse": 0.4378209094682501
+     "rmse": 0.4401486929829565
     },
     {
-     "bias": -0.0069164321608040195,
+     "bias": -0.008188095854922275,
      "bias_ci95": [
-      -0.025320518941679443,
-      0.011089764725708978
+      -0.0285661586621199,
+      0.010164800985206966
      ],
-     "cover_50": 0.5117252931323283,
-     "cover_80": 0.8031825795644891,
-     "cover_90": 0.9028475711892797,
-     "crps": 0.14451007206985755,
-     "mae": 0.2758417353433836,
-     "mean_actual": 0.1800670016750419,
+     "cover_50": 0.4939550949913644,
+     "cover_80": 0.7987910189982729,
+     "cover_90": 0.9067357512953368,
+     "crps": 0.14534271280035183,
+     "mae": 0.2766809231433506,
+     "mean_actual": 0.18134715025906736,
      "model_id": "pf-nhl-F_stack",
      "model_role": "challenger",
-     "n": 1194,
-     "n_games": 34,
+     "n": 1158,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
-     "pit_var_ratio": 0.9905038507815871,
+     "pit_var_ratio": 0.9996960353541292,
      "primary_metric": "crps",
-     "rmse": 0.42701859569498446
+     "rmse": 0.42925259229328905
     }
    ],
    "outcome_type": "continuous_or_count",
@@ -211,17 +211,17 @@
     "ambiguous_keys": 0,
     "mae_diff": {
      "ci95": [
-      -0.006838042332508264,
-      -0.002469543288413171
+      -0.00639389014494402,
+      -0.002432722632114896
      ],
-     "mean_diff": -0.004387247359154929,
-     "n_clusters": 34,
-     "n_obs": 1136,
-     "se": 0.0011078666672541789,
-     "z": -3.9600860724771305
+     "mean_diff": -0.004344750227066304,
+     "n_clusters": 33,
+     "n_obs": 1101,
+     "se": 0.001096281759151397,
+     "z": -3.9631693137259356
     },
-    "n": 1136,
-    "n_games": 34,
+    "n": 1101,
+    "n_games": 33,
     "primary_metric": "mae"
    },
    "scoring_version": "1.3.0"
@@ -230,41 +230,41 @@
    "family": "points",
    "models": [
     {
-     "bias": -0.012238556338028169,
+     "bias": -0.014940962761126247,
      "bias_ci95": [
-      -0.06754958676993739,
-      0.04011486239592968
+      -0.06939550838271337,
+      0.04681240366171552
      ],
-     "mae": 0.5493899647887324,
-     "mean_actual": 0.49735915492957744,
+     "mae": 0.5534386920980926,
+     "mean_actual": 0.5004541326067211,
      "model_id": "PLAYER_SIM_V1",
      "model_role": "incumbent",
-     "n": 1136,
-     "n_games": 34,
+     "n": 1101,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
      "primary_metric": "mae",
-     "rmse": 0.7024441565945316
+     "rmse": 0.7086335227556733
     },
     {
-     "bias": -0.02467283835845896,
+     "bias": -0.02753306735751295,
      "bias_ci95": [
-      -0.07313629792192615,
-      0.025610505682213867
+      -0.08076708151015892,
+      0.026081607641116434
      ],
-     "cover_50": 0.5175879396984925,
-     "cover_80": 0.7989949748743719,
-     "cover_90": 0.8986599664991625,
-     "crps": 0.3054402593032182,
-     "mae": 0.5279403023450586,
-     "mean_actual": 0.48659966499162477,
+     "cover_50": 0.5138169257340242,
+     "cover_80": 0.8117443868739206,
+     "cover_90": 0.9110535405872193,
+     "crps": 0.308506095328133,
+     "mae": 0.5328532901554405,
+     "mean_actual": 0.4896373056994819,
      "model_id": "pf-nhl-F_stack",
      "model_role": "challenger",
-     "n": 1194,
-     "n_games": 34,
+     "n": 1158,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
-     "pit_var_ratio": 0.9850554018827812,
+     "pit_var_ratio": 0.9833184288172372,
      "primary_metric": "crps",
-     "rmse": 0.6873283037656965
+     "rmse": 0.6938269109750187
     }
    ],
    "outcome_type": "continuous_or_count",
@@ -272,17 +272,17 @@
     "ambiguous_keys": 0,
     "mae_diff": {
      "ci95": [
-      -0.02034102642107704,
-      -0.009349511134960159
+      -0.019467053918242494,
+      -0.008679379154643826
      ],
-     "mean_diff": -0.014860323943661975,
-     "n_clusters": 34,
-     "n_obs": 1136,
-     "se": 0.002894618860232245,
-     "z": -5.133775692482596
+     "mean_diff": -0.01383288374205268,
+     "n_clusters": 33,
+     "n_obs": 1101,
+     "se": 0.002795765818779934,
+     "z": -4.947797719370258
     },
-    "n": 1136,
-    "n_games": 34,
+    "n": 1101,
+    "n_games": 33,
     "primary_metric": "mae"
    },
    "scoring_version": "1.3.0"
@@ -291,41 +291,41 @@
    "family": "saves",
    "models": [
     {
-     "bias": 0.2789795918367348,
+     "bias": 0.23958333333333334,
      "bias_ci95": [
-      -1.6537356209150327,
-      1.762423967459324
+      -1.4549893617021274,
+      1.7348303571428572
      ],
-     "mae": 4.722244897959183,
-     "mean_actual": 23.224489795918366,
+     "mae": 4.775416666666667,
+     "mean_actual": 23.3125,
      "model_id": "PLAYER_SIM_V1",
      "model_role": "incumbent",
-     "n": 49,
-     "n_games": 31,
+     "n": 48,
+     "n_games": 30,
      "outcome_type": "continuous_or_count",
      "primary_metric": "mae",
-     "rmse": 6.55583818330763
+     "rmse": 6.616366701848783
     },
     {
-     "bias": 0.42672921212121206,
+     "bias": 0.479018984375,
      "bias_ci95": [
-      -0.9931400952041264,
-      1.9769089428141706
+      -1.034950600198317,
+      1.7881004278645831
      ],
-     "cover_50": 0.5454545454545454,
-     "cover_80": 0.8636363636363636,
-     "cover_90": 0.8939393939393939,
-     "crps": 3.485459858426424,
-     "mae": 4.688177121212121,
-     "mean_actual": 23.166666666666668,
+     "cover_50": 0.546875,
+     "cover_80": 0.84375,
+     "cover_90": 0.90625,
+     "crps": 3.5336135225935594,
+     "mae": 4.763184515625,
+     "mean_actual": 23.125,
      "model_id": "pf-nhl-F_stack",
      "model_role": "challenger",
-     "n": 66,
-     "n_games": 34,
+     "n": 64,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
-     "pit_var_ratio": 0.870175783547151,
+     "pit_var_ratio": 0.8977206049451991,
      "primary_metric": "crps",
-     "rmse": 6.440685717353149
+     "rmse": 6.524309662695461
     }
    ],
    "outcome_type": "continuous_or_count",
@@ -333,17 +333,17 @@
     "ambiguous_keys": 0,
     "mae_diff": {
      "ci95": [
-      -0.28408048342391284,
-      0.21132007422607865
+      -0.273724151921407,
+      0.23380645113031906
      ],
-     "mean_diff": -0.03577344897959189,
-     "n_clusters": 31,
-     "n_obs": 49,
-     "se": 0.12681213147913314,
-     "z": -0.28209800247288164
+     "mean_diff": -0.013006166666666688,
+     "n_clusters": 30,
+     "n_obs": 48,
+     "se": 0.12973036090493134,
+     "z": -0.1002553802821672
     },
-    "n": 49,
-    "n_games": 31,
+    "n": 48,
+    "n_games": 30,
     "primary_metric": "mae"
    },
    "scoring_version": "1.3.0"
@@ -352,41 +352,41 @@
    "family": "shots",
    "models": [
     {
-     "bias": -0.05107394366197183,
+     "bias": -0.04981834695731153,
      "bias_ci95": [
-      -0.12479376923770448,
-      0.024092048096483566
+      -0.13004038981358773,
+      0.029483574933974518
      ],
-     "mae": 1.0080457746478875,
-     "mean_actual": 1.517605633802817,
+     "mae": 1.0136512261580382,
+     "mean_actual": 1.5177111716621254,
      "model_id": "PLAYER_SIM_V1",
      "model_role": "incumbent",
-     "n": 1136,
-     "n_games": 34,
+     "n": 1101,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
      "primary_metric": "mae",
-     "rmse": 1.3313021133091498
+     "rmse": 1.3386811802861487
     },
     {
-     "bias": 0.05917231742043551,
+     "bias": 0.06020184110535405,
      "bias_ci95": [
-      -0.007279678558188579,
-      0.12782187769243797
+      -0.011088723842328046,
+      0.13090426187700663
      ],
-     "cover_50": 0.5201005025125628,
-     "cover_80": 0.8082077051926299,
-     "cover_90": 0.9028475711892797,
-     "crps": 0.6708152462174748,
-     "mae": 1.0043541247906198,
-     "mean_actual": 1.496649916247906,
+     "cover_50": 0.4991364421416235,
+     "cover_80": 0.7918825561312608,
+     "cover_90": 0.8911917098445595,
+     "crps": 0.6746109311665439,
+     "mae": 1.0114194801381693,
+     "mean_actual": 1.496545768566494,
      "model_id": "pf-nhl-F_stack",
      "model_role": "challenger",
-     "n": 1194,
-     "n_games": 34,
+     "n": 1158,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
-     "pit_var_ratio": 0.9775908304276991,
+     "pit_var_ratio": 0.9987365210599898,
      "primary_metric": "crps",
-     "rmse": 1.3099919927311086
+     "rmse": 1.317773014505658
     }
    ],
    "outcome_type": "continuous_or_count",
@@ -394,17 +394,17 @@
     "ambiguous_keys": 0,
     "mae_diff": {
      "ci95": [
-      -0.008362072832761915,
-      0.013314714719404085
+      -0.007012237247514475,
+      0.014860226916827736
      ],
-     "mean_diff": 0.0025703450704225353,
-     "n_clusters": 34,
-     "n_obs": 1136,
-     "se": 0.005594498432305648,
-     "z": 0.4594415570089319
+     "mean_diff": 0.003765391462306991,
+     "n_clusters": 33,
+     "n_obs": 1101,
+     "se": 0.005573681368344642,
+     "z": 0.6755663292294184
     },
-    "n": 1136,
-    "n_games": 34,
+    "n": 1101,
+    "n_games": 33,
     "primary_metric": "mae"
    },
    "scoring_version": "1.3.0"
@@ -413,25 +413,25 @@
    "family": "team_goals",
    "models": [
     {
-     "bias": -0.09628169117647059,
+     "bias": -0.11658799999999997,
      "bias_ci95": [
-      -0.42539368198529404,
-      0.21157899632352895
+      -0.4558415238636363,
+      0.23427591856060567
      ],
-     "cover_50": 0.47058823529411764,
-     "cover_80": 0.8529411764705882,
-     "cover_90": 0.9411764705882353,
-     "crps": 0.8987612593340865,
-     "mae": 1.329637455882353,
-     "mean_actual": 3.176470588235294,
+     "cover_50": 0.5151515151515151,
+     "cover_80": 0.8333333333333334,
+     "cover_90": 0.9393939393939394,
+     "crps": 0.9129568381973892,
+     "mae": 1.3525408181818181,
+     "mean_actual": 3.196969696969697,
      "model_id": "pf-nhl-F_stack",
      "model_role": "challenger",
-     "n": 68,
-     "n_games": 34,
+     "n": 66,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
-     "pit_var_ratio": 0.9570925195417925,
+     "pit_var_ratio": 0.9613351072598076,
      "primary_metric": "crps",
-     "rmse": 1.576296128259586
+     "rmse": 1.5966335857057137
     }
    ],
    "outcome_type": "continuous_or_count",
@@ -441,36 +441,36 @@
    "family": "toi_minutes",
    "models": [
     {
-     "bias": -0.3556044600938968,
+     "bias": -0.3796185286103543,
      "bias_ci95": [
-      -0.49002518457204897,
-      -0.22223660619299568
+      -0.5170155519890683,
+      -0.2501752567326389
      ],
-     "mae": 1.90893779342723,
-     "mean_actual": 16.747285798122068,
+     "mae": 1.9020829548894942,
+     "mean_actual": 16.76571298819255,
      "model_id": "PLAYER_SIM_V1",
      "model_role": "incumbent",
-     "n": 1136,
-     "n_games": 34,
+     "n": 1101,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
      "primary_metric": "mae",
-     "rmse": 2.5079364323422944
+     "rmse": 2.5051253788564143
     },
     {
-     "bias": 0.07348001479620321,
+     "bias": 0.062156837075417345,
      "bias_ci95": [
-      -0.03718415250521458,
-      0.18105753517278284
+      -0.04571091971621723,
+      0.16514532606076
      ],
-     "mae": 1.8118308176996092,
-     "mean_actual": 16.609450027917365,
+     "mae": 1.8091164409902132,
+     "mean_actual": 16.626352907311457,
      "model_id": "pf-nhl-E_lightgbm",
      "model_role": "challenger",
-     "n": 1194,
-     "n_games": 34,
+     "n": 1158,
+     "n_games": 33,
      "outcome_type": "continuous_or_count",
      "primary_metric": "mae",
-     "rmse": 2.3888627037459678
+     "rmse": 2.3890160174162323
     }
    ],
    "outcome_type": "continuous_or_count",
@@ -478,139 +478,139 @@
     "ambiguous_keys": 0,
     "mae_diff": {
      "ci95": [
-      -0.1778508203008468,
-      -0.02471971737263972
+      -0.1803835102518733,
+      -0.013673878580865372
      ],
-     "mean_diff": -0.097870875,
-     "n_clusters": 34,
-     "n_obs": 1136,
-     "se": 0.03882922758347281,
-     "z": -2.5205465339119324
+     "mean_diff": -0.09402757644565546,
+     "n_clusters": 33,
+     "n_obs": 1101,
+     "se": 0.04142956771596399,
+     "z": -2.2695765760892543
     },
-    "n": 1136,
-    "n_games": 34,
+    "n": 1101,
+    "n_games": 33,
     "primary_metric": "mae"
    },
    "scoring_version": "1.3.0"
   }
  ],
- "generated_utc": "2026-11-01T18:10:48Z",
+ "generated_utc": "2026-11-01T19:11:01Z",
  "promotion": [
   {
    "ci95": [
-    -0.014485160350456001,
-    -0.0021314547033827046
+    -0.013663175112656278,
+    -0.0016882818792613862
    ],
    "family": "shots",
    "loss": "CRPS (incumbent as Poisson)",
    "mae_diff": {
     "ci95": [
-     -0.008362072832761915,
-     0.013314714719404085
+     -0.007012237247514475,
+     0.014860226916827736
     ],
-    "mean_diff": 0.0025703450704225353
+    "mean_diff": 0.003765391462306991
    },
-   "mean_diff": -0.00820356439117183,
+   "mean_diff": -0.007787524065128303,
    "min_paired_n": 1000,
-   "n_games": 34,
-   "n_paired": 1136,
+   "n_games": 33,
+   "n_paired": 1101,
    "promotion_review_eligible": true,
    "promotion_status": "better",
-   "reason": "paired game-clustered CI excludes 0; n=1136 settled player-games"
+   "reason": "paired game-clustered CI excludes 0; n=1101 settled player-games"
   },
   {
    "ci95": [
-    -0.0025963196399136123,
-    -0.0005900967527327681
+    -0.0025237913888151785,
+    -0.000528753099405227
    ],
    "family": "goals",
    "loss": "rung RPS",
    "mae_diff": {
     "ci95": [
-     -0.006838042332508264,
-     -0.002469543288413171
+     -0.00639389014494402,
+     -0.002432722632114896
     ],
-    "mean_diff": -0.004387247359154929
+    "mean_diff": -0.004344750227066304
    },
-   "mean_diff": -0.0015522263561999904,
+   "mean_diff": -0.0015170208564952124,
    "min_paired_n": 1000,
-   "n_games": 34,
-   "n_paired": 1136,
+   "n_games": 33,
+   "n_paired": 1101,
    "promotion_review_eligible": true,
    "promotion_status": "better",
-   "reason": "paired game-clustered CI excludes 0; n=1136 settled player-games"
+   "reason": "paired game-clustered CI excludes 0; n=1101 settled player-games"
   },
   {
    "ci95": [
-    -0.008788082650637723,
-    -0.0012914017468779752
+    -0.008900683915228294,
+    -0.0009692966965828904
    ],
    "family": "assists",
    "loss": "rung RPS",
    "mae_diff": {
     "ci95": [
-     -0.01906236430952486,
-     -0.01098969109805806
+     -0.01814992007366483,
+     -0.010794942040025304
     ],
-    "mean_diff": -0.014908211267605635
+    "mean_diff": -0.014465164396003632
    },
-   "mean_diff": -0.005118261122439348,
+   "mean_diff": -0.004745128043645803,
    "min_paired_n": 1000,
-   "n_games": 34,
-   "n_paired": 723,
+   "n_games": 33,
+   "n_paired": 703,
    "promotion_review_eligible": false,
    "promotion_status": "not yet distinguishable",
-   "reason": "paired game-clustered CI does not exclude (or n < 1000) 0; n=723 settled player-games"
+   "reason": "paired game-clustered CI does not exclude (or n < 1000) 0; n=703 settled player-games"
   },
   {
    "ci95": [
-    -0.011553214531373977,
-    -0.002707070259163569
+    -0.01150889216743715,
+    -0.0022448899128075786
    ],
    "family": "points",
    "loss": "rung RPS",
    "mae_diff": {
     "ci95": [
-     -0.02034102642107704,
-     -0.009349511134960159
+     -0.019467053918242494,
+     -0.008679379154643826
     ],
-    "mean_diff": -0.014860323943661975
+    "mean_diff": -0.01383288374205268
    },
-   "mean_diff": -0.007223293413695184,
+   "mean_diff": -0.006766686731897535,
    "min_paired_n": 1000,
-   "n_games": 34,
-   "n_paired": 723,
+   "n_games": 33,
+   "n_paired": 703,
    "promotion_review_eligible": false,
    "promotion_status": "not yet distinguishable",
-   "reason": "paired game-clustered CI does not exclude (or n < 1000) 0; n=723 settled player-games"
+   "reason": "paired game-clustered CI does not exclude (or n < 1000) 0; n=703 settled player-games"
   },
   {
    "ci95": [
-    -0.023802374938858256,
-    0.008056381424966258
+    -0.02254849594690273,
+    0.01002029170394968
    ],
    "family": "saves",
    "loss": "rung RPS",
    "mae_diff": {
     "ci95": [
-     -0.28408048342391284,
-     0.21132007422607865
+     -0.273724151921407,
+     0.23380645113031906
     ],
-    "mean_diff": -0.03577344897959189
+    "mean_diff": -0.013006166666666688
    },
-   "mean_diff": -0.008296335731966524,
+   "mean_diff": -0.0068201145842093705,
    "min_paired_n": 1000,
-   "n_games": 31,
-   "n_paired": 49,
+   "n_games": 30,
+   "n_paired": 48,
    "promotion_review_eligible": false,
    "promotion_status": "not yet distinguishable",
-   "reason": "paired game-clustered CI does not exclude (or n < 1000) 0; n=49 settled player-games"
+   "reason": "paired game-clustered CI does not exclude (or n < 1000) 0; n=48 settled player-games"
   },
   {
    "family": "team_goals",
    "loss": "n/a",
    "min_paired_n": 1000,
-   "n_challenger": 68,
+   "n_challenger": 66,
    "n_games": 0,
    "n_paired": 0,
    "promotion_status": "no incumbent",
@@ -618,25 +618,25 @@
   },
   {
    "ci95": [
-    -0.17869314273484202,
-    -0.025113914138824526
+    -0.17465033340658906,
+    -0.009745150404998537
    ],
    "family": "toi_minutes",
    "loss": "absolute error",
    "mae_diff": {
     "ci95": [
-     -0.1778508203008468,
-     -0.02471971737263972
+     -0.1803835102518733,
+     -0.013673878580865372
     ],
-    "mean_diff": -0.097870875
+    "mean_diff": -0.09402757644565546
    },
-   "mean_diff": -0.097870875,
+   "mean_diff": -0.09402757644565546,
    "min_paired_n": 1000,
-   "n_games": 34,
-   "n_paired": 1136,
+   "n_games": 33,
+   "n_paired": 1101,
    "promotion_review_eligible": true,
    "promotion_status": "better",
-   "reason": "paired game-clustered CI excludes 0; n=1136 settled player-games"
+   "reason": "paired game-clustered CI excludes 0; n=1101 settled player-games"
   }
  ],
  "promotion_rule": {
@@ -661,14 +661,14 @@
    "assists": {
     "gate": {
      "PASS": {
-      "bias": -0.0242,
-      "mae": 0.465,
-      "n": 875
+      "bias": -0.0265,
+      "mae": 0.468,
+      "n": 851
      },
      "REVIEW": {
-      "bias": -0.0005,
-      "mae": 0.2469,
-      "n": 317
+      "bias": -0.0003,
+      "mae": 0.2452,
+      "n": 305
      }
     },
     "participation": {
@@ -678,28 +678,28 @@
       "n": 106
      },
      "LIKELY_ACTIVE": {
-      "bias": -0.0156,
-      "mae": 0.4088,
-      "n": 1073
+      "bias": -0.0171,
+      "mae": 0.4111,
+      "n": 1038
      },
      "UNCERTAIN": {
-      "bias": -0.0609,
-      "mae": 0.3934,
-      "n": 13
+      "bias": -0.0899,
+      "mae": 0.4023,
+      "n": 12
      }
     }
    },
    "goals": {
     "gate": {
      "PASS": {
-      "bias": -0.0075,
-      "mae": 0.2815,
-      "n": 1099
+      "bias": -0.0084,
+      "mae": 0.282,
+      "n": 1067
      },
      "REVIEW": {
-      "bias": -0.0017,
-      "mae": 0.2139,
-      "n": 93
+      "bias": -0.0073,
+      "mae": 0.2179,
+      "n": 89
      }
     },
     "participation": {
@@ -709,28 +709,28 @@
       "n": 106
      },
      "LIKELY_ACTIVE": {
-      "bias": -0.0022,
-      "mae": 0.274,
-      "n": 1073
+      "bias": -0.0034,
+      "mae": 0.2747,
+      "n": 1038
      },
      "UNCERTAIN": {
-      "bias": 0.0145,
-      "mae": 0.2535,
-      "n": 13
+      "bias": 0.0101,
+      "mae": 0.269,
+      "n": 12
      }
     }
    },
    "points": {
     "gate": {
      "PASS": {
-      "bias": -0.0273,
-      "mae": 0.5535,
-      "n": 1036
+      "bias": -0.0306,
+      "mae": 0.5594,
+      "n": 1007
      },
      "REVIEW": {
-      "bias": -0.0099,
-      "mae": 0.3625,
-      "n": 156
+      "bias": -0.0095,
+      "mae": 0.3582,
+      "n": 149
      }
     },
     "participation": {
@@ -740,54 +740,54 @@
       "n": 106
      },
      "LIKELY_ACTIVE": {
-      "bias": -0.0177,
-      "mae": 0.5311,
-      "n": 1073
+      "bias": -0.0203,
+      "mae": 0.5365,
+      "n": 1038
      },
      "UNCERTAIN": {
-      "bias": -0.0454,
-      "mae": 0.5173,
-      "n": 13
+      "bias": -0.0785,
+      "mae": 0.531,
+      "n": 12
      }
     }
    },
    "saves": {
     "gate": {
      "PASS": {
-      "bias": 1.3559,
-      "mae": 5.3013,
-      "n": 43
+      "bias": 1.3634,
+      "mae": 5.4027,
+      "n": 42
      },
      "REVIEW": {
-      "bias": -1.3104,
-      "mae": 3.542,
-      "n": 23
+      "bias": -1.2093,
+      "mae": 3.5423,
+      "n": 22
      }
     },
     "participation": {
      "CONFIRMED_ACTIVE": {
-      "bias": 1.3559,
-      "mae": 5.3013,
-      "n": 43
+      "bias": 1.3634,
+      "mae": 5.4027,
+      "n": 42
      },
      "LIKELY_ACTIVE": {
-      "bias": -1.3104,
-      "mae": 3.542,
-      "n": 23
+      "bias": -1.2093,
+      "mae": 3.5423,
+      "n": 22
      }
     }
    },
    "shots": {
     "gate": {
      "PASS": {
-      "bias": 0.0613,
-      "mae": 1.0198,
-      "n": 1099
+      "bias": 0.0652,
+      "mae": 1.0278,
+      "n": 1067
      },
      "REVIEW": {
-      "bias": 0.0241,
-      "mae": 0.8323,
-      "n": 93
+      "bias": -0.0097,
+      "mae": 0.8253,
+      "n": 89
      }
     },
     "participation": {
@@ -797,44 +797,44 @@
       "n": 106
      },
      "LIKELY_ACTIVE": {
-      "bias": 0.0503,
-      "mae": 1.0007,
-      "n": 1073
+      "bias": 0.0507,
+      "mae": 1.0079,
+      "n": 1038
      },
      "UNCERTAIN": {
-      "bias": -0.177,
-      "mae": 1.2961,
-      "n": 13
+      "bias": -0.1566,
+      "mae": 1.369,
+      "n": 12
      }
     }
    },
    "team_goals": {
     "gate": {
      "PASS": {
-      "bias": -0.0963,
-      "mae": 1.3296,
-      "n": 68
+      "bias": -0.1166,
+      "mae": 1.3525,
+      "n": 66
      }
     },
     "participation": {
      "NA": {
-      "bias": -0.0963,
-      "mae": 1.3296,
-      "n": 68
+      "bias": -0.1166,
+      "mae": 1.3525,
+      "n": 66
      }
     }
    },
    "toi_minutes": {
     "gate": {
      "PASS": {
-      "bias": 0.074,
-      "mae": 1.8051,
-      "n": 1099
+      "bias": 0.0664,
+      "mae": 1.803,
+      "n": 1067
      },
      "REVIEW": {
-      "bias": 0.0413,
-      "mae": 1.8629,
-      "n": 93
+      "bias": -0.0164,
+      "mae": 1.8526,
+      "n": 89
      }
     },
     "participation": {
@@ -844,14 +844,14 @@
       "n": 106
      },
      "LIKELY_ACTIVE": {
-      "bias": 0.0949,
-      "mae": 1.8149,
-      "n": 1073
+      "bias": 0.0815,
+      "mae": 1.8118,
+      "n": 1038
      },
      "UNCERTAIN": {
-      "bias": -0.2039,
-      "mae": 1.6692,
-      "n": 13
+      "bias": -0.0931,
+      "mae": 1.6805,
+      "n": 12
      }
     }
    }
@@ -859,7 +859,7 @@
   "goalie_start": {
    "by_dfo_status": {
     "CONFIRMED": {
-     "n": 43,
+     "n": 42,
      "started": 1.0
     },
     "PROBABLE": {
@@ -867,23 +867,23 @@
      "started": 1.0
     },
     "PROJECTED": {
-     "n": 41,
-     "started": 0.5122
+     "n": 40,
+     "started": 0.5
     }
    },
    "by_participation": {
     "CONFIRMED_ACTIVE": {
-     "n": 43,
+     "n": 42,
      "started": 1.0
     },
     "LIKELY_ACTIVE": {
-     "n": 43,
-     "started": 0.5349
+     "n": 42,
+     "started": 0.5238
     }
    },
-   "hit_rate": 0.7674,
-   "mean_p_start": 0.8984,
-   "n": 86
+   "hit_rate": 0.7619,
+   "mean_p_start": 0.8986,
+   "n": 84
   },
   "skater_dressed": {
    "by_participation": {
@@ -896,16 +896,16 @@
      "n": 2
     },
     "LIKELY_ACTIVE": {
-     "dressed": 0.9589,
-     "n": 1119
+     "dressed": 0.9584,
+     "n": 1083
     },
     "UNCERTAIN": {
-     "dressed": 0.5652,
-     "n": 23
+     "dressed": 0.5455,
+     "n": 22
     }
    },
-   "dressed_rate": 0.9491,
-   "n": 1258
+   "dressed_rate": 0.9484,
+   "n": 1221
   }
  },
  "settlement": {
@@ -916,6 +916,6 @@
  "sport": "NHL",
  "window": {
   "days": 7,
-  "since_utc": "2026-10-25T18:10:48Z"
+  "since_utc": "2026-10-25T19:11:01Z"
  }
 }
