@@ -1,9 +1,9 @@
 # NHL slate 2026-11-01 — RESEARCH_ONLY
 
-generated 2026-11-01T04:44:10Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-11-01T05:40:16Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
-games on date: 5 · simulated (not started): 5 · markets on board: 2386 · contracts joined: 255 (unjoined to any game: 1702)
-gates: {'UNSUPPORTED': 130, 'NO_EDGE': 61, 'OK': 64}
+games on date: 5 · simulated (not started): 5 · markets on board: 1959 · contracts joined: 255 (unjoined to any game: 1275)
+gates: {'UNSUPPORTED': 130, 'NO_EDGE': 63, 'OK': 62}
 families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'game_early_goal': 5, 'game_winner': 10, 'game_overtime': 5, 'game_spread': 20, 'team_total': 50, 'game_total': 45}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -33,22 +33,21 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'game_e
 | KXNHLSPREAD-26NOV01UTAPHI-UTA3 | game_spread | 0.195 | 0.250 | 0.238 | 26 | 76 | no | +0.032 | OK |
 | KXNHLTEAMTOTAL-26NOV01UTAPHI-UTA2 | team_total | 0.812 | 0.855 | 0.847 | 86 | 15 | no | +0.029 | OK |
 | KXNHLSPREAD-26NOV01EDMNYR-NYR3 | game_spread | 0.169 | 0.215 | 0.205 | 22 | 79 | no | +0.029 | OK |
-| KXNHLGAME-26NOV01EDMNYR-NYR | game_winner | 0.485 | 0.535 | 0.525 | 54 | 47 | no | +0.027 | OK |
+| KXNHLSPREAD-26NOV01UTAPHI-PHI2 | game_spread | 0.249 | 0.205 | 0.213 | 21 | 80 | yes | +0.027 | OK |
 | KXNHLSPREAD-26NOV01MINWSH-MIN3 | game_spread | 0.144 | 0.185 | 0.176 | 19 | 82 | no | +0.026 | OK |
 | KXNHLSPREAD-26NOV01EDMNYR-NYR2 | game_spread | 0.280 | 0.325 | 0.316 | 33 | 68 | no | +0.025 | OK |
-| KXNHLTEAMTOTAL-26NOV01OTTANA-ANA3 | team_total | 0.710 | 0.650 | 0.663 | 67 | 37 | yes | +0.025 | OK |
+| KXNHLTEAMTOTAL-26NOV01OTTANA-ANA3 | team_total | 0.710 | 0.655 | 0.666 | 67 | 36 | yes | +0.025 | OK |
 | KXNHLSPREAD-26NOV01OTTANA-ANA3 | game_spread | 0.225 | 0.185 | 0.193 | 19 | 82 | yes | +0.025 | OK |
 | KXNHLTEAMTOTAL-26NOV01MINWSH-MIN4 | team_total | 0.341 | 0.400 | 0.388 | 42 | 62 | no | +0.023 | OK |
 | KXNHLTEAMTOTAL-26NOV01EDMNYR-NYR2 | team_total | 0.819 | 0.855 | 0.848 | 86 | 15 | no | +0.022 | OK |
 | KXNHLTEAMTOTAL-26NOV01UTAPHI-UTA4 | team_total | 0.392 | 0.445 | 0.434 | 46 | 57 | no | +0.021 | OK |
-| KXNHLSPREAD-26NOV01UTAPHI-PHI2 | game_spread | 0.249 | 0.210 | 0.217 | 22 | 80 | yes | +0.017 | OK |
+| KXNHLGAME-26NOV01EDMNYR-NYR | game_winner | 0.485 | 0.525 | 0.517 | 53 | 48 | no | +0.017 | OK |
 | KXNHLTEAMTOTAL-26NOV01UTAPHI-UTA3 | team_total | 0.618 | 0.665 | 0.656 | 68 | 35 | no | +0.016 | OK |
 | KXNHLGAME-26NOV01MINWSH-MIN | game_winner | 0.467 | 0.505 | 0.497 | 51 | 50 | no | +0.016 | OK |
 | KXNHLGAME-26NOV01MINWSH-WSH | game_winner | 0.533 | 0.495 | 0.503 | 50 | 51 | yes | +0.016 | OK |
 | KXNHLTEAMTOTAL-26NOV01OTTANA-ANA2 | team_total | 0.875 | 0.840 | 0.848 | 85 | 17 | yes | +0.016 | OK |
-| KXNHLTEAMTOTAL-26NOV01MINWSH-MIN5 | team_total | 0.173 | 0.215 | 0.206 | 23 | 80 | no | +0.016 | OK |
 | KXNHLSPREAD-26NOV01MINWSH-MIN2 | game_spread | 0.251 | 0.285 | 0.278 | 29 | 72 | no | +0.015 | OK |
-| KXNHLTEAMTOTAL-26NOV01MINWSH-MIN3 | team_total | 0.560 | 0.615 | 0.604 | 64 | 41 | no | +0.013 | OK |
+| KXNHLTEAMTOTAL-26NOV01MINWSH-MIN3 | team_total | 0.560 | 0.605 | 0.596 | 62 | 41 | no | +0.013 | OK |
 | KXNHLTEAMTOTAL-26NOV01EDMNYR-EDM6 | team_total | 0.118 | 0.090 | 0.095 | 10 | 92 | yes | +0.012 | OK |
 | KXNHLTOTAL-26NOV01OTTANA-9 | game_total | 0.274 | 0.235 | 0.242 | 25 | 78 | yes | +0.011 | OK |
 | KXNHLTOTAL-26NOV01MINWSH-9 | game_total | 0.159 | 0.185 | 0.180 | 19 | 82 | no | +0.011 | OK |
@@ -63,24 +62,23 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'game_e
 | KXNHLTOTAL-26NOV01UTAPHI-5 | game_total | 0.749 | 0.775 | 0.770 | 78 | 23 | no | +0.009 | OK |
 | KXNHLTOTAL-26NOV01MINWSH-6 | game_total | 0.534 | 0.570 | 0.563 | 58 | 44 | no | +0.009 | OK |
 | KXNHLGAME-26NOV01EDMNYR-EDM | game_winner | 0.515 | 0.485 | 0.491 | 49 | 52 | yes | +0.007 | OK |
-| KXNHLTEAMTOTAL-26NOV01UTAPHI-UTA5 | team_total | 0.210 | 0.245 | 0.238 | 26 | 77 | no | +0.007 | OK |
-| KXNHLTEAMTOTAL-26NOV01EDMNYR-EDM4 | team_total | 0.434 | 0.395 | 0.403 | 41 | 62 | yes | +0.007 | OK |
+| KXNHLTEAMTOTAL-26NOV01UTAPHI-UTA5 | team_total | 0.210 | 0.250 | 0.242 | 27 | 77 | no | +0.007 | OK |
+| KXNHLTEAMTOTAL-26NOV01EDMNYR-EDM4 | team_total | 0.434 | 0.400 | 0.407 | 41 | 61 | yes | +0.007 | OK |
 | KXNHLTOTAL-26NOV01OTTANA-10 | game_total | 0.144 | 0.120 | 0.125 | 13 | 89 | yes | +0.006 | OK |
+| KXNHLTEAMTOTAL-26NOV01MINWSH-MIN5 | team_total | 0.173 | 0.210 | 0.202 | 23 | 81 | no | +0.006 | OK |
 | KXNHLSPREAD-26NOV01MINWSH-WSH2 | game_spread | 0.311 | 0.285 | 0.290 | 29 | 72 | yes | +0.006 | OK |
-| KXNHLTEAMTOTAL-26NOV01EDMNYR-NYR5 | team_total | 0.232 | 0.265 | 0.258 | 28 | 75 | no | +0.005 | OK |
+| KXNHLTEAMTOTAL-26NOV01OTTANA-OTT4 | team_total | 0.427 | 0.460 | 0.453 | 47 | 55 | no | +0.006 | OK |
 | KXNHLSPREAD-26NOV01UTAPHI-PHI3 | game_spread | 0.143 | 0.125 | 0.128 | 13 | 88 | yes | +0.005 | OK |
 | KXNHLTEAMTOTAL-26NOV01MINWSH-MIN2 | team_total | 0.784 | 0.820 | 0.813 | 84 | 20 | no | +0.005 | OK |
 | KXNHLTOTAL-26NOV01MINWSH-10 | game_total | 0.070 | 0.090 | 0.086 | 10 | 92 | no | +0.005 | OK |
 | KXNHLTOTAL-26NOV01MINWSH-8 | game_total | 0.233 | 0.260 | 0.254 | 27 | 75 | no | +0.004 | OK |
 | KXNHLTEAMTOTAL-26NOV01MINWSH-MIN6 | team_total | 0.072 | 0.090 | 0.086 | 10 | 92 | no | +0.003 | OK |
-| KXNHLTEAMTOTAL-26NOV01OTTANA-OTT5 | team_total | 0.244 | 0.270 | 0.265 | 28 | 74 | no | +0.003 | OK |
+| KXNHLTEAMTOTAL-26NOV01OTTANA-OTT5 | team_total | 0.244 | 0.280 | 0.273 | 30 | 74 | no | +0.003 | OK |
 | KXNHLSPREAD-26NOV01WPGCAR-WPG3 | game_spread | 0.063 | 0.075 | 0.072 | 8 | 93 | no | +0.003 | OK |
 | KXNHLTOTAL-26NOV01OTTANA-2 | game_total | 0.993 | 0.985 | 0.987 | 99 | 2 | yes | +0.003 | OK |
 | KXNHLTOTAL-26NOV01MINWSH-7 | game_total | 0.420 | 0.450 | 0.444 | 46 | 56 | no | +0.003 | OK |
 | KXNHLTOTAL-26NOV01EDMNYR-10 | game_total | 0.108 | 0.095 | 0.098 | 10 | 91 | yes | +0.002 | OK |
-| KXNHLTEAMTOTAL-26NOV01EDMNYR-EDM5 | team_total | 0.244 | 0.220 | 0.225 | 23 | 79 | yes | +0.002 | OK |
 | KXNHLTEAMTOTAL-26NOV01UTAPHI-PHI4 | team_total | 0.336 | 0.310 | 0.315 | 32 | 70 | yes | +0.001 | OK |
-| KXNHLTEAMTOTAL-26NOV01EDMNYR-EDM3 | team_total | 0.647 | 0.615 | 0.621 | 63 | 40 | yes | +0.001 | OK |
 | KXNHLTEAMTOTAL-26NOV01UTAPHI-UTA6 | team_total | 0.094 | 0.110 | 0.107 | 12 | 90 | no | +0.000 | OK |
 | KXNHLTOTAL-26NOV01MINWSH-3 | game_total | 0.958 | 0.975 | 0.972 | 99 | 4 |  | -0.001 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV01UTAPHI-PHI3 | team_total | 0.546 | 0.525 | 0.529 | 53 | 48 |  | -0.001 | NO_EDGE |
@@ -88,16 +86,18 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'game_e
 | KXNHLTOTAL-26NOV01OTTANA-3 | game_total | 0.980 | 0.970 | 0.972 | 98 | 4 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26NOV01OTTANA-7 | game_total | 0.565 | 0.545 | 0.549 | 55 | 46 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26NOV01MINWSH-4 | game_total | 0.844 | 0.865 | 0.861 | 88 | 15 |  | -0.002 | NO_EDGE |
-| KXNHLTOTAL-26NOV01EDMNYR-2 | game_total | 0.988 | 0.980 | 0.982 | 99 | 3 |  | -0.003 | NO_EDGE |
+| KXNHLTOTAL-26NOV01EDMNYR-2 | game_total | 0.988 | 0.985 | 0.986 | 99 | 2 |  | -0.003 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV01EDMNYR-NYR6 | team_total | 0.106 | 0.120 | 0.117 | 13 | 89 |  | -0.003 | NO_EDGE |
-| KXNHLTEAMTOTAL-26NOV01OTTANA-OTT4 | team_total | 0.427 | 0.455 | 0.449 | 47 | 56 |  | -0.004 | NO_EDGE |
 | KXNHLSPREAD-26NOV01MINWSH-WSH3 | game_spread | 0.186 | 0.175 | 0.177 | 18 | 83 |  | -0.004 | NO_EDGE |
-| KXNHLTEAMTOTAL-26NOV01OTTANA-OTT6 | team_total | 0.117 | 0.135 | 0.131 | 15 | 88 |  | -0.004 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV01EDMNYR-NYR5 | team_total | 0.232 | 0.255 | 0.250 | 27 | 76 |  | -0.004 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV01OTTANA-OTT6 | team_total | 0.117 | 0.130 | 0.127 | 14 | 88 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26NOV01UTAPHI-10 | game_total | 0.070 | 0.080 | 0.078 | 9 | 93 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26NOV01UTAPHI-6 | game_total | 0.528 | 0.545 | 0.542 | 55 | 46 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26NOV01WPGCAR-5 | game_total | 0.763 | 0.775 | 0.773 | 78 | 23 |  | -0.005 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV01UTAPHI-PHI6 | team_total | 0.069 | 0.055 | 0.058 | 7 | 96 |  | -0.006 | NO_EDGE |
 | KXNHLTOTAL-26NOV01UTAPHI-9 | game_total | 0.156 | 0.170 | 0.167 | 18 | 84 |  | -0.006 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV01WPGCAR-CAR6 | team_total | 0.174 | 0.165 | 0.167 | 17 | 84 |  | -0.006 | NO_EDGE |
+| KXNHLTOTAL-26NOV01WPGCAR-2 | game_total | 0.984 | 0.975 | 0.977 | 99 | 4 |  | -0.007 | NO_EDGE |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -112,14 +112,12 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'game_e
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 9 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 7 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Carolina wins by over 1.5 goals NO @ 51c · p 0.5869 (adj 0.5459) · $8.19 · thesis GAME:TIGHT
-- Winnipeg over 3.5 goals scored YES @ 24c · p 0.3013 (adj 0.2656) · $2.2 · thesis WPG:OFFENSE_4PLUS
-- Utah wins by over 2.5 goals NO @ 76c · p 0.8309 (adj 0.7904) · $18.06 · thesis PHI:WINS
-- Philadelphia wins by over 2.5 goals YES @ 13c · p 0.1734 (adj 0.1492) · $1.37 · thesis PHI:WINS_BY_2PLUS
-- Utah over 1.5 goals scored NO @ 15c · p 0.1961 (adj 0.1706) · $1.59 · thesis UTA:SUPPRESSED
-- Philadelphia over 2.5 goals scored YES @ 53c · p 0.5964 (adj 0.5607) · $1.57 · thesis PHI:OFFENSE_4PLUS
+- Winnipeg over 3.5 goals scored YES @ 24c · p 0.3013 (adj 0.2656) · $2.9 · thesis WPG:OFFENSE_4PLUS
+- Carolina wins by over 1.5 goals NO @ 52c · p 0.5869 (adj 0.551) · $5.1 · thesis GAME:TIGHT
+- Philadelphia wins by over 1.5 goals YES @ 21c · p 0.2802 (adj 0.2426) · $4.5 · thesis PHI:WINS_BY_2PLUS
+- Utah wins by over 2.5 goals NO @ 76c · p 0.8309 (adj 0.7904) · $16.82 · thesis PHI:WINS
 - Ottawa wins by over 1.5 goals NO @ 69c · p 0.7732 (adj 0.7291) · $13.6 · thesis ANA:WINS
 - Ottawa wins by over 2.5 goals NO @ 80c · p 0.8639 (adj 0.8295) · $11.64 · thesis ANA:WINS
 - Ottawa over 1.5 goals scored NO @ 15c · p 0.2007 (adj 0.1729) · $2.11 · thesis OTT:SUPPRESSED
