@@ -1,0 +1,7687 @@
+{
+ "schema": "sift.projections.v1",
+ "sport": "NHL",
+ "generated_utc": "2026-11-01T01:32:50Z",
+ "data_asof_utc": "2026-10-31T03:03:25Z",
+ "model": {
+  "id": "pf-nhl",
+  "version": "pf-nhl-1.0.0+3071179",
+  "authority": "research_only"
+ },
+ "families": {
+  "shots": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.804, PIT var 0.991), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0082 [-0.0128, -0.0037] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "goals": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.799, PIT var 0.997), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0002 [-0.0008, +0.0004] (tie). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "assists": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.799, PIT var 0.996), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0041 [-0.0070, -0.0014] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "points": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.801, PIT var 0.992), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0032 [-0.0061, -0.0004] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "saves": {
+   "readiness": "NEEDS IMPROVEMENT",
+   "model": "F_stack",
+   "reason": "Beats our own baseline but the incumbent (PLAYER_SIM_V1 walk-forward 2024-25 + 2025-26) is better on holdout (rung RPS over 14+..40+ (CRPS restricted to the incumbent's published rungs): +0.0278 [+0.0118, +0.0432])."
+  },
+  "team_goals": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.797, PIT var 1.002), statistically tied with the incumbent on holdout. READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "toi_minutes": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "E_lightgbm",
+   "reason": "opportunity family: holdout TOI MAE 1.82 min"
+  }
+ },
+ "games": [
+  {
+   "game_id": "2026020226",
+   "start_utc": "2026-11-01T02:00:00Z",
+   "home": "COL",
+   "away": "CGY",
+   "teams": [
+    {
+     "team": "COL",
+     "family": "team_goals",
+     "mean": 3.648,
+     "p10": 1,
+     "p90": 6,
+     "player_goal_sum": 3.825,
+     "reconciliation": {
+      "status": "PASS",
+      "ratio": 1.0484898830892337
+     },
+     "role": "shadow",
+     "gate": {
+      "status": "PASS",
+      "findings": []
+     }
+    },
+    {
+     "team": "CGY",
+     "family": "team_goals",
+     "mean": 2.449,
+     "p10": 1,
+     "p90": 5,
+     "player_goal_sum": 2.317,
+     "reconciliation": {
+      "status": "PASS",
+      "ratio": 0.9461681879357031
+     },
+     "role": "shadow",
+     "gate": {
+      "status": "PASS",
+      "findings": []
+     }
+    }
+   ]
+  }
+ ],
+ "players": [
+  {
+   "player_id": "8477476",
+   "name": "Artturi Lehkonen",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 2.0862,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6005,
+    "3": 0.345,
+    "4": 0.1682,
+    "5": 0.0715
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.38,
+    "p10": 15.47,
+    "p90": 21.3,
+    "pp_mean": 1.72
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8477476",
+   "name": "Artturi Lehkonen",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.3572,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3003,
+    "2": 0.0504
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.38,
+    "p10": 15.47,
+    "p90": 21.3,
+    "pp_mean": 1.72
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8477476",
+   "name": "Artturi Lehkonen",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.3844,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3184,
+    "2": 0.0578
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.38,
+    "p10": 15.47,
+    "p90": 21.3,
+    "pp_mean": 1.72
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8477476",
+   "name": "Artturi Lehkonen",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.7692,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5366,
+    "2": 0.1802,
+    "3": 0.0431
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.38,
+    "p10": 15.47,
+    "p90": 21.3,
+    "pp_mean": 1.72
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8477492",
+   "name": "Nathan MacKinnon",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 4.1863,
+   "median": 4,
+   "p10": 2,
+   "p90": 7,
+   "thresholds": {
+    "2": 0.9068,
+    "3": 0.7682,
+    "4": 0.5874,
+    "5": 0.4049
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.5,
+    "p10": 18.58,
+    "p90": 24.42,
+    "pp_mean": 4.06
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8477492",
+   "name": "Nathan MacKinnon",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.5782,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4391,
+    "2": 0.1148
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.5,
+    "p10": 18.58,
+    "p90": 24.42,
+    "pp_mean": 4.06
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8477492",
+   "name": "Nathan MacKinnon",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.891,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5897,
+    "2": 0.2242
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.5,
+    "p10": 18.58,
+    "p90": 24.42,
+    "pp_mean": 4.06
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8477492",
+   "name": "Nathan MacKinnon",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 1.507,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "1": 0.7784,
+    "2": 0.4445,
+    "3": 0.1929
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.5,
+    "p10": 18.58,
+    "p90": 24.42,
+    "pp_mean": 4.06
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480039",
+   "name": "Martin Necas",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 2.6982,
+   "median": 2,
+   "p10": 1,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.7373,
+    "3": 0.4984,
+    "4": 0.2882,
+    "5": 0.1451
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.4,
+    "p10": 17.49,
+    "p90": 23.32,
+    "pp_mean": 3.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480039",
+   "name": "Martin Necas",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.4475,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3608,
+    "2": 0.0747
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.4,
+    "p10": 17.49,
+    "p90": 23.32,
+    "pp_mean": 3.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480039",
+   "name": "Martin Necas",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.7341,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5201,
+    "2": 0.1677
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.4,
+    "p10": 17.49,
+    "p90": 23.32,
+    "pp_mean": 3.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480039",
+   "name": "Martin Necas",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 1.1605,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "1": 0.6867,
+    "2": 0.323,
+    "3": 0.1121
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.4,
+    "p10": 17.49,
+    "p90": 23.32,
+    "pp_mean": 3.56
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476455",
+   "name": "Gabriel Landeskog",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.8577,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5407,
+    "3": 0.2866,
+    "4": 0.128,
+    "5": 0.0497
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.38,
+    "p10": 11.47,
+    "p90": 17.3,
+    "pp_mean": 1.9
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476455",
+   "name": "Gabriel Landeskog",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.257,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2257,
+    "2": 0.0286
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.38,
+    "p10": 11.47,
+    "p90": 17.3,
+    "pp_mean": 1.9
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476455",
+   "name": "Gabriel Landeskog",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2714,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2377,
+    "2": 0.0308
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.38,
+    "p10": 11.47,
+    "p90": 17.3,
+    "pp_mean": 1.9
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476455",
+   "name": "Gabriel Landeskog",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.5478,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4218,
+    "2": 0.105,
+    "3": 0.0183
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.38,
+    "p10": 11.47,
+    "p90": 17.3,
+    "pp_mean": 1.9
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475754",
+   "name": "Brock Nelson",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 2.1742,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6216,
+    "3": 0.3673,
+    "4": 0.1847,
+    "5": 0.0812
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.19,
+    "p10": 15.27,
+    "p90": 21.11,
+    "pp_mean": 1.89
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475754",
+   "name": "Brock Nelson",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.2956,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2559,
+    "2": 0.036
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.19,
+    "p10": 15.27,
+    "p90": 21.11,
+    "pp_mean": 1.89
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475754",
+   "name": "Brock Nelson",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.3924,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3239,
+    "2": 0.06
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.19,
+    "p10": 15.27,
+    "p90": 21.11,
+    "pp_mean": 1.89
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475754",
+   "name": "Brock Nelson",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.6946,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5007,
+    "2": 0.1539,
+    "3": 0.0335
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.19,
+    "p10": 15.27,
+    "p90": 21.11,
+    "pp_mean": 1.89
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478462",
+   "name": "Nicolas Roy",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.0613,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.2855,
+    "3": 0.1002,
+    "4": 0.0294,
+    "5": 0.0075
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.88,
+    "p10": 8.97,
+    "p90": 14.8,
+    "pp_mean": 0.52
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478462",
+   "name": "Nicolas Roy",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.147,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1364,
+    "2": 0.0101
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.88,
+    "p10": 8.97,
+    "p90": 14.8,
+    "pp_mean": 0.52
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478462",
+   "name": "Nicolas Roy",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2094,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1874,
+    "2": 0.0203
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.88,
+    "p10": 8.97,
+    "p90": 14.8,
+    "pp_mean": 0.52
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478462",
+   "name": "Nicolas Roy",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.3482,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2924,
+    "2": 0.0493,
+    "3": 0.0059
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.88,
+    "p10": 8.97,
+    "p90": 14.8,
+    "pp_mean": 0.52
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475768",
+   "name": "Jaden Schwartz",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.5893,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4607,
+    "3": 0.2194,
+    "4": 0.0881,
+    "5": 0.0309
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.43,
+    "p10": 10.51,
+    "p90": 16.35,
+    "pp_mean": 2.0
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475768",
+   "name": "Jaden Schwartz",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.1941,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1759,
+    "2": 0.017
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.43,
+    "p10": 10.51,
+    "p90": 16.35,
+    "pp_mean": 2.0
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475768",
+   "name": "Jaden Schwartz",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2555,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2255,
+    "2": 0.0276
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.43,
+    "p10": 10.51,
+    "p90": 16.35,
+    "pp_mean": 2.0
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475768",
+   "name": "Jaden Schwartz",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.4669,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3709,
+    "2": 0.0815,
+    "3": 0.0128
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.43,
+    "p10": 10.51,
+    "p90": 16.35,
+    "pp_mean": 2.0
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475172",
+   "name": "Nazem Kadri",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 2.7173,
+   "median": 3,
+   "p10": 1,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.7407,
+    "3": 0.5028,
+    "4": 0.2923,
+    "5": 0.148
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.21,
+    "p10": 15.29,
+    "p90": 21.13,
+    "pp_mean": 3.41
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475172",
+   "name": "Nazem Kadri",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.3121,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2681,
+    "2": 0.0397
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.21,
+    "p10": 15.29,
+    "p90": 21.13,
+    "pp_mean": 3.41
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475172",
+   "name": "Nazem Kadri",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.4607,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3692,
+    "2": 0.0785
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.21,
+    "p10": 15.29,
+    "p90": 21.13,
+    "pp_mean": 3.41
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8475172",
+   "name": "Nazem Kadri",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.7664,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5353,
+    "2": 0.1792,
+    "3": 0.0427
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.21,
+    "p10": 15.29,
+    "p90": 21.13,
+    "pp_mean": 3.41
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8486171",
+   "name": "T.J. Hughes",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 2.039,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5888,
+    "3": 0.333,
+    "4": 0.1595,
+    "5": 0.0666
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.05,
+    "p10": 11.13,
+    "p90": 16.97,
+    "pp_mean": 3.06
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8486171",
+   "name": "T.J. Hughes",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.2185,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1955,
+    "2": 0.0212
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.05,
+    "p10": 11.13,
+    "p90": 16.97,
+    "pp_mean": 3.06
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8486171",
+   "name": "T.J. Hughes",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2787,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2432,
+    "2": 0.0323
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.05,
+    "p10": 11.13,
+    "p90": 16.97,
+    "pp_mean": 3.06
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8486171",
+   "name": "T.J. Hughes",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.4945,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3878,
+    "2": 0.0897,
+    "3": 0.0149
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.05,
+    "p10": 11.13,
+    "p90": 16.97,
+    "pp_mean": 3.06
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480448",
+   "name": "Parker Kelly",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.3486,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3842,
+    "3": 0.1613,
+    "4": 0.0566,
+    "5": 0.0173
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.43,
+    "p10": 10.51,
+    "p90": 16.35,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480448",
+   "name": "Parker Kelly",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.1855,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1689,
+    "2": 0.0156
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.43,
+    "p10": 10.51,
+    "p90": 16.35,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480448",
+   "name": "Parker Kelly",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2062,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1848,
+    "2": 0.0197
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.43,
+    "p10": 10.51,
+    "p90": 16.35,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480448",
+   "name": "Parker Kelly",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.4059,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3319,
+    "2": 0.0642,
+    "3": 0.0088
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.43,
+    "p10": 10.51,
+    "p90": 16.35,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482768",
+   "name": "Fedor Svechkov",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.0472,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2806,
+    "3": 0.0974,
+    "4": 0.0283,
+    "5": 0.0072
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.8,
+    "p10": 9.89,
+    "p90": 15.72,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482768",
+   "name": "Fedor Svechkov",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.112,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1055,
+    "2": 0.0062
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.8,
+    "p10": 9.89,
+    "p90": 15.72,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482768",
+   "name": "Fedor Svechkov",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2182,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1944,
+    "2": 0.0219
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.8,
+    "p10": 9.89,
+    "p90": 15.72,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482768",
+   "name": "Fedor Svechkov",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.3315,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2806,
+    "2": 0.0452,
+    "3": 0.0052
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.8,
+    "p10": 9.89,
+    "p90": 15.72,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478038",
+   "name": "Devon Toews",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.7647,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5147,
+    "3": 0.2628,
+    "4": 0.1127,
+    "5": 0.042
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.45,
+    "p10": 18.53,
+    "p90": 24.36,
+    "pp_mean": 1.87
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478038",
+   "name": "Devon Toews",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.1307,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1219,
+    "2": 0.0084
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.45,
+    "p10": 18.53,
+    "p90": 24.36,
+    "pp_mean": 1.87
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478038",
+   "name": "Devon Toews",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.4011,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3297,
+    "2": 0.0623
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.45,
+    "p10": 18.53,
+    "p90": 24.36,
+    "pp_mean": 1.87
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478038",
+   "name": "Devon Toews",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.5385,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4164,
+    "2": 0.1021,
+    "3": 0.0175
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.45,
+    "p10": 18.53,
+    "p90": 24.36,
+    "pp_mean": 1.87
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480069",
+   "name": "Cale Makar",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 2.7615,
+   "median": 3,
+   "p10": 1,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.7483,
+    "3": 0.5131,
+    "4": 0.3017,
+    "5": 0.1547
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.7,
+    "p10": 20.79,
+    "p90": 26.62,
+    "pp_mean": 3.95
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480069",
+   "name": "Cale Makar",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.2615,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2291,
+    "2": 0.0295
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.7,
+    "p10": 20.79,
+    "p90": 26.62,
+    "pp_mean": 3.95
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480069",
+   "name": "Cale Makar",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.7668,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5355,
+    "2": 0.1793
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.7,
+    "p10": 20.79,
+    "p90": 26.62,
+    "pp_mean": 3.95
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480069",
+   "name": "Cale Makar",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 1.0224,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.6403,
+    "2": 0.2725,
+    "3": 0.0845
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 23.7,
+    "p10": 20.79,
+    "p90": 26.62,
+    "pp_mean": 3.95
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476967",
+   "name": "Brett Kulak",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.2768,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3598,
+    "3": 0.1454,
+    "4": 0.0492,
+    "5": 0.0145
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.31,
+    "p10": 17.4,
+    "p90": 23.23,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476967",
+   "name": "Brett Kulak",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.0379,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0368,
+    "2": 0.001
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.31,
+    "p10": 17.4,
+    "p90": 23.23,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476967",
+   "name": "Brett Kulak",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2136,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1907,
+    "2": 0.0211
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.31,
+    "p10": 17.4,
+    "p90": 23.23,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476967",
+   "name": "Brett Kulak",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.2549,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2231,
+    "2": 0.0289,
+    "3": 0.0027
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.31,
+    "p10": 17.4,
+    "p90": 23.23,
+    "pp_mean": 0.19
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484258",
+   "name": "Sam Malinski",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.9256,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.559,
+    "3": 0.304,
+    "4": 0.1397,
+    "5": 0.0559
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.66,
+    "p10": 15.74,
+    "p90": 21.58,
+    "pp_mean": 0.36
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484258",
+   "name": "Sam Malinski",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.0878,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.084,
+    "2": 0.0037
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.66,
+    "p10": 15.74,
+    "p90": 21.58,
+    "pp_mean": 0.36
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484258",
+   "name": "Sam Malinski",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.3261,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2782,
+    "2": 0.0429
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.66,
+    "p10": 15.74,
+    "p90": 21.58,
+    "pp_mean": 0.36
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484258",
+   "name": "Sam Malinski",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.4093,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3341,
+    "2": 0.0651,
+    "3": 0.009
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.66,
+    "p10": 15.74,
+    "p90": 21.58,
+    "pp_mean": 0.36
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8470613",
+   "name": "Brent Burns",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.8238,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5314,
+    "3": 0.2779,
+    "4": 0.1224,
+    "5": 0.0468
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.97,
+    "p10": 14.06,
+    "p90": 19.89,
+    "pp_mean": 0.23
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8470613",
+   "name": "Brent Burns",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.0882,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0844,
+    "2": 0.0037
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.97,
+    "p10": 14.06,
+    "p90": 19.89,
+    "pp_mean": 0.23
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8470613",
+   "name": "Brent Burns",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2482,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2177,
+    "2": 0.0277
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.97,
+    "p10": 14.06,
+    "p90": 19.89,
+    "pp_mean": 0.23
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8470613",
+   "name": "Brent Burns",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.3387,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2858,
+    "2": 0.0469,
+    "3": 0.0055
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.97,
+    "p10": 14.06,
+    "p90": 19.89,
+    "pp_mean": 0.23
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478454",
+   "name": "Noah Juulsen",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 0.4993,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "2": 0.0933,
+    "3": 0.0169,
+    "4": 0.0025,
+    "5": 0.0003
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.61,
+    "p10": 7.69,
+    "p90": 13.53,
+    "pp_mean": 0.07
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478454",
+   "name": "Noah Juulsen",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.024,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0236,
+    "2": 0.0004
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.61,
+    "p10": 7.69,
+    "p90": 13.53,
+    "pp_mean": 0.07
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478454",
+   "name": "Noah Juulsen",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.1128,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.106,
+    "2": 0.0065
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.61,
+    "p10": 7.69,
+    "p90": 13.53,
+    "pp_mean": 0.07
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 3.0)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478454",
+   "name": "Noah Juulsen",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.133,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1234,
+    "2": 0.0091,
+    "3": 0.0005
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.61,
+    "p10": 7.69,
+    "p90": 13.53,
+    "pp_mean": 0.07
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.8)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484149",
+   "name": "Gavin Brindley",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 0.949,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.246,
+    "3": 0.0787,
+    "4": 0.021,
+    "5": 0.0049
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 8.31,
+    "p10": 5.39,
+    "p90": 11.23,
+    "pp_mean": 0.34
+   },
+   "opponent_adjustment": {
+    "factor": 1.0373,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent CGY allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484149",
+   "name": "Gavin Brindley",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.0901,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0861,
+    "2": 0.0039
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 8.31,
+    "p10": 5.39,
+    "p90": 11.23,
+    "pp_mean": 0.34
+   },
+   "opponent_adjustment": {
+    "factor": 1.0147,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484149",
+   "name": "Gavin Brindley",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.1117,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.105,
+    "2": 0.0064
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 8.31,
+    "p10": 5.39,
+    "p90": 11.23,
+    "pp_mean": 0.34
+   },
+   "opponent_adjustment": {
+    "factor": 1.016,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 3.0)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484149",
+   "name": "Gavin Brindley",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.1979,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1772,
+    "2": 0.0191,
+    "3": 0.0016
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 8.31,
+    "p10": 5.39,
+    "p90": 11.23,
+    "pp_mean": 0.34
+   },
+   "opponent_adjustment": {
+    "factor": 1.0155,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Projected) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480797",
+   "name": "Joel Farabee",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.9532,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5668,
+    "3": 0.3111,
+    "4": 0.1441,
+    "5": 0.0581
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.83,
+    "p10": 15.92,
+    "p90": 21.75,
+    "pp_mean": 2.96
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480797",
+   "name": "Joel Farabee",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.2422,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2142,
+    "2": 0.0257
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.83,
+    "p10": 15.92,
+    "p90": 21.75,
+    "pp_mean": 2.96
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480797",
+   "name": "Joel Farabee",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.3807,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3159,
+    "2": 0.0569
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.83,
+    "p10": 15.92,
+    "p90": 21.75,
+    "pp_mean": 2.96
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480797",
+   "name": "Joel Farabee",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.6265,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4656,
+    "2": 0.1307,
+    "3": 0.0258
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.83,
+    "p10": 15.92,
+    "p90": 21.75,
+    "pp_mean": 2.96
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8474150",
+   "name": "Mikael Backlund",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 2.032,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5871,
+    "3": 0.3312,
+    "4": 0.1582,
+    "5": 0.0659
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.72,
+    "p10": 14.8,
+    "p90": 20.64,
+    "pp_mean": 0.33
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8474150",
+   "name": "Mikael Backlund",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.1788,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1633,
+    "2": 0.0145
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.72,
+    "p10": 14.8,
+    "p90": 20.64,
+    "pp_mean": 0.33
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8474150",
+   "name": "Mikael Backlund",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2323,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2054,
+    "2": 0.0246
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.72,
+    "p10": 14.8,
+    "p90": 20.64,
+    "pp_mean": 0.33
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8474150",
+   "name": "Mikael Backlund",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.4053,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3315,
+    "2": 0.064,
+    "3": 0.0088
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.72,
+    "p10": 14.8,
+    "p90": 20.64,
+    "pp_mean": 0.33
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482679",
+   "name": "Matt Coronato",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 2.2632,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6419,
+    "3": 0.3896,
+    "4": 0.2019,
+    "5": 0.0916
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.33,
+    "p10": 14.42,
+    "p90": 20.25,
+    "pp_mean": 3.03
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482679",
+   "name": "Matt Coronato",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.2198,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1965,
+    "2": 0.0215
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.33,
+    "p10": 14.42,
+    "p90": 20.25,
+    "pp_mean": 3.03
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482679",
+   "name": "Matt Coronato",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.4093,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3351,
+    "2": 0.0645
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.33,
+    "p10": 14.42,
+    "p90": 20.25,
+    "pp_mean": 3.03
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482679",
+   "name": "Matt Coronato",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.5992,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4508,
+    "2": 0.1216,
+    "3": 0.023
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.33,
+    "p10": 14.42,
+    "p90": 20.25,
+    "pp_mean": 3.03
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484860",
+   "name": "Matvei Gridin",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 2.1724,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6212,
+    "3": 0.3669,
+    "4": 0.1844,
+    "5": 0.081
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.32,
+    "p10": 14.4,
+    "p90": 20.24,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484860",
+   "name": "Matvei Gridin",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.2319,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2061,
+    "2": 0.0237
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.32,
+    "p10": 14.4,
+    "p90": 20.24,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484860",
+   "name": "Matvei Gridin",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.3888,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3214,
+    "2": 0.059
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.32,
+    "p10": 14.4,
+    "p90": 20.24,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484860",
+   "name": "Matvei Gridin",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.614,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4588,
+    "2": 0.1265,
+    "3": 0.0245
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.32,
+    "p10": 14.4,
+    "p90": 20.24,
+    "pp_mean": 3.15
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8481028",
+   "name": "Martin Pospisil",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.3179,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3736,
+    "3": 0.1548,
+    "4": 0.0537,
+    "5": 0.0163
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.49,
+    "p10": 10.58,
+    "p90": 16.41,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8481028",
+   "name": "Martin Pospisil",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.1029,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0977,
+    "2": 0.005
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.49,
+    "p10": 10.58,
+    "p90": 16.41,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8481028",
+   "name": "Martin Pospisil",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.1597,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1471,
+    "2": 0.0119
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.49,
+    "p10": 10.58,
+    "p90": 16.41,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.5)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8481028",
+   "name": "Martin Pospisil",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.2538,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2222,
+    "2": 0.0286,
+    "3": 0.0027
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.49,
+    "p10": 10.58,
+    "p90": 16.41,
+    "pp_mean": 0.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476458",
+   "name": "Ryan Strome",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.4862,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4287,
+    "3": 0.1941,
+    "4": 0.0738,
+    "5": 0.0244
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.81,
+    "p10": 11.89,
+    "p90": 17.73,
+    "pp_mean": 1.17
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476458",
+   "name": "Ryan Strome",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.1524,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.141,
+    "2": 0.0108
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.81,
+    "p10": 11.89,
+    "p90": 17.73,
+    "pp_mean": 1.17
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476458",
+   "name": "Ryan Strome",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2184,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1945,
+    "2": 0.022
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.81,
+    "p10": 11.89,
+    "p90": 17.73,
+    "pp_mean": 1.17
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8476458",
+   "name": "Ryan Strome",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.3673,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3056,
+    "2": 0.0541,
+    "3": 0.0068
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.81,
+    "p10": 11.89,
+    "p90": 17.73,
+    "pp_mean": 1.17
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484234",
+   "name": "Aydar Suniev",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.5439,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4467,
+    "3": 0.2082,
+    "4": 0.0816,
+    "5": 0.0279
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.66,
+    "p10": 10.74,
+    "p90": 16.58,
+    "pp_mean": 1.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484234",
+   "name": "Aydar Suniev",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.1635,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1505,
+    "2": 0.0123
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.66,
+    "p10": 10.74,
+    "p90": 16.58,
+    "pp_mean": 1.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484234",
+   "name": "Aydar Suniev",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.1846,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1679,
+    "2": 0.0156
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.66,
+    "p10": 10.74,
+    "p90": 16.58,
+    "pp_mean": 1.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484234",
+   "name": "Aydar Suniev",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.3397,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2864,
+    "2": 0.0472,
+    "3": 0.0055
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.66,
+    "p10": 10.74,
+    "p90": 16.58,
+    "pp_mean": 1.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480028",
+   "name": "Morgan Frost",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.7781,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5185,
+    "3": 0.2662,
+    "4": 0.1149,
+    "5": 0.0431
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.41,
+    "p10": 13.5,
+    "p90": 19.33,
+    "pp_mean": 3.07
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480028",
+   "name": "Morgan Frost",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.2511,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2211,
+    "2": 0.0274
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.41,
+    "p10": 13.5,
+    "p90": 19.33,
+    "pp_mean": 3.07
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480028",
+   "name": "Morgan Frost",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.294,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2547,
+    "2": 0.0356
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.41,
+    "p10": 13.5,
+    "p90": 19.33,
+    "pp_mean": 3.07
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480028",
+   "name": "Morgan Frost",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.5477,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4217,
+    "2": 0.105,
+    "3": 0.0183
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.41,
+    "p10": 13.5,
+    "p90": 19.33,
+    "pp_mean": 3.07
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8481068",
+   "name": "Yegor Sharangovich",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.5496,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4485,
+    "3": 0.2096,
+    "4": 0.0824,
+    "5": 0.0283
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.77,
+    "p10": 12.86,
+    "p90": 18.69,
+    "pp_mean": 0.88
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8481068",
+   "name": "Yegor Sharangovich",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.1572,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1451,
+    "2": 0.0114
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.77,
+    "p10": 12.86,
+    "p90": 18.69,
+    "pp_mean": 0.88
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8481068",
+   "name": "Yegor Sharangovich",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.1868,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1698,
+    "2": 0.0159
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.77,
+    "p10": 12.86,
+    "p90": 18.69,
+    "pp_mean": 0.88
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8481068",
+   "name": "Yegor Sharangovich",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.3402,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2868,
+    "2": 0.0473,
+    "3": 0.0055
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.77,
+    "p10": 12.86,
+    "p90": 18.69,
+    "pp_mean": 0.88
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484958",
+   "name": "Maxim Tsyplakov",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 0.9902,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2605,
+    "3": 0.0863,
+    "4": 0.0239,
+    "5": 0.0058
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.13,
+    "p10": 8.22,
+    "p90": 14.05,
+    "pp_mean": 0.73
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484958",
+   "name": "Maxim Tsyplakov",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.0766,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0737,
+    "2": 0.0028
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.13,
+    "p10": 8.22,
+    "p90": 14.05,
+    "pp_mean": 0.73
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484958",
+   "name": "Maxim Tsyplakov",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.1221,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1142,
+    "2": 0.0076
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.13,
+    "p10": 8.22,
+    "p90": 14.05,
+    "pp_mean": 0.73
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.9)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484958",
+   "name": "Maxim Tsyplakov",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.1998,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1787,
+    "2": 0.0194,
+    "3": 0.0016
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.13,
+    "p10": 8.22,
+    "p90": 14.05,
+    "pp_mean": 0.73
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484154",
+   "name": "Jonathan Castagna",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.0264,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2733,
+    "3": 0.0933,
+    "4": 0.0266,
+    "5": 0.0066
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.41,
+    "p10": 9.49,
+    "p90": 15.33,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484154",
+   "name": "Jonathan Castagna",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.0878,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.084,
+    "2": 0.0037
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.41,
+    "p10": 9.49,
+    "p90": 15.33,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484154",
+   "name": "Jonathan Castagna",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.1206,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1128,
+    "2": 0.0074
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.41,
+    "p10": 9.49,
+    "p90": 15.33,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.9)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484154",
+   "name": "Jonathan Castagna",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.2013,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1799,
+    "2": 0.0197,
+    "3": 0.0017
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.41,
+    "p10": 9.49,
+    "p90": 15.33,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8483609",
+   "name": "Adam Klapka",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.1466,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3154,
+    "3": 0.1169,
+    "4": 0.0361,
+    "5": 0.0097
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.7,
+    "p10": 8.78,
+    "p90": 14.62,
+    "pp_mean": 0.61
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8483609",
+   "name": "Adam Klapka",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.0967,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0921,
+    "2": 0.0044
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.7,
+    "p10": 8.78,
+    "p90": 14.62,
+    "pp_mean": 0.61
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8483609",
+   "name": "Adam Klapka",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.1359,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.126,
+    "2": 0.0093
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.7,
+    "p10": 8.78,
+    "p90": 14.62,
+    "pp_mean": 0.61
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.7)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8483609",
+   "name": "Adam Klapka",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.2304,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2026,
+    "2": 0.0252,
+    "3": 0.0024
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.7,
+    "p10": 8.78,
+    "p90": 14.62,
+    "pp_mean": 0.61
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480860",
+   "name": "Kevin Bahl",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 0.7598,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.1795,
+    "3": 0.0475,
+    "4": 0.0104,
+    "5": 0.002
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.58,
+    "p10": 18.67,
+    "p90": 24.5,
+    "pp_mean": 0.27
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480860",
+   "name": "Kevin Bahl",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.0417,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0404,
+    "2": 0.0013
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.58,
+    "p10": 18.67,
+    "p90": 24.5,
+    "pp_mean": 0.27
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480860",
+   "name": "Kevin Bahl",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.1655,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1521,
+    "2": 0.0127
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.58,
+    "p10": 18.67,
+    "p90": 24.5,
+    "pp_mean": 0.27
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480860",
+   "name": "Kevin Bahl",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.2075,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1848,
+    "2": 0.0208,
+    "3": 0.0018
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.58,
+    "p10": 18.67,
+    "p90": 24.5,
+    "pp_mean": 0.27
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8483495",
+   "name": "Simon Nemec",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.4076,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4035,
+    "3": 0.1752,
+    "4": 0.0637,
+    "5": 0.0202
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.92,
+    "p10": 18.01,
+    "p90": 23.84,
+    "pp_mean": 1.23
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8483495",
+   "name": "Simon Nemec",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.0925,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0883,
+    "2": 0.0041
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.92,
+    "p10": 18.01,
+    "p90": 23.84,
+    "pp_mean": 1.23
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8483495",
+   "name": "Simon Nemec",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2136,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1907,
+    "2": 0.0211
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.92,
+    "p10": 18.01,
+    "p90": 23.84,
+    "pp_mean": 1.23
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8483495",
+   "name": "Simon Nemec",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.2929,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2515,
+    "2": 0.0371,
+    "3": 0.004
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.92,
+    "p10": 18.01,
+    "p90": 23.84,
+    "pp_mean": 1.23
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478136",
+   "name": "Jacob Middleton",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 0.896,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2273,
+    "3": 0.0693,
+    "4": 0.0176,
+    "5": 0.0039
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.51,
+    "p10": 15.6,
+    "p90": 21.43,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478136",
+   "name": "Jacob Middleton",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.0431,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0417,
+    "2": 0.0013
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.51,
+    "p10": 15.6,
+    "p90": 21.43,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478136",
+   "name": "Jacob Middleton",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.1363,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1264,
+    "2": 0.0093
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.51,
+    "p10": 15.6,
+    "p90": 21.43,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     },
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.7)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478136",
+   "name": "Jacob Middleton",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.1858,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1674,
+    "2": 0.017,
+    "3": 0.0013
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.51,
+    "p10": 15.6,
+    "p90": 21.43,
+    "pp_mean": 0.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480727",
+   "name": "Zach Whitecloud",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 0.8741,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2196,
+    "3": 0.0655,
+    "4": 0.0162,
+    "5": 0.0035
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.96,
+    "p10": 17.05,
+    "p90": 22.88,
+    "pp_mean": 0.11
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480727",
+   "name": "Zach Whitecloud",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.0298,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0292,
+    "2": 0.0007
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.96,
+    "p10": 17.05,
+    "p90": 22.88,
+    "pp_mean": 0.11
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480727",
+   "name": "Zach Whitecloud",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.1618,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1489,
+    "2": 0.0122
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.96,
+    "p10": 17.05,
+    "p90": 22.88,
+    "pp_mean": 0.11
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8480727",
+   "name": "Zach Whitecloud",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.1891,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.17,
+    "2": 0.0175,
+    "3": 0.0014
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.96,
+    "p10": 17.05,
+    "p90": 22.88,
+    "pp_mean": 0.11
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482165",
+   "name": "Yan Kuznetsov",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 0.9888,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2601,
+    "3": 0.0861,
+    "4": 0.0238,
+    "5": 0.0057
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.48,
+    "p10": 14.57,
+    "p90": 20.4,
+    "pp_mean": 0.15
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482165",
+   "name": "Yan Kuznetsov",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.038,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0369,
+    "2": 0.001
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.48,
+    "p10": 14.57,
+    "p90": 20.4,
+    "pp_mean": 0.15
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482165",
+   "name": "Yan Kuznetsov",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.131,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1219,
+    "2": 0.0087
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.48,
+    "p10": 14.57,
+    "p90": 20.4,
+    "pp_mean": 0.15
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.8)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482165",
+   "name": "Yan Kuznetsov",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.1648,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1502,
+    "2": 0.0136,
+    "3": 0.0009
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.48,
+    "p10": 14.57,
+    "p90": 20.4,
+    "pp_mean": 0.15
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484768",
+   "name": "Zayne Parekh",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "shots",
+   "mean": 1.5939,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.462,
+    "3": 0.2206,
+    "4": 0.0887,
+    "5": 0.0312
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.86,
+    "p10": 14.94,
+    "p90": 20.78,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.9659,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses shots: x0.97 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484768",
+   "name": "Zayne Parekh",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "goals",
+   "mean": 0.1111,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1047,
+    "2": 0.0061
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.86,
+    "p10": 14.94,
+    "p90": 20.78,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.8957,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.90 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484768",
+   "name": "Zayne Parekh",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "assists",
+   "mean": 0.2426,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2134,
+    "2": 0.0266
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.86,
+    "p10": 14.94,
+    "p90": 20.78,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.8872,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8484768",
+   "name": "Zayne Parekh",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "points",
+   "mean": 0.3633,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3029,
+    "2": 0.0531,
+    "3": 0.0066
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.86,
+    "p10": 14.94,
+    "p90": 20.78,
+    "pp_mean": 3.14
+   },
+   "opponent_adjustment": {
+    "factor": 0.8904,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent COL suppresses scoring: x0.89 (schedule-adjusted ridge rating)",
+    "team on the second night of a back-to-back",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-01T01:09:53Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Pat Steinberg) captured 2026-11-01T01:09:53Z",
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8478406",
+   "name": "M. Blackwood",
+   "team": "COL",
+   "opponent": "CGY",
+   "game_id": "2026020226",
+   "family": "saves",
+   "mean": 23.219,
+   "median": 23,
+   "p10": 15,
+   "p90": 31,
+   "thresholds": {
+    "20": 0.7089,
+    "25": 0.3956,
+    "30": 0.1577
+   },
+   "opportunity": {
+    "family": "shots_against",
+    "mean": 25.69,
+    "p10": null,
+    "p90": null
+   },
+   "opponent_adjustment": {
+    "factor": null,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on M. Blackwood starting (P(start) 1.00: CONFIRMED @ 0-3h before start: 316/316 named goalies started (prior 9/10))"
+   ],
+   "readiness": "NEEDS IMPROVEMENT",
+   "participation": {
+    "status": "CONFIRMED_ACTIVE",
+    "certainty": "CONFIRMED",
+    "source": "dailyfaceoff_goalies",
+    "captured_utc": "2026-11-01T01:09:52Z",
+    "reasons": [
+     "dailyfaceoff_goalies: confirmed starting (starter)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "starting",
+   "p_start": 0.9969,
+   "p_start_basis": "CONFIRMED @ 0-3h before start: 316/316 named goalies started (prior 9/10)",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  },
+  {
+   "player_id": "8482949",
+   "name": "A. Sergeev",
+   "team": "CGY",
+   "opponent": "COL",
+   "game_id": "2026020226",
+   "family": "saves",
+   "mean": 27.907,
+   "median": 27,
+   "p10": 19,
+   "p90": 38,
+   "thresholds": {
+    "20": 0.8782,
+    "25": 0.6584,
+    "30": 0.3906
+   },
+   "opportunity": {
+    "family": "shots_against",
+    "mean": 31.45,
+    "p10": null,
+    "p90": null
+   },
+   "opponent_adjustment": {
+    "factor": null,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on A. Sergeev starting (P(start) 1.00: CONFIRMED @ 0-3h before start: 316/316 named goalies started (prior 9/10))"
+   ],
+   "readiness": "NEEDS IMPROVEMENT",
+   "participation": {
+    "status": "CONFIRMED_ACTIVE",
+    "certainty": "CONFIRMED",
+    "source": "dailyfaceoff_goalies",
+    "captured_utc": "2026-11-01T01:09:52Z",
+    "reasons": [
+     "dailyfaceoff_goalies: confirmed starting (starter)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "starting",
+   "p_start": 0.9969,
+   "p_start_basis": "CONFIRMED @ 0-3h before start: 316/316 named goalies started (prior 9/10)",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Only 1 games of the player's own evidence",
+      "category": "uncertainty",
+      "action": "Label as prior-driven; show the wide range."
+     }
+    ]
+   },
+   "data_asof_utc": "2026-10-31T03:03:25Z"
+  }
+ ],
+ "gate_summary": {
+  "n": 146,
+  "status_counts": {
+   "PASS": 121,
+   "REVIEW": 25
+  },
+  "check_counts": {
+   "identity:REVIEW": 16,
+   "confidence:REVIEW": 10
+  }
+ },
+ "slate": {
+  "date": "2026-10-31",
+  "label": "2026-10-31 slate: 1 games not started at 2026-11-01T01:32:50Z",
+  "conditioning": "skater rows are conditional on dressing, saves on the listed goalie starting (P(start) published)",
+  "lineup_info": {
+   "teams": 2,
+   "teams_with_lines": 2,
+   "teams_last_dressed": 0,
+   "official_confirmed_teams": 0,
+   "goalie_teams": 2,
+   "goalie_named": 2,
+   "goalie_fallback": 0,
+   "goalie_unresolved_history": 0
+  }
+ }
+}

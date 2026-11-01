@@ -1,6 +1,6 @@
 ## NHL projection scorecard (season) — season to date
 
-Generated 2026-11-01T01:08:04Z. Research only; nothing here is a betting signal.
+Generated 2026-11-01T01:32:50Z. Research only; nothing here is a betting signal.
 
 Archived pregame forecasts: 59197 across 92 games. Settled: 22744 (void/DNP 963, stat corrections 0).
 
