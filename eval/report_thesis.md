@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-11-01T05:45:08Z · thesis-postmortem-2.0 · rows (all generations) 36528
+evaluated 2026-11-01T07:30:34Z · thesis-postmortem-2.0 · rows (all generations) 36528
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -36,25 +36,27 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020227 WPG @ CAR: NOT_STARTED · snapshot snap-b1a29f7029c209d7c9cd @ 2026-11-01T05:40:16Z
+#### game 2026020227 WPG @ CAR: NOT_STARTED · snapshot snap-496f388d8f37fa916a83 @ 2026-11-01T06:41:16Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26NOV01WPGCAR-WPG4|yes | FUNDED_RESEARCH | 1 | 2.90 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26NOV01WPGCAR-CAR2|no | FUNDED_RESEARCH | 2 | 5.10 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26NOV01WPGCAR-CAR2|no | FUNDED_RESEARCH | 3 | 8.19 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26NOV01WPGCAR-WPG4|yes | FUNDED_RESEARCH | 1 | 2.20 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020228 MIN @ WSH: NOT_STARTED · snapshot snap-b1a29f7029c209d7c9cd @ 2026-11-01T05:40:16Z
+#### game 2026020228 MIN @ WSH: NOT_STARTED · snapshot snap-496f388d8f37fa916a83 @ 2026-11-01T06:41:16Z
 
-#### game 2026020229 UTA @ PHI: NOT_STARTED · snapshot snap-b1a29f7029c209d7c9cd @ 2026-11-01T05:40:16Z
+#### game 2026020229 UTA @ PHI: NOT_STARTED · snapshot snap-496f388d8f37fa916a83 @ 2026-11-01T06:41:16Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26NOV01UTAPHI-PHI2|yes | FUNDED_RESEARCH | 2 | 4.50 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26NOV01UTAPHI-UTA3|no | FUNDED_RESEARCH | 5 | 16.82 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26NOV01UTAPHI-PHI2|yes | FUNDED_RESEARCH | 1 | 2.78 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26NOV01UTAPHI-PHI6|yes | FUNDED_RESEARCH | 1 | 1.48 | - | - | - | FRAGILE | - | - |
+| KXNHLSPREAD-26NOV01UTAPHI-UTA3|no | FUNDED_RESEARCH | 5 | 16.04 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26NOV01UTAPHI-UTA2|no | FUNDED_RESEARCH | 1 | 1.36 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020230 EDM @ NYR: NOT_STARTED · snapshot snap-b1a29f7029c209d7c9cd @ 2026-11-01T05:40:16Z
+#### game 2026020230 EDM @ NYR: NOT_STARTED · snapshot snap-496f388d8f37fa916a83 @ 2026-11-01T06:41:16Z
 
-#### game 2026020231 OTT @ ANA: NOT_STARTED · snapshot snap-b1a29f7029c209d7c9cd @ 2026-11-01T05:40:16Z
+#### game 2026020231 OTT @ ANA: NOT_STARTED · snapshot snap-496f388d8f37fa916a83 @ 2026-11-01T06:41:16Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
