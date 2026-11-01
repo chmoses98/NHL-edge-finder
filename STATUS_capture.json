@@ -1,35 +1,32 @@
 {
- "last_capture_utc": "2026-11-01T22:57:19Z",
- "n_markets": 2495,
+ "last_capture_utc": "2026-11-01T23:02:19Z",
+ "n_markets": 2501,
  "n_series": 78,
  "requests": 460,
  "run_id": "41342237315",
  "markets_written": {
-  "encoding": "delta",
-  "seq": 24,
-  "path": "kalshi/markets_delta/dt=2026-11-01/kalshi_markets_delta_20261101T225719Z_41342237315.json.gz",
-  "bytes": 20218,
-  "n_markets": 2495,
-  "n_changed": 919,
-  "changed_pct": 36.834,
-  "board_sha256": "cabf0c426c9807993bb0fcddd318838ad34de98ec00698d9f68e43b7d5b075e2"
+  "encoding": "checkpoint",
+  "reason": "chain reached 24 deltas (limit 24)",
+  "path": "kalshi/markets/dt=2026-11-01/kalshi_markets_20261101T230219Z_41342237315.jsonl.gz",
+  "bytes": 233717,
+  "n_markets": 2501,
+  "board_sha256": "e909b524701a198c2397a99d6fe3bd5a1cfebe426090b53654964332d49f2ba4"
  },
  "orderbooks_written": {
-  "encoding": "delta",
-  "seq": 24,
-  "path": "kalshi/orderbooks_delta/dt=2026-11-01/kalshi_orderbooks_delta_20261101T225719Z_41342237315.json.gz",
-  "bytes": 27839,
+  "encoding": "checkpoint",
+  "reason": "chain reached 24 deltas (limit 24)",
+  "path": "kalshi/orderbooks/dt=2026-11-01/kalshi_orderbooks_20261101T230219Z_41342237315.jsonl.gz",
+  "bytes": 35605,
   "n_markets": 300,
-  "n_changed": 189,
-  "changed_pct": 63.0,
-  "board_sha256": "34114612d36eb27d1f74fed869d52475250b7e341c36eb11a1319a83d87e450c"
+  "board_sha256": "6ad916357453c340ce2c698ba55dff753344d41a0a33828c6dfa9ff34870216b"
  },
  "by_status": {
-  "active": 2495
+  "active": 2497,
+  "initialized": 4
  },
  "by_support": {
   "BUILDABLE": 8,
-  "MODELABLE": 432,
+  "MODELABLE": 438,
   "RESEARCH": 1758,
   "UNMODELABLE": 252,
   "UNRESOLVED": 45
@@ -38,9 +35,9 @@
   "first_goal": 67,
   "game_early_goal": 6,
   "game_overtime": 8,
-  "game_spread": 82,
+  "game_spread": 84,
   "game_total": 173,
-  "game_winner": 100,
+  "game_winner": 104,
   "goalie_saves": 8,
   "non_hockey_or_office": 1,
   "period_spread": 40,
@@ -60,7 +57,7 @@
   "series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']"
  ],
  "notes": [
-  "order books sampled by priority: 2495 live markets, cap 300"
+  "order books sampled by priority: 2497 live markets, cap 300"
  ],
  "alarm": true
 }
