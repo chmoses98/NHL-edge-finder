@@ -1,17 +1,17 @@
 # NHL slate 2026-11-01 — RESEARCH_ONLY
 
-generated 2026-11-01T18:54:17Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-11-01T19:19:25Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
-games on date: 5 · simulated (not started): 4 · markets on board: 2766 · contracts joined: 868 (unjoined to any game: 1275)
-gates: {'UNSUPPORTED': 768, 'OK': 62, 'NO_EDGE': 38}
+games on date: 5 · simulated (not started): 4 · markets on board: 2767 · contracts joined: 868 (unjoined to any game: 1275)
+gates: {'UNSUPPORTED': 768, 'OK': 63, 'NO_EDGE': 37}
 families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'player_assists': 116, 'game_early_goal': 4, 'first_goal': 139, 'game_winner': 8, 'player_goals': 238, 'game_overtime': 4, 'player_points': 163, 'goalie_saves': 8, 'game_spread': 16, 'team_total': 40, 'game_total': 36}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| MIN @ WSH | 2026-11-01T20:30:00Z | T-90m | 0.558 | 0.442 | 0.182 | 5.92 | 3.13 | 2.80 | 219 (25/194) | CONFIRMED/CONFIRMED |
+| MIN @ WSH | 2026-11-01T20:30:00Z | T-60m | 0.558 | 0.442 | 0.182 | 5.92 | 3.13 | 2.80 | 219 (25/194) | CONFIRMED/CONFIRMED |
 | UTA @ PHI | 2026-11-01T21:00:00Z | T-90m | 0.452 | 0.548 | 0.178 | 5.86 | 2.78 | 3.09 | 209 (25/184) | CONFIRMED/PROJECTED |
 | EDM @ NYR | 2026-11-01T23:00:00Z | T-3h | 0.516 | 0.484 | 0.171 | 6.46 | 3.28 | 3.19 | 222 (25/197) | CONFIRMED/CONFIRMED |
-| OTT @ ANA | 2026-11-02T01:00:00Z | T-6h | 0.562 | 0.438 | 0.167 | 6.83 | 3.62 | 3.22 | 218 (25/193) | CONFIRMED/PROJECTED |
+| OTT @ ANA | 2026-11-02T01:00:00Z | T-3h | 0.562 | 0.438 | 0.167 | 6.83 | 3.62 | 3.22 | 218 (25/193) | CONFIRMED/PROJECTED |
 
 ## Contracts (research view; sorted by fee-adjusted EV of the best side; NOT recommendations)
 
@@ -61,6 +61,7 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'player
 | KXNHLTEAMTOTAL-26NOV01OTTANA-OTT5 | team_total | 0.230 | 0.270 | 0.262 | 28 | 74 | no | +0.017 | OK |
 | KXNHLSPREAD-26NOV01EDMNYR-NYR3 | game_spread | 0.183 | 0.215 | 0.208 | 22 | 79 | no | +0.015 | OK |
 | KXNHLTEAMTOTAL-26NOV01UTAPHI-UTA6 | team_total | 0.089 | 0.115 | 0.109 | 12 | 89 | no | +0.014 | OK |
+| KXNHLTOTAL-26NOV01EDMNYR-4 | game_total | 0.874 | 0.895 | 0.891 | 90 | 11 | no | +0.009 | OK |
 | KXNHLTEAMTOTAL-26NOV01EDMNYR-NYR2 | team_total | 0.832 | 0.855 | 0.851 | 86 | 15 | no | +0.009 | OK |
 | KXNHLTEAMTOTAL-26NOV01EDMNYR-NYR3 | team_total | 0.635 | 0.670 | 0.663 | 68 | 34 | no | +0.009 | OK |
 | KXNHLTOTAL-26NOV01EDMNYR-5 | game_total | 0.802 | 0.830 | 0.825 | 84 | 18 | no | +0.008 | OK |
@@ -80,7 +81,6 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'player
 | KXNHLTOTAL-26NOV01OTTANA-2 | game_total | 0.991 | 0.985 | 0.986 | 99 | 2 | yes | +0.000 | OK |
 | KXNHLTOTAL-26NOV01EDMNYR-10 | game_total | 0.107 | 0.095 | 0.097 | 10 | 91 | yes | +0.000 | OK |
 | KXNHLTOTAL-26NOV01OTTANA-4 | game_total | 0.905 | 0.920 | 0.917 | 93 | 9 |  | -0.000 | NO_EDGE |
-| KXNHLTOTAL-26NOV01EDMNYR-4 | game_total | 0.874 | 0.890 | 0.887 | 90 | 12 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26NOV01OTTANA-8 | game_total | 0.354 | 0.335 | 0.339 | 34 | 67 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26NOV01EDMNYR-2 | game_total | 0.989 | 0.980 | 0.982 | 99 | 3 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26NOV01OTTANA-10 | game_total | 0.135 | 0.125 | 0.127 | 13 | 88 |  | -0.003 | NO_EDGE |
@@ -92,7 +92,7 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'player
 | KXNHLSPREAD-26NOV01UTAPHI-PHI3 | game_spread | 0.132 | 0.125 | 0.126 | 13 | 88 |  | -0.006 | NO_EDGE |
 | KXNHLSPREAD-26NOV01MINWSH-WSH3 | game_spread | 0.194 | 0.185 | 0.187 | 19 | 82 |  | -0.006 | NO_EDGE |
 | KXNHLTOTAL-26NOV01UTAPHI-10 | game_total | 0.063 | 0.070 | 0.068 | 8 | 94 |  | -0.006 | NO_EDGE |
-| KXNHLTEAMTOTAL-26NOV01OTTANA-OTT6 | team_total | 0.111 | 0.125 | 0.122 | 14 | 89 |  | -0.008 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV01OTTANA-OTT6 | team_total | 0.111 | 0.120 | 0.118 | 13 | 89 |  | -0.008 | NO_EDGE |
 | KXNHLTOTAL-26NOV01EDMNYR-7 | game_total | 0.491 | 0.505 | 0.502 | 51 | 50 |  | -0.008 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV01UTAPHI-PHI4 | team_total | 0.316 | 0.305 | 0.307 | 31 | 70 |  | -0.009 | NO_EDGE |
 | KXNHLTOTAL-26NOV01MINWSH-2 | game_total | 0.981 | 0.980 | 0.980 | 99 | 3 |  | -0.010 | NO_EDGE |
@@ -112,22 +112,22 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 ## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 16 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Aliaksei Protas: 1+ goals YES @ 18c · p 0.2481 (adj 0.2273) · $10.23 · thesis WSH:OFFENSE_4PLUS
-- Kirill Kaprizov: 1+ goals NO @ 56c · p 0.6401 (adj 0.6188) · $20.0 · thesis MIN:SUPPRESSED
-- Ryan Leonard: 1+ assists YES @ 24c · p 0.3289 (adj 0.2794) · $7.54 · thesis WSH:OFFENSE_4PLUS
-- Yakov Trenin: 1+ goals YES @ 10c · p 0.1306 (adj 0.1205) · $3.78 · thesis MIN:OFFENSE_4PLUS
-- Christian Dvorak: 1+ goals YES @ 16c · p 0.249 (adj 0.2255) · $11.32 · thesis PHI:OFFENSE_4PLUS
-- Sean Couturier: 1+ goals YES @ 11c · p 0.1863 (adj 0.1635) · $8.36 · thesis PHI:OFFENSE_4PLUS
-- Travis Sanheim: 1+ goals YES @ 9c · p 0.1344 (adj 0.1183) · $4.03 · thesis PHI:OFFENSE_4PLUS
-- Matvei Michkov: 1+ goals YES @ 26c · p 0.3175 (adj 0.3006) · $6.29 · thesis PHI:OFFENSE_4PLUS
-- Alex Formenton: 1+ goals YES @ 11c · p 0.1674 (adj 0.1518) · $8.94 · thesis EDM:OFFENSE_4PLUS
-- Filip Hallander: 1+ goals YES @ 9c · p 0.1364 (adj 0.121) · $6.18 · thesis EDM:OFFENSE_4PLUS
-- Taylor Raddysh: 1+ goals YES @ 8c · p 0.1155 (adj 0.1016) · $3.81 · thesis NYR:OFFENSE_4PLUS
+- Aliaksei Protas: 1+ goals YES @ 18c · p 0.2481 (adj 0.2273) · $10.07 · thesis WSH:OFFENSE_4PLUS
+- Kirill Kaprizov: 1+ goals NO @ 56c · p 0.6401 (adj 0.6176) · $19.74 · thesis MIN:SUPPRESSED
+- Ryan Leonard: 1+ assists YES @ 24c · p 0.3289 (adj 0.282) · $8.21 · thesis WSH:OFFENSE_4PLUS
+- Yakov Trenin: 1+ goals YES @ 10c · p 0.1306 (adj 0.1205) · $3.74 · thesis MIN:OFFENSE_4PLUS
+- Christian Dvorak: 1+ goals YES @ 16c · p 0.249 (adj 0.2243) · $10.98 · thesis PHI:OFFENSE_4PLUS
+- Sean Couturier: 1+ goals YES @ 11c · p 0.1863 (adj 0.1635) · $8.34 · thesis PHI:OFFENSE_4PLUS
+- Travis Sanheim: 1+ goals YES @ 9c · p 0.1344 (adj 0.1183) · $4.02 · thesis PHI:OFFENSE_4PLUS
+- Matvei Michkov: 1+ goals YES @ 26c · p 0.3175 (adj 0.3006) · $6.27 · thesis PHI:OFFENSE_4PLUS
+- Alex Formenton: 1+ goals YES @ 11c · p 0.1674 (adj 0.1518) · $8.81 · thesis EDM:OFFENSE_4PLUS
+- Filip Hallander: 1+ goals YES @ 9c · p 0.1364 (adj 0.1235) · $6.81 · thesis EDM:OFFENSE_4PLUS
 - Ryan Nugent-Hopkins: 1+ assists NO @ 63c · p 0.7145 (adj 0.6698) · $18.61 · thesis EDM:SUPPRESSED
-- Ottawa wins by over 2.5 goals NO @ 79c · p 0.8805 (adj 0.8327) · $15.94 · thesis ANA:WINS
-- Jeff Malott: 1+ goals YES @ 10c · p 0.1355 (adj 0.1254) · $4.82 · thesis ANA:OFFENSE_4PLUS
-- Ottawa over 4.5 goals scored NO @ 74c · p 0.8151 (adj 0.7726) · $14.06 · thesis ANA:WINS
-- Fabian Zetterlund: 1+ goals YES @ 17c · p 0.1996 (adj 0.191) · $4.42 · thesis OTT:OFFENSE_4PLUS
+- Vladislav Gavrikov: 1+ assists YES @ 26c · p 0.3751 (adj 0.2938) · $5.67 · thesis NYR:OFFENSE_4PLUS
+- Ottawa wins by over 2.5 goals NO @ 79c · p 0.8805 (adj 0.8327) · $15.74 · thesis ANA:WINS
+- Jeff Malott: 1+ goals YES @ 10c · p 0.1355 (adj 0.1254) · $4.75 · thesis ANA:OFFENSE_4PLUS
+- Ottawa over 4.5 goals scored NO @ 74c · p 0.8151 (adj 0.7726) · $13.87 · thesis ANA:WINS
+- Fabian Zetterlund: 1+ goals YES @ 17c · p 0.1996 (adj 0.191) · $4.36 · thesis OTT:OFFENSE_4PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -140,9 +140,9 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | Kirill Kaprizov: 2+ points | 0.248 | 0.380 | 39/63 | +0.106 | STANDARD |
 | Kirill Kaprizov: 1+ assists | 0.400 | 0.505 | 51/50 | +0.082 | STANDARD |
 | Kirill Kaprizov: 1+ points | 0.613 | 0.715 | 72/29 | +0.083 | STANDARD |
-| Ryan Leonard: 1+ assists | 0.329 | 0.230 | 24/78 | +0.076 | STANDARD |
 | Matt Boldy: 1+ assists | 0.373 | 0.470 | 48/54 | +0.069 | STANDARD |
-| Quinn Hughes: 1+ assists | 0.518 | 0.610 | 62/40 | +0.065 | STANDARD |
+| Ryan Leonard: 1+ assists | 0.329 | 0.235 | 24/77 | +0.076 | STANDARD |
+| Kirill Kaprizov: 1+ goals | 0.360 | 0.450 | 46/56 | +0.063 | STANDARD |
 
 **UTA @ PHI** · priced 155/158 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - PHI net: Dan Vladar (CONFIRMED) exp shots 27.72, exp saves 24.01 (sd 6.51), pull risk 0.058
@@ -150,9 +150,9 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Travis Sanheim: 1+ points | 0.416 | 0.285 | 31/74 | +0.091 | STANDARD |
-| Christian Dvorak: 1+ points | 0.475 | 0.370 | 38/64 | +0.079 | STANDARD |
-| Christian Dvorak: 1+ goals | 0.249 | 0.155 | 16/85 | +0.080 | STANDARD |
+| Travis Sanheim: 1+ points | 0.416 | 0.290 | 31/73 | +0.091 | STANDARD |
+| Christian Dvorak: 1+ points | 0.475 | 0.365 | 38/65 | +0.079 | STANDARD |
+| Christian Dvorak: 1+ goals | 0.249 | 0.150 | 16/86 | +0.080 | STANDARD |
 | Clayton Keller: 1+ assists | 0.422 | 0.515 | 52/49 | +0.071 | STANDARD |
 | Sean Couturier: 1+ goals | 0.186 | 0.095 | 11/92 | +0.069 | STANDARD |
 | Travis Sanheim: 1+ assists | 0.330 | 0.240 | 26/78 | +0.056 | STANDARD |
@@ -164,7 +164,7 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
 | Dylan Garand: 24+ saves | 0.569 | 0.435 | 46/59 | +0.092 |  |
-| Vladislav Gavrikov: 1+ assists | 0.375 | 0.245 | 26/77 | +0.102 | STANDARD |
+| Vladislav Gavrikov: 1+ assists | 0.375 | 0.250 | 26/76 | +0.102 | STANDARD |
 | Connor McDavid: 2+ assists | 0.181 | 0.295 | 30/71 | +0.094 | STANDARD |
 | Connor McDavid: 1+ assists | 0.542 | 0.655 | 66/35 | +0.092 | STANDARD |
 | Vladislav Gavrikov: 1+ points | 0.427 | 0.320 | 33/69 | +0.082 | STANDARD |
@@ -180,8 +180,8 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | Jake Sanderson: 1+ points | 0.445 | 0.540 | 55/47 | +0.068 | STANDARD |
 | Thomas Chabot: 1+ assists | 0.246 | 0.340 | 35/67 | +0.069 | STANDARD |
 | Jake Sanderson: 1+ assists | 0.361 | 0.455 | 47/56 | +0.062 | STANDARD |
-| Alex Killorn: 1+ points | 0.457 | 0.365 | 39/66 | +0.051 | STANDARD |
-| Jackson LaCombe: 1+ points | 0.643 | 0.555 | 57/46 | +0.056 | STANDARD |
+| Jackson LaCombe: 1+ points | 0.643 | 0.550 | 56/46 | +0.066 | STANDARD |
+| Alex Killorn: 1+ points | 0.457 | 0.370 | 39/65 | +0.051 | STANDARD |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
