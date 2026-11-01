@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-11-01T00:47:40Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-11-01T01:09:55Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,12 +10,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 50.00 | +11.98 | +3.18 | +2.42 | 0.587 | -50.00 | -50.00 | 17.22 |
-| B thesis-diversified (joint) ← optimiser card | 50.00 | +5.56 | +3.12 | -3.77 | 0.346 | -29.63 | -29.63 | 28.30 |
-| C best expression per thesis | 50.00 | +5.85 | +2.64 | -4.20 | 0.346 | -29.67 | -29.67 | 23.61 |
+| A highest edges (independent) | 50.00 | +11.73 | +3.09 | +2.02 | 0.587 | -50.00 | -50.00 | 16.47 |
+| B thesis-diversified (joint) ← optimiser card | 50.00 | +5.56 | +3.15 | -3.78 | 0.346 | -29.63 | -29.63 | 28.56 |
+| C best expression per thesis | 50.00 | +5.85 | +2.67 | -4.20 | 0.346 | -29.67 | -29.67 | 23.86 |
 | R FUNDED research stakes | 7.00 | +1.08 | +0.53 | -0.28 | 0.283 | -7.00 | -7.00 | 0.00 |
 
-## CGY @ COL  ·  10000 joint draws  ·  466 bet sides mapped, 22 +EV candidates, 4 on card
+## CGY @ COL  ·  10000 joint draws  ·  466 bet sides mapped, 19 +EV candidates, 4 on card
 
 sportsbook moneyline consensus (5 books): home 0.772 / away 0.228
 
@@ -35,7 +35,7 @@ sportsbook moneyline consensus (5 books): home 0.772 / away 0.228
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
 | Cale Makar: 1+ goals NO | 73 | 0.803 | 0.783 | +0.059 | +0.040 | $19.23 | FUNDED_RESEARCH | $5 | COL:SUPPRESSED | DIRECT (0.92) | EVIDENCE_STRONGER | D |
-| Noah Juulsen: 1+ goals NO | 94 | 0.972 | 0.961 | +0.028 | +0.017 | $19.23 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | DIFFUSE | NONE | EVIDENCE_STRONGER | D |
+| Noah Juulsen: 1+ goals NO | 94 | 0.972 | 0.963 | +0.028 | +0.019 | $19.23 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | DIFFUSE | NONE | EVIDENCE_STRONGER | D |
 | Aydar Suniev: 1+ goals YES | 14 | 0.187 | 0.174 | +0.038 | +0.025 | $5.65 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | CGY:OFFENSE_4PLUS | FRAGILE (0.32) | EVIDENCE_STRONGER | D |
 | Calgary over 3.5 goals scored YES | 20 | 0.283 | 0.239 | +0.072 | +0.028 | $5.89 | FUNDED_RESEARCH | $2 | CGY:OFFENSE_4PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
 - **Cale Makar: 1+ goals NO** — thesis: COL offense suppressed (<= 2 goals); alternative: KXNHLAST-26OCT31CGYCOL-COLNMACKINNON29-2|no; why: higher confidence-adjusted growth (18.32 vs 5.30 bp); despite a smaller raw edge (+0.059 vs +0.071/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26OCT31CGYCOL-COLNJUULSEN47-1|no: MOSTLY_INDEPENDENT (phi 0.003); KXNHLGOAL-26OCT31CGYCOL-CGYASUNIEV61-1|yes: MOSTLY_INDEPENDENT (phi 0.005); KXNHLTEAMTOTAL-26OCT31CGYCOL-CGY4|yes: MOSTLY_INDEPENDENT (phi 0.025); failure: COL offense succeeds (4+ goals)
@@ -52,6 +52,6 @@ sportsbook moneyline consensus (5 books): home 0.772 / away 0.228
 - KXNHLGOAL-26OCT31CGYCOL-CGYASUNIEV61-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 68% of the draws where the thesis happens; fragile player expression; opposing: failure thesis CGY:SUPPRESSED (p 0.5111, phi -0.202)
 - KXNHLTEAMTOTAL-26OCT31CGYCOL-CGY4|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis CGY:SUPPRESSED (p 0.5111, phi -0.642)
 
-portfolios: A EV +11.98 (adj +3.18) on $50.00, P(profit) 0.5874, adj growth 17.2 bp · B EV +5.56 (adj +3.12) on $50.00, P(profit) 0.3461, adj growth 28.3 bp · C EV +5.85 (adj +2.64) on $50.00, P(profit) 0.3464, adj growth 23.6 bp · R EV +1.08 (adj +0.53) on $7.00, P(profit) 0.2829, adj growth 19.1 bp
+portfolios: A EV +11.73 (adj +3.09) on $50.00, P(profit) 0.5874, adj growth 16.5 bp · B EV +5.56 (adj +3.15) on $50.00, P(profit) 0.3461, adj growth 28.6 bp · C EV +5.85 (adj +2.67) on $50.00, P(profit) 0.3464, adj growth 23.9 bp · R EV +1.08 (adj +0.53) on $7.00, P(profit) 0.2829, adj growth 19.1 bp
 
 _RESEARCH_ONLY thesis card: B stakes are optimiser suggestions for a nominal bankroll; R (FUNDED_RESEARCH) stakes are whole-dollar research stakes under research governance. Nothing is placed or routed. Every recommended bet is +EV at its executable ask under the model AND the confidence-adjusted probability; the card is emitted only when the completion gate passes._
