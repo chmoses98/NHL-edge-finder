@@ -12,7 +12,7 @@
 #   RESEARCH    : semantics understood; no defensible model yet (player props, periods, futures)
 #   UNMODELABLE : not an on-ice hockey outcome (awards voting, business, media)
 #   NEEDS_RULE_REVIEW is expressed as BUILDABLE + settlement_notes saying so.
-version: "2026.09.29.2"
+version: "2026.11.02.1"
 families:
   # ------------------------------------------------------------------ full game (MODELABLE)
   game_winner:
@@ -241,7 +241,7 @@ families:
     settles_on: SEASON
     support: RESEARCH
     description: "Season-long player totals (goals, points) and season point totals for teams."
-    series_tickers: [KXNHLSEASONGOALS, KXNHLSEASONPPTS, KXNHLSEASONPTS, KXNHLPLAYOFFGOALS]
+    series_tickers: [KXNHLSEASONGOALS, KXNHLSEASONPPTS, KXNHLSEASONPTS, KXNHLPLAYOFFGOALS, KXNHLPSEASONGOALS]
     series_patterns: ["^KXNHLSEASON"]
   season_awards:
     scope: season
@@ -251,7 +251,7 @@ families:
     support: UNMODELABLE
     description: "Voted awards (Hart, Vezina, Calder, Norris ...), draft, transactions. Not an on-ice outcome we model."
     series_tickers: [KXNHLMVP, KXHART, KXVEZINA, KXCALDER, KXNORRIS, KXNHLDRAFT, KXNHLROOKIE, KXNHLCOACH, KXNHLHART, KXNHLVEZINA, KXNHLCALDER, KXNHLNORRIS, KXNHLADAMS,
-                     KXNHLRICHARD, KXNHLROSS, KXCONNSMYTHE, KXNHL1STTEAM, KXESPYNHL, KXNEXTTEAMNHL, KXNHLNEXTTEAM, KXNHLNEXTGM, KXNHLRETIRE]
+                     KXNHLRICHARD, KXNHLROSS, KXNHLLINDSAY, KXCONNSMYTHE, KXNHL1STTEAM, KXESPYNHL, KXNEXTTEAMNHL, KXNHLNEXTTEAM, KXNHLNEXTGM, KXNHLRETIRE]
     series_patterns: ["^KX(HART|VEZINA|CALDER|NORRIS|SELKE|LADYBYNG|JACKADAMS|CONNSMYTHE|ROCKET|ARTROSS)", "^KXNHL(MVP|AWARD|DRAFT|ROOKIE|COACH|TRADE|SIGN|FIRE|HIRE|ROY|ROCKET|ARTROSS|HART|VEZINA|CALDER|NORRIS|ADAMS|RICHARD|ROSS|1STTEAM|NEXT|RETIRE)", "^KXNEXTTEAMNHL", "^KXESPYNHL"]
   non_hockey_or_office:
     scope: other
