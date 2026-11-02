@@ -71,3 +71,19 @@ def test_iter_rows_keeps_integers_beyond_64_bits_exact(tmp_path):
     with gzip.open(d / "x_1.jsonl.gz", "wt") as f:
         f.write('{"a": 18446744073709551616, "b": 7}\n')
     assert list(Ledger(tmp_path).iter_rows("x")) == [{"a": 18446744073709551616, "b": 7}]
+
+
+def test_batch_stamp_never_precedes_a_rows_own_observation_time(tmp_path):
+    """Audit 2026-11-02: goalie observations / lines carried observed_at_utc up to 278 s later than the run-start batch stamp."""
+    led = Ledger(tmp_path, run_id="r1")
+    led.append_rows("context/x", [
+        {"id": "later", "observed_at_utc": "2026-10-21T23:04:38Z"},
+        {"id": "earlier", "observed_at_utc": "2026-10-21T22:00:00Z"},
+        {"id": "naive", "observed_at_utc": "2026-10-21T23:04:38"},
+        {"id": "garbage", "observed_at_utc": "not-a-time"},
+        {"id": "absent"},
+        {"id": "preset", "observed_at_utc": "2026-10-21T23:04:38Z", "_observed_at_utc": "2026-10-21T23:00:00Z"},
+    ], observed_at=parse_iso("2026-10-21T23:00:00Z"))
+    got = {r["id"]: r["_observed_at_utc"] for r in led.iter_rows("context/x")}
+    assert got == {"later": "2026-10-21T23:04:38Z", "earlier": "2026-10-21T23:00:00Z", "naive": "2026-10-21T23:00:00Z",
+                   "garbage": "2026-10-21T23:00:00Z", "absent": "2026-10-21T23:00:00Z", "preset": "2026-10-21T23:00:00Z"}
