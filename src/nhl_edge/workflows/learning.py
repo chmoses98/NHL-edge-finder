@@ -415,6 +415,80 @@ def _group(rows: list[dict[str, Any]], key: Any) -> dict[str, Any]:
     return out
 
 
+def goalie_saves_selection_audit(pm_rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Exploratory goalie-saves evidence on the final pregame shortlist, never betting authority.
+
+    Compare the realized win count to the actual adjusted probabilities on the SAME
+    selected contracts (not an NHL-wide model Brier score). Both ROI numbers exclude
+    trading fees because archived entry_price_cents contains only the executable ask.
+    The exact Poisson-binomial tail assumes independent bets; report game-clustered
+    bootstrap ROI separately and never use either as an automatic promotion gate.
+    """
+    selected: list[dict[str, Any]] = []
+    for r in pm_rows:
+        if r.get("family") != "goalie_saves" or not isinstance(r.get("won"), bool):
+            continue
+        price = r.get("entry_price_cents")
+        p = (r.get("model_result") or {}).get("p_adjusted")
+        try:
+            cost, probability = float(price) / 100.0, float(p)
+        except (TypeError, ValueError):
+            continue
+        if not (0 < cost < 1 and 0 <= probability <= 1):
+            continue
+        selected.append({"game_id": str(r.get("game_id") or ""), "won": r["won"],
+                         "cost": cost, "p": probability,
+                         "clv": r.get("price_result_clv")})
+    if not selected:
+        return {"n": 0, "fee_included": False, "note": "No settled, priced, model-scored goalie saves selections"}
+
+    wins = sum(int(r["won"]) for r in selected)
+    costs = sum(r["cost"] for r in selected)
+    profits = sum(int(r["won"]) - r["cost"] for r in selected)
+    model_profit = sum(r["p"] - r["cost"] for r in selected)
+    # Poisson-binomial: exact under the independence assumption, with each selection's own p.
+    distribution = [1.0]
+    for r in selected:
+        p = r["p"]
+        nxt = [0.0] * (len(distribution) + 1)
+        for k, mass in enumerate(distribution):
+            nxt[k] += mass * (1.0 - p)
+            nxt[k + 1] += mass * p
+        distribution = nxt
+
+    by_game: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for r in selected:
+        if r["game_id"]:
+            by_game[r["game_id"]].append(r)
+    cluster_interval = None
+    if len(by_game) >= 5 and len(by_game) == len({r["game_id"] for r in selected}):
+        groups = list(by_game.values())
+        game_costs = np.array([sum(r["cost"] for r in g) for g in groups])
+        game_profits = np.array([sum(int(r["won"]) - r["cost"] for r in g) for g in groups])
+        rng = np.random.default_rng(20261102)
+        draws = rng.integers(0, len(groups), size=(2000, len(groups)))
+        ratio = game_profits[draws].sum(axis=1) / game_costs[draws].sum(axis=1)
+        cluster_interval = [_r(v) for v in np.percentile(ratio, [2.5, 97.5])]
+
+    clv = [float(r["clv"]) for r in selected if r["clv"] is not None]
+    return {
+        "n": len(selected), "wins": wins, "n_distinct_games": len(by_game),
+        "hit_rate": _r(wins / len(selected)), "model_expected_wins": _r(sum(r["p"] for r in selected)),
+        "mean_model_p": _r(np.mean([r["p"] for r in selected])),
+        "mean_entry_ask_cents": _r(100.0 * costs / len(selected)),
+        "realized_gross_roi": _r(profits / costs),
+        "model_expected_gross_roi": _r(model_profit / costs),
+        "game_cluster_bootstrap_gross_roi_ci95": cluster_interval,
+        "p_at_least_observed_wins_if_model_correct_independent": _r(sum(distribution[wins:]), 5),
+        "mean_clv": _r(np.mean(clv)) if clv else None,
+        "n_clv": len(clv), "fee_included": False,
+        "status": "EXPLORATORY_NO_BETTING_AUTHORITY",
+        "limitations": "Selected after inspecting multiple market families; independence p-value is not a "
+                       "multiple-testing-adjusted significance claim. Same-game contracts can be correlated. "
+                       "ROI uses executable asks before Kalshi fees and excludes unselected opportunities.",
+    }
+
+
 def candidate_section(pm_rows: list[dict[str, Any]], surv: dict[str, dict[str, Any]]) -> dict[str, Any]:
     rows = []
     for r in pm_rows:
@@ -435,6 +509,7 @@ def candidate_section(pm_rows: list[dict[str, Any]], surv: dict[str, dict[str, A
             "shadow_return_per_cost": _r(sum(r["profit_per_contract"] for r in rows) / sum(r["cost"] for r in rows)),
             "clv": mean_ci([float(r["clv"]) for r in rows if r.get("clv") is not None]),
             "by_status": _group(rows, lambda r: r["status"]), "by_family": _group(rows, lambda r: r["family"]),
+            "goalie_saves_selection_audit": goalie_saves_selection_audit(pm_rows),
             "by_edge_bucket": _group(rows, lambda r: bucket(r.get("ev"), EDGE_BUCKETS)),
             "by_robustness": _group(rows, lambda r: r.get("robustness")),
             "funded_research": {"n": len(funded), "nominal_profit_dollars": _r(sum(float(r["funded_profit"] or 0) for r in funded), 2),
