@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-11-02T11:04:20Z · thesis-postmortem-2.0 · rows (all generations) 37925
+evaluated 2026-11-02T12:38:44Z · thesis-postmortem-2.0 · rows (all generations) 37925
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,17 +35,17 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020232 VGK @ BOS: NOT_STARTED · snapshot snap-2fa693d0c65d1c30f453 @ 2026-11-02T10:57:51Z
+#### game 2026020232 VGK @ BOS: NOT_STARTED · snapshot snap-237cf893eb69cf8a4f0b @ 2026-11-02T11:47:43Z
 
-#### game 2026020233 DET @ FLA: NOT_STARTED · snapshot snap-2fa693d0c65d1c30f453 @ 2026-11-02T10:57:51Z
+#### game 2026020233 DET @ FLA: NOT_STARTED · snapshot snap-237cf893eb69cf8a4f0b @ 2026-11-02T11:47:43Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
 | KXNHLTEAMTOTAL-26NOV02DETFLA-DET4|yes | FUNDED_RESEARCH | 2 | 5.29 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020234 COL @ CHI: NOT_STARTED · snapshot snap-2fa693d0c65d1c30f453 @ 2026-11-02T10:57:51Z
+#### game 2026020234 COL @ CHI: NOT_STARTED · snapshot snap-237cf893eb69cf8a4f0b @ 2026-11-02T11:47:43Z
 
-#### game 2026020235 CGY @ SJS: NOT_STARTED · snapshot snap-2fa693d0c65d1c30f453 @ 2026-11-02T10:57:51Z
+#### game 2026020235 CGY @ SJS: NOT_STARTED · snapshot snap-237cf893eb69cf8a4f0b @ 2026-11-02T11:47:43Z
 
 ## Slate 2026-11-01: **COMPLETE — 5/5 games evaluated**
 
