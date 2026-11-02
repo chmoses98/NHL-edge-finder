@@ -1,6 +1,6 @@
 # NHL slate 2026-11-02 — RESEARCH_ONLY
 
-generated 2026-11-02T10:08:49Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-11-02T10:57:51Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 4 · simulated (not started): 4 · markets on board: 2164 · contracts joined: 204 (unjoined to any game: 1275)
 gates: {'UNSUPPORTED': 104, 'OK': 57, 'NO_EDGE': 43}
@@ -32,35 +32,33 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'game_e
 | KXNHLSPREAD-26NOV02VGKBOS-VGK3 | game_spread | 0.130 | 0.190 | 0.176 | 20 | 82 | no | +0.040 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-COL3 | team_total | 0.689 | 0.745 | 0.734 | 75 | 26 | no | +0.038 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-DET5 | team_total | 0.175 | 0.125 | 0.134 | 13 | 88 | yes | +0.037 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-DET4 | team_total | 0.342 | 0.280 | 0.292 | 29 | 73 | yes | +0.037 | OK |
+| KXNHLTEAMTOTAL-26NOV02DETFLA-DET4 | team_total | 0.342 | 0.285 | 0.296 | 29 | 72 | yes | +0.037 | OK |
 | KXNHLGAME-26NOV02COLCHI-CHI | game_winner | 0.371 | 0.315 | 0.326 | 32 | 69 | yes | +0.035 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-DET3 | team_total | 0.560 | 0.500 | 0.512 | 51 | 51 | yes | +0.033 | OK |
 | KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK2 | team_total | 0.778 | 0.830 | 0.820 | 84 | 18 | no | +0.032 | OK |
 | KXNHLSPREAD-26NOV02VGKBOS-VGK2 | game_spread | 0.235 | 0.285 | 0.275 | 29 | 72 | no | +0.031 | OK |
 | KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK3 | team_total | 0.556 | 0.615 | 0.603 | 63 | 40 | no | +0.027 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-FLA3 | team_total | 0.628 | 0.680 | 0.670 | 69 | 33 | no | +0.026 | OK |
 | KXNHLSPREAD-26NOV02VGKBOS-BOS3 | game_spread | 0.216 | 0.175 | 0.183 | 18 | 83 | yes | +0.026 | OK |
 | KXNHLGAME-26NOV02COLCHI-COL | game_winner | 0.629 | 0.675 | 0.666 | 68 | 33 | no | +0.025 | OK |
 | KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK4 | team_total | 0.341 | 0.400 | 0.388 | 42 | 62 | no | +0.023 | OK |
+| KXNHLTEAMTOTAL-26NOV02DETFLA-DET3 | team_total | 0.560 | 0.505 | 0.516 | 52 | 51 | yes | +0.023 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-7 | game_total | 0.440 | 0.485 | 0.476 | 49 | 52 | no | +0.022 | OK |
-| KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY5 | team_total | 0.223 | 0.185 | 0.192 | 19 | 82 | yes | +0.022 | OK |
-| KXNHLTOTAL-26NOV02COLCHI-4 | game_total | 0.852 | 0.890 | 0.883 | 90 | 12 | no | +0.021 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-FLA4 | team_total | 0.413 | 0.460 | 0.450 | 47 | 55 | no | +0.020 | OK |
+| KXNHLTOTAL-26NOV02COLCHI-4 | game_total | 0.852 | 0.885 | 0.879 | 89 | 12 | no | +0.021 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-DET6 | team_total | 0.072 | 0.040 | 0.045 | 5 | 97 | yes | +0.019 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-6 | game_total | 0.554 | 0.595 | 0.587 | 60 | 41 | no | +0.019 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-COL6 | team_total | 0.133 | 0.165 | 0.158 | 17 | 84 | no | +0.018 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-DET2 | team_total | 0.780 | 0.740 | 0.748 | 75 | 27 | yes | +0.017 | OK |
+| KXNHLTEAMTOTAL-26NOV02DETFLA-FLA3 | team_total | 0.628 | 0.670 | 0.662 | 68 | 34 | no | +0.016 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-5 | game_total | 0.763 | 0.800 | 0.793 | 81 | 21 | no | +0.015 | OK |
 | KXNHLTOTAL-26NOV02CGYSJ-9 | game_total | 0.226 | 0.195 | 0.201 | 20 | 81 | yes | +0.014 | OK |
-| KXNHLTEAMTOTAL-26NOV02COLCHI-CHI5 | team_total | 0.141 | 0.115 | 0.120 | 12 | 89 | yes | +0.014 | OK |
-| KXNHLTOTAL-26NOV02CGYSJ-8 | game_total | 0.308 | 0.275 | 0.281 | 28 | 73 | yes | +0.014 | OK |
 | KXNHLSPREAD-26NOV02COLCHI-CHI2 | game_spread | 0.183 | 0.155 | 0.160 | 16 | 85 | yes | +0.013 | OK |
 | KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS5 | team_total | 0.245 | 0.210 | 0.217 | 22 | 80 | yes | +0.013 | OK |
 | KXNHLSPREAD-26NOV02DETFLA-DET3 | game_spread | 0.139 | 0.115 | 0.120 | 12 | 89 | yes | +0.012 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-FLA5 | team_total | 0.225 | 0.260 | 0.253 | 27 | 75 | no | +0.012 | OK |
+| KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY5 | team_total | 0.223 | 0.190 | 0.196 | 20 | 82 | yes | +0.012 | OK |
 | KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK5 | team_total | 0.177 | 0.215 | 0.207 | 23 | 80 | no | +0.011 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-COL2 | team_total | 0.862 | 0.885 | 0.881 | 89 | 12 | no | +0.011 | OK |
 | KXNHLSPREAD-26NOV02CGYSJ-SJ3 | game_spread | 0.198 | 0.225 | 0.219 | 23 | 78 | no | +0.010 | OK |
+| KXNHLTEAMTOTAL-26NOV02DETFLA-FLA4 | team_total | 0.413 | 0.455 | 0.446 | 47 | 56 | no | +0.010 | OK |
 | KXNHLGAME-26NOV02CGYSJ-CGY | game_winner | 0.467 | 0.435 | 0.441 | 44 | 57 | yes | +0.010 | OK |
 | KXNHLGAME-26NOV02CGYSJ-SJ | game_winner | 0.533 | 0.565 | 0.559 | 57 | 44 | no | +0.010 | OK |
 | KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY6 | team_total | 0.103 | 0.080 | 0.084 | 9 | 93 | yes | +0.007 | OK |
@@ -69,7 +67,9 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'game_e
 | KXNHLTOTAL-26NOV02CGYSJ-7 | game_total | 0.502 | 0.475 | 0.480 | 48 | 53 | yes | +0.004 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-FLA2 | team_total | 0.827 | 0.845 | 0.841 | 85 | 16 | no | +0.004 | OK |
 | KXNHLTOTAL-26NOV02VGKBOS-4 | game_total | 0.858 | 0.875 | 0.872 | 88 | 13 | no | +0.004 | OK |
+| KXNHLTOTAL-26NOV02CGYSJ-8 | game_total | 0.308 | 0.280 | 0.285 | 29 | 73 | yes | +0.003 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-CHI6 | team_total | 0.057 | 0.040 | 0.043 | 5 | 97 | yes | +0.003 | OK |
+| KXNHLTEAMTOTAL-26NOV02COLCHI-CHI5 | team_total | 0.141 | 0.120 | 0.124 | 13 | 89 | yes | +0.003 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-8 | game_total | 0.254 | 0.275 | 0.271 | 28 | 73 | no | +0.003 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-9 | game_total | 0.177 | 0.195 | 0.191 | 20 | 81 | no | +0.002 | OK |
 | KXNHLSPREAD-26NOV02COLCHI-CHI3 | game_spread | 0.097 | 0.085 | 0.087 | 9 | 92 | yes | +0.001 | OK |
@@ -110,10 +110,9 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'game_e
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 2 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 1 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Detroit over 3.5 goals scored YES @ 29c · p 0.355 (adj 0.3175) · $4.43 · thesis DET:OFFENSE_4PLUS
-- Chicago over 4.5 goals scored YES @ 12c · p 0.1634 (adj 0.1392) · $2.92 · thesis CHI:OFFENSE_4PLUS
+- Detroit over 3.5 goals scored YES @ 29c · p 0.355 (adj 0.32) · $5.29 · thesis DET:OFFENSE_4PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
