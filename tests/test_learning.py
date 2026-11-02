@@ -13,11 +13,11 @@ from nhl_edge.research_sift import EVIDENCE_BASES, learning_extension, matchup_f
 from nhl_edge.scripts_v1.taxonomy import SCRIPTS, base_rates
 from nhl_edge.workflows.learning import (
     binary_metrics,
+    candidate_section,
     final_pregame,
+    goalie_saves_selection_audit,
     learning_stage,
     mean_ci,
-    goalie_saves_selection_audit,
-    candidate_section,
     multiclass_scores,
     run_learning,
 )
