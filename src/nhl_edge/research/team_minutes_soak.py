@@ -33,6 +33,7 @@ SOAK_GAMES = 100
 MAX_FALLBACK_SHARE = 0.02
 MAX_ERROR_RUN_FRACTION = 0.10          # "more than one run in ten"
 LEGACY = "team-minutes-0"
+PUBLISHED_ROUNDING_TOL = 0.0051        # half a published rounding step (0.01) plus the shadow's own 4-decimal storage error
 
 
 def manifest_entries(archive: Path, kinds: tuple[str, ...], since: str) -> list[dict[str, Any]]:
@@ -77,7 +78,10 @@ def scan_published(archive: Path, since: str, shadow: pd.DataFrame) -> dict[str,
         s = by_key.get((str(r.get("game_id")), int(r["player_id"]) if r.get("player_id") is not None else -1, str(r.get("predicted_at_utc"))))
         if s is not None and r.get("meta_expected_toi_min") is not None:
             n_compared += 1
-            if (round(s.legacy_toi, 2), round(s.legacy_pp, 2), round(s.legacy_sog, 2)) != (r["meta_expected_toi_min"], r["meta_expected_pp_toi_min"], r["meta_expected_shots"]):
+            # the published fields are rounded to 2 decimals from the full-precision value; the shadow stores that value at 4 decimals, so re-rounding it can land one unit in the 2nd decimal
+            # away (double rounding). A genuine difference is far larger than the published rounding step.
+            pairs = ((s.legacy_toi, r["meta_expected_toi_min"]), (s.legacy_pp, r["meta_expected_pp_toi_min"]), (s.legacy_sog, r["meta_expected_shots"]))
+            if any(abs(float(a) - float(b)) > PUBLISHED_ROUNDING_TOL for a, b in pairs):
                 n_mismatch += 1
     return {"published_rows_since": n, "rows_with_allocation_or_legacy_fields": n_pinned, "published_vs_shadow_template_arm": {"compared": n_compared, "mismatches": n_mismatch},
             "expected_shadow_run_instants": sorted(expected)}
