@@ -1,6 +1,6 @@
 # NHL slate 2026-11-02 — RESEARCH_ONLY
 
-generated 2026-11-02T06:04:04Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-11-02T06:51:59Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 4 · simulated (not started): 4 · markets on board: 2164 · contracts joined: 204 (unjoined to any game: 1275)
 gates: {'UNSUPPORTED': 104, 'OK': 57, 'NO_EDGE': 43}
@@ -23,6 +23,7 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'game_e
 | KXNHLSPREAD-26NOV02DETFLA-FLA3 | game_spread | 0.201 | 0.265 | 0.251 | 27 | 74 | no | +0.045 | OK |
 | KXNHLGAME-26NOV02DETFLA-DET | game_winner | 0.452 | 0.385 | 0.398 | 39 | 62 | yes | +0.045 | OK |
 | KXNHLGAME-26NOV02DETFLA-FLA | game_winner | 0.548 | 0.615 | 0.602 | 62 | 39 | no | +0.045 | OK |
+| KXNHLSPREAD-26NOV02COLCHI-COL3 | game_spread | 0.264 | 0.325 | 0.312 | 33 | 68 | no | +0.041 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-COL4 | team_total | 0.472 | 0.540 | 0.526 | 55 | 47 | no | +0.041 | OK |
 | KXNHLSPREAD-26NOV02VGKBOS-VGK3 | game_spread | 0.130 | 0.190 | 0.176 | 20 | 82 | no | +0.040 | OK |
 | KXNHLSPREAD-26NOV02COLCHI-COL2 | game_spread | 0.403 | 0.465 | 0.452 | 47 | 54 | no | +0.040 | OK |
@@ -30,44 +31,43 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'game_e
 | KXNHLTEAMTOTAL-26NOV02DETFLA-DET4 | team_total | 0.342 | 0.285 | 0.296 | 29 | 72 | yes | +0.037 | OK |
 | KXNHLGAME-26NOV02COLCHI-COL | game_winner | 0.629 | 0.685 | 0.674 | 69 | 32 | no | +0.035 | OK |
 | KXNHLGAME-26NOV02COLCHI-CHI | game_winner | 0.371 | 0.315 | 0.326 | 32 | 69 | yes | +0.035 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK4 | team_total | 0.341 | 0.405 | 0.392 | 42 | 61 | no | +0.033 | OK |
-| KXNHLSPREAD-26NOV02COLCHI-COL3 | game_spread | 0.264 | 0.320 | 0.308 | 33 | 69 | no | +0.031 | OK |
+| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK2 | team_total | 0.778 | 0.830 | 0.820 | 84 | 18 | no | +0.032 | OK |
 | KXNHLSPREAD-26NOV02DETFLA-DET2 | game_spread | 0.242 | 0.190 | 0.200 | 20 | 82 | yes | +0.031 | OK |
 | KXNHLSPREAD-26NOV02VGKBOS-VGK2 | game_spread | 0.235 | 0.285 | 0.275 | 29 | 72 | no | +0.031 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-COL3 | team_total | 0.689 | 0.740 | 0.730 | 75 | 27 | no | +0.027 | OK |
 | KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK3 | team_total | 0.556 | 0.615 | 0.603 | 63 | 40 | no | +0.027 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-DET5 | team_total | 0.175 | 0.130 | 0.138 | 14 | 88 | yes | +0.027 | OK |
 | KXNHLSPREAD-26NOV02VGKBOS-BOS3 | game_spread | 0.216 | 0.175 | 0.183 | 18 | 83 | yes | +0.026 | OK |
+| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK4 | team_total | 0.341 | 0.400 | 0.388 | 42 | 62 | no | +0.023 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-DET3 | team_total | 0.560 | 0.500 | 0.512 | 52 | 52 | yes | +0.023 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK2 | team_total | 0.778 | 0.825 | 0.816 | 84 | 19 | no | +0.021 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-COL5 | team_total | 0.274 | 0.325 | 0.314 | 34 | 69 | no | +0.021 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK5 | team_total | 0.177 | 0.220 | 0.211 | 23 | 79 | no | +0.021 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-4 | game_total | 0.852 | 0.885 | 0.879 | 89 | 12 | no | +0.021 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-DET6 | team_total | 0.072 | 0.040 | 0.045 | 5 | 97 | yes | +0.019 | OK |
+| KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS3 | team_total | 0.653 | 0.605 | 0.615 | 62 | 41 | yes | +0.016 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-FLA3 | team_total | 0.628 | 0.670 | 0.662 | 68 | 34 | no | +0.016 | OK |
-| KXNHLTOTAL-26NOV02CGYSJ-9 | game_total | 0.226 | 0.195 | 0.201 | 20 | 81 | yes | +0.014 | OK |
 | KXNHLTOTAL-26NOV02CGYSJ-8 | game_total | 0.308 | 0.275 | 0.281 | 28 | 73 | yes | +0.014 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-7 | game_total | 0.440 | 0.475 | 0.468 | 48 | 53 | no | +0.012 | OK |
 | KXNHLSPREAD-26NOV02DETFLA-DET3 | game_spread | 0.139 | 0.115 | 0.120 | 12 | 89 | yes | +0.012 | OK |
+| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK5 | team_total | 0.177 | 0.215 | 0.207 | 23 | 80 | no | +0.011 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-COL2 | team_total | 0.862 | 0.885 | 0.881 | 89 | 12 | no | +0.011 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-FLA4 | team_total | 0.413 | 0.455 | 0.446 | 47 | 56 | no | +0.010 | OK |
 | KXNHLGAME-26NOV02CGYSJ-CGY | game_winner | 0.467 | 0.435 | 0.441 | 44 | 57 | yes | +0.010 | OK |
 | KXNHLGAME-26NOV02CGYSJ-SJ | game_winner | 0.533 | 0.565 | 0.559 | 57 | 44 | no | +0.010 | OK |
-| KXNHLTOTAL-26NOV02COLCHI-6 | game_total | 0.554 | 0.590 | 0.583 | 60 | 42 | no | +0.009 | OK |
-| KXNHLTEAMTOTAL-26NOV02COLCHI-COL6 | team_total | 0.133 | 0.160 | 0.154 | 17 | 85 | no | +0.008 | OK |
+| KXNHLTOTAL-26NOV02COLCHI-6 | game_total | 0.554 | 0.585 | 0.579 | 59 | 42 | no | +0.009 | OK |
+| KXNHLTEAMTOTAL-26NOV02COLCHI-COL6 | team_total | 0.133 | 0.155 | 0.150 | 16 | 85 | no | +0.008 | OK |
+| KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY6 | team_total | 0.103 | 0.080 | 0.084 | 9 | 93 | yes | +0.007 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-DET2 | team_total | 0.780 | 0.745 | 0.752 | 76 | 27 | yes | +0.007 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS3 | team_total | 0.653 | 0.610 | 0.619 | 63 | 41 | yes | +0.006 | OK |
 | KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS4 | team_total | 0.443 | 0.400 | 0.408 | 42 | 62 | yes | +0.006 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS6 | team_total | 0.111 | 0.090 | 0.094 | 10 | 92 | yes | +0.005 | OK |
+| KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS6 | team_total | 0.111 | 0.085 | 0.090 | 10 | 93 | yes | +0.005 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-5 | game_total | 0.763 | 0.785 | 0.781 | 79 | 22 | no | +0.005 | OK |
 | KXNHLTOTAL-26NOV02CGYSJ-7 | game_total | 0.502 | 0.475 | 0.480 | 48 | 53 | yes | +0.004 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-FLA2 | team_total | 0.827 | 0.845 | 0.841 | 85 | 16 | no | +0.004 | OK |
 | KXNHLTOTAL-26NOV02VGKBOS-4 | game_total | 0.858 | 0.875 | 0.872 | 88 | 13 | no | +0.004 | OK |
+| KXNHLTOTAL-26NOV02CGYSJ-9 | game_total | 0.226 | 0.200 | 0.205 | 21 | 81 | yes | +0.004 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-CHI6 | team_total | 0.057 | 0.040 | 0.043 | 5 | 97 | yes | +0.003 | OK |
-| KXNHLTEAMTOTAL-26NOV02COLCHI-CHI5 | team_total | 0.141 | 0.120 | 0.124 | 13 | 89 | yes | +0.003 | OK |
+| KXNHLTEAMTOTAL-26NOV02COLCHI-CHI5 | team_total | 0.141 | 0.125 | 0.128 | 13 | 88 | yes | +0.003 | OK |
 | KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS5 | team_total | 0.245 | 0.215 | 0.221 | 23 | 80 | yes | +0.003 | OK |
 | KXNHLSPREAD-26NOV02COLCHI-CHI2 | game_spread | 0.183 | 0.160 | 0.164 | 17 | 85 | yes | +0.003 | OK |
-| KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY4 | team_total | 0.399 | 0.370 | 0.376 | 38 | 64 | yes | +0.003 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-8 | game_total | 0.254 | 0.275 | 0.271 | 28 | 73 | no | +0.003 | OK |
 | KXNHLTEAMTOTAL-26NOV02DETFLA-FLA5 | team_total | 0.225 | 0.250 | 0.245 | 26 | 76 | no | +0.002 | OK |
 | KXNHLSPREAD-26NOV02COLCHI-CHI3 | game_spread | 0.097 | 0.085 | 0.087 | 9 | 92 | yes | +0.001 | OK |
@@ -77,16 +77,13 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'game_e
 | KXNHLTOTAL-26NOV02CGYSJ-5 | game_total | 0.811 | 0.795 | 0.798 | 80 | 21 |  | -0.000 | NO_EDGE |
 | KXNHLSPREAD-26NOV02CGYSJ-CGY2 | game_spread | 0.262 | 0.240 | 0.244 | 25 | 77 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26NOV02CGYSJ-2 | game_total | 0.988 | 0.985 | 0.986 | 99 | 2 |  | -0.002 | NO_EDGE |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK6 | team_total | 0.077 | 0.090 | 0.087 | 10 | 92 |  | -0.003 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK6 | team_total | 0.077 | 0.085 | 0.083 | 9 | 92 |  | -0.003 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY3 | team_total | 0.614 | 0.590 | 0.595 | 60 | 42 |  | -0.003 | NO_EDGE |
 | KXNHLSPREAD-26NOV02CGYSJ-SJ2 | game_spread | 0.318 | 0.335 | 0.331 | 34 | 67 |  | -0.003 | NO_EDGE |
-| KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY6 | team_total | 0.103 | 0.085 | 0.088 | 10 | 93 |  | -0.003 | NO_EDGE |
 | KXNHLTOTAL-26NOV02CGYSJ-6 | game_total | 0.613 | 0.590 | 0.595 | 60 | 42 |  | -0.004 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV02CGYSJ-SJ2 | team_total | 0.845 | 0.855 | 0.853 | 86 | 15 |  | -0.004 | NO_EDGE |
-| KXNHLTEAMTOTAL-26NOV02COLCHI-CHI4 | team_total | 0.290 | 0.270 | 0.274 | 28 | 74 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26NOV02VGKBOS-5 | game_total | 0.772 | 0.785 | 0.782 | 79 | 22 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26NOV02COLCHI-3 | game_total | 0.962 | 0.975 | 0.973 | 99 | 4 |  | -0.004 | NO_EDGE |
-| KXNHLTOTAL-26NOV02DETFLA-8 | game_total | 0.248 | 0.235 | 0.238 | 24 | 77 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26NOV02COLCHI-2 | game_total | 0.984 | 0.985 | 0.985 | 99 | 2 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26NOV02VGKBOS-2 | game_total | 0.986 | 0.980 | 0.981 | 99 | 3 |  | -0.005 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV02CGYSJ-SJ6 | team_total | 0.122 | 0.115 | 0.116 | 12 | 89 |  | -0.005 | NO_EDGE |
@@ -96,7 +93,10 @@ families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'game_e
 | KXNHLTOTAL-26NOV02VGKBOS-3 | game_total | 0.964 | 0.975 | 0.973 | 99 | 4 |  | -0.007 | NO_EDGE |
 | KXNHLTOTAL-26NOV02COLCHI-9 | game_total | 0.177 | 0.190 | 0.187 | 20 | 82 |  | -0.007 | NO_EDGE |
 | KXNHLTOTAL-26NOV02COLCHI-10 | game_total | 0.082 | 0.095 | 0.092 | 11 | 92 |  | -0.007 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY4 | team_total | 0.399 | 0.375 | 0.380 | 39 | 64 |  | -0.008 | NO_EDGE |
 | KXNHLTOTAL-26NOV02DETFLA-5 | game_total | 0.763 | 0.755 | 0.757 | 76 | 25 |  | -0.009 | NO_EDGE |
+| KXNHLTOTAL-26NOV02VGKBOS-8 | game_total | 0.264 | 0.255 | 0.257 | 26 | 75 |  | -0.009 | NO_EDGE |
+| KXNHLTOTAL-26NOV02DETFLA-4 | game_total | 0.849 | 0.845 | 0.846 | 85 | 16 |  | -0.010 | NO_EDGE |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
