@@ -16,6 +16,8 @@ from nhl_edge.workflows.learning import (
     final_pregame,
     learning_stage,
     mean_ci,
+    goalie_saves_selection_audit,
+    candidate_section,
     multiclass_scores,
     run_learning,
 )
@@ -155,3 +157,44 @@ def test_health_shows_a_broken_learning_job_as_degraded():
     assert learning_component({"evaluated_at_utc": "2026-10-06T23:28:24Z", "steps": {"learning": "OK"}}, now)["status"] == "OK"
     assert learning_component({"evaluated_at_utc": "2026-10-01T00:00:00Z", "steps": {"learning": "OK"}}, now)["status"] == "STALE"
     assert learning_component(None, now)["status"] == "UNKNOWN"
+
+
+def test_goalie_saves_selection_audit_separates_observed_from_model_expected_roi():
+    # A positive 21/31 result is not a statistically decisive model-beating signal.
+    rows = [{"family": "goalie_saves", "game_id": f"g{i}", "entry_price_cents": 52,
+             "won": i < 21, "model_result": {"p_adjusted": 0.5554},
+             "price_result_clv": -0.0124} for i in range(31)]
+    out = goalie_saves_selection_audit(rows)
+    assert out["n"] == 31 and out["wins"] == 21
+    assert out["n_distinct_games"] == 31
+    assert out["model_expected_wins"] == pytest.approx(17.2174)
+    assert out["mean_entry_ask_cents"] == 52
+    assert out["model_expected_gross_roi"] > 0
+    assert out["realized_gross_roi"] > out["model_expected_gross_roi"]
+    assert 0.10 < out["p_at_least_observed_wins_if_model_correct_independent"] < 0.14
+    assert out["game_cluster_bootstrap_gross_roi_ci95"][0] < out["realized_gross_roi"]
+    assert out["mean_clv"] == -0.0124
+    assert out["fee_included"] is False
+    assert out["status"] == "EXPLORATORY_NO_BETTING_AUTHORITY"
+
+
+def test_goalie_saves_selection_audit_retains_same_game_dependence_and_skips_invalid_rows():
+    rows = [
+        {"family": "goalie_saves", "game_id": "game1", "entry_price_cents": 55, "won": True,
+         "model_result": {"p_adjusted": 0.6}},
+        {"family": "goalie_saves", "game_id": "game1", "entry_price_cents": 60, "won": True,
+         "model_result": {"p_adjusted": 0.65}},
+        {"family": "goalie_saves", "game_id": "game2", "entry_price_cents": 50, "won": False,
+         "model_result": {"p_adjusted": 0.55}},
+        {"family": "goalie_saves", "game_id": "game3", "entry_price_cents": None, "won": True,
+         "model_result": {"p_adjusted": 0.9}},
+        {"family": "game_winner", "game_id": "game4", "entry_price_cents": 50, "won": True,
+         "model_result": {"p_adjusted": 0.9}},
+    ]
+    out = goalie_saves_selection_audit(rows)
+    assert out["n"] == 3 and out["n_distinct_games"] == 2
+    assert out["game_cluster_bootstrap_gross_roi_ci95"] is None
+    assert out["wins"] == 2
+    assert out["model_expected_wins"] == 1.8
+    assert candidate_section(rows, {})["goalie_saves_selection_audit"]["n"] == 3
+    assert goalie_saves_selection_audit([])["n"] == 0
