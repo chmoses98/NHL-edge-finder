@@ -1,6 +1,6 @@
 # NHL slate 2026-11-03 — RESEARCH_ONLY
 
-generated 2026-11-03T09:54:24Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-11-03T10:50:36Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 11 · simulated (not started): 11 · markets on board: 2253 · contracts joined: 561 (unjoined to any game: 1275)
 gates: {'UNSUPPORTED': 286, 'NO_EDGE': 155, 'OK': 120}
@@ -25,36 +25,36 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 | ticker | family | P(data) | P(mkt mid) | P(anchored) | yes ask | no ask | best | EV after fee | gate |
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
 | KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ3 | team_total | 0.485 | 0.595 | 0.573 | 61 | 42 | no | +0.078 | OK |
-| KXNHLSPREAD-26NOV03DETTB-TB3 | game_spread | 0.250 | 0.345 | 0.325 | 35 | 66 | no | +0.074 | OK |
+| KXNHLTOTAL-26NOV03COLCBJ-7 | game_total | 0.388 | 0.485 | 0.465 | 49 | 52 | no | +0.074 | OK |
+| KXNHLSPREAD-26NOV03DETTB-TB3 | game_spread | 0.250 | 0.350 | 0.329 | 36 | 66 | no | +0.074 | OK |
+| KXNHLTEAMTOTAL-26NOV03DETTB-TB4 | team_total | 0.452 | 0.550 | 0.530 | 56 | 46 | no | +0.071 | OK |
 | KXNHLGAME-26NOV03EDMNJ-NJ | game_winner | 0.507 | 0.595 | 0.578 | 60 | 41 | no | +0.066 | OK |
-| KXNHLTOTAL-26NOV03COLCBJ-7 | game_total | 0.388 | 0.480 | 0.461 | 49 | 53 | no | +0.064 | OK |
 | KXNHLTEAMTOTAL-26NOV03MINPHI-MIN4 | team_total | 0.380 | 0.470 | 0.452 | 48 | 54 | no | +0.062 | OK |
 | KXNHLGAME-26NOV03DETTB-DET | game_winner | 0.377 | 0.295 | 0.311 | 30 | 71 | yes | +0.062 | OK |
 | KXNHLGAME-26NOV03DETTB-TB | game_winner | 0.623 | 0.705 | 0.689 | 71 | 30 | no | +0.062 | OK |
 | KXNHLSPREAD-26NOV03DETTB-TB2 | game_spread | 0.391 | 0.475 | 0.458 | 48 | 53 | no | +0.062 | OK |
 | KXNHLTOTAL-26NOV03COLCBJ-6 | game_total | 0.501 | 0.590 | 0.573 | 60 | 42 | no | +0.061 | OK |
-| KXNHLTEAMTOTAL-26NOV03DETTB-TB4 | team_total | 0.452 | 0.545 | 0.526 | 56 | 47 | no | +0.061 | OK |
 | KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ4 | team_total | 0.277 | 0.370 | 0.350 | 39 | 65 | no | +0.057 | OK |
+| KXNHLTEAMTOTAL-26NOV03DETTB-TB3 | team_total | 0.670 | 0.750 | 0.735 | 76 | 26 | no | +0.057 | OK |
 | KXNHLGAME-26NOV03EDMNJ-EDM | game_winner | 0.493 | 0.415 | 0.430 | 42 | 59 | yes | +0.056 | OK |
 | KXNHLTEAMTOTAL-26NOV03DETTB-TB5 | team_total | 0.251 | 0.335 | 0.317 | 35 | 68 | no | +0.053 | OK |
+| KXNHLSPREAD-26NOV03MINPHI-MIN3 | game_spread | 0.197 | 0.265 | 0.250 | 27 | 74 | no | +0.050 | OK |
 | KXNHLSPREAD-26NOV03EDMNJ-NJ2 | game_spread | 0.295 | 0.365 | 0.350 | 37 | 64 | no | +0.049 | OK |
 | KXNHLSPREAD-26NOV03EDMNJ-NJ3 | game_spread | 0.179 | 0.245 | 0.231 | 25 | 76 | no | +0.048 | OK |
-| KXNHLTEAMTOTAL-26NOV03DETTB-TB3 | team_total | 0.670 | 0.745 | 0.731 | 76 | 27 | no | +0.046 | OK |
 | KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ2 | team_total | 0.723 | 0.800 | 0.786 | 82 | 22 | no | +0.045 | OK |
 | KXNHLGAME-26NOV03COLCBJ-CBJ | game_winner | 0.398 | 0.465 | 0.451 | 47 | 54 | no | +0.045 | OK |
 | KXNHLGAME-26NOV03COLCBJ-COL | game_winner | 0.602 | 0.535 | 0.549 | 54 | 47 | yes | +0.045 | OK |
-| KXNHLTOTAL-26NOV03COLCBJ-5 | game_total | 0.724 | 0.785 | 0.774 | 79 | 22 | no | +0.044 | OK |
+| KXNHLTOTAL-26NOV03COLCBJ-5 | game_total | 0.724 | 0.790 | 0.778 | 80 | 22 | no | +0.044 | OK |
 | KXNHLGAME-26NOV03MINPHI-PHI | game_winner | 0.440 | 0.375 | 0.388 | 38 | 63 | yes | +0.043 | OK |
-| KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ5 | team_total | 0.127 | 0.190 | 0.176 | 20 | 82 | no | +0.043 | OK |
+| KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ5 | team_total | 0.127 | 0.195 | 0.180 | 21 | 82 | no | +0.043 | OK |
 | KXNHLSPREAD-26NOV03EDMNJ-EDM2 | game_spread | 0.284 | 0.225 | 0.236 | 23 | 78 | yes | +0.042 | OK |
 | KXNHLSPREAD-26NOV03COLCBJ-CBJ2 | game_spread | 0.196 | 0.255 | 0.242 | 26 | 75 | no | +0.041 | OK |
 | KXNHLTEAMTOTAL-26NOV03MINPHI-MIN3 | team_total | 0.604 | 0.675 | 0.661 | 69 | 34 | no | +0.040 | OK |
-| KXNHLSPREAD-26NOV03MINPHI-MIN3 | game_spread | 0.197 | 0.255 | 0.243 | 26 | 75 | no | +0.040 | OK |
 | KXNHLSPREAD-26NOV03MINPHI-MIN2 | game_spread | 0.324 | 0.385 | 0.372 | 39 | 62 | no | +0.040 | OK |
 | KXNHLTEAMTOTAL-26NOV03DALWSH-DAL3 | team_total | 0.525 | 0.590 | 0.577 | 60 | 42 | no | +0.038 | OK |
 | KXNHLSPREAD-26NOV03COLCBJ-CBJ3 | game_spread | 0.104 | 0.155 | 0.143 | 16 | 85 | no | +0.037 | OK |
-| KXNHLTEAMTOTAL-26NOV03DETTB-TB2 | team_total | 0.848 | 0.900 | 0.891 | 91 | 11 | no | +0.035 | OK |
-| KXNHLTOTAL-26NOV03COLCBJ-8 | game_total | 0.212 | 0.275 | 0.261 | 29 | 74 | no | +0.035 | OK |
+| KXNHLTEAMTOTAL-26NOV03EDMNJ-EDM5 | team_total | 0.215 | 0.160 | 0.170 | 17 | 85 | yes | +0.035 | OK |
+| KXNHLTOTAL-26NOV03COLCBJ-8 | game_total | 0.212 | 0.270 | 0.258 | 28 | 74 | no | +0.035 | OK |
 | KXNHLGAME-26NOV03DALWSH-DAL | game_winner | 0.448 | 0.505 | 0.494 | 51 | 50 | no | +0.034 | OK |
 | KXNHLTOTAL-26NOV03ANAVAN-9 | game_total | 0.297 | 0.245 | 0.255 | 25 | 76 | yes | +0.034 | OK |
 | KXNHLGAME-26NOV03MINPHI-MIN | game_winner | 0.560 | 0.615 | 0.604 | 62 | 39 | no | +0.033 | OK |
@@ -68,38 +68,38 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 | KXNHLTOTAL-26NOV03COLCBJ-9 | game_total | 0.145 | 0.185 | 0.176 | 19 | 82 | no | +0.025 | OK |
 | KXNHLTOTAL-26NOV03DETTB-6 | game_total | 0.528 | 0.580 | 0.570 | 59 | 43 | no | +0.025 | OK |
 | KXNHLTEAMTOTAL-26NOV03DALWSH-DAL2 | team_total | 0.754 | 0.805 | 0.795 | 82 | 21 | no | +0.025 | OK |
-| KXNHLTEAMTOTAL-26NOV03EDMNJ-EDM5 | team_total | 0.215 | 0.165 | 0.174 | 18 | 85 | yes | +0.025 | OK |
 | KXNHLTEAMTOTAL-26NOV03DALWSH-DAL4 | team_total | 0.310 | 0.365 | 0.354 | 38 | 65 | no | +0.024 | OK |
+| KXNHLTEAMTOTAL-26NOV03DETTB-TB2 | team_total | 0.848 | 0.895 | 0.887 | 91 | 12 | no | +0.024 | OK |
 | KXNHLGAME-26NOV03DALWSH-WSH | game_winner | 0.552 | 0.505 | 0.514 | 51 | 50 | yes | +0.024 | OK |
 | KXNHLTOTAL-26NOV03MINPHI-7 | game_total | 0.379 | 0.425 | 0.416 | 43 | 58 | no | +0.024 | OK |
 | KXNHLTOTAL-26NOV03ANAVAN-10 | game_total | 0.161 | 0.125 | 0.132 | 13 | 88 | yes | +0.023 | OK |
-| KXNHLTEAMTOTAL-26NOV03EDMNJ-NJ2 | team_total | 0.818 | 0.860 | 0.852 | 87 | 15 | no | +0.023 | OK |
+| KXNHLTOTAL-26NOV03MINPHI-6 | game_total | 0.490 | 0.535 | 0.526 | 54 | 47 | no | +0.023 | OK |
 | KXNHLSPREAD-26NOV03EDMNJ-EDM3 | game_spread | 0.171 | 0.130 | 0.137 | 14 | 88 | yes | +0.023 | OK |
 | KXNHLTEAMTOTAL-26NOV03DETTB-TB6 | team_total | 0.119 | 0.160 | 0.151 | 17 | 85 | no | +0.022 | OK |
 | KXNHLSPREAD-26NOV03DALWSH-DAL2 | game_spread | 0.234 | 0.275 | 0.267 | 28 | 73 | no | +0.022 | OK |
+| KXNHLTOTAL-26NOV03DETTB-5 | game_total | 0.747 | 0.785 | 0.778 | 79 | 22 | no | +0.021 | OK |
+| KXNHLTOTAL-26NOV03ANAVAN-6 | game_total | 0.697 | 0.650 | 0.660 | 66 | 36 | yes | +0.021 | OK |
+| KXNHLTOTAL-26NOV03ANAVAN-7 | game_total | 0.589 | 0.545 | 0.554 | 55 | 46 | yes | +0.021 | OK |
 | KXNHLTOTAL-26NOV03DETTB-7 | game_total | 0.412 | 0.455 | 0.446 | 46 | 55 | no | +0.021 | OK |
 | KXNHLTEAMTOTAL-26NOV03EDMNJ-EDM3 | team_total | 0.608 | 0.555 | 0.566 | 57 | 46 | yes | +0.021 | OK |
 | KXNHLSPREAD-26NOV03MINPHI-PHI2 | game_spread | 0.232 | 0.195 | 0.202 | 20 | 81 | yes | +0.021 | OK |
-| KXNHLTEAMTOTAL-26NOV03EDMNJ-EDM6 | team_total | 0.095 | 0.065 | 0.070 | 7 | 94 | yes | +0.020 | OK |
 | KXNHLTEAMTOTAL-26NOV03UTATOR-TOR6 | team_total | 0.127 | 0.095 | 0.101 | 10 | 91 | yes | +0.020 | OK |
 | KXNHLTOTAL-26NOV03DALWSH-6 | game_total | 0.493 | 0.535 | 0.527 | 54 | 47 | no | +0.019 | OK |
 | KXNHLTEAMTOTAL-26NOV03ANAVAN-VAN4 | team_total | 0.436 | 0.390 | 0.399 | 40 | 62 | yes | +0.019 | OK |
+| KXNHLTEAMTOTAL-26NOV03EDMNJ-NJ5 | team_total | 0.218 | 0.260 | 0.251 | 27 | 75 | no | +0.019 | OK |
 | KXNHLTOTAL-26NOV03MINPHI-5 | game_total | 0.719 | 0.755 | 0.748 | 76 | 25 | no | +0.018 | OK |
 | KXNHLTOTAL-26NOV03DETTB-8 | game_total | 0.229 | 0.270 | 0.261 | 28 | 74 | no | +0.018 | OK |
-| KXNHLTEAMTOTAL-26NOV03MINPHI-MIN6 | team_total | 0.086 | 0.115 | 0.109 | 12 | 89 | no | +0.017 | OK |
+| KXNHLTEAMTOTAL-26NOV03MINPHI-MIN6 | team_total | 0.086 | 0.120 | 0.112 | 13 | 89 | no | +0.017 | OK |
 | KXNHLTEAMTOTAL-26NOV03EDMNJ-NJ4 | team_total | 0.406 | 0.455 | 0.445 | 47 | 56 | no | +0.017 | OK |
 | KXNHLTOTAL-26NOV03UTATOR-9 | game_total | 0.280 | 0.245 | 0.252 | 25 | 76 | yes | +0.017 | OK |
-| KXNHLTEAMTOTAL-26NOV03ANAVAN-VAN6 | team_total | 0.123 | 0.090 | 0.096 | 10 | 92 | yes | +0.017 | OK |
 | KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ6 | team_total | 0.049 | 0.075 | 0.069 | 8 | 93 | no | +0.017 | OK |
-| KXNHLTEAMTOTAL-26NOV03ANAVAN-VAN5 | team_total | 0.248 | 0.210 | 0.217 | 22 | 80 | yes | +0.016 | OK |
 | KXNHLTEAMTOTAL-26NOV03EDMNJ-NJ3 | team_total | 0.618 | 0.665 | 0.656 | 68 | 35 | no | +0.016 | OK |
 | KXNHLTOTAL-26NOV03MINPHI-4 | game_total | 0.817 | 0.850 | 0.844 | 86 | 16 | no | +0.014 | OK |
 | KXNHLTOTAL-26NOV03MINPHI-8 | game_total | 0.204 | 0.240 | 0.232 | 25 | 77 | no | +0.014 | OK |
 | KXNHLSPREAD-26NOV03DALWSH-WSH2 | game_spread | 0.318 | 0.285 | 0.291 | 29 | 72 | yes | +0.014 | OK |
 | KXNHLSPREAD-26NOV03COLCBJ-COL2 | game_spread | 0.369 | 0.335 | 0.342 | 34 | 67 | yes | +0.014 | OK |
-| KXNHLTEAMTOTAL-26NOV03DALWSH-DAL5 | team_total | 0.147 | 0.190 | 0.181 | 21 | 83 | no | +0.013 | OK |
-| KXNHLTOTAL-26NOV03MINPHI-6 | game_total | 0.490 | 0.530 | 0.522 | 54 | 48 | no | +0.013 | OK |
-| KXNHLTEAMTOTAL-26NOV03UTATOR-UTA6 | team_total | 0.161 | 0.130 | 0.136 | 14 | 88 | yes | +0.013 | OK |
+| KXNHLTEAMTOTAL-26NOV03DALWSH-DAL5 | team_total | 0.147 | 0.185 | 0.177 | 20 | 83 | no | +0.013 | OK |
+| KXNHLTEAMTOTAL-26NOV03EDMNJ-NJ2 | team_total | 0.818 | 0.855 | 0.848 | 87 | 16 | no | +0.013 | OK |
 | KXNHLTOTAL-26NOV03COLCBJ-10 | game_total | 0.062 | 0.090 | 0.084 | 10 | 92 | no | +0.012 | OK |
 | KXNHLTOTAL-26NOV03WPGMTL-6 | game_total | 0.520 | 0.555 | 0.548 | 56 | 45 | no | +0.012 | OK |
 | KXNHLTOTAL-26NOV03ANAVAN-5 | game_total | 0.862 | 0.835 | 0.841 | 84 | 17 | yes | +0.012 | OK |
@@ -124,19 +124,21 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 11 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 13 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Tampa Bay wins by over 1.5 goals NO @ 53c · p 0.6056 (adj 0.5653) · $6.16 · thesis GAME:TIGHT
-- Tampa Bay wins by over 2.5 goals NO @ 66c · p 0.7285 (adj 0.6918) · $6.96 · thesis GAME:TIGHT
-- Philadelphia over 4.5 goals scored YES @ 13c · p 0.1938 (adj 0.1594) · $3.0 · thesis PHI:OFFENSE_4PLUS
-- Philadelphia over 3.5 goals scored YES @ 29c · p 0.3797 (adj 0.3324) · $4.58 · thesis PHI:OFFENSE_4PLUS
-- Minnesota wins by over 2.5 goals NO @ 75c · p 0.8468 (adj 0.7806) · $15.94 · thesis PHI:WINS
-- Edmonton over 5.5 goals scored YES @ 7c · p 0.1126 (adj 0.0888) · $2.11 · thesis GAME:HIGH_EVENT
-- New Jersey wins by over 1.5 goals NO @ 64c · p 0.7168 (adj 0.6759) · $11.44 · thesis EDM:WINS
-- Edmonton wins by over 1.5 goals YES @ 23c · p 0.2921 (adj 0.2586) · $1.36 · thesis EDM:WINS_BY_2PLUS
-- Full Game: Over 6.5 goals scored YES @ 46c · p 0.5212 (adj 0.4881) · $2.74 · thesis GAME:HIGH_EVENT
-- Carolina wins by over 1.5 goals NO @ 59c · p 0.6649 (adj 0.6225) · $8.28 · thesis NSH:WINS
-- Nashville over 3.5 goals scored YES @ 32c · p 0.3909 (adj 0.3479) · $2.58 · thesis NSH:OFFENSE_4PLUS
+- Tampa Bay wins by over 1.5 goals NO @ 53c · p 0.6056 (adj 0.5653) · $8.81 · thesis GAME:TIGHT
+- Tampa Bay wins by over 2.5 goals NO @ 66c · p 0.7285 (adj 0.6893) · $2.29 · thesis GAME:TIGHT
+- Philadelphia wins by over 1.5 goals YES @ 20c · p 0.2894 (adj 0.2422) · $1.81 · thesis PHI:WINS_BY_2PLUS
+- Philadelphia over 3.5 goals scored YES @ 29c · p 0.3797 (adj 0.3324) · $4.03 · thesis PHI:OFFENSE_4PLUS
+- Minnesota over 1.5 goals scored NO @ 15c · p 0.2142 (adj 0.1796) · $2.44 · thesis MIN:SUPPRESSED
+- Minnesota wins by over 2.5 goals NO @ 74c · p 0.8468 (adj 0.7741) · $7.66 · thesis PHI:WINS
+- Edmonton over 4.5 goals scored YES @ 17c · p 0.2427 (adj 0.2014) · $3.95 · thesis EDM:OFFENSE_4PLUS
+- New Jersey wins by over 1.5 goals NO @ 64c · p 0.7168 (adj 0.6759) · $8.59 · thesis EDM:WINS
+- New Jersey wins by over 2.5 goals NO @ 76c · p 0.8182 (adj 0.7866) · $3.28 · thesis EDM:WINS
+- Full Game: Over 6.5 goals scored YES @ 46c · p 0.5212 (adj 0.4881) · $1.65 · thesis GAME:HIGH_EVENT
+- Carolina wins by over 1.5 goals NO @ 58c · p 0.6649 (adj 0.62) · $10.06 · thesis NSH:WINS
+- Nashville over 4.5 goals scored YES @ 15c · p 0.2115 (adj 0.1758) · $2.62 · thesis NSH:OFFENSE_4PLUS
+- Nashville over 2.5 goals scored YES @ 52c · p 0.6047 (adj 0.5574) · $3.62 · thesis NSH:OFFENSE_4PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
