@@ -1,21 +1,21 @@
 # NHL slate 2026-11-03 — RESEARCH_ONLY
 
-generated 2026-11-03T11:40:50Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-11-03T12:28:16Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
-games on date: 11 · simulated (not started): 11 · markets on board: 2253 · contracts joined: 561 (unjoined to any game: 1275)
-gates: {'UNSUPPORTED': 286, 'NO_EDGE': 148, 'OK': 127}
-families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_early_goal': 11, 'game_winner': 22, 'game_overtime': 11, 'game_spread': 44, 'team_total': 110, 'game_total': 99}
+games on date: 11 · simulated (not started): 11 · markets on board: 3501 · contracts joined: 1809 (unjoined to any game: 1275)
+gates: {'UNSUPPORTED': 1534, 'NO_EDGE': 148, 'OK': 127}
+families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'player_assists': 203, 'game_early_goal': 11, 'first_goal': 290, 'game_winner': 22, 'player_goals': 493, 'game_overtime': 11, 'player_points': 262, 'game_spread': 44, 'team_total': 110, 'game_total': 99}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| UTA @ TOR | 2026-11-04T00:00:00Z | T-12h | 0.467 | 0.533 | 0.164 | 6.98 | 3.37 | 3.61 | 51 (25/26) | CONFIRMED/PROJECTED |
-| WPG @ MTL | 2026-11-04T00:00:00Z | T-12h | 0.638 | 0.362 | 0.174 | 5.97 | 3.42 | 2.55 | 51 (25/26) | PROJECTED/PROJECTED |
-| DET @ TBL | 2026-11-04T00:00:00Z | T-12h | 0.623 | 0.377 | 0.171 | 5.99 | 3.38 | 2.62 | 51 (25/26) | PROJECTED/PROJECTED |
-| STL @ NYR | 2026-11-04T00:00:00Z | T-12h | 0.507 | 0.493 | 0.183 | 6.10 | 3.08 | 3.02 | 51 (25/26) | PROJECTED/PROJECTED |
-| MIN @ PHI | 2026-11-04T00:00:00Z | T-12h | 0.440 | 0.560 | 0.180 | 5.79 | 2.72 | 3.07 | 51 (25/26) | PROJECTED/PROJECTED |
-| VGK @ PIT | 2026-11-04T00:00:00Z | T-12h | 0.484 | 0.516 | 0.163 | 6.63 | 3.27 | 3.36 | 51 (25/26) | PROJECTED/PROJECTED |
-| DAL @ WSH | 2026-11-04T00:00:00Z | T-12h | 0.552 | 0.448 | 0.184 | 5.81 | 3.06 | 2.75 | 51 (25/26) | PROJECTED/PROJECTED |
-| COL @ CBJ | 2026-11-04T00:00:00Z | T-12h | 0.398 | 0.602 | 0.178 | 5.84 | 2.60 | 3.24 | 51 (25/26) | PROJECTED/CONFIRMED |
+| UTA @ TOR | 2026-11-04T00:00:00Z | T-6h | 0.467 | 0.533 | 0.164 | 6.98 | 3.37 | 3.61 | 223 (25/198) | CONFIRMED/PROJECTED |
+| WPG @ MTL | 2026-11-04T00:00:00Z | T-6h | 0.638 | 0.362 | 0.174 | 5.97 | 3.42 | 2.55 | 191 (25/166) | PROJECTED/PROJECTED |
+| DET @ TBL | 2026-11-04T00:00:00Z | T-6h | 0.623 | 0.377 | 0.171 | 5.99 | 3.38 | 2.62 | 215 (25/190) | PROJECTED/PROJECTED |
+| STL @ NYR | 2026-11-04T00:00:00Z | T-6h | 0.507 | 0.493 | 0.183 | 6.10 | 3.08 | 3.02 | 196 (25/171) | PROJECTED/PROJECTED |
+| MIN @ PHI | 2026-11-04T00:00:00Z | T-6h | 0.440 | 0.560 | 0.180 | 5.79 | 2.72 | 3.07 | 209 (25/184) | PROJECTED/PROJECTED |
+| VGK @ PIT | 2026-11-04T00:00:00Z | T-6h | 0.484 | 0.516 | 0.163 | 6.63 | 3.27 | 3.36 | 206 (25/181) | PROJECTED/PROJECTED |
+| DAL @ WSH | 2026-11-04T00:00:00Z | T-6h | 0.552 | 0.448 | 0.184 | 5.81 | 3.06 | 2.75 | 209 (25/184) | PROJECTED/PROJECTED |
+| COL @ CBJ | 2026-11-04T00:00:00Z | T-6h | 0.398 | 0.602 | 0.178 | 5.84 | 2.60 | 3.24 | 207 (25/182) | PROJECTED/CONFIRMED |
 | EDM @ NJD | 2026-11-04T00:30:00Z | T-12h | 0.507 | 0.493 | 0.177 | 6.30 | 3.17 | 3.13 | 51 (25/26) | PROJECTED/PROJECTED |
 | CAR @ NSH | 2026-11-04T01:00:00Z | T-12h | 0.376 | 0.624 | 0.164 | 6.27 | 2.74 | 3.53 | 51 (25/26) | PROJECTED/PROJECTED |
 | ANA @ VAN | 2026-11-04T02:00:00Z | T-12h | 0.434 | 0.566 | 0.161 | 7.10 | 3.33 | 3.77 | 51 (25/26) | PROJECTED/PROJECTED |
@@ -24,31 +24,30 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 
 | ticker | family | P(data) | P(mkt mid) | P(anchored) | yes ask | no ask | best | EV after fee | gate |
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
-| KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ3 | team_total | 0.485 | 0.595 | 0.573 | 61 | 42 | no | +0.078 | OK |
-| KXNHLTOTAL-26NOV03COLCBJ-7 | game_total | 0.388 | 0.485 | 0.465 | 49 | 52 | no | +0.074 | OK |
+| KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ3 | team_total | 0.485 | 0.590 | 0.569 | 60 | 42 | no | +0.078 | OK |
 | KXNHLSPREAD-26NOV03DETTB-TB3 | game_spread | 0.250 | 0.350 | 0.329 | 36 | 66 | no | +0.074 | OK |
-| KXNHLTEAMTOTAL-26NOV03DETTB-TB5 | team_total | 0.251 | 0.345 | 0.325 | 35 | 66 | no | +0.073 | OK |
-| KXNHLTEAMTOTAL-26NOV03DETTB-TB4 | team_total | 0.452 | 0.555 | 0.534 | 57 | 46 | no | +0.071 | OK |
+| KXNHLSPREAD-26NOV03DETTB-TB2 | game_spread | 0.391 | 0.485 | 0.466 | 49 | 52 | no | +0.072 | OK |
+| KXNHLTOTAL-26NOV03COLCBJ-6 | game_total | 0.501 | 0.595 | 0.577 | 60 | 41 | no | +0.072 | OK |
+| KXNHLTEAMTOTAL-26NOV03DETTB-TB4 | team_total | 0.452 | 0.550 | 0.530 | 56 | 46 | no | +0.071 | OK |
+| KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ4 | team_total | 0.277 | 0.370 | 0.350 | 38 | 64 | no | +0.067 | OK |
 | KXNHLGAME-26NOV03EDMNJ-NJ | game_winner | 0.507 | 0.595 | 0.578 | 60 | 41 | no | +0.066 | OK |
+| KXNHLTOTAL-26NOV03COLCBJ-7 | game_total | 0.388 | 0.475 | 0.457 | 48 | 53 | no | +0.064 | OK |
+| KXNHLTEAMTOTAL-26NOV03DETTB-TB5 | team_total | 0.251 | 0.340 | 0.321 | 35 | 67 | no | +0.063 | OK |
 | KXNHLTEAMTOTAL-26NOV03MINPHI-MIN4 | team_total | 0.380 | 0.470 | 0.452 | 48 | 54 | no | +0.062 | OK |
 | KXNHLGAME-26NOV03DETTB-DET | game_winner | 0.377 | 0.295 | 0.311 | 30 | 71 | yes | +0.062 | OK |
 | KXNHLGAME-26NOV03DETTB-TB | game_winner | 0.623 | 0.705 | 0.689 | 71 | 30 | no | +0.062 | OK |
-| KXNHLSPREAD-26NOV03DETTB-TB2 | game_spread | 0.391 | 0.475 | 0.458 | 48 | 53 | no | +0.062 | OK |
-| KXNHLTOTAL-26NOV03COLCBJ-6 | game_total | 0.501 | 0.595 | 0.577 | 61 | 42 | no | +0.061 | OK |
-| KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ4 | team_total | 0.277 | 0.365 | 0.346 | 38 | 65 | no | +0.057 | OK |
 | KXNHLTEAMTOTAL-26NOV03DETTB-TB3 | team_total | 0.670 | 0.750 | 0.735 | 76 | 26 | no | +0.057 | OK |
 | KXNHLGAME-26NOV03EDMNJ-EDM | game_winner | 0.493 | 0.415 | 0.430 | 42 | 59 | yes | +0.056 | OK |
+| KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ2 | team_total | 0.723 | 0.800 | 0.786 | 81 | 21 | no | +0.055 | OK |
 | KXNHLSPREAD-26NOV03MINPHI-MIN3 | game_spread | 0.197 | 0.265 | 0.250 | 27 | 74 | no | +0.050 | OK |
 | KXNHLSPREAD-26NOV03EDMNJ-NJ2 | game_spread | 0.295 | 0.365 | 0.350 | 37 | 64 | no | +0.049 | OK |
 | KXNHLSPREAD-26NOV03EDMNJ-NJ3 | game_spread | 0.179 | 0.245 | 0.231 | 25 | 76 | no | +0.048 | OK |
-| KXNHLTOTAL-26NOV03DETTB-6 | game_total | 0.528 | 0.595 | 0.582 | 60 | 41 | no | +0.045 | OK |
-| KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ2 | team_total | 0.723 | 0.800 | 0.786 | 82 | 22 | no | +0.045 | OK |
 | KXNHLGAME-26NOV03COLCBJ-CBJ | game_winner | 0.398 | 0.465 | 0.451 | 47 | 54 | no | +0.045 | OK |
 | KXNHLGAME-26NOV03COLCBJ-COL | game_winner | 0.602 | 0.535 | 0.549 | 54 | 47 | yes | +0.045 | OK |
+| KXNHLTOTAL-26NOV03COLCBJ-8 | game_total | 0.212 | 0.280 | 0.265 | 29 | 73 | no | +0.044 | OK |
 | KXNHLTOTAL-26NOV03COLCBJ-5 | game_total | 0.724 | 0.785 | 0.774 | 79 | 22 | no | +0.044 | OK |
 | KXNHLGAME-26NOV03MINPHI-PHI | game_winner | 0.440 | 0.375 | 0.388 | 38 | 63 | yes | +0.043 | OK |
 | KXNHLTEAMTOTAL-26NOV03COLCBJ-CBJ5 | team_total | 0.127 | 0.190 | 0.176 | 20 | 82 | no | +0.043 | OK |
-| KXNHLTEAMTOTAL-26NOV03MINPHI-MIN2 | team_total | 0.809 | 0.865 | 0.855 | 87 | 14 | no | +0.042 | OK |
 | KXNHLSPREAD-26NOV03EDMNJ-EDM2 | game_spread | 0.284 | 0.225 | 0.236 | 23 | 78 | yes | +0.042 | OK |
 | KXNHLSPREAD-26NOV03COLCBJ-CBJ2 | game_spread | 0.196 | 0.255 | 0.242 | 26 | 75 | no | +0.041 | OK |
 | KXNHLTEAMTOTAL-26NOV03MINPHI-MIN3 | team_total | 0.604 | 0.675 | 0.661 | 69 | 34 | no | +0.040 | OK |
@@ -56,25 +55,24 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 | KXNHLTEAMTOTAL-26NOV03DALWSH-DAL3 | team_total | 0.525 | 0.590 | 0.577 | 60 | 42 | no | +0.038 | OK |
 | KXNHLSPREAD-26NOV03COLCBJ-CBJ3 | game_spread | 0.104 | 0.155 | 0.143 | 16 | 85 | no | +0.037 | OK |
 | KXNHLTEAMTOTAL-26NOV03EDMNJ-EDM5 | team_total | 0.215 | 0.160 | 0.170 | 17 | 85 | yes | +0.035 | OK |
+| KXNHLTOTAL-26NOV03DETTB-6 | game_total | 0.528 | 0.590 | 0.578 | 60 | 42 | no | +0.035 | OK |
 | KXNHLTEAMTOTAL-26NOV03DETTB-TB2 | team_total | 0.848 | 0.900 | 0.891 | 91 | 11 | no | +0.035 | OK |
-| KXNHLTOTAL-26NOV03COLCBJ-8 | game_total | 0.212 | 0.275 | 0.261 | 29 | 74 | no | +0.035 | OK |
 | KXNHLGAME-26NOV03DALWSH-DAL | game_winner | 0.448 | 0.505 | 0.494 | 51 | 50 | no | +0.034 | OK |
-| KXNHLTOTAL-26NOV03ANAVAN-9 | game_total | 0.297 | 0.245 | 0.255 | 25 | 76 | yes | +0.034 | OK |
+| KXNHLTEAMTOTAL-26NOV03DALWSH-DAL4 | team_total | 0.310 | 0.370 | 0.358 | 38 | 64 | no | +0.034 | OK |
 | KXNHLGAME-26NOV03MINPHI-MIN | game_winner | 0.560 | 0.615 | 0.604 | 62 | 39 | no | +0.033 | OK |
 | KXNHLTOTAL-26NOV03MINPHI-6 | game_total | 0.490 | 0.545 | 0.534 | 55 | 46 | no | +0.033 | OK |
 | KXNHLTOTAL-26NOV03COLCBJ-4 | game_total | 0.819 | 0.870 | 0.861 | 88 | 14 | no | +0.033 | OK |
+| KXNHLTEAMTOTAL-26NOV03MINPHI-MIN2 | team_total | 0.809 | 0.860 | 0.851 | 87 | 15 | no | +0.032 | OK |
 | KXNHLTEAMTOTAL-26NOV03MINPHI-MIN5 | team_total | 0.196 | 0.255 | 0.242 | 27 | 76 | no | +0.031 | OK |
 | KXNHLSPREAD-26NOV03DALWSH-DAL3 | game_spread | 0.130 | 0.175 | 0.165 | 18 | 83 | no | +0.030 | OK |
 | KXNHLTEAMTOTAL-26NOV03EDMNJ-EDM4 | team_total | 0.395 | 0.335 | 0.347 | 35 | 68 | yes | +0.029 | OK |
-| KXNHLTOTAL-26NOV03MINPHI-5 | game_total | 0.719 | 0.765 | 0.756 | 77 | 24 | no | +0.029 | OK |
 | KXNHLSPREAD-26NOV03DETTB-DET2 | game_spread | 0.187 | 0.145 | 0.153 | 15 | 86 | yes | +0.028 | OK |
 | KXNHLTOTAL-26NOV03ANAVAN-8 | game_total | 0.394 | 0.340 | 0.351 | 35 | 67 | yes | +0.028 | OK |
 | KXNHLTOTAL-26NOV03COLCBJ-9 | game_total | 0.145 | 0.185 | 0.176 | 19 | 82 | no | +0.025 | OK |
-| KXNHLTEAMTOTAL-26NOV03DALWSH-DAL2 | team_total | 0.754 | 0.805 | 0.795 | 82 | 21 | no | +0.025 | OK |
-| KXNHLTEAMTOTAL-26NOV03DALWSH-DAL4 | team_total | 0.310 | 0.365 | 0.354 | 38 | 65 | no | +0.024 | OK |
+| KXNHLTEAMTOTAL-26NOV03DALWSH-DAL2 | team_total | 0.754 | 0.800 | 0.791 | 81 | 21 | no | +0.025 | OK |
 | KXNHLGAME-26NOV03DALWSH-WSH | game_winner | 0.552 | 0.505 | 0.514 | 51 | 50 | yes | +0.024 | OK |
+| KXNHLTOTAL-26NOV03ANAVAN-9 | game_total | 0.297 | 0.250 | 0.259 | 26 | 76 | yes | +0.024 | OK |
 | KXNHLTOTAL-26NOV03MINPHI-7 | game_total | 0.379 | 0.430 | 0.420 | 44 | 58 | no | +0.024 | OK |
-| KXNHLTOTAL-26NOV03ANAVAN-10 | game_total | 0.161 | 0.125 | 0.132 | 13 | 88 | yes | +0.023 | OK |
 | KXNHLTEAMTOTAL-26NOV03EDMNJ-NJ2 | team_total | 0.818 | 0.860 | 0.852 | 87 | 15 | no | +0.023 | OK |
 | KXNHLSPREAD-26NOV03EDMNJ-EDM3 | game_spread | 0.171 | 0.135 | 0.142 | 14 | 87 | yes | +0.023 | OK |
 | KXNHLTEAMTOTAL-26NOV03DETTB-TB6 | team_total | 0.119 | 0.160 | 0.151 | 17 | 85 | no | +0.022 | OK |
@@ -90,6 +88,7 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 | KXNHLTOTAL-26NOV03DALWSH-6 | game_total | 0.493 | 0.535 | 0.527 | 54 | 47 | no | +0.019 | OK |
 | KXNHLTEAMTOTAL-26NOV03ANAVAN-VAN4 | team_total | 0.436 | 0.390 | 0.399 | 40 | 62 | yes | +0.019 | OK |
 | KXNHLTEAMTOTAL-26NOV03EDMNJ-NJ5 | team_total | 0.218 | 0.260 | 0.251 | 27 | 75 | no | +0.019 | OK |
+| KXNHLTOTAL-26NOV03MINPHI-5 | game_total | 0.719 | 0.760 | 0.752 | 77 | 25 | no | +0.018 | OK |
 | KXNHLTOTAL-26NOV03DETTB-8 | game_total | 0.229 | 0.270 | 0.261 | 28 | 74 | no | +0.018 | OK |
 | KXNHLTEAMTOTAL-26NOV03MINPHI-MIN6 | team_total | 0.086 | 0.115 | 0.109 | 12 | 89 | no | +0.017 | OK |
 | KXNHLTEAMTOTAL-26NOV03EDMNJ-NJ4 | team_total | 0.406 | 0.455 | 0.445 | 47 | 56 | no | +0.017 | OK |
@@ -99,11 +98,12 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 | KXNHLTEAMTOTAL-26NOV03EDMNJ-NJ3 | team_total | 0.618 | 0.665 | 0.656 | 68 | 35 | no | +0.016 | OK |
 | KXNHLSPREAD-26NOV03CARNSH-CAR3 | game_spread | 0.260 | 0.295 | 0.288 | 30 | 71 | no | +0.015 | OK |
 | KXNHLTOTAL-26NOV03DETTB-4 | game_total | 0.837 | 0.870 | 0.864 | 88 | 14 | no | +0.015 | OK |
-| KXNHLTEAMTOTAL-26NOV03DETTB-DET5 | team_total | 0.131 | 0.105 | 0.110 | 11 | 90 | yes | +0.014 | OK |
 | KXNHLTOTAL-26NOV03MINPHI-4 | game_total | 0.817 | 0.850 | 0.844 | 86 | 16 | no | +0.014 | OK |
 | KXNHLTOTAL-26NOV03MINPHI-8 | game_total | 0.204 | 0.240 | 0.232 | 25 | 77 | no | +0.014 | OK |
-| KXNHLSPREAD-26NOV03DALWSH-WSH2 | game_spread | 0.318 | 0.280 | 0.287 | 29 | 73 | yes | +0.014 | OK |
+| KXNHLSPREAD-26NOV03DALWSH-WSH2 | game_spread | 0.318 | 0.285 | 0.291 | 29 | 72 | yes | +0.014 | OK |
 | KXNHLSPREAD-26NOV03COLCBJ-COL2 | game_spread | 0.369 | 0.335 | 0.342 | 34 | 67 | yes | +0.014 | OK |
+| KXNHLTEAMTOTAL-26NOV03DALWSH-DAL5 | team_total | 0.147 | 0.185 | 0.177 | 20 | 83 | no | +0.013 | OK |
+| KXNHLTEAMTOTAL-26NOV03UTATOR-UTA6 | team_total | 0.161 | 0.130 | 0.136 | 14 | 88 | yes | +0.013 | OK |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -124,53 +124,128 @@ families: {'period_winner': 99, 'period_spread': 66, 'period_total': 99, 'game_e
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 11 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 14 recommended · full analysis in card.md / packet.json `thesis_card`
 
+- Teddy Blueger: 1+ goals YES @ 12c · p 0.1734 (adj 0.1513) · $5.97 · thesis TOR:OFFENSE_4PLUS
+- Lawson Crouse: 1+ goals YES @ 17c · p 0.2226 (adj 0.1982) · $5.03 · thesis UTA:OFFENSE_4PLUS
 - Winnipeg over 5.5 goals scored YES @ 4c · p 0.0706 (adj 0.0528) · $1.9 · thesis GAME:HIGH_EVENT
-- Tampa Bay wins by over 1.5 goals NO @ 53c · p 0.6056 (adj 0.5653) · $6.88 · thesis GAME:TIGHT
-- Detroit over 4.5 goals scored YES @ 11c · p 0.1515 (adj 0.1283) · $2.01 · thesis DET:OFFENSE_4PLUS
-- Tampa Bay wins by over 2.5 goals NO @ 66c · p 0.7285 (adj 0.6893) · $2.1 · thesis GAME:TIGHT
-- Philadelphia wins by over 1.5 goals YES @ 20c · p 0.2894 (adj 0.2422) · $6.48 · thesis PHI:WINS_BY_2PLUS
-- Philadelphia over 3.5 goals scored YES @ 29c · p 0.3797 (adj 0.3298) · $2.26 · thesis PHI:OFFENSE_4PLUS
-- Minnesota wins by over 2.5 goals NO @ 74c · p 0.8468 (adj 0.7741) · $17.74 · thesis PHI:WINS
+- Tampa Bay wins by over 1.5 goals NO @ 52c · p 0.6056 (adj 0.5603) · $12.62 · thesis GAME:TIGHT
+- Philadelphia wins by over 1.5 goals YES @ 20c · p 0.2894 (adj 0.2422) · $6.39 · thesis PHI:WINS_BY_2PLUS
+- Philadelphia over 3.5 goals scored YES @ 29c · p 0.3797 (adj 0.3298) · $3.17 · thesis PHI:OFFENSE_4PLUS
+- Christian Dvorak: 1+ goals YES @ 17c · p 0.2173 (adj 0.1955) · $3.07 · thesis PHI:OFFENSE_4PLUS
+- Matt Boldy: 1+ goals NO @ 64c · p 0.6872 (adj 0.6704) · $7.2 · thesis MIN:SUPPRESSED
+- Connor Dewar: 1+ goals YES @ 13c · p 0.1666 (adj 0.1487) · $2.83 · thesis PIT:OFFENSE_4PLUS
+- Aliaksei Protas: 1+ goals YES @ 18c · p 0.2353 (adj 0.2115) · $5.98 · thesis WSH:OFFENSE_4PLUS
+- Sean Monahan: 1+ goals YES @ 15c · p 0.1804 (adj 0.1716) · $3.59 · thesis CBJ:OFFENSE_4PLUS
 - New Jersey wins by over 1.5 goals NO @ 64c · p 0.7168 (adj 0.6759) · $4.16 · thesis EDM:WINS
-- Nashville over 4.5 goals scored YES @ 15c · p 0.2115 (adj 0.1758) · $2.33 · thesis NSH:OFFENSE_4PLUS
-- Nashville over 3.5 goals scored YES @ 31c · p 0.3909 (adj 0.3455) · $2.59 · thesis NSH:OFFENSE_4PLUS
-- Carolina wins by over 1.5 goals NO @ 58c · p 0.6649 (adj 0.6175) · $8.81 · thesis NSH:WINS
+- Carolina wins by over 1.5 goals NO @ 58c · p 0.6649 (adj 0.62) · $11.76 · thesis NSH:WINS
+- Nashville over 4.5 goals scored YES @ 15c · p 0.2115 (adj 0.1758) · $2.99 · thesis NSH:OFFENSE_4PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
-**UTA @ TOR** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
+**UTA @ TOR** · priced 166/172 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - TOR net: Sergei Bobrovsky (CONFIRMED) exp shots 30.7, exp saves 26.53 (sd 7.32), pull risk 0.072
 - UTA net: Karel Vejmelka (PROJECTED) exp shots 26.79, exp saves 23.19 (sd 6.45), pull risk 0.071
 
-**WPG @ MTL** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
+| contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
+|---|---:|---:|---|---:|---|
+| Lawson Crouse: 1+ goals | 0.223 | 0.125 | 17/92 | +0.043 | STANDARD |
+| Teddy Blueger: 1+ goals | 0.173 | 0.085 | 12/95 | +0.046 | STANDARD |
+| Auston Matthews: 1+ goals | 0.413 | 0.325 | 42/77 | -0.024 | STANDARD |
+| Morgan Rielly: 1+ assists | 0.340 | 0.260 | 29/77 | +0.035 | STANDARD |
+| William Nylander: 1+ goals | 0.364 | 0.285 | 36/79 | -0.012 | STANDARD |
+| Barrett Hayton: 1+ goals | 0.204 | 0.125 | 17/92 | +0.024 | STANDARD |
+
+**WPG @ MTL** · priced 134/140 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - MTL net: Jacob Fowler (PROJECTED) exp shots 27.0, exp saves 23.57 (sd 6.35), pull risk 0.051
 - WPG net: Stuart Skinner (PROJECTED) exp shots 27.07, exp saves 23.05 (sd 6.5), pull risk 0.073
 
-**DET @ TBL** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
+| contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
+|---|---:|---:|---|---:|---|
+| Kyle Connor: 1+ goals | 0.369 | 0.220 | 36/92 | -0.008 | STANDARD |
+| Mark Scheifele: 2+ points | 0.262 | 0.170 | 29/95 | -0.042 | STANDARD |
+| Cole Caufield: 2+ points | 0.271 | 0.190 | 33/95 | -0.075 | STANDARD |
+| Cole Perfetti: 1+ assists | 0.362 | 0.290 | 32/74 | +0.027 | STANDARD |
+| Cole Caufield: 1+ assists | 0.363 | 0.435 | 46/59 | +0.030 | STANDARD |
+| Zachary Bolduc: 1+ assists | 0.312 | 0.240 | 27/79 | +0.028 | STANDARD |
+
+**DET @ TBL** · priced 153/164 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - TBL net: Andrei Vasilevskiy (PROJECTED) exp shots 26.15, exp saves 23.0 (sd 6.12), pull risk 0.046
 - DET net: Daniil Tarasov (PROJECTED) exp shots 27.95, exp saves 23.77 (sd 6.71), pull risk 0.081
 
-**STL @ NYR** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
+| contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
+|---|---:|---:|---|---:|---|
+| Nikita Kucherov: 2+ points | 0.341 | 0.465 | 48/55 | +0.092 | STANDARD |
+| Nikita Kucherov: 1+ assists | 0.519 | 0.640 | 67/39 | +0.074 | STANDARD |
+| Lucas Raymond: 1+ assists | 0.327 | 0.410 | 44/62 | +0.037 | STANDARD |
+| Jake Guentzel: 2+ points | 0.293 | 0.215 | 36/93 | -0.083 | STANDARD |
+| Nikita Kucherov: 4+ points | 0.033 | 0.110 | 19/97 | -0.005 | STANDARD |
+| Alex DeBrincat: 1+ goals | 0.357 | 0.285 | 32/75 | +0.021 | STANDARD |
+
+**STL @ NYR** · priced 142/145 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - NYR net: Dylan Garand (PROJECTED) exp shots 26.61, exp saves 23.05 (sd 6.33), pull risk 0.054
 - STL net: Joel Hofer (PROJECTED) exp shots 26.51, exp saves 22.98 (sd 6.32), pull risk 0.061
 
-**MIN @ PHI** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
+| contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
+|---|---:|---:|---|---:|---|
+| Dylan Holloway: 1+ assists | 0.381 | 0.285 | 31/74 | +0.056 | STANDARD |
+| Alexis Lafreniere: 1+ goals | 0.350 | 0.265 | 33/80 | +0.005 | STANDARD |
+| Alexis Lafreniere: 2+ points | 0.248 | 0.170 | 23/89 | +0.006 | STANDARD |
+| Mika Zibanejad: 2+ points | 0.247 | 0.170 | 27/93 | -0.036 | STANDARD |
+| Adam Fox: 2+ points | 0.234 | 0.160 | 25/93 | -0.029 | STANDARD |
+| Tye Kartye: 1+ goals | 0.197 | 0.125 | 17/92 | +0.017 | STANDARD |
+
+**MIN @ PHI** · priced 157/158 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - PHI net: Dan Vladar (PROJECTED) exp shots 28.47, exp saves 24.77 (sd 6.7), pull risk 0.053
 - MIN net: Jesper Wallstedt (PROJECTED) exp shots 25.89, exp saves 22.45 (sd 6.19), pull risk 0.054
 
-**VGK @ PIT** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
+| contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
+|---|---:|---:|---|---:|---|
+| Kirill Kaprizov: 2+ points | 0.248 | 0.415 | 44/61 | +0.125 | STANDARD |
+| Kirill Kaprizov: 1+ assists | 0.393 | 0.530 | 55/49 | +0.100 | STANDARD |
+| Matt Boldy: 1+ assists | 0.378 | 0.500 | 52/52 | +0.085 | STANDARD |
+| Kirill Kaprizov: 1+ points | 0.613 | 0.700 | 78/38 | -0.009 | STANDARD |
+| Christian Dvorak: 1+ goals | 0.217 | 0.130 | 17/91 | +0.037 | STANDARD |
+| Travis Konecny: 1+ assists | 0.248 | 0.335 | 36/69 | +0.047 | STANDARD |
+
+**VGK @ PIT** · priced 151/155 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - PIT net: Arturs Silovs (PROJECTED) exp shots 26.98, exp saves 23.29 (sd 6.51), pull risk 0.069
 - VGK net: Carter Hart (PROJECTED) exp shots 27.28, exp saves 23.6 (sd 6.56), pull risk 0.068
 
-**DAL @ WSH** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
+| contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
+|---|---:|---:|---|---:|---|
+| Jack Eichel: 1+ points | 0.614 | 0.475 | 72/77 | -0.120 | STANDARD |
+| Sidney Crosby: 1+ assists | 0.378 | 0.465 | 49/56 | +0.045 | STANDARD |
+| Rickard Rakell: 1+ goals | 0.342 | 0.255 | 35/84 | -0.024 | STANDARD |
+| Jack Eichel: 1+ assists | 0.444 | 0.525 | 55/50 | +0.039 | STANDARD |
+| Erik Karlsson: 1+ assists | 0.451 | 0.525 | 54/49 | +0.041 | STANDARD |
+| Connor Dewar: 1+ goals | 0.167 | 0.095 | 13/94 | +0.029 | STANDARD |
+
+**DAL @ WSH** · priced 152/158 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - WSH net: Logan Thompson (PROJECTED) exp shots 26.25, exp saves 22.85 (sd 6.2), pull risk 0.053
 - DAL net: Jake Oettinger (PROJECTED) exp shots 25.46, exp saves 21.79 (sd 6.19), pull risk 0.068
 
-**COL @ CBJ** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
+| contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
+|---|---:|---:|---|---:|---|
+| Aliaksei Protas: 1+ goals | 0.235 | 0.140 | 18/90 | +0.045 | STANDARD |
+| Miro Heiskanen: 1+ points | 0.450 | 0.545 | 58/49 | +0.043 | STANDARD |
+| Pierre-Luc Dubois: 1+ goals | 0.215 | 0.140 | 18/90 | +0.025 | STANDARD |
+| Miro Heiskanen: 1+ assists | 0.393 | 0.465 | 49/56 | +0.030 | STANDARD |
+| Mikko Rantanen: 1+ assists | 0.424 | 0.490 | 51/53 | +0.028 | STANDARD |
+| Wyatt Johnston: 1+ assists | 0.347 | 0.410 | 44/62 | +0.017 | STANDARD |
+
+**COL @ CBJ** · priced 155/156 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - CBJ net: Jet Greaves (PROJECTED) exp shots 29.48, exp saves 25.57 (sd 6.93), pull risk 0.056
 - COL net: Scott Wedgewood (CONFIRMED) exp shots 26.96, exp saves 23.38 (sd 6.4), pull risk 0.057
+
+| contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
+|---|---:|---:|---|---:|---|
+| Cale Makar: 1+ points | 0.537 | 0.620 | 64/40 | +0.046 | STANDARD |
+| Zach Werenski: 1+ assists | 0.473 | 0.550 | 57/47 | +0.039 | STANDARD |
+| Mathieu Olivier: 1+ goals | 0.183 | 0.115 | 16/93 | +0.013 | STANDARD |
+| Nathan MacKinnon: 2+ points | 0.308 | 0.375 | 40/65 | +0.026 | STANDARD |
+| Matthew Knies: 1+ assists | 0.289 | 0.355 | 38/67 | +0.026 | STANDARD |
+| Jaden Schwartz: 1+ goals | 0.183 | 0.120 | 18/94 | -0.007 | STANDARD |
 
 **EDM @ NJD** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - NJD net: Connor Hellebuyck (PROJECTED) exp shots 26.46, exp saves 22.87 (sd 6.45), pull risk 0.067
