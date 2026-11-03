@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **NO_BETS**
 
-generated 2026-11-03T23:02:41Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-11-03T23:41:46Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -38,7 +38,7 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 ## WPG @ MTL  ·  10000 joint draws  ·  488 bet sides mapped, 0 +EV candidates, 0 on card
 
-sportsbook moneyline consensus (5 books): home 0.605 / away 0.395
+sportsbook moneyline consensus (5 books): home 0.608 / away 0.393
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -185,7 +185,7 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 ## EDM @ NJD  ·  10000 joint draws  ·  464 bet sides mapped, 0 +EV candidates, 0 on card
 
-sportsbook moneyline consensus (5 books): home 0.591 / away 0.409
+sportsbook moneyline consensus (5 books): home 0.593 / away 0.407
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
