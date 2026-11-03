@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **NO_BETS**
 
-generated 2026-11-03T22:17:14Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-11-03T23:02:41Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -17,7 +17,7 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 ## UTA @ TOR  ·  10000 joint draws  ·  476 bet sides mapped, 0 +EV candidates, 0 on card
 
-sportsbook moneyline consensus (5 books): home 0.436 / away 0.564
+sportsbook moneyline consensus (5 books): home 0.431 / away 0.569
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -38,7 +38,7 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 ## WPG @ MTL  ·  10000 joint draws  ·  488 bet sides mapped, 0 +EV candidates, 0 on card
 
-sportsbook moneyline consensus (5 books): home 0.600 / away 0.400
+sportsbook moneyline consensus (5 books): home 0.605 / away 0.395
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -59,7 +59,7 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 ## DET @ TBL  ·  10000 joint draws  ·  420 bet sides mapped, 0 +EV candidates, 0 on card
 
-sportsbook moneyline consensus (5 books): home 0.705 / away 0.295
+sportsbook moneyline consensus (5 books): home 0.709 / away 0.291
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -122,7 +122,7 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 ## VGK @ PIT  ·  10000 joint draws  ·  480 bet sides mapped, 0 +EV candidates, 0 on card
 
-sportsbook moneyline consensus (5 books): home 0.507 / away 0.492
+sportsbook moneyline consensus (5 books): home 0.517 / away 0.483
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -143,7 +143,7 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 ## DAL @ WSH  ·  10000 joint draws  ·  454 bet sides mapped, 0 +EV candidates, 0 on card
 
-sportsbook moneyline consensus (5 books): home 0.505 / away 0.495
+sportsbook moneyline consensus (5 books): home 0.504 / away 0.496
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -162,7 +162,7 @@ _no bet on this game passes: +EV at the executable ask under both the model and 
 
 portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp
 
-## COL @ CBJ  ·  10000 joint draws  ·  442 bet sides mapped, 0 +EV candidates, 0 on card
+## COL @ CBJ  ·  10000 joint draws  ·  446 bet sides mapped, 0 +EV candidates, 0 on card
 
 sportsbook moneyline consensus (5 books): home 0.468 / away 0.532
 
@@ -225,7 +225,7 @@ _no bet on this game passes: +EV at the executable ask under both the model and 
 
 portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp
 
-## ANA @ VAN  ·  10000 joint draws  ·  394 bet sides mapped, 0 +EV candidates, 0 on card
+## ANA @ VAN  ·  10000 joint draws  ·  410 bet sides mapped, 0 +EV candidates, 0 on card
 
 sportsbook moneyline consensus (5 books): home 0.375 / away 0.625
 
