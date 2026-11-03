@@ -1,161 +1,123 @@
 # NHL slate 2026-11-02 — RESEARCH_ONLY
 
-generated 2026-11-02T23:42:49Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-11-03T00:09:38Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
-games on date: 4 · simulated (not started): 4 · markets on board: 2901 · contracts joined: 941 (unjoined to any game: 1275)
-gates: {'UNSUPPORTED': 841, 'OK': 69, 'NO_EDGE': 31}
-families: {'period_winner': 36, 'period_spread': 24, 'period_total': 36, 'player_assists': 153, 'game_early_goal': 4, 'first_goal': 141, 'game_winner': 8, 'player_goals': 234, 'game_overtime': 4, 'player_points': 203, 'goalie_saves': 6, 'game_spread': 16, 'team_total': 40, 'game_total': 36}
+games on date: 4 · simulated (not started): 2 · markets on board: 2904 · contracts joined: 455 (unjoined to any game: 1275)
+gates: {'UNSUPPORTED': 405, 'OK': 27, 'NO_EDGE': 23}
+families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player_assists': 70, 'game_early_goal': 2, 'first_goal': 69, 'game_winner': 4, 'player_goals': 118, 'game_overtime': 2, 'player_points': 92, 'goalie_saves': 4, 'game_spread': 8, 'team_total': 20, 'game_total': 18}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| VGK @ BOS | 2026-11-03T00:00:00Z | T-10m | 0.592 | 0.408 | 0.173 | 6.16 | 3.37 | 2.79 | 265 (25/240) | CONFIRMED/CONFIRMED |
-| DET @ FLA | 2026-11-03T00:00:00Z | T-10m | 0.521 | 0.479 | 0.176 | 6.26 | 3.21 | 3.06 | 221 (25/196) | CONFIRMED/CONFIRMED |
-| COL @ CHI | 2026-11-03T01:00:00Z | T-60m | 0.373 | 0.627 | 0.172 | 6.09 | 2.65 | 3.44 | 220 (25/195) | CONFIRMED/CONFIRMED |
+| COL @ CHI | 2026-11-03T01:00:00Z | T-30m | 0.373 | 0.627 | 0.172 | 6.09 | 2.65 | 3.44 | 220 (25/195) | CONFIRMED/CONFIRMED |
 | CGY @ SJS | 2026-11-03T02:00:00Z | T-90m | 0.530 | 0.470 | 0.166 | 6.65 | 3.42 | 3.23 | 235 (25/210) | CONFIRMED/CONFIRMED |
 
 ## Contracts (research view; sorted by fee-adjusted EV of the best side; NOT recommendations)
 
 | ticker | family | P(data) | P(mkt mid) | P(anchored) | yes ask | no ask | best | EV after fee | gate |
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
-| KXNHLTEAMTOTAL-26NOV02DETFLA-DET3 | team_total | 0.596 | 0.485 | 0.508 | 49 | 52 | yes | +0.089 | OK |
-| KXNHLGAME-26NOV02DETFLA-FLA | game_winner | 0.521 | 0.625 | 0.605 | 63 | 38 | no | +0.082 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-DET4 | team_total | 0.376 | 0.275 | 0.294 | 28 | 73 | yes | +0.082 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-COL4 | team_total | 0.462 | 0.565 | 0.545 | 57 | 44 | no | +0.081 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK4 | team_total | 0.314 | 0.415 | 0.394 | 42 | 59 | no | +0.079 | OK |
-| KXNHLGAME-26NOV02VGKBOS-VGK | game_winner | 0.408 | 0.505 | 0.485 | 51 | 50 | no | +0.075 | OK |
-| KXNHLGAME-26NOV02VGKBOS-BOS | game_winner | 0.592 | 0.495 | 0.515 | 50 | 51 | yes | +0.075 | OK |
-| KXNHLGAME-26NOV02DETFLA-DET | game_winner | 0.479 | 0.385 | 0.403 | 39 | 62 | yes | +0.072 | OK |
-| KXNHLSPREAD-26NOV02DETFLA-FLA2 | game_spread | 0.305 | 0.395 | 0.376 | 40 | 61 | no | +0.068 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK3 | team_total | 0.528 | 0.620 | 0.602 | 63 | 39 | no | +0.065 | OK |
-| KXNHLSPREAD-26NOV02VGKBOS-VGK2 | game_spread | 0.211 | 0.295 | 0.277 | 30 | 71 | no | +0.064 | OK |
-| KXNHLSPREAD-26NOV02VGKBOS-BOS2 | game_spread | 0.367 | 0.285 | 0.300 | 29 | 72 | yes | +0.062 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-DET5 | team_total | 0.198 | 0.125 | 0.138 | 13 | 88 | yes | +0.060 | OK |
-| KXNHLSPREAD-26NOV02DETFLA-FLA3 | game_spread | 0.188 | 0.265 | 0.248 | 27 | 74 | no | +0.059 | OK |
-| KXNHLSPREAD-26NOV02DETFLA-DET2 | game_spread | 0.268 | 0.195 | 0.208 | 20 | 81 | yes | +0.056 | OK |
-| KXNHLSPREAD-26NOV02VGKBOS-VGK3 | game_spread | 0.114 | 0.190 | 0.172 | 20 | 82 | no | +0.055 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-DET2 | team_total | 0.805 | 0.730 | 0.746 | 74 | 28 | yes | +0.052 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK2 | team_total | 0.758 | 0.830 | 0.817 | 84 | 18 | no | +0.051 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-COL5 | team_total | 0.266 | 0.335 | 0.320 | 34 | 67 | no | +0.049 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-COL3 | team_total | 0.681 | 0.750 | 0.737 | 76 | 26 | no | +0.045 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK5 | team_total | 0.157 | 0.220 | 0.206 | 23 | 79 | no | +0.041 | OK |
 | KXNHLTOTAL-26NOV02CGYSJ-8 | game_total | 0.324 | 0.265 | 0.276 | 27 | 74 | yes | +0.041 | OK |
 | KXNHLSPREAD-26NOV02COLCHI-COL3 | game_spread | 0.260 | 0.315 | 0.303 | 32 | 69 | no | +0.035 | OK |
-| KXNHLTOTAL-26NOV02DETFLA-8 | game_total | 0.266 | 0.215 | 0.225 | 22 | 79 | yes | +0.034 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS5 | team_total | 0.255 | 0.200 | 0.210 | 21 | 81 | yes | +0.034 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-DET6 | team_total | 0.086 | 0.045 | 0.051 | 5 | 96 | yes | +0.033 | OK |
-| KXNHLSPREAD-26NOV02VGKBOS-BOS3 | game_spread | 0.234 | 0.185 | 0.194 | 19 | 82 | yes | +0.033 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS4 | team_total | 0.448 | 0.390 | 0.401 | 40 | 62 | yes | +0.031 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS3 | team_total | 0.667 | 0.610 | 0.622 | 62 | 40 | yes | +0.031 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-4 | game_total | 0.844 | 0.885 | 0.878 | 89 | 12 | no | +0.029 | OK |
-| KXNHLSPREAD-26NOV02DETFLA-DET3 | game_spread | 0.156 | 0.115 | 0.122 | 12 | 89 | yes | +0.028 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-FLA2 | team_total | 0.824 | 0.870 | 0.862 | 88 | 14 | no | +0.028 | OK |
 | KXNHLGAME-26NOV02COLCHI-CHI | game_winner | 0.373 | 0.325 | 0.334 | 33 | 68 | yes | +0.027 | OK |
 | KXNHLGAME-26NOV02COLCHI-COL | game_winner | 0.627 | 0.675 | 0.666 | 68 | 33 | no | +0.027 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-6 | game_total | 0.546 | 0.595 | 0.585 | 60 | 41 | no | +0.027 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-5 | game_total | 0.762 | 0.805 | 0.797 | 81 | 20 | no | +0.027 | OK |
 | KXNHLTOTAL-26NOV02CGYSJ-6 | game_total | 0.634 | 0.585 | 0.595 | 59 | 42 | yes | +0.027 | OK |
 | KXNHLTOTAL-26NOV02CGYSJ-7 | game_total | 0.524 | 0.475 | 0.485 | 48 | 53 | yes | +0.027 | OK |
-| KXNHLTOTAL-26NOV02DETFLA-6 | game_total | 0.574 | 0.525 | 0.535 | 53 | 48 | yes | +0.026 | OK |
 | KXNHLSPREAD-26NOV02COLCHI-COL2 | game_spread | 0.397 | 0.445 | 0.435 | 45 | 56 | no | +0.026 | OK |
-| KXNHLTEAMTOTAL-26NOV02COLCHI-COL2 | team_total | 0.858 | 0.905 | 0.897 | 92 | 11 | no | +0.025 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-FLA4 | team_total | 0.409 | 0.460 | 0.450 | 47 | 55 | no | +0.024 | OK |
 | KXNHLTOTAL-26NOV02CGYSJ-9 | game_total | 0.235 | 0.195 | 0.203 | 20 | 81 | yes | +0.024 | OK |
-| KXNHLTOTAL-26NOV02DETFLA-7 | game_total | 0.460 | 0.415 | 0.424 | 42 | 59 | yes | +0.023 | OK |
+| KXNHLTOTAL-26NOV02CGYSJ-10 | game_total | 0.117 | 0.085 | 0.091 | 9 | 92 | yes | +0.021 | OK |
 | KXNHLTEAMTOTAL-26NOV02CGYSJ-SJ6 | team_total | 0.128 | 0.095 | 0.101 | 10 | 91 | yes | +0.021 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-FLA3 | team_total | 0.628 | 0.670 | 0.662 | 68 | 34 | no | +0.016 | OK |
-| KXNHLTOTAL-26NOV02DETFLA-9 | game_total | 0.186 | 0.155 | 0.161 | 16 | 85 | yes | +0.016 | OK |
-| KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY6 | team_total | 0.111 | 0.080 | 0.086 | 9 | 93 | yes | +0.015 | OK |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-COL6 | team_total | 0.127 | 0.155 | 0.149 | 16 | 85 | no | +0.014 | OK |
+| KXNHLTEAMTOTAL-26NOV02COLCHI-COL2 | team_total | 0.858 | 0.895 | 0.888 | 91 | 12 | no | +0.014 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-7 | game_total | 0.429 | 0.465 | 0.458 | 47 | 54 | no | +0.013 | OK |
-| KXNHLTOTAL-26NOV02VGKBOS-5 | game_total | 0.766 | 0.795 | 0.789 | 80 | 21 | no | +0.013 | OK |
 | KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY5 | team_total | 0.234 | 0.195 | 0.202 | 21 | 82 | yes | +0.012 | OK |
-| KXNHLTEAMTOTAL-26NOV02DETFLA-FLA5 | team_total | 0.225 | 0.260 | 0.253 | 27 | 75 | no | +0.012 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS6 | team_total | 0.118 | 0.090 | 0.095 | 10 | 92 | yes | +0.012 | OK |
-| KXNHLTOTAL-26NOV02CGYSJ-10 | game_total | 0.117 | 0.090 | 0.095 | 10 | 92 | yes | +0.011 | OK |
-| KXNHLTOTAL-26NOV02VGKBOS-4 | game_total | 0.851 | 0.875 | 0.871 | 88 | 13 | no | +0.011 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK6 | team_total | 0.066 | 0.085 | 0.081 | 9 | 92 | no | +0.008 | OK |
-| KXNHLTEAMTOTAL-26NOV02VGKBOS-BOS2 | team_total | 0.846 | 0.820 | 0.825 | 83 | 19 | yes | +0.006 | OK |
-| KXNHLTOTAL-26NOV02VGKBOS-3 | game_total | 0.962 | 0.975 | 0.973 | 98 | 3 | no | +0.006 | OK |
 | KXNHLSPREAD-26NOV02COLCHI-CHI2 | game_spread | 0.185 | 0.165 | 0.169 | 17 | 84 | yes | +0.005 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-8 | game_total | 0.242 | 0.265 | 0.260 | 27 | 74 | no | +0.005 | OK |
+| KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY6 | team_total | 0.111 | 0.085 | 0.090 | 10 | 93 | yes | +0.005 | OK |
 | KXNHLTEAMTOTAL-26NOV02CGYSJ-SJ4 | team_total | 0.462 | 0.435 | 0.440 | 44 | 57 | yes | +0.005 | OK |
 | KXNHLTOTAL-26NOV02COLCHI-9 | game_total | 0.165 | 0.185 | 0.181 | 19 | 82 | no | +0.004 | OK |
-| KXNHLSPREAD-26NOV02COLCHI-CHI3 | game_spread | 0.099 | 0.085 | 0.088 | 9 | 92 | yes | +0.003 | OK |
-| KXNHLTOTAL-26NOV02CGYSJ-4 | game_total | 0.891 | 0.875 | 0.878 | 88 | 13 | yes | +0.003 | OK |
-| KXNHLTEAMTOTAL-26NOV02COLCHI-CHI6 | team_total | 0.055 | 0.040 | 0.043 | 5 | 97 | yes | +0.002 | OK |
 | KXNHLTEAMTOTAL-26NOV02CGYSJ-SJ5 | team_total | 0.265 | 0.240 | 0.245 | 25 | 77 | yes | +0.002 | OK |
 | KXNHLTEAMTOTAL-26NOV02CGYSJ-SJ3 | team_total | 0.667 | 0.640 | 0.645 | 65 | 37 | yes | +0.001 | OK |
-| KXNHLTOTAL-26NOV02DETFLA-10 | game_total | 0.085 | 0.070 | 0.073 | 8 | 94 | yes | +0.000 | OK |
-| KXNHLTOTAL-26NOV02CGYSJ-5 | game_total | 0.820 | 0.805 | 0.808 | 81 | 20 |  | -0.001 | NO_EDGE |
-| KXNHLTOTAL-26NOV02CGYSJ-2 | game_total | 0.990 | 0.985 | 0.986 | 99 | 2 |  | -0.001 | NO_EDGE |
-| KXNHLTOTAL-26NOV02DETFLA-5 | game_total | 0.781 | 0.760 | 0.764 | 77 | 25 |  | -0.001 | NO_EDGE |
-| KXNHLTEAMTOTAL-26NOV02COLCHI-CHI5 | team_total | 0.137 | 0.120 | 0.123 | 13 | 89 |  | -0.001 | NO_EDGE |
+| KXNHLTOTAL-26NOV02CGYSJ-2 | game_total | 0.990 | 0.980 | 0.982 | 99 | 3 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26NOV02COLCHI-3 | game_total | 0.960 | 0.970 | 0.968 | 98 | 4 |  | -0.003 | NO_EDGE |
-| KXNHLTOTAL-26NOV02VGKBOS-6 | game_total | 0.556 | 0.575 | 0.571 | 58 | 43 |  | -0.003 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV02COLCHI-CHI2 | team_total | 0.731 | 0.715 | 0.718 | 72 | 29 |  | -0.003 | NO_EDGE |
 | KXNHLTOTAL-26NOV02COLCHI-2 | game_total | 0.982 | 0.985 | 0.984 | 99 | 2 |  | -0.004 | NO_EDGE |
-| KXNHLTOTAL-26NOV02DETFLA-2 | game_total | 0.987 | 0.985 | 0.985 | 99 | 2 |  | -0.004 | NO_EDGE |
-| KXNHLTOTAL-26NOV02VGKBOS-9 | game_total | 0.174 | 0.185 | 0.183 | 19 | 82 |  | -0.004 | NO_EDGE |
-| KXNHLTOTAL-26NOV02DETFLA-3 | game_total | 0.968 | 0.960 | 0.962 | 97 | 5 |  | -0.004 | NO_EDGE |
+| KXNHLTOTAL-26NOV02COLCHI-10 | game_total | 0.079 | 0.085 | 0.084 | 9 | 92 |  | -0.004 | NO_EDGE |
+| KXNHLSPREAD-26NOV02CGYSJ-SJ3 | game_spread | 0.203 | 0.215 | 0.213 | 22 | 79 |  | -0.005 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY4 | team_total | 0.411 | 0.390 | 0.394 | 40 | 62 |  | -0.006 | NO_EDGE |
+| KXNHLTOTAL-26NOV02CGYSJ-4 | game_total | 0.891 | 0.880 | 0.882 | 89 | 13 |  | -0.006 | NO_EDGE |
+| KXNHLTOTAL-26NOV02CGYSJ-3 | game_total | 0.975 | 0.970 | 0.971 | 98 | 4 |  | -0.006 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV02COLCHI-CHI4 | team_total | 0.288 | 0.275 | 0.277 | 28 | 73 |  | -0.007 | NO_EDGE |
+| KXNHLSPREAD-26NOV02COLCHI-CHI3 | game_spread | 0.099 | 0.095 | 0.096 | 10 | 91 |  | -0.007 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV02COLCHI-CHI6 | team_total | 0.055 | 0.045 | 0.047 | 6 | 97 |  | -0.009 | NO_EDGE |
+| KXNHLTOTAL-26NOV02CGYSJ-5 | game_total | 0.820 | 0.810 | 0.812 | 82 | 20 |  | -0.011 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY3 | team_total | 0.626 | 0.605 | 0.609 | 62 | 41 |  | -0.011 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV02COLCHI-CHI5 | team_total | 0.137 | 0.125 | 0.127 | 14 | 89 |  | -0.012 | NO_EDGE |
+| KXNHLSPREAD-26NOV02CGYSJ-CGY2 | game_spread | 0.271 | 0.265 | 0.266 | 27 | 74 |  | -0.013 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV02COLCHI-CHI3 | team_total | 0.495 | 0.505 | 0.503 | 51 | 50 |  | -0.013 | NO_EDGE |
+| KXNHLSPREAD-26NOV02CGYSJ-SJ2 | game_spread | 0.322 | 0.315 | 0.316 | 32 | 69 |  | -0.013 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY2 | team_total | 0.825 | 0.815 | 0.817 | 83 | 20 |  | -0.015 | NO_EDGE |
+| KXNHLSPREAD-26NOV02CGYSJ-CGY3 | game_spread | 0.165 | 0.165 | 0.165 | 17 | 84 |  | -0.015 | NO_EDGE |
+| KXNHLGAME-26NOV02CGYSJ-SJ | game_winner | 0.530 | 0.525 | 0.526 | 53 | 48 |  | -0.018 | NO_EDGE |
+| KXNHLGAME-26NOV02CGYSJ-CGY | game_winner | 0.470 | 0.475 | 0.474 | 48 | 53 |  | -0.018 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV02CGYSJ-SJ2 | team_total | 0.848 | 0.845 | 0.846 | 86 | 17 |  | -0.021 | NO_EDGE |
+| KXNHL1P-26NOV02COLCHI-CHI | period_winner |  | 0.275 |  | 28 | 73 |  |  | UNSUPPORTED |
+| KXNHL1P-26NOV02COLCHI-COL | period_winner |  | 0.425 |  | 43 | 58 |  |  | UNSUPPORTED |
+| KXNHL1P-26NOV02COLCHI-TIE | period_winner |  | 0.315 |  | 33 | 70 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26NOV02COLCHI-CHI2 | period_spread |  | 0.055 |  | 8 | 97 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26NOV02COLCHI-COL2 | period_spread |  | 0.175 |  | 18 | 83 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26NOV02COLCHI-1 | period_total |  | 0.840 |  | 85 | 17 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26NOV02COLCHI-2 | period_total |  | 0.565 |  | 57 | 44 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26NOV02COLCHI-3 | period_total |  | 0.285 |  | 29 | 72 |  |  | UNSUPPORTED |
+| KXNHL2P-26NOV02COLCHI-CHI | period_winner |  | 0.255 |  | 27 | 76 |  |  | UNSUPPORTED |
+| KXNHL2P-26NOV02COLCHI-COL | period_winner |  | 0.440 |  | 46 | 58 |  |  | UNSUPPORTED |
+| KXNHL2P-26NOV02COLCHI-TIE | period_winner |  | 0.285 |  | 29 | 72 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26NOV02COLCHI-CHI2 | period_spread |  | 0.045 |  | 6 | 97 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26NOV02COLCHI-COL2 | period_spread |  | 0.210 |  | 23 | 81 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26NOV02COLCHI-1 | period_total |  | 0.900 |  | 92 | 12 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26NOV02COLCHI-2 | period_total |  | 0.615 |  | 63 | 40 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26NOV02COLCHI-3 | period_total |  | 0.330 |  | 34 | 68 |  |  | UNSUPPORTED |
+| KXNHL3P-26NOV02COLCHI-CHI | period_winner |  | 0.255 |  | 26 | 75 |  |  | UNSUPPORTED |
+| KXNHL3P-26NOV02COLCHI-COL | period_winner |  | 0.485 |  | 50 | 53 |  |  | UNSUPPORTED |
+| KXNHL3P-26NOV02COLCHI-TIE | period_winner |  | 0.250 |  | 26 | 76 |  |  | UNSUPPORTED |
+| KXNHL3PSPREAD-26NOV02COLCHI-CHI2 | period_spread |  | 0.075 |  | 10 | 95 |  |  | UNSUPPORTED |
+| KXNHL3PSPREAD-26NOV02COLCHI-COL2 | period_spread |  | 0.255 |  | 28 | 77 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26NOV02COLCHI-1 | period_total |  | 0.910 |  | 93 | 11 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26NOV02COLCHI-2 | period_total |  | 0.670 |  | 68 | 34 |  |  | UNSUPPORTED |
+| KXNHL3PTOTAL-26NOV02COLCHI-3 | period_total |  | 0.390 |  | 40 | 62 |  |  | UNSUPPORTED |
+| KXNHLAST-26NOV02COLCHI-CHIAFRONDELL16-1 | player_assists |  | 0.265 |  | 27 | 74 |  |  | UNSUPPORTED |
+| KXNHLAST-26NOV02COLCHI-CHICBEDARD98-1 | player_assists |  | 0.470 |  | 48 | 54 |  |  | UNSUPPORTED |
+| KXNHLAST-26NOV02COLCHI-CHICBEDARD98-2 | player_assists |  | 0.140 |  | 17 | 89 |  |  | UNSUPPORTED |
+| KXNHLAST-26NOV02COLCHI-CHIFNAZAR91-1 | player_assists |  | 0.240 |  | 25 | 77 |  |  | UNSUPPORTED |
+| KXNHLAST-26NOV02COLCHI-CHIPKANE88-1 | player_assists |  | 0.395 |  | 41 | 62 |  |  | UNSUPPORTED |
+| KXNHLAST-26NOV02COLCHI-CHIPKANE88-2 | player_assists |  | 0.110 |  | 12 | 90 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
 | game | V1 P(home) | V2 P(home) | V1 P(OT) | V2 P(OT) | V1 exp total | V2 exp total | V2 goalie factors H/A | largest V1/V2 gap |
 |---|---:|---:|---:|---:|---:|---:|---|---|
-| VGK @ BOS | 0.592 | 0.518 | 0.173 | 0.218 | 6.16 | 6.44 | 0.957/1.004 | KXNHLTEAMTOTAL-26NOV02VGKBOS-VGK3 +0.095 |
-| DET @ FLA | 0.521 | 0.562 | 0.176 | 0.213 | 6.26 | 6.41 | 1.016/1.025 | KXNHLTEAMTOTAL-26NOV02DETFLA-FLA4 +0.046 |
 | COL @ CHI | 0.373 | 0.360 | 0.172 | 0.206 | 6.09 | 6.49 | 0.989/0.980 | KXNHLTOTAL-26NOV02COLCHI-7 +0.071 |
 | CGY @ SJS | 0.530 | 0.559 | 0.166 | 0.212 | 6.65 | 6.46 | 1.040/1.007 | KXNHLTEAMTOTAL-26NOV02CGYSJ-CGY5 -0.040 |
 
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 16 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 8 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- Mitch Marner: 2+ assists NO @ 84c · p 0.9089 (adj 0.872) · $20.0 · thesis VGK:SUPPRESSED
-- Nikita Zadorov: 1+ goals YES @ 4c · p 0.0605 (adj 0.0541) · $2.58 · thesis BOS:OFFENSE_4PLUS
-- Brayden McNabb: 1+ goals YES @ 5c · p 0.0754 (adj 0.064) · $2.5 · thesis VGK:OFFENSE_4PLUS
-- Mitch Marner: 1+ assists NO @ 48c · p 0.6052 (adj 0.5206) · $9.3 · thesis VGK:SUPPRESSED
-- Sam Reinhart: 1+ goals NO @ 62c · p 0.6997 (adj 0.6785) · $20.0 · thesis FLA:SUPPRESSED
-- Cole Schwindt: 1+ goals YES @ 9c · p 0.1257 (adj 0.1143) · $4.68 · thesis FLA:OFFENSE_4PLUS
-- Sam Bennett: 1+ goals YES @ 26c · p 0.3059 (adj 0.2932) · $6.67 · thesis FLA:OFFENSE_4PLUS
-- Alex DeBrincat: 1+ goals YES @ 35c · p 0.3985 (adj 0.3851) · $7.34 · thesis DET:OFFENSE_4PLUS
-- Tyler Bertuzzi: 1+ goals YES @ 21c · p 0.2647 (adj 0.2498) · $10.28 · thesis CHI:OFFENSE_4PLUS
-- Cole Smith: 1+ goals YES @ 7c · p 0.0951 (adj 0.0876) · $3.45 · thesis CHI:OFFENSE_4PLUS
-- Patrick Kane: 1+ assists NO @ 62c · p 0.7028 (adj 0.6539) · $15.38 · thesis CHI:SUPPRESSED
-- Connor Bedard: 1+ assists NO @ 54c · p 0.6226 (adj 0.5738) · $12.26 · thesis CHI:SUPPRESSED
+- Tyler Bertuzzi: 1+ goals YES @ 21c · p 0.2647 (adj 0.2498) · $9.67 · thesis CHI:OFFENSE_4PLUS
+- Cale Makar: 1+ goals NO @ 77c · p 0.8229 (adj 0.8072) · $20.0 · thesis COL:SUPPRESSED
+- Cole Smith: 1+ goals YES @ 7c · p 0.0951 (adj 0.0876) · $3.34 · thesis CHI:OFFENSE_4PLUS
+- Connor Bedard: 1+ assists NO @ 54c · p 0.6226 (adj 0.5763) · $14.95 · thesis CHI:SUPPRESSED
 - Ivar Stenberg: 1+ goals NO @ 76c · p 0.8203 (adj 0.804) · $20.0 · thesis SJS:SUPPRESSED
-- Mason Marchment: 1+ goals YES @ 24c · p 0.2843 (adj 0.272) · $5.61 · thesis SJS:OFFENSE_4PLUS
 - Michael Misa: 1+ goals YES @ 18c · p 0.2175 (adj 0.2069) · $4.95 · thesis SJS:OFFENSE_4PLUS
-- Michael Misa: 1+ assists YES @ 26c · p 0.3199 (adj 0.2874) · $4.0 · thesis SJS:OFFENSE_4PLUS
+- Michael Misa: 1+ assists YES @ 26c · p 0.3199 (adj 0.2874) · $4.51 · thesis SJS:OFFENSE_4PLUS
+- Mason Marchment: 1+ goals YES @ 25c · p 0.2843 (adj 0.2732) · $2.62 · thesis SJS:OFFENSE_4PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
-
-**VGK @ BOS** · priced 213/214 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- BOS net: Jeremy Swayman (CONFIRMED) exp shots 28.5, exp saves 24.67 (sd 6.72), pull risk 0.06
-- VGK net: Carter Hart (CONFIRMED) exp shots 26.12, exp saves 22.48 (sd 6.28), pull risk 0.068
-
-| contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
-|---|---:|---:|---|---:|---|
-| Mitch Marner: 1+ assists | 0.395 | 0.525 | 53/48 | +0.108 | STANDARD |
-| Mitch Marner: 1+ points | 0.530 | 0.640 | 65/37 | +0.083 | STANDARD |
-| William Borgen: 1+ points | 0.248 | 0.145 | 21/92 | +0.027 | STANDARD |
-| Tanner Jeannot: 1+ points | 0.233 | 0.130 | 17/91 | +0.053 | STANDARD |
-| Nikita Zadorov: 1+ points | 0.263 | 0.160 | 21/89 | +0.041 | STANDARD |
-| Hampus Lindholm: 1+ points | 0.347 | 0.245 | 26/77 | +0.074 | STANDARD |
-
-**DET @ FLA** · priced 160/170 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- FLA net: Jacob Markstrom (CONFIRMED) exp shots 26.78, exp saves 23.19 (sd 6.37), pull risk 0.062
-- DET net: Daniil Tarasov (CONFIRMED) exp shots 27.16, exp saves 23.26 (sd 6.52), pull risk 0.069
-
-| contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
-|---|---:|---:|---|---:|---|
-| Daniil Tarasov: 26+ saves | 0.352 | 0.470 | 49/55 | +0.081 |  |
-| Sam Reinhart: 1+ assists | 0.326 | 0.425 | 43/58 | +0.077 | STANDARD |
-| Sam Reinhart: 1+ points | 0.525 | 0.615 | 63/40 | +0.058 | STANDARD |
-| Sam Reinhart: 1+ goals | 0.300 | 0.385 | 39/62 | +0.063 | STANDARD |
-| Sam Reinhart: 2+ points | 0.178 | 0.260 | 28/76 | +0.049 | STANDARD |
-| Brady Tkachuk: 1+ goals | 0.326 | 0.405 | 41/60 | +0.057 | STANDARD |
 
 **COL @ CHI** · priced 168/169 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - CHI net: Spencer Knight (CONFIRMED) exp shots 31.92, exp saves 26.8 (sd 7.53), pull risk 0.092
@@ -163,12 +125,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Nathan MacKinnon: 2+ points | 0.366 | 0.465 | 48/55 | +0.066 | STANDARD |
 | Patrick Kane: 1+ assists | 0.297 | 0.395 | 41/62 | +0.066 | STANDARD |
-| Connor Bedard: 1+ assists | 0.377 | 0.475 | 49/54 | +0.065 | STANDARD |
-| Nathan MacKinnon: 1+ assists | 0.509 | 0.600 | 61/41 | +0.064 | STANDARD |
-| Nathan MacKinnon: 2+ assists | 0.157 | 0.240 | 26/78 | +0.051 | STANDARD |
-| Cale Makar: 2+ points | 0.210 | 0.280 | 29/73 | +0.046 | STANDARD |
+| Nathan MacKinnon: 2+ points | 0.366 | 0.460 | 48/56 | +0.057 | STANDARD |
+| Connor Bedard: 1+ assists | 0.377 | 0.470 | 48/54 | +0.065 | STANDARD |
+| Nathan MacKinnon: 1+ assists | 0.509 | 0.595 | 61/42 | +0.054 | STANDARD |
+| Nathan MacKinnon: 2+ assists | 0.157 | 0.235 | 25/78 | +0.051 | STANDARD |
+| Patrick Kane: 1+ points | 0.449 | 0.515 | 52/49 | +0.044 | STANDARD |
 
 **CGY @ SJS** · priced 183/184 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - SJS net: Yaroslav Askarov (CONFIRMED) exp shots 28.38, exp saves 24.66 (sd 6.72), pull risk 0.057
@@ -176,12 +138,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
+| Sam Dickinson: 1+ assists | 0.243 | 0.095 | 18/99 | +0.052 | STANDARD |
 | Macklin Celebrini: 1+ assists | 0.435 | 0.570 | 58/44 | +0.108 | STANDARD |
 | Macklin Celebrini: 2+ points | 0.303 | 0.420 | 44/60 | +0.080 | STANDARD |
 | Sam Dickinson: 1+ points | 0.296 | 0.185 | 21/84 | +0.074 | STANDARD |
+| Kevin Bahl: 1+ points | 0.295 | 0.190 | 25/87 | +0.032 | STANDARD |
 | Macklin Celebrini: 2+ assists | 0.113 | 0.210 | 23/81 | +0.066 | STANDARD |
-| Zach Whitecloud: 1+ points | 0.255 | 0.160 | 20/88 | +0.043 | STANDARD |
-| Sam Dickinson: 1+ assists | 0.243 | 0.150 | 18/88 | +0.052 | STANDARD |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
