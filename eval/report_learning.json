@@ -9,12 +9,12 @@
   "final_pregame_contracts_settled": 49690,
   "games_projected": 235,
   "games_settled": 231,
-  "market_snapshots": 4261,
+  "market_snapshots": 4312,
   "projection_runs": 869,
-  "research_decisions": 5879,
+  "research_decisions": 5897,
   "research_decisions_settled_final": 2900,
   "script_forecast_games": 183,
-  "script_forecasts": 4224,
+  "script_forecasts": 4263,
   "script_forecasts_settled": 4164,
   "script_games_settled": 179,
   "supported_families": [
@@ -32,7 +32,7 @@
    "team_total"
   ]
  },
- "generated_at_utc": "2026-11-02T19:09:36Z",
+ "generated_at_utc": "2026-11-03T02:05:15Z",
  "kind": "nhl_learning_report",
  "probability": {
   "brier_diff_model_minus_market": 0.00333,
@@ -445,6 +445,27 @@
    "n": 235,
    "nominal_profit_dollars": 17.79,
    "note": "nominal research stakes (whole dollars, $250 research bankroll); never placed"
+  },
+  "goalie_saves_selection_audit": {
+   "fee_included": false,
+   "game_cluster_bootstrap_gross_roi_ci95": [
+    0.0146,
+    0.5656
+   ],
+   "hit_rate": 0.6774,
+   "limitations": "Selected after inspecting multiple market families; independence p-value is not a multiple-testing-adjusted significance claim. Same-game contracts can be correlated. ROI uses executable asks before Kalshi fees and excludes unselected opportunities.",
+   "mean_clv": -0.0124,
+   "mean_entry_ask_cents": 52.2258,
+   "mean_model_p": 0.5554,
+   "model_expected_gross_roi": 0.0635,
+   "model_expected_wins": 17.2186,
+   "n": 31,
+   "n_clv": 31,
+   "n_distinct_games": 29,
+   "p_at_least_observed_wins_if_model_correct_independent": 0.11593,
+   "realized_gross_roi": 0.2971,
+   "status": "EXPLORATORY_NO_BETTING_AUTHORITY",
+   "wins": 21
   },
   "hit_rate": 0.4055,
   "mean_p": 0.4603,
