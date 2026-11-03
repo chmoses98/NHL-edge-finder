@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-11-03T10:01:12Z · thesis-postmortem-2.0 · rows (all generations) 38368
+evaluated 2026-11-03T11:45:14Z · thesis-postmortem-2.0 · rows (all generations) 38368
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -42,50 +42,53 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020236 UTA @ TOR: NOT_STARTED · snapshot snap-127ad1fb22a60b9bd0fe @ 2026-11-03T09:54:24Z
+#### game 2026020236 UTA @ TOR: NOT_STARTED · snapshot snap-75be2459e62024620858 @ 2026-11-03T11:40:50Z
 
-#### game 2026020237 WPG @ MTL: NOT_STARTED · snapshot snap-127ad1fb22a60b9bd0fe @ 2026-11-03T09:54:24Z
-
-#### game 2026020238 DET @ TBL: NOT_STARTED · snapshot snap-127ad1fb22a60b9bd0fe @ 2026-11-03T09:54:24Z
+#### game 2026020237 WPG @ MTL: NOT_STARTED · snapshot snap-75be2459e62024620858 @ 2026-11-03T11:40:50Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26NOV03DETTB-TB2|no | FUNDED_RESEARCH | 2 | 6.16 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26NOV03DETTB-TB3|no | FUNDED_RESEARCH | 2 | 6.96 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26NOV03WPGMTL-WPG6|yes | FUNDED_RESEARCH | 1 | 1.90 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020239 EDM @ NJD: NOT_STARTED · snapshot snap-127ad1fb22a60b9bd0fe @ 2026-11-03T09:54:24Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26NOV03EDMNJ-EDM6|yes | FUNDED_RESEARCH | 1 | 2.11 | - | - | - | FRAGILE | - | - |
-| KXNHLSPREAD-26NOV03EDMNJ-NJ2|no | FUNDED_RESEARCH | 3 | 11.44 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26NOV03EDMNJ-EDM2|yes | FUNDED_RESEARCH | 1 | 1.36 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTOTAL-26NOV03EDMNJ-7|yes | FUNDED_RESEARCH | 1 | 2.74 | - | - | - | STRUCTURAL | - | - |
-
-#### game 2026020240 STL @ NYR: NOT_STARTED · snapshot snap-127ad1fb22a60b9bd0fe @ 2026-11-03T09:54:24Z
-
-#### game 2026020241 MIN @ PHI: NOT_STARTED · snapshot snap-127ad1fb22a60b9bd0fe @ 2026-11-03T09:54:24Z
+#### game 2026020238 DET @ TBL: NOT_STARTED · snapshot snap-75be2459e62024620858 @ 2026-11-03T11:40:50Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26NOV03MINPHI-PHI5|yes | FUNDED_RESEARCH | 1 | 3.00 | - | - | - | DIRECT | - | - |
-| KXNHLTEAMTOTAL-26NOV03MINPHI-PHI4|yes | FUNDED_RESEARCH | 2 | 4.58 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26NOV03MINPHI-MIN3|no | FUNDED_RESEARCH | 4 | 15.94 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26NOV03DETTB-TB2|no | FUNDED_RESEARCH | 2 | 6.88 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26NOV03DETTB-DET5|yes | FUNDED_RESEARCH | 1 | 2.01 | - | - | - | DIRECT | - | - |
+| KXNHLSPREAD-26NOV03DETTB-TB3|no | FUNDED_RESEARCH | 1 | 2.10 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020242 VGK @ PIT: NOT_STARTED · snapshot snap-127ad1fb22a60b9bd0fe @ 2026-11-03T09:54:24Z
-
-#### game 2026020243 DAL @ WSH: NOT_STARTED · snapshot snap-127ad1fb22a60b9bd0fe @ 2026-11-03T09:54:24Z
-
-#### game 2026020244 COL @ CBJ: NOT_STARTED · snapshot snap-127ad1fb22a60b9bd0fe @ 2026-11-03T09:54:24Z
-
-#### game 2026020245 CAR @ NSH: NOT_STARTED · snapshot snap-127ad1fb22a60b9bd0fe @ 2026-11-03T09:54:24Z
+#### game 2026020239 EDM @ NJD: NOT_STARTED · snapshot snap-75be2459e62024620858 @ 2026-11-03T11:40:50Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLSPREAD-26NOV03CARNSH-CAR2|no | FUNDED_RESEARCH | 3 | 8.28 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26NOV03CARNSH-NSH4|yes | FUNDED_RESEARCH | 1 | 2.58 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26NOV03EDMNJ-NJ2|no | FUNDED_RESEARCH | 2 | 4.16 | - | - | - | STRUCTURAL | - | - |
 
-#### game 2026020246 ANA @ VAN: NOT_STARTED · snapshot snap-127ad1fb22a60b9bd0fe @ 2026-11-03T09:54:24Z
+#### game 2026020240 STL @ NYR: NOT_STARTED · snapshot snap-75be2459e62024620858 @ 2026-11-03T11:40:50Z
+
+#### game 2026020241 MIN @ PHI: NOT_STARTED · snapshot snap-75be2459e62024620858 @ 2026-11-03T11:40:50Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLSPREAD-26NOV03MINPHI-PHI2|yes | FUNDED_RESEARCH | 2 | 6.48 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26NOV03MINPHI-PHI4|yes | FUNDED_RESEARCH | 1 | 2.26 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26NOV03MINPHI-MIN3|no | FUNDED_RESEARCH | 5 | 17.74 | - | - | - | STRUCTURAL | - | - |
+
+#### game 2026020242 VGK @ PIT: NOT_STARTED · snapshot snap-75be2459e62024620858 @ 2026-11-03T11:40:50Z
+
+#### game 2026020243 DAL @ WSH: NOT_STARTED · snapshot snap-75be2459e62024620858 @ 2026-11-03T11:40:50Z
+
+#### game 2026020244 COL @ CBJ: NOT_STARTED · snapshot snap-75be2459e62024620858 @ 2026-11-03T11:40:50Z
+
+#### game 2026020245 CAR @ NSH: NOT_STARTED · snapshot snap-75be2459e62024620858 @ 2026-11-03T11:40:50Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLTEAMTOTAL-26NOV03CARNSH-NSH5|yes | FUNDED_RESEARCH | 1 | 2.33 | - | - | - | DIRECT | - | - |
+| KXNHLTEAMTOTAL-26NOV03CARNSH-NSH4|yes | FUNDED_RESEARCH | 1 | 2.59 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26NOV03CARNSH-CAR2|no | FUNDED_RESEARCH | 3 | 8.81 | - | - | - | STRUCTURAL | - | - |
+
+#### game 2026020246 ANA @ VAN: NOT_STARTED · snapshot snap-75be2459e62024620858 @ 2026-11-03T11:40:50Z
 
 ## Slate 2026-11-02: **COMPLETE — 4/4 games evaluated**
 
