@@ -1,5 +1,5 @@
 {
- "evaluated_at_utc": "2026-11-04T08:55:57Z",
+ "evaluated_at_utc": "2026-11-04T10:40:46Z",
  "authority": "RESEARCH_ONLY",
  "report_version": "thesis-postmortem-2.0",
  "n_rows_all_runs": 38929,
@@ -132361,14 +132361,14 @@
      "state": "NOT_STARTED",
      "matchup": "OTT @ BUF",
      "final_snapshot": {
-      "snapshot_id": "snap-e746448126d51e0b88e8",
-      "decided_at_utc": "2026-11-04T08:21:17Z",
+      "snapshot_id": "snap-4a75290f4e519c6995b2",
+      "decided_at_utc": "2026-11-04T10:21:09Z",
       "run_id": "41791910494",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
       "n_chosen": 0,
       "n_shortlisted": 0,
-      "n_pregame_snapshots": 4,
+      "n_pregame_snapshots": 6,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-11-05T00:30:00Z",
       "synthetic_game_row": false,
@@ -132383,14 +132383,14 @@
      "state": "NOT_STARTED",
      "matchup": "CHI @ FLA",
      "final_snapshot": {
-      "snapshot_id": "snap-e746448126d51e0b88e8",
-      "decided_at_utc": "2026-11-04T08:21:17Z",
+      "snapshot_id": "snap-4a75290f4e519c6995b2",
+      "decided_at_utc": "2026-11-04T10:21:09Z",
       "run_id": "41791910494",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
-      "n_chosen": 2,
-      "n_shortlisted": 3,
-      "n_pregame_snapshots": 4,
+      "n_chosen": 4,
+      "n_shortlisted": 5,
+      "n_pregame_snapshots": 6,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-11-05T00:30:00Z",
       "synthetic_game_row": false,
@@ -132422,12 +132422,12 @@
      ],
      "bets": [
       {
-       "decision_id": "f7907af1407fb9b5378c2b18d0509846",
+       "decision_id": "16328d10ce968b024238b0b06f18ca83",
        "game_id": "2026020248",
        "bet_id": "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes",
        "family": "team_total",
        "chosen": true,
-       "stake_dollars": 2.39,
+       "stake_dollars": 2.34,
        "research_status": "FUNDED_RESEARCH",
        "research_stake_dollars": 1,
        "research_reasons": [],
@@ -132481,18 +132481,28 @@
          "relationship": "DUPLICATIVE",
          "phi": 0.636,
          "p_both": 0.1585
+        },
+        "KXNHLSPREAD-26NOV04CHIFLA-FLA2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.317,
+         "p_both": 0.1513
+        },
+        "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI2|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.24,
+         "p_both": 0.1585
         }
        },
        "scored": false,
        "outcome": null
       },
       {
-       "decision_id": "0ec0344502aef1884c6231ee363a66d7",
+       "decision_id": "9dffbda4109193c758cc731e269642e6",
        "game_id": "2026020248",
        "bet_id": "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI4|yes",
        "family": "team_total",
        "chosen": true,
-       "stake_dollars": 3.17,
+       "stake_dollars": 2.19,
        "research_status": "FUNDED_RESEARCH",
        "research_stake_dollars": 1,
        "research_reasons": [],
@@ -132527,6 +132537,128 @@
          "relationship": "DUPLICATIVE",
          "phi": 0.636,
          "p_both": 0.1585
+        },
+        "KXNHLSPREAD-26NOV04CHIFLA-FLA2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.419,
+         "p_both": 0.2855
+        },
+        "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI2|yes": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.377,
+         "p_both": 0.3179
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "132c6ca5a9043259357b5d5716246de1",
+       "game_id": "2026020248",
+       "bet_id": "KXNHLSPREAD-26NOV04CHIFLA-FLA2|no",
+       "family": "game_spread",
+       "chosen": true,
+       "stake_dollars": 2.17,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 1,
+       "research_reasons": [],
+       "fidelity_class": "STRUCTURAL",
+       "thesis_capture": 1.0,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "GAME:TIGHT",
+       "p_thesis": 0.4117,
+       "entry_price_cents": 53,
+       "ev_raw": 0.049362999999999935,
+       "ev_adjusted": 0.013462999999999892,
+       "p_model": 0.5968,
+       "p_adjusted": 0.5609,
+       "p_kalshi_mid": 0.525,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.525,
+        "gap": 0.0718,
+        "abs_gap_pts": 7.2,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.201,
+         "p_both": 0.0615
+        },
+        "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.317,
+         "p_both": 0.1513
+        },
+        "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI4|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.419,
+         "p_both": 0.2855
+        },
+        "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI2|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.428,
+         "p_both": 0.5462
+        }
+       },
+       "scored": false,
+       "outcome": null
+      },
+      {
+       "decision_id": "e2364d4165e3811c6d83c6691fda2184",
+       "game_id": "2026020248",
+       "bet_id": "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI2|yes",
+       "family": "team_total",
+       "chosen": true,
+       "stake_dollars": 4.5,
+       "research_status": "FUNDED_RESEARCH",
+       "research_stake_dollars": 2,
+       "research_reasons": [],
+       "fidelity_class": "DIRECT",
+       "thesis_capture": 0.984,
+       "expression_kind": "BROAD",
+       "is_player_prop": false,
+       "primary_thesis": "CHI:WINS",
+       "p_thesis": 0.374,
+       "entry_price_cents": 71,
+       "ev_raw": 0.041987,
+       "ev_adjusted": 0.011287000000000047,
+       "p_model": 0.7664,
+       "p_adjusted": 0.7357,
+       "p_kalshi_mid": 0.705,
+       "market_disagreement": {
+        "reference": "kalshi_mid",
+        "p_market": 0.705,
+        "gap": 0.0614,
+        "abs_gap_pts": 6.1,
+        "threshold_pts": 10.0,
+        "large": false
+       },
+       "selection_override": null,
+       "joint_relationships": {
+        "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes": {
+         "relationship": "MOSTLY_INDEPENDENT",
+         "phi": 0.143,
+         "p_both": 0.063
+        },
+        "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes": {
+         "relationship": "REINFORCING",
+         "phi": 0.24,
+         "p_both": 0.1585
+        },
+        "KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI4|yes": {
+         "relationship": "DUPLICATIVE",
+         "phi": 0.377,
+         "p_both": 0.3179
+        },
+        "KXNHLSPREAD-26NOV04CHIFLA-FLA2|no": {
+         "relationship": "REINFORCING",
+         "phi": 0.428,
+         "p_both": 0.5462
         }
        },
        "scored": false,
@@ -132538,14 +132670,14 @@
      "state": "NOT_STARTED",
      "matchup": "SJS @ LAK",
      "final_snapshot": {
-      "snapshot_id": "snap-e746448126d51e0b88e8",
-      "decided_at_utc": "2026-11-04T08:21:17Z",
+      "snapshot_id": "snap-4a75290f4e519c6995b2",
+      "decided_at_utc": "2026-11-04T10:21:09Z",
       "run_id": "41791910494",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
       "n_chosen": 0,
       "n_shortlisted": 0,
-      "n_pregame_snapshots": 4,
+      "n_pregame_snapshots": 6,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-11-05T03:00:00Z",
       "synthetic_game_row": false,
@@ -132560,14 +132692,14 @@
      "state": "NOT_STARTED",
      "matchup": "CGY @ SEA",
      "final_snapshot": {
-      "snapshot_id": "snap-e746448126d51e0b88e8",
-      "decided_at_utc": "2026-11-04T08:21:17Z",
+      "snapshot_id": "snap-4a75290f4e519c6995b2",
+      "decided_at_utc": "2026-11-04T10:21:09Z",
       "run_id": "41791910494",
       "card_status": "COMPLETE",
       "game_card_cap": 4,
       "n_chosen": 0,
       "n_shortlisted": 0,
-      "n_pregame_snapshots": 4,
+      "n_pregame_snapshots": 6,
       "later_incomplete_snapshots_skipped": [],
       "start_utc": "2026-11-05T03:00:00Z",
       "synthetic_game_row": false,

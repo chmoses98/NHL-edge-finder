@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-11-04T08:55:57Z · thesis-postmortem-2.0 · rows (all generations) 38929
+evaluated 2026-11-04T10:40:46Z · thesis-postmortem-2.0 · rows (all generations) 38929
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,18 +35,20 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020247 OTT @ BUF: NOT_STARTED · snapshot snap-e746448126d51e0b88e8 @ 2026-11-04T08:21:17Z
+#### game 2026020247 OTT @ BUF: NOT_STARTED · snapshot snap-4a75290f4e519c6995b2 @ 2026-11-04T10:21:09Z
 
-#### game 2026020248 CHI @ FLA: NOT_STARTED · snapshot snap-e746448126d51e0b88e8 @ 2026-11-04T08:21:17Z
+#### game 2026020248 CHI @ FLA: NOT_STARTED · snapshot snap-4a75290f4e519c6995b2 @ 2026-11-04T10:21:09Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes | FUNDED_RESEARCH | 1 | 2.39 | - | - | - | DIRECT | - | - |
-| KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI4|yes | FUNDED_RESEARCH | 1 | 3.17 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes | FUNDED_RESEARCH | 1 | 2.34 | - | - | - | DIRECT | - | - |
+| KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI4|yes | FUNDED_RESEARCH | 1 | 2.19 | - | - | - | STRUCTURAL | - | - |
+| KXNHLSPREAD-26NOV04CHIFLA-FLA2|no | FUNDED_RESEARCH | 1 | 2.17 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI2|yes | FUNDED_RESEARCH | 2 | 4.50 | - | - | - | DIRECT | - | - |
 
-#### game 2026020249 SJS @ LAK: NOT_STARTED · snapshot snap-e746448126d51e0b88e8 @ 2026-11-04T08:21:17Z
+#### game 2026020249 SJS @ LAK: NOT_STARTED · snapshot snap-4a75290f4e519c6995b2 @ 2026-11-04T10:21:09Z
 
-#### game 2026020250 CGY @ SEA: NOT_STARTED · snapshot snap-e746448126d51e0b88e8 @ 2026-11-04T08:21:17Z
+#### game 2026020250 CGY @ SEA: NOT_STARTED · snapshot snap-4a75290f4e519c6995b2 @ 2026-11-04T10:21:09Z
 
 ## Slate 2026-11-03: **COMPLETE — 11/11 games evaluated**
 
