@@ -89,6 +89,21 @@ class ManifestEntry:
     observed_at_utc: str | None = None  # observation instant (partition time); older manifests lack it
 
 
+def _stamp_not_before_record(row: dict[str, Any], batch_dt: datetime, batch_stamp: str) -> str:
+    """``_observed_at_utc`` is the point-in-time key consumers join on, so it must never precede the moment the row's own
+    content was observed. Batches are stamped at run start; a row that carries its own later ``observed_at_utc`` (goalie
+    observations, line combinations: up to ~278 s later in the 2026-10/11 archive) keeps that later time instead.
+    Unparseable / naive / earlier values leave the batch stamp unchanged."""
+    own = row.get("observed_at_utc")
+    if not isinstance(own, str):
+        return batch_stamp
+    try:
+        d = parse_iso(own)
+    except Exception:
+        return batch_stamp
+    return iso(d) if d.tzinfo is not None and d > batch_dt else batch_stamp
+
+
 class Ledger:
     def __init__(self, root: Path, run_id: str | None = None):
         self.root = Path(root)
@@ -122,7 +137,7 @@ class Ledger:
         with gzip.open(tmp, "wt", encoding="utf-8") as f:
             for r in rows:
                 r = dict(r)
-                r.setdefault("_observed_at_utc", stamp)
+                r.setdefault("_observed_at_utc", _stamp_not_before_record(r, observed_at, stamp))
                 r.setdefault("_run_id", self.run_id)
                 f.write(json.dumps(r, default=str, separators=(",", ":")) + "\n")
                 n += 1
