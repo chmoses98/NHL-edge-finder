@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-11-04T05:33:13Z · thesis-postmortem-2.0 · rows (all generations) 38929
+evaluated 2026-11-04T07:26:52Z · thesis-postmortem-2.0 · rows (all generations) 38929
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,19 +35,18 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020247 OTT @ BUF: NOT_STARTED · snapshot snap-d238db8c47003800f491 @ 2026-11-04T05:26:45Z
+#### game 2026020247 OTT @ BUF: NOT_STARTED · snapshot snap-0b135d22f8cb420d701f @ 2026-11-04T07:22:33Z
 
-#### game 2026020248 CHI @ FLA: NOT_STARTED · snapshot snap-d238db8c47003800f491 @ 2026-11-04T05:26:45Z
+#### game 2026020248 CHI @ FLA: NOT_STARTED · snapshot snap-0b135d22f8cb420d701f @ 2026-11-04T07:22:33Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
 | KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes | FUNDED_RESEARCH | 1 | 1.62 | - | - | - | FRAGILE | - | - |
-| KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes | FUNDED_RESEARCH | 1 | 1.24 | - | - | - | DIRECT | - | - |
-| KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI3|yes | FUNDED_RESEARCH | 1 | 1.43 | - | - | - | STRUCTURAL | - | - |
+| KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes | FUNDED_RESEARCH | 1 | 1.43 | - | - | - | DIRECT | - | - |
 
-#### game 2026020249 SJS @ LAK: NOT_STARTED · snapshot snap-d238db8c47003800f491 @ 2026-11-04T05:26:45Z
+#### game 2026020249 SJS @ LAK: NOT_STARTED · snapshot snap-0b135d22f8cb420d701f @ 2026-11-04T07:22:33Z
 
-#### game 2026020250 CGY @ SEA: NOT_STARTED · snapshot snap-d238db8c47003800f491 @ 2026-11-04T05:26:45Z
+#### game 2026020250 CGY @ SEA: NOT_STARTED · snapshot snap-0b135d22f8cb420d701f @ 2026-11-04T07:22:33Z
 
 ## Slate 2026-11-03: **COMPLETE — 11/11 games evaluated**
 
