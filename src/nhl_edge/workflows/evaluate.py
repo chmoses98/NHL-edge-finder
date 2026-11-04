@@ -7,6 +7,15 @@
 Leak rules: ``pregame`` is recomputed from the scheduled start; the prediction instant AND the market observation it
 used must both be strictly before the start. Only pregame rows enter any metric. The closing snapshot is the last
 market observation strictly before the start.
+
+CLV basis. ``clv_yes_prob`` / ``clv_no_prob`` / ``clv_signed`` are QUOTED-EXECUTION CLV: close midpoint minus the
+prediction-time executable ASK of the side, pre-fee. They include the half-spread paid on entry, so an unchanged market
+scores about minus half the spread; they are not selection CLV and not actual-fill CLV. Their meaning is unchanged
+(``evaluation.authority`` and ``learning`` read ``clv_signed``). Additive in clv-canonical/1: explicit
+``quoted_execution_clv_*`` aliases, ``selection_clv_*`` (close mid minus prediction-time mid of the same side; no spread,
+no fee) and ``close_price_source`` ("mid" or "last_trade"). A last-trade fallback is a trade print, not a midpoint, so
+it never produces a selection CLV. The aggregate in ``authority`` still pools one row per prediction; rows of one game
+are not independent (see the report for clustering).
 """
 
 from __future__ import annotations
@@ -77,6 +86,24 @@ def close_price_cents(obs: dict[str, Any] | None) -> float | None:
     return float(lp) if lp else None
 
 
+def close_price_source(obs: dict[str, Any] | None) -> str | None:
+    if not obs:
+        return None
+    if obs.get("yes_bid") is not None and obs.get("yes_ask") is not None:
+        return "mid"
+    return "last_trade" if obs.get("last_price") else None
+
+
+def entry_mid_cents(bid: Any, ask: Any) -> float | None:
+    if bid is None or ask is None:
+        return None
+    try:
+        b, a = float(bid), float(ask)
+    except (TypeError, ValueError):
+        return None
+    return (b + a) / 2.0 if 0 <= b <= a <= 100 else None
+
+
 def build_evaluation_row(pred: dict[str, Any], rec: SettlementRecord, start: datetime, observations: list[dict[str, Any]]) -> dict[str, Any] | None:
     if rec.outcome not in (SettlementOutcome.YES, SettlementOutcome.NO):
         return None
@@ -99,7 +126,20 @@ def build_evaluation_row(pred: dict[str, Any], rec: SettlementRecord, start: dat
     if p_data is not None and (clv_yes is not None or clv_no is not None):
         ref = 0.5 if p_mkt is None else float(p_mkt)
         clv_signed = clv_yes if float(p_data) > ref else clv_no
+    src = close_price_source(closing)
+    sel_yes = sel_no = sel_signed = None
+    ymid = entry_mid_cents(pred.get("market_yes_bid"), yes_ask)
+    if close_c is not None and src == "mid" and ymid is not None:
+        sel_yes = (close_c - ymid) / 100.0
+        sel_no = -sel_yes
+        if p_data is not None:
+            sel_signed = sel_yes if float(p_data) > (0.5 if p_mkt is None else float(p_mkt)) else sel_no
     return {
+        "clv_basis": "quoted_execution: close_mid - entry_ask, pre-fee, includes entry half-spread",
+        "quoted_execution_clv_yes_prob": clv_yes, "quoted_execution_clv_no_prob": clv_no,
+        "quoted_execution_clv_signed": clv_signed,
+        "selection_clv_yes_prob": sel_yes, "selection_clv_no_prob": sel_no, "selection_clv_signed": sel_signed,
+        "close_price_source": src,
         "prediction_id": pred.get("prediction_id"), "settlement_key": rec.idempotency_key, "ticker": rec.ticker, "game_id": pred.get("game_id") or rec.game_id,
         "family": pred.get("family"), "model_version": pred.get("model_version"), "predicted_at_utc": iso(predicted_at), "start_utc": iso(start), "pregame": bool(pregame),
         "y": 1 if rec.outcome == SettlementOutcome.YES else 0, "p_data_only": p_data, "p_market": p_mkt, "p_market_anchored": pred.get("p_market_anchored"),
