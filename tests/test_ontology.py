@@ -36,6 +36,15 @@ def test_every_discovered_series_is_in_the_ontology():
     assert missing == [], f"series without an ontology family: {missing}"
 
 
+def test_series_seen_live_2026_11_02_but_missing_from_ontology_now_map():
+    """Latest archived full market snapshot (data-archive, 2026-11-02T00:01Z) held 45 markets in two series the
+    ontology did not map (Alpha foundation audit): the Ted Lindsay Award and a 'season goals' series whose ticker
+    starts KXNHLP..., which the KXNHLSEASON pattern misses."""
+    o = Ontology.load()
+    assert o.family_for_series("KXNHLLINDSAY") == "season_awards"
+    assert o.family_for_series("KXNHLPSEASONGOALS") == "season_player_stats"
+
+
 def test_is_nhl_series_rules():
     assert is_nhl_series({"ticker": "KXNHLGAME", "title": "NHL Game", "tags": ["Hockey"]})[0]
     assert not is_nhl_series({"ticker": "KXPWHLGAME", "title": "PWHL Game", "tags": ["Hockey"]})[0]
