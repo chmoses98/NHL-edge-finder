@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-11-04T15:42:21Z · thesis-postmortem-2.0 · rows (all generations) 38929
+evaluated 2026-11-04T17:28:40Z · thesis-postmortem-2.0 · rows (all generations) 38929
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,40 +35,40 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020247 OTT @ BUF: NOT_STARTED · snapshot snap-19709886c8793fd64241 @ 2026-11-04T15:35:21Z
+#### game 2026020247 OTT @ BUF: NOT_STARTED · snapshot snap-f6c5a6744dd6715e134c @ 2026-11-04T17:21:42Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26NOV04OTTBUF-OTTRGREIG71-1|yes | FUNDED_RESEARCH | 3 | 9.29 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26NOV04OTTBUF-OTTAZUB2-1|yes | SHADOW_ONLY | 0 | 2.89 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26NOV04OTTBUF-OTTCGIROUX28-1|yes | SHADOW_ONLY | 0 | 5.51 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26NOV04OTTBUF-OTTTCHABOT72-1|no | SHADOW_ONLY | 0 | 15.27 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26NOV04OTTBUF-OTTRGREIG71-1|yes | SHADOW_ONLY | 0 | 8.83 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04OTTBUF-BUFZBENSON6-1|yes | SHADOW_ONLY | 0 | 6.90 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04OTTBUF-OTTCGIROUX28-1|yes | SHADOW_ONLY | 0 | 4.98 | - | - | - | FRAGILE | - | - |
+| KXNHLAST-26NOV04OTTBUF-OTTTCHABOT72-1|no | SHADOW_ONLY | 0 | 14.17 | - | - | - | DIRECT | - | - |
 
-#### game 2026020248 CHI @ FLA: NOT_STARTED · snapshot snap-19709886c8793fd64241 @ 2026-11-04T15:35:21Z
-
-| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
-|---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26NOV04CHIFLA-CHITBERTUZZI59-1|yes | SHADOW_ONLY | 0 | 13.74 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26NOV04CHIFLA-CHIRGREENE20-1|yes | SHADOW_ONLY | 0 | 7.04 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26NOV04CHIFLA-FLASREINHART13-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26NOV04CHIFLA-FLACSCHWINDT79-1|yes | SHADOW_ONLY | 0 | 5.39 | - | - | - | FRAGILE | - | - |
-
-#### game 2026020249 SJS @ LAK: NOT_STARTED · snapshot snap-19709886c8793fd64241 @ 2026-11-04T15:35:21Z
+#### game 2026020248 CHI @ FLA: NOT_STARTED · snapshot snap-f6c5a6744dd6715e134c @ 2026-11-04T17:21:42Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26NOV04SJLA-SJISTENBERG41-1|no | FUNDED_RESEARCH | 5 | 20.00 | - | - | - | DIRECT | - | - |
-| KXNHLGOAL-26NOV04SJLA-LAALEE47-1|yes | SHADOW_ONLY | 0 | 5.90 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26NOV04SJLA-LAJEDMUNDSON6-1|yes | SHADOW_ONLY | 0 | 3.06 | - | - | - | FRAGILE | - | - |
-| KXNHLAST-26NOV04SJLA-SJMCELEBRINI71-1|no | SHADOW_ONLY | 0 | 6.77 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26NOV04CHIFLA-CHIWKAISER44-1|yes | FUNDED_RESEARCH | 2 | 4.36 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04CHIFLA-CHITBERTUZZI59-1|yes | SHADOW_ONLY | 0 | 12.10 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04CHIFLA-CHIOMOORE11-1|yes | SHADOW_ONLY | 0 | 6.84 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04CHIFLA-FLACSCHWINDT79-1|yes | SHADOW_ONLY | 0 | 5.65 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020250 CGY @ SEA: NOT_STARTED · snapshot snap-19709886c8793fd64241 @ 2026-11-04T15:35:21Z
+#### game 2026020249 SJS @ LAK: NOT_STARTED · snapshot snap-f6c5a6744dd6715e134c @ 2026-11-04T17:21:42Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLGOAL-26NOV04CGYSEA-SEABMEYERS59-1|yes | FUNDED_RESEARCH | 3 | 9.33 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26NOV04CGYSEA-CGYJMIDDLETON55-1|yes | SHADOW_ONLY | 0 | 2.76 | - | - | - | FRAGILE | - | - |
-| KXNHLGOAL-26NOV04CGYSEA-SEABCATTON27-1|yes | SHADOW_ONLY | 0 | 4.70 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04SJLA-SJISTENBERG41-1|no | FUNDED_RESEARCH | 5 | 17.61 | - | - | - | DIRECT | - | - |
+| KXNHLAST-26NOV04SJLA-SJMCELEBRINI71-1|no | SHADOW_ONLY | 0 | 12.39 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26NOV04SJLA-LAJEDMUNDSON6-1|yes | SHADOW_ONLY | 0 | 3.39 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04SJLA-LAALEE47-1|yes | SHADOW_ONLY | 0 | 4.82 | - | - | - | FRAGILE | - | - |
+
+#### game 2026020250 CGY @ SEA: NOT_STARTED · snapshot snap-f6c5a6744dd6715e134c @ 2026-11-04T17:21:42Z
+
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26NOV04CGYSEA-SEABMEYERS59-1|yes | FUNDED_RESEARCH | 3 | 10.39 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04CGYSEA-SEABCATTON27-1|yes | SHADOW_ONLY | 0 | 6.92 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04CGYSEA-SEAKKAKKO84-1|yes | SHADOW_ONLY | 0 | 4.42 | - | - | - | FRAGILE | - | - |
 
 ## Slate 2026-11-03: **COMPLETE — 11/11 games evaluated**
 
