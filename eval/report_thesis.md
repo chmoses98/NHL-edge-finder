@@ -1,6 +1,6 @@
 # Thesis-card postmortem — RESEARCH_ONLY
 
-evaluated 2026-11-04T12:20:37Z · thesis-postmortem-2.0 · rows (all generations) 38929
+evaluated 2026-11-04T13:59:07Z · thesis-postmortem-2.0 · rows (all generations) 38929
 
 All P/L below is **FINAL_CARD_UNIQUE**: per game, only the decisions of the ONE latest complete pregame thesis-card snapshot. Repeated generations are in ALL_PROSPECTIVE_DECISIONS (calibration research, no P/L).
 
@@ -35,20 +35,25 @@ invariant final_card_n 0 <= sum(game card caps) 0: OK
 - GOVERNANCE: funded player props 0 · shadow player props 0 · large-disagreement gates 0 · overrides 0
 
 
-#### game 2026020247 OTT @ BUF: NOT_STARTED · snapshot snap-01e7f85737fddc7c83ee @ 2026-11-04T12:08:23Z
-
-#### game 2026020248 CHI @ FLA: NOT_STARTED · snapshot snap-01e7f85737fddc7c83ee @ 2026-11-04T12:08:23Z
+#### game 2026020247 OTT @ BUF: NOT_STARTED · snapshot snap-0d7455f1e8e2fb72ee9a @ 2026-11-04T13:12:15Z
 
 | bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
 |---|---|---:|---:|---|---|---|---|---:|---:|
-| KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes | FUNDED_RESEARCH | 1 | 2.34 | - | - | - | DIRECT | - | - |
-| KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI4|yes | FUNDED_RESEARCH | 1 | 2.19 | - | - | - | STRUCTURAL | - | - |
-| KXNHLSPREAD-26NOV04CHIFLA-FLA2|no | FUNDED_RESEARCH | 1 | 2.17 | - | - | - | STRUCTURAL | - | - |
-| KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI2|yes | FUNDED_RESEARCH | 2 | 4.50 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26NOV04OTTBUF-BUFJDOAN91-1|yes | FUNDED_RESEARCH | 2 | 5.23 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04OTTBUF-OTTMAMADIO22-1|yes | SHADOW_ONLY | 0 | 3.87 | - | - | - | FRAGILE | - | - |
 
-#### game 2026020249 SJS @ LAK: NOT_STARTED · snapshot snap-01e7f85737fddc7c83ee @ 2026-11-04T12:08:23Z
+#### game 2026020248 CHI @ FLA: NOT_STARTED · snapshot snap-0d7455f1e8e2fb72ee9a @ 2026-11-04T13:12:15Z
 
-#### game 2026020250 CGY @ SEA: NOT_STARTED · snapshot snap-01e7f85737fddc7c83ee @ 2026-11-04T12:08:23Z
+| bet | status | research $ | nominal $ | won | thesis hit | expression | fidelity | CLV | P/L nominal |
+|---|---|---:|---:|---|---|---|---|---:|---:|
+| KXNHLGOAL-26NOV04CHIFLA-CHITBERTUZZI59-1|yes | SHADOW_ONLY | 0 | 12.71 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04CHIFLA-CHIOMOORE11-1|yes | SHADOW_ONLY | 0 | 4.37 | - | - | - | FRAGILE | - | - |
+| KXNHLGOAL-26NOV04CHIFLA-FLABTKACHUK8-1|no | FUNDED_RESEARCH | 5 | 17.23 | - | - | - | DIRECT | - | - |
+| KXNHLGOAL-26NOV04CHIFLA-CHIRGREENE20-1|yes | SHADOW_ONLY | 0 | 3.54 | - | - | - | FRAGILE | - | - |
+
+#### game 2026020249 SJS @ LAK: NOT_STARTED · snapshot snap-0d7455f1e8e2fb72ee9a @ 2026-11-04T13:12:15Z
+
+#### game 2026020250 CGY @ SEA: NOT_STARTED · snapshot snap-0d7455f1e8e2fb72ee9a @ 2026-11-04T13:12:15Z
 
 ## Slate 2026-11-03: **COMPLETE — 11/11 games evaluated**
 
