@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-11-04T06:22:31Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-11-04T07:22:33Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,10 +10,10 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 50.00 | +9.81 | +3.22 | -9.27 | 0.318 | -50.00 | -50.00 | 4.69 |
-| B thesis-diversified (joint) ← optimiser card | 5.56 | +1.51 | +0.53 | -5.56 | 0.318 | -5.56 | -5.56 | 4.56 |
+| A highest edges (independent) | 19.79 | +11.93 | +4.49 | -19.79 | 0.159 | -19.79 | -19.79 | 12.05 |
+| B thesis-diversified (joint) ← optimiser card | 3.06 | +2.08 | +0.79 | -3.06 | 0.159 | -3.06 | -3.06 | 6.74 |
 | C best expression per thesis | 1.98 | +1.91 | +0.74 | -1.98 | 0.063 | -1.98 | -1.98 | 6.30 |
-| R FUNDED research stakes | 2.00 | +0.56 | +0.20 | -2.00 | 0.318 | -2.00 | -2.00 | 0.00 |
+| R FUNDED research stakes | 2.00 | +1.32 | +0.50 | -2.00 | 0.159 | -2.00 | -2.00 | 0.00 |
 
 ## OTT @ BUF  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
@@ -35,7 +35,7 @@ _no bet on this game passes: +EV at the executable ask under both the model and 
 
 portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · C EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · R EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp
 
-## CHI @ FLA  ·  10000 joint draws  ·  98 bet sides mapped, 4 +EV candidates, 2 on card
+## CHI @ FLA  ·  10000 joint draws  ·  98 bet sides mapped, 2 +EV candidates, 2 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -53,19 +53,18 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Chicago over 4.5 goals scored YES | 11 | 0.159 | 0.132 | +0.042 | +0.015 | $2.39 | FUNDED_RESEARCH | $1 | CHI:OFFENSE_4PLUS | DIRECT (0.52) | EVIDENCE_MIXED | D |
-| Chicago over 3.5 goals scored YES | 25 | 0.318 | 0.281 | +0.055 | +0.018 | $3.17 | FUNDED_RESEARCH | $1 | CHI:OFFENSE_4PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-- **Chicago over 4.5 goals scored YES** — thesis: CHI offense succeeds (4+ goals); alternative: KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes; why: Broad expression KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes selected over broad KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes because adjusted EV is 0.3 pts higher while thesis capture is 0.55 vs 0.26 (DIRECT vs FRAGILE; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity); relationships: KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI4|yes: DUPLICATIVE (phi 0.636); failure: FLA wins (incl. OT/SO)
-- **Chicago over 3.5 goals scored YES** — thesis: CHI offense succeeds (4+ goals); alternative: KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes; why: KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes has the higher standalone adjusted growth (9.69 vs 3.77 bp), but the joint optimum prefers this bet in combination with the rest of the card (phi with it +0.380); relationships: KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes: DUPLICATIVE (phi 0.636); failure: CHI offense suppressed (<= 2 goals)
+| Chicago over 5.5 goals scored YES | 3 | 0.063 | 0.044 | +0.031 | +0.012 | $1.62 | FUNDED_RESEARCH | $1 | CHI:WINS_BY_2PLUS | FRAGILE (0.26) | EVIDENCE_MIXED | D |
+| Chicago over 4.5 goals scored YES | 11 | 0.159 | 0.132 | +0.042 | +0.015 | $1.43 | FUNDED_RESEARCH | $1 | CHI:OFFENSE_4PLUS | DIRECT (0.52) | EVIDENCE_MIXED | D |
+- **Chicago over 5.5 goals scored YES** — thesis: CHI wins by 2+; alternative: KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes; why: higher confidence-adjusted growth (9.69 vs 4.64 bp); despite a smaller raw edge (+0.031 vs +0.042/contract); relationships: KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes: DUPLICATIVE (phi 0.597); failure: FLA wins (incl. OT/SO)
+- **Chicago over 4.5 goals scored YES** — thesis: CHI offense succeeds (4+ goals); alternative: KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes; why: second expression of the same thesis: KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes has the higher standalone adjusted growth (9.69 vs 4.64 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.597); they share one thesis budget; relationships: KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes: DUPLICATIVE (phi 0.597); failure: FLA wins (incl. OT/SO)
 
 **Review**: scripts FLA shot control · normal event (5-7) · decided (2+) 0.14, FLA shot control · normal event (5-7) · tight (1-goal/OT) 0.11, balanced shots · normal event (5-7) · decided (2+) 0.11.
-- thesis CHI:WINS_BY_2PLUS (p 0.1851): highest fidelity KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI3|yes [DIRECT], best adjusted EV KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI4|yes — Broad expression KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes selected over broad KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes because adjusted EV is 0.3 pts higher while thesis capture is 0.55 vs 0.26 (DIRECT vs FRAGILE; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)
-- thesis CHI:OFFENSE_4PLUS (p 0.3076): highest fidelity KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI4|yes [STRUCTURAL], best adjusted EV KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI4|yes (same contract)
+- thesis CHI:WINS_BY_2PLUS (p 0.1851): highest fidelity KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes [DIRECT], best adjusted EV KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes (same contract)
+- thesis CHI:OFFENSE_4PLUS (p 0.3076): highest fidelity KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes [DIRECT], best adjusted EV KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes (same contract)
+- KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes: FUNDED_RESEARCH; family MIXED; loses 74% of the draws where the thesis happens; opposing: failure thesis FLA:WINS (p 0.626, phi -0.298)
 - KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes: FUNDED_RESEARCH; family MIXED; loses 48% of the draws where the thesis happens; opposing: failure thesis FLA:WINS (p 0.626, phi -0.432)
-- KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI4|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis CHI:SUPPRESSED (p 0.4775, phi -0.653)
-- override: Broad expression KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI5|yes selected over broad KXNHLTEAMTOTAL-26NOV04CHIFLA-CHI6|yes because adjusted EV is 0.3 pts higher while thesis capture is 0.55 vs 0.26 (DIRECT vs FRAGILE; reliability EVIDENCE_MIXED vs EVIDENCE_MIXED; decided on expression fidelity)
 
-portfolios: A EV +9.81 (adj +3.22) on $50.00, P(profit) 0.3179, adj growth 4.7 bp · B EV +1.51 (adj +0.53) on $5.56, P(profit) 0.3179, adj growth 4.6 bp · C EV +1.91 (adj +0.74) on $1.98, P(profit) 0.063, adj growth 6.3 bp · R EV +0.56 (adj +0.20) on $2.00, P(profit) 0.3179, adj growth 6.3 bp
+portfolios: A EV +11.93 (adj +4.49) on $19.79, P(profit) 0.1585, adj growth 12.0 bp · B EV +2.08 (adj +0.79) on $3.06, P(profit) 0.1585, adj growth 6.7 bp · C EV +1.91 (adj +0.74) on $1.98, P(profit) 0.063, adj growth 6.3 bp · R EV +1.32 (adj +0.50) on $2.00, P(profit) 0.1585, adj growth 13.0 bp
 
 ## SJS @ LAK  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
