@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-11-05T06:51:45Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-11-05T07:51:46Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,10 +10,10 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 150.01 | +29.74 | +8.82 | +22.42 | 0.623 | -65.91 | -87.07 | 58.93 |
-| B thesis-diversified (joint) ← optimiser card | 68.83 | +11.00 | +3.31 | +12.61 | 0.648 | -24.85 | -35.54 | 29.03 |
+| A highest edges (independent) | 150.01 | +29.74 | +8.50 | +22.42 | 0.623 | -65.91 | -87.07 | 55.71 |
+| B thesis-diversified (joint) ← optimiser card | 46.47 | +7.95 | +2.15 | +8.24 | 0.616 | -21.86 | -27.09 | 19.04 |
 | C best expression per thesis | 34.78 | +9.35 | +3.06 | +7.55 | 0.526 | -20.61 | -34.78 | 26.58 |
-| R FUNDED research stakes | 22.00 | +4.00 | +1.24 | +3.12 | 0.587 | -8.66 | -11.85 | 0.00 |
+| R FUNDED research stakes | 16.00 | +3.08 | +0.89 | +2.19 | 0.622 | -7.83 | -9.72 | 0.00 |
 
 ## UTA @ MTL  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
@@ -220,7 +220,7 @@ portfolios: A EV +0.00 (adj +0.00) on $0.00, P(profit) 0, adj growth 0.0 bp · B
 
 portfolios: A EV +1.49 (adj +0.40) on $10.12, P(profit) 0.3018, adj growth 2.4 bp · B EV +0.48 (adj +0.13) on $3.27, P(profit) 0.3018, adj growth 1.1 bp · C EV +0.48 (adj +0.13) on $3.27, P(profit) 0.3018, adj growth 1.1 bp · R EV +0.15 (adj +0.04) on $1.00, P(profit) 0.3018, adj growth 1.3 bp
 
-## VAN @ WPG  ·  10000 joint draws  ·  98 bet sides mapped, 9 +EV candidates, 3 on card
+## VAN @ WPG  ·  10000 joint draws  ·  98 bet sides mapped, 9 +EV candidates, 2 on card
 
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
@@ -238,22 +238,19 @@ portfolios: A EV +1.49 (adj +0.40) on $10.12, P(profit) 0.3018, adj growth 2.4 b
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Vancouver wins by over 1.5 goals YES | 17 | 0.247 | 0.206 | +0.067 | +0.026 | $4.02 | FUNDED_RESEARCH | $2 | VAN:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Winnipeg wins by over 2.5 goals NO | 70 | 0.793 | 0.744 | +0.078 | +0.029 | $20.00 | FUNDED_RESEARCH | $5 | VAN:WINS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
-| Vancouver over 5.5 goals scored YES | 5 | 0.085 | 0.065 | +0.031 | +0.011 | $1.19 | FUNDED_RESEARCH | $1 | GAME:HIGH_EVENT | FRAGILE (0.29) | EVIDENCE_MIXED | D |
-- **Vancouver wins by over 1.5 goals YES** — thesis: VAN wins by 2+; alternative: KXNHLSPREAD-26NOV05VANWPG-WPG3|no; why: higher confidence-adjusted growth (10.06 vs 9.22 bp); despite a smaller raw edge (+0.067 vs +0.078/contract); relationships: KXNHLSPREAD-26NOV05VANWPG-WPG3|no: REINFORCING (phi 0.293); KXNHLTEAMTOTAL-26NOV05VANWPG-VAN6|yes: REINFORCING (phi 0.381); failure: WPG wins (incl. OT/SO)
-- **Winnipeg wins by over 2.5 goals NO** — thesis: VAN wins (incl. OT/SO); alternative: KXNHLSPREAD-26NOV05VANWPG-VAN2|yes; why: second expression of the same thesis: KXNHLSPREAD-26NOV05VANWPG-VAN2|yes has the higher standalone adjusted growth (10.06 vs 9.22 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.293); they share one thesis budget; relationships: KXNHLSPREAD-26NOV05VANWPG-VAN2|yes: REINFORCING (phi 0.293); KXNHLTEAMTOTAL-26NOV05VANWPG-VAN6|yes: REINFORCING (phi 0.154); failure: WPG wins by 2+
-- **Vancouver over 5.5 goals scored YES** — thesis: high-event game (8+ goals); alternative: KXNHLTEAMTOTAL-26NOV05VANWPG-VAN5|yes; why: higher confidence-adjusted growth (5.62 vs 1.16 bp); despite a smaller raw edge (+0.031 vs +0.036/contract); alternative not eligible: confidence-adjusted EV +0.0084 below the 0.010/contract floor; relationships: KXNHLSPREAD-26NOV05VANWPG-VAN2|yes: REINFORCING (phi 0.381); KXNHLSPREAD-26NOV05VANWPG-WPG3|no: REINFORCING (phi 0.154); failure: WPG wins (incl. OT/SO)
+| Vancouver wins by over 1.5 goals YES | 17 | 0.247 | 0.206 | +0.067 | +0.026 | $1.59 | FUNDED_RESEARCH | $1 | VAN:WINS_BY_2PLUS | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+| Vancouver over 5.5 goals scored YES | 5 | 0.085 | 0.065 | +0.031 | +0.011 | $1.25 | FUNDED_RESEARCH | $1 | GAME:HIGH_EVENT | FRAGILE (0.29) | EVIDENCE_MIXED | D |
+- **Vancouver wins by over 1.5 goals YES** — thesis: VAN wins by 2+; alternative: KXNHLTEAMTOTAL-26NOV05VANWPG-VAN6|yes; why: higher confidence-adjusted growth (10.06 vs 5.62 bp); wins across more scripts (relative breadth 0.546 vs 0.355); relationships: KXNHLTEAMTOTAL-26NOV05VANWPG-VAN6|yes: REINFORCING (phi 0.381); failure: WPG wins (incl. OT/SO)
+- **Vancouver over 5.5 goals scored YES** — thesis: high-event game (8+ goals); alternative: KXNHLTEAMTOTAL-26NOV05VANWPG-VAN5|yes; why: higher confidence-adjusted growth (5.62 vs 1.16 bp); despite a smaller raw edge (+0.031 vs +0.036/contract); alternative not eligible: confidence-adjusted EV +0.0084 below the 0.010/contract floor; relationships: KXNHLSPREAD-26NOV05VANWPG-VAN2|yes: REINFORCING (phi 0.381); failure: WPG wins (incl. OT/SO)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, WPG shot control · normal event (5-7) · decided (2+) 0.11, WPG shot control · normal event (5-7) · tight (1-goal/OT) 0.11.
-- thesis VAN:WINS_BY_2PLUS (p 0.2472): highest fidelity KXNHLSPREAD-26NOV05VANWPG-WPG3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26NOV05VANWPG-WPG3|no (same contract)
-- thesis VAN:WINS (p 0.4565): highest fidelity KXNHLSPREAD-26NOV05VANWPG-WPG3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26NOV05VANWPG-WPG3|no (same contract)
-- thesis WPG:SUPPRESSED (p 0.358): highest fidelity KXNHLSPREAD-26NOV05VANWPG-WPG3|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26NOV05VANWPG-WPG3|no (same contract)
+- thesis VAN:WINS_BY_2PLUS (p 0.2472): highest fidelity KXNHLSPREAD-26NOV05VANWPG-VAN2|yes [STRUCTURAL], best adjusted EV KXNHLSPREAD-26NOV05VANWPG-VAN2|yes (same contract)
+- thesis VAN:WINS (p 0.4565): highest fidelity KXNHLSPREAD-26NOV05VANWPG-WPG2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26NOV05VANWPG-VAN2|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
+- thesis WPG:SUPPRESSED (p 0.358): highest fidelity KXNHLTEAMTOTAL-26NOV05VANWPG-WPG5|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26NOV05VANWPG-VAN2|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
 - KXNHLSPREAD-26NOV05VANWPG-VAN2|yes: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis WPG:WINS (p 0.5435, phi -0.625)
-- KXNHLSPREAD-26NOV05VANWPG-WPG3|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); opposing: failure thesis WPG:WINS_BY_2PLUS (p 0.322, phi -0.742)
 - KXNHLTEAMTOTAL-26NOV05VANWPG-VAN6|yes: FUNDED_RESEARCH; family MIXED; loses 71% of the draws where the thesis happens; opposing: failure thesis WPG:WINS (p 0.5435, phi -0.301)
 
-portfolios: A EV +8.46 (adj +2.86) on $38.56, P(profit) 0.678, adj growth 20.7 bp · B EV +4.39 (adj +1.66) on $25.21, P(profit) 0.7928, adj growth 14.6 bp · C EV +2.93 (adj +1.12) on $7.12, P(profit) 0.2652, adj growth 9.7 bp · R EV +1.88 (adj +0.71) on $8.00, P(profit) 0.2652, adj growth 21.5 bp
+portfolios: A EV +8.46 (adj +2.54) on $38.56, P(profit) 0.678, adj growth 17.5 bp · B EV +1.33 (adj +0.50) on $2.85, P(profit) 0.2652, adj growth 4.7 bp · C EV +2.93 (adj +1.12) on $7.12, P(profit) 0.2652, adj growth 9.7 bp · R EV +0.96 (adj +0.36) on $2.00, P(profit) 0.2652, adj growth 11.2 bp
 
 ## ANA @ EDM  ·  10000 joint draws  ·  98 bet sides mapped, 0 +EV candidates, 0 on card
 
