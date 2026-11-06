@@ -1,9 +1,9 @@
 # NHL slate 2026-11-06 — RESEARCH_ONLY
 
-generated 2026-11-06T08:10:15Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-11-06T09:11:38Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 3 · simulated (not started): 3 · markets on board: 2189 · contracts joined: 153 (unjoined to any game: 1280)
-gates: {'UNSUPPORTED': 78, 'NO_EDGE': 56, 'OK': 19}
+gates: {'UNSUPPORTED': 78, 'NO_EDGE': 55, 'OK': 20}
 families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_early_goal': 3, 'game_winner': 6, 'game_overtime': 3, 'game_spread': 12, 'team_total': 30, 'game_total': 27}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -25,21 +25,21 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLSPREAD-26NOV06ANACGY-CGY3 | game_spread | 0.159 | 0.205 | 0.195 | 21 | 80 | no | +0.030 | OK |
 | KXNHLTEAMTOTAL-26NOV06ANACGY-ANA3 | team_total | 0.662 | 0.605 | 0.617 | 62 | 41 | yes | +0.025 | OK |
 | KXNHLTOTAL-26NOV06ANACGY-8 | game_total | 0.315 | 0.275 | 0.283 | 28 | 73 | yes | +0.021 | OK |
-| KXNHLTEAMTOTAL-26NOV06ANACGY-ANA6 | team_total | 0.125 | 0.090 | 0.096 | 10 | 92 | yes | +0.019 | OK |
+| KXNHLTEAMTOTAL-26NOV06ANACGY-ANA6 | team_total | 0.125 | 0.085 | 0.092 | 10 | 93 | yes | +0.019 | OK |
 | KXNHLSPREAD-26NOV06ANACGY-ANA3 | game_spread | 0.199 | 0.165 | 0.171 | 17 | 84 | yes | +0.019 | OK |
 | KXNHLTOTAL-26NOV06ANACGY-9 | game_total | 0.229 | 0.190 | 0.197 | 20 | 82 | yes | +0.017 | OK |
-| KXNHLTEAMTOTAL-26NOV06SJMIN-MIN6 | team_total | 0.192 | 0.165 | 0.170 | 17 | 84 | yes | +0.012 | OK |
+| KXNHLTEAMTOTAL-26NOV06ANACGY-ANA2 | team_total | 0.843 | 0.815 | 0.821 | 82 | 19 | yes | +0.013 | OK |
+| KXNHLTEAMTOTAL-26NOV06ANACGY-CGY4 | team_total | 0.403 | 0.440 | 0.433 | 45 | 57 | no | +0.010 | OK |
 | KXNHLTEAMTOTAL-26NOV06ANACGY-CGY2 | team_total | 0.822 | 0.845 | 0.841 | 85 | 16 | no | +0.009 | OK |
 | KXNHLTOTAL-26NOV06SJMIN-8 | game_total | 0.298 | 0.270 | 0.276 | 28 | 74 | yes | +0.004 | OK |
 | KXNHLSPREAD-26NOV06SJMIN-SJ3 | game_spread | 0.071 | 0.090 | 0.086 | 10 | 92 | no | +0.004 | OK |
-| KXNHLTEAMTOTAL-26NOV06ANACGY-ANA2 | team_total | 0.843 | 0.820 | 0.825 | 83 | 19 | yes | +0.004 | OK |
 | KXNHLSPREAD-26NOV06CBJBUF-BUF3 | game_spread | 0.243 | 0.265 | 0.261 | 27 | 74 | no | +0.003 | OK |
 | KXNHLTOTAL-26NOV06ANACGY-7 | game_total | 0.510 | 0.485 | 0.490 | 49 | 52 | yes | +0.003 | OK |
+| KXNHLTEAMTOTAL-26NOV06SJMIN-MIN6 | team_total | 0.192 | 0.170 | 0.174 | 18 | 84 | yes | +0.002 | OK |
 | KXNHLTOTAL-26NOV06ANACGY-10 | game_total | 0.116 | 0.100 | 0.103 | 11 | 91 |  | -0.001 | NO_EDGE |
 | KXNHLTOTAL-26NOV06ANACGY-2 | game_total | 0.989 | 0.980 | 0.982 | 99 | 3 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26NOV06SJMIN-2 | game_total | 0.988 | 0.980 | 0.982 | 99 | 3 |  | -0.002 | NO_EDGE |
 | KXNHLSPREAD-26NOV06CBJBUF-BUF2 | game_spread | 0.376 | 0.395 | 0.391 | 40 | 61 |  | -0.003 | NO_EDGE |
-| KXNHLTOTAL-26NOV06SJMIN-5 | game_total | 0.798 | 0.785 | 0.788 | 79 | 22 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26NOV06SJMIN-7 | game_total | 0.484 | 0.465 | 0.469 | 47 | 54 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26NOV06SJMIN-9 | game_total | 0.207 | 0.190 | 0.193 | 20 | 82 |  | -0.004 | NO_EDGE |
 | KXNHLGAME-26NOV06CBJBUF-BUF | game_winner | 0.597 | 0.615 | 0.611 | 62 | 39 |  | -0.004 | NO_EDGE |
@@ -54,7 +54,6 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLTOTAL-26NOV06SJMIN-4 | game_total | 0.879 | 0.870 | 0.872 | 88 | 14 |  | -0.009 | NO_EDGE |
 | KXNHLTOTAL-26NOV06CBJBUF-7 | game_total | 0.472 | 0.485 | 0.482 | 49 | 52 |  | -0.009 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV06SJMIN-SJ4 | team_total | 0.264 | 0.250 | 0.253 | 26 | 76 |  | -0.010 | NO_EDGE |
-| KXNHLTEAMTOTAL-26NOV06ANACGY-CGY4 | team_total | 0.403 | 0.430 | 0.425 | 45 | 59 |  | -0.010 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV06SJMIN-MIN5 | team_total | 0.355 | 0.335 | 0.339 | 35 | 68 |  | -0.010 | NO_EDGE |
 | KXNHLTOTAL-26NOV06CBJBUF-3 | game_total | 0.968 | 0.970 | 0.970 | 98 | 4 |  | -0.010 | NO_EDGE |
 | KXNHLTOTAL-26NOV06CBJBUF-9 | game_total | 0.200 | 0.195 | 0.196 | 20 | 81 |  | -0.011 | NO_EDGE |
@@ -63,6 +62,7 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLTEAMTOTAL-26NOV06CBJBUF-BUF4 | team_total | 0.474 | 0.490 | 0.487 | 50 | 52 |  | -0.012 | NO_EDGE |
 | KXNHLSPREAD-26NOV06CBJBUF-CBJ2 | game_spread | 0.209 | 0.200 | 0.202 | 21 | 81 |  | -0.012 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV06CBJBUF-BUF6 | team_total | 0.136 | 0.130 | 0.131 | 14 | 88 |  | -0.013 | NO_EDGE |
+| KXNHLTOTAL-26NOV06SJMIN-5 | game_total | 0.798 | 0.795 | 0.796 | 80 | 21 |  | -0.013 | NO_EDGE |
 | KXNHLGAME-26NOV06SJMIN-SJ | game_winner | 0.299 | 0.305 | 0.304 | 31 | 70 |  | -0.013 | NO_EDGE |
 | KXNHLTOTAL-26NOV06ANACGY-5 | game_total | 0.807 | 0.805 | 0.805 | 81 | 20 |  | -0.014 | NO_EDGE |
 | KXNHLTOTAL-26NOV06ANACGY-4 | game_total | 0.883 | 0.880 | 0.881 | 89 | 13 |  | -0.014 | NO_EDGE |
@@ -77,6 +77,7 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLTOTAL-26NOV06SJMIN-10 | game_total | 0.101 | 0.095 | 0.096 | 11 | 92 |  | -0.016 | NO_EDGE |
 | KXNHLGAME-26NOV06SJMIN-MIN | game_winner | 0.701 | 0.705 | 0.704 | 71 | 30 |  | -0.016 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV06CBJBUF-CBJ3 | team_total | 0.551 | 0.540 | 0.542 | 55 | 47 |  | -0.017 | NO_EDGE |
+| KXNHLSPREAD-26NOV06SJMIN-MIN2 | game_spread | 0.489 | 0.495 | 0.494 | 50 | 51 |  | -0.017 | NO_EDGE |
 | KXNHLSPREAD-26NOV06SJMIN-SJ2 | game_spread | 0.141 | 0.140 | 0.140 | 15 | 87 |  | -0.017 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV06SJMIN-SJ6 | team_total | 0.045 | 0.045 | 0.045 | 6 | 97 |  | -0.018 | NO_EDGE |
 | KXNHLSPREAD-26NOV06SJMIN-MIN3 | game_spread | 0.342 | 0.345 | 0.344 | 35 | 66 |  | -0.018 | NO_EDGE |
@@ -86,11 +87,10 @@ families: {'period_winner': 27, 'period_spread': 18, 'period_total': 27, 'game_e
 | KXNHLTOTAL-26NOV06CBJBUF-6 | game_total | 0.585 | 0.590 | 0.589 | 60 | 42 |  | -0.022 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV06CBJBUF-CBJ2 | team_total | 0.770 | 0.775 | 0.774 | 79 | 24 |  | -0.023 | NO_EDGE |
 | KXNHLTOTAL-26NOV06CBJBUF-8 | game_total | 0.281 | 0.280 | 0.280 | 29 | 73 |  | -0.023 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV06SJMIN-SJ2 | team_total | 0.710 | 0.705 | 0.706 | 72 | 31 |  | -0.024 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV06SJMIN-MIN3 | team_total | 0.757 | 0.755 | 0.756 | 77 | 26 |  | -0.025 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV06SJMIN-SJ3 | team_total | 0.472 | 0.460 | 0.462 | 48 | 56 |  | -0.025 | NO_EDGE |
-| KXNHLSPREAD-26NOV06SJMIN-MIN2 | game_spread | 0.489 | 0.490 | 0.490 | 50 | 52 |  | -0.027 | NO_EDGE |
-| KXNHLTEAMTOTAL-26NOV06SJMIN-MIN4 | team_total | 0.560 | 0.550 | 0.552 | 57 | 47 |  | -0.027 | NO_EDGE |
-| KXNHLTEAMTOTAL-26NOV06SJMIN-SJ2 | team_total | 0.710 | 0.710 | 0.710 | 73 | 31 |  | -0.034 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV06SJMIN-MIN4 | team_total | 0.560 | 0.555 | 0.556 | 57 | 46 |  | -0.027 | NO_EDGE |
 | KXNHL1P-26NOV06CBJBUF-BUF | period_winner |  | 0.385 |  | 40 | 63 |  |  | UNSUPPORTED |
 | KXNHL1P-26NOV06CBJBUF-CBJ | period_winner |  | 0.285 |  | 30 | 73 |  |  | UNSUPPORTED |
 | KXNHL1P-26NOV06CBJBUF-TIE | period_winner |  | 0.325 |  | 34 | 69 |  |  | UNSUPPORTED |
@@ -113,21 +113,21 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 - Buffalo wins by over 1.5 goals NO @ 61c · p 0.689 (adj 0.647) · $14.39 · thesis CBJ:WINS
 - Minnesota wins by over 2.5 goals NO @ 66c · p 0.7393 (adj 0.6971) · $16.73 · thesis GAME:TIGHT
 - San Jose over 3.5 goals scored YES @ 26c · p 0.3195 (adj 0.2848) · $1.3 · thesis SJS:OFFENSE_4PLUS
-- Calgary wins by over 1.5 goals NO @ 69c · p 0.7527 (adj 0.7188) · $2.63 · thesis ANA:WINS
+- Calgary wins by over 1.5 goals NO @ 69c · p 0.7527 (adj 0.7188) · $3.56 · thesis ANA:WINS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
 **CBJ @ BUF** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- BUF net: Colten Ellis (PROJECTED) exp shots 26.94, exp saves 23.32 (sd 6.31), pull risk 0.058
-- CBJ net: Cam Talbot (PROJECTED) exp shots 28.07, exp saves 24.05 (sd 6.75), pull risk 0.07
+- BUF net: Colten Ellis (PROJECTED) exp shots 26.98, exp saves 23.38 (sd 6.39), pull risk 0.058
+- CBJ net: Cam Talbot (PROJECTED) exp shots 28.09, exp saves 24.09 (sd 6.66), pull risk 0.067
 
 **SJS @ MIN** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- MIN net: Jesper Wallstedt (PROJECTED) exp shots 26.54, exp saves 23.27 (sd 6.35), pull risk 0.048
-- SJS net: Yaroslav Askarov (PROJECTED) exp shots 30.36, exp saves 25.76 (sd 7.15), pull risk 0.084
+- MIN net: Jesper Wallstedt (PROJECTED) exp shots 26.53, exp saves 23.23 (sd 6.37), pull risk 0.051
+- SJS net: Yaroslav Askarov (PROJECTED) exp shots 30.36, exp saves 25.76 (sd 7.14), pull risk 0.084
 
 **ANA @ CGY** · priced 0/0 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
-- CGY net: Dustin Wolf (PROJECTED) exp shots 30.01, exp saves 25.62 (sd 7.07), pull risk 0.084
-- ANA net: Lukas Dostal (PROJECTED) exp shots 27.37, exp saves 23.8 (sd 6.59), pull risk 0.064
+- CGY net: Dustin Wolf (PROJECTED) exp shots 29.8, exp saves 25.47 (sd 7.12), pull risk 0.077
+- ANA net: Lukas Dostal (PROJECTED) exp shots 27.38, exp saves 23.81 (sd 6.6), pull risk 0.064
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
