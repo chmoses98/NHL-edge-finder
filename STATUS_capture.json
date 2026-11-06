@@ -1,32 +1,36 @@
 {
- "last_capture_utc": "2026-11-06T00:03:28Z",
- "n_markets": 4255,
+ "last_capture_utc": "2026-11-06T00:10:28Z",
+ "n_markets": 4258,
  "n_series": 78,
  "requests": 457,
  "run_id": "42086652155",
  "markets_written": {
-  "encoding": "checkpoint",
-  "reason": "UTC day rolled over; keeping day partitions self-contained",
-  "path": "kalshi/markets/dt=2026-11-06/kalshi_markets_20261106T000328Z_42086652155.jsonl.gz",
-  "bytes": 396325,
-  "n_markets": 4255,
-  "board_sha256": "fc8c47502ffe7ed76a1458686f0ba97d9ac76564f2a99247a4b5f5a5ccc95a21"
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/markets_delta/dt=2026-11-06/kalshi_markets_delta_20261106T001028Z_42086652155.json.gz",
+  "bytes": 51350,
+  "n_markets": 4258,
+  "n_changed": 2422,
+  "changed_pct": 56.881,
+  "board_sha256": "bac18377fee7129fd73c12385631f9a7b446504dfa12b9b07117a3f8c92e9adf"
  },
  "orderbooks_written": {
-  "encoding": "checkpoint",
-  "reason": "UTC day rolled over; keeping day partitions self-contained",
-  "path": "kalshi/orderbooks/dt=2026-11-06/kalshi_orderbooks_20261106T000328Z_42086652155.jsonl.gz",
-  "bytes": 49885,
+  "encoding": "delta",
+  "seq": 1,
+  "path": "kalshi/orderbooks_delta/dt=2026-11-06/kalshi_orderbooks_delta_20261106T001028Z_42086652155.json.gz",
+  "bytes": 41063,
   "n_markets": 300,
-  "board_sha256": "9be9927dadb713298aab0eb02902d28a03e302e8c1a0f485e27d3fbb90ee72ce"
+  "n_changed": 293,
+  "changed_pct": 97.667,
+  "board_sha256": "9b120e8cfec78ef53701f622859d82c89112aff571908228da41fc9caa97c145"
  },
  "by_status": {
-  "active": 4255
+  "active": 4258
  },
  "by_support": {
   "BUILDABLE": 17,
   "MODELABLE": 663,
-  "RESEARCH": 3278,
+  "RESEARCH": 3281,
   "UNMODELABLE": 252,
   "UNRESOLVED": 45
  },
@@ -40,7 +44,7 @@
   "goalie_saves": 20,
   "non_hockey_or_office": 1,
   "period_spread": 102,
-  "period_total": 153,
+  "period_total": 156,
   "period_winner": 153,
   "player_assists": 328,
   "player_goals": 682,
@@ -56,7 +60,7 @@
   "series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']"
  ],
  "notes": [
-  "order books sampled by priority: 4255 live markets, cap 300"
+  "order books sampled by priority: 4258 live markets, cap 300"
  ],
  "alarm": true
 }
