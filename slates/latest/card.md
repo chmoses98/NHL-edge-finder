@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-11-06T22:07:11Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-11-06T22:37:13Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,14 +10,14 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 150.00 | +26.00 | +8.27 | +20.17 | 0.616 | -71.11 | -95.27 | 54.42 |
-| B thesis-diversified (joint) ← optimiser card | 100.88 | +23.15 | +13.50 | +14.51 | 0.601 | -55.14 | -58.34 | 116.67 |
-| C best expression per thesis | 100.90 | +11.20 | +4.34 | +10.02 | 0.632 | -29.34 | -40.03 | 38.41 |
+| A highest edges (independent) | 150.00 | +29.39 | +9.12 | +23.44 | 0.619 | -72.60 | -95.02 | 59.41 |
+| B thesis-diversified (joint) ← optimiser card | 100.51 | +22.89 | +13.39 | +14.02 | 0.598 | -54.78 | -57.98 | 115.63 |
+| C best expression per thesis | 88.55 | +10.93 | +4.30 | +8.70 | 0.596 | -27.98 | -38.07 | 37.95 |
 | R FUNDED research stakes | 14.00 | +3.24 | +1.89 | -0.80 | 0.299 | -8.42 | -14.00 | 0.00 |
 
 ## CBJ @ BUF  ·  10000 joint draws  ·  442 bet sides mapped, 5 +EV candidates, 4 on card
 
-sportsbook moneyline consensus (5 books): home 0.604 / away 0.396
+sportsbook moneyline consensus (5 books): home 0.605 / away 0.395
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -54,7 +54,7 @@ sportsbook moneyline consensus (5 books): home 0.604 / away 0.396
 
 portfolios: A EV +6.88 (adj +3.58) on $50.00, P(profit) 0.4184, adj growth 27.9 bp · B EV +3.95 (adj +2.16) on $27.77, P(profit) 0.4665, adj growth 18.7 bp · C EV +3.22 (adj +1.66) on $32.43, P(profit) 0.4099, adj growth 14.4 bp · R EV +0.28 (adj +0.06) on $3.00, P(profit) 0.5878, adj growth 1.9 bp
 
-## SJS @ MIN  ·  10000 joint draws  ·  420 bet sides mapped, 18 +EV candidates, 4 on card
+## SJS @ MIN  ·  10000 joint draws  ·  420 bet sides mapped, 19 +EV candidates, 4 on card
 
 sportsbook moneyline consensus (5 books): home 0.710 / away 0.290
 
@@ -91,7 +91,7 @@ sportsbook moneyline consensus (5 books): home 0.710 / away 0.290
 - KXNHLGOAL-26NOV06SJMIN-MINOMAATTA3-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 89% of the draws where the thesis happens; fragile player expression; opposing: failure thesis MIN:SUPPRESSED (p 0.3095, phi -0.114)
 - KXNHLAST-26NOV06SJMIN-SJMCELEBRINI71-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; family MIXED; loses 23% of the draws where the thesis happens; fragile player expression; opposing: failure thesis SJS:OFFENSE_4PLUS (p 0.3107, phi -0.282)
 
-portfolios: A EV +10.31 (adj +1.94) on $50.00, P(profit) 0.5534, adj growth 10.8 bp · B EV +9.09 (adj +4.55) on $46.38, P(profit) 0.5628, adj growth 39.8 bp · C EV +6.08 (adj +2.05) on $50.00, P(profit) 0.6814, adj growth 18.4 bp · R EV +1.77 (adj +1.02) on $8.00, P(profit) 0.1626, adj growth 33.7 bp
+portfolios: A EV +12.03 (adj +2.10) on $50.00, P(profit) 0.5861, adj growth 12.5 bp · B EV +9.09 (adj +4.55) on $46.38, P(profit) 0.5628, adj growth 39.8 bp · C EV +6.08 (adj +2.05) on $50.00, P(profit) 0.6814, adj growth 18.4 bp · R EV +1.77 (adj +1.02) on $8.00, P(profit) 0.1626, adj growth 33.7 bp
 
 ## ANA @ CGY  ·  10000 joint draws  ·  462 bet sides mapped, 16 +EV candidates, 4 on card
 
@@ -112,14 +112,14 @@ sportsbook moneyline consensus (5 books): home 0.569 / away 0.431
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Sam Colangelo: 1+ goals YES | 11 | 0.163 | 0.148 | +0.046 | +0.032 | $8.06 | FUNDED_RESEARCH | $3 | ANA:OFFENSE_4PLUS | FRAGILE (0.23) | EVIDENCE_STRONGER | D |
-| Pavel Mintyukov: 1+ goals YES | 6 | 0.099 | 0.088 | +0.035 | +0.024 | $5.49 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | ANA:OFFENSE_4PLUS | FRAGILE (0.14) | EVIDENCE_STRONGER | D |
-| Judd Caulfield: 1+ goals YES | 16 | 0.213 | 0.198 | +0.043 | +0.029 | $7.86 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | ANA:OFFENSE_4PLUS | FRAGILE (0.30) | EVIDENCE_STRONGER | D |
-| Jeff Malott: 1+ goals YES | 9 | 0.130 | 0.118 | +0.035 | +0.022 | $5.32 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | ANA:OFFENSE_4PLUS | FRAGILE (0.19) | EVIDENCE_STRONGER | D |
-- **Sam Colangelo: 1+ goals YES** — thesis: ANA offense succeeds (4+ goals); alternative: KXNHLSPREAD-26NOV06ANACGY-CGY2|no; why: higher confidence-adjusted growth (20.66 vs 4.90 bp); despite a smaller raw edge (+0.046 vs +0.066/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26NOV06ANACGY-ANAPMINTYUKOV98-1|yes: MOSTLY_INDEPENDENT (phi -0.009); KXNHLGOAL-26NOV06ANACGY-ANAJCAULFIELD28-1|yes: MOSTLY_INDEPENDENT (phi -0.004); KXNHLGOAL-26NOV06ANACGY-ANAJMALOTT39-1|yes: MOSTLY_INDEPENDENT (phi 0.002); failure: ANA offense suppressed (<= 2 goals)
-- **Pavel Mintyukov: 1+ goals YES** — thesis: ANA offense succeeds (4+ goals); alternative: KXNHLSPREAD-26NOV06ANACGY-CGY2|no; why: higher confidence-adjusted growth (20.06 vs 4.90 bp); despite a smaller raw edge (+0.035 vs +0.066/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26NOV06ANACGY-ANASCOLANGELO12-1|yes: MOSTLY_INDEPENDENT (phi -0.009); KXNHLGOAL-26NOV06ANACGY-ANAJCAULFIELD28-1|yes: MOSTLY_INDEPENDENT (phi 0.009); KXNHLGOAL-26NOV06ANACGY-ANAJMALOTT39-1|yes: MOSTLY_INDEPENDENT (phi -0.012); failure: ANA offense suppressed (<= 2 goals)
-- **Judd Caulfield: 1+ goals YES** — thesis: ANA offense succeeds (4+ goals); alternative: KXNHLSPREAD-26NOV06ANACGY-CGY2|no; why: higher confidence-adjusted growth (12.75 vs 4.90 bp); despite a smaller raw edge (+0.043 vs +0.066/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26NOV06ANACGY-ANASCOLANGELO12-1|yes: MOSTLY_INDEPENDENT (phi -0.004); KXNHLGOAL-26NOV06ANACGY-ANAPMINTYUKOV98-1|yes: MOSTLY_INDEPENDENT (phi 0.009); KXNHLGOAL-26NOV06ANACGY-ANAJMALOTT39-1|yes: MOSTLY_INDEPENDENT (phi 0.018); failure: ANA offense suppressed (<= 2 goals)
-- **Jeff Malott: 1+ goals YES** — thesis: ANA offense succeeds (4+ goals); alternative: KXNHLSPREAD-26NOV06ANACGY-CGY2|no; why: higher confidence-adjusted growth (11.93 vs 4.90 bp); despite a smaller raw edge (+0.035 vs +0.066/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26NOV06ANACGY-ANASCOLANGELO12-1|yes: MOSTLY_INDEPENDENT (phi 0.002); KXNHLGOAL-26NOV06ANACGY-ANAPMINTYUKOV98-1|yes: MOSTLY_INDEPENDENT (phi -0.012); KXNHLGOAL-26NOV06ANACGY-ANAJCAULFIELD28-1|yes: MOSTLY_INDEPENDENT (phi 0.018); failure: ANA offense suppressed (<= 2 goals)
+| Sam Colangelo: 1+ goals YES | 11 | 0.163 | 0.148 | +0.046 | +0.032 | $8.04 | FUNDED_RESEARCH | $3 | ANA:OFFENSE_4PLUS | FRAGILE (0.23) | EVIDENCE_STRONGER | D |
+| Pavel Mintyukov: 1+ goals YES | 6 | 0.099 | 0.088 | +0.035 | +0.024 | $5.55 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | ANA:OFFENSE_4PLUS | FRAGILE (0.14) | EVIDENCE_STRONGER | D |
+| Jeff Malott: 1+ goals YES | 9 | 0.130 | 0.119 | +0.035 | +0.023 | $5.79 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | ANA:OFFENSE_4PLUS | FRAGILE (0.19) | EVIDENCE_STRONGER | D |
+| Alex Killorn: 1+ goals YES | 16 | 0.207 | 0.194 | +0.038 | +0.025 | $6.98 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | ANA:OFFENSE_4PLUS | FRAGILE (0.29) | EVIDENCE_STRONGER | D |
+- **Sam Colangelo: 1+ goals YES** — thesis: ANA offense succeeds (4+ goals); alternative: KXNHLTEAMTOTAL-26NOV06ANACGY-ANA5|yes; why: higher confidence-adjusted growth (20.66 vs 5.67 bp); despite a smaller raw edge (+0.046 vs +0.059/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; wins across more scripts (relative breadth 0.874 vs 0.526); relationships: KXNHLGOAL-26NOV06ANACGY-ANAPMINTYUKOV98-1|yes: MOSTLY_INDEPENDENT (phi -0.009); KXNHLGOAL-26NOV06ANACGY-ANAJMALOTT39-1|yes: MOSTLY_INDEPENDENT (phi 0.002); KXNHLGOAL-26NOV06ANACGY-ANAAKILLORN17-1|yes: MOSTLY_INDEPENDENT (phi 0.001); failure: ANA offense suppressed (<= 2 goals)
+- **Pavel Mintyukov: 1+ goals YES** — thesis: ANA offense succeeds (4+ goals); alternative: KXNHLTEAMTOTAL-26NOV06ANACGY-ANA5|yes; why: higher confidence-adjusted growth (20.06 vs 5.67 bp); despite a smaller raw edge (+0.035 vs +0.059/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; wins across more scripts (relative breadth 0.848 vs 0.526); relationships: KXNHLGOAL-26NOV06ANACGY-ANASCOLANGELO12-1|yes: MOSTLY_INDEPENDENT (phi -0.009); KXNHLGOAL-26NOV06ANACGY-ANAJMALOTT39-1|yes: MOSTLY_INDEPENDENT (phi -0.012); KXNHLGOAL-26NOV06ANACGY-ANAAKILLORN17-1|yes: MOSTLY_INDEPENDENT (phi -0.008); failure: ANA offense suppressed (<= 2 goals)
+- **Jeff Malott: 1+ goals YES** — thesis: ANA offense succeeds (4+ goals); alternative: KXNHLTEAMTOTAL-26NOV06ANACGY-ANA5|yes; why: higher confidence-adjusted growth (13.31 vs 5.67 bp); despite a smaller raw edge (+0.035 vs +0.059/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; wins across more scripts (relative breadth 0.823 vs 0.526); relationships: KXNHLGOAL-26NOV06ANACGY-ANASCOLANGELO12-1|yes: MOSTLY_INDEPENDENT (phi 0.002); KXNHLGOAL-26NOV06ANACGY-ANAPMINTYUKOV98-1|yes: MOSTLY_INDEPENDENT (phi -0.012); KXNHLGOAL-26NOV06ANACGY-ANAAKILLORN17-1|yes: MOSTLY_INDEPENDENT (phi -0.003); failure: ANA offense suppressed (<= 2 goals)
+- **Alex Killorn: 1+ goals YES** — thesis: ANA offense succeeds (4+ goals); alternative: KXNHLTEAMTOTAL-26NOV06ANACGY-ANA5|yes; why: higher confidence-adjusted growth (9.33 vs 5.67 bp); despite a smaller raw edge (+0.038 vs +0.059/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; wins across more scripts (relative breadth 0.856 vs 0.526); relationships: KXNHLGOAL-26NOV06ANACGY-ANASCOLANGELO12-1|yes: MOSTLY_INDEPENDENT (phi 0.001); KXNHLGOAL-26NOV06ANACGY-ANAPMINTYUKOV98-1|yes: MOSTLY_INDEPENDENT (phi -0.008); KXNHLGOAL-26NOV06ANACGY-ANAJMALOTT39-1|yes: MOSTLY_INDEPENDENT (phi -0.003); failure: ANA offense suppressed (<= 2 goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · high event (8+) · decided (2+) 0.11, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.10.
 - thesis ANA:OFFENSE_4PLUS (p 0.4621): highest fidelity KXNHLTEAMTOTAL-26NOV06ANACGY-ANA4|yes [STRUCTURAL], best adjusted EV KXNHLSPREAD-26NOV06ANACGY-CGY2|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
@@ -127,9 +127,9 @@ sportsbook moneyline consensus (5 books): home 0.569 / away 0.431
 - thesis ANA:WINS_BY_2PLUS (p 0.3229): highest fidelity KXNHLSPREAD-26NOV06ANACGY-CGY2|no [STRUCTURAL], best adjusted EV KXNHLSPREAD-26NOV06ANACGY-CGY2|no (same contract)
 - KXNHLGOAL-26NOV06ANACGY-ANASCOLANGELO12-1|yes: FUNDED_RESEARCH; family TRUSTED; loses 77% of the draws where the thesis happens; fragile player expression; opposing: failure thesis ANA:SUPPRESSED (p 0.3248, phi -0.159)
 - KXNHLGOAL-26NOV06ANACGY-ANAPMINTYUKOV98-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 86% of the draws where the thesis happens; fragile player expression; opposing: failure thesis ANA:SUPPRESSED (p 0.3248, phi -0.124)
-- KXNHLGOAL-26NOV06ANACGY-ANAJCAULFIELD28-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 70% of the draws where the thesis happens; fragile player expression; opposing: failure thesis ANA:SUPPRESSED (p 0.3248, phi -0.198)
 - KXNHLGOAL-26NOV06ANACGY-ANAJMALOTT39-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 81% of the draws where the thesis happens; fragile player expression; opposing: failure thesis ANA:SUPPRESSED (p 0.3248, phi -0.148)
+- KXNHLGOAL-26NOV06ANACGY-ANAAKILLORN17-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 71% of the draws where the thesis happens; fragile player expression; opposing: failure thesis ANA:SUPPRESSED (p 0.3248, phi -0.169)
 
-portfolios: A EV +8.81 (adj +2.75) on $50.00, P(profit) 0.4896, adj growth 15.7 bp · B EV +10.10 (adj +6.79) on $26.73, P(profit) 0.4824, adj growth 58.1 bp · C EV +1.90 (adj +0.63) on $18.47, P(profit) 0.7314, adj growth 5.6 bp · R EV +1.18 (adj +0.81) on $3.00, P(profit) 0.163, adj growth 25.6 bp
+portfolios: A EV +10.48 (adj +3.44) on $50.00, P(profit) 0.536, adj growth 19.1 bp · B EV +9.85 (adj +6.68) on $26.36, P(profit) 0.4822, adj growth 57.0 bp · C EV +1.63 (adj +0.59) on $6.12, P(profit) 0.2807, adj growth 5.1 bp · R EV +1.18 (adj +0.81) on $3.00, P(profit) 0.163, adj growth 25.6 bp
 
 _RESEARCH_ONLY thesis card: B stakes are optimiser suggestions for a nominal bankroll; R (FUNDED_RESEARCH) stakes are whole-dollar research stakes under research governance. Nothing is placed or routed. Every recommended bet is +EV at its executable ask under the model AND the confidence-adjusted probability; the card is emitted only when the completion gate passes._
