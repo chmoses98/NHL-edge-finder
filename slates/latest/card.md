@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-11-06T23:58:29Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-11-07T00:24:38Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,51 +10,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 150.00 | +27.61 | +6.97 | +23.56 | 0.628 | -60.64 | -82.97 | 45.73 |
-| B thesis-diversified (joint) ← optimiser card | 103.70 | +18.68 | +12.13 | +12.06 | 0.591 | -53.27 | -57.17 | 104.55 |
-| C best expression per thesis | 106.01 | +11.30 | +5.14 | +12.41 | 0.589 | -33.06 | -51.07 | 44.89 |
-| R FUNDED research stakes | 12.00 | +1.73 | +1.15 | +1.72 | 0.581 | -6.48 | -6.48 | 0.00 |
+| A highest edges (independent) | 100.00 | +21.18 | +4.94 | +22.17 | 0.634 | -51.67 | -74.85 | 34.62 |
+| B thesis-diversified (joint) ← optimiser card | 63.67 | +17.67 | +10.44 | +9.71 | 0.552 | -42.72 | -63.67 | 89.71 |
+| C best expression per thesis | 76.89 | +9.92 | +3.71 | +8.08 | 0.713 | -23.42 | -46.86 | 32.52 |
+| R FUNDED research stakes | 10.00 | +2.49 | +1.22 | -0.16 | 0.451 | -10.00 | -10.00 | 0.00 |
 
-## CBJ @ BUF  ·  10000 joint draws  ·  468 bet sides mapped, 8 +EV candidates, 4 on card
-
-sportsbook moneyline consensus (5 books): home 0.609 / away 0.392
-
-**Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
-
-| script | freq | p_BUF_win | p_CBJ_win | p_overtime | goals | shots BUF/CBJ | BUF/CBJ starter saves | driver |
-|---|---:|---:|---:|---:|---:|---|---|---|
-| balanced shots · normal event (5-7) · decided (2+) | 0.127 | 0.59 | 0.41 | 0.00 | 6.0 | 27.4/27.3 | 24.3/23.3 | even strength |
-| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.118 | 0.52 | 0.48 | 0.45 | 5.96 | 27.7/27.4 | 24.2/24.2 | even strength |
-| BUF shot control · normal event (5-7) · decided (2+) | 0.083 | 0.64 | 0.36 | 0.00 | 6.01 | 32.5/21.9 | 19.2/28.1 | even strength |
-| balanced shots · high event (8+) · decided (2+) | 0.081 | 0.56 | 0.44 | 0.00 | 9.29 | 29.3/29.1 | 23.3/22.8 | even strength |
-| BUF shot control · normal event (5-7) · tight (1-goal/OT) | 0.065 | 0.58 | 0.42 | 0.45 | 5.87 | 32.7/22.2 | 19.0/29.3 | even strength |
-| balanced shots · low event (<=4) · decided (2+) | 0.062 | 0.59 | 0.41 | 0.00 | 3.47 | 26.5/26.4 | 24.8/24.4 | even strength |
-
-**Card**
-
-| bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
-|---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Mathieu Olivier: 1+ goals YES | 15 | 0.194 | 0.180 | +0.035 | +0.021 | $5.96 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | CBJ:WINS_BY_2PLUS | FRAGILE (0.37) | EVIDENCE_STRONGER | D |
-| Tage Thompson: 2+ goals NO | 90 | 0.932 | 0.922 | +0.025 | +0.016 | $20.00 | FUNDED_RESEARCH | $5 | BUF:SUPPRESSED | DIRECT (0.99) | EVIDENCE_STRONGER | D |
-| Kent Johnson: 1+ goals NO | 75 | 0.792 | 0.780 | +0.029 | +0.017 | $18.67 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | CBJ:SUPPRESSED | DIRECT (0.90) | EVIDENCE_STRONGER | D |
-| Charlie Coyle: 1+ goals YES | 22 | 0.256 | 0.245 | +0.024 | +0.013 | $3.78 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | CBJ:OFFENSE_4PLUS | FRAGILE (0.40) | EVIDENCE_STRONGER | D |
-- **Mathieu Olivier: 1+ goals YES** — thesis: CBJ wins by 2+; alternative: KXNHLTEAMTOTAL-26NOV06CBJBUF-BUF4|no; why: higher confidence-adjusted growth (7.47 vs 1.71 bp); despite a smaller raw edge (+0.035 vs +0.050/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26NOV06CBJBUF-BUFTTHOMPSON72-2|no: MOSTLY_INDEPENDENT (phi 0.004); KXNHLGOAL-26NOV06CBJBUF-CBJKJOHNSON91-1|no: MOSTLY_INDEPENDENT (phi -0.003); KXNHLGOAL-26NOV06CBJBUF-CBJCCOYLE3-1|yes: MOSTLY_INDEPENDENT (phi 0.009); failure: CBJ offense suppressed (<= 2 goals)
-- **Tage Thompson: 2+ goals NO** — thesis: BUF offense suppressed (<= 2 goals); alternative: KXNHLGOAL-26NOV06CBJBUF-BUFTTHOMPSON72-1|no; why: higher confidence-adjusted growth (6.91 vs 3.14 bp); despite a smaller raw edge (+0.025 vs +0.032/contract); relationships: KXNHLGOAL-26NOV06CBJBUF-CBJMOLIVIER24-1|yes: MOSTLY_INDEPENDENT (phi 0.004); KXNHLGOAL-26NOV06CBJBUF-CBJKJOHNSON91-1|no: MOSTLY_INDEPENDENT (phi -0.004); KXNHLGOAL-26NOV06CBJBUF-CBJCCOYLE3-1|yes: MOSTLY_INDEPENDENT (phi 0.01); failure: BUF offense succeeds (4+ goals)
-- **Kent Johnson: 1+ goals NO** — thesis: CBJ offense suppressed (<= 2 goals); alternative: KXNHLGOAL-26NOV06CBJBUF-CBJAFANTILLI19-1|no; why: higher confidence-adjusted growth (3.63 vs 0.36 bp); alternative not eligible: confidence-adjusted EV +0.0056 below the 0.010/contract floor; relationships: KXNHLGOAL-26NOV06CBJBUF-CBJMOLIVIER24-1|yes: MOSTLY_INDEPENDENT (phi -0.003); KXNHLGOAL-26NOV06CBJBUF-BUFTTHOMPSON72-2|no: MOSTLY_INDEPENDENT (phi -0.004); KXNHLGOAL-26NOV06CBJBUF-CBJCCOYLE3-1|yes: MOSTLY_INDEPENDENT (phi 0.023); failure: CBJ offense succeeds (4+ goals)
-- **Charlie Coyle: 1+ goals YES** — thesis: CBJ offense succeeds (4+ goals); alternative: KXNHLGOAL-26NOV06CBJBUF-CBJMOLIVIER24-1|yes; why: second expression of the same thesis: KXNHLGOAL-26NOV06CBJBUF-CBJMOLIVIER24-1|yes has the higher standalone adjusted growth (7.47 vs 1.98 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.009); they share one thesis budget; relationships: KXNHLGOAL-26NOV06CBJBUF-CBJMOLIVIER24-1|yes: MOSTLY_INDEPENDENT (phi 0.009); KXNHLGOAL-26NOV06CBJBUF-BUFTTHOMPSON72-2|no: MOSTLY_INDEPENDENT (phi 0.01); KXNHLGOAL-26NOV06CBJBUF-CBJKJOHNSON91-1|no: MOSTLY_INDEPENDENT (phi 0.023); failure: CBJ offense suppressed (<= 2 goals)
-
-**Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.13, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.12, BUF shot control · normal event (5-7) · decided (2+) 0.08.
-- thesis CBJ:WINS_BY_2PLUS (p 0.2384): highest fidelity KXNHLTEAMTOTAL-26NOV06CBJBUF-BUF5|no [DIRECT], best adjusted EV KXNHLGOAL-26NOV06CBJBUF-CBJMOLIVIER24-1|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
-- thesis CBJ:OFFENSE_4PLUS (p 0.3404): highest fidelity KXNHLGOAL-26NOV06CBJBUF-CBJCCOYLE3-1|yes [FRAGILE], best adjusted EV KXNHLGOAL-26NOV06CBJBUF-CBJMOLIVIER24-1|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
-- thesis CBJ:SUPPRESSED (p 0.4514): highest fidelity KXNHLGOAL-26NOV06CBJBUF-CBJKJOHNSON91-1|no [DIRECT], best adjusted EV KXNHLGOAL-26NOV06CBJBUF-CBJKJOHNSON91-1|no (same contract)
-- KXNHLGOAL-26NOV06CBJBUF-CBJMOLIVIER24-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 63% of the draws where the thesis happens; fragile player expression; opposing: failure thesis CBJ:SUPPRESSED (p 0.4514, phi -0.248)
-- KXNHLGOAL-26NOV06CBJBUF-BUFTTHOMPSON72-2|no: FUNDED_RESEARCH; family TRUSTED; loses 1% of the draws where the thesis happens; fragile player expression; opposing: failure thesis BUF:OFFENSE_4PLUS (p 0.4029, phi -0.204)
-- KXNHLGOAL-26NOV06CBJBUF-CBJKJOHNSON91-1|no: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 10% of the draws where the thesis happens; fragile player expression; opposing: failure thesis CBJ:OFFENSE_4PLUS (p 0.3404, phi -0.206)
-- KXNHLGOAL-26NOV06CBJBUF-CBJCCOYLE3-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 60% of the draws where the thesis happens; fragile player expression; opposing: failure thesis CBJ:SUPPRESSED (p 0.4514, phi -0.24)
-
-portfolios: A EV +4.48 (adj +2.00) on $50.00, P(profit) 0.5142, adj growth 15.1 bp · B EV +2.98 (adj +1.79) on $48.40, P(profit) 0.3453, adj growth 15.9 bp · C EV +2.61 (adj +1.57) on $36.54, P(profit) 0.6018, adj growth 13.7 bp · R EV +0.14 (adj +0.09) on $5.00, P(profit) 0.9317, adj growth 3.4 bp
-
-## SJS @ MIN  ·  10000 joint draws  ·  420 bet sides mapped, 22 +EV candidates, 4 on card
+## SJS @ MIN  ·  10000 joint draws  ·  420 bet sides mapped, 24 +EV candidates, 4 on card
 
 sportsbook moneyline consensus (5 books): home 0.705 / away 0.295
 
@@ -73,14 +34,14 @@ sportsbook moneyline consensus (5 books): home 0.705 / away 0.295
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Yakov Trenin: 1+ goals YES | 11 | 0.163 | 0.148 | +0.046 | +0.031 | $7.91 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | MIN:OFFENSE_4PLUS | FRAGILE (0.22) | EVIDENCE_STRONGER | D |
-| Kirill Kaprizov: 1+ goals NO | 47 | 0.536 | 0.517 | +0.049 | +0.030 | $13.82 | FUNDED_RESEARCH | $4 | MIN:SUPPRESSED | DIRECT (0.75) | EVIDENCE_STRONGER | D |
-| Olli Maatta: 1+ goals YES | 5 | 0.077 | 0.067 | +0.024 | +0.013 | $2.94 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | MIN:OFFENSE_4PLUS | FRAGILE (0.11) | EVIDENCE_STRONGER | D |
-| Blake Coleman: 1+ goals YES | 23 | 0.278 | 0.264 | +0.035 | +0.022 | $7.03 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | MIN:OFFENSE_4PLUS | FRAGILE (0.39) | EVIDENCE_STRONGER | D |
-- **Yakov Trenin: 1+ goals YES** — thesis: MIN offense succeeds (4+ goals); alternative: KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes; why: higher confidence-adjusted growth (20.28 vs 5.71 bp); relationships: KXNHLGOAL-26NOV06SJMIN-MINKKAPRIZOV97-1|no: MOSTLY_INDEPENDENT (phi 0.02); KXNHLGOAL-26NOV06SJMIN-MINOMAATTA3-1|yes: MOSTLY_INDEPENDENT (phi 0.006); KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes: MOSTLY_INDEPENDENT (phi -0.012); failure: MIN offense suppressed (<= 2 goals)
-- **Kirill Kaprizov: 1+ goals NO** — thesis: MIN offense suppressed (<= 2 goals); alternative: KXNHLTEAMTOTAL-26NOV06SJMIN-MIN3|no; why: higher confidence-adjusted growth (7.84 vs 4.34 bp); despite a smaller raw edge (+0.049 vs +0.056/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; wins across more scripts (relative breadth 1.03 vs 0.793); relationships: KXNHLGOAL-26NOV06SJMIN-MINYTRENIN13-1|yes: MOSTLY_INDEPENDENT (phi 0.02); KXNHLGOAL-26NOV06SJMIN-MINOMAATTA3-1|yes: MOSTLY_INDEPENDENT (phi 0.007); KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes: MOSTLY_INDEPENDENT (phi 0.011); failure: MIN offense succeeds (4+ goals)
-- **Olli Maatta: 1+ goals YES** — thesis: MIN offense succeeds (4+ goals); alternative: KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes; why: higher confidence-adjusted growth (7.65 vs 5.71 bp); despite a smaller raw edge (+0.024 vs +0.035/contract); relationships: KXNHLGOAL-26NOV06SJMIN-MINYTRENIN13-1|yes: MOSTLY_INDEPENDENT (phi 0.006); KXNHLGOAL-26NOV06SJMIN-MINKKAPRIZOV97-1|no: MOSTLY_INDEPENDENT (phi 0.007); KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes: MOSTLY_INDEPENDENT (phi -0.007); failure: MIN offense suppressed (<= 2 goals)
-- **Blake Coleman: 1+ goals YES** — thesis: MIN offense succeeds (4+ goals); alternative: KXNHLAST-26NOV06SJMIN-MINBBRINK10-1|yes; why: higher confidence-adjusted growth (5.71 vs 0.00 bp); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; alternative not eligible: confidence-adjusted EV <= 0; relationships: KXNHLGOAL-26NOV06SJMIN-MINYTRENIN13-1|yes: MOSTLY_INDEPENDENT (phi -0.012); KXNHLGOAL-26NOV06SJMIN-MINKKAPRIZOV97-1|no: MOSTLY_INDEPENDENT (phi 0.011); KXNHLGOAL-26NOV06SJMIN-MINOMAATTA3-1|yes: MOSTLY_INDEPENDENT (phi -0.007); failure: MIN offense suppressed (<= 2 goals)
+| Yakov Trenin: 1+ goals YES | 11 | 0.163 | 0.148 | +0.046 | +0.031 | $8.73 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | MIN:OFFENSE_4PLUS | FRAGILE (0.22) | EVIDENCE_STRONGER | D |
+| Kirill Kaprizov: 1+ goals NO | 47 | 0.536 | 0.519 | +0.049 | +0.031 | $10.21 | FUNDED_RESEARCH | $3 | MIN:SUPPRESSED | DIRECT (0.75) | EVIDENCE_STRONGER | D |
+| Blake Coleman: 1+ goals YES | 23 | 0.278 | 0.264 | +0.035 | +0.022 | $8.93 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | MIN:OFFENSE_4PLUS | FRAGILE (0.39) | EVIDENCE_STRONGER | D |
+| Minnesota over 3.5 goals scored NO | 39 | 0.509 | 0.428 | +0.102 | +0.022 | $12.21 | FUNDED_RESEARCH | $4 | MIN:SUPPRESSED | STRUCTURAL (1.00) | EVIDENCE_MIXED | D |
+- **Yakov Trenin: 1+ goals YES** — thesis: MIN offense succeeds (4+ goals); alternative: KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes; why: higher confidence-adjusted growth (20.28 vs 5.71 bp); relationships: KXNHLGOAL-26NOV06SJMIN-MINKKAPRIZOV97-1|no: MOSTLY_INDEPENDENT (phi 0.02); KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes: MOSTLY_INDEPENDENT (phi -0.012); KXNHLTEAMTOTAL-26NOV06SJMIN-MIN4|no: INTENTIONAL_DIVERSIFIER (phi -0.161); failure: MIN offense suppressed (<= 2 goals)
+- **Kirill Kaprizov: 1+ goals NO** — thesis: MIN offense suppressed (<= 2 goals); alternative: KXNHLAST-26NOV06SJMIN-MINQHUGHES43-1|no; why: higher confidence-adjusted growth (8.51 vs 5.38 bp); despite a smaller raw edge (+0.049 vs +0.071/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26NOV06SJMIN-MINYTRENIN13-1|yes: MOSTLY_INDEPENDENT (phi 0.02); KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes: MOSTLY_INDEPENDENT (phi 0.011); KXNHLTEAMTOTAL-26NOV06SJMIN-MIN4|no: REINFORCING (phi 0.285); failure: MIN offense succeeds (4+ goals)
+- **Blake Coleman: 1+ goals YES** — thesis: MIN offense succeeds (4+ goals); alternative: KXNHLPTS-26NOV06SJMIN-MINBCOLEMAN20-2|yes; why: higher confidence-adjusted growth (5.71 vs 0.00 bp); evidence EVIDENCE_STRONGER vs CALIBRATION_WARNING; wins across more scripts (relative breadth 0.859 vs 0.703); alternative not eligible: confidence-adjusted EV <= 0; relationships: KXNHLGOAL-26NOV06SJMIN-MINYTRENIN13-1|yes: MOSTLY_INDEPENDENT (phi -0.012); KXNHLGOAL-26NOV06SJMIN-MINKKAPRIZOV97-1|no: MOSTLY_INDEPENDENT (phi 0.011); KXNHLTEAMTOTAL-26NOV06SJMIN-MIN4|no: INTENTIONAL_DIVERSIFIER (phi -0.237); failure: MIN offense suppressed (<= 2 goals)
+- **Minnesota over 3.5 goals scored NO** — thesis: MIN offense suppressed (<= 2 goals); alternative: KXNHLGOAL-26NOV06SJMIN-MINKKAPRIZOV97-1|no; why: second expression of the same thesis: KXNHLGOAL-26NOV06SJMIN-MINKKAPRIZOV97-1|no has the higher standalone adjusted growth (8.51 vs 4.25 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.285); they share one thesis budget; relationships: KXNHLGOAL-26NOV06SJMIN-MINYTRENIN13-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.161); KXNHLGOAL-26NOV06SJMIN-MINKKAPRIZOV97-1|no: REINFORCING (phi 0.285); KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.237); failure: MIN offense succeeds (4+ goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, MIN shot control · normal event (5-7) · decided (2+) 0.11, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.10.
 - thesis MIN:SUPPRESSED (p 0.3095): highest fidelity KXNHLTEAMTOTAL-26NOV06SJMIN-MIN4|no [STRUCTURAL], best adjusted EV KXNHLGOAL-26NOV06SJMIN-MINKKAPRIZOV97-1|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
@@ -88,14 +49,14 @@ sportsbook moneyline consensus (5 books): home 0.705 / away 0.295
 - thesis MIN:OFFENSE_4PLUS (p 0.4816): highest fidelity KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes [FRAGILE], best adjusted EV KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes (same contract)
 - KXNHLGOAL-26NOV06SJMIN-MINYTRENIN13-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 78% of the draws where the thesis happens; fragile player expression; opposing: failure thesis MIN:SUPPRESSED (p 0.3095, phi -0.157)
 - KXNHLGOAL-26NOV06SJMIN-MINKKAPRIZOV97-1|no: FUNDED_RESEARCH; family TRUSTED; loses 25% of the draws where the thesis happens; fragile player expression; opposing: failure thesis MIN:OFFENSE_4PLUS (p 0.4816, phi -0.286)
-- KXNHLGOAL-26NOV06SJMIN-MINOMAATTA3-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 89% of the draws where the thesis happens; fragile player expression; opposing: failure thesis MIN:SUPPRESSED (p 0.3095, phi -0.114)
 - KXNHLGOAL-26NOV06SJMIN-MINBCOLEMAN20-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 61% of the draws where the thesis happens; fragile player expression; opposing: failure thesis MIN:SUPPRESSED (p 0.3095, phi -0.232)
+- KXNHLTEAMTOTAL-26NOV06SJMIN-MIN4|no: FUNDED_RESEARCH; family MIXED; cannot lose if the thesis happens (settles from it); LARGE MARKET DISAGREEMENT 12.4 pts; opposing: failure thesis MIN:OFFENSE_4PLUS (p 0.4816, phi -0.981)
 
-portfolios: A EV +14.61 (adj +2.32) on $50.00, P(profit) 0.5733, adj growth 11.8 bp · B EV +6.83 (adj +4.35) on $31.71, P(profit) 0.3428, adj growth 37.5 bp · C EV +5.67 (adj +2.59) on $39.68, P(profit) 0.5508, adj growth 22.6 bp · R EV +0.40 (adj +0.25) on $4.00, P(profit) 0.5365, adj growth 8.5 bp
+portfolios: A EV +12.38 (adj +2.02) on $50.00, P(profit) 0.6793, adj growth 13.1 bp · B EV +8.80 (adj +4.45) on $40.08, P(profit) 0.5494, adj growth 38.5 bp · C EV +6.36 (adj +2.52) on $44.60, P(profit) 0.6241, adj growth 22.1 bp · R EV +1.31 (adj +0.41) on $7.00, P(profit) 0.5088, adj growth 12.8 bp
 
-## ANA @ CGY  ·  10000 joint draws  ·  468 bet sides mapped, 17 +EV candidates, 4 on card
+## ANA @ CGY  ·  10000 joint draws  ·  468 bet sides mapped, 16 +EV candidates, 4 on card
 
-sportsbook moneyline consensus (5 books): home 0.569 / away 0.431
+sportsbook moneyline consensus (5 books): home 0.567 / away 0.433
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -130,6 +91,6 @@ sportsbook moneyline consensus (5 books): home 0.569 / away 0.431
 - KXNHLGOAL-26NOV06ANACGY-ANATWASHE42-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 78% of the draws where the thesis happens; fragile player expression; opposing: failure thesis ANA:SUPPRESSED (p 0.3248, phi -0.168)
 - KXNHLGOAL-26NOV06ANACGY-ANANMYATOVIC48-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 81% of the draws where the thesis happens; fragile player expression; opposing: failure thesis ANA:SUPPRESSED (p 0.3248, phi -0.153)
 
-portfolios: A EV +8.53 (adj +2.65) on $50.00, P(profit) 0.4896, adj growth 18.9 bp · B EV +8.86 (adj +5.99) on $23.59, P(profit) 0.4454, adj growth 51.2 bp · C EV +3.02 (adj +0.98) on $29.79, P(profit) 0.3835, adj growth 8.6 bp · R EV +1.18 (adj +0.81) on $3.00, P(profit) 0.163, adj growth 25.6 bp
+portfolios: A EV +8.80 (adj +2.92) on $50.00, P(profit) 0.4896, adj growth 21.5 bp · B EV +8.86 (adj +5.99) on $23.59, P(profit) 0.4454, adj growth 51.2 bp · C EV +3.56 (adj +1.19) on $32.29, P(profit) 0.3835, adj growth 10.5 bp · R EV +1.18 (adj +0.81) on $3.00, P(profit) 0.163, adj growth 25.6 bp
 
 _RESEARCH_ONLY thesis card: B stakes are optimiser suggestions for a nominal bankroll; R (FUNDED_RESEARCH) stakes are whole-dollar research stakes under research governance. Nothing is placed or routed. Every recommended bet is +EV at its executable ask under the model AND the confidence-adjusted probability; the card is emitted only when the completion gate passes._
