@@ -2,18 +2,18 @@
 
 Registration: `docs/research/player_minutes/PREREGISTRATION.md`. Activation: 2026-10-24T07:20:40Z.
 
-Records: 4,560 (counting: 4,560) · outcomes: 3,492 · paired with an incumbent TOI forecast: 3,228
-Settled candidates 4,064 · played 3,417 · of those with the incumbent's pregame TOI forecast 3,228 (94%) · with a captured power-play value 2,882
+Records: 4,560 (counting: 4,560) · outcomes: 3,528 · paired with an incumbent TOI forecast: 3,261
+Settled candidates 4,102 · played 3,452 · of those with the incumbent's pregame TOI forecast 3,261 (94%) · with a captured power-play value 2,915
 
 Cumulative, **descriptive only** (no decision is taken from it):
 
 | hypothesis | relative change in squared error | 95% interval | n |
 |---|---|---|---|
-| H1 | -1.23% | -3.22% … +0.71% | 3,228 |
-| H2 | | | INCONCLUSIVE AT n=2882 (fewer than 10,000 pairs with a captured incumbent power-play value) |
-| H3 | -3.18% | -4.26% … -2.12% | 3,228 |
+| H1 | -1.21% | -3.10% … +0.73% | 3,261 |
+| H2 | | | INCONCLUSIVE AT n=2915 (fewer than 10,000 pairs with a captured incumbent power-play value) |
+| H3 | -3.07% | -4.17% … -1.99% | 3,261 |
 
-Total ice time MSE: incumbent 6.145 · M0 6.069 · M1 5.876; bias (pred − actual): -0.383 / -0.304 / -0.233 min
+Total ice time MSE: incumbent 6.279 · M0 6.203 · M1 6.013; bias (pred − actual): -0.377 / -0.299 / -0.229 min
 
 Registered verdicts (decision look 30,000 / final look 60,000): H1: OPEN (decision look not yet reached); H2: OPEN (decision look not yet reached); H3: OPEN (decision look not yet reached)
 
