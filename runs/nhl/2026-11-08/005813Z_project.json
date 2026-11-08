@@ -1,0 +1,216 @@
+{
+ "archive": {
+  "challenger": {
+   "duplicates": 0,
+   "invalid": 0,
+   "late_rejected": 0,
+   "offered": 1079,
+   "paths": [
+    "/tmp/projection_data/forecasts/nhl/2026-11-08/005827Z_7e8e297cb157.jsonl.gz"
+   ],
+   "unchanged": 427,
+   "written": 652
+  },
+  "incumbent": {
+   "duplicates": 0,
+   "invalid": 0,
+   "late_rejected": 0,
+   "offered": 1074,
+   "paths": [
+    "/tmp/projection_data/forecasts/nhl/2026-11-08/005827Z_e299fa2f4fea.jsonl.gz"
+   ],
+   "unchanged": 914,
+   "written": 160
+  }
+ },
+ "archived_at": "2026-11-08T00:58:27Z",
+ "assemble": {
+  "gate": {
+   "BLOCK": 0,
+   "PASS": 999,
+   "REVIEW": 80
+  },
+  "goalie_unverified": 0,
+  "goalies": 12,
+  "participation": {
+   "CONFIRMED_ACTIVE": 133,
+   "LIKELY_ACTIVE": 89,
+   "UNCERTAIN": 1
+  },
+  "players": 211,
+  "rows": 856,
+  "skipped_no_model_row": 3
+ },
+ "coverage": {
+  "events": {
+   "2026020271": {
+    "coverage": 1.0,
+    "expected": 38,
+    "newest_age_minutes": 2.4,
+    "newest_capture_utc": "2026-11-08T00:56:01Z",
+    "observed": 38,
+    "sources": [
+     "dailyfaceoff_goalies",
+     "dailyfaceoff_lines",
+     "espn_injuries",
+     "nhl_api_pbp_rosterspots"
+    ]
+   },
+   "2026020272": {
+    "coverage": 1.0,
+    "expected": 38,
+    "newest_age_minutes": 2.4,
+    "newest_capture_utc": "2026-11-08T00:56:01Z",
+    "observed": 38,
+    "sources": [
+     "dailyfaceoff_goalies",
+     "dailyfaceoff_lines",
+     "espn_injuries",
+     "nhl_api_pbp_rosterspots"
+    ]
+   },
+   "2026020273": {
+    "coverage": 1.0,
+    "expected": 36,
+    "newest_age_minutes": 2.4,
+    "newest_capture_utc": "2026-11-08T00:56:01Z",
+    "observed": 36,
+    "sources": [
+     "dailyfaceoff_goalies",
+     "dailyfaceoff_lines",
+     "nhl_api_pbp_rosterspots"
+    ]
+   },
+   "2026020274": {
+    "coverage": 1.0,
+    "expected": 37,
+    "newest_age_minutes": 2.4,
+    "newest_capture_utc": "2026-11-08T00:56:01Z",
+    "observed": 37,
+    "sources": [
+     "dailyfaceoff_goalies",
+     "dailyfaceoff_lines",
+     "nhl_api_pbp_rosterspots"
+    ]
+   },
+   "2026020275": {
+    "coverage": 1.0,
+    "expected": 38,
+    "newest_age_minutes": 2.5,
+    "newest_capture_utc": "2026-11-08T00:55:59Z",
+    "observed": 38,
+    "sources": [
+     "dailyfaceoff_goalies",
+     "dailyfaceoff_lines",
+     "espn_injuries"
+    ]
+   },
+   "2026020276": {
+    "coverage": 1.0,
+    "expected": 36,
+    "newest_age_minutes": 2.5,
+    "newest_capture_utc": "2026-11-08T00:55:59Z",
+    "observed": 36,
+    "sources": [
+     "dailyfaceoff_goalies",
+     "dailyfaceoff_lines",
+     "espn_injuries"
+    ]
+   }
+  },
+  "mean_coverage": 1.0,
+  "n_events": 6
+ },
+ "games": [
+  2026020271,
+  2026020272,
+  2026020273,
+  2026020274,
+  2026020275,
+  2026020276
+ ],
+ "gate": {
+  "PASS": 780,
+  "REVIEW": 76
+ },
+ "gate_checks": {
+  "confidence:REVIEW": 72,
+  "participation:REVIEW": 4,
+  "role:REVIEW": 12,
+  "starter:REVIEW": 3
+ },
+ "incumbent_source": {
+  "players": 228,
+  "records": 1074,
+  "rows": 40307
+ },
+ "late_rejected": 0,
+ "lineup_info": {
+  "goalie_fallback": 0,
+  "goalie_named": 12,
+  "goalie_teams": 12,
+  "goalie_unresolved_history": 0,
+  "official_confirmed_teams": 7,
+  "teams": 12,
+  "teams_last_dressed": 0,
+  "teams_with_lines": 12
+ },
+ "model_reused": false,
+ "model_seconds": 146.0,
+ "model_table_key": "978ded5969284283",
+ "now": "2026-11-08T00:58:13Z",
+ "p_start_table": {
+  "CONFIRMED": {
+   "0-3h": {
+    "hits": 326,
+    "n": 326,
+    "p": 0.997
+   },
+   "3-8h": {
+    "hits": 228,
+    "n": 228,
+    "p": 0.9958
+   },
+   "8-36h": {
+    "hits": 49,
+    "n": 49,
+    "p": 0.9831
+   }
+  },
+  "PROBABLE": {
+   "0-3h": {
+    "hits": 29,
+    "n": 29,
+    "p": 0.9744
+   },
+   "3-8h": {
+    "hits": 72,
+    "n": 72,
+    "p": 0.9878
+   },
+   "8-36h": {
+    "hits": 20,
+    "n": 20,
+    "p": 0.9667
+   }
+  },
+  "PROJECTED": {
+   "0-3h": {
+    "hits": 18,
+    "n": 25,
+    "p": 0.7714
+   },
+   "3-8h": {
+    "hits": 77,
+    "n": 96,
+    "p": 0.8113
+   },
+   "8-36h": {
+    "hits": 256,
+    "n": 329,
+    "p": 0.7817
+   }
+  }
+ },
+ "slate_date": "2026-11-07"
+}
