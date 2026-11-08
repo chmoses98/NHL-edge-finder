@@ -1,9 +1,9 @@
 # NHL slate 2026-11-08 — RESEARCH_ONLY
 
-generated 2026-11-08T18:12:55Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-11-08T18:43:05Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
-games on date: 6 · simulated (not started): 5 · markets on board: 2953 · contracts joined: 1128 (unjoined to any game: 1275)
-gates: {'UNSUPPORTED': 1003, 'OK': 86, 'NO_EDGE': 39}
+games on date: 6 · simulated (not started): 5 · markets on board: 2922 · contracts joined: 1128 (unjoined to any game: 1275)
+gates: {'UNSUPPORTED': 1003, 'OK': 87, 'NO_EDGE': 38}
 families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'player_assists': 158, 'game_early_goal': 5, 'first_goal': 183, 'game_winner': 10, 'player_goals': 316, 'game_overtime': 5, 'player_points': 209, 'goalie_saves': 7, 'game_spread': 20, 'team_total': 50, 'game_total': 45}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
@@ -31,23 +31,23 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'player
 | KXNHLTOTAL-26NOV08PHICGY-6 | game_total | 0.427 | 0.515 | 0.497 | 52 | 49 | no | +0.066 | OK |
 | KXNHLTOTAL-26NOV08PHICGY-7 | game_total | 0.319 | 0.405 | 0.387 | 41 | 60 | no | +0.065 | OK |
 | KXNHLGAME-26NOV08PITANA-PIT | game_winner | 0.389 | 0.475 | 0.458 | 48 | 53 | no | +0.063 | OK |
-| KXNHLTEAMTOTAL-26NOV08PITANA-ANA6 | team_total | 0.209 | 0.135 | 0.148 | 14 | 87 | yes | +0.060 | OK |
 | KXNHLSPREAD-26NOV08PITANA-PIT2 | game_spread | 0.217 | 0.295 | 0.278 | 30 | 71 | no | +0.059 | OK |
-| KXNHLTEAMTOTAL-26NOV08PHICGY-PHI5 | team_total | 0.113 | 0.195 | 0.176 | 21 | 82 | no | +0.057 | OK |
+| KXNHLTEAMTOTAL-26NOV08PHICGY-PHI5 | team_total | 0.113 | 0.200 | 0.179 | 22 | 82 | no | +0.057 | OK |
 | KXNHLTEAMTOTAL-26NOV08PITANA-ANA4 | team_total | 0.572 | 0.490 | 0.507 | 50 | 52 | yes | +0.055 | OK |
 | KXNHLTOTAL-26NOV08TBWPG-6 | game_total | 0.519 | 0.595 | 0.580 | 60 | 41 | no | +0.054 | OK |
-| KXNHLTOTAL-26NOV08TBWPG-7 | game_total | 0.409 | 0.485 | 0.470 | 49 | 52 | no | +0.053 | OK |
 | KXNHLTEAMTOTAL-26NOV08PITANA-ANA5 | team_total | 0.377 | 0.295 | 0.311 | 31 | 72 | yes | +0.052 | OK |
 | KXNHLTOTAL-26NOV08PHICGY-4 | game_total | 0.770 | 0.840 | 0.828 | 85 | 17 | no | +0.050 | OK |
 | KXNHLTOTAL-26NOV08PHICGY-8 | game_total | 0.159 | 0.225 | 0.210 | 23 | 78 | no | +0.049 | OK |
-| KXNHLSPREAD-26NOV08PITANA-PIT3 | game_spread | 0.125 | 0.185 | 0.171 | 19 | 82 | no | +0.045 | OK |
 | KXNHLTEAMTOTAL-26NOV08PITANA-ANA3 | team_total | 0.759 | 0.695 | 0.709 | 70 | 31 | yes | +0.045 | OK |
-| KXNHLSPREAD-26NOV08PITANA-ANA3 | game_spread | 0.277 | 0.215 | 0.226 | 22 | 79 | yes | +0.044 | OK |
+| KXNHLSPREAD-26NOV08PITANA-ANA3 | game_spread | 0.277 | 0.210 | 0.222 | 22 | 80 | yes | +0.044 | OK |
+| KXNHLTOTAL-26NOV08TBWPG-7 | game_total | 0.409 | 0.475 | 0.462 | 48 | 53 | no | +0.043 | OK |
 | KXNHLSPREAD-26NOV08PHICGY-CGY2 | game_spread | 0.327 | 0.265 | 0.277 | 27 | 74 | yes | +0.043 | OK |
 | KXNHLGAME-26NOV08VGKBUF-BUF | game_winner | 0.558 | 0.495 | 0.508 | 50 | 51 | yes | +0.041 | OK |
 | KXNHLGAME-26NOV08VGKBUF-VGK | game_winner | 0.442 | 0.505 | 0.492 | 51 | 50 | no | +0.041 | OK |
 | KXNHLTOTAL-26NOV08TBWPG-5 | game_total | 0.739 | 0.795 | 0.785 | 80 | 21 | no | +0.040 | OK |
+| KXNHLTEAMTOTAL-26NOV08PITANA-ANA6 | team_total | 0.209 | 0.145 | 0.156 | 16 | 87 | yes | +0.039 | OK |
 | KXNHLSPREAD-26NOV08VGKBUF-VGK2 | game_spread | 0.237 | 0.295 | 0.283 | 30 | 71 | no | +0.038 | OK |
+| KXNHLSPREAD-26NOV08PITANA-PIT3 | game_spread | 0.125 | 0.180 | 0.168 | 19 | 83 | no | +0.035 | OK |
 | KXNHLSPREAD-26NOV08VGKBUF-BUF2 | game_spread | 0.340 | 0.285 | 0.296 | 29 | 72 | yes | +0.035 | OK |
 | KXNHLTOTAL-26NOV08PHICGY-9 | game_total | 0.106 | 0.155 | 0.144 | 16 | 85 | no | +0.035 | OK |
 | KXNHLTOTAL-26NOV08TBWPG-4 | game_total | 0.829 | 0.875 | 0.867 | 88 | 13 | no | +0.033 | OK |
@@ -56,48 +56,48 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'player
 | KXNHLTEAMTOTAL-26NOV08NJTOR-TOR3 | team_total | 0.606 | 0.555 | 0.565 | 56 | 45 | yes | +0.029 | OK |
 | KXNHLTOTAL-26NOV08TBWPG-8 | game_total | 0.230 | 0.275 | 0.266 | 28 | 73 | no | +0.026 | OK |
 | KXNHLTEAMTOTAL-26NOV08TBWPG-TB4 | team_total | 0.398 | 0.450 | 0.439 | 46 | 56 | no | +0.025 | OK |
-| KXNHLTEAMTOTAL-26NOV08VGKBUF-VGK4 | team_total | 0.368 | 0.420 | 0.409 | 43 | 59 | no | +0.025 | OK |
-| KXNHLTEAMTOTAL-26NOV08VGKBUF-BUF6 | team_total | 0.131 | 0.090 | 0.097 | 10 | 92 | yes | +0.025 | OK |
-| KXNHLTEAMTOTAL-26NOV08PHICGY-PHI6 | team_total | 0.041 | 0.075 | 0.067 | 8 | 93 | no | +0.024 | OK |
+| KXNHLTEAMTOTAL-26NOV08VGKBUF-VGK5 | team_total | 0.192 | 0.235 | 0.226 | 24 | 77 | no | +0.025 | OK |
+| KXNHLTEAMTOTAL-26NOV08VGKBUF-VGK4 | team_total | 0.368 | 0.415 | 0.405 | 42 | 59 | no | +0.025 | OK |
+| KXNHLTEAMTOTAL-26NOV08PHICGY-PHI6 | team_total | 0.041 | 0.085 | 0.074 | 10 | 93 | no | +0.024 | OK |
+| KXNHLTEAMTOTAL-26NOV08VGKBUF-BUF3 | team_total | 0.670 | 0.625 | 0.634 | 63 | 38 | yes | +0.024 | OK |
 | KXNHLTOTAL-26NOV08NJTOR-9 | game_total | 0.225 | 0.185 | 0.192 | 19 | 82 | yes | +0.024 | OK |
 | KXNHLTEAMTOTAL-26NOV08PITANA-PIT3 | team_total | 0.621 | 0.665 | 0.656 | 67 | 34 | no | +0.023 | OK |
 | KXNHLTEAMTOTAL-26NOV08TBWPG-TB5 | team_total | 0.214 | 0.260 | 0.250 | 27 | 75 | no | +0.023 | OK |
 | KXNHLTEAMTOTAL-26NOV08TBWPG-TB3 | team_total | 0.622 | 0.665 | 0.657 | 67 | 34 | no | +0.022 | OK |
 | KXNHLTEAMTOTAL-26NOV08NJTOR-TOR5 | team_total | 0.212 | 0.175 | 0.182 | 18 | 83 | yes | +0.022 | OK |
 | KXNHLTOTAL-26NOV08TBWPG-9 | game_total | 0.158 | 0.195 | 0.187 | 20 | 81 | no | +0.021 | OK |
-| KXNHLTEAMTOTAL-26NOV08VGKBUF-BUF5 | team_total | 0.263 | 0.220 | 0.228 | 23 | 79 | yes | +0.021 | OK |
+| KXNHLTEAMTOTAL-26NOV08VGKBUF-BUF5 | team_total | 0.263 | 0.225 | 0.232 | 23 | 78 | yes | +0.021 | OK |
 | KXNHLTEAMTOTAL-26NOV08VGKBUF-BUF4 | team_total | 0.457 | 0.415 | 0.423 | 42 | 59 | yes | +0.020 | OK |
 | KXNHLTOTAL-26NOV08PITANA-8 | game_total | 0.406 | 0.365 | 0.373 | 37 | 64 | yes | +0.020 | OK |
 | KXNHLGAME-26NOV08NJTOR-TOR | game_winner | 0.457 | 0.415 | 0.423 | 42 | 59 | yes | +0.019 | OK |
+| KXNHLTEAMTOTAL-26NOV08TBWPG-TB2 | team_total | 0.822 | 0.860 | 0.853 | 87 | 15 | no | +0.019 | OK |
 | KXNHLTEAMTOTAL-26NOV08TBWPG-WPG3 | team_total | 0.534 | 0.575 | 0.567 | 58 | 43 | no | +0.018 | OK |
 | KXNHLTEAMTOTAL-26NOV08PITANA-PIT2 | team_total | 0.823 | 0.860 | 0.853 | 87 | 15 | no | +0.018 | OK |
 | KXNHLSPREAD-26NOV08NJTOR-TOR2 | game_spread | 0.249 | 0.215 | 0.222 | 22 | 79 | yes | +0.017 | OK |
 | KXNHLSPREAD-26NOV08TBWPG-TB3 | game_spread | 0.201 | 0.240 | 0.232 | 25 | 77 | no | +0.017 | OK |
-| KXNHLTEAMTOTAL-26NOV08VGKBUF-VGK5 | team_total | 0.192 | 0.230 | 0.222 | 24 | 78 | no | +0.016 | OK |
 | KXNHLTEAMTOTAL-26NOV08TBWPG-WPG4 | team_total | 0.319 | 0.355 | 0.348 | 36 | 65 | no | +0.015 | OK |
 | KXNHLTOTAL-26NOV08NJTOR-7 | game_total | 0.503 | 0.465 | 0.473 | 47 | 54 | yes | +0.015 | OK |
-| KXNHLTEAMTOTAL-26NOV08VGKBUF-VGK3 | team_total | 0.589 | 0.630 | 0.622 | 64 | 38 | no | +0.015 | OK |
+| KXNHLTEAMTOTAL-26NOV08VGKBUF-VGK3 | team_total | 0.589 | 0.625 | 0.618 | 63 | 38 | no | +0.015 | OK |
 | KXNHLTEAMTOTAL-26NOV08NJTOR-TOR4 | team_total | 0.391 | 0.350 | 0.358 | 36 | 66 | yes | +0.015 | OK |
 | KXNHLTOTAL-26NOV08NJTOR-8 | game_total | 0.308 | 0.270 | 0.277 | 28 | 74 | yes | +0.014 | OK |
 | KXNHLSPREAD-26NOV08VGKBUF-BUF3 | game_spread | 0.215 | 0.185 | 0.191 | 19 | 82 | yes | +0.014 | OK |
-| KXNHLTEAMTOTAL-26NOV08VGKBUF-BUF3 | team_total | 0.670 | 0.630 | 0.638 | 64 | 38 | yes | +0.014 | OK |
 | KXNHLTOTAL-26NOV08PHICGY-3 | game_total | 0.933 | 0.960 | 0.956 | 97 | 5 | no | +0.013 | OK |
 | KXNHLTOTAL-26NOV08PITANA-10 | game_total | 0.172 | 0.140 | 0.146 | 15 | 87 | yes | +0.013 | OK |
-| KXNHLTEAMTOTAL-26NOV08PITANA-ANA2 | team_total | 0.900 | 0.865 | 0.873 | 88 | 15 | yes | +0.013 | OK |
+| KXNHLTEAMTOTAL-26NOV08PITANA-ANA2 | team_total | 0.900 | 0.875 | 0.880 | 88 | 13 | yes | +0.013 | OK |
 | KXNHLTOTAL-26NOV08PHICGY-10 | game_total | 0.043 | 0.065 | 0.060 | 7 | 94 | no | +0.013 | OK |
 | KXNHLTOTAL-26NOV08PITANA-9 | game_total | 0.305 | 0.275 | 0.281 | 28 | 73 | yes | +0.011 | OK |
 | KXNHLSPREAD-26NOV08NJTOR-NJ3 | game_spread | 0.216 | 0.250 | 0.243 | 26 | 76 | no | +0.011 | OK |
 | KXNHLTEAMTOTAL-26NOV08TBWPG-WPG2 | team_total | 0.757 | 0.790 | 0.784 | 80 | 22 | no | +0.011 | OK |
-| KXNHLTEAMTOTAL-26NOV08TBWPG-TB2 | team_total | 0.822 | 0.855 | 0.849 | 87 | 16 | no | +0.009 | OK |
 | KXNHLTEAMTOTAL-26NOV08PITANA-PIT5 | team_total | 0.228 | 0.260 | 0.253 | 27 | 75 | no | +0.008 | OK |
+| KXNHLTEAMTOTAL-26NOV08VGKBUF-BUF2 | team_total | 0.847 | 0.825 | 0.830 | 83 | 18 | yes | +0.007 | OK |
 | KXNHLTEAMTOTAL-26NOV08VGKBUF-VGK2 | team_total | 0.803 | 0.835 | 0.829 | 85 | 18 | no | +0.007 | OK |
 | KXNHLGAME-26NOV08TBWPG-TB | game_winner | 0.558 | 0.585 | 0.580 | 59 | 42 | no | +0.005 | OK |
 | KXNHLTOTAL-26NOV08TBWPG-10 | game_total | 0.070 | 0.095 | 0.089 | 11 | 92 | no | +0.005 | OK |
 | KXNHLTOTAL-26NOV08NJTOR-10 | game_total | 0.111 | 0.085 | 0.090 | 10 | 93 | yes | +0.004 | OK |
 | KXNHLTOTAL-26NOV08PITANA-6 | game_total | 0.709 | 0.685 | 0.690 | 69 | 32 | yes | +0.004 | OK |
 | KXNHLSPREAD-26NOV08TBWPG-TB2 | game_spread | 0.330 | 0.355 | 0.350 | 36 | 65 | no | +0.004 | OK |
+| KXNHLTEAMTOTAL-26NOV08VGKBUF-BUF6 | team_total | 0.131 | 0.100 | 0.106 | 12 | 92 | yes | +0.004 | OK |
 | KXNHLTOTAL-26NOV08PITANA-2 | game_total | 0.993 | 0.985 | 0.987 | 99 | 2 | yes | +0.003 | OK |
-| KXNHLSPREAD-26NOV08PHICGY-CGY3 | game_spread | 0.193 | 0.170 | 0.174 | 18 | 84 | yes | +0.002 | OK |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -112,23 +112,22 @@ families: {'period_winner': 45, 'period_spread': 30, 'period_total': 45, 'player
 _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it never gates, never replaces V1 and carries no authority. Period prices are PARTIAL_RULES_VERIFIED_NO_SETTLEMENT._
 
 
-## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 15 recommended · full analysis in card.md / packet.json `thesis_card`
+## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 14 recommended · full analysis in card.md / packet.json `thesis_card`
 
 - Victor Olofsson: 1+ assists NO @ 75c · p 0.8364 (adj 0.7907) · $20.0 · thesis VGK:SUPPRESSED
-- Brayden McNabb: 1+ goals YES @ 5c · p 0.072 (adj 0.0665) · $3.19 · thesis VGK:OFFENSE_4PLUS
-- Marc Gatcomb: 1+ goals YES @ 7c · p 0.0976 (adj 0.0869) · $3.02 · thesis VGK:OFFENSE_4PLUS
-- Olen Zellweger: 1+ goals YES @ 8c · p 0.1072 (adj 0.0966) · $2.83 · thesis BUF:OFFENSE_4PLUS
+- Brayden McNabb: 1+ goals YES @ 5c · p 0.072 (adj 0.0653) · $2.83 · thesis VGK:OFFENSE_4PLUS
+- Marc Gatcomb: 1+ goals YES @ 7c · p 0.0976 (adj 0.0882) · $3.36 · thesis VGK:OFFENSE_4PLUS
+- Olen Zellweger: 1+ goals YES @ 8c · p 0.1072 (adj 0.0992) · $3.53 · thesis BUF:OFFENSE_4PLUS
 - Cole Perfetti: 1+ assists YES @ 32c · p 0.396 (adj 0.353) · $6.15 · thesis WPG:OFFENSE_4PLUS
 - Alex Iafallo: 1+ goals YES @ 13c · p 0.1587 (adj 0.1503) · $3.3 · thesis WPG:OFFENSE_4PLUS
-- Easton Cowan: 1+ goals YES @ 17c · p 0.2221 (adj 0.2053) · $7.19 · thesis TOR:OFFENSE_4PLUS
-- Colton Sissons: 1+ goals YES @ 9c · p 0.1276 (adj 0.1144) · $4.55 · thesis TOR:OFFENSE_4PLUS
-- Jack Hughes: 1+ goals NO @ 61c · p 0.6684 (adj 0.6525) · $15.98 · thesis NJD:SUPPRESSED
-- Nico Hischier: 1+ goals NO @ 69c · p 0.7348 (adj 0.7224) · $14.02 · thesis NJD:SUPPRESSED
-- Travis Konecny: 1+ assists NO @ 65c · p 0.7386 (adj 0.6893) · $19.11 · thesis PHI:SUPPRESSED
+- Easton Cowan: 1+ goals YES @ 17c · p 0.2221 (adj 0.2078) · $7.97 · thesis TOR:OFFENSE_4PLUS
+- Colton Sissons: 1+ goals YES @ 9c · p 0.1276 (adj 0.1157) · $4.9 · thesis TOR:OFFENSE_4PLUS
+- Jack Hughes: 1+ goals NO @ 61c · p 0.6684 (adj 0.6525) · $15.96 · thesis NJD:SUPPRESSED
+- Nico Hischier: 1+ goals NO @ 69c · p 0.7348 (adj 0.7224) · $14.04 · thesis NJD:SUPPRESSED
 - Pittsburgh wins by over 1.5 goals NO @ 71c · p 0.7969 (adj 0.751) · $20.0 · thesis ANA:WINS
-- Connor Dewar: 1+ goals YES @ 12c · p 0.1601 (adj 0.1438) · $5.15 · thesis PIT:OFFENSE_4PLUS
-- Anaheim over 2.5 goals scored YES @ 70c · p 0.7757 (adj 0.7353) · $9.8 · thesis ANA:OFFENSE_4PLUS
-- Beckett Sennecke: 1+ goals YES @ 36c · p 0.4063 (adj 0.3922) · $3.98 · thesis ANA:OFFENSE_4PLUS
+- Connor Dewar: 1+ goals YES @ 12c · p 0.1601 (adj 0.1438) · $5.1 · thesis PIT:OFFENSE_4PLUS
+- Jeff Malott: 1+ goals YES @ 12c · p 0.1549 (adj 0.1437) · $3.98 · thesis ANA:OFFENSE_4PLUS
+- Beckett Sennecke: 1+ goals YES @ 36c · p 0.4063 (adj 0.3935) · $5.55 · thesis ANA:OFFENSE_4PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -138,8 +137,8 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Mitch Marner: 1+ assists | 0.408 | 0.520 | 53/49 | +0.085 | STANDARD |
-| Victor Olofsson: 1+ points | 0.315 | 0.420 | 44/60 | +0.068 | STANDARD |
+| Mitch Marner: 1+ assists | 0.408 | 0.525 | 54/49 | +0.085 | STANDARD |
+| Victor Olofsson: 1+ points | 0.315 | 0.415 | 43/60 | +0.068 | STANDARD |
 | Jack Eichel: 1+ assists | 0.440 | 0.535 | 55/48 | +0.063 | STANDARD |
 | Victor Olofsson: 1+ assists | 0.164 | 0.255 | 26/75 | +0.073 | STANDARD |
 | Mitch Marner: 1+ points | 0.542 | 0.625 | 64/39 | +0.051 | STANDARD |
@@ -154,9 +153,9 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | Nikita Kucherov: 1+ assists | 0.463 | 0.615 | 63/40 | +0.120 | STANDARD |
 | Nikita Kucherov: 2+ points | 0.270 | 0.400 | 42/62 | +0.094 | STANDARD |
 | Nikita Kucherov: 2+ assists | 0.126 | 0.235 | 26/79 | +0.072 | STANDARD |
+| John Carlson: 1+ points | 0.377 | 0.465 | 47/54 | +0.066 | STANDARD |
 | Cole Perfetti: 1+ assists | 0.396 | 0.310 | 32/70 | +0.061 | STANDARD |
 | Nikita Kucherov: 3+ points | 0.081 | 0.165 | 19/86 | +0.051 | STANDARD |
-| John Carlson: 1+ points | 0.377 | 0.460 | 47/55 | +0.056 | STANDARD |
 
 **NJD @ TOR** · priced 173/176 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - TOR net: Anthony Stolarz (PROBABLE) exp shots 32.87, exp saves 28.37 (sd 7.47), pull risk 0.065
@@ -177,12 +176,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Oliver Bonk: 1+ points | 0.302 | 0.185 | 34/97 | -0.054 | STANDARD |
-| Travis Konecny: 1+ assists | 0.261 | 0.360 | 37/65 | +0.073 | STANDARD |
-| Oliver Bonk: 1+ assists | 0.259 | 0.165 | 30/97 | -0.056 | STANDARD |
-| Travis Konecny: 1+ points | 0.428 | 0.505 | 51/50 | +0.054 | STANDARD |
+| Travis Konecny: 1+ assists | 0.261 | 0.365 | 38/65 | +0.073 | STANDARD |
+| Travis Konecny: 1+ points | 0.428 | 0.500 | 51/51 | +0.044 | STANDARD |
 | Porter Martone: 1+ points | 0.400 | 0.465 | 48/55 | +0.033 | STANDARD |
 | Porter Martone: 1+ goals | 0.187 | 0.240 | 26/78 | +0.021 | STANDARD |
+| Jonathan Castagna: 1+ goals | 0.116 | 0.070 | 11/97 | -0.001 | STANDARD |
+| Travis Sanheim: 1+ points | 0.380 | 0.335 | 34/67 | +0.025 | STANDARD |
 
 **PIT @ ANA** · priced 178/179 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - ANA net: Ville Husso (PROJECTED) exp shots 26.45, exp saves 22.95 (sd 6.53), pull risk 0.071
@@ -191,11 +190,11 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
 | Erik Karlsson: 1+ assists | 0.430 | 0.510 | 52/50 | +0.052 | STANDARD |
+| Erik Karlsson: 1+ points | 0.515 | 0.590 | 61/43 | +0.037 | STANDARD |
 | Alex Killorn: 1+ points | 0.483 | 0.410 | 42/60 | +0.046 | STANDARD |
-| Judd Caulfield: 1+ goals | 0.238 | 0.165 | 19/86 | +0.037 | STANDARD |
-| Tim Washe: 1+ goals | 0.168 | 0.095 | 14/95 | +0.019 | STANDARD |
 | Ben Kindel: 1+ points | 0.425 | 0.495 | 51/52 | +0.038 | STANDARD |
-| Erik Karlsson: 1+ points | 0.515 | 0.585 | 60/43 | +0.037 | STANDARD |
+| Connor Dewar: 1+ goals | 0.160 | 0.095 | 12/93 | +0.033 | STANDARD |
+| Sidney Crosby: 1+ assists | 0.383 | 0.445 | 46/57 | +0.030 | STANDARD |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
