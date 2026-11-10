@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-11-10T00:34:34Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-11-10T01:00:06Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,51 +10,12 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 150.00 | +20.78 | +7.52 | +20.16 | 0.653 | -42.63 | -58.08 | 62.62 |
-| B thesis-diversified (joint) ← optimiser card | 134.45 | +25.19 | +14.28 | +19.18 | 0.619 | -52.43 | -57.16 | 124.12 |
-| C best expression per thesis | 112.66 | +16.63 | +8.69 | +5.52 | 0.579 | -34.94 | -56.42 | 76.02 |
-| R FUNDED research stakes | 13.00 | +1.82 | +1.23 | +0.11 | 0.713 | -6.53 | -6.53 | 0.00 |
+| A highest edges (independent) | 100.00 | +9.35 | +4.47 | +15.12 | 0.545 | -35.57 | -43.72 | 38.91 |
+| B thesis-diversified (joint) ← optimiser card | 93.81 | +14.63 | +9.27 | +9.44 | 0.541 | -41.70 | -42.26 | 80.83 |
+| C best expression per thesis | 74.04 | +10.58 | +6.21 | +3.23 | 0.679 | -24.64 | -46.17 | 54.30 |
+| R FUNDED research stakes | 10.00 | +0.60 | +0.39 | +3.11 | 0.656 | -3.53 | -3.53 | 0.00 |
 
-## NYR @ EDM  ·  10000 joint draws  ·  460 bet sides mapped, 13 +EV candidates, 4 on card
-
-sportsbook moneyline consensus (5 books): home 0.597 / away 0.403
-
-**Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
-
-| script | freq | p_EDM_win | p_NYR_win | p_overtime | goals | shots EDM/NYR | EDM/NYR starter saves | driver |
-|---|---:|---:|---:|---:|---:|---|---|---|
-| EDM shot control · normal event (5-7) · decided (2+) | 0.120 | 0.75 | 0.25 | 0.00 | 6.04 | 32.7/21.3 | 18.9/27.9 | even strength |
-| balanced shots · normal event (5-7) · decided (2+) | 0.117 | 0.68 | 0.32 | 0.00 | 6.07 | 27.6/27.1 | 24.3/23.3 | even strength |
-| balanced shots · high event (8+) · decided (2+) | 0.106 | 0.69 | 0.31 | 0.00 | 9.45 | 29.0/28.4 | 23.3/21.7 | even strength |
-| balanced shots · normal event (5-7) · tight (1-goal/OT) | 0.102 | 0.50 | 0.50 | 0.49 | 5.96 | 27.4/27.0 | 23.8/24.1 | even strength |
-| EDM shot control · high event (8+) · decided (2+) | 0.097 | 0.75 | 0.25 | 0.00 | 9.38 | 34.4/22.6 | 18.2/25.9 | even strength |
-| EDM shot control · normal event (5-7) · tight (1-goal/OT) | 0.087 | 0.59 | 0.41 | 0.47 | 5.94 | 32.7/21.6 | 18.4/29.1 | even strength |
-
-**Card**
-
-| bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
-|---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Alex Formenton: 1+ goals YES | 11 | 0.164 | 0.149 | +0.047 | +0.033 | $8.38 | FUNDED_RESEARCH | $3 | EDM:OFFENSE_4PLUS | FRAGILE (0.22) | EVIDENCE_STRONGER | D |
-| Vasily Podkolzin: 1+ goals YES | 23 | 0.283 | 0.269 | +0.041 | +0.026 | $10.92 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | EDM:OFFENSE_4PLUS | FRAGILE (0.38) | EVIDENCE_STRONGER | D |
-| Connor McDavid: 1+ assists NO | 27 | 0.388 | 0.308 | +0.104 | +0.024 | $8.57 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED | $0 | EDM:SUPPRESSED | DIRECT (0.66) | EVIDENCE_MIXED | D |
-| Leon Draisaitl: 1+ assists NO | 41 | 0.500 | 0.452 | +0.073 | +0.025 | $12.77 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED | $0 | EDM:SUPPRESSED | DIRECT (0.74) | EVIDENCE_MIXED | D |
-- **Alex Formenton: 1+ goals YES** — thesis: EDM offense succeeds (4+ goals); alternative: KXNHLGOAL-26NOV09NYREDM-EDMVPODKOLZIN92-1|yes; why: higher confidence-adjusted growth (21.84 vs 8.05 bp); relationships: KXNHLGOAL-26NOV09NYREDM-EDMVPODKOLZIN92-1|yes: MOSTLY_INDEPENDENT (phi 0.011); KXNHLAST-26NOV09NYREDM-EDMCMCDAVID97-1|no: MOSTLY_INDEPENDENT (phi -0.026); KXNHLAST-26NOV09NYREDM-EDMLDRAISAITL29-1|no: MOSTLY_INDEPENDENT (phi -0.014); failure: EDM offense suppressed (<= 2 goals)
-- **Vasily Podkolzin: 1+ goals YES** — thesis: EDM offense succeeds (4+ goals); alternative: KXNHLGOAL-26NOV09NYREDM-EDMZHYMAN18-1|yes; why: higher confidence-adjusted growth (8.05 vs 5.36 bp); relationships: KXNHLGOAL-26NOV09NYREDM-EDMAFORMENTON26-1|yes: MOSTLY_INDEPENDENT (phi 0.011); KXNHLAST-26NOV09NYREDM-EDMCMCDAVID97-1|no: INTENTIONAL_DIVERSIFIER (phi -0.174); KXNHLAST-26NOV09NYREDM-EDMLDRAISAITL29-1|no: INTENTIONAL_DIVERSIFIER (phi -0.198); failure: EDM offense suppressed (<= 2 goals)
-- **Connor McDavid: 1+ assists NO** — thesis: EDM offense suppressed (<= 2 goals); alternative: KXNHLAST-26NOV09NYREDM-EDMLDRAISAITL29-1|no; why: higher confidence-adjusted growth (6.35 vs 5.79 bp); relationships: KXNHLGOAL-26NOV09NYREDM-EDMAFORMENTON26-1|yes: MOSTLY_INDEPENDENT (phi -0.026); KXNHLGOAL-26NOV09NYREDM-EDMVPODKOLZIN92-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.174); KXNHLAST-26NOV09NYREDM-EDMLDRAISAITL29-1|no: MOSTLY_INDEPENDENT (phi 0.117); failure: EDM offense succeeds (4+ goals)
-- **Leon Draisaitl: 1+ assists NO** — thesis: EDM offense suppressed (<= 2 goals); alternative: KXNHLAST-26NOV09NYREDM-EDMCMCDAVID97-1|no; why: second expression of the same thesis: KXNHLAST-26NOV09NYREDM-EDMCMCDAVID97-1|no has the higher standalone adjusted growth (6.35 vs 5.79 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.117); they share one thesis budget; relationships: KXNHLGOAL-26NOV09NYREDM-EDMAFORMENTON26-1|yes: MOSTLY_INDEPENDENT (phi -0.014); KXNHLGOAL-26NOV09NYREDM-EDMVPODKOLZIN92-1|yes: INTENTIONAL_DIVERSIFIER (phi -0.198); KXNHLAST-26NOV09NYREDM-EDMCMCDAVID97-1|no: MOSTLY_INDEPENDENT (phi 0.117); failure: EDM offense succeeds (4+ goals)
-
-**Review**: scripts EDM shot control · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · decided (2+) 0.12, balanced shots · high event (8+) · decided (2+) 0.11.
-- thesis EDM:OFFENSE_4PLUS (p 0.5332): highest fidelity KXNHLGOAL-26NOV09NYREDM-EDMZHYMAN18-1|yes [FRAGILE], best adjusted EV KXNHLGOAL-26NOV09NYREDM-EDMVPODKOLZIN92-1|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
-- thesis EDM:SUPPRESSED (p 0.2658): highest fidelity KXNHLAST-26NOV09NYREDM-EDMLDRAISAITL29-2|no [DIRECT], best adjusted EV KXNHLAST-26NOV09NYREDM-EDMLDRAISAITL29-1|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
-- thesis NYR:SUPPRESSED (p 0.4463): highest fidelity KXNHLAST-26NOV09NYREDM-NYROBJORKSTRAND28-1|no [DIRECT], best adjusted EV KXNHLGOAL-26NOV09NYREDM-NYRPDOROFEYEV16-1|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
-- KXNHLGOAL-26NOV09NYREDM-EDMAFORMENTON26-1|yes: FUNDED_RESEARCH; family TRUSTED; loses 78% of the draws where the thesis happens; fragile player expression; opposing: failure thesis EDM:SUPPRESSED (p 0.2658, phi -0.14)
-- KXNHLGOAL-26NOV09NYREDM-EDMVPODKOLZIN92-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 62% of the draws where the thesis happens; fragile player expression; opposing: failure thesis EDM:SUPPRESSED (p 0.2658, phi -0.222)
-- KXNHLAST-26NOV09NYREDM-EDMCMCDAVID97-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; LARGE_MARKET_DISAGREEMENT_UNCORROBORATED; family MIXED; loses 34% of the draws where the thesis happens; LARGE MARKET DISAGREEMENT 12.3 pts; fragile player expression; opposing: failure thesis EDM:OFFENSE_4PLUS (p 0.5332, phi -0.33)
-- KXNHLAST-26NOV09NYREDM-EDMLDRAISAITL29-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; family MIXED; loses 26% of the draws where the thesis happens; fragile player expression; opposing: failure thesis EDM:OFFENSE_4PLUS (p 0.5332, phi -0.29)
-
-portfolios: A EV +11.42 (adj +3.05) on $50.00, P(profit) 0.5504, adj growth 23.7 bp · B EV +10.56 (adj +5.01) on $40.64, P(profit) 0.5668, adj growth 43.3 bp · C EV +6.05 (adj +2.48) on $38.62, P(profit) 0.5156, adj growth 21.7 bp · R EV +1.22 (adj +0.84) on $3.00, P(profit) 0.1642, adj growth 26.5 bp
-
-## PHI @ VAN  ·  10000 joint draws  ·  434 bet sides mapped, 19 +EV candidates, 4 on card
+## PHI @ VAN  ·  10000 joint draws  ·  424 bet sides mapped, 19 +EV candidates, 4 on card
 
 sportsbook moneyline consensus (5 books): home 0.449 / away 0.551
 
