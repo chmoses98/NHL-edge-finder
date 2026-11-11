@@ -1,5 +1,5 @@
 {
- "discovered_at": "2026-11-10T20:52:08Z",
+ "discovered_at": "2026-11-11T23:51:24Z",
  "ontology_version": "2026.09.29.2",
  "exchange_status": {
   "exchange_active": true,
@@ -36,11 +36,11 @@
   "intra_exchange_transfers_active": true,
   "trading_active": true
  },
- "n_series_total": 16059,
+ "n_series_total": 16226,
  "series_decisions": [
   {
-   "ticker": "KXNHLAST",
-   "title": "Pro Hockey Assists",
+   "ticker": "KXNHLSERIESSPREAD",
+   "title": "NHL Series Game Spread",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -49,8 +49,8 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHLHART",
-   "title": "NHL Hart Memorial Trophy",
+   "ticker": "KXNHLPLAYOFF",
+   "title": "Playoff Qualifier",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -59,18 +59,28 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNL",
-   "title": "National League Champion",
+   "ticker": "KXNHLFINALSEXACT",
+   "title": "NHL Championship Series Score",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXWOMHOCKEYFGOAL",
+   "title": "Winter Olympics Hockey First Goal",
    "category": "Sports",
    "tags": [
     "Hockey"
    ],
    "is_nhl": false,
-   "reason": "no NHL marker"
+   "reason": "non-NHL hockey marker 'OLYMPIC'"
   },
   {
-   "ticker": "KXNHLNORRIS",
-   "title": "NHL James Norris Memorial Trophy",
+   "ticker": "KXNHLSEASONPPTS",
+   "title": "Season Player Points",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -79,14 +89,75 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHLRETIRE",
-   "title": "NHL Retire",
+   "ticker": "KXNCAAHOCKEY",
+   "title": "College Hockey National Champion",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'NCAA'"
+  },
+  {
+   "ticker": "KXNHLVEZINA",
+   "title": "NHL Vezina Trophy",
    "category": "Sports",
    "tags": [
     "Hockey"
    ],
    "is_nhl": true,
    "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLOT",
+   "title": "NHL Overtime",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLNEXTTEAM",
+   "title": "NHL Next Team",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXWOMHOCKEYTOTAL",
+   "title": "Winter Olympics Men's Hockey Goal Total",
+   "category": "Sports",
+   "tags": [
+    "Hockey",
+    "Olympics"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'OLYMPIC'"
+  },
+  {
+   "ticker": "KXNHLOVERTIME",
+   "title": "NHL Overtime",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNCAAH",
+   "title": "College Hockey National Champion",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'NCAA'"
   },
   {
    "ticker": "KXESPYNHL",
@@ -99,18 +170,18 @@
    "reason": "title mentions NHL"
   },
   {
-   "ticker": "KXLIIGAGAME",
-   "title": "Liiga Game",
+   "ticker": "KXNHL1STTEAM",
+   "title": "All NHL First Team",
    "category": "Sports",
    "tags": [
     "Hockey"
    ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'LIIGA'"
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXAHLGAME",
-   "title": "AHL Game",
+   "ticker": "KXAHL",
+   "title": "AHL Champion",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -119,29 +190,28 @@
    "reason": "non-NHL hockey marker 'AHL'"
   },
   {
-   "ticker": "KXNHLDRAFTPICK",
-   "title": "Pro Hockey Draft Pick",
+   "ticker": "KXWOMHOCKEYGOAL",
+   "title": "Olympic Hockey Goalscorer",
    "category": "Sports",
    "tags": [
     "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXWOMHOCKEYSPREAD",
-   "title": "Winter Olympics Men's Hockey Spread",
-   "category": "Sports",
-   "tags": [
-    "Hockey",
-    "Olympics"
    ],
    "is_nhl": false,
    "reason": "non-NHL hockey marker 'OLYMPIC'"
   },
   {
-   "ticker": "KXNHL",
-   "title": "Stanley Cup",
+   "ticker": "KXDEL",
+   "title": "DEL Champion",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'DEL '"
+  },
+  {
+   "ticker": "KXNHL2OT",
+   "title": "NHL Double Overtime",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -150,8 +220,18 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHLSEASONPTS",
-   "title": "NHL Season Point Totals",
+   "ticker": "KXNHLFIRSTGOAL",
+   "title": "NHL First Goal",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLPTS",
+   "title": "Pro Hockey Points",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -171,18 +251,8 @@
    "reason": "non-NHL hockey marker 'OLYMPIC'"
   },
   {
-   "ticker": "KXWOMHOCKEYFIRSTGOAL",
-   "title": "Winter Olympics Hockey First Goal",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'OLYMPIC'"
-  },
-  {
-   "ticker": "KXNHLWINS",
-   "title": "NHL wins ",
+   "ticker": "KXNHLCALDER",
+   "title": "NHL Calder Memorial Trophy",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -191,8 +261,8 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHLVEZINA",
-   "title": "NHL Vezina Trophy",
+   "ticker": "KXNHLEAST",
+   "title": "Eastern Conference Championship",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -201,8 +271,8 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHL2PSPREAD",
-   "title": "2nd Period Spread",
+   "ticker": "KXNHLWEST",
+   "title": "Western Conference Champion",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -211,55 +281,84 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXKHLGAME",
-   "title": "KHL Game",
+   "ticker": "KXNHLMVP",
+   "title": "NHL Hart Memorial Trophy Winner",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXIIHFGAME",
+   "title": "IIHF Game",
    "category": "Sports",
    "tags": [
     "Hockey"
    ],
    "is_nhl": false,
-   "reason": "non-NHL hockey marker 'KHL'"
+   "reason": "non-NHL hockey marker 'IIHF'"
   },
   {
-   "ticker": "KXNCAAHOCKEY",
-   "title": "College Hockey National Champion",
+   "ticker": "KXELH",
+   "title": "ELH Champion",
    "category": "Sports",
    "tags": [
     "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'NCAA'"
-  },
-  {
-   "ticker": "KXWOMHOCKEYMVP",
-   "title": "Men's Winter Olympics Hockey MVP",
-   "category": "Sports",
-   "tags": [
-    "Hockey",
-    "Olympics"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'OLYMPIC'"
-  },
-  {
-   "ticker": "KXAHL",
-   "title": "AHL Champion",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'AHL'"
-  },
-  {
-   "ticker": "KXEARNINGSMENTIONHLT",
-   "title": "HILTON",
-   "category": "Mentions",
-   "tags": [
-    "Earnings"
    ],
    "is_nhl": false,
    "reason": "no NHL marker"
+  },
+  {
+   "ticker": "KXNHLHART",
+   "title": "NHL Hart Memorial Trophy",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLSPREAD",
+   "title": "NHL Spread",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLTOTAL",
+   "title": "NHL Total Goals",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLDRAFTTOP",
+   "title": "Pro Hockey Top Pick",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHL",
+   "title": "Stanley Cup",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
   },
   {
    "ticker": "KXNHL2PBTTS",
@@ -272,18 +371,8 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXTEAMSINSC",
-   "title": "Teams in Stanley Cup",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "NHL trophy/futures marker"
-  },
-  {
-   "ticker": "KXNHLLINDSAY",
-   "title": "NHL Ted Lindsay Winner",
+   "ticker": "KXNHL1PBTTS",
+   "title": "NHL Both Teams to Score in 1st Period",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -292,8 +381,8 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHL3P",
-   "title": "NHL 3rd Period Winner",
+   "ticker": "KXNHL1PSPREAD",
+   "title": "1st Period Spread",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -302,28 +391,8 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNCAAH",
-   "title": "College Hockey National Champion",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'NCAA'"
-  },
-  {
-   "ticker": "KXWOMHOCKEYFGOAL",
-   "title": "Winter Olympics Hockey First Goal",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'OLYMPIC'"
-  },
-  {
-   "ticker": "KXNHLNEXTGM",
-   "title": "Next NHL GM",
+   "ticker": "KXNHLAST",
+   "title": "Pro Hockey Assists",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -332,28 +401,8 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHLTEAMTOTAL",
-   "title": "NHL Team Goals Scored During Game",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLFIRSTGOAL",
-   "title": "NHL First Goal",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXWOWHOCKEY",
-   "title": "Winter Olympics Women's Hockey",
+   "ticker": "KXWOHOCKEY",
+   "title": "Winter Olympics Hockey",
    "category": "Sports",
    "tags": [
     "Hockey",
@@ -363,85 +412,24 @@
    "reason": "non-NHL hockey marker 'OLYMPIC'"
   },
   {
-   "ticker": "KXNBANHL",
-   "title": "NBA + NHL Champion Combo",
+   "ticker": "KXNCAAHOCKEYGAME",
+   "title": "College Hockey Game",
    "category": "Sports",
    "tags": [
-    "Hockey",
-    "Basketball"
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'NCAA'"
+  },
+  {
+   "ticker": "KXNEXTTEAMNHL",
+   "title": "Next Team NHL",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
    ],
    "is_nhl": true,
    "reason": "title mentions NHL"
-  },
-  {
-   "ticker": "KXNHLCALDER",
-   "title": "NHL Calder Memorial Trophy",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLPSEASONGOALS",
-   "title": "Player Goals Scored in Season",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLCENTRAL",
-   "title": "NHL Central Division Winner",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLSEASONGOALS",
-   "title": "Player to score X Goals in Season",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXLIIGA",
-   "title": "Liiga Champion",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'LIIGA'"
-  },
-  {
-   "ticker": "KXNHL1P",
-   "title": "NHL 1st Period Winner",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXWOMHOCKEYGOAL",
-   "title": "Olympic Hockey Goalscorer",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'OLYMPIC'"
   },
   {
    "ticker": "KXLIGMAGGAME",
@@ -464,8 +452,257 @@
    "reason": "non-NHL hockey marker 'SHL'"
   },
   {
-   "ticker": "KXNHLPRES",
-   "title": "NHL President's Trophy Winner",
+   "ticker": "KXNHL30COMEBACK",
+   "title": "NHL 3-0 Series Comeback",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLROSS",
+   "title": "NHL Art Ross Trophy",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLLINDSAY",
+   "title": "NHL Ted Lindsay Winner",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXINTHOCKEY",
+   "title": "International Hockey",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "no NHL marker"
+  },
+  {
+   "ticker": "KXWOMHOCKEYFIRSTGOAL",
+   "title": "Winter Olympics Hockey First Goal",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'OLYMPIC'"
+  },
+  {
+   "ticker": "KXNHLMENTION",
+   "title": "NHL Announcer Mentions",
+   "category": "Mentions",
+   "tags": [
+    "Sports"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLSERIESSCORE",
+   "title": "NHL Series Exact Score",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHL3PSPREAD",
+   "title": "NHL 3rd Period Spread",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLRECORDWORST",
+   "title": "Worst NHL Record",
+   "category": "Sports",
+   "tags": null,
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXWOMHOCKEYSPREAD",
+   "title": "Winter Olympics Men's Hockey Spread",
+   "category": "Sports",
+   "tags": [
+    "Hockey",
+    "Olympics"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'OLYMPIC'"
+  },
+  {
+   "ticker": "KXNHLNORRIS",
+   "title": "NHL James Norris Memorial Trophy",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXLIIGA",
+   "title": "Liiga Champion",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'LIIGA'"
+  },
+  {
+   "ticker": "KXNHLNEXTGM",
+   "title": "Next NHL GM",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLSERIES",
+   "title": "NHL Series Winner",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXTEAMSINSC",
+   "title": "Teams in Stanley Cup",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "NHL trophy/futures marker"
+  },
+  {
+   "ticker": "KXNHLSERIESTOTALGOALS",
+   "title": "NHL Series Total Goals",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLPRICE",
+   "title": "NHL Ticket Prices",
+   "category": "Financials",
+   "tags": [
+    "Product launches"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHL3PBTTS",
+   "title": "NHL Both Teams to Score in 3rd Period",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLSEASONPTS",
+   "title": "NHL Season Point Totals",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXLIIGAGAME",
+   "title": "Liiga Game",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'LIIGA'"
+  },
+  {
+   "ticker": "KXNHLGAME",
+   "title": "NHL Game",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXEARNINGSMENTIONHLT",
+   "title": "HILTON",
+   "category": "Mentions",
+   "tags": [
+    "Earnings"
+   ],
+   "is_nhl": false,
+   "reason": "no NHL marker"
+  },
+  {
+   "ticker": "KXNHLANYGOAL",
+   "title": "Pro Hockey Goalscorer",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLSERIESGAMES",
+   "title": "NHL Series Total Games",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLRICHARD",
+   "title": "NHL Maurice \"Rocket\" Richard Trophy",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLCENTRAL",
+   "title": "NHL Central Division Winner",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -484,26 +721,6 @@
    "reason": "non-NHL hockey marker 'CHL'"
   },
   {
-   "ticker": "KXNHLEAST",
-   "title": "Eastern Conference Championship",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXCANADACUP",
-   "title": "Canada winning Stanley Cup",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "NHL trophy/futures marker"
-  },
-  {
    "ticker": "KXNHLSAVE",
    "title": "Goaltender Saves",
    "category": "Sports",
@@ -514,8 +731,18 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHLOT",
-   "title": "NHL Overtime",
+   "ticker": "KXPHLGAME",
+   "title": "Polish Hockey Game",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "no NHL marker"
+  },
+  {
+   "ticker": "KXNHLPLAYOFFGOALS",
+   "title": "NHL Playoffs Goal Leader (by Round)",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -524,8 +751,8 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHL3PBTTS",
-   "title": "NHL Both Teams to Score in 3rd Period",
+   "ticker": "KXNHL2PTOTAL",
+   "title": "2nd Period Total",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -534,8 +761,118 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHLPTS",
-   "title": "Pro Hockey Points",
+   "ticker": "KXKHLGAME",
+   "title": "KHL Game",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'KHL'"
+  },
+  {
+   "ticker": "KXNHLSERIESOT",
+   "title": "NHL Series Overtime",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLDRAFTPICK",
+   "title": "Pro Hockey Draft Pick",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLF10G",
+   "title": "NHL Goal in First 10 Minutes",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHL2PSPREAD",
+   "title": "2nd Period Spread",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLPRES",
+   "title": "NHL President's Trophy Winner",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHL1P",
+   "title": "NHL 1st Period Winner",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHL1PTOTAL",
+   "title": "NHL 1st Period Total",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLTEAMTOTAL",
+   "title": "NHL Team Goals Scored During Game",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLMETROPOLITAN",
+   "title": "NHL Metropolitan Division Winner",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXHOBEYBAKER",
+   "title": "Hobey Baker Award",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "no NHL marker"
+  },
+  {
+   "ticker": "KXNHLEXPANSION",
+   "title": "NHL Expansion",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -564,95 +901,28 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHLRICHARD",
-   "title": "NHL Maurice \"Rocket\" Richard Trophy",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXDEL",
-   "title": "DEL Champion",
+   "ticker": "KXNCAAHGAME",
+   "title": "College Hockey Game",
    "category": "Sports",
    "tags": [
     "Hockey"
    ],
    "is_nhl": false,
-   "reason": "non-NHL hockey marker 'DEL '"
+   "reason": "non-NHL hockey marker 'NCAA'"
   },
   {
-   "ticker": "KXNHLRECORDWORST",
-   "title": "Worst NHL Record",
-   "category": "Sports",
-   "tags": null,
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXELH",
-   "title": "ELH Champion",
+   "ticker": "KXWOWHOCKEY",
+   "title": "Winter Olympics Women's Hockey",
    "category": "Sports",
    "tags": [
-    "Hockey"
+    "Hockey",
+    "Olympics"
    ],
    "is_nhl": false,
-   "reason": "no NHL marker"
+   "reason": "non-NHL hockey marker 'OLYMPIC'"
   },
   {
-   "ticker": "KXNHLSAVES",
-   "title": "Pro Hockey Saves",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLPRICE",
-   "title": "NHL Ticket Prices",
-   "category": "Financials",
-   "tags": [
-    "Product launches"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLROSS",
-   "title": "NHL Art Ross Trophy",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHL2OT",
-   "title": "NHL Double Overtime",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLWSTREAK",
-   "title": "Longest NHL win streak in regular season",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLSERIESTOTALGOALS",
+   "ticker": "KXNHLSERIESTOTALGOAL",
    "title": "NHL Series Total Goals",
    "category": "Sports",
    "tags": [
@@ -662,8 +932,8 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHL2P",
-   "title": "NHL 2nd Period Winner",
+   "ticker": "KXNHLSEASONGOALS",
+   "title": "Player to score X Goals in Season",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -682,8 +952,8 @@
    "reason": "no NHL marker"
   },
   {
-   "ticker": "KXNHLSERIES",
-   "title": "NHL Series Winner",
+   "ticker": "KXNHLSAVES",
+   "title": "Pro Hockey Saves",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -692,185 +962,15 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHLSERIESOT",
-   "title": "NHL Series Overtime",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLSERIESGAMES",
-   "title": "NHL Series Total Games",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHL4NATIONS",
-   "title": "4 nations face off",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLSERIESSPREAD",
-   "title": "NHL Series Game Spread",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXELHGAME",
-   "title": "ELH Game",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "no NHL marker"
-  },
-  {
-   "ticker": "KXNHL1PBTTS",
-   "title": "NHL Both Teams to Score in 1st Period",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHL30COMEBACK",
-   "title": "NHL 3-0 Series Comeback",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHL1STTEAM",
-   "title": "All NHL First Team",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNEXTTEAMNHL",
-   "title": "Next Team NHL",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "title mentions NHL"
-  },
-  {
-   "ticker": "KXNHLWEST",
-   "title": "Western Conference Champion",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLMETROPOLITAN",
-   "title": "NHL Metropolitan Division Winner",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXPHLGAME",
-   "title": "Polish Hockey Game",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "no NHL marker"
-  },
-  {
-   "ticker": "KXNCAAHGAME",
-   "title": "College Hockey Game",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'NCAA'"
-  },
-  {
-   "ticker": "KXNHLOVERTIME",
-   "title": "NHL Overtime",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLPLAYOFF",
-   "title": "Playoff Qualifier",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXWOHOCKEY",
-   "title": "Winter Olympics Hockey",
+   "ticker": "KXNBANHL",
+   "title": "NBA + NHL Champion Combo",
    "category": "Sports",
    "tags": [
     "Hockey",
-    "Olympics"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'OLYMPIC'"
-  },
-  {
-   "ticker": "KXCONNSMYTHE",
-   "title": "Conn Smythe trophy",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
+    "Basketball"
    ],
    "is_nhl": true,
-   "reason": "NHL trophy/futures marker"
-  },
-  {
-   "ticker": "KXIIHFCHAMP",
-   "title": "IIHF World Championship winner",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'IIHF'"
+   "reason": "title mentions NHL"
   },
   {
    "ticker": "KXKHL",
@@ -883,44 +983,24 @@
    "reason": "non-NHL hockey marker 'KHL'"
   },
   {
-   "ticker": "KXWO-HOCKEY",
-   "title": "Winter Olympics Hockey",
+   "ticker": "KXCANADACUP",
+   "title": "Canada winning Stanley Cup",
    "category": "Sports",
    "tags": [
-    "Olympics"
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "NHL trophy/futures marker"
+  },
+  {
+   "ticker": "KXAHLGAME",
+   "title": "AHL Game",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
    ],
    "is_nhl": false,
-   "reason": "non-NHL hockey marker 'OLYMPIC'"
-  },
-  {
-   "ticker": "KXNHLANYGOAL",
-   "title": "Pro Hockey Goalscorer",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLMENTION",
-   "title": "NHL Announcer Mentions",
-   "category": "Mentions",
-   "tags": [
-    "Sports"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLSPREAD",
-   "title": "NHL Spread",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
+   "reason": "non-NHL hockey marker 'AHL'"
   },
   {
    "ticker": "KXIIHF",
@@ -933,128 +1013,18 @@
    "reason": "non-NHL hockey marker 'IIHF'"
   },
   {
-   "ticker": "KXNHLFINALSEXACT",
-   "title": "NHL Championship Series Score",
+   "ticker": "KXWO-HOCKEY",
+   "title": "Winter Olympics Hockey",
    "category": "Sports",
    "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHL3PSPREAD",
-   "title": "NHL 3rd Period Spread",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXIIHFGAME",
-   "title": "IIHF Game",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
+    "Olympics"
    ],
    "is_nhl": false,
-   "reason": "non-NHL hockey marker 'IIHF'"
+   "reason": "non-NHL hockey marker 'OLYMPIC'"
   },
   {
-   "ticker": "KXNHL1PSPREAD",
-   "title": "1st Period Spread",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLPLAYOFFGOALS",
-   "title": "NHL Playoffs Goal Leader (by Round)",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLSERIESTOTALGOAL",
-   "title": "NHL Series Total Goals",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLEXPANSION",
-   "title": "NHL Expansion",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXDELGAME",
-   "title": "DEL Game",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'DEL '"
-  },
-  {
-   "ticker": "KXNCAAHOCKEYGAME",
-   "title": "College Hockey Game",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'NCAA'"
-  },
-  {
-   "ticker": "KXNHLMVP",
-   "title": "NHL Hart Memorial Trophy Winner",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHL1PTOTAL",
-   "title": "NHL 1st Period Total",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLSERIESSCORE",
-   "title": "NHL Series Exact Score",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLF10G",
-   "title": "NHL Goal in First 10 Minutes",
+   "ticker": "KXNHLRETIRE",
+   "title": "NHL Retire",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -1073,8 +1043,38 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHLGAME",
-   "title": "NHL Game",
+   "ticker": "KXELHGAME",
+   "title": "ELH Game",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "no NHL marker"
+  },
+  {
+   "ticker": "KXIIHFCHAMP",
+   "title": "IIHF World Championship winner",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'IIHF'"
+  },
+  {
+   "ticker": "KXNHLADAMS",
+   "title": "NHL Jack Adams Award",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHL3P",
+   "title": "NHL 3rd Period Winner",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -1093,28 +1093,18 @@
    "reason": "ticker prefix KXNHL"
   },
   {
-   "ticker": "KXNHLTOTAL",
-   "title": "NHL Total Goals",
+   "ticker": "KXDELGAME",
+   "title": "DEL Game",
    "category": "Sports",
    "tags": [
     "Hockey"
    ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'DEL '"
   },
   {
-   "ticker": "KXNHL2PTOTAL",
-   "title": "2nd Period Total",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXINTHOCKEY",
-   "title": "International Hockey",
+   "ticker": "KXNL",
+   "title": "National League Champion",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -1123,45 +1113,14 @@
    "reason": "no NHL marker"
   },
   {
-   "ticker": "KXWOMHOCKEYTOTAL",
-   "title": "Winter Olympics Men's Hockey Goal Total",
-   "category": "Sports",
-   "tags": [
-    "Hockey",
-    "Olympics"
-   ],
-   "is_nhl": false,
-   "reason": "non-NHL hockey marker 'OLYMPIC'"
-  },
-  {
-   "ticker": "KXNHLSEASONPPTS",
-   "title": "Season Player Points",
+   "ticker": "KXCONNSMYTHE",
+   "title": "Conn Smythe trophy",
    "category": "Sports",
    "tags": [
     "Hockey"
    ],
    "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLDRAFTTOP",
-   "title": "Pro Hockey Top Pick",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
-  },
-  {
-   "ticker": "KXNHLNEXTTEAM",
-   "title": "NHL Next Team",
-   "category": "Sports",
-   "tags": [
-    "Hockey"
-   ],
-   "is_nhl": true,
-   "reason": "ticker prefix KXNHL"
+   "reason": "NHL trophy/futures marker"
   },
   {
    "ticker": "KXSHL",
@@ -1174,8 +1133,59 @@
    "reason": "non-NHL hockey marker 'SHL'"
   },
   {
-   "ticker": "KXNHLADAMS",
-   "title": "NHL Jack Adams Award",
+   "ticker": "KXWOMHOCKEYMVP",
+   "title": "Men's Winter Olympics Hockey MVP",
+   "category": "Sports",
+   "tags": [
+    "Hockey",
+    "Olympics"
+   ],
+   "is_nhl": false,
+   "reason": "non-NHL hockey marker 'OLYMPIC'"
+  },
+  {
+   "ticker": "KXNHLPSEASONGOALS",
+   "title": "Player Goals Scored in Season",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLWSTREAK",
+   "title": "Longest NHL win streak in regular season",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHL2P",
+   "title": "NHL 2nd Period Winner",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHLWINS",
+   "title": "NHL wins ",
+   "category": "Sports",
+   "tags": [
+    "Hockey"
+   ],
+   "is_nhl": true,
+   "reason": "ticker prefix KXNHL"
+  },
+  {
+   "ticker": "KXNHL4NATIONS",
+   "title": "4 nations face off",
    "category": "Sports",
    "tags": [
     "Hockey"
@@ -1407,59 +1417,63 @@
    "family": "period_winner",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 42,
+    "open": 51,
     "unopened": 0
    },
    "strike_types": {
-    "structured": 42
+    "structured": 51
    },
    "market_types": {
-    "binary": 42
+    "binary": 51
    },
    "title_templates": {
-    "#st period tie": 14,
+    "#st period tie": 17,
+    "NAME I wins the #st period": 1,
+    "NAME wins the #st period": 5,
+    "Utah wins the #st period": 2,
+    "St. Louis wins the #st period": 1,
+    "Chicago wins the #st period": 1,
+    "Buffalo wins the #st period": 2,
+    "Winnipeg wins the #st period": 1,
+    "Dallas wins the #st period": 1,
+    "Florida wins the #st period": 1,
+    "Detroit wins the #st period": 1,
+    "Ottawa wins the #st period": 1,
+    "Colorado wins the #st period": 1,
+    "Columbus wins the #st period": 1,
+    "Washington wins the #st period": 1,
+    "Toronto wins the #st period": 1,
+    "Minnesota wins the #st period": 1,
+    "Montreal wins the #st period": 1,
+    "Boston wins the #st period": 1,
     "Seattle wins the #st period": 1,
     "Carolina wins the #st period": 1,
-    "Nashville wins the #st period": 2,
+    "Nashville wins the #st period": 1,
     "Anaheim wins the #st period": 1,
     "Vegas wins the #st period": 1,
-    "Utah wins the #st period": 1,
-    "NAME wins the #st period": 4,
     "Pittsburgh wins the #st period": 1,
     "Philadelphia wins the #st period": 1,
     "Edmonton wins the #st period": 1,
-    "Buffalo wins the #st period": 1,
     "NAME R wins the #st period": 1,
-    "Calgary wins the #st period": 1,
-    "St. Louis wins the #st period": 1,
-    "Detroit wins the #st period": 1,
-    "Winnipeg wins the #st period": 1,
-    "Florida wins the #st period": 1,
-    "Columbus wins the #st period": 1,
-    "Washington wins the #st period": 1,
-    "Ottawa wins the #st period": 1,
-    "Montreal wins the #st period": 1,
-    "Minnesota wins the #st period": 1,
-    "Toronto wins the #st period": 1,
-    "Colorado wins the #st period": 1
+    "Calgary wins the #st period": 1
    },
    "sample_tickers": [
-    "KXNHL1P-26NOV12CARSEA-TIE",
-    "KXNHL1P-26NOV12CARSEA-SEA",
-    "KXNHL1P-26NOV12CARSEA-CAR",
-    "KXNHL1P-26NOV11NSHANA-TIE",
-    "KXNHL1P-26NOV11NSHANA-NSH",
-    "KXNHL1P-26NOV11NSHANA-ANA",
-    "KXNHL1P-26NOV11UTAVGK-VGK",
-    "KXNHL1P-26NOV11UTAVGK-UTA",
-    "KXNHL1P-26NOV11UTAVGK-TIE",
-    "KXNHL1P-26NOV11PITSJ-TIE",
-    "KXNHL1P-26NOV11PITSJ-SJ",
-    "KXNHL1P-26NOV11PITSJ-PIT"
+    "KXNHL1P-26NOV12NYILA-TIE",
+    "KXNHL1P-26NOV12NYILA-NYI",
+    "KXNHL1P-26NOV12NYILA-LA",
+    "KXNHL1P-26NOV12STLUTA-UTA",
+    "KXNHL1P-26NOV12STLUTA-TIE",
+    "KXNHL1P-26NOV12STLUTA-STL",
+    "KXNHL1P-26NOV12BUFCHI-TIE",
+    "KXNHL1P-26NOV12BUFCHI-CHI",
+    "KXNHL1P-26NOV12BUFCHI-BUF",
+    "KXNHL1P-26NOV12WPGDAL-WPG",
+    "KXNHL1P-26NOV12WPGDAL-TIE",
+    "KXNHL1P-26NOV12WPGDAL-DAL"
    ],
    "sample_market": {
-    "ticker": "KXNHL1P-26NOV12CARSEA-TIE",
-    "event_ticker": "KXNHL1P-26NOV12CARSEA",
+    "ticker": "KXNHL1P-26NOV12NYILA-TIE",
+    "event_ticker": "KXNHL1P-26NOV12NYILA",
     "market_type": "binary",
     "title": "1st period tie",
     "yes_sub_title": "Tie",
@@ -1469,14 +1483,14 @@
      "hockey_team": "570eabab-1214-4e50-a26c-880318169cce"
     },
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If neither team wins the 1st period of the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If neither team wins the 1st period of the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 42
+    "high": 51
    },
    "errors": []
   },
@@ -1517,76 +1531,80 @@
    "family": "period_spread",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 28,
+    "open": 34,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 28
+    "greater": 34
    },
    "market_types": {
-    "binary": 28
+    "binary": 34
    },
    "title_templates": {
+    "NAME I wins #st Period by over # goals": 1,
+    "NAME wins #st Period by over # goals": 5,
+    "Utah wins #st Period by over # goals": 2,
+    "St. Louis wins #st Period by over # goals": 1,
+    "Chicago wins #st Period by over # goals": 1,
+    "Buffalo wins #st Period by over # goals": 2,
+    "Winnipeg wins #st Period by over # goals": 1,
+    "Dallas wins #st Period by over # goals": 1,
+    "Florida wins #st Period by over # goals": 1,
+    "Detroit wins #st Period by over # goals": 1,
+    "Ottawa wins #st Period by over # goals": 1,
+    "Colorado wins #st Period by over # goals": 1,
+    "Columbus wins #st Period by over # goals": 1,
+    "Washington wins #st Period by over # goals": 1,
+    "Toronto wins #st Period by over # goals": 1,
+    "Minnesota wins #st Period by over # goals": 1,
+    "Montreal wins #st Period by over # goals": 1,
+    "Boston wins #st Period by over # goals": 1,
     "Seattle wins #st Period by over # goals": 1,
     "Carolina wins #st Period by over # goals": 1,
-    "Nashville wins #st Period by over # goals": 2,
+    "Nashville wins #st Period by over # goals": 1,
     "Anaheim wins #st Period by over # goals": 1,
     "Vegas wins #st Period by over # goals": 1,
-    "Utah wins #st Period by over # goals": 1,
-    "NAME wins #st Period by over # goals": 4,
     "Pittsburgh wins #st Period by over # goals": 1,
     "Philadelphia wins #st Period by over # goals": 1,
     "Edmonton wins #st Period by over # goals": 1,
-    "Buffalo wins #st Period by over # goals": 1,
     "NAME R wins #st Period by over # goals": 1,
-    "Calgary wins #st Period by over # goals": 1,
-    "St. Louis wins #st Period by over # goals": 1,
-    "Detroit wins #st Period by over # goals": 1,
-    "Winnipeg wins #st Period by over # goals": 1,
-    "Florida wins #st Period by over # goals": 1,
-    "Columbus wins #st Period by over # goals": 1,
-    "Washington wins #st Period by over # goals": 1,
-    "Ottawa wins #st Period by over # goals": 1,
-    "Montreal wins #st Period by over # goals": 1,
-    "Minnesota wins #st Period by over # goals": 1,
-    "Toronto wins #st Period by over # goals": 1,
-    "Colorado wins #st Period by over # goals": 1
+    "Calgary wins #st Period by over # goals": 1
    },
    "sample_tickers": [
-    "KXNHL1PSPREAD-26NOV12CARSEA-SEA2",
-    "KXNHL1PSPREAD-26NOV12CARSEA-CAR2",
-    "KXNHL1PSPREAD-26NOV11NSHANA-NSH2",
-    "KXNHL1PSPREAD-26NOV11NSHANA-ANA2",
-    "KXNHL1PSPREAD-26NOV11UTAVGK-VGK2",
-    "KXNHL1PSPREAD-26NOV11UTAVGK-UTA2",
-    "KXNHL1PSPREAD-26NOV11PITSJ-SJ2",
-    "KXNHL1PSPREAD-26NOV11PITSJ-PIT2",
-    "KXNHL1PSPREAD-26NOV11PHIEDM-PHI2",
-    "KXNHL1PSPREAD-26NOV11PHIEDM-EDM2",
-    "KXNHL1PSPREAD-26NOV11TBBUF-TB2",
-    "KXNHL1PSPREAD-26NOV11TBBUF-BUF2"
+    "KXNHL1PSPREAD-26NOV12NYILA-NYI2",
+    "KXNHL1PSPREAD-26NOV12NYILA-LA2",
+    "KXNHL1PSPREAD-26NOV12STLUTA-UTA2",
+    "KXNHL1PSPREAD-26NOV12STLUTA-STL2",
+    "KXNHL1PSPREAD-26NOV12BUFCHI-CHI2",
+    "KXNHL1PSPREAD-26NOV12BUFCHI-BUF2",
+    "KXNHL1PSPREAD-26NOV12WPGDAL-WPG2",
+    "KXNHL1PSPREAD-26NOV12WPGDAL-DAL2",
+    "KXNHL1PSPREAD-26NOV12DETFLA-FLA2",
+    "KXNHL1PSPREAD-26NOV12DETFLA-DET2",
+    "KXNHL1PSPREAD-26NOV12COLOTT-OTT2",
+    "KXNHL1PSPREAD-26NOV12COLOTT-COL2"
    ],
    "sample_market": {
-    "ticker": "KXNHL1PSPREAD-26NOV12CARSEA-SEA2",
-    "event_ticker": "KXNHL1PSPREAD-26NOV12CARSEA",
+    "ticker": "KXNHL1PSPREAD-26NOV12NYILA-NYI2",
+    "event_ticker": "KXNHL1PSPREAD-26NOV12NYILA",
     "market_type": "binary",
-    "title": "Seattle wins 1st Period by over 1.5 goals",
-    "yes_sub_title": "Seattle wins by over 1.5 goals",
-    "no_sub_title": "Seattle wins by over 1.5 goals",
+    "title": "New York I wins 1st Period by over 1.5 goals",
+    "yes_sub_title": "New York I wins by over 1.5 goals",
+    "no_sub_title": "New York I wins by over 1.5 goals",
     "strike_type": "greater",
     "floor_strike": 1.5,
     "custom_strike": {
-     "hockey_team": "2ed1104c-eb5a-4175-9f05-0561caaa59d2"
+     "hockey_team": "03f52887-5bb7-4b51-954e-433f73474350"
     },
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If Seattle wins by more than 1.5 goals in the 1st period of the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If New York I wins by more than 1.5 goals in the 1st period of the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 28
+    "high": 34
    },
    "errors": []
   },
@@ -1603,35 +1621,35 @@
    "family": "period_total",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 42,
+    "open": 51,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 42
+    "greater": 51
    },
    "market_types": {
-    "binary": 42
+    "binary": 51
    },
    "title_templates": {
-    "#st Period: Over # goals scored": 42
+    "#st Period: Over # goals scored": 51
    },
    "sample_tickers": [
-    "KXNHL1PTOTAL-26NOV12CARSEA-3",
-    "KXNHL1PTOTAL-26NOV12CARSEA-2",
-    "KXNHL1PTOTAL-26NOV12CARSEA-1",
-    "KXNHL1PTOTAL-26NOV11NSHANA-3",
-    "KXNHL1PTOTAL-26NOV11NSHANA-2",
-    "KXNHL1PTOTAL-26NOV11NSHANA-1",
-    "KXNHL1PTOTAL-26NOV11UTAVGK-3",
-    "KXNHL1PTOTAL-26NOV11UTAVGK-2",
-    "KXNHL1PTOTAL-26NOV11UTAVGK-1",
-    "KXNHL1PTOTAL-26NOV11PITSJ-3",
-    "KXNHL1PTOTAL-26NOV11PITSJ-2",
-    "KXNHL1PTOTAL-26NOV11PITSJ-1"
+    "KXNHL1PTOTAL-26NOV12NYILA-3",
+    "KXNHL1PTOTAL-26NOV12NYILA-2",
+    "KXNHL1PTOTAL-26NOV12NYILA-1",
+    "KXNHL1PTOTAL-26NOV12STLUTA-3",
+    "KXNHL1PTOTAL-26NOV12STLUTA-2",
+    "KXNHL1PTOTAL-26NOV12STLUTA-1",
+    "KXNHL1PTOTAL-26NOV12BUFCHI-3",
+    "KXNHL1PTOTAL-26NOV12BUFCHI-2",
+    "KXNHL1PTOTAL-26NOV12BUFCHI-1",
+    "KXNHL1PTOTAL-26NOV12WPGDAL-3",
+    "KXNHL1PTOTAL-26NOV12WPGDAL-2",
+    "KXNHL1PTOTAL-26NOV12WPGDAL-1"
    ],
    "sample_market": {
-    "ticker": "KXNHL1PTOTAL-26NOV12CARSEA-3",
-    "event_ticker": "KXNHL1PTOTAL-26NOV12CARSEA",
+    "ticker": "KXNHL1PTOTAL-26NOV12NYILA-3",
+    "event_ticker": "KXNHL1PTOTAL-26NOV12NYILA",
     "market_type": "binary",
     "title": "1st Period: Over 2.5 goals scored",
     "yes_sub_title": "Over 2.5 goals",
@@ -1639,14 +1657,14 @@
     "strike_type": "greater",
     "floor_strike": 2.5,
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If the teams collectively score more than 2.5 goals in the 1st Period of the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If the teams collectively score more than 2.5 goals in the 1st Period of the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 42
+    "high": 51
    },
    "errors": []
   },
@@ -1711,59 +1729,63 @@
    "family": "period_winner",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 42,
+    "open": 51,
     "unopened": 0
    },
    "strike_types": {
-    "structured": 42
+    "structured": 51
    },
    "market_types": {
-    "binary": 42
+    "binary": 51
    },
    "title_templates": {
-    "#nd period tie": 14,
+    "#nd period tie": 17,
+    "NAME I wins the #nd period": 1,
+    "NAME wins the #nd period": 5,
+    "Utah wins the #nd period": 2,
+    "St. Louis wins the #nd period": 1,
+    "Chicago wins the #nd period": 1,
+    "Buffalo wins the #nd period": 2,
+    "Winnipeg wins the #nd period": 1,
+    "Dallas wins the #nd period": 1,
+    "Florida wins the #nd period": 1,
+    "Detroit wins the #nd period": 1,
+    "Ottawa wins the #nd period": 1,
+    "Colorado wins the #nd period": 1,
+    "Columbus wins the #nd period": 1,
+    "Washington wins the #nd period": 1,
+    "Toronto wins the #nd period": 1,
+    "Minnesota wins the #nd period": 1,
+    "Montreal wins the #nd period": 1,
+    "Boston wins the #nd period": 1,
     "Seattle wins the #nd period": 1,
     "Carolina wins the #nd period": 1,
-    "Nashville wins the #nd period": 2,
+    "Nashville wins the #nd period": 1,
     "Anaheim wins the #nd period": 1,
     "Vegas wins the #nd period": 1,
-    "Utah wins the #nd period": 1,
-    "NAME wins the #nd period": 4,
     "Pittsburgh wins the #nd period": 1,
     "Philadelphia wins the #nd period": 1,
     "Edmonton wins the #nd period": 1,
-    "Buffalo wins the #nd period": 1,
     "NAME R wins the #nd period": 1,
-    "Calgary wins the #nd period": 1,
-    "St. Louis wins the #nd period": 1,
-    "Detroit wins the #nd period": 1,
-    "Winnipeg wins the #nd period": 1,
-    "Florida wins the #nd period": 1,
-    "Columbus wins the #nd period": 1,
-    "Washington wins the #nd period": 1,
-    "Ottawa wins the #nd period": 1,
-    "Montreal wins the #nd period": 1,
-    "Minnesota wins the #nd period": 1,
-    "Toronto wins the #nd period": 1,
-    "Colorado wins the #nd period": 1
+    "Calgary wins the #nd period": 1
    },
    "sample_tickers": [
-    "KXNHL2P-26NOV12CARSEA-TIE",
-    "KXNHL2P-26NOV12CARSEA-SEA",
-    "KXNHL2P-26NOV12CARSEA-CAR",
-    "KXNHL2P-26NOV11NSHANA-TIE",
-    "KXNHL2P-26NOV11NSHANA-NSH",
-    "KXNHL2P-26NOV11NSHANA-ANA",
-    "KXNHL2P-26NOV11UTAVGK-VGK",
-    "KXNHL2P-26NOV11UTAVGK-UTA",
-    "KXNHL2P-26NOV11UTAVGK-TIE",
-    "KXNHL2P-26NOV11PITSJ-TIE",
-    "KXNHL2P-26NOV11PITSJ-SJ",
-    "KXNHL2P-26NOV11PITSJ-PIT"
+    "KXNHL2P-26NOV12NYILA-TIE",
+    "KXNHL2P-26NOV12NYILA-NYI",
+    "KXNHL2P-26NOV12NYILA-LA",
+    "KXNHL2P-26NOV12STLUTA-UTA",
+    "KXNHL2P-26NOV12STLUTA-TIE",
+    "KXNHL2P-26NOV12STLUTA-STL",
+    "KXNHL2P-26NOV12BUFCHI-TIE",
+    "KXNHL2P-26NOV12BUFCHI-CHI",
+    "KXNHL2P-26NOV12BUFCHI-BUF",
+    "KXNHL2P-26NOV12WPGDAL-WPG",
+    "KXNHL2P-26NOV12WPGDAL-TIE",
+    "KXNHL2P-26NOV12WPGDAL-DAL"
    ],
    "sample_market": {
-    "ticker": "KXNHL2P-26NOV12CARSEA-TIE",
-    "event_ticker": "KXNHL2P-26NOV12CARSEA",
+    "ticker": "KXNHL2P-26NOV12NYILA-TIE",
+    "event_ticker": "KXNHL2P-26NOV12NYILA",
     "market_type": "binary",
     "title": "2nd period tie",
     "yes_sub_title": "Tie",
@@ -1773,14 +1795,14 @@
      "hockey_team": "570eabab-1214-4e50-a26c-880318169cce"
     },
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If neither team wins the 2nd period of the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If neither team wins the 2nd period of the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 42
+    "high": 51
    },
    "errors": []
   },
@@ -1821,76 +1843,80 @@
    "family": "period_spread",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 28,
+    "open": 34,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 28
+    "greater": 34
    },
    "market_types": {
-    "binary": 28
+    "binary": 34
    },
    "title_templates": {
+    "NAME I wins #nd Period by over # goals": 1,
+    "NAME wins #nd Period by over # goals": 5,
+    "Utah wins #nd Period by over # goals": 2,
+    "St. Louis wins #nd Period by over # goals": 1,
+    "Chicago wins #nd Period by over # goals": 1,
+    "Buffalo wins #nd Period by over # goals": 2,
+    "Winnipeg wins #nd Period by over # goals": 1,
+    "Dallas wins #nd Period by over # goals": 1,
+    "Florida wins #nd Period by over # goals": 1,
+    "Detroit wins #nd Period by over # goals": 1,
+    "Ottawa wins #nd Period by over # goals": 1,
+    "Colorado wins #nd Period by over # goals": 1,
+    "Columbus wins #nd Period by over # goals": 1,
+    "Washington wins #nd Period by over # goals": 1,
+    "Toronto wins #nd Period by over # goals": 1,
+    "Minnesota wins #nd Period by over # goals": 1,
+    "Montreal wins #nd Period by over # goals": 1,
+    "Boston wins #nd Period by over # goals": 1,
     "Seattle wins #nd Period by over # goals": 1,
     "Carolina wins #nd Period by over # goals": 1,
-    "Nashville wins #nd Period by over # goals": 2,
+    "Nashville wins #nd Period by over # goals": 1,
     "Anaheim wins #nd Period by over # goals": 1,
     "Vegas wins #nd Period by over # goals": 1,
-    "Utah wins #nd Period by over # goals": 1,
-    "NAME wins #nd Period by over # goals": 4,
     "Pittsburgh wins #nd Period by over # goals": 1,
     "Philadelphia wins #nd Period by over # goals": 1,
     "Edmonton wins #nd Period by over # goals": 1,
-    "Buffalo wins #nd Period by over # goals": 1,
     "NAME R wins #nd Period by over # goals": 1,
-    "Calgary wins #nd Period by over # goals": 1,
-    "St. Louis wins #nd Period by over # goals": 1,
-    "Detroit wins #nd Period by over # goals": 1,
-    "Winnipeg wins #nd Period by over # goals": 1,
-    "Florida wins #nd Period by over # goals": 1,
-    "Columbus wins #nd Period by over # goals": 1,
-    "Washington wins #nd Period by over # goals": 1,
-    "Ottawa wins #nd Period by over # goals": 1,
-    "Montreal wins #nd Period by over # goals": 1,
-    "Minnesota wins #nd Period by over # goals": 1,
-    "Toronto wins #nd Period by over # goals": 1,
-    "Colorado wins #nd Period by over # goals": 1
+    "Calgary wins #nd Period by over # goals": 1
    },
    "sample_tickers": [
-    "KXNHL2PSPREAD-26NOV12CARSEA-SEA2",
-    "KXNHL2PSPREAD-26NOV12CARSEA-CAR2",
-    "KXNHL2PSPREAD-26NOV11NSHANA-NSH2",
-    "KXNHL2PSPREAD-26NOV11NSHANA-ANA2",
-    "KXNHL2PSPREAD-26NOV11UTAVGK-VGK2",
-    "KXNHL2PSPREAD-26NOV11UTAVGK-UTA2",
-    "KXNHL2PSPREAD-26NOV11PITSJ-SJ2",
-    "KXNHL2PSPREAD-26NOV11PITSJ-PIT2",
-    "KXNHL2PSPREAD-26NOV11PHIEDM-PHI2",
-    "KXNHL2PSPREAD-26NOV11PHIEDM-EDM2",
-    "KXNHL2PSPREAD-26NOV11TBBUF-TB2",
-    "KXNHL2PSPREAD-26NOV11TBBUF-BUF2"
+    "KXNHL2PSPREAD-26NOV12NYILA-NYI2",
+    "KXNHL2PSPREAD-26NOV12NYILA-LA2",
+    "KXNHL2PSPREAD-26NOV12STLUTA-UTA2",
+    "KXNHL2PSPREAD-26NOV12STLUTA-STL2",
+    "KXNHL2PSPREAD-26NOV12BUFCHI-CHI2",
+    "KXNHL2PSPREAD-26NOV12BUFCHI-BUF2",
+    "KXNHL2PSPREAD-26NOV12WPGDAL-WPG2",
+    "KXNHL2PSPREAD-26NOV12WPGDAL-DAL2",
+    "KXNHL2PSPREAD-26NOV12DETFLA-FLA2",
+    "KXNHL2PSPREAD-26NOV12DETFLA-DET2",
+    "KXNHL2PSPREAD-26NOV12COLOTT-OTT2",
+    "KXNHL2PSPREAD-26NOV12COLOTT-COL2"
    ],
    "sample_market": {
-    "ticker": "KXNHL2PSPREAD-26NOV12CARSEA-SEA2",
-    "event_ticker": "KXNHL2PSPREAD-26NOV12CARSEA",
+    "ticker": "KXNHL2PSPREAD-26NOV12NYILA-NYI2",
+    "event_ticker": "KXNHL2PSPREAD-26NOV12NYILA",
     "market_type": "binary",
-    "title": "Seattle wins 2nd Period by over 1.5 goals",
-    "yes_sub_title": "Seattle wins by over 1.5 goals",
-    "no_sub_title": "Seattle wins by over 1.5 goals",
+    "title": "New York I wins 2nd Period by over 1.5 goals",
+    "yes_sub_title": "New York I wins by over 1.5 goals",
+    "no_sub_title": "New York I wins by over 1.5 goals",
     "strike_type": "greater",
     "floor_strike": 1.5,
     "custom_strike": {
-     "hockey_team": "2ed1104c-eb5a-4175-9f05-0561caaa59d2"
+     "hockey_team": "03f52887-5bb7-4b51-954e-433f73474350"
     },
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If Seattle wins by more than 1.5 goals in the 2nd period of the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If New York I wins by more than 1.5 goals in the 2nd period of the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 28
+    "high": 34
    },
    "errors": []
   },
@@ -1907,35 +1933,35 @@
    "family": "period_total",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 42,
+    "open": 51,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 42
+    "greater": 51
    },
    "market_types": {
-    "binary": 42
+    "binary": 51
    },
    "title_templates": {
-    "#nd Period: Over # goals scored": 42
+    "#nd Period: Over # goals scored": 51
    },
    "sample_tickers": [
-    "KXNHL2PTOTAL-26NOV12CARSEA-3",
-    "KXNHL2PTOTAL-26NOV12CARSEA-2",
-    "KXNHL2PTOTAL-26NOV12CARSEA-1",
-    "KXNHL2PTOTAL-26NOV11NSHANA-3",
-    "KXNHL2PTOTAL-26NOV11NSHANA-2",
-    "KXNHL2PTOTAL-26NOV11NSHANA-1",
-    "KXNHL2PTOTAL-26NOV11UTAVGK-3",
-    "KXNHL2PTOTAL-26NOV11UTAVGK-2",
-    "KXNHL2PTOTAL-26NOV11UTAVGK-1",
-    "KXNHL2PTOTAL-26NOV11PITSJ-3",
-    "KXNHL2PTOTAL-26NOV11PITSJ-2",
-    "KXNHL2PTOTAL-26NOV11PITSJ-1"
+    "KXNHL2PTOTAL-26NOV12NYILA-3",
+    "KXNHL2PTOTAL-26NOV12NYILA-2",
+    "KXNHL2PTOTAL-26NOV12NYILA-1",
+    "KXNHL2PTOTAL-26NOV12STLUTA-3",
+    "KXNHL2PTOTAL-26NOV12STLUTA-2",
+    "KXNHL2PTOTAL-26NOV12STLUTA-1",
+    "KXNHL2PTOTAL-26NOV12BUFCHI-3",
+    "KXNHL2PTOTAL-26NOV12BUFCHI-2",
+    "KXNHL2PTOTAL-26NOV12BUFCHI-1",
+    "KXNHL2PTOTAL-26NOV12WPGDAL-3",
+    "KXNHL2PTOTAL-26NOV12WPGDAL-2",
+    "KXNHL2PTOTAL-26NOV12WPGDAL-1"
    ],
    "sample_market": {
-    "ticker": "KXNHL2PTOTAL-26NOV12CARSEA-3",
-    "event_ticker": "KXNHL2PTOTAL-26NOV12CARSEA",
+    "ticker": "KXNHL2PTOTAL-26NOV12NYILA-3",
+    "event_ticker": "KXNHL2PTOTAL-26NOV12NYILA",
     "market_type": "binary",
     "title": "2nd Period: Over 2.5 goals scored",
     "yes_sub_title": "Over 2.5 goals",
@@ -1943,14 +1969,14 @@
     "strike_type": "greater",
     "floor_strike": 2.5,
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If the teams collectively score more than 2.5 goals in the 2nd Period of the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If the teams collectively score more than 2.5 goals in the 2nd Period of the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 42
+    "high": 51
    },
    "errors": []
   },
@@ -1991,59 +2017,63 @@
    "family": "period_winner",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 42,
+    "open": 51,
     "unopened": 0
    },
    "strike_types": {
-    "structured": 42
+    "structured": 51
    },
    "market_types": {
-    "binary": 42
+    "binary": 51
    },
    "title_templates": {
-    "#rd period tie": 14,
+    "#rd period tie": 17,
+    "NAME I wins the #rd period": 1,
+    "NAME wins the #rd period": 5,
+    "Utah wins the #rd period": 2,
+    "St. Louis wins the #rd period": 1,
+    "Chicago wins the #rd period": 1,
+    "Buffalo wins the #rd period": 2,
+    "Winnipeg wins the #rd period": 1,
+    "Dallas wins the #rd period": 1,
+    "Florida wins the #rd period": 1,
+    "Detroit wins the #rd period": 1,
+    "Ottawa wins the #rd period": 1,
+    "Colorado wins the #rd period": 1,
+    "Columbus wins the #rd period": 1,
+    "Washington wins the #rd period": 1,
+    "Toronto wins the #rd period": 1,
+    "Minnesota wins the #rd period": 1,
+    "Montreal wins the #rd period": 1,
+    "Boston wins the #rd period": 1,
     "Seattle wins the #rd period": 1,
     "Carolina wins the #rd period": 1,
-    "Nashville wins the #rd period": 2,
+    "Nashville wins the #rd period": 1,
     "Anaheim wins the #rd period": 1,
     "Vegas wins the #rd period": 1,
-    "Utah wins the #rd period": 1,
-    "NAME wins the #rd period": 4,
     "Pittsburgh wins the #rd period": 1,
     "Philadelphia wins the #rd period": 1,
     "Edmonton wins the #rd period": 1,
-    "Buffalo wins the #rd period": 1,
     "NAME R wins the #rd period": 1,
-    "Calgary wins the #rd period": 1,
-    "St. Louis wins the #rd period": 1,
-    "Detroit wins the #rd period": 1,
-    "Winnipeg wins the #rd period": 1,
-    "Florida wins the #rd period": 1,
-    "Columbus wins the #rd period": 1,
-    "Washington wins the #rd period": 1,
-    "Ottawa wins the #rd period": 1,
-    "Montreal wins the #rd period": 1,
-    "Minnesota wins the #rd period": 1,
-    "Toronto wins the #rd period": 1,
-    "Colorado wins the #rd period": 1
+    "Calgary wins the #rd period": 1
    },
    "sample_tickers": [
-    "KXNHL3P-26NOV12CARSEA-TIE",
-    "KXNHL3P-26NOV12CARSEA-SEA",
-    "KXNHL3P-26NOV12CARSEA-CAR",
-    "KXNHL3P-26NOV11NSHANA-TIE",
-    "KXNHL3P-26NOV11NSHANA-NSH",
-    "KXNHL3P-26NOV11NSHANA-ANA",
-    "KXNHL3P-26NOV11UTAVGK-VGK",
-    "KXNHL3P-26NOV11UTAVGK-UTA",
-    "KXNHL3P-26NOV11UTAVGK-TIE",
-    "KXNHL3P-26NOV11PITSJ-TIE",
-    "KXNHL3P-26NOV11PITSJ-SJ",
-    "KXNHL3P-26NOV11PITSJ-PIT"
+    "KXNHL3P-26NOV12NYILA-TIE",
+    "KXNHL3P-26NOV12NYILA-NYI",
+    "KXNHL3P-26NOV12NYILA-LA",
+    "KXNHL3P-26NOV12STLUTA-UTA",
+    "KXNHL3P-26NOV12STLUTA-TIE",
+    "KXNHL3P-26NOV12STLUTA-STL",
+    "KXNHL3P-26NOV12BUFCHI-TIE",
+    "KXNHL3P-26NOV12BUFCHI-CHI",
+    "KXNHL3P-26NOV12BUFCHI-BUF",
+    "KXNHL3P-26NOV12WPGDAL-WPG",
+    "KXNHL3P-26NOV12WPGDAL-TIE",
+    "KXNHL3P-26NOV12WPGDAL-DAL"
    ],
    "sample_market": {
-    "ticker": "KXNHL3P-26NOV12CARSEA-TIE",
-    "event_ticker": "KXNHL3P-26NOV12CARSEA",
+    "ticker": "KXNHL3P-26NOV12NYILA-TIE",
+    "event_ticker": "KXNHL3P-26NOV12NYILA",
     "market_type": "binary",
     "title": "3rd period tie",
     "yes_sub_title": "Tie",
@@ -2053,14 +2083,14 @@
      "hockey_team": "570eabab-1214-4e50-a26c-880318169cce"
     },
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If neither team wins the 3rd period (excluding overtime) of the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If neither team wins the 3rd period (excluding overtime) of the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 42
+    "high": 51
    },
    "errors": []
   },
@@ -2101,76 +2131,80 @@
    "family": "period_spread",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 28,
+    "open": 34,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 28
+    "greater": 34
    },
    "market_types": {
-    "binary": 28
+    "binary": 34
    },
    "title_templates": {
+    "NAME I wins #rd Period by over # goals": 1,
+    "NAME wins #rd Period by over # goals": 5,
+    "Utah wins #rd Period by over # goals": 2,
+    "St. Louis wins #rd Period by over # goals": 1,
+    "Chicago wins #rd Period by over # goals": 1,
+    "Buffalo wins #rd Period by over # goals": 2,
+    "Winnipeg wins #rd Period by over # goals": 1,
+    "Dallas wins #rd Period by over # goals": 1,
+    "Florida wins #rd Period by over # goals": 1,
+    "Detroit wins #rd Period by over # goals": 1,
+    "Ottawa wins #rd Period by over # goals": 1,
+    "Colorado wins #rd Period by over # goals": 1,
+    "Columbus wins #rd Period by over # goals": 1,
+    "Washington wins #rd Period by over # goals": 1,
+    "Toronto wins #rd Period by over # goals": 1,
+    "Minnesota wins #rd Period by over # goals": 1,
+    "Montreal wins #rd Period by over # goals": 1,
+    "Boston wins #rd Period by over # goals": 1,
     "Seattle wins #rd Period by over # goals": 1,
     "Carolina wins #rd Period by over # goals": 1,
-    "Nashville wins #rd Period by over # goals": 2,
+    "Nashville wins #rd Period by over # goals": 1,
     "Anaheim wins #rd Period by over # goals": 1,
     "Vegas wins #rd Period by over # goals": 1,
-    "Utah wins #rd Period by over # goals": 1,
-    "NAME wins #rd Period by over # goals": 4,
     "Pittsburgh wins #rd Period by over # goals": 1,
     "Philadelphia wins #rd Period by over # goals": 1,
     "Edmonton wins #rd Period by over # goals": 1,
-    "Buffalo wins #rd Period by over # goals": 1,
     "NAME R wins #rd Period by over # goals": 1,
-    "Calgary wins #rd Period by over # goals": 1,
-    "St. Louis wins #rd Period by over # goals": 1,
-    "Detroit wins #rd Period by over # goals": 1,
-    "Winnipeg wins #rd Period by over # goals": 1,
-    "Florida wins #rd Period by over # goals": 1,
-    "Columbus wins #rd Period by over # goals": 1,
-    "Washington wins #rd Period by over # goals": 1,
-    "Ottawa wins #rd Period by over # goals": 1,
-    "Montreal wins #rd Period by over # goals": 1,
-    "Minnesota wins #rd Period by over # goals": 1,
-    "Toronto wins #rd Period by over # goals": 1,
-    "Colorado wins #rd Period by over # goals": 1
+    "Calgary wins #rd Period by over # goals": 1
    },
    "sample_tickers": [
-    "KXNHL3PSPREAD-26NOV12CARSEA-SEA2",
-    "KXNHL3PSPREAD-26NOV12CARSEA-CAR2",
-    "KXNHL3PSPREAD-26NOV11NSHANA-NSH2",
-    "KXNHL3PSPREAD-26NOV11NSHANA-ANA2",
-    "KXNHL3PSPREAD-26NOV11UTAVGK-VGK2",
-    "KXNHL3PSPREAD-26NOV11UTAVGK-UTA2",
-    "KXNHL3PSPREAD-26NOV11PITSJ-SJ2",
-    "KXNHL3PSPREAD-26NOV11PITSJ-PIT2",
-    "KXNHL3PSPREAD-26NOV11PHIEDM-PHI2",
-    "KXNHL3PSPREAD-26NOV11PHIEDM-EDM2",
-    "KXNHL3PSPREAD-26NOV11TBBUF-TB2",
-    "KXNHL3PSPREAD-26NOV11TBBUF-BUF2"
+    "KXNHL3PSPREAD-26NOV12NYILA-NYI2",
+    "KXNHL3PSPREAD-26NOV12NYILA-LA2",
+    "KXNHL3PSPREAD-26NOV12STLUTA-UTA2",
+    "KXNHL3PSPREAD-26NOV12STLUTA-STL2",
+    "KXNHL3PSPREAD-26NOV12BUFCHI-CHI2",
+    "KXNHL3PSPREAD-26NOV12BUFCHI-BUF2",
+    "KXNHL3PSPREAD-26NOV12WPGDAL-WPG2",
+    "KXNHL3PSPREAD-26NOV12WPGDAL-DAL2",
+    "KXNHL3PSPREAD-26NOV12DETFLA-FLA2",
+    "KXNHL3PSPREAD-26NOV12DETFLA-DET2",
+    "KXNHL3PSPREAD-26NOV12COLOTT-OTT2",
+    "KXNHL3PSPREAD-26NOV12COLOTT-COL2"
    ],
    "sample_market": {
-    "ticker": "KXNHL3PSPREAD-26NOV12CARSEA-SEA2",
-    "event_ticker": "KXNHL3PSPREAD-26NOV12CARSEA",
+    "ticker": "KXNHL3PSPREAD-26NOV12NYILA-NYI2",
+    "event_ticker": "KXNHL3PSPREAD-26NOV12NYILA",
     "market_type": "binary",
-    "title": "Seattle wins 3rd Period by over 1.5 goals",
-    "yes_sub_title": "Seattle wins by over 1.5 goals",
-    "no_sub_title": "Seattle wins by over 1.5 goals",
+    "title": "New York I wins 3rd Period by over 1.5 goals",
+    "yes_sub_title": "New York I wins by over 1.5 goals",
+    "no_sub_title": "New York I wins by over 1.5 goals",
     "strike_type": "greater",
     "floor_strike": 1.5,
     "custom_strike": {
-     "hockey_team": "2ed1104c-eb5a-4175-9f05-0561caaa59d2"
+     "hockey_team": "03f52887-5bb7-4b51-954e-433f73474350"
     },
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If Seattle wins by more than 1.5 goals in the 3rd period (excluding overtime) of the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If New York I wins by more than 1.5 goals in the 3rd period (excluding overtime) of the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 28
+    "high": 34
    },
    "errors": []
   },
@@ -2187,35 +2221,35 @@
    "family": "period_total",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 42,
+    "open": 51,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 42
+    "greater": 51
    },
    "market_types": {
-    "binary": 42
+    "binary": 51
    },
    "title_templates": {
-    "#rd Period: Over # goals scored": 42
+    "#rd Period: Over # goals scored": 51
    },
    "sample_tickers": [
-    "KXNHL3PTOTAL-26NOV12CARSEA-3",
-    "KXNHL3PTOTAL-26NOV12CARSEA-2",
-    "KXNHL3PTOTAL-26NOV12CARSEA-1",
-    "KXNHL3PTOTAL-26NOV11NSHANA-3",
-    "KXNHL3PTOTAL-26NOV11NSHANA-2",
-    "KXNHL3PTOTAL-26NOV11NSHANA-1",
-    "KXNHL3PTOTAL-26NOV11UTAVGK-3",
-    "KXNHL3PTOTAL-26NOV11UTAVGK-2",
-    "KXNHL3PTOTAL-26NOV11UTAVGK-1",
-    "KXNHL3PTOTAL-26NOV11PITSJ-3",
-    "KXNHL3PTOTAL-26NOV11PITSJ-2",
-    "KXNHL3PTOTAL-26NOV11PITSJ-1"
+    "KXNHL3PTOTAL-26NOV12NYILA-3",
+    "KXNHL3PTOTAL-26NOV12NYILA-2",
+    "KXNHL3PTOTAL-26NOV12NYILA-1",
+    "KXNHL3PTOTAL-26NOV12STLUTA-3",
+    "KXNHL3PTOTAL-26NOV12STLUTA-2",
+    "KXNHL3PTOTAL-26NOV12STLUTA-1",
+    "KXNHL3PTOTAL-26NOV12BUFCHI-3",
+    "KXNHL3PTOTAL-26NOV12BUFCHI-2",
+    "KXNHL3PTOTAL-26NOV12BUFCHI-1",
+    "KXNHL3PTOTAL-26NOV12WPGDAL-3",
+    "KXNHL3PTOTAL-26NOV12WPGDAL-2",
+    "KXNHL3PTOTAL-26NOV12WPGDAL-1"
    ],
    "sample_market": {
-    "ticker": "KXNHL3PTOTAL-26NOV12CARSEA-3",
-    "event_ticker": "KXNHL3PTOTAL-26NOV12CARSEA",
+    "ticker": "KXNHL3PTOTAL-26NOV12NYILA-3",
+    "event_ticker": "KXNHL3PTOTAL-26NOV12NYILA",
     "market_type": "binary",
     "title": "3rd Period: Over 2.5 goals scored",
     "yes_sub_title": "Over 2.5 goals",
@@ -2223,14 +2257,14 @@
     "strike_type": "greater",
     "floor_strike": 2.5,
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If the teams collectively score more than 2.5 goals in the 3rd Period of the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If the teams collectively score more than 2.5 goals in the 3rd Period of the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 42
+    "high": 51
    },
    "errors": []
   },
@@ -2361,65 +2395,63 @@
    "family": "player_assists",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 232,
+    "open": 205,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 232
+    "greater": 205
    },
    "market_types": {
-    "binary": 232
+    "binary": 205
    },
    "title_templates": {
-    "NAME: #+ assists": 213,
-    "J.T. Compher: #+ assists": 1,
-    "NAME-Nyg\u00e5rd: #+ assists": 1,
+    "NAME: #+ assists": 188,
+    "Jack McBain: #+ assists": 1,
+    "Brayden McNabb: #+ assists": 1,
+    "Ryan McLeod: #+ assists": 2,
     "Ryan O'Reilly: #+ assists": 2,
-    "Mason McTavish: #+ assists": 2,
-    "Connor McMichael: #+ assists": 2,
-    "Alex DeBrincat: #+ assists": 2,
-    "Dylan DeMelo: #+ assists": 1,
-    "Juraj Slafkovsk\u00fd: #+ assists": 2,
-    "Gavin McKenna: #+ assists": 2,
-    "T.J. Hughes: #+ assists": 1,
-    "Nathan MacKinnon: #+ assists": 3
+    "Jackson LaCombe: #+ assists": 3,
+    "MacKenzie Weegar: #+ assists": 1,
+    "Connor McDavid: #+ assists": 3,
+    "J.T. Miller: #+ assists": 2,
+    "NAME D'Astous: #+ assists": 2
    },
    "sample_tickers": [
-    "KXNHLAST-26NOV10NSHLA-LATMOORE12-1",
-    "KXNHLAST-26NOV10NSHLA-LAJEDMUNDSON6-1",
-    "KXNHLAST-26NOV10NSHLA-LAEHAULA56-1",
-    "KXNHLAST-26NOV10NSHLA-LACPERRY90-1",
-    "KXNHLAST-26NOV10NSHLA-LAATURCOTTE15-1",
-    "KXNHLAST-26NOV10DETSTL-STLDDVORSKY15-1",
-    "KXNHLAST-26NOV10DETSTL-DETMRASMUSSEN27-1",
-    "KXNHLAST-26NOV10DETSTL-DETJFAULK72-2",
-    "KXNHLAST-26NOV10DETSTL-DETJFAULK72-1",
-    "KXNHLAST-26NOV10DETSTL-STLJBERGGREN29-1",
-    "KXNHLAST-26NOV10DETSTL-DETJCOMPHER37-1",
-    "KXNHLAST-26NOV10NJWPG-NJERODRIGUES17-1"
+    "KXNHLAST-26NOV11NYRCGY-NYRMPETTERSSON26-1",
+    "KXNHLAST-26NOV11NYRCGY-CGYZWHITECLOUD28-1",
+    "KXNHLAST-26NOV11NYRCGY-CGYYSHARANGOVICH17-1",
+    "KXNHLAST-26NOV11NYRCGY-CGYMPOSPISIL76-1",
+    "KXNHLAST-26NOV11NYRCGY-CGYASUNIEV61-1",
+    "KXNHLAST-26NOV11NSHANA-NSHSWRIGHT51-1",
+    "KXNHLAST-26NOV11NSHANA-ANATWASHE42-1",
+    "KXNHLAST-26NOV11NSHANA-ANAPMINTYUKOV98-1",
+    "KXNHLAST-26NOV11NSHANA-ANANWARREN47-1",
+    "KXNHLAST-26NOV11NSHANA-ANADHELLESON14-1",
+    "KXNHLAST-26NOV11NSHANA-NSHAKERFOOT14-1",
+    "KXNHLAST-26NOV11NSHANA-NSHAWILSBY2-1"
    ],
    "sample_market": {
-    "ticker": "KXNHLAST-26NOV10NSHLA-LATMOORE12-1",
-    "event_ticker": "KXNHLAST-26NOV10NSHLA",
+    "ticker": "KXNHLAST-26NOV11NYRCGY-NYRMPETTERSSON26-1",
+    "event_ticker": "KXNHLAST-26NOV11NYRCGY",
     "market_type": "binary",
-    "title": "Trevor Moore: 1+ assists",
-    "yes_sub_title": "Trevor Moore: 1+",
-    "no_sub_title": "Trevor Moore: 1+",
+    "title": "Marcus Pettersson: 1+ assists",
+    "yes_sub_title": "Marcus Pettersson: 1+",
+    "no_sub_title": "Marcus Pettersson: 1+",
     "strike_type": "greater",
     "floor_strike": 0.5,
     "custom_strike": {
-     "hockey_player": "3aa3ea8d-c43b-4944-bdcf-9c4304624cf0",
-     "hockey_team": "dbea1e18-0f3c-47a6-9617-e16981181ca2"
+     "hockey_player": "cc5eb619-4a9a-47f7-8833-2ade58a3bea8",
+     "hockey_team": "9979553a-3962-4169-b2c3-510ba6d931d2"
     },
     "status": "active",
-    "open_time": "2026-11-10T20:37:00Z",
-    "close_time": "2026-11-13T03:00:00Z",
-    "expected_expiration_time": "2026-11-11T09:00:00Z",
+    "open_time": "2026-11-11T22:37:00Z",
+    "close_time": "2026-11-14T00:30:00Z",
+    "expected_expiration_time": "2026-11-12T06:30:00Z",
     "result": "",
-    "rules_primary": "If Trevor Moore records 1+ assists in the Nashville vs Los Angeles NHL game originally scheduled for Nov 10, 2026, then the market resolves to Yes."
+    "rules_primary": "If Marcus Pettersson records 1+ assists in the New York R vs Calgary NHL game originally scheduled for Nov 11, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 232
+    "high": 205
    },
    "errors": []
   },
@@ -2778,35 +2810,35 @@
    "family": "game_early_goal",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 14,
+    "open": 17,
     "unopened": 0
    },
    "strike_types": {
-    "greater_or_equal": 14
+    "greater_or_equal": 17
    },
    "market_types": {
-    "binary": 14
+    "binary": 17
    },
    "title_templates": {
-    "Either team to score in the first # minutes": 14
+    "Either team to score in the first # minutes": 17
    },
    "sample_tickers": [
+    "KXNHLF10G-26NOV12NYILA-Y",
+    "KXNHLF10G-26NOV12STLUTA-Y",
+    "KXNHLF10G-26NOV12BUFCHI-Y",
+    "KXNHLF10G-26NOV12WPGDAL-Y",
+    "KXNHLF10G-26NOV12DETFLA-Y",
+    "KXNHLF10G-26NOV12COLOTT-Y",
+    "KXNHLF10G-26NOV12TBCBJ-Y",
+    "KXNHLF10G-26NOV12WSHNJ-Y",
+    "KXNHLF10G-26NOV12MINTOR-Y",
+    "KXNHLF10G-26NOV12MTLBOS-Y",
     "KXNHLF10G-26NOV12CARSEA-Y",
-    "KXNHLF10G-26NOV11NSHANA-Y",
-    "KXNHLF10G-26NOV11UTAVGK-Y",
-    "KXNHLF10G-26NOV11PITSJ-Y",
-    "KXNHLF10G-26NOV11PHIEDM-Y",
-    "KXNHLF10G-26NOV11TBBUF-Y",
-    "KXNHLF10G-26NOV11NYRCGY-Y",
-    "KXNHLF10G-26NOV10NSHLA-Y",
-    "KXNHLF10G-26NOV10DETSTL-Y",
-    "KXNHLF10G-26NOV10NJWPG-Y",
-    "KXNHLF10G-26NOV10FLACBJ-Y",
-    "KXNHLF10G-26NOV10WSHOTT-Y"
+    "KXNHLF10G-26NOV11NSHANA-Y"
    ],
    "sample_market": {
-    "ticker": "KXNHLF10G-26NOV12CARSEA-Y",
-    "event_ticker": "KXNHLF10G-26NOV12CARSEA",
+    "ticker": "KXNHLF10G-26NOV12NYILA-Y",
+    "event_ticker": "KXNHLF10G-26NOV12NYILA",
     "market_type": "binary",
     "title": "Either team to score in the first 10 minutes",
     "yes_sub_title": "Goal in first 10 min",
@@ -2814,14 +2846,14 @@
     "strike_type": "greater_or_equal",
     "floor_strike": 1,
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If at least 1 goal is scored by either Carolina or Seattle during the first 10 minutes of the first period (from 0:00 elapsed up to, but not including, 10:00 elapsed) in the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If at least 1 goal is scored by either New York I or Los Angeles during the first 10 minutes of the first period (from 0:00 elapsed up to, but not including, 10:00 elapsed) in the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 14
+    "high": 17
    },
    "errors": []
   },
@@ -2862,68 +2894,68 @@
    "family": "first_goal",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 237,
+    "open": 215,
     "unopened": 0
    },
    "strike_types": {
-    "structured": 237
+    "structured": 215
    },
    "market_types": {
-    "binary": 237
+    "binary": 215
    },
    "title_templates": {
-    "Michael McCarron: NAME": 1,
-    "NAME: NAME": 222,
+    "NAME: NAME": 200,
+    "Rutger McGroarty: NAME": 1,
     "Ryan O'Reilly: NAME": 1,
-    "Mason McTavish: NAME": 1,
-    "Connor McMichael: NAME": 1,
-    "NAME-Nyg\u00e5rd: NAME": 1,
-    "J.T. Compher: NAME": 1,
-    "Alex DeBrincat: NAME": 1,
-    "Dylan DeMelo: NAME": 1,
-    "Juraj Slafkovsk\u00fd: NAME": 1,
-    "Zack MacEwen: NAME": 1,
-    "Jake McCabe: NAME": 1,
-    "Gavin McKenna: NAME": 1,
-    "T.J. Hughes: NAME": 1,
-    "Nathan MacKinnon: NAME": 1,
-    "Logan O'Connor: NAME": 1
+    "Roger McQueen: NAME": 1,
+    "Jackson LaCombe: NAME": 1,
+    "Brayden McNabb: NAME": 1,
+    "Nick DeSimone: NAME": 1,
+    "MacKenzie Weegar: NAME": 1,
+    "Liam O'Brien: NAME": 1,
+    "Jack McBain: NAME": 1,
+    "Connor McDavid: NAME": 1,
+    "J.T. Miller: NAME": 1,
+    "Ryan McDonagh: NAME": 1,
+    "J.J. Moser: NAME": 1,
+    "NAME D'Astous: NAME": 1,
+    "Ryan McLeod: NAME": 1
    },
    "sample_tickers": [
-    "KXNHLFIRSTGOAL-26NOV10MINMTL-MINMMCCARRON47",
-    "KXNHLFIRSTGOAL-26NOV10MINMTL-MTLNDOBSON53",
-    "KXNHLFIRSTGOAL-26NOV10MINMTL-MTLLHUTSON48",
-    "KXNHLFIRSTGOAL-26NOV10MINMTL-MTLKGUHLE21",
-    "KXNHLFIRSTGOAL-26NOV10MINMTL-MTLAXHEKAJ72",
-    "KXNHLFIRSTGOAL-26NOV10MINMTL-MTLACARRIER45",
-    "KXNHLFIRSTGOAL-26NOV10MINMTL-MTLAENGSTROM42",
-    "KXNHLFIRSTGOAL-26NOV10NSHLA-NSHVPINCHUK51",
-    "KXNHLFIRSTGOAL-26NOV10NSHLA-NSHSSTAMKOS91",
-    "KXNHLFIRSTGOAL-26NOV10NSHLA-NSHRSCHAEFER49",
-    "KXNHLFIRSTGOAL-26NOV10NSHLA-NSHROREILLY90",
-    "KXNHLFIRSTGOAL-26NOV10NSHLA-NSHRJOSI59"
+    "KXNHLFIRSTGOAL-26NOV11PITSJ-SJSDICKINSON6",
+    "KXNHLFIRSTGOAL-26NOV11PITSJ-SJMKESSELRING7",
+    "KXNHLFIRSTGOAL-26NOV11PITSJ-SJJTROUBA65",
+    "KXNHLFIRSTGOAL-26NOV11PITSJ-SJDORLOV9",
+    "KXNHLFIRSTGOAL-26NOV11PITSJ-SJDNURSE25",
+    "KXNHLFIRSTGOAL-26NOV11NSHANA-NSHSWRIGHT51",
+    "KXNHLFIRSTGOAL-26NOV11NSHANA-NSHDHUNT48",
+    "KXNHLFIRSTGOAL-26NOV11NSHANA-ANASCOLANGELO12",
+    "KXNHLFIRSTGOAL-26NOV11PITSJ-SJZOSTAPCHUK63",
+    "KXNHLFIRSTGOAL-26NOV11PITSJ-SJWSMITH2",
+    "KXNHLFIRSTGOAL-26NOV11PITSJ-SJTTOFFOLI73",
+    "KXNHLFIRSTGOAL-26NOV11PITSJ-SJTDELLANDREA10"
    ],
    "sample_market": {
-    "ticker": "KXNHLFIRSTGOAL-26NOV10MINMTL-MINMMCCARRON47",
-    "event_ticker": "KXNHLFIRSTGOAL-26NOV10MINMTL",
+    "ticker": "KXNHLFIRSTGOAL-26NOV11PITSJ-SJSDICKINSON6",
+    "event_ticker": "KXNHLFIRSTGOAL-26NOV11PITSJ",
     "market_type": "binary",
-    "title": "Michael McCarron: First Goalscorer",
-    "yes_sub_title": "Michael McCarron",
-    "no_sub_title": "Michael McCarron",
+    "title": "Sam Dickinson: First Goalscorer",
+    "yes_sub_title": "Sam Dickinson",
+    "no_sub_title": "Sam Dickinson",
     "strike_type": "structured",
     "custom_strike": {
-     "hockey_player": "198487c0-aabb-418a-a683-5d0e51cec8de",
-     "hockey_team": "1cee0410-99f1-43a2-a67c-4e6a3b968a9c"
+     "hockey_player": "2899afb9-e319-4ae2-bea2-9bdf6deaa709",
+     "hockey_team": "eb4bc183-5966-40eb-8bdb-3dd922ad1752"
     },
     "status": "active",
-    "open_time": "2026-11-10T17:22:00Z",
-    "close_time": "2026-11-13T00:00:00Z",
-    "expected_expiration_time": "2026-11-11T06:00:00Z",
+    "open_time": "2026-11-11T21:52:00Z",
+    "close_time": "2026-11-14T03:00:00Z",
+    "expected_expiration_time": "2026-11-12T09:00:00Z",
     "result": "",
-    "rules_primary": "If Michael McCarron scores the 1st goal in the Minnesota vs Montreal NHL game originally scheduled for Nov 10, 2026, then the market resolves to Yes."
+    "rules_primary": "If Sam Dickinson scores the 1st goal in the Pittsburgh vs San Jose NHL game originally scheduled for Nov 11, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 237
+    "high": 215
    },
    "errors": []
   },
@@ -2940,80 +2972,80 @@
    "family": "game_winner",
    "support": "MODELABLE",
    "counts_by_status": {
-    "open": 94,
+    "open": 102,
     "unopened": 0
    },
    "strike_types": {
-    "structured": 94
+    "structured": 102
    },
    "market_types": {
-    "binary": 94
+    "binary": 102
    },
    "title_templates": {
+    "NAME wins": 13,
+    "Calgary wins": 4,
+    "Vegas wins": 4,
+    "Dallas wins": 4,
+    "Nashville wins": 4,
+    "Minnesota wins": 3,
+    "St. Louis wins": 3,
+    "Anaheim wins": 4,
+    "Winnipeg wins": 3,
+    "Ottawa wins": 3,
+    "Toronto wins": 3,
+    "Chicago wins": 3,
+    "Washington wins": 3,
+    "NAME I wins": 3,
+    "Columbus wins": 3,
+    "Boston wins": 3,
+    "Philadelphia wins": 4,
+    "Buffalo wins": 4,
+    "Florida wins": 4,
+    "Edmonton wins": 4,
     "Vancouver wins": 3,
     "Utah wins": 4,
     "NAME R wins": 3,
-    "Montreal wins": 4,
-    "NAME wins": 12,
-    "Nashville wins": 4,
-    "Vegas wins": 3,
-    "Calgary wins": 3,
-    "Anaheim wins": 3,
-    "Florida wins": 4,
-    "Dallas wins": 3,
-    "Philadelphia wins": 3,
-    "Edmonton wins": 3,
-    "NAME I wins": 2,
-    "Buffalo wins": 3,
-    "Columbus wins": 3,
-    "St. Louis wins": 3,
+    "Montreal wins": 3,
     "Pittsburgh wins": 2,
-    "Ottawa wins": 3,
-    "Washington wins": 3,
-    "Minnesota wins": 3,
-    "Boston wins": 2,
-    "Detroit wins": 3,
-    "Toronto wins": 3,
-    "Colorado wins": 3,
-    "Winnipeg wins": 3,
-    "Chicago wins": 2,
+    "Detroit wins": 2,
+    "Colorado wins": 2,
     "Seattle wins": 2,
     "Carolina wins": 2
    },
    "sample_tickers": [
-    "KXNHLGAME-26NOV16VANUTA-VAN",
-    "KXNHLGAME-26NOV16VANUTA-UTA",
-    "KXNHLGAME-26NOV16MTLNYR-NYR",
-    "KXNHLGAME-26NOV16MTLNYR-MTL",
-    "KXNHLGAME-26NOV15NSHSJ-SJ",
-    "KXNHLGAME-26NOV15NSHSJ-NSH",
-    "KXNHLGAME-26NOV15VANVGK-VGK",
-    "KXNHLGAME-26NOV15VANVGK-VAN",
-    "KXNHLGAME-26NOV15CGYANA-CGY",
-    "KXNHLGAME-26NOV15CGYANA-ANA",
-    "KXNHLGAME-26NOV15FLADAL-FLA",
-    "KXNHLGAME-26NOV15FLADAL-DAL"
+    "KXNHLGAME-26NOV17CGYSJ-SJ",
+    "KXNHLGAME-26NOV17CGYSJ-CGY",
+    "KXNHLGAME-26NOV17DALVGK-VGK",
+    "KXNHLGAME-26NOV17DALVGK-DAL",
+    "KXNHLGAME-26NOV17NSHMIN-NSH",
+    "KXNHLGAME-26NOV17NSHMIN-MIN",
+    "KXNHLGAME-26NOV17ANASTL-STL",
+    "KXNHLGAME-26NOV17ANASTL-ANA",
+    "KXNHLGAME-26NOV17OTTWPG-WPG",
+    "KXNHLGAME-26NOV17OTTWPG-OTT",
+    "KXNHLGAME-26NOV17TORCHI-TOR",
+    "KXNHLGAME-26NOV17TORCHI-CHI"
    ],
    "sample_market": {
-    "ticker": "KXNHLGAME-26NOV16VANUTA-VAN",
-    "event_ticker": "KXNHLGAME-26NOV16VANUTA",
+    "ticker": "KXNHLGAME-26NOV17CGYSJ-SJ",
+    "event_ticker": "KXNHLGAME-26NOV17CGYSJ",
     "market_type": "binary",
-    "title": "Vancouver wins",
-    "yes_sub_title": "Vancouver",
-    "no_sub_title": "Vancouver",
+    "title": "San Jose wins",
+    "yes_sub_title": "San Jose",
+    "no_sub_title": "San Jose",
     "strike_type": "structured",
     "custom_strike": {
-     "hockey_team": "2d6db4a4-99f2-4547-85f3-9913404577f9"
+     "hockey_team": "eb4bc183-5966-40eb-8bdb-3dd922ad1752"
     },
     "status": "active",
-    "open_time": "2026-11-10T05:11:00Z",
-    "close_time": "2026-11-19T02:30:00Z",
-    "expected_expiration_time": "2026-11-17T05:30:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-20T03:00:00Z",
+    "expected_expiration_time": "2026-11-18T06:00:00Z",
     "result": "",
-    "rules_primary": "If Vancouver wins the Vancouver vs Utah NHL game originally scheduled for Nov 16, 2026, then the market resolves to Yes."
+    "rules_primary": "If San Jose wins the Calgary vs San Jose NHL game originally scheduled for Nov 17, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 94
+    "high": 102
    },
    "errors": []
   },
@@ -3030,69 +3062,69 @@
    "family": "player_goals",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 419,
+    "open": 370,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 419
+    "greater": 370
    },
    "market_types": {
-    "binary": 419
+    "binary": 370
    },
    "title_templates": {
-    "Michael McCarron: #+ goals": 2,
-    "NAME: #+ goals": 390,
-    "Ryan O'Reilly: #+ goals": 2,
-    "Mason McTavish: #+ goals": 2,
-    "Connor McMichael: #+ goals": 2,
-    "NAME-Nyg\u00e5rd: #+ goals": 2,
-    "J.T. Compher: #+ goals": 2,
-    "Alex DeBrincat: #+ goals": 3,
-    "Dylan DeMelo: #+ goals": 1,
-    "Juraj Slafkovsk\u00fd: #+ goals": 3,
-    "Zack MacEwen: #+ goals": 1,
-    "Jake McCabe: #+ goals": 1,
-    "Gavin McKenna: #+ goals": 2,
-    "T.J. Hughes: #+ goals": 2,
-    "Nathan MacKinnon: #+ goals": 3,
-    "Logan O'Connor: #+ goals": 1
+    "NAME: #+ goals": 343,
+    "Rutger McGroarty: #+ goals": 2,
+    "Ryan O'Reilly: #+ goals": 3,
+    "Roger McQueen: #+ goals": 2,
+    "Jackson LaCombe: #+ goals": 2,
+    "Brayden McNabb: #+ goals": 1,
+    "Nick DeSimone: #+ goals": 1,
+    "MacKenzie Weegar: #+ goals": 2,
+    "Liam O'Brien: #+ goals": 1,
+    "Jack McBain: #+ goals": 2,
+    "Connor McDavid: #+ goals": 3,
+    "J.T. Miller: #+ goals": 2,
+    "Ryan McDonagh: #+ goals": 1,
+    "J.J. Moser: #+ goals": 1,
+    "NAME D'Astous: #+ goals": 2,
+    "Ryan McLeod: #+ goals": 2
    },
    "sample_tickers": [
-    "KXNHLGOAL-26NOV10MINMTL-MINMMCCARRON47-2",
-    "KXNHLGOAL-26NOV10MINMTL-MINMMCCARRON47-1",
-    "KXNHLGOAL-26NOV10MINMTL-MTLJANDERSON17-2",
-    "KXNHLGOAL-26NOV10MINMTL-MTLJANDERSON17-1",
-    "KXNHLGOAL-26NOV10NSHLA-NSHVPINCHUK51-2",
-    "KXNHLGOAL-26NOV10NSHLA-NSHVPINCHUK51-1",
-    "KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-3",
-    "KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-2",
-    "KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-1",
-    "KXNHLGOAL-26NOV10NSHLA-NSHRSCHAEFER49-2",
-    "KXNHLGOAL-26NOV10NSHLA-NSHRSCHAEFER49-1",
-    "KXNHLGOAL-26NOV10NSHLA-NSHROREILLY90-2"
+    "KXNHLGOAL-26NOV11NSHANA-NSHSWRIGHT51-2",
+    "KXNHLGOAL-26NOV11NSHANA-NSHSWRIGHT51-1",
+    "KXNHLGOAL-26NOV11NSHANA-NSHDHUNT48-1",
+    "KXNHLGOAL-26NOV11NSHANA-ANASCOLANGELO12-2",
+    "KXNHLGOAL-26NOV11NSHANA-ANASCOLANGELO12-1",
+    "KXNHLGOAL-26NOV11PITSJ-SJZOSTAPCHUK63-1",
+    "KXNHLGOAL-26NOV11PITSJ-SJWSMITH2-3",
+    "KXNHLGOAL-26NOV11PITSJ-SJWSMITH2-2",
+    "KXNHLGOAL-26NOV11PITSJ-SJWSMITH2-1",
+    "KXNHLGOAL-26NOV11PITSJ-SJTTOFFOLI73-2",
+    "KXNHLGOAL-26NOV11PITSJ-SJTTOFFOLI73-1",
+    "KXNHLGOAL-26NOV11PITSJ-SJTDELLANDREA10-1"
    ],
    "sample_market": {
-    "ticker": "KXNHLGOAL-26NOV10MINMTL-MINMMCCARRON47-2",
-    "event_ticker": "KXNHLGOAL-26NOV10MINMTL",
+    "ticker": "KXNHLGOAL-26NOV11NSHANA-NSHSWRIGHT51-2",
+    "event_ticker": "KXNHLGOAL-26NOV11NSHANA",
     "market_type": "binary",
-    "title": "Michael McCarron: 2+ goals",
-    "yes_sub_title": "Michael McCarron: 2+",
-    "no_sub_title": "Michael McCarron: 2+",
+    "title": "Shane Wright: 2+ goals",
+    "yes_sub_title": "Shane Wright: 2+",
+    "no_sub_title": "Shane Wright: 2+",
     "strike_type": "greater",
     "floor_strike": 1.5,
     "custom_strike": {
-     "hockey_player": "198487c0-aabb-418a-a683-5d0e51cec8de",
-     "hockey_team": "1cee0410-99f1-43a2-a67c-4e6a3b968a9c"
+     "hockey_player": "12706eeb-fdb7-42b4-95ff-a280c658304b",
+     "hockey_team": "fcfd0b58-cc0a-448e-8f4b-6ddeab8f339f"
     },
     "status": "active",
-    "open_time": "2026-11-10T17:22:00Z",
-    "close_time": "2026-11-13T00:00:00Z",
-    "expected_expiration_time": "2026-11-11T06:00:00Z",
+    "open_time": "2026-11-11T19:52:00Z",
+    "close_time": "2026-11-14T03:00:00Z",
+    "expected_expiration_time": "2026-11-12T09:00:00Z",
     "result": "",
-    "rules_primary": "If Michael McCarron records 2+ goals in the Minnesota vs Montreal NHL game originally scheduled for Nov 10, 2026, then the market resolves to Yes."
+    "rules_primary": "If Shane Wright records 2+ goals in the Nashville vs Anaheim NHL game originally scheduled for Nov 11, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 419
+    "high": 370
    },
    "errors": []
   },
@@ -3109,53 +3141,54 @@
    "family": "season_awards",
    "support": "UNMODELABLE",
    "counts_by_status": {
-    "open": 29,
+    "open": 39,
     "unopened": 0
    },
    "strike_types": {
-    "structured": 29
+    "structured": 39
    },
    "market_types": {
-    "binary": 29
+    "binary": 39
    },
    "title_templates": {
-    "NAME: NAME wins": 1,
+    "NAME: NAME wins": 10,
+    "NAME: Jackson LaCombe wins": 1,
     "Who will win NAME?": 28
    },
    "sample_tickers": [
+    "KXNHLHART-27-TSTUTZLE18",
+    "KXNHLHART-27-SAHO20",
+    "KXNHLHART-27-CKELLER9",
+    "KXNHLHART-27-MNECAS88",
+    "KXNHLHART-27-LCARLSSON91",
+    "KXNHLHART-27-JLACOMBE2",
+    "KXNHLHART-27-EBOUCHARD2",
+    "KXNHLHART-27-BSENNECKE45",
+    "KXNHLHART-27-AFOX23",
+    "KXNHLHART-27-CGAUTHIER61",
     "KXNHLHART-27-ALAFRENIERE13",
-    "KXNHLHART-27-WNYLANDER88",
-    "KXNHLHART-27-SCROSBY87",
-    "KXNHLHART-27-QHUGHES43",
-    "KXNHLHART-27-PDOROFEYEV16",
-    "KXNHLHART-27-NSUZUKI14",
-    "KXNHLHART-27-NMACKINNON29",
-    "KXNHLHART-27-NKUCHEROV86",
-    "KXNHLHART-27-MTKACHUK19",
-    "KXNHLHART-27-MRANTANEN96",
-    "KXNHLHART-27-MMARNER93",
-    "KXNHLHART-27-MCELEBRINI71"
+    "KXNHLHART-27-WNYLANDER88"
    ],
    "sample_market": {
-    "ticker": "KXNHLHART-27-ALAFRENIERE13",
+    "ticker": "KXNHLHART-27-TSTUTZLE18",
     "event_ticker": "KXNHLHART-27",
     "market_type": "binary",
-    "title": "Hart Memorial Trophy: Alexis Lafreniere wins",
-    "yes_sub_title": "Alexis Lafreniere",
-    "no_sub_title": "Alexis Lafreniere",
+    "title": "Hart Memorial Trophy: Tim Stutzle wins",
+    "yes_sub_title": "Tim Stutzle",
+    "no_sub_title": "Tim Stutzle",
     "strike_type": "structured",
     "custom_strike": {
-     "hockey_player": "10ed52fe-025d-4478-ac36-6a104f1fae78"
+     "hockey_player": "6df1e248-2084-4229-aa7d-9d6beb8f6b57"
     },
     "status": "active",
-    "open_time": "2026-10-14T23:00:00Z",
+    "open_time": "2026-11-11T16:00:00Z",
     "close_time": "2027-06-30T14:00:00Z",
     "expected_expiration_time": "2027-06-30T14:00:00Z",
     "result": "",
-    "rules_primary": "If Alexis Lafreniere wins the NHL Hart Memorial Trophy in the 2026-27 NHL season, then the market resolves to Yes."
+    "rules_primary": "If Tim Stutzle wins the NHL Hart Memorial Trophy in the 2026-27 NHL season, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "low": 29
+    "low": 39
    },
    "errors": []
   },
@@ -3172,55 +3205,55 @@
    "family": "UNRESOLVED",
    "support": "UNRESOLVED",
    "counts_by_status": {
-    "open": 28,
+    "open": 38,
     "unopened": 0
    },
    "strike_types": {
-    "structured": 28
+    "structured": 38
    },
    "market_types": {
-    "binary": 28
+    "binary": 38
    },
    "title_templates": {
-    "NAME: NAME wins": 26,
+    "NAME: NAME wins": 35,
+    "NAME: Jackson LaCombe wins": 1,
     "NAME: Nathan MacKinnon wins": 1,
     "NAME: Connor McDavid wins": 1
    },
    "sample_tickers": [
+    "KXNHLLINDSAY-27-TSTUTZLE18",
+    "KXNHLLINDSAY-27-SAHO20",
+    "KXNHLLINDSAY-27-CKELLER9",
+    "KXNHLLINDSAY-27-MNECAS88",
+    "KXNHLLINDSAY-27-LCARLSSON91",
+    "KXNHLLINDSAY-27-JLACOMBE2",
+    "KXNHLLINDSAY-27-BSENNECKE45",
+    "KXNHLLINDSAY-27-AFOX23",
+    "KXNHLLINDSAY-27-CGAUTHIER61",
+    "KXNHLLINDSAY-27-EBOUCHARD2",
     "KXNHLLINDSAY-27-WNYLANDER88",
-    "KXNHLLINDSAY-27-SCROSBY87",
-    "KXNHLLINDSAY-27-QHUGHES43",
-    "KXNHLLINDSAY-27-PDOROFEYEV16",
-    "KXNHLLINDSAY-27-NSUZUKI14",
-    "KXNHLLINDSAY-27-NMACKINNON29",
-    "KXNHLLINDSAY-27-NKUCHEROV86",
-    "KXNHLLINDSAY-27-MTKACHUK19",
-    "KXNHLLINDSAY-27-MRANTANEN96",
-    "KXNHLLINDSAY-27-MMARNER93",
-    "KXNHLLINDSAY-27-MCELEBRINI71",
-    "KXNHLLINDSAY-27-LDRAISAITL29"
+    "KXNHLLINDSAY-27-SCROSBY87"
    ],
    "sample_market": {
-    "ticker": "KXNHLLINDSAY-27-WNYLANDER88",
+    "ticker": "KXNHLLINDSAY-27-TSTUTZLE18",
     "event_ticker": "KXNHLLINDSAY-27",
     "market_type": "binary",
-    "title": "Ted Lindsay Award: William Nylander wins",
-    "subtitle": "::",
-    "yes_sub_title": "William Nylander",
-    "no_sub_title": "William Nylander",
+    "title": "Ted Lindsay Award: Tim Stutzle wins",
+    "yes_sub_title": "Tim Stutzle",
+    "no_sub_title": "Tim Stutzle",
     "strike_type": "structured",
     "custom_strike": {
-     "hockey_player": "1d6e76e2-3553-4992-b4f1-14e075811859"
+     "hockey_player": "6df1e248-2084-4229-aa7d-9d6beb8f6b57"
     },
     "status": "active",
-    "open_time": "2026-10-08T02:00:00Z",
+    "open_time": "2026-11-11T17:00:00Z",
     "close_time": "2027-07-07T14:00:00Z",
     "expected_expiration_time": "2027-06-30T14:00:00Z",
     "result": "",
-    "rules_primary": "If William Nylander wins the NHL Ted Lindsay Award in the 2026-27 NHL season, then the market resolves to Yes."
+    "rules_primary": "If Tim Stutzle wins the NHL Ted Lindsay Award in the 2026-27 NHL season, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "low": 28
+    "low": 38
    },
    "errors": []
   },
@@ -3391,55 +3424,54 @@
    "family": "season_awards",
    "support": "UNMODELABLE",
    "counts_by_status": {
-    "open": 30,
+    "open": 35,
     "unopened": 0
    },
    "strike_types": {
-    "structured": 30
+    "structured": 35
    },
    "market_types": {
-    "binary": 30
+    "binary": 35
    },
    "title_templates": {
-    "NAME: NAME wins": 28,
+    "NAME: NAME wins": 33,
     "NAME: Jackson LaCombe wins": 1,
     "NAME: Charlie McAvoy wins": 1
    },
    "sample_tickers": [
+    "KXNHLNORRIS-27-SGOSTISBEHERE4",
+    "KXNHLNORRIS-27-SJONES3",
+    "KXNHLNORRIS-27-MSEIDER53",
+    "KXNHLNORRIS-27-JCHYCHRUN6",
+    "KXNHLNORRIS-27-DRADDYSH43",
     "KXNHLNORRIS-27-ZWERENSKI8",
     "KXNHLNORRIS-27-VHEDMAN77",
     "KXNHLNORRIS-27-THARLEY55",
     "KXNHLNORRIS-27-STHEODORE27",
     "KXNHLNORRIS-27-RSANDIN38",
     "KXNHLNORRIS-27-RJOSI59",
-    "KXNHLNORRIS-27-RDAHLIN26",
-    "KXNHLNORRIS-27-QHUGHES43",
-    "KXNHLNORRIS-27-PBROBERG6",
-    "KXNHLNORRIS-27-NPIONK4",
-    "KXNHLNORRIS-27-NDOBSON53",
-    "KXNHLNORRIS-27-MSERGACHEV98"
+    "KXNHLNORRIS-27-RDAHLIN26"
    ],
    "sample_market": {
-    "ticker": "KXNHLNORRIS-27-ZWERENSKI8",
+    "ticker": "KXNHLNORRIS-27-SGOSTISBEHERE4",
     "event_ticker": "KXNHLNORRIS-27",
     "market_type": "binary",
-    "title": "James Norris Memorial Trophy: Zach Werenski wins",
-    "subtitle": "::",
-    "yes_sub_title": "Zach Werenski",
-    "no_sub_title": "Zach Werenski",
+    "title": "James Norris Memorial Trophy: Shayne Gostisbehere wins",
+    "yes_sub_title": "Shayne Gostisbehere",
+    "no_sub_title": "Shayne Gostisbehere",
     "strike_type": "structured",
     "custom_strike": {
-     "hockey_player": "036e0c69-c86a-4ab1-8f63-c6d55b72fe09"
+     "hockey_player": "c07b1390-6d72-4439-8337-a892678d90d5"
     },
     "status": "active",
-    "open_time": "2026-09-01T19:00:00Z",
+    "open_time": "2026-11-11T17:00:00Z",
     "close_time": "2027-07-07T14:00:00Z",
     "expected_expiration_time": "2027-06-30T14:00:00Z",
     "result": "",
-    "rules_primary": "If Zach Werenski wins the NHL James Norris Memorial Trophy in the 2026-27 NHL season, then the market resolves to Yes."
+    "rules_primary": "If Shayne Gostisbehere wins the NHL James Norris Memorial Trophy in the 2026-27 NHL season, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "low": 30
+    "low": 35
    },
    "errors": []
   },
@@ -3456,35 +3488,35 @@
    "family": "game_overtime",
    "support": "BUILDABLE",
    "counts_by_status": {
-    "open": 14,
+    "open": 17,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 14
+    "greater": 17
    },
    "market_types": {
-    "binary": 14
+    "binary": 17
    },
    "title_templates": {
-    "Game goes to overtime": 14
+    "Game goes to overtime": 17
    },
    "sample_tickers": [
+    "KXNHLOT-26NOV12NYILA-1",
+    "KXNHLOT-26NOV12STLUTA-1",
+    "KXNHLOT-26NOV12BUFCHI-1",
+    "KXNHLOT-26NOV12WPGDAL-1",
+    "KXNHLOT-26NOV12DETFLA-1",
+    "KXNHLOT-26NOV12COLOTT-1",
+    "KXNHLOT-26NOV12TBCBJ-1",
+    "KXNHLOT-26NOV12WSHNJ-1",
+    "KXNHLOT-26NOV12MINTOR-1",
+    "KXNHLOT-26NOV12MTLBOS-1",
     "KXNHLOT-26NOV12CARSEA-1",
-    "KXNHLOT-26NOV11NSHANA-1",
-    "KXNHLOT-26NOV11UTAVGK-1",
-    "KXNHLOT-26NOV11PITSJ-1",
-    "KXNHLOT-26NOV11PHIEDM-1",
-    "KXNHLOT-26NOV11TBBUF-1",
-    "KXNHLOT-26NOV11NYRCGY-1",
-    "KXNHLOT-26NOV10NSHLA-1",
-    "KXNHLOT-26NOV10DETSTL-1",
-    "KXNHLOT-26NOV10NJWPG-1",
-    "KXNHLOT-26NOV10FLACBJ-1",
-    "KXNHLOT-26NOV10WSHOTT-1"
+    "KXNHLOT-26NOV11NSHANA-1"
    ],
    "sample_market": {
-    "ticker": "KXNHLOT-26NOV12CARSEA-1",
-    "event_ticker": "KXNHLOT-26NOV12CARSEA",
+    "ticker": "KXNHLOT-26NOV12NYILA-1",
+    "event_ticker": "KXNHLOT-26NOV12NYILA",
     "market_type": "binary",
     "title": "Game goes to overtime",
     "yes_sub_title": "Game goes to overtime",
@@ -3492,14 +3524,14 @@
     "strike_type": "greater",
     "floor_strike": 0.5,
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If at least 1 overtime period is played in the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If at least 1 overtime period is played in the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 14
+    "high": 17
    },
    "errors": []
   },
@@ -3838,65 +3870,63 @@
    "family": "player_points",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 313,
+    "open": 285,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 313
+    "greater": 285
    },
    "market_types": {
-    "binary": 313
+    "binary": 285
    },
    "title_templates": {
-    "NAME: #+ points": 287,
-    "J.T. Compher: #+ points": 2,
-    "NAME-Nyg\u00e5rd: #+ points": 2,
+    "NAME: #+ points": 262,
+    "Jack McBain: #+ points": 2,
+    "Brayden McNabb: #+ points": 1,
+    "Ryan McLeod: #+ points": 2,
     "Ryan O'Reilly: #+ points": 3,
-    "Mason McTavish: #+ points": 2,
-    "Connor McMichael: #+ points": 2,
-    "Alex DeBrincat: #+ points": 3,
-    "Dylan DeMelo: #+ points": 1,
-    "Juraj Slafkovsk\u00fd: #+ points": 3,
-    "Gavin McKenna: #+ points": 2,
-    "T.J. Hughes: #+ points": 2,
-    "Nathan MacKinnon: #+ points": 4
+    "Jackson LaCombe: #+ points": 3,
+    "MacKenzie Weegar: #+ points": 2,
+    "Connor McDavid: #+ points": 5,
+    "J.T. Miller: #+ points": 3,
+    "NAME D'Astous: #+ points": 2
    },
    "sample_tickers": [
-    "KXNHLPTS-26NOV10NSHLA-LATMOORE12-2",
-    "KXNHLPTS-26NOV10NSHLA-LATMOORE12-1",
-    "KXNHLPTS-26NOV10NSHLA-LAJEDMUNDSON6-1",
-    "KXNHLPTS-26NOV10NSHLA-LAEHAULA56-2",
-    "KXNHLPTS-26NOV10NSHLA-LAEHAULA56-1",
-    "KXNHLPTS-26NOV10NSHLA-LACPERRY90-2",
-    "KXNHLPTS-26NOV10NSHLA-LACPERRY90-1",
-    "KXNHLPTS-26NOV10NSHLA-LAATURCOTTE15-2",
-    "KXNHLPTS-26NOV10NSHLA-LAATURCOTTE15-1",
-    "KXNHLPTS-26NOV10DETSTL-DETMRASMUSSEN27-2",
-    "KXNHLPTS-26NOV10DETSTL-DETMRASMUSSEN27-1",
-    "KXNHLPTS-26NOV10DETSTL-DETJFAULK72-2"
+    "KXNHLPTS-26NOV11NYRCGY-NYRMPETTERSSON26-1",
+    "KXNHLPTS-26NOV11NYRCGY-CGYZWHITECLOUD28-1",
+    "KXNHLPTS-26NOV11NYRCGY-CGYYSHARANGOVICH17-2",
+    "KXNHLPTS-26NOV11NYRCGY-CGYYSHARANGOVICH17-1",
+    "KXNHLPTS-26NOV11NYRCGY-CGYMPOSPISIL76-2",
+    "KXNHLPTS-26NOV11NYRCGY-CGYMPOSPISIL76-1",
+    "KXNHLPTS-26NOV11NYRCGY-CGYASUNIEV61-2",
+    "KXNHLPTS-26NOV11NYRCGY-CGYASUNIEV61-1",
+    "KXNHLPTS-26NOV11NSHANA-NSHSWRIGHT51-2",
+    "KXNHLPTS-26NOV11NSHANA-NSHSWRIGHT51-1",
+    "KXNHLPTS-26NOV11NSHANA-ANATWASHE42-2",
+    "KXNHLPTS-26NOV11NSHANA-ANATWASHE42-1"
    ],
    "sample_market": {
-    "ticker": "KXNHLPTS-26NOV10NSHLA-LATMOORE12-2",
-    "event_ticker": "KXNHLPTS-26NOV10NSHLA",
+    "ticker": "KXNHLPTS-26NOV11NYRCGY-NYRMPETTERSSON26-1",
+    "event_ticker": "KXNHLPTS-26NOV11NYRCGY",
     "market_type": "binary",
-    "title": "Trevor Moore: 2+ points",
-    "yes_sub_title": "Trevor Moore: 2+",
-    "no_sub_title": "Trevor Moore: 2+",
+    "title": "Marcus Pettersson: 1+ points",
+    "yes_sub_title": "Marcus Pettersson: 1+",
+    "no_sub_title": "Marcus Pettersson: 1+",
     "strike_type": "greater",
-    "floor_strike": 1.5,
+    "floor_strike": 0.5,
     "custom_strike": {
-     "hockey_player": "3aa3ea8d-c43b-4944-bdcf-9c4304624cf0",
-     "hockey_team": "dbea1e18-0f3c-47a6-9617-e16981181ca2"
+     "hockey_player": "cc5eb619-4a9a-47f7-8833-2ade58a3bea8",
+     "hockey_team": "9979553a-3962-4169-b2c3-510ba6d931d2"
     },
     "status": "active",
-    "open_time": "2026-11-10T20:37:00Z",
-    "close_time": "2026-11-13T03:00:00Z",
-    "expected_expiration_time": "2026-11-11T09:00:00Z",
+    "open_time": "2026-11-11T22:37:00Z",
+    "close_time": "2026-11-14T00:30:00Z",
+    "expected_expiration_time": "2026-11-12T06:30:00Z",
     "result": "",
-    "rules_primary": "If Trevor Moore records 2+ points in the Nashville vs Los Angeles NHL game originally scheduled for Nov 10, 2026, then the market resolves to Yes."
+    "rules_primary": "If Marcus Pettersson records 1+ points in the New York R vs Calgary NHL game originally scheduled for Nov 11, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 313
+    "high": 285
    },
    "errors": []
   },
@@ -3999,22 +4029,26 @@
    "family": "season_awards",
    "support": "UNMODELABLE",
    "counts_by_status": {
-    "open": 40,
+    "open": 44,
     "unopened": 0
    },
    "strike_types": {
-    "structured": 40
+    "structured": 44
    },
    "market_types": {
-    "binary": 40
+    "binary": 44
    },
    "title_templates": {
-    "Maurice \"Rocket\" NAME: NAME wins": 37,
+    "Maurice \"Rocket\" NAME: NAME wins": 41,
     "Maurice \"Rocket\" NAME: Nathan MacKinnon wins": 1,
     "Maurice \"Rocket\" NAME: Connor McDavid wins": 1,
     "Maurice \"Rocket\" NAME: Alex DeBrincat wins": 1
    },
    "sample_tickers": [
+    "KXNHLRICHARD-27-MMICHKOV39",
+    "KXNHLRICHARD-27-LSTANKOVEN22",
+    "KXNHLRICHARD-27-ATUCH89",
+    "KXNHLRICHARD-27-CGAUTHIER61",
     "KXNHLRICHARD-27-ZHYMAN18",
     "KXNHLRICHARD-27-WNYLANDER88",
     "KXNHLRICHARD-27-WJOHNSTON53",
@@ -4022,33 +4056,28 @@
     "KXNHLRICHARD-27-SSTAMKOS91",
     "KXNHLRICHARD-27-SREINHART13",
     "KXNHLRICHARD-27-SJARVIS24",
-    "KXNHLRICHARD-27-PDOROFEYEV16",
-    "KXNHLRICHARD-27-NMACKINNON29",
-    "KXNHLRICHARD-27-NKUCHEROV86",
-    "KXNHLRICHARD-27-MTKACHUK19",
-    "KXNHLRICHARD-27-MSTONE61"
+    "KXNHLRICHARD-27-PDOROFEYEV16"
    ],
    "sample_market": {
-    "ticker": "KXNHLRICHARD-27-ZHYMAN18",
+    "ticker": "KXNHLRICHARD-27-MMICHKOV39",
     "event_ticker": "KXNHLRICHARD-27",
     "market_type": "binary",
-    "title": "Maurice \"Rocket\" Richard Trophy: Zach Hyman wins",
-    "subtitle": "::",
-    "yes_sub_title": "Zach Hyman",
-    "no_sub_title": "Zach Hyman",
+    "title": "Maurice \"Rocket\" Richard Trophy: Matvei Michkov wins",
+    "yes_sub_title": "Matvei Michkov",
+    "no_sub_title": "Matvei Michkov",
     "strike_type": "structured",
     "custom_strike": {
-     "hockey_player": "2c3d67df-721b-4ea4-8aee-dea4a9715c82"
+     "hockey_player": "3b72da3e-53e9-4436-8cf2-195612050ff6"
     },
     "status": "active",
-    "open_time": "2026-09-01T19:00:00Z",
+    "open_time": "2026-11-11T17:00:00Z",
     "close_time": "2027-07-07T14:00:00Z",
     "expected_expiration_time": "2027-06-30T14:00:00Z",
     "result": "",
-    "rules_primary": "If Zach Hyman wins the NHL Maurice \"Rocket\" Richard Award in the 2026-27 NHL season, then the market resolves to Yes."
+    "rules_primary": "If Matvei Michkov wins the NHL Maurice \"Rocket\" Richard Award in the 2026-27 NHL season, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "low": 40
+    "low": 44
    },
    "errors": []
   },
@@ -4065,55 +4094,55 @@
    "family": "season_awards",
    "support": "UNMODELABLE",
    "counts_by_status": {
-    "open": 40,
+    "open": 47,
     "unopened": 0
    },
    "strike_types": {
-    "structured": 40
+    "structured": 47
    },
    "market_types": {
-    "binary": 40
+    "binary": 47
    },
    "title_templates": {
-    "NAME: NAME wins": 38,
+    "NAME: NAME wins": 44,
+    "NAME: Jackson LaCombe wins": 1,
     "NAME: Nathan MacKinnon wins": 1,
     "NAME: Connor McDavid wins": 1
    },
    "sample_tickers": [
+    "KXNHLROSS-27-MNECAS88",
+    "KXNHLROSS-27-LCARLSSON91",
+    "KXNHLROSS-27-JLACOMBE2",
+    "KXNHLROSS-27-BSENNECKE45",
+    "KXNHLROSS-27-AFOX23",
+    "KXNHLROSS-27-CGAUTHIER61",
+    "KXNHLROSS-27-EBOUCHARD2",
     "KXNHLROSS-27-WNYLANDER88",
     "KXNHLROSS-27-WJOHNSTON53",
     "KXNHLROSS-27-TTHOMPSON72",
     "KXNHLROSS-27-TSTUTZLE18",
-    "KXNHLROSS-27-SREINHART13",
-    "KXNHLROSS-27-SJARVIS24",
-    "KXNHLROSS-27-SCROSBY87",
-    "KXNHLROSS-27-SAHO20",
-    "KXNHLROSS-27-RTHOMAS18",
-    "KXNHLROSS-27-RHINTZ24",
-    "KXNHLROSS-27-QHUGHES43",
-    "KXNHLROSS-27-NSUZUKI14"
+    "KXNHLROSS-27-SREINHART13"
    ],
    "sample_market": {
-    "ticker": "KXNHLROSS-27-WNYLANDER88",
+    "ticker": "KXNHLROSS-27-MNECAS88",
     "event_ticker": "KXNHLROSS-27",
     "market_type": "binary",
-    "title": "Art Ross Trophy: William Nylander wins",
-    "subtitle": "::",
-    "yes_sub_title": "William Nylander",
-    "no_sub_title": "William Nylander",
+    "title": "Art Ross Trophy: Martin Necas wins",
+    "yes_sub_title": "Martin Necas",
+    "no_sub_title": "Martin Necas",
     "strike_type": "structured",
     "custom_strike": {
-     "hockey_player": "1d6e76e2-3553-4992-b4f1-14e075811859"
+     "hockey_player": "f27d857e-40f4-4ef2-8b89-8f545335f410"
     },
     "status": "active",
-    "open_time": "2026-09-01T19:00:00Z",
+    "open_time": "2026-11-11T17:00:00Z",
     "close_time": "2027-07-07T14:00:00Z",
     "expected_expiration_time": "2027-06-30T14:00:00Z",
     "result": "",
-    "rules_primary": "If William Nylander wins the NHL Art Ross Trophy in the 2026-27 NHL season, then the market resolves to Yes."
+    "rules_primary": "If Martin Necas wins the NHL Art Ross Trophy in the 2026-27 NHL season, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "low": 40
+    "low": 47
    },
    "errors": []
   },
@@ -4130,53 +4159,54 @@
    "family": "goalie_saves",
    "support": "RESEARCH",
    "counts_by_status": {
-    "open": 11,
+    "open": 14,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 11
+    "greater": 14
    },
    "market_types": {
-    "binary": 11
+    "binary": 14
    },
    "title_templates": {
-    "NAME: #+ saves": 11
+    "NAME: #+ saves": 14
    },
    "sample_tickers": [
-    "KXNHLSAVE-26NOV10NSHLA-LAAFORSBERG31-25",
-    "KXNHLSAVE-26NOV10MINMTL-MINJWALLSTEDT30-25",
-    "KXNHLSAVE-26NOV10DETSTL-DETJGIBSON36-24",
-    "KXNHLSAVE-26NOV10FLACBJ-FLAJMARKSTROM25-24",
-    "KXNHLSAVE-26NOV10COLTOR-COLMBLACKWOOD39-25",
-    "KXNHLSAVE-26NOV10NJWPG-NJJALLEN34-26",
-    "KXNHLSAVE-26NOV10DETSTL-STLJHOFER30-25",
-    "KXNHLSAVE-26NOV10FLACBJ-CBJCTALBOT33-25",
-    "KXNHLSAVE-26NOV10WSHOTT-OTTSERSSON30-24",
-    "KXNHLSAVE-26NOV10MINMTL-MTLJFOWLER32-28",
-    "KXNHLSAVE-26NOV10COLTOR-TORSBOBROVSKY72-29"
+    "KXNHLSAVE-26NOV11PITSJ-SJYASKAROV30-26",
+    "KXNHLSAVE-26NOV11PITSJ-PITSMURASHOV1-25",
+    "KXNHLSAVE-26NOV11UTAVGK-UTASCOSSA33-25",
+    "KXNHLSAVE-26NOV11UTAVGK-VGKCHART79-24",
+    "KXNHLSAVE-26NOV11NSHANA-NSHJANNUNEN29-28",
+    "KXNHLSAVE-26NOV11NSHANA-ANALBROSSOIT31-23",
+    "KXNHLSAVE-26NOV11NYRCGY-NYRJKORPISALO70-25",
+    "KXNHLSAVE-26NOV11PHIEDM-PHIDVLADAR80-26",
+    "KXNHLSAVE-26NOV11PHIEDM-EDMTJARRY35-22",
+    "KXNHLSAVE-26NOV11TBBUF-TBAVASILEVSKIY88-24",
+    "KXNHLSAVE-26NOV11PHIEDM-EDMDLEVI27-22",
+    "KXNHLSAVE-26NOV11NYRCGY-CGYDCOOLEY1-25"
    ],
    "sample_market": {
-    "ticker": "KXNHLSAVE-26NOV10NSHLA-LAAFORSBERG31-25",
-    "event_ticker": "KXNHLSAVE-26NOV10NSHLA",
+    "ticker": "KXNHLSAVE-26NOV11PITSJ-SJYASKAROV30-26",
+    "event_ticker": "KXNHLSAVE-26NOV11PITSJ",
     "market_type": "binary",
-    "title": "Anton Forsberg: 25+ saves",
-    "yes_sub_title": "Anton Forsberg: 25+",
-    "no_sub_title": "Anton Forsberg: 25+",
+    "title": "Yaroslav Askarov: 26+ saves",
+    "yes_sub_title": "Yaroslav Askarov: 26+",
+    "no_sub_title": "Yaroslav Askarov: 26+",
     "strike_type": "greater",
-    "floor_strike": 24.5,
+    "floor_strike": 25.5,
     "custom_strike": {
-     "hockey_player": "ef13716a-d6e5-40e7-82e3-aa612cf56405",
-     "hockey_team": "dbea1e18-0f3c-47a6-9617-e16981181ca2"
+     "hockey_player": "d9975a58-bdda-4de9-9933-549069713e00",
+     "hockey_team": "eb4bc183-5966-40eb-8bdb-3dd922ad1752"
     },
     "status": "active",
-    "open_time": "2026-11-10T20:20:00Z",
-    "close_time": "2026-11-13T03:00:00Z",
-    "expected_expiration_time": "2026-11-11T06:00:00Z",
+    "open_time": "2026-11-11T21:50:00Z",
+    "close_time": "2026-11-14T03:00:00Z",
+    "expected_expiration_time": "2026-11-12T06:00:00Z",
     "result": "",
-    "rules_primary": "If Anton Forsberg records 25+ saves in the Nashville vs Los Angeles NHL game originally scheduled for Nov 10, 2026, then the market resolves to Yes."
+    "rules_primary": "If Yaroslav Askarov records 26+ saves in the Pittsburgh vs San Jose NHL game originally scheduled for Nov 11, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 11
+    "high": 14
    },
    "errors": []
   },
@@ -4613,80 +4643,81 @@
    "family": "game_spread",
    "support": "MODELABLE",
    "counts_by_status": {
-    "open": 96,
+    "open": 84,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 96
+    "greater": 84
    },
    "market_types": {
-    "binary": 96
+    "binary": 84
    },
    "title_templates": {
-    "NAME I wins by over # goals": 2,
-    "NAME wins by over # goals": 14,
-    "Utah wins by over # goals": 4,
-    "St. Louis wins by over # goals": 4,
-    "Chicago wins by over # goals": 2,
-    "Buffalo wins by over # goals": 4,
     "Winnipeg wins by over # goals": 4,
-    "Dallas wins by over # goals": 2,
-    "Florida wins by over # goals": 4,
-    "Detroit wins by over # goals": 4,
-    "Ottawa wins by over # goals": 4,
-    "Colorado wins by over # goals": 4,
-    "Columbus wins by over # goals": 4,
-    "Washington wins by over # goals": 4,
-    "Toronto wins by over # goals": 4,
-    "Minnesota wins by over # goals": 4,
-    "Montreal wins by over # goals": 4,
-    "Boston wins by over # goals": 2,
-    "Seattle wins by over # goals": 2,
-    "Carolina wins by over # goals": 2,
+    "Chicago wins by over # goals": 4,
+    "Seattle wins by over # goals": 4,
+    "Carolina wins by over # goals": 4,
+    "Vegas wins by over # goals": 4,
     "Nashville wins by over # goals": 4,
+    "Vancouver wins by over # goals": 2,
+    "NAME R wins by over # goals": 4,
+    "NAME I wins by over # goals": 2,
+    "NAME wins by over # goals": 10,
+    "Utah wins by over # goals": 4,
+    "St. Louis wins by over # goals": 2,
+    "Buffalo wins by over # goals": 4,
+    "Dallas wins by over # goals": 2,
+    "Florida wins by over # goals": 2,
+    "Detroit wins by over # goals": 2,
+    "Ottawa wins by over # goals": 2,
+    "Colorado wins by over # goals": 2,
+    "Columbus wins by over # goals": 2,
+    "Washington wins by over # goals": 2,
+    "Toronto wins by over # goals": 2,
+    "Minnesota wins by over # goals": 2,
+    "Montreal wins by over # goals": 2,
+    "Boston wins by over # goals": 2,
     "Anaheim wins by over # goals": 2,
-    "Vegas wins by over # goals": 2,
     "Pittsburgh wins by over # goals": 2,
     "Philadelphia wins by over # goals": 2,
     "Edmonton wins by over # goals": 2,
-    "NAME R wins by over # goals": 2,
     "Calgary wins by over # goals": 2
    },
    "sample_tickers": [
-    "KXNHLSPREAD-26NOV12NYILA-NYI3",
-    "KXNHLSPREAD-26NOV12NYILA-NYI2",
-    "KXNHLSPREAD-26NOV12NYILA-LA3",
-    "KXNHLSPREAD-26NOV12NYILA-LA2",
-    "KXNHLSPREAD-26NOV12STLUTA-UTA3",
-    "KXNHLSPREAD-26NOV12STLUTA-UTA2",
-    "KXNHLSPREAD-26NOV12STLUTA-STL3",
-    "KXNHLSPREAD-26NOV12STLUTA-STL2",
-    "KXNHLSPREAD-26NOV12BUFCHI-CHI3",
-    "KXNHLSPREAD-26NOV12BUFCHI-CHI2",
-    "KXNHLSPREAD-26NOV12BUFCHI-BUF3",
-    "KXNHLSPREAD-26NOV12BUFCHI-BUF2"
+    "KXNHLSPREAD-26NOV14WPGCHI-WPG3",
+    "KXNHLSPREAD-26NOV14WPGCHI-WPG2",
+    "KXNHLSPREAD-26NOV14WPGCHI-CHI3",
+    "KXNHLSPREAD-26NOV14WPGCHI-CHI2",
+    "KXNHLSPREAD-26NOV14SEACAR-SEA3",
+    "KXNHLSPREAD-26NOV14SEACAR-SEA2",
+    "KXNHLSPREAD-26NOV14SEACAR-CAR3",
+    "KXNHLSPREAD-26NOV14SEACAR-CAR2",
+    "KXNHLSPREAD-26NOV13NSHVGK-VGK3",
+    "KXNHLSPREAD-26NOV13NSHVGK-VGK2",
+    "KXNHLSPREAD-26NOV13NSHVGK-NSH3",
+    "KXNHLSPREAD-26NOV13NSHVGK-NSH2"
    ],
    "sample_market": {
-    "ticker": "KXNHLSPREAD-26NOV12NYILA-NYI3",
-    "event_ticker": "KXNHLSPREAD-26NOV12NYILA",
+    "ticker": "KXNHLSPREAD-26NOV14WPGCHI-WPG3",
+    "event_ticker": "KXNHLSPREAD-26NOV14WPGCHI",
     "market_type": "binary",
-    "title": "New York I wins by over 2.5 goals",
-    "yes_sub_title": "New York I wins by over 2.5 goals",
-    "no_sub_title": "New York I wins by over 2.5 goals",
+    "title": "Winnipeg wins by over 2.5 goals",
+    "yes_sub_title": "Winnipeg wins by over 2.5 goals",
+    "no_sub_title": "Winnipeg wins by over 2.5 goals",
     "strike_type": "greater",
     "floor_strike": 2.5,
     "custom_strike": {
-     "hockey_team": "03f52887-5bb7-4b51-954e-433f73474350"
+     "hockey_team": "6f769f6d-161e-43d3-a586-db5451c5050e"
     },
     "status": "active",
-    "open_time": "2026-11-10T05:11:00Z",
-    "close_time": "2026-11-15T03:00:00Z",
-    "expected_expiration_time": "2026-11-13T06:00:00Z",
+    "open_time": "2026-11-11T23:05:00Z",
+    "close_time": "2026-11-16T20:30:00Z",
+    "expected_expiration_time": "2026-11-14T23:30:00Z",
     "result": "",
-    "rules_primary": "If New York I wins by over 2.5 goals in the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If Winnipeg wins by over 2.5 goals in the Winnipeg vs Chicago NHL game originally scheduled for Nov 14, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 96
+    "high": 84
    },
    "errors": []
   },
@@ -4703,76 +4734,80 @@
    "family": "team_total",
    "support": "MODELABLE",
    "counts_by_status": {
-    "open": 140,
+    "open": 170,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 140
+    "greater": 170
    },
    "market_types": {
-    "binary": 140
+    "binary": 170
    },
    "title_templates": {
+    "NAME I over # goals scored": 5,
+    "NAME over # goals scored": 25,
+    "Utah over # goals scored": 10,
+    "St. Louis over # goals scored": 5,
+    "Chicago over # goals scored": 5,
+    "Buffalo over # goals scored": 10,
+    "Winnipeg over # goals scored": 5,
+    "Dallas over # goals scored": 5,
+    "Florida over # goals scored": 5,
+    "Detroit over # goals scored": 5,
+    "Ottawa over # goals scored": 5,
+    "Colorado over # goals scored": 5,
+    "Columbus over # goals scored": 5,
+    "Washington over # goals scored": 5,
+    "Toronto over # goals scored": 5,
+    "Minnesota over # goals scored": 5,
+    "Montreal over # goals scored": 5,
+    "Boston over # goals scored": 5,
     "Seattle over # goals scored": 5,
     "Carolina over # goals scored": 5,
-    "Nashville over # goals scored": 10,
+    "Nashville over # goals scored": 5,
     "Anaheim over # goals scored": 5,
     "Vegas over # goals scored": 5,
-    "Utah over # goals scored": 5,
-    "NAME over # goals scored": 20,
     "Pittsburgh over # goals scored": 5,
     "Philadelphia over # goals scored": 5,
     "Edmonton over # goals scored": 5,
-    "Buffalo over # goals scored": 5,
     "NAME R over # goals scored": 5,
-    "Calgary over # goals scored": 5,
-    "St. Louis over # goals scored": 5,
-    "Detroit over # goals scored": 5,
-    "Winnipeg over # goals scored": 5,
-    "Florida over # goals scored": 5,
-    "Columbus over # goals scored": 5,
-    "Washington over # goals scored": 5,
-    "Ottawa over # goals scored": 5,
-    "Montreal over # goals scored": 5,
-    "Minnesota over # goals scored": 5,
-    "Toronto over # goals scored": 5,
-    "Colorado over # goals scored": 5
+    "Calgary over # goals scored": 5
    },
    "sample_tickers": [
-    "KXNHLTEAMTOTAL-26NOV12CARSEA-SEA6",
-    "KXNHLTEAMTOTAL-26NOV12CARSEA-SEA5",
-    "KXNHLTEAMTOTAL-26NOV12CARSEA-SEA4",
-    "KXNHLTEAMTOTAL-26NOV12CARSEA-SEA3",
-    "KXNHLTEAMTOTAL-26NOV12CARSEA-SEA2",
-    "KXNHLTEAMTOTAL-26NOV12CARSEA-CAR6",
-    "KXNHLTEAMTOTAL-26NOV12CARSEA-CAR5",
-    "KXNHLTEAMTOTAL-26NOV12CARSEA-CAR4",
-    "KXNHLTEAMTOTAL-26NOV12CARSEA-CAR3",
-    "KXNHLTEAMTOTAL-26NOV12CARSEA-CAR2",
-    "KXNHLTEAMTOTAL-26NOV11NSHANA-NSH6",
-    "KXNHLTEAMTOTAL-26NOV11NSHANA-NSH5"
+    "KXNHLTEAMTOTAL-26NOV12NYILA-NYI6",
+    "KXNHLTEAMTOTAL-26NOV12NYILA-NYI5",
+    "KXNHLTEAMTOTAL-26NOV12NYILA-NYI4",
+    "KXNHLTEAMTOTAL-26NOV12NYILA-NYI3",
+    "KXNHLTEAMTOTAL-26NOV12NYILA-NYI2",
+    "KXNHLTEAMTOTAL-26NOV12NYILA-LA6",
+    "KXNHLTEAMTOTAL-26NOV12NYILA-LA5",
+    "KXNHLTEAMTOTAL-26NOV12NYILA-LA4",
+    "KXNHLTEAMTOTAL-26NOV12NYILA-LA3",
+    "KXNHLTEAMTOTAL-26NOV12NYILA-LA2",
+    "KXNHLTEAMTOTAL-26NOV12STLUTA-UTA6",
+    "KXNHLTEAMTOTAL-26NOV12STLUTA-UTA5"
    ],
    "sample_market": {
-    "ticker": "KXNHLTEAMTOTAL-26NOV12CARSEA-SEA6",
-    "event_ticker": "KXNHLTEAMTOTAL-26NOV12CARSEA",
+    "ticker": "KXNHLTEAMTOTAL-26NOV12NYILA-NYI6",
+    "event_ticker": "KXNHLTEAMTOTAL-26NOV12NYILA",
     "market_type": "binary",
-    "title": "Seattle over 5.5 goals scored",
-    "yes_sub_title": "Seattle over 5.5",
-    "no_sub_title": "Seattle over 5.5",
+    "title": "New York I over 5.5 goals scored",
+    "yes_sub_title": "New York I over 5.5",
+    "no_sub_title": "New York I over 5.5",
     "strike_type": "greater",
     "floor_strike": 5.5,
     "custom_strike": {
-     "hockey_team": "2ed1104c-eb5a-4175-9f05-0561caaa59d2"
+     "hockey_team": "03f52887-5bb7-4b51-954e-433f73474350"
     },
     "status": "active",
-    "open_time": "2026-11-10T17:05:00Z",
-    "close_time": "2026-11-14T17:00:00Z",
-    "expected_expiration_time": "2026-11-12T20:00:00Z",
+    "open_time": "2026-11-11T05:06:00Z",
+    "close_time": "2026-11-15T03:00:00Z",
+    "expected_expiration_time": "2026-11-13T06:00:00Z",
     "result": "",
-    "rules_primary": "If Seattle scores over 5.5 goals in the Carolina vs Seattle NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If New York I scores over 5.5 goals in the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 140
+    "high": 170
    },
    "errors": []
   },
@@ -4789,35 +4824,35 @@
    "family": "game_total",
    "support": "MODELABLE",
    "counts_by_status": {
-    "open": 216,
+    "open": 189,
     "unopened": 0
    },
    "strike_types": {
-    "greater": 216
+    "greater": 189
    },
    "market_types": {
-    "binary": 216
+    "binary": 189
    },
    "title_templates": {
-    "NAME: Over # goals scored": 216
+    "NAME: Over # goals scored": 189
    },
    "sample_tickers": [
-    "KXNHLTOTAL-26NOV12NYILA-9",
-    "KXNHLTOTAL-26NOV12NYILA-8",
-    "KXNHLTOTAL-26NOV12NYILA-7",
-    "KXNHLTOTAL-26NOV12NYILA-6",
-    "KXNHLTOTAL-26NOV12NYILA-5",
-    "KXNHLTOTAL-26NOV12NYILA-4",
-    "KXNHLTOTAL-26NOV12NYILA-3",
-    "KXNHLTOTAL-26NOV12NYILA-2",
-    "KXNHLTOTAL-26NOV12NYILA-10",
-    "KXNHLTOTAL-26NOV12STLUTA-9",
-    "KXNHLTOTAL-26NOV12STLUTA-8",
-    "KXNHLTOTAL-26NOV12STLUTA-7"
+    "KXNHLTOTAL-26NOV14WPGCHI-9",
+    "KXNHLTOTAL-26NOV14WPGCHI-8",
+    "KXNHLTOTAL-26NOV14WPGCHI-7",
+    "KXNHLTOTAL-26NOV14WPGCHI-6",
+    "KXNHLTOTAL-26NOV14WPGCHI-5",
+    "KXNHLTOTAL-26NOV14WPGCHI-4",
+    "KXNHLTOTAL-26NOV14WPGCHI-3",
+    "KXNHLTOTAL-26NOV14WPGCHI-2",
+    "KXNHLTOTAL-26NOV14WPGCHI-10",
+    "KXNHLTOTAL-26NOV14SEACAR-9",
+    "KXNHLTOTAL-26NOV14SEACAR-8",
+    "KXNHLTOTAL-26NOV14SEACAR-7"
    ],
    "sample_market": {
-    "ticker": "KXNHLTOTAL-26NOV12NYILA-9",
-    "event_ticker": "KXNHLTOTAL-26NOV12NYILA",
+    "ticker": "KXNHLTOTAL-26NOV14WPGCHI-9",
+    "event_ticker": "KXNHLTOTAL-26NOV14WPGCHI",
     "market_type": "binary",
     "title": "Full Game: Over 8.5 goals scored",
     "yes_sub_title": "Over 8.5 goals scored",
@@ -4825,14 +4860,14 @@
     "strike_type": "greater",
     "floor_strike": 8.5,
     "status": "active",
-    "open_time": "2026-11-10T05:11:00Z",
-    "close_time": "2026-11-15T03:00:00Z",
-    "expected_expiration_time": "2026-11-13T06:00:00Z",
+    "open_time": "2026-11-11T23:05:00Z",
+    "close_time": "2026-11-16T20:30:00Z",
+    "expected_expiration_time": "2026-11-14T23:30:00Z",
     "result": "",
-    "rules_primary": "If the teams collectively score more than 8.5 goals in the New York I vs Los Angeles NHL game originally scheduled for Nov 12, 2026, then the market resolves to Yes."
+    "rules_primary": "If the teams collectively score more than 8.5 goals in the Winnipeg vs Chicago NHL game originally scheduled for Nov 14, 2026, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "high": 216
+    "high": 189
    },
    "errors": []
   },
@@ -4849,53 +4884,52 @@
    "family": "season_awards",
    "support": "UNMODELABLE",
    "counts_by_status": {
-    "open": 40,
+    "open": 48,
     "unopened": 0
    },
    "strike_types": {
-    "structured": 40
+    "structured": 48
    },
    "market_types": {
-    "binary": 40
+    "binary": 48
    },
    "title_templates": {
-    "NAME: NAME wins": 40
+    "NAME: NAME wins": 48
    },
    "sample_tickers": [
+    "KXNHLVEZINA-27-CHART79",
+    "KXNHLVEZINA-27-DVLADAR80",
+    "KXNHLVEZINA-27-DLEVI27",
+    "KXNHLVEZINA-27-JFOWLER32",
+    "KXNHLVEZINA-27-JDOBES75",
+    "KXNHLVEZINA-27-JWALLSTEDT30",
+    "KXNHLVEZINA-27-JHOFER30",
+    "KXNHLVEZINA-27-SCOSSA33",
     "KXNHLVEZINA-27-YASKAROV30",
     "KXNHLVEZINA-27-ULUUKKONEN1",
     "KXNHLVEZINA-27-TDEMKO35",
-    "KXNHLVEZINA-27-SSKINNER74",
-    "KXNHLVEZINA-27-SMONTEMBEAULT35",
-    "KXNHLVEZINA-27-SKNIGHT30",
-    "KXNHLVEZINA-27-SBOBROVSKY72",
-    "KXNHLVEZINA-27-PMRAZEK34",
-    "KXNHLVEZINA-27-PKOCHETKOV52",
-    "KXNHLVEZINA-27-MBLACKWOOD39",
-    "KXNHLVEZINA-27-LULLMARK35",
-    "KXNHLVEZINA-27-LTHOMPSON48"
+    "KXNHLVEZINA-27-SSKINNER74"
    ],
    "sample_market": {
-    "ticker": "KXNHLVEZINA-27-YASKAROV30",
+    "ticker": "KXNHLVEZINA-27-CHART79",
     "event_ticker": "KXNHLVEZINA-27",
     "market_type": "binary",
-    "title": "Vezina Trophy: Yaroslav Askarov wins",
-    "subtitle": "::",
-    "yes_sub_title": "Yaroslav Askarov",
-    "no_sub_title": "Yaroslav Askarov",
+    "title": "Vezina Trophy: Carter Hart wins",
+    "yes_sub_title": "Carter Hart",
+    "no_sub_title": "Carter Hart",
     "strike_type": "structured",
     "custom_strike": {
-     "hockey_player": "d9975a58-bdda-4de9-9933-549069713e00"
+     "hockey_player": "7290548a-8894-46f2-ab77-699d8822fb63"
     },
     "status": "active",
-    "open_time": "2026-09-01T19:00:00Z",
+    "open_time": "2026-11-11T16:15:00Z",
     "close_time": "2027-07-07T14:00:00Z",
     "expected_expiration_time": "2027-06-30T14:00:00Z",
     "result": "",
-    "rules_primary": "If Yaroslav Askarov wins the NHL Vezina Trophy in the 2026-27 NHL season, then the market resolves to Yes."
+    "rules_primary": "If Carter Hart wins the NHL Vezina Trophy in the 2026-27 NHL season, then the market resolves to Yes."
    },
    "ticker_parse_confidence": {
-    "low": 40
+    "low": 48
    },
    "errors": []
   },
@@ -5370,32 +5404,32 @@
   }
  ],
  "support_counts": {
-  "RESEARCH": 2540,
-  "UNMODELABLE": 252,
-  "MODELABLE": 546,
-  "UNRESOLVED": 45,
-  "BUILDABLE": 14
+  "RESEARCH": 2492,
+  "UNMODELABLE": 286,
+  "MODELABLE": 545,
+  "UNRESOLVED": 55,
+  "BUILDABLE": 17
  },
  "family_counts": {
   "season_champion": 481,
-  "period_winner": 126,
-  "period_spread": 84,
-  "period_total": 126,
-  "season_awards": 251,
-  "player_assists": 232,
+  "period_winner": 153,
+  "period_spread": 102,
+  "period_total": 153,
+  "season_awards": 285,
+  "player_assists": 205,
   "non_hockey_or_office": 1,
-  "game_early_goal": 14,
-  "first_goal": 237,
-  "game_winner": 94,
-  "player_goals": 419,
-  "season_unknown": 45,
-  "game_overtime": 14,
-  "player_points": 313,
-  "goalie_saves": 11,
+  "game_early_goal": 17,
+  "first_goal": 215,
+  "game_winner": 102,
+  "player_goals": 370,
+  "season_unknown": 55,
+  "game_overtime": 17,
+  "player_points": 285,
+  "goalie_saves": 14,
   "season_player_stats": 497,
-  "game_spread": 96,
-  "team_total": 140,
-  "game_total": 216,
+  "game_spread": 84,
+  "team_total": 170,
+  "game_total": 189,
   "game_regulation_winner": 0,
   "game_win_margin": 0,
   "game_shootout": 0,
@@ -5408,6 +5442,76 @@
   "playoff_series": 0
  },
  "unresolved_samples": [
+  {
+   "ticker": "KXNHLLINDSAY-27-TSTUTZLE18",
+   "series": "KXNHLLINDSAY",
+   "title": "Ted Lindsay Award: Tim Stutzle wins",
+   "reason": "series KXNHLLINDSAY not in ontology; season-scope words in title",
+   "guess": "season_unknown"
+  },
+  {
+   "ticker": "KXNHLLINDSAY-27-SAHO20",
+   "series": "KXNHLLINDSAY",
+   "title": "Ted Lindsay Award: Sebastian Aho wins",
+   "reason": "series KXNHLLINDSAY not in ontology; season-scope words in title",
+   "guess": "season_unknown"
+  },
+  {
+   "ticker": "KXNHLLINDSAY-27-CKELLER9",
+   "series": "KXNHLLINDSAY",
+   "title": "Ted Lindsay Award: Clayton Keller wins",
+   "reason": "series KXNHLLINDSAY not in ontology; season-scope words in title",
+   "guess": "season_unknown"
+  },
+  {
+   "ticker": "KXNHLLINDSAY-27-MNECAS88",
+   "series": "KXNHLLINDSAY",
+   "title": "Ted Lindsay Award: Martin Necas wins",
+   "reason": "series KXNHLLINDSAY not in ontology; season-scope words in title",
+   "guess": "season_unknown"
+  },
+  {
+   "ticker": "KXNHLLINDSAY-27-LCARLSSON91",
+   "series": "KXNHLLINDSAY",
+   "title": "Ted Lindsay Award: Leo Carlsson wins",
+   "reason": "series KXNHLLINDSAY not in ontology; season-scope words in title",
+   "guess": "season_unknown"
+  },
+  {
+   "ticker": "KXNHLLINDSAY-27-JLACOMBE2",
+   "series": "KXNHLLINDSAY",
+   "title": "Ted Lindsay Award: Jackson LaCombe wins",
+   "reason": "series KXNHLLINDSAY not in ontology; season-scope words in title",
+   "guess": "season_unknown"
+  },
+  {
+   "ticker": "KXNHLLINDSAY-27-BSENNECKE45",
+   "series": "KXNHLLINDSAY",
+   "title": "Ted Lindsay Award: Beckett Sennecke wins",
+   "reason": "series KXNHLLINDSAY not in ontology; season-scope words in title",
+   "guess": "season_unknown"
+  },
+  {
+   "ticker": "KXNHLLINDSAY-27-AFOX23",
+   "series": "KXNHLLINDSAY",
+   "title": "Ted Lindsay Award: Adam Fox wins",
+   "reason": "series KXNHLLINDSAY not in ontology; season-scope words in title",
+   "guess": "season_unknown"
+  },
+  {
+   "ticker": "KXNHLLINDSAY-27-CGAUTHIER61",
+   "series": "KXNHLLINDSAY",
+   "title": "Ted Lindsay Award: Cutter Gauthier wins",
+   "reason": "series KXNHLLINDSAY not in ontology; season-scope words in title",
+   "guess": "season_unknown"
+  },
+  {
+   "ticker": "KXNHLLINDSAY-27-EBOUCHARD2",
+   "series": "KXNHLLINDSAY",
+   "title": "Ted Lindsay Award: Evan Bouchard wins",
+   "reason": "series KXNHLLINDSAY not in ontology; season-scope words in title",
+   "guess": "season_unknown"
+  },
   {
    "ticker": "KXNHLLINDSAY-27-WNYLANDER88",
    "series": "KXNHLLINDSAY",
@@ -5724,6 +5828,6 @@
    "guess": "season_unknown"
   }
  ],
- "total_markets": 3397,
- "request_count": 158
+ "total_markets": 3395,
+ "request_count": 159
 }
