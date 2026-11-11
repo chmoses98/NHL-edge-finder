@@ -1,0 +1,7582 @@
+{
+ "schema": "sift.projections.v1",
+ "sport": "NHL",
+ "generated_utc": "2026-11-11T01:21:11Z",
+ "data_asof_utc": "2026-11-10T20:39:13Z",
+ "model": {
+  "id": "pf-nhl",
+  "version": "pf-nhl-1.0.0+de1c36a",
+  "authority": "research_only"
+ },
+ "families": {
+  "shots": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.804, PIT var 0.991), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0082 [-0.0128, -0.0037] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "goals": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.799, PIT var 0.997), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0002 [-0.0008, +0.0004] (tie). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "assists": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.799, PIT var 0.996), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0041 [-0.0070, -0.0014] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "points": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.801, PIT var 0.992), better than the incumbent on holdout; prospective 2026-27 vs incumbent -0.0032 [-0.0061, -0.0004] (better). READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "saves": {
+   "readiness": "NEEDS IMPROVEMENT",
+   "model": "F_stack",
+   "reason": "Beats our own baseline but the incumbent (PLAYER_SIM_V1 walk-forward 2024-25 + 2025-26) is better on holdout (rung RPS over 14+..40+ (CRPS restricted to the incumbent's published rungs): +0.0278 [+0.0118, +0.0432])."
+  },
+  "team_goals": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "F_stack",
+   "reason": "Beats baseline on validation and holdout, calibrated (80% coverage 0.797, PIT var 1.002), statistically tied with the incumbent on holdout. READY requires a live shadow record from the daily workflow (none yet: it is inert until merged)."
+  },
+  "toi_minutes": {
+   "readiness": "SHADOW VALIDATION",
+   "model": "E_lightgbm",
+   "reason": "opportunity family: holdout TOI MAE 1.82 min"
+  }
+ },
+ "games": [
+  {
+   "game_id": "2026020292",
+   "start_utc": "2026-11-11T03:00:00Z",
+   "home": "LAK",
+   "away": "NSH",
+   "teams": [
+    {
+     "team": "LAK",
+     "family": "team_goals",
+     "mean": 3.142,
+     "p10": 1,
+     "p90": 5,
+     "player_goal_sum": 3.39,
+     "reconciliation": {
+      "status": "PASS",
+      "ratio": 1.0790382630764912
+     },
+     "role": "shadow",
+     "gate": {
+      "status": "PASS",
+      "findings": []
+     }
+    },
+    {
+     "team": "NSH",
+     "family": "team_goals",
+     "mean": 2.79,
+     "p10": 1,
+     "p90": 5,
+     "player_goal_sum": 2.804,
+     "reconciliation": {
+      "status": "PASS",
+      "ratio": 1.0052535127820537
+     },
+     "role": "shadow",
+     "gate": {
+      "status": "PASS",
+      "findings": []
+     }
+    }
+   ]
+  }
+ ],
+ "players": [
+  {
+   "player_id": "8478550",
+   "name": "Artemi Panarin",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 3.2748,
+   "median": 3,
+   "p10": 1,
+   "p90": 6,
+   "thresholds": {
+    "2": 0.823,
+    "3": 0.6218,
+    "4": 0.4108,
+    "5": 0.2394
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.9,
+    "p10": 18.99,
+    "p90": 24.82,
+    "pp_mean": 4.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8478550",
+   "name": "Artemi Panarin",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.4641,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3713,
+    "2": 0.0795
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.9,
+    "p10": 18.99,
+    "p90": 24.82,
+    "pp_mean": 4.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8478550",
+   "name": "Artemi Panarin",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.7917,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5469,
+    "2": 0.1882
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.9,
+    "p10": 18.99,
+    "p90": 24.82,
+    "pp_mean": 4.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8478550",
+   "name": "Artemi Panarin",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 1.22,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "1": 0.7048,
+    "2": 0.3446,
+    "3": 0.1249
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.9,
+    "p10": 18.99,
+    "p90": 24.82,
+    "pp_mean": 4.29
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482155",
+   "name": "Alex Laferriere",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 3.0634,
+   "median": 3,
+   "p10": 1,
+   "p90": 6,
+   "thresholds": {
+    "2": 0.7952,
+    "3": 0.5793,
+    "4": 0.3661,
+    "5": 0.2031
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.42,
+    "p10": 16.5,
+    "p90": 22.34,
+    "pp_mean": 3.37
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482155",
+   "name": "Alex Laferriere",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.3386,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2872,
+    "2": 0.0459
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.42,
+    "p10": 16.5,
+    "p90": 22.34,
+    "pp_mean": 3.37
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482155",
+   "name": "Alex Laferriere",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.4282,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3475,
+    "2": 0.0697
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.42,
+    "p10": 16.5,
+    "p90": 22.34,
+    "pp_mean": 3.37
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482155",
+   "name": "Alex Laferriere",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.7384,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5221,
+    "2": 0.1692,
+    "3": 0.039
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.42,
+    "p10": 16.5,
+    "p90": 22.34,
+    "pp_mean": 3.37
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8477960",
+   "name": "Adrian Kempe",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 3.1233,
+   "median": 3,
+   "p10": 1,
+   "p90": 6,
+   "thresholds": {
+    "2": 0.8035,
+    "3": 0.5917,
+    "4": 0.3788,
+    "5": 0.2132
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.93,
+    "p10": 17.02,
+    "p90": 22.85,
+    "pp_mean": 3.74
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8477960",
+   "name": "Adrian Kempe",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.4777,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3798,
+    "2": 0.0835
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.93,
+    "p10": 17.02,
+    "p90": 22.85,
+    "pp_mean": 3.74
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8477960",
+   "name": "Adrian Kempe",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.5163,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.4033,
+    "2": 0.0952
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.93,
+    "p10": 17.02,
+    "p90": 22.85,
+    "pp_mean": 3.74
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8477960",
+   "name": "Adrian Kempe",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 1.0116,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.6364,
+    "2": 0.2685,
+    "3": 0.0825
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.93,
+    "p10": 17.02,
+    "p90": 22.85,
+    "pp_mean": 3.74
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479675",
+   "name": "Trevor Moore",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 2.2864,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.6471,
+    "3": 0.3954,
+    "4": 0.2064,
+    "5": 0.0944
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.35,
+    "p10": 13.44,
+    "p90": 19.27,
+    "pp_mean": 0.76
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479675",
+   "name": "Trevor Moore",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.2172,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1945,
+    "2": 0.021
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.35,
+    "p10": 13.44,
+    "p90": 19.27,
+    "pp_mean": 0.76
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479675",
+   "name": "Trevor Moore",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.2859,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2486,
+    "2": 0.0338
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.35,
+    "p10": 13.44,
+    "p90": 19.27,
+    "pp_mean": 0.76
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479675",
+   "name": "Trevor Moore",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.5146,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3998,
+    "2": 0.0959,
+    "3": 0.0165
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.35,
+    "p10": 13.44,
+    "p90": 19.27,
+    "pp_mean": 0.76
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482124",
+   "name": "Quinton Byfield",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 2.5658,
+   "median": 2,
+   "p10": 1,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.7129,
+    "3": 0.4669,
+    "4": 0.2603,
+    "5": 0.1259
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.51,
+    "p10": 16.59,
+    "p90": 22.43,
+    "pp_mean": 3.39
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482124",
+   "name": "Quinton Byfield",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.3541,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2982,
+    "2": 0.0497
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.51,
+    "p10": 16.59,
+    "p90": 22.43,
+    "pp_mean": 3.39
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482124",
+   "name": "Quinton Byfield",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.368,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3072,
+    "2": 0.0536
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.51,
+    "p10": 16.59,
+    "p90": 22.43,
+    "pp_mean": 3.39
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482124",
+   "name": "Quinton Byfield",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.7479,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5267,
+    "2": 0.1726,
+    "3": 0.0402
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.51,
+    "p10": 16.59,
+    "p90": 22.43,
+    "pp_mean": 3.39
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8470621",
+   "name": "Corey Perry",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.6658,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4859,
+    "3": 0.2377,
+    "4": 0.0973,
+    "5": 0.0345
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.82,
+    "p10": 10.9,
+    "p90": 16.74,
+    "pp_mean": 1.51
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8470621",
+   "name": "Corey Perry",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.2029,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.183,
+    "2": 0.0185
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.82,
+    "p10": 10.9,
+    "p90": 16.74,
+    "pp_mean": 1.51
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8470621",
+   "name": "Corey Perry",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.2267,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.201,
+    "2": 0.0235
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.82,
+    "p10": 10.9,
+    "p90": 16.74,
+    "pp_mean": 1.51
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8470621",
+   "name": "Corey Perry",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.4316,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3486,
+    "2": 0.0713,
+    "3": 0.0104
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.82,
+    "p10": 10.9,
+    "p90": 16.74,
+    "pp_mean": 1.51
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475287",
+   "name": "Erik Haula",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.6469,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4802,
+    "3": 0.2329,
+    "4": 0.0945,
+    "5": 0.0332
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.18,
+    "p10": 12.27,
+    "p90": 18.1,
+    "pp_mean": 1.22
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475287",
+   "name": "Erik Haula",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.1934,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1754,
+    "2": 0.0169
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.18,
+    "p10": 12.27,
+    "p90": 18.1,
+    "pp_mean": 1.22
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475287",
+   "name": "Erik Haula",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.2555,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2255,
+    "2": 0.0276
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.18,
+    "p10": 12.27,
+    "p90": 18.1,
+    "pp_mean": 1.22
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475287",
+   "name": "Erik Haula",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.4533,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3624,
+    "2": 0.0775,
+    "3": 0.0118
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.18,
+    "p10": 12.27,
+    "p90": 18.1,
+    "pp_mean": 1.22
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483675",
+   "name": "Kenny Connors",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.1457,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3151,
+    "3": 0.1167,
+    "4": 0.036,
+    "5": 0.0097
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.33,
+    "p10": 7.42,
+    "p90": 13.25,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "only 4 prior NHL games since 2021-22: rates lean on the role prior",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483675",
+   "name": "Kenny Connors",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0995,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0946,
+    "2": 0.0047
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.33,
+    "p10": 7.42,
+    "p90": 13.25,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "only 4 prior NHL games since 2021-22: rates lean on the role prior",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483675",
+   "name": "Kenny Connors",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1316,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1224,
+    "2": 0.0087
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.33,
+    "p10": 7.42,
+    "p90": 13.25,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "only 4 prior NHL games since 2021-22: rates lean on the role prior",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.8)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483675",
+   "name": "Kenny Connors",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.242,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2132,
+    "2": 0.0263,
+    "3": 0.0024
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.33,
+    "p10": 7.42,
+    "p90": 13.25,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "only 4 prior NHL games since 2021-22: rates lean on the role prior",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476469",
+   "name": "Joel Armia",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.4071,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4034,
+    "3": 0.1751,
+    "4": 0.0636,
+    "5": 0.0201
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.09,
+    "p10": 10.18,
+    "p90": 16.01,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476469",
+   "name": "Joel Armia",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.1662,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1528,
+    "2": 0.0127
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.09,
+    "p10": 10.18,
+    "p90": 16.01,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476469",
+   "name": "Joel Armia",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1881,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1709,
+    "2": 0.0161
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.09,
+    "p10": 10.18,
+    "p90": 16.01,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476469",
+   "name": "Joel Armia",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.3532,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2958,
+    "2": 0.0505,
+    "3": 0.0061
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.09,
+    "p10": 10.18,
+    "p90": 16.01,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481732",
+   "name": "Andre Lee",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.0401,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2781,
+    "3": 0.096,
+    "4": 0.0277,
+    "5": 0.007
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.7,
+    "p10": 7.79,
+    "p90": 13.62,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481732",
+   "name": "Andre Lee",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.1026,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0975,
+    "2": 0.005
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.7,
+    "p10": 7.79,
+    "p90": 13.62,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481732",
+   "name": "Andre Lee",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1354,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1257,
+    "2": 0.0092
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.7,
+    "p10": 7.79,
+    "p90": 13.62,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     },
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.7)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481732",
+   "name": "Andre Lee",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.2497,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2191,
+    "2": 0.0278,
+    "3": 0.0026
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.7,
+    "p10": 7.79,
+    "p90": 13.62,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476872",
+   "name": "Scott Laughton",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.4231,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4086,
+    "3": 0.1789,
+    "4": 0.0656,
+    "5": 0.021
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.69,
+    "p10": 10.78,
+    "p90": 16.61,
+    "pp_mean": 0.31
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476872",
+   "name": "Scott Laughton",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.1551,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1433,
+    "2": 0.0111
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.69,
+    "p10": 10.78,
+    "p90": 16.61,
+    "pp_mean": 0.31
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476872",
+   "name": "Scott Laughton",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1752,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1602,
+    "2": 0.0141
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.69,
+    "p10": 10.78,
+    "p90": 16.61,
+    "pp_mean": 0.31
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476872",
+   "name": "Scott Laughton",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.3395,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2863,
+    "2": 0.0471,
+    "3": 0.0055
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 13.69,
+    "p10": 10.78,
+    "p90": 16.61,
+    "pp_mean": 0.31
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482730",
+   "name": "Brandt Clarke",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.6834,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4911,
+    "3": 0.2421,
+    "4": 0.1,
+    "5": 0.0358
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.73,
+    "p10": 15.81,
+    "p90": 21.65,
+    "pp_mean": 1.83
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482730",
+   "name": "Brandt Clarke",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0986,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0938,
+    "2": 0.0046
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.73,
+    "p10": 15.81,
+    "p90": 21.65,
+    "pp_mean": 1.83
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482730",
+   "name": "Brandt Clarke",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.3749,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3119,
+    "2": 0.0554
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.73,
+    "p10": 15.81,
+    "p90": 21.65,
+    "pp_mean": 1.83
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482730",
+   "name": "Brandt Clarke",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.4693,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3724,
+    "2": 0.0822,
+    "3": 0.0129
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.73,
+    "p10": 15.81,
+    "p90": 21.65,
+    "pp_mean": 1.83
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476441",
+   "name": "Joel Edmundson",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.1474,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3157,
+    "3": 0.117,
+    "4": 0.0362,
+    "5": 0.0097
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.53,
+    "p10": 14.62,
+    "p90": 20.45,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476441",
+   "name": "Joel Edmundson",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0462,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0446,
+    "2": 0.0015
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.53,
+    "p10": 14.62,
+    "p90": 20.45,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476441",
+   "name": "Joel Edmundson",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1887,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1713,
+    "2": 0.0162
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.53,
+    "p10": 14.62,
+    "p90": 20.45,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476441",
+   "name": "Joel Edmundson",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.2378,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2099,
+    "2": 0.0254,
+    "3": 0.0022
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.53,
+    "p10": 14.62,
+    "p90": 20.45,
+    "pp_mean": 0.13
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474563",
+   "name": "Drew Doughty",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.3113,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3714,
+    "3": 0.1532,
+    "4": 0.053,
+    "5": 0.016
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.61,
+    "p10": 18.7,
+    "p90": 24.53,
+    "pp_mean": 1.33
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474563",
+   "name": "Drew Doughty",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0864,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0828,
+    "2": 0.0036
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.61,
+    "p10": 18.7,
+    "p90": 24.53,
+    "pp_mean": 1.33
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474563",
+   "name": "Drew Doughty",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.3233,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2763,
+    "2": 0.0423
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.61,
+    "p10": 18.7,
+    "p90": 24.53,
+    "pp_mean": 1.33
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474563",
+   "name": "Drew Doughty",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.4023,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3295,
+    "2": 0.0632,
+    "3": 0.0086
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.61,
+    "p10": 18.7,
+    "p90": 24.53,
+    "pp_mean": 1.33
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479998",
+   "name": "Mikey Anderson",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 0.7891,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.1898,
+    "3": 0.0518,
+    "4": 0.0117,
+    "5": 0.0023
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.07,
+    "p10": 16.15,
+    "p90": 21.99,
+    "pp_mean": 0.17
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479998",
+   "name": "Mikey Anderson",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0635,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0605,
+    "2": 0.0028
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.07,
+    "p10": 16.15,
+    "p90": 21.99,
+    "pp_mean": 0.17
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479998",
+   "name": "Mikey Anderson",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.2022,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1816,
+    "2": 0.0191
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.07,
+    "p10": 16.15,
+    "p90": 21.99,
+    "pp_mean": 0.17
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479998",
+   "name": "Mikey Anderson",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.2704,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2348,
+    "2": 0.0321,
+    "3": 0.0032
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.07,
+    "p10": 16.15,
+    "p90": 21.99,
+    "pp_mean": 0.17
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475208",
+   "name": "Brian Dumoulin",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 0.7411,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.173,
+    "3": 0.0448,
+    "4": 0.0096,
+    "5": 0.0018
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.57,
+    "p10": 14.66,
+    "p90": 20.49,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475208",
+   "name": "Brian Dumoulin",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0429,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0415,
+    "2": 0.0013
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.57,
+    "p10": 14.66,
+    "p90": 20.49,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475208",
+   "name": "Brian Dumoulin",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.181,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.165,
+    "2": 0.015
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.57,
+    "p10": 14.66,
+    "p90": 20.49,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475208",
+   "name": "Brian Dumoulin",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.2343,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2056,
+    "2": 0.026,
+    "3": 0.0025
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.57,
+    "p10": 14.66,
+    "p90": 20.49,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475692",
+   "name": "Mats Zuccarello",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.964,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5697,
+    "3": 0.3138,
+    "4": 0.146,
+    "5": 0.0591
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.43,
+    "p10": 14.51,
+    "p90": 20.35,
+    "pp_mean": 3.76
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475692",
+   "name": "Mats Zuccarello",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.2523,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.222,
+    "2": 0.0277
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.43,
+    "p10": 14.51,
+    "p90": 20.35,
+    "pp_mean": 3.76
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475692",
+   "name": "Mats Zuccarello",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.5625,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4302,
+    "2": 0.1097
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.43,
+    "p10": 14.51,
+    "p90": 20.35,
+    "pp_mean": 3.76
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475692",
+   "name": "Mats Zuccarello",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.804,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5524,
+    "2": 0.1926,
+    "3": 0.048
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.43,
+    "p10": 14.51,
+    "p90": 20.35,
+    "pp_mean": 3.76
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476879",
+   "name": "Cody Ceci",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 0.7342,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.1707,
+    "3": 0.0438,
+    "4": 0.0093,
+    "5": 0.0017
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.27,
+    "p10": 13.36,
+    "p90": 19.19,
+    "pp_mean": 0.09
+   },
+   "opponent_adjustment": {
+    "factor": 1.0447,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent NSH allows more shots: x1.04 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476879",
+   "name": "Cody Ceci",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0288,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0282,
+    "2": 0.0006
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.27,
+    "p10": 13.36,
+    "p90": 19.19,
+    "pp_mean": 0.09
+   },
+   "opponent_adjustment": {
+    "factor": 1.0171,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476879",
+   "name": "Cody Ceci",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1299,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1209,
+    "2": 0.0085
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.27,
+    "p10": 13.36,
+    "p90": 19.19,
+    "pp_mean": 0.09
+   },
+   "opponent_adjustment": {
+    "factor": 1.0186,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     },
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.8)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476879",
+   "name": "Cody Ceci",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.1522,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1397,
+    "2": 0.0117,
+    "3": 0.0008
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.27,
+    "p10": 13.36,
+    "p90": 19.19,
+    "pp_mean": 0.09
+   },
+   "opponent_adjustment": {
+    "factor": 1.0181,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "identity",
+      "severity": "REVIEW",
+      "what": "Identity matched with confidence 0.95",
+      "category": "data_quality",
+      "action": "Confirm the crosswalk entry manually."
+     },
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.6)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Zach Dooley) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474564",
+   "name": "Steven Stamkos",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 2.3705,
+   "median": 2,
+   "p10": 0,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.6652,
+    "3": 0.4161,
+    "4": 0.223,
+    "5": 0.1049
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.87,
+    "p10": 14.96,
+    "p90": 20.79,
+    "pp_mean": 3.01
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474564",
+   "name": "Steven Stamkos",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.4162,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3404,
+    "2": 0.0659
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.87,
+    "p10": 14.96,
+    "p90": 20.79,
+    "pp_mean": 3.01
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474564",
+   "name": "Steven Stamkos",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.3802,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3156,
+    "2": 0.0567
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.87,
+    "p10": 14.96,
+    "p90": 20.79,
+    "pp_mean": 3.01
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474564",
+   "name": "Steven Stamkos",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.7957,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5487,
+    "2": 0.1897,
+    "3": 0.0468
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 17.87,
+    "p10": 14.96,
+    "p90": 20.79,
+    "pp_mean": 3.01
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475158",
+   "name": "Ryan O'Reilly",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.7644,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.5146,
+    "3": 0.2627,
+    "4": 0.1127,
+    "5": 0.042
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.4,
+    "p10": 17.49,
+    "p90": 23.32,
+    "pp_mean": 2.98
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475158",
+   "name": "Ryan O'Reilly",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.2836,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2458,
+    "2": 0.0342
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.4,
+    "p10": 17.49,
+    "p90": 23.32,
+    "pp_mean": 2.98
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475158",
+   "name": "Ryan O'Reilly",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.5234,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.4075,
+    "2": 0.0974
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.4,
+    "p10": 17.49,
+    "p90": 23.32,
+    "pp_mean": 2.98
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8475158",
+   "name": "Ryan O'Reilly",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.7997,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5506,
+    "2": 0.1911,
+    "3": 0.0474
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 20.4,
+    "p10": 17.49,
+    "p90": 23.32,
+    "pp_mean": 2.98
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482145",
+   "name": "Mavrik Bourque",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.8226,
+   "median": 2,
+   "p10": 0,
+   "p90": 4,
+   "thresholds": {
+    "2": 0.531,
+    "3": 0.2776,
+    "4": 0.1222,
+    "5": 0.0467
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.87,
+    "p10": 13.96,
+    "p90": 19.79,
+    "pp_mean": 2.55
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482145",
+   "name": "Mavrik Bourque",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.2365,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2098,
+    "2": 0.0246
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.87,
+    "p10": 13.96,
+    "p90": 19.79,
+    "pp_mean": 2.55
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482145",
+   "name": "Mavrik Bourque",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.3095,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2662,
+    "2": 0.0391
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.87,
+    "p10": 13.96,
+    "p90": 19.79,
+    "pp_mean": 2.55
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482145",
+   "name": "Mavrik Bourque",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.525,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.4059,
+    "2": 0.0991,
+    "3": 0.0173
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.87,
+    "p10": 13.96,
+    "p90": 19.79,
+    "pp_mean": 2.55
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476887",
+   "name": "Filip Forsberg",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 2.6373,
+   "median": 2,
+   "p10": 1,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.7263,
+    "3": 0.484,
+    "4": 0.2753,
+    "5": 0.1361
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.47,
+    "p10": 16.56,
+    "p90": 22.39,
+    "pp_mean": 3.3
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476887",
+   "name": "Filip Forsberg",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.3893,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.3225,
+    "2": 0.0587
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.47,
+    "p10": 16.56,
+    "p90": 22.39,
+    "pp_mean": 3.3
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476887",
+   "name": "Filip Forsberg",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.5228,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.4071,
+    "2": 0.0972
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.47,
+    "p10": 16.56,
+    "p90": 22.39,
+    "pp_mean": 3.3
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476887",
+   "name": "Filip Forsberg",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.9118,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5982,
+    "2": 0.2319,
+    "3": 0.0648
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.47,
+    "p10": 16.56,
+    "p90": 22.39,
+    "pp_mean": 3.3
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483524",
+   "name": "Shane Wright",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.1688,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3231,
+    "3": 0.1216,
+    "4": 0.0382,
+    "5": 0.0104
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.21,
+    "p10": 11.3,
+    "p90": 17.13,
+    "pp_mean": 1.67
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483524",
+   "name": "Shane Wright",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.162,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1492,
+    "2": 0.0121
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.21,
+    "p10": 11.3,
+    "p90": 17.13,
+    "pp_mean": 1.67
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483524",
+   "name": "Shane Wright",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1886,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1713,
+    "2": 0.0162
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.21,
+    "p10": 11.3,
+    "p90": 17.13,
+    "pp_mean": 1.67
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483524",
+   "name": "Shane Wright",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.3476,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.292,
+    "2": 0.0491,
+    "3": 0.0059
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.21,
+    "p10": 11.3,
+    "p90": 17.13,
+    "pp_mean": 1.67
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481535",
+   "name": "Nils Hoglander",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.0333,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2757,
+    "3": 0.0946,
+    "4": 0.0271,
+    "5": 0.0068
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.23,
+    "p10": 8.32,
+    "p90": 14.15,
+    "pp_mean": 0.78
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481535",
+   "name": "Nils Hoglander",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.1165,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1095,
+    "2": 0.0067
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.23,
+    "p10": 8.32,
+    "p90": 14.15,
+    "pp_mean": 0.78
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481535",
+   "name": "Nils Hoglander",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1443,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1333,
+    "2": 0.0104
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.23,
+    "p10": 8.32,
+    "p90": 14.15,
+    "pp_mean": 0.78
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.7)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481535",
+   "name": "Nils Hoglander",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.2645,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2304,
+    "2": 0.0309,
+    "3": 0.003
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 11.23,
+    "p10": 8.32,
+    "p90": 14.15,
+    "pp_mean": 0.78
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479525",
+   "name": "Ross Colton",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.5728,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.4556,
+    "3": 0.2153,
+    "4": 0.0857,
+    "5": 0.0298
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.47,
+    "p10": 9.55,
+    "p90": 15.39,
+    "pp_mean": 0.48
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479525",
+   "name": "Ross Colton",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.1606,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.148,
+    "2": 0.0119
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.47,
+    "p10": 9.55,
+    "p90": 15.39,
+    "pp_mean": 0.48
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479525",
+   "name": "Ross Colton",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1529,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1414,
+    "2": 0.0109
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.47,
+    "p10": 9.55,
+    "p90": 15.39,
+    "pp_mean": 0.48
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.6)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8479525",
+   "name": "Ross Colton",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.3203,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2726,
+    "2": 0.0425,
+    "3": 0.0047
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 12.47,
+    "p10": 9.55,
+    "p90": 15.39,
+    "pp_mean": 0.48
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8480835",
+   "name": "Jack Drury",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.2277,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3432,
+    "3": 0.1344,
+    "4": 0.044,
+    "5": 0.0125
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.73,
+    "p10": 13.81,
+    "p90": 19.65,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8480835",
+   "name": "Jack Drury",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.1286,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1201,
+    "2": 0.0081
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.73,
+    "p10": 13.81,
+    "p90": 19.65,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8480835",
+   "name": "Jack Drury",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.2144,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1913,
+    "2": 0.0212
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.73,
+    "p10": 13.81,
+    "p90": 19.65,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8480835",
+   "name": "Jack Drury",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.3427,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2886,
+    "2": 0.0479,
+    "3": 0.0057
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 16.73,
+    "p10": 13.81,
+    "p90": 19.65,
+    "pp_mean": 0.29
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481726",
+   "name": "Adam Edstrom",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.3457,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3833,
+    "3": 0.1606,
+    "4": 0.0563,
+    "5": 0.0171
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.41,
+    "p10": 12.5,
+    "p90": 18.33,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481726",
+   "name": "Adam Edstrom",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.1856,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1689,
+    "2": 0.0156
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.41,
+    "p10": 12.5,
+    "p90": 18.33,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481726",
+   "name": "Adam Edstrom",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1408,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1303,
+    "2": 0.0099
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.41,
+    "p10": 12.5,
+    "p90": 18.33,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.7)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481726",
+   "name": "Adam Edstrom",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.3289,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2788,
+    "2": 0.0446,
+    "3": 0.0051
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.41,
+    "p10": 12.5,
+    "p90": 18.33,
+    "pp_mean": 0.21
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483513",
+   "name": "Reid Schaefer",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 0.8805,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2218,
+    "3": 0.0666,
+    "4": 0.0166,
+    "5": 0.0036
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.54,
+    "p10": 7.62,
+    "p90": 13.46,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483513",
+   "name": "Reid Schaefer",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0915,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0873,
+    "2": 0.004
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.54,
+    "p10": 7.62,
+    "p90": 13.46,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483513",
+   "name": "Reid Schaefer",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.0902,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0858,
+    "2": 0.0042
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.54,
+    "p10": 7.62,
+    "p90": 13.46,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 3.3)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8483513",
+   "name": "Reid Schaefer",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.1856,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1672,
+    "2": 0.017,
+    "3": 0.0013
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 10.54,
+    "p10": 7.62,
+    "p90": 13.46,
+    "pp_mean": 0.18
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8477021",
+   "name": "Alex Kerfoot",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 0.9748,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.2551,
+    "3": 0.0834,
+    "4": 0.0228,
+    "5": 0.0054
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.5,
+    "p10": 12.59,
+    "p90": 18.42,
+    "pp_mean": 1.45
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8477021",
+   "name": "Alex Kerfoot",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.1454,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.135,
+    "2": 0.0098
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.5,
+    "p10": 12.59,
+    "p90": 18.42,
+    "pp_mean": 1.45
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8477021",
+   "name": "Alex Kerfoot",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.2013,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1808,
+    "2": 0.0189
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.5,
+    "p10": 12.59,
+    "p90": 18.42,
+    "pp_mean": 1.45
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8477021",
+   "name": "Alex Kerfoot",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.3491,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.293,
+    "2": 0.0495,
+    "3": 0.006
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.5,
+    "p10": 12.59,
+    "p90": 18.42,
+    "pp_mean": 1.45
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8486189",
+   "name": "Vitali Pinchuk",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.084,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.2934,
+    "3": 0.1048,
+    "4": 0.0313,
+    "5": 0.0082
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 9.8,
+    "p10": 6.89,
+    "p90": 12.72,
+    "pp_mean": 1.25
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "only 8 prior NHL games since 2021-22: rates lean on the role prior",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8486189",
+   "name": "Vitali Pinchuk",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.1116,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1052,
+    "2": 0.0062
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 9.8,
+    "p10": 6.89,
+    "p90": 12.72,
+    "pp_mean": 1.25
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "only 8 prior NHL games since 2021-22: rates lean on the role prior",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8486189",
+   "name": "Vitali Pinchuk",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1272,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1186,
+    "2": 0.0082
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 9.8,
+    "p10": 6.89,
+    "p90": 12.72,
+    "pp_mean": 1.25
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "only 8 prior NHL games since 2021-22: rates lean on the role prior",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.8)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8486189",
+   "name": "Vitali Pinchuk",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.2435,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2144,
+    "2": 0.0266,
+    "3": 0.0024
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 9.8,
+    "p10": 6.89,
+    "p90": 12.72,
+    "pp_mean": 1.25
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "only 8 prior NHL games since 2021-22: rates lean on the role prior",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474600",
+   "name": "Roman Josi",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 2.428,
+   "median": 2,
+   "p10": 0,
+   "p90": 5,
+   "thresholds": {
+    "2": 0.6771,
+    "3": 0.4301,
+    "4": 0.2346,
+    "5": 0.1124
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 24.88,
+    "p10": 21.97,
+    "p90": 27.8,
+    "pp_mean": 3.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474600",
+   "name": "Roman Josi",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.1548,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.143,
+    "2": 0.0111
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 24.88,
+    "p10": 21.97,
+    "p90": 27.8,
+    "pp_mean": 3.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474600",
+   "name": "Roman Josi",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.6242,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.4643,
+    "2": 0.1299
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 24.88,
+    "p10": 21.97,
+    "p90": 27.8,
+    "pp_mean": 3.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8474600",
+   "name": "Roman Josi",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.7842,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "1": 0.5435,
+    "2": 0.1855,
+    "3": 0.0452
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 24.88,
+    "p10": 21.97,
+    "p90": 27.8,
+    "pp_mean": 3.2
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP1 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482482",
+   "name": "Adam Wilsby",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.1823,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3277,
+    "3": 0.1245,
+    "4": 0.0395,
+    "5": 0.0109
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.82,
+    "p10": 16.9,
+    "p90": 22.74,
+    "pp_mean": 0.3
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482482",
+   "name": "Adam Wilsby",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0377,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0367,
+    "2": 0.001
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.82,
+    "p10": 16.9,
+    "p90": 22.74,
+    "pp_mean": 0.3
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482482",
+   "name": "Adam Wilsby",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.2466,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2165,
+    "2": 0.0274
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.82,
+    "p10": 16.9,
+    "p90": 22.74,
+    "pp_mean": 0.3
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482482",
+   "name": "Adam Wilsby",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.2814,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.243,
+    "2": 0.0345,
+    "3": 0.0036
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 19.82,
+    "p10": 16.9,
+    "p90": 22.74,
+    "pp_mean": 0.3
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476869",
+   "name": "Brady Skjei",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 1.124,
+   "median": 1,
+   "p10": 0,
+   "p90": 3,
+   "thresholds": {
+    "2": 0.3076,
+    "3": 0.1121,
+    "4": 0.034,
+    "5": 0.009
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.25,
+    "p10": 18.33,
+    "p90": 24.17,
+    "pp_mean": 1.39
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476869",
+   "name": "Brady Skjei",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0563,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0539,
+    "2": 0.0022
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.25,
+    "p10": 18.33,
+    "p90": 24.17,
+    "pp_mean": 1.39
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476869",
+   "name": "Brady Skjei",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.2525,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2232,
+    "2": 0.027
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.25,
+    "p10": 18.33,
+    "p90": 24.17,
+    "pp_mean": 1.39
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476869",
+   "name": "Brady Skjei",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.3134,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.2677,
+    "2": 0.0409,
+    "3": 0.0044
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 21.25,
+    "p10": 18.33,
+    "p90": 24.17,
+    "pp_mean": 1.39
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "projected PP2 by DailyFaceoff (role uses the previous game's PP unit)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8480246",
+   "name": "Nick Perbix",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 0.8867,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.224,
+    "3": 0.0676,
+    "4": 0.017,
+    "5": 0.0037
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.86,
+    "p10": 15.95,
+    "p90": 21.78,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8480246",
+   "name": "Nick Perbix",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0528,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0507,
+    "2": 0.002
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.86,
+    "p10": 15.95,
+    "p90": 21.78,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8480246",
+   "name": "Nick Perbix",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1653,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1519,
+    "2": 0.0127
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.86,
+    "p10": 15.95,
+    "p90": 21.78,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8480246",
+   "name": "Nick Perbix",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.2175,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1926,
+    "2": 0.0227,
+    "3": 0.002
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 18.86,
+    "p10": 15.95,
+    "p90": 21.78,
+    "pp_mean": 0.28
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482094",
+   "name": "Daemon Hunt",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 0.7795,
+   "median": 1,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.1864,
+    "3": 0.0504,
+    "4": 0.0113,
+    "5": 0.0022
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.15,
+    "p10": 11.24,
+    "p90": 17.07,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482094",
+   "name": "Daemon Hunt",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0258,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0253,
+    "2": 0.0005
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.15,
+    "p10": 11.24,
+    "p90": 17.07,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482094",
+   "name": "Daemon Hunt",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1225,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1145,
+    "2": 0.0076
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.15,
+    "p10": 11.24,
+    "p90": 17.07,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.9)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8482094",
+   "name": "Daemon Hunt",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.1445,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1332,
+    "2": 0.0106,
+    "3": 0.0006
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 14.15,
+    "p10": 11.24,
+    "p90": 17.07,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.7)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481593",
+   "name": "Jayden Struble",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "shots",
+   "mean": 0.5424,
+   "median": 0,
+   "p10": 0,
+   "p90": 2,
+   "thresholds": {
+    "2": 0.1067,
+    "3": 0.0209,
+    "4": 0.0034,
+    "5": 0.0005
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.48,
+    "p10": 12.57,
+    "p90": 18.4,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9578,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses shots: x0.96 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481593",
+   "name": "Jayden Struble",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "goals",
+   "mean": 0.0496,
+   "median": 0,
+   "p10": 0,
+   "p90": 0,
+   "thresholds": {
+    "1": 0.0478,
+    "2": 0.0018
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.48,
+    "p10": 12.57,
+    "p90": 18.4,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9366,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.94 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481593",
+   "name": "Jayden Struble",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "assists",
+   "mean": 0.1179,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1105,
+    "2": 0.0071
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.48,
+    "p10": 12.57,
+    "p90": 18.4,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9313,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "confidence",
+      "severity": "REVIEW",
+      "what": "Very wide distribution (cv 2.9)",
+      "category": "uncertainty",
+      "action": "Present the range, not the point."
+     }
+    ]
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8481593",
+   "name": "Jayden Struble",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "points",
+   "mean": 0.1653,
+   "median": 0,
+   "p10": 0,
+   "p90": 1,
+   "thresholds": {
+    "1": 0.1506,
+    "2": 0.0137,
+    "3": 0.0009
+   },
+   "opportunity": {
+    "family": "toi_minutes",
+    "mean": 15.48,
+    "p10": 12.57,
+    "p90": 18.4,
+    "pp_mean": 0.16
+   },
+   "opponent_adjustment": {
+    "factor": 0.9332,
+    "sample_games": null
+   },
+   "adjustments": [
+    "opponent LAK suppresses scoring: x0.93 (schedule-adjusted ridge rating)",
+    "conditional on dressing; participation likely active"
+   ],
+   "readiness": "SHADOW VALIDATION",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_lines",
+    "captured_utc": "2026-11-11T01:05:20Z",
+    "reasons": [
+     "dailyfaceoff_lines: projected active (line)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "dressing",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "lineup_source": "DailyFaceoff lines (Nick Kieser) captured 2026-11-11T01:05:20Z",
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8476341",
+   "name": "A. Forsberg",
+   "team": "LAK",
+   "opponent": "NSH",
+   "game_id": "2026020292",
+   "family": "saves",
+   "mean": 22.31,
+   "median": 22,
+   "p10": 15,
+   "p90": 30,
+   "thresholds": {
+    "20": 0.6586,
+    "25": 0.3395,
+    "30": 0.123
+   },
+   "opportunity": {
+    "family": "shots_against",
+    "mean": 24.55,
+    "p10": null,
+    "p90": null
+   },
+   "opponent_adjustment": {
+    "factor": null,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on A. Forsberg starting (P(start) 1.00: CONFIRMED @ 0-3h before start: 341/341 named goalies started (prior 9/10))"
+   ],
+   "readiness": "NEEDS IMPROVEMENT",
+   "participation": {
+    "status": "CONFIRMED_ACTIVE",
+    "certainty": "CONFIRMED",
+    "source": "dailyfaceoff_goalies",
+    "captured_utc": "2026-11-11T01:05:19Z",
+    "reasons": [
+     "dailyfaceoff_goalies: confirmed starting (starter)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "starting",
+   "p_start": 0.9972,
+   "p_start_basis": "CONFIRMED @ 0-3h before start: 341/341 named goalies started (prior 9/10)",
+   "gate": {
+    "status": "PASS",
+    "findings": []
+   },
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  },
+  {
+   "player_id": "8477424",
+   "name": "J. Saros",
+   "team": "NSH",
+   "opponent": "LAK",
+   "game_id": "2026020292",
+   "family": "saves",
+   "mean": 25.653,
+   "median": 25,
+   "p10": 17,
+   "p90": 35,
+   "thresholds": {
+    "20": 0.7965,
+    "25": 0.535,
+    "30": 0.2807
+   },
+   "opportunity": {
+    "family": "shots_against",
+    "mean": 28.37,
+    "p10": null,
+    "p90": null
+   },
+   "opponent_adjustment": {
+    "factor": null,
+    "sample_games": null
+   },
+   "adjustments": [
+    "conditional on J. Saros starting (P(start) 0.78: PROJECTED @ 0-3h before start: 9/13 named goalies started (prior 9/10))"
+   ],
+   "readiness": "NEEDS IMPROVEMENT",
+   "participation": {
+    "status": "LIKELY_ACTIVE",
+    "certainty": "PROJECTED",
+    "source": "dailyfaceoff_goalies",
+    "captured_utc": "2026-11-11T01:05:19Z",
+    "reasons": [
+     "dailyfaceoff_goalies: projected probable (starter)"
+    ]
+   },
+   "role": "shadow",
+   "conditional_on": "starting",
+   "p_start": 0.7826,
+   "p_start_basis": "PROJECTED @ 0-3h before start: 9/13 named goalies started (prior 9/10)",
+   "gate": {
+    "status": "REVIEW",
+    "findings": [
+     {
+      "check": "starter",
+      "severity": "REVIEW",
+      "what": "starter likely active; P(start) 0.78",
+      "category": "uncertainty",
+      "action": "Re-run after the starter is confirmed."
+     }
+    ]
+   },
+   "data_asof_utc": "2026-11-10T20:39:13Z"
+  }
+ ],
+ "gate_summary": {
+  "n": 146,
+  "status_counts": {
+   "PASS": 128,
+   "REVIEW": 18
+  },
+  "check_counts": {
+   "confidence:REVIEW": 12,
+   "identity:REVIEW": 8,
+   "starter:REVIEW": 1
+  }
+ },
+ "slate": {
+  "date": "2026-11-10",
+  "label": "2026-11-10 slate: 1 games not started at 2026-11-11T01:21:11Z",
+  "conditioning": "skater rows are conditional on dressing, saves on the listed goalie starting (P(start) published)",
+  "lineup_info": {
+   "teams": 2,
+   "teams_with_lines": 2,
+   "teams_last_dressed": 0,
+   "official_confirmed_teams": 0,
+   "goalie_teams": 2,
+   "goalie_named": 2,
+   "goalie_fallback": 0,
+   "goalie_unresolved_history": 0
+  }
+ }
+}
