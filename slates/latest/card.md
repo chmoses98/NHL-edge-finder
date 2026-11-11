@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-11-11T01:05:21Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-11-11T02:08:16Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,14 +10,14 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 50.00 | +3.05 | +1.34 | -1.21 | 0.478 | -24.97 | -26.99 | 11.28 |
-| B thesis-diversified (joint) ← optimiser card | 48.00 | +2.11 | +1.28 | +1.63 | 0.653 | -19.99 | -26.39 | 11.46 |
-| C best expression per thesis | 30.70 | +1.72 | +1.02 | -2.57 | 0.478 | -11.89 | -30.70 | 8.93 |
-| R FUNDED research stakes | 5.00 | +0.13 | +0.08 | +0.40 | 0.949 | +0.40 | -5.00 | 0.00 |
+| A highest edges (independent) | 50.00 | +3.55 | +1.73 | -0.89 | 0.478 | -24.60 | -26.68 | 15.18 |
+| B thesis-diversified (joint) ← optimiser card | 47.87 | +3.35 | +1.68 | -0.42 | 0.478 | -23.71 | -28.06 | 14.80 |
+| C best expression per thesis | 36.66 | +2.28 | +1.41 | -8.46 | 0.478 | -8.57 | -36.66 | 12.40 |
+| R FUNDED research stakes | 5.00 | +0.31 | +0.19 | +2.74 | 0.687 | -5.00 | -5.00 | 0.00 |
 
 ## NSH @ LAK  ·  10000 joint draws  ·  436 bet sides mapped, 6 +EV candidates, 3 on card
 
-sportsbook moneyline consensus (5 books): home 0.541 / away 0.459
+sportsbook moneyline consensus (5 books): home 0.536 / away 0.464
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -34,20 +34,20 @@ sportsbook moneyline consensus (5 books): home 0.541 / away 0.459
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Steven Stamkos: 2+ goals NO | 92 | 0.949 | 0.940 | +0.024 | +0.015 | $20.00 | FUNDED_RESEARCH | $5 | NSH:SUPPRESSED | DIRECT (0.99) | EVIDENCE_STRONGER | D |
-| Artemi Panarin: 1+ goals NO | 63 | 0.687 | 0.671 | +0.041 | +0.025 | $18.11 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | LAK:SUPPRESSED | DIRECT (0.85) | EVIDENCE_STRONGER | D |
-| Steven Stamkos: 1+ goals NO | 65 | 0.696 | 0.682 | +0.030 | +0.016 | $9.90 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | NSH:SUPPRESSED | DIRECT (0.83) | EVIDENCE_STRONGER | D |
-- **Steven Stamkos: 2+ goals NO** — thesis: NSH offense suppressed (<= 2 goals); alternative: KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-1|no; why: higher confidence-adjusted growth (7.54 vs 2.64 bp); despite a smaller raw edge (+0.024 vs +0.030/contract); relationships: KXNHLGOAL-26NOV10NSHLA-LAAPANARIN10-1|no: MOSTLY_INDEPENDENT (phi 0.009); KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-1|no: DUPLICATIVE (phi 0.351); failure: NSH offense succeeds (4+ goals)
-- **Artemi Panarin: 1+ goals NO** — thesis: LAK offense suppressed (<= 2 goals); alternative: KXNHLAST-26NOV10NSHLA-LAAPANARIN10-1|no; why: higher confidence-adjusted growth (6.09 vs 0.15 bp); despite a smaller raw edge (+0.041 vs +0.084/contract); evidence EVIDENCE_STRONGER vs CALIBRATION_WARNING; alternative not eligible: confidence-adjusted EV +0.0041 below the 0.010/contract floor; relationships: KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-2|no: MOSTLY_INDEPENDENT (phi 0.009); KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-1|no: MOSTLY_INDEPENDENT (phi -0.002); failure: LAK offense succeeds (4+ goals)
-- **Steven Stamkos: 1+ goals NO** — thesis: NSH offense suppressed (<= 2 goals); alternative: KXNHLAST-26NOV10NSHLA-NSHMBOURQUE22-1|no; why: higher confidence-adjusted growth (2.64 vs 1.62 bp); despite a smaller raw edge (+0.030 vs +0.054/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-2|no: DUPLICATIVE (phi 0.351); KXNHLGOAL-26NOV10NSHLA-LAAPANARIN10-1|no: MOSTLY_INDEPENDENT (phi -0.002); failure: NSH offense succeeds (4+ goals)
+| Artemi Panarin: 1+ goals NO | 63 | 0.687 | 0.671 | +0.041 | +0.025 | $17.87 | FUNDED_RESEARCH | $5 | LAK:SUPPRESSED | DIRECT (0.85) | EVIDENCE_STRONGER | D |
+| Steven Stamkos: 1+ goals NO | 64 | 0.696 | 0.681 | +0.040 | +0.025 | $15.85 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | NSH:SUPPRESSED | DIRECT (0.83) | EVIDENCE_STRONGER | D |
+| Mavrik Bourque: 1+ assists NO | 70 | 0.778 | 0.734 | +0.063 | +0.019 | $14.15 | SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED | $0 | NSH:SUPPRESSED | DIRECT (0.89) | EVIDENCE_MIXED | D |
+- **Artemi Panarin: 1+ goals NO** — thesis: LAK offense suppressed (<= 2 goals); alternative: KXNHLAST-26NOV10NSHLA-LAAPANARIN10-1|no; why: higher confidence-adjusted growth (6.09 vs 0.15 bp); despite a smaller raw edge (+0.041 vs +0.084/contract); evidence EVIDENCE_STRONGER vs CALIBRATION_WARNING; alternative not eligible: confidence-adjusted EV +0.0041 below the 0.010/contract floor; relationships: KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-1|no: MOSTLY_INDEPENDENT (phi -0.002); KXNHLAST-26NOV10NSHLA-NSHMBOURQUE22-1|no: MOSTLY_INDEPENDENT (phi 0.022); failure: LAK offense succeeds (4+ goals)
+- **Steven Stamkos: 1+ goals NO** — thesis: NSH offense suppressed (<= 2 goals); alternative: KXNHLAST-26NOV10NSHLA-NSHMBOURQUE22-1|no; why: higher confidence-adjusted growth (6.05 vs 4.04 bp); despite a smaller raw edge (+0.040 vs +0.063/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26NOV10NSHLA-LAAPANARIN10-1|no: MOSTLY_INDEPENDENT (phi -0.002); KXNHLAST-26NOV10NSHLA-NSHMBOURQUE22-1|no: REINFORCING (phi 0.207); failure: NSH offense succeeds (4+ goals)
+- **Mavrik Bourque: 1+ assists NO** — thesis: NSH offense suppressed (<= 2 goals); alternative: KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-1|no; why: second expression of the same thesis: KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-1|no has the higher standalone adjusted growth (6.05 vs 4.04 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it +0.207); they share one thesis budget; relationships: KXNHLGOAL-26NOV10NSHLA-LAAPANARIN10-1|no: MOSTLY_INDEPENDENT (phi 0.022); KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-1|no: REINFORCING (phi 0.207); failure: NSH offense succeeds (4+ goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, LAK shot control · normal event (5-7) · decided (2+) 0.11.
 - thesis LAK:SUPPRESSED (p 0.3567): highest fidelity KXNHLGOAL-26NOV10NSHLA-LAAPANARIN10-1|no [DIRECT], best adjusted EV KXNHLGOAL-26NOV10NSHLA-LAAPANARIN10-1|no (same contract)
 - thesis NSH:SUPPRESSED (p 0.4707): highest fidelity KXNHLAST-26NOV10NSHLA-NSHMBOURQUE22-1|no [DIRECT], best adjusted EV KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-1|no — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
-- KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-2|no: FUNDED_RESEARCH; family TRUSTED; loses 1% of the draws where the thesis happens; fragile player expression; opposing: failure thesis NSH:OFFENSE_4PLUS (p 0.3177, phi -0.207)
-- KXNHLGOAL-26NOV10NSHLA-LAAPANARIN10-1|no: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 15% of the draws where the thesis happens; fragile player expression; opposing: failure thesis LAK:OFFENSE_4PLUS (p 0.4241, phi -0.258)
+- KXNHLGOAL-26NOV10NSHLA-LAAPANARIN10-1|no: FUNDED_RESEARCH; family TRUSTED; loses 15% of the draws where the thesis happens; fragile player expression; opposing: failure thesis LAK:OFFENSE_4PLUS (p 0.4241, phi -0.258)
 - KXNHLGOAL-26NOV10NSHLA-NSHSSTAMKOS91-1|no: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 17% of the draws where the thesis happens; fragile player expression; opposing: failure thesis NSH:OFFENSE_4PLUS (p 0.3177, phi -0.256)
+- KXNHLAST-26NOV10NSHLA-NSHMBOURQUE22-1|no: SHADOW_ONLY — CALIBRATION_WARNING_UNCORROBORATED; family MIXED; loses 11% of the draws where the thesis happens; fragile player expression; opposing: failure thesis NSH:OFFENSE_4PLUS (p 0.3177, phi -0.237)
 
-portfolios: A EV +3.05 (adj +1.34) on $50.00, P(profit) 0.4781, adj growth 11.3 bp · B EV +2.11 (adj +1.28) on $48.00, P(profit) 0.6528, adj growth 11.5 bp · C EV +1.72 (adj +1.02) on $30.70, P(profit) 0.4781, adj growth 8.9 bp · R EV +0.13 (adj +0.08) on $5.00, P(profit) 0.9489, adj growth 3.2 bp
+portfolios: A EV +3.55 (adj +1.73) on $50.00, P(profit) 0.4781, adj growth 15.2 bp · B EV +3.35 (adj +1.68) on $47.87, P(profit) 0.4781, adj growth 14.8 bp · C EV +2.28 (adj +1.41) on $36.66, P(profit) 0.4781, adj growth 12.4 bp · R EV +0.31 (adj +0.19) on $5.00, P(profit) 0.687, adj growth 6.8 bp
 
 _RESEARCH_ONLY thesis card: B stakes are optimiser suggestions for a nominal bankroll; R (FUNDED_RESEARCH) stakes are whole-dollar research stakes under research governance. Nothing is placed or routed. Every recommended bet is +EV at its executable ask under the model AND the confidence-adjusted probability; the card is emitted only when the completion gate passes._
