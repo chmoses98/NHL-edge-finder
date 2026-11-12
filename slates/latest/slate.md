@@ -1,18 +1,18 @@
 # NHL slate 2026-11-12 — RESEARCH_ONLY
 
-generated 2026-11-12T22:24:06Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-11-12T22:48:17Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 11 · simulated (not started): 10 · markets on board: 3874 · contracts joined: 2165 (unjoined to any game: 1319)
-gates: {'UNSUPPORTED': 1915, 'OK': 152, 'NO_EDGE': 98}
+gates: {'UNSUPPORTED': 1915, 'OK': 146, 'NO_EDGE': 104}
 families: {'period_winner': 90, 'period_spread': 60, 'period_total': 90, 'player_assists': 289, 'game_early_goal': 10, 'first_goal': 355, 'game_winner': 20, 'player_goals': 612, 'game_overtime': 10, 'player_points': 382, 'goalie_saves': 17, 'game_spread': 40, 'team_total': 100, 'game_total': 90}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| MTL @ BOS | 2026-11-13T00:00:00Z | T-90m | 0.583 | 0.417 | 0.179 | 5.91 | 3.21 | 2.70 | 216 (25/191) | CONFIRMED/CONFIRMED |
-| MIN @ TOR | 2026-11-13T00:00:00Z | T-90m | 0.430 | 0.570 | 0.172 | 6.43 | 2.99 | 3.44 | 211 (25/186) | CONFIRMED/PROJECTED |
-| COL @ OTT | 2026-11-13T00:00:00Z | T-90m | 0.457 | 0.543 | 0.175 | 6.40 | 3.06 | 3.34 | 234 (25/209) | CONFIRMED/PROJECTED |
-| WSH @ NJD | 2026-11-13T00:00:00Z | T-90m | 0.557 | 0.443 | 0.175 | 6.17 | 3.27 | 2.91 | 218 (25/193) | PROJECTED/PROJECTED |
-| TBL @ CBJ | 2026-11-13T00:00:00Z | T-90m | 0.457 | 0.543 | 0.179 | 5.88 | 2.81 | 3.07 | 216 (25/191) | CONFIRMED/PROJECTED |
+| MTL @ BOS | 2026-11-13T00:00:00Z | T-60m | 0.583 | 0.417 | 0.179 | 5.91 | 3.21 | 2.70 | 216 (25/191) | CONFIRMED/CONFIRMED |
+| MIN @ TOR | 2026-11-13T00:00:00Z | T-60m | 0.430 | 0.570 | 0.172 | 6.43 | 2.99 | 3.44 | 211 (25/186) | CONFIRMED/PROJECTED |
+| COL @ OTT | 2026-11-13T00:00:00Z | T-60m | 0.457 | 0.543 | 0.175 | 6.40 | 3.06 | 3.34 | 234 (25/209) | CONFIRMED/PROJECTED |
+| WSH @ NJD | 2026-11-13T00:00:00Z | T-60m | 0.557 | 0.443 | 0.175 | 6.17 | 3.27 | 2.91 | 218 (25/193) | PROJECTED/PROJECTED |
+| TBL @ CBJ | 2026-11-13T00:00:00Z | T-60m | 0.457 | 0.543 | 0.179 | 5.88 | 2.81 | 3.07 | 216 (25/191) | CONFIRMED/PROJECTED |
 | DET @ FLA | 2026-11-13T00:30:00Z | T-90m | 0.573 | 0.427 | 0.176 | 6.08 | 3.27 | 2.82 | 223 (25/198) | CONFIRMED/PROJECTED |
 | BUF @ CHI | 2026-11-13T01:00:00Z | T-90m | 0.454 | 0.546 | 0.182 | 5.94 | 2.83 | 3.11 | 213 (25/188) | PROJECTED/PROJECTED |
 | WPG @ DAL | 2026-11-13T01:00:00Z | T-90m | 0.600 | 0.400 | 0.184 | 5.77 | 3.19 | 2.57 | 213 (25/188) | CONFIRMED/PROJECTED |
@@ -27,13 +27,13 @@ families: {'period_winner': 90, 'period_spread': 60, 'period_total': 90, 'player
 | KXNHLTOTAL-26NOV12TBCBJ-6 | game_total | 0.507 | 0.605 | 0.586 | 61 | 40 | no | +0.076 | OK |
 | KXNHLTOTAL-26NOV12BUFCHI-7 | game_total | 0.407 | 0.505 | 0.485 | 51 | 50 | no | +0.075 | OK |
 | KXNHLTEAMTOTAL-26NOV12BUFCHI-BUF4 | team_total | 0.390 | 0.490 | 0.470 | 50 | 52 | no | +0.072 | OK |
+| KXNHLTOTAL-26NOV12TBCBJ-5 | game_total | 0.732 | 0.815 | 0.800 | 82 | 19 | no | +0.068 | OK |
 | KXNHLTOTAL-26NOV12BUFCHI-6 | game_total | 0.518 | 0.605 | 0.588 | 61 | 40 | no | +0.065 | OK |
 | KXNHLTOTAL-26NOV12NYILA-7 | game_total | 0.359 | 0.445 | 0.427 | 45 | 56 | no | +0.064 | OK |
 | KXNHLTOTAL-26NOV12NYILA-6 | game_total | 0.469 | 0.555 | 0.538 | 56 | 45 | no | +0.064 | OK |
 | KXNHLTOTAL-26NOV12NYILA-5 | game_total | 0.695 | 0.775 | 0.760 | 78 | 23 | no | +0.062 | OK |
 | KXNHLTEAMTOTAL-26NOV12MTLBOS-MTL3 | team_total | 0.513 | 0.595 | 0.579 | 60 | 41 | no | +0.060 | OK |
 | KXNHLTEAMTOTAL-26NOV12TBCBJ-CBJ4 | team_total | 0.324 | 0.405 | 0.388 | 41 | 60 | no | +0.060 | OK |
-| KXNHLTOTAL-26NOV12TBCBJ-5 | game_total | 0.732 | 0.810 | 0.796 | 82 | 20 | no | +0.057 | OK |
 | KXNHLTEAMTOTAL-26NOV12MTLBOS-MTL4 | team_total | 0.298 | 0.375 | 0.359 | 38 | 63 | no | +0.056 | OK |
 | KXNHLTEAMTOTAL-26NOV12BUFCHI-BUF3 | team_total | 0.609 | 0.690 | 0.675 | 70 | 32 | no | +0.056 | OK |
 | KXNHLTOTAL-26NOV12BUFCHI-5 | game_total | 0.735 | 0.810 | 0.796 | 82 | 20 | no | +0.054 | OK |
@@ -44,26 +44,25 @@ families: {'period_winner': 90, 'period_spread': 60, 'period_total': 90, 'player
 | KXNHLTOTAL-26NOV12MTLBOS-5 | game_total | 0.733 | 0.795 | 0.784 | 80 | 21 | no | +0.045 | OK |
 | KXNHLTOTAL-26NOV12BUFCHI-4 | game_total | 0.829 | 0.885 | 0.875 | 89 | 12 | no | +0.044 | OK |
 | KXNHLTEAMTOTAL-26NOV12NYILA-NYI3 | team_total | 0.501 | 0.565 | 0.552 | 57 | 44 | no | +0.042 | OK |
+| KXNHLTOTAL-26NOV12MTLBOS-6 | game_total | 0.511 | 0.575 | 0.562 | 58 | 43 | no | +0.042 | OK |
 | KXNHLTOTAL-26NOV12BUFCHI-8 | game_total | 0.224 | 0.285 | 0.272 | 29 | 72 | no | +0.042 | OK |
 | KXNHLTEAMTOTAL-26NOV12NYILA-NYI2 | team_total | 0.737 | 0.800 | 0.788 | 81 | 21 | no | +0.041 | OK |
 | KXNHLTOTAL-26NOV12TBCBJ-8 | game_total | 0.216 | 0.275 | 0.262 | 28 | 73 | no | +0.041 | OK |
 | KXNHLTEAMTOTAL-26NOV12TBCBJ-CBJ5 | team_total | 0.158 | 0.220 | 0.206 | 23 | 79 | no | +0.041 | OK |
 | KXNHLTEAMTOTAL-26NOV12BUFCHI-BUF2 | team_total | 0.812 | 0.870 | 0.860 | 88 | 14 | no | +0.040 | OK |
+| KXNHLSPREAD-26NOV12TBCBJ-CBJ2 | game_spread | 0.246 | 0.305 | 0.293 | 31 | 70 | no | +0.039 | OK |
 | KXNHLTOTAL-26NOV12NYILA-4 | game_total | 0.793 | 0.845 | 0.836 | 85 | 16 | no | +0.038 | OK |
 | KXNHLTEAMTOTAL-26NOV12TBCBJ-CBJ2 | team_total | 0.763 | 0.825 | 0.814 | 84 | 19 | no | +0.037 | OK |
 | KXNHLTEAMTOTAL-26NOV12NYILA-NYI4 | team_total | 0.289 | 0.350 | 0.337 | 36 | 66 | no | +0.036 | OK |
 | KXNHLGAME-26NOV12COLOTT-COL | game_winner | 0.543 | 0.485 | 0.497 | 49 | 52 | yes | +0.035 | OK |
 | KXNHLGAME-26NOV12COLOTT-OTT | game_winner | 0.457 | 0.515 | 0.503 | 52 | 49 | no | +0.035 | OK |
-| KXNHLTOTAL-26NOV12BUFCHI-9 | game_total | 0.154 | 0.210 | 0.198 | 22 | 80 | no | +0.035 | OK |
 | KXNHLSPREAD-26NOV12COLOTT-OTT2 | game_spread | 0.250 | 0.305 | 0.294 | 31 | 70 | no | +0.035 | OK |
 | KXNHLSPREAD-26NOV12BUFCHI-BUF3 | game_spread | 0.193 | 0.250 | 0.238 | 26 | 76 | no | +0.034 | OK |
 | KXNHLGAME-26NOV12STLUTA-STL | game_winner | 0.489 | 0.545 | 0.534 | 55 | 46 | no | +0.034 | OK |
 | KXNHLGAME-26NOV12STLUTA-UTA | game_winner | 0.511 | 0.455 | 0.466 | 46 | 55 | yes | +0.034 | OK |
 | KXNHLSPREAD-26NOV12DETFLA-FLA3 | game_spread | 0.213 | 0.265 | 0.254 | 27 | 74 | no | +0.033 | OK |
-| KXNHLTOTAL-26NOV12MTLBOS-6 | game_total | 0.511 | 0.570 | 0.558 | 58 | 44 | no | +0.032 | OK |
 | KXNHLTEAMTOTAL-26NOV12NYILA-LA4 | team_total | 0.362 | 0.415 | 0.404 | 42 | 59 | no | +0.032 | OK |
 | KXNHLTOTAL-26NOV12TBCBJ-9 | game_total | 0.148 | 0.200 | 0.189 | 21 | 81 | no | +0.031 | OK |
-| KXNHLSPREAD-26NOV12TBCBJ-CBJ2 | game_spread | 0.246 | 0.295 | 0.285 | 30 | 71 | no | +0.029 | OK |
 | KXNHLTOTAL-26NOV12MTLBOS-7 | game_total | 0.404 | 0.455 | 0.445 | 46 | 55 | no | +0.029 | OK |
 | KXNHLTOTAL-26NOV12NYILA-8 | game_total | 0.189 | 0.235 | 0.225 | 24 | 77 | no | +0.028 | OK |
 | KXNHLTEAMTOTAL-26NOV12MTLBOS-MTL5 | team_total | 0.141 | 0.190 | 0.179 | 20 | 82 | no | +0.028 | OK |
@@ -73,6 +72,8 @@ families: {'period_winner': 90, 'period_spread': 60, 'period_total': 90, 'player
 | KXNHLGAME-26NOV12MTLBOS-BOS | game_winner | 0.583 | 0.535 | 0.545 | 54 | 47 | yes | +0.026 | OK |
 | KXNHLGAME-26NOV12MTLBOS-MTL | game_winner | 0.417 | 0.465 | 0.455 | 47 | 54 | no | +0.026 | OK |
 | KXNHLGAME-26NOV12TBCBJ-TB | game_winner | 0.543 | 0.495 | 0.505 | 50 | 51 | yes | +0.026 | OK |
+| KXNHLGAME-26NOV12TBCBJ-CBJ | game_winner | 0.457 | 0.505 | 0.495 | 51 | 50 | no | +0.025 | OK |
+| KXNHLTOTAL-26NOV12BUFCHI-9 | game_total | 0.154 | 0.200 | 0.190 | 21 | 81 | no | +0.025 | OK |
 | KXNHLSPREAD-26NOV12BUFCHI-BUF2 | game_spread | 0.319 | 0.365 | 0.356 | 37 | 64 | no | +0.025 | OK |
 | KXNHLSPREAD-26NOV12COLOTT-OTT3 | game_spread | 0.146 | 0.190 | 0.180 | 20 | 82 | no | +0.024 | OK |
 | KXNHLSPREAD-26NOV12MTLBOS-MTL2 | game_spread | 0.213 | 0.260 | 0.250 | 27 | 75 | no | +0.023 | OK |
@@ -93,16 +94,15 @@ families: {'period_winner': 90, 'period_spread': 60, 'period_total': 90, 'player
 | KXNHLTEAMTOTAL-26NOV12MINTOR-TOR3 | team_total | 0.577 | 0.535 | 0.544 | 54 | 47 | yes | +0.020 | OK |
 | KXNHLSPREAD-26NOV12DETFLA-FLA2 | game_spread | 0.344 | 0.385 | 0.377 | 39 | 62 | no | +0.019 | OK |
 | KXNHLTOTAL-26NOV12WPGDAL-7 | game_total | 0.376 | 0.415 | 0.407 | 42 | 59 | no | +0.017 | OK |
-| KXNHLGAME-26NOV12WSHNJ-NJ | game_winner | 0.557 | 0.595 | 0.587 | 60 | 41 | no | +0.016 | OK |
-| KXNHLGAME-26NOV12WSHNJ-WSH | game_winner | 0.443 | 0.405 | 0.413 | 41 | 60 | yes | +0.016 | OK |
 | KXNHLTOTAL-26NOV12MTLBOS-8 | game_total | 0.221 | 0.255 | 0.248 | 26 | 75 | no | +0.016 | OK |
-| KXNHLGAME-26NOV12TBCBJ-CBJ | game_winner | 0.457 | 0.495 | 0.487 | 50 | 51 | no | +0.016 | OK |
 | KXNHLSPREAD-26NOV12NYILA-NYI3 | game_spread | 0.126 | 0.160 | 0.153 | 17 | 85 | no | +0.015 | OK |
 | KXNHLTOTAL-26NOV12MTLBOS-3 | game_total | 0.953 | 0.975 | 0.972 | 98 | 3 | no | +0.015 | OK |
 | KXNHLTEAMTOTAL-26NOV12TBCBJ-TB2 | team_total | 0.806 | 0.840 | 0.834 | 85 | 17 | no | +0.015 | OK |
-| KXNHLTEAMTOTAL-26NOV12COLOTT-COL6 | team_total | 0.121 | 0.095 | 0.100 | 10 | 91 | yes | +0.014 | OK |
+| KXNHLTEAMTOTAL-26NOV12COLOTT-COL6 | team_total | 0.121 | 0.090 | 0.096 | 10 | 92 | yes | +0.014 | OK |
 | KXNHLTEAMTOTAL-26NOV12MINTOR-TOR4 | team_total | 0.360 | 0.320 | 0.328 | 33 | 69 | yes | +0.014 | OK |
+| KXNHLTEAMTOTAL-26NOV12STLUTA-UTA5 | team_total | 0.214 | 0.185 | 0.191 | 19 | 82 | yes | +0.014 | OK |
 | KXNHLTEAMTOTAL-26NOV12NYILA-LA5 | team_total | 0.185 | 0.215 | 0.209 | 22 | 79 | no | +0.013 | OK |
+| KXNHLTEAMTOTAL-26NOV12DETFLA-DET6 | team_total | 0.066 | 0.045 | 0.049 | 5 | 96 | yes | +0.013 | OK |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -124,45 +124,45 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 ## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 39 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- William Borgen: 1+ goals YES @ 5c · p 0.0884 (adj 0.0776) · $2.46 · thesis BOS:WINS_BY_2PLUS
-- Tanner Jeannot: 1+ goals YES @ 8c · p 0.1141 (adj 0.1031) · $1.99 · thesis BOS:OFFENSE_4PLUS
-- Nick Suzuki: 1+ assists NO @ 51c · p 0.6481 (adj 0.5518) · $6.18 · thesis MTL:SUPPRESSED
-- Fraser Minten: 1+ goals YES @ 19c · p 0.2253 (adj 0.2152) · $1.94 · thesis BOS:OFFENSE_4PLUS
-- Teddy Blueger: 1+ goals YES @ 9c · p 0.1764 (adj 0.1535) · $6.04 · thesis TOR:OFFENSE_4PLUS
-- Easton Cowan: 1+ goals YES @ 18c · p 0.2428 (adj 0.2258) · $4.47 · thesis TOR:OFFENSE_4PLUS
-- Max Shabanov: 1+ goals NO @ 75c · p 0.8038 (adj 0.7878) · $9.27 · thesis MIN:SUPPRESSED
-- Yakov Trenin: 1+ goals YES @ 10c · p 0.135 (adj 0.1237) · $2.04 · thesis MIN:OFFENSE_4PLUS
-- Hayden Hodgson: 1+ goals YES @ 6c · p 0.0959 (adj 0.0857) · $2.34 · thesis OTT:OFFENSE_4PLUS
-- Jordan Spence: 1+ goals YES @ 6c · p 0.0885 (adj 0.0801) · $1.79 · thesis OTT:OFFENSE_4PLUS
-- Ridly Greig: 1+ goals YES @ 16c · p 0.2036 (adj 0.1902) · $2.73 · thesis OTT:OFFENSE_4PLUS
-- Cody Glass: 1+ goals YES @ 12c · p 0.169 (adj 0.1555) · $3.49 · thesis NJD:OFFENSE_4PLUS
-- Aliaksei Protas: 1+ goals YES @ 17c · p 0.2243 (adj 0.2082) · $3.81 · thesis WSH:OFFENSE_4PLUS
-- Pierre-Luc Dubois: 1+ goals YES @ 17c · p 0.2112 (adj 0.1996) · $2.68 · thesis WSH:OFFENSE_4PLUS
-- Anthony Beauvillier: 1+ goals YES @ 10c · p 0.1291 (adj 0.1206) · $1.71 · thesis WSH:OFFENSE_4PLUS
-- Yanni Gourde: 1+ goals NO @ 86c · p 0.9002 (adj 0.8889) · $9.27 · thesis TBL:SUPPRESSED
-- Mathieu Olivier: 1+ goals YES @ 18c · p 0.2133 (adj 0.2037) · $2.09 · thesis CBJ:WINS_BY_2PLUS
-- Cole Sillinger: 1+ goals YES @ 15c · p 0.1798 (adj 0.1711) · $1.76 · thesis CBJ:OFFENSE_4PLUS
-- Full Game: Over 5.5 goals scored NO @ 40c · p 0.4629 (adj 0.4289) · $3.04 · thesis GAME:LOW_EVENT
-- Cole Schwindt: 1+ goals YES @ 8c · p 0.1066 (adj 0.0987) · $1.59 · thesis FLA:OFFENSE_4PLUS
-- J.T. Compher: 1+ goals YES @ 13c · p 0.1605 (adj 0.1516) · $1.75 · thesis DET:OFFENSE_4PLUS
-- Brady Tkachuk: 1+ goals NO @ 64c · p 0.6835 (adj 0.6714) · $4.97 · thesis FLA:SUPPRESSED
-- Sam Bennett: 1+ goals YES @ 27c · p 0.3082 (adj 0.2974) · $2.21 · thesis FLA:OFFENSE_4PLUS
-- Tyler Bertuzzi: 1+ goals YES @ 24c · p 0.2868 (adj 0.2738) · $3.0 · thesis CHI:OFFENSE_4PLUS
-- Tage Thompson: 1+ goals NO @ 60c · p 0.6527 (adj 0.6383) · $5.75 · thesis BUF:SUPPRESSED
-- Rasmus Dahlin: 1+ goals NO @ 80c · p 0.8362 (adj 0.8259) · $8.16 · thesis BUF:SUPPRESSED
-- Buffalo wins by over 1.5 goals NO @ 64c · p 0.7081 (adj 0.6715) · $2.3 · thesis CHI:WINS
-- Josh Morrissey: 1+ assists NO @ 60c · p 0.7432 (adj 0.6436) · $9.27 · thesis WPG:SUPPRESSED
-- Arttu Hyry: 1+ goals YES @ 14c · p 0.1787 (adj 0.1678) · $2.41 · thesis DAL:OFFENSE_4PLUS
-- Jamie Benn: 1+ goals YES @ 16c · p 0.1996 (adj 0.1885) · $2.56 · thesis DAL:OFFENSE_4PLUS
-- Roope Hintz: 1+ goals YES @ 27c · p 0.318 (adj 0.3048) · $3.28 · thesis DAL:OFFENSE_4PLUS
-- Lawson Crouse: 1+ goals YES @ 18c · p 0.2462 (adj 0.2284) · $5.14 · thesis UTA:OFFENSE_4PLUS
-- Jack McBain: 1+ goals YES @ 14c · p 0.1824 (adj 0.1693) · $2.71 · thesis UTA:OFFENSE_4PLUS
-- Ross Johnston: 1+ goals YES @ 6c · p 0.0832 (adj 0.0761) · $1.4 · thesis STL:OFFENSE_4PLUS
-- Pius Suter: 1+ goals YES @ 13c · p 0.162 (adj 0.1527) · $1.83 · thesis STL:OFFENSE_4PLUS
-- Mats Zuccarello: 1+ assists NO @ 65c · p 0.8509 (adj 0.7171) · $9.27 · thesis LAK:SUPPRESSED
-- Mats Zuccarello: 2+ assists NO @ 93c · p 0.9887 (adj 0.9544) · $9.27 · thesis DIFFUSE
-- Andre Lee: 1+ goals YES @ 9c · p 0.1318 (adj 0.1188) · $2.77 · thesis LAK:OFFENSE_4PLUS
-- Joel Edmundson: 1+ goals YES @ 6c · p 0.083 (adj 0.0748) · $1.24 · thesis LAK:WINS_BY_2PLUS
+- William Borgen: 1+ goals YES @ 5c · p 0.0884 (adj 0.0776) · $2.4 · thesis BOS:WINS_BY_2PLUS
+- Tanner Jeannot: 1+ goals YES @ 8c · p 0.1141 (adj 0.1031) · $1.94 · thesis BOS:OFFENSE_4PLUS
+- Nick Suzuki: 1+ assists NO @ 51c · p 0.6481 (adj 0.5518) · $6.03 · thesis MTL:SUPPRESSED
+- Fraser Minten: 1+ goals YES @ 19c · p 0.2253 (adj 0.2152) · $1.89 · thesis BOS:OFFENSE_4PLUS
+- Teddy Blueger: 1+ goals YES @ 9c · p 0.1764 (adj 0.1535) · $5.9 · thesis TOR:OFFENSE_4PLUS
+- Easton Cowan: 1+ goals YES @ 18c · p 0.2428 (adj 0.2258) · $4.36 · thesis TOR:OFFENSE_4PLUS
+- Yakov Trenin: 1+ goals YES @ 10c · p 0.135 (adj 0.125) · $2.16 · thesis MIN:OFFENSE_4PLUS
+- Max Shabanov: 1+ goals NO @ 75c · p 0.8038 (adj 0.7878) · $9.05 · thesis MIN:SUPPRESSED
+- Hayden Hodgson: 1+ goals YES @ 6c · p 0.0959 (adj 0.0857) · $2.29 · thesis OTT:OFFENSE_4PLUS
+- Jordan Spence: 1+ goals YES @ 6c · p 0.0885 (adj 0.0801) · $1.74 · thesis OTT:OFFENSE_4PLUS
+- Ridly Greig: 1+ goals YES @ 16c · p 0.2036 (adj 0.1902) · $2.67 · thesis OTT:OFFENSE_4PLUS
+- Cody Glass: 1+ goals YES @ 12c · p 0.169 (adj 0.1555) · $3.4 · thesis NJD:OFFENSE_4PLUS
+- Aliaksei Protas: 1+ goals YES @ 17c · p 0.2243 (adj 0.2082) · $3.72 · thesis WSH:OFFENSE_4PLUS
+- Pierre-Luc Dubois: 1+ goals YES @ 17c · p 0.2112 (adj 0.1996) · $2.62 · thesis WSH:OFFENSE_4PLUS
+- Anthony Beauvillier: 1+ goals YES @ 10c · p 0.1291 (adj 0.1206) · $1.67 · thesis WSH:OFFENSE_4PLUS
+- Yanni Gourde: 1+ goals NO @ 86c · p 0.9002 (adj 0.8889) · $9.05 · thesis TBL:SUPPRESSED
+- Steven Lorentz: 1+ goals YES @ 8c · p 0.1063 (adj 0.0985) · $1.62 · thesis CBJ:OFFENSE_4PLUS
+- Cole Sillinger: 1+ goals YES @ 15c · p 0.1798 (adj 0.1711) · $1.74 · thesis CBJ:OFFENSE_4PLUS
+- Full Game: Over 5.5 goals scored NO @ 40c · p 0.4629 (adj 0.4289) · $2.92 · thesis GAME:LOW_EVENT
+- Cole Schwindt: 1+ goals YES @ 8c · p 0.1066 (adj 0.0987) · $1.54 · thesis FLA:OFFENSE_4PLUS
+- Brady Tkachuk: 1+ goals NO @ 63c · p 0.6835 (adj 0.6689) · $7.1 · thesis FLA:SUPPRESSED
+- J.T. Compher: 1+ goals YES @ 13c · p 0.1605 (adj 0.1516) · $1.7 · thesis DET:OFFENSE_4PLUS
+- Sam Bennett: 1+ goals YES @ 27c · p 0.3082 (adj 0.2974) · $2.14 · thesis FLA:OFFENSE_4PLUS
+- Tyler Bertuzzi: 1+ goals YES @ 24c · p 0.2868 (adj 0.2738) · $2.93 · thesis CHI:OFFENSE_4PLUS
+- Tage Thompson: 1+ goals NO @ 60c · p 0.6527 (adj 0.6383) · $5.61 · thesis BUF:SUPPRESSED
+- Rasmus Dahlin: 1+ goals NO @ 80c · p 0.8362 (adj 0.8259) · $7.97 · thesis BUF:SUPPRESSED
+- Buffalo wins by over 1.5 goals NO @ 64c · p 0.7081 (adj 0.6715) · $2.25 · thesis CHI:WINS
+- Josh Morrissey: 1+ assists NO @ 60c · p 0.7432 (adj 0.6436) · $9.05 · thesis WPG:SUPPRESSED
+- Arttu Hyry: 1+ goals YES @ 14c · p 0.1787 (adj 0.1678) · $2.35 · thesis DAL:OFFENSE_4PLUS
+- Jamie Benn: 1+ goals YES @ 16c · p 0.1996 (adj 0.1885) · $2.5 · thesis DAL:OFFENSE_4PLUS
+- Roope Hintz: 1+ goals YES @ 27c · p 0.318 (adj 0.3048) · $3.2 · thesis DAL:OFFENSE_4PLUS
+- Lawson Crouse: 1+ goals YES @ 18c · p 0.2462 (adj 0.2284) · $5.02 · thesis UTA:OFFENSE_4PLUS
+- Jack McBain: 1+ goals YES @ 13c · p 0.1824 (adj 0.1681) · $3.65 · thesis UTA:OFFENSE_4PLUS
+- Pius Suter: 1+ goals YES @ 13c · p 0.162 (adj 0.1527) · $1.79 · thesis STL:OFFENSE_4PLUS
+- Kevin Stenlund: 1+ goals YES @ 8c · p 0.1041 (adj 0.0968) · $1.37 · thesis UTA:OFFENSE_4PLUS
+- Andre Lee: 1+ goals YES @ 8c · p 0.1318 (adj 0.1176) · $3.51 · thesis LAK:OFFENSE_4PLUS
+- Mats Zuccarello: 1+ assists NO @ 65c · p 0.8509 (adj 0.7171) · $8.9 · thesis LAK:SUPPRESSED
+- Mats Zuccarello: 2+ assists NO @ 93c · p 0.9887 (adj 0.9544) · $8.9 · thesis DIFFUSE
+- Joel Edmundson: 1+ goals YES @ 6c · p 0.083 (adj 0.076) · $1.33 · thesis LAK:WINS_BY_2PLUS
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -188,9 +188,9 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | Easton Cowan: 1+ points | 0.546 | 0.400 | 41/61 | +0.119 | STANDARD |
 | Easton Cowan: 1+ assists | 0.403 | 0.270 | 28/74 | +0.109 | STANDARD |
 | Kirill Kaprizov: 2+ points | 0.263 | 0.395 | 41/62 | +0.100 | STANDARD |
+| Kirill Kaprizov: 1+ goals | 0.372 | 0.485 | 49/52 | +0.091 | STANDARD |
 | Kirill Kaprizov: 1+ assists | 0.415 | 0.520 | 53/49 | +0.078 | STANDARD |
 | Quinn Hughes: 1+ assists | 0.551 | 0.655 | 66/35 | +0.083 | STANDARD |
-| Kirill Kaprizov: 1+ goals | 0.372 | 0.475 | 48/53 | +0.081 | STANDARD |
 
 **COL @ OTT** · priced 176/183 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - OTT net: Linus Ullmark (CONFIRMED) exp shots 28.4, exp saves 24.61 (sd 6.7), pull risk 0.062
@@ -198,12 +198,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Nathan MacKinnon: 1+ assists | 0.464 | 0.555 | 57/46 | +0.059 | STANDARD |
 | Fabian Zetterlund: 1+ points | 0.444 | 0.355 | 37/66 | +0.057 | STANDARD |
 | Fabian Zetterlund: 1+ assists | 0.287 | 0.200 | 21/81 | +0.065 | STANDARD |
+| Nathan MacKinnon: 1+ assists | 0.464 | 0.550 | 56/46 | +0.059 | STANDARD |
 | Martin Necas: 1+ assists | 0.412 | 0.490 | 50/52 | +0.050 | STANDARD |
-| Nathan MacKinnon: 2+ points | 0.298 | 0.370 | 38/64 | +0.046 | STANDARD |
-| Jordan Spence: 1+ points | 0.344 | 0.275 | 28/73 | +0.050 | STANDARD |
+| Nathan MacKinnon: 2+ points | 0.298 | 0.375 | 39/64 | +0.046 | STANDARD |
+| Nathan MacKinnon: 1+ points | 0.659 | 0.730 | 74/28 | +0.047 | STANDARD |
 
 **WSH @ NJD** · priced 158/167 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - NJD net: Connor Hellebuyck (PROJECTED) exp shots 25.32, exp saves 22.03 (sd 6.08), pull risk 0.058
@@ -225,10 +225,10 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
 | Nikita Kucherov: 1+ assists | 0.433 | 0.590 | 60/42 | +0.130 | STANDARD |
-| Nikita Kucherov: 2+ points | 0.257 | 0.390 | 40/62 | +0.107 | STANDARD |
+| Nikita Kucherov: 2+ points | 0.257 | 0.405 | 41/60 | +0.127 | STANDARD |
 | Nikita Kucherov: 1+ points | 0.622 | 0.740 | 75/27 | +0.094 | STANDARD |
 | Nikita Kucherov: 2+ assists | 0.111 | 0.220 | 23/79 | +0.087 | STANDARD |
-| Yanni Gourde: 1+ points | 0.253 | 0.335 | 35/68 | +0.051 | STANDARD |
+| Yanni Gourde: 1+ points | 0.253 | 0.350 | 37/67 | +0.061 | STANDARD |
 | Nikita Kucherov: 3+ points | 0.078 | 0.155 | 17/86 | +0.053 | STANDARD |
 
 **DET @ FLA** · priced 161/172 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
@@ -237,12 +237,12 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
-| Matthew Tkachuk: 1+ assists | 0.480 | 0.560 | 57/45 | +0.053 | STANDARD |
+| Matthew Tkachuk: 1+ assists | 0.480 | 0.565 | 58/45 | +0.053 | STANDARD |
 | Lucas Raymond: 1+ assists | 0.351 | 0.430 | 44/58 | +0.052 | STANDARD |
-| Aaron Ekblad: 1+ assists | 0.331 | 0.260 | 28/76 | +0.037 | STANDARD |
+| Aaron Ekblad: 1+ assists | 0.331 | 0.255 | 26/75 | +0.058 | STANDARD |
+| Brady Tkachuk: 1+ points | 0.560 | 0.635 | 64/37 | +0.053 | STANDARD |
+| Aaron Ekblad: 1+ points | 0.392 | 0.320 | 33/69 | +0.046 | STANDARD |
 | Matthew Tkachuk: 2+ points | 0.277 | 0.345 | 36/67 | +0.038 | STANDARD |
-| Moritz Seider: 1+ assists | 0.367 | 0.435 | 45/58 | +0.035 | STANDARD |
-| Anton Lundell: 1+ assists | 0.198 | 0.265 | 28/75 | +0.039 | STANDARD |
 
 **BUF @ CHI** · priced 161/162 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - CHI net: Spencer Knight (PROJECTED) exp shots 29.67, exp saves 25.66 (sd 6.84), pull risk 0.063
@@ -252,10 +252,10 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 |---|---:|---:|---|---:|---|
 | Rasmus Dahlin: 1+ assists | 0.422 | 0.535 | 54/47 | +0.091 | STANDARD |
 | Rasmus Dahlin: 1+ points | 0.518 | 0.630 | 64/38 | +0.086 | STANDARD |
-| Rasmus Dahlin: 2+ points | 0.169 | 0.265 | 28/75 | +0.068 | STANDARD |
+| Rasmus Dahlin: 2+ points | 0.169 | 0.270 | 28/74 | +0.078 | STANDARD |
 | Tage Thompson: 1+ points | 0.564 | 0.655 | 66/35 | +0.070 | STANDARD |
+| Tage Thompson: 2+ points | 0.209 | 0.295 | 30/71 | +0.067 | STANDARD |
 | Ryan Donato: 1+ assists | 0.270 | 0.185 | 19/82 | +0.069 | STANDARD |
-| Tage Thompson: 1+ assists | 0.337 | 0.415 | 43/60 | +0.046 | STANDARD |
 
 **WPG @ DAL** · priced 159/162 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - DAL net: Jake Oettinger (CONFIRMED) exp shots 24.62, exp saves 21.66 (sd 6.03), pull risk 0.048
@@ -265,7 +265,7 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 |---|---:|---:|---|---:|---|
 | Josh Morrissey: 1+ assists | 0.257 | 0.410 | 42/60 | +0.126 | STANDARD |
 | Josh Morrissey: 1+ points | 0.337 | 0.470 | 48/54 | +0.106 | STANDARD |
-| Josh Morrissey: 2+ points | 0.062 | 0.140 | 15/87 | +0.060 | STANDARD |
+| Josh Morrissey: 2+ points | 0.062 | 0.145 | 15/86 | +0.070 | STANDARD |
 | Mikko Rantanen: 2+ points | 0.243 | 0.320 | 33/69 | +0.052 | STANDARD |
 | Mikko Rantanen: 1+ assists | 0.453 | 0.530 | 54/48 | +0.050 | STANDARD |
 | Cole Perfetti: 1+ assists | 0.362 | 0.290 | 30/72 | +0.047 | STANDARD |
@@ -281,7 +281,7 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | Robert Thomas: 1+ assists | 0.431 | 0.535 | 54/47 | +0.082 | STANDARD |
 | Clayton Keller: 1+ assists | 0.478 | 0.575 | 58/43 | +0.075 | STANDARD |
 | MacKenzie Weegar: 1+ assists | 0.367 | 0.280 | 29/73 | +0.062 | STANDARD |
-| Lawson Crouse: 1+ assists | 0.272 | 0.185 | 20/83 | +0.061 | STANDARD |
+| MacKenzie Weegar: 1+ points | 0.422 | 0.340 | 35/67 | +0.056 | STANDARD |
 
 **NYI @ LAK** · priced 133/147 player contracts · lineups LINES_PROJECTED/LINES_PROJECTED
 - LAK net: Anton Forsberg (PROJECTED) exp shots 26.98, exp saves 23.62 (sd 6.37), pull risk 0.047
@@ -291,8 +291,8 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 |---|---:|---:|---|---:|---|
 | Mats Zuccarello: 1+ assists | 0.149 | 0.355 | 36/65 | +0.185 | STANDARD |
 | Mats Zuccarello: 1+ points | 0.313 | 0.475 | 48/53 | +0.140 | STANDARD |
-| Mats Zuccarello: 2+ points | 0.058 | 0.150 | 17/87 | +0.064 | STANDARD |
-| Alex Laferriere: 1+ points | 0.608 | 0.530 | 54/48 | +0.050 | STANDARD |
+| Mats Zuccarello: 2+ points | 0.058 | 0.155 | 17/86 | +0.074 | STANDARD |
+| Alex Laferriere: 1+ points | 0.608 | 0.535 | 55/48 | +0.040 | STANDARD |
 | Mats Zuccarello: 2+ assists | 0.011 | 0.080 | 9/93 | +0.054 | STANDARD |
 | Alex Laferriere: 1+ assists | 0.431 | 0.365 | 37/64 | +0.045 | STANDARD |
 
