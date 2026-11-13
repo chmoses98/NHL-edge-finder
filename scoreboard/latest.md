@@ -2,7 +2,7 @@
 
 Registration: `docs/research/player_minutes/PREREGISTRATION.md`. Activation: 2026-10-24T07:20:40Z.
 
-Records: 5,926 (counting: 5,926) · outcomes: 4,752 · paired with an incumbent TOI forecast: 4,355
+Records: 6,007 (counting: 6,007) · outcomes: 4,752 · paired with an incumbent TOI forecast: 4,355
 Settled candidates 5,511 · played 4,648 · of those with the incumbent's pregame TOI forecast 4,355 (94%) · with a captured power-play value 3,475
 
 Cumulative, **descriptive only** (no decision is taken from it):
