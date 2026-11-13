@@ -2,24 +2,24 @@
 
 RESEARCH_ONLY · registration: `docs/research/workload_v1/LC_PROSPECTIVE_REGISTRATION.md` · conditional on dressing · interim looks are descriptive
 
-* pregame records 6094 · late records excluded 0 · scored (dressed) 4717 · candidates who did not dress 881 · awaiting the official result 496 · paired with the incumbent's pregame forecast 4418
-* **verdict: INCONCLUSIVE AT n=4418 (decision look at 30000)**
+* pregame records 6094 · late records excluded 0 · scored (dressed) 5067 · candidates who did not dress 946 · awaiting the official result 81 · paired with the incumbent's pregame forecast 4739
+* **verdict: INCONCLUSIVE AT n=4739 (decision look at 30000)**
 * registered looks computed so far: none
 
 | arm | n | bias | MAE | RMSE | CRPS | ladder Brier | cov80 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| LC | 4418 | +0.0167 | 1.0123 | 1.3034 | 0.6795 | 0.12997 | 0.803 |
-| WORKLOAD_V1_RAW | 4418 | +0.0569 | 1.0180 | 1.3038 | 0.6800 | 0.13008 | 0.802 |
-| CHAMPION | 4418 | -0.0642 | 1.0110 | 1.3143 | 0.6849 | 0.13100 | 0.779 |
-| BASELINE | 4418 | +0.0423 | 1.0345 | 1.3229 | 0.6919 | 0.13241 | 0.785 |
-| CHAMPION_NB | 4418 | -0.0642 | 1.0110 | 1.3143 | 0.6854 | 0.13116 | 0.805 |
+| LC | 4739 | +0.0147 | 1.0128 | 1.3029 | 0.6799 | 0.13020 | 0.803 |
+| WORKLOAD_V1_RAW | 4739 | +0.0550 | 1.0184 | 1.3033 | 0.6805 | 0.13030 | 0.802 |
+| CHAMPION | 4739 | -0.0655 | 1.0111 | 1.3132 | 0.6851 | 0.13119 | 0.779 |
+| BASELINE | 4739 | +0.0413 | 1.0336 | 1.3212 | 0.6916 | 0.13250 | 0.785 |
+| CHAMPION_NB | 4739 | -0.0655 | 1.0111 | 1.3132 | 0.6857 | 0.13136 | 0.805 |
 
 | LC minus | CRPS Δ [95%] | RMSE Δ [95%] |
 |---|---|---|
-| WORKLOAD_V1_RAW | -0.00055 [-0.00130, +0.00025] | -0.00038 [-0.00183, +0.00109] |
-| CHAMPION | -0.00547 [-0.00891, -0.00207] | -0.01095 [-0.01674, -0.00503] |
-| BASELINE | -0.01246 [-0.01655, -0.00834] | -0.01956 [-0.02639, -0.01283] |
-| CHAMPION_NB | -0.00596 [-0.00931, -0.00244] | -0.01095 [-0.01674, -0.00503] |
+| WORKLOAD_V1_RAW | -0.00051 [-0.00122, +0.00024] | -0.00043 [-0.00181, +0.00091] |
+| CHAMPION | -0.00517 [-0.00849, -0.00188] | -0.01035 [-0.01611, -0.00471] |
+| BASELINE | -0.01166 [-0.01542, -0.00772] | -0.01828 [-0.02475, -0.01141] |
+| CHAMPION_NB | -0.00578 [-0.00912, -0.00241] | -0.01035 [-0.01611, -0.00471] |
 
 Frozen original rule: crps_vs_champion_ci_upper_lt_0=PASS, rmse_vs_champion_ci_upper_lt_0=PASS, abs_bias_le_0.05=PASS, coverage80_in_band=PASS, crps_vs_champion_nb_ci_upper_lt_0=PASS, ladder_brier_vs_champion_nb_ci_upper_lt_0=PASS, no_position_worse_crps_than_champion_nb=PASS
 LC development checks: abs_bias_le_0.02=PASS, crps_give_back_le_0.001=PASS
