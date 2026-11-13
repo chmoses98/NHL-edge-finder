@@ -1,6 +1,6 @@
 {
   "capture_alarms": [
-    "45 market(s) classified UNRESOLVED across series ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']: the ontology does not describe something on the board",
+    "55 market(s) classified UNRESOLVED across series ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']: the ontology does not describe something on the board",
     "series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']"
   ],
   "cycles": [
@@ -9,8 +9,8 @@
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 825.649584,
-      "hours_to_next_tip": 3.3884869608333332,
+      "duration_s": 746.540234,
+      "hours_to_next_tip": 2.500618467222222,
       "jobs_failed": [],
       "jobs_run": [
         "context",
@@ -23,34 +23,302 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1643.3,
-        "uncovered": 51
+        "next_uncovered_in_min": 1710.0,
+        "uncovered": 49
       },
       "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 3.3884869608333332,
-        "last_success_age_min": 27.924115683333333,
-        "median_e2e_min": 16.15,
-        "stages": "all"
+        "action": "dispatch",
+        "code": "SETTLE_DUE",
+        "dispatched": true,
+        "hours_to_next_tip": 2.500618467222222,
+        "last_success_age_min": 151.6462253,
+        "median_e2e_min": 12.5,
+        "reason": "slate finished (last start 2026-11-12T17:00:00+00:00) and no successful run since 2026-11-12T20:45:00+00:00",
+        "stages": "capture,results,settle,score,guard"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+3.39h",
+      "reason": "game at 2026-11-12T17:00:00+00:00 is T-4.50h",
       "settle": {
         "fresh": true,
         "games_pending": [],
         "n_player_errors": 0,
         "n_result_errors": 0
       },
-      "started_at": "2026-11-10T20:36:41Z"
+      "started_at": "2026-11-12T21:29:57Z"
     },
     {
       "cadence_s": 600.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 137.796664,
-      "hours_to_next_tip": 3.1591398455555555,
+      "duration_s": 106.218341,
+      "hours_to_next_tip": 2.293246171388889,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1697.6,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "SETTLE_WAIT_IN_FLIGHT",
+        "hours_to_next_tip": 2.293246171388889,
+        "last_success_age_min": 164.08856305,
+        "median_e2e_min": 12.5,
+        "stages": "capture,results,settle,score,guard"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+2.29h",
+      "settle": null,
+      "started_at": "2026-11-12T21:42:24Z"
+    },
+    {
+      "cadence_s": 600.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 152.791511,
+      "hours_to_next_tip": 2.1265794633333335,
+      "jobs_failed": [],
+      "jobs_run": [
+        "context",
+        "simulate",
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1687.6,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "SETTLE_WAIT_IN_FLIGHT",
+        "hours_to_next_tip": 2.1265794633333335,
+        "last_success_age_min": 174.0885655333333,
+        "median_e2e_min": 12.5,
+        "stages": "capture,results,settle,score,guard"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+2.13h",
+      "settle": null,
+      "started_at": "2026-11-12T21:52:24Z"
+    },
+    {
+      "cadence_s": 600.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 116.308294,
+      "hours_to_next_tip": 1.9599127500000002,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1677.6,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "SETTLE_WAIT_IN_FLIGHT",
+        "hours_to_next_tip": 1.9599127500000002,
+        "last_success_age_min": 184.0885683333333,
+        "median_e2e_min": 12.5,
+        "stages": "capture,results,settle,score,guard"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+1.96h",
+      "settle": null,
+      "started_at": "2026-11-12T22:02:24Z"
+    },
+    {
+      "cadence_s": 600.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 106.925386,
+      "hours_to_next_tip": 1.7932460477777776,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1667.6,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "dispatch",
+        "code": "REFRESH_DUE",
+        "dispatched": true,
+        "hours_to_next_tip": 1.7932460477777776,
+        "last_success_age_min": 194.08857046666665,
+        "median_e2e_min": 12.5,
+        "reason": "newest successful run is 194 min old (>= 45 min wanted at T-1.8 h)",
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+1.79h",
+      "settle": null,
+      "started_at": "2026-11-12T22:12:24Z"
+    },
+    {
+      "cadence_s": 600.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 146.244965,
+      "hours_to_next_tip": 1.6265793494444445,
+      "jobs_failed": [],
+      "jobs_run": [
+        "context",
+        "simulate",
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1657.6,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 1.6265793494444445,
+        "last_success_age_min": 204.08857236666665,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+1.63h",
+      "settle": null,
+      "started_at": "2026-11-12T22:22:24Z"
+    },
+    {
+      "cadence_s": 420.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 120.695993,
+      "hours_to_next_tip": 1.459912636388889,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1647.6,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 1.459912636388889,
+        "last_success_age_min": 214.08857515,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+1.46h",
+      "settle": null,
+      "started_at": "2026-11-12T22:32:24Z"
+    },
+    {
+      "cadence_s": 420.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 385.004619,
+      "hours_to_next_tip": 1.343245938611111,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1640.6,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 1.343245938611111,
+        "last_success_age_min": 221.08857701666665,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+1.34h",
+      "settle": null,
+      "started_at": "2026-11-12T22:39:24Z"
+    },
+    {
+      "cadence_s": 420.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 156.056463,
+      "hours_to_next_tip": 1.2265792325,
+      "jobs_failed": [],
+      "jobs_run": [
+        "context",
+        "simulate",
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1633.6,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "dispatch",
+        "code": "REFRESH_DUE",
+        "dispatched": true,
+        "hours_to_next_tip": 1.2265792325,
+        "last_success_age_min": 228.08857938333333,
+        "median_e2e_min": 12.5,
+        "reason": "newest successful run is 228 min old (>= 25 min wanted at T-1.2 h)",
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+1.23h",
+      "settle": null,
+      "started_at": "2026-11-12T22:46:24Z"
+    },
+    {
+      "cadence_s": 420.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 140.122305,
+      "hours_to_next_tip": 1.1099125372222223,
       "jobs_failed": [],
       "jobs_run": [
         "app_export",
@@ -61,29 +329,99 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1629.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1626.6,
+        "uncovered": 49
       },
       "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 3.1591398455555555,
-        "last_success_age_min": 41.6849426,
-        "median_e2e_min": 16.15,
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 1.1099125372222223,
+        "last_success_age_min": 235.0885811,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+3.16h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+1.11h",
       "settle": null,
-      "started_at": "2026-11-10T20:50:27Z"
+      "started_at": "2026-11-12T22:53:24Z"
     },
     {
-      "cadence_s": 600.0,
+      "cadence_s": 420.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 152.427696,
-      "hours_to_next_tip": 2.9924731391666666,
+      "duration_s": 107.683222,
+      "hours_to_next_tip": 0.993245841111111,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1619.6,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.993245841111111,
+        "last_success_age_min": 242.08858286666666,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+0.99h",
+      "settle": null,
+      "started_at": "2026-11-12T23:00:24Z"
+    },
+    {
+      "cadence_s": 420.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 427.342865,
+      "hours_to_next_tip": 0.8765791416666666,
+      "jobs_failed": [],
+      "jobs_run": [
+        "settle",
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1612.6,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.8765791416666666,
+        "last_success_age_min": 249.08858483333333,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+0.88h",
+      "settle": {
+        "fresh": true,
+        "games_pending": [],
+        "n_player_errors": 0,
+        "n_result_errors": 0
+      },
+      "started_at": "2026-11-12T23:07:24Z"
+    },
+    {
+      "cadence_s": 420.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 146.415354,
+      "hours_to_next_tip": 0.7578727838888888,
       "jobs_failed": [],
       "jobs_run": [
         "context",
@@ -95,31 +433,29 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1619.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1605.5,
+        "uncovered": 49
       },
       "pf": {
-        "action": "dispatch",
-        "code": "REFRESH_DUE",
-        "dispatched": true,
-        "hours_to_next_tip": 2.9924731391666666,
-        "last_success_age_min": 51.68494498333334,
-        "median_e2e_min": 16.15,
-        "reason": "newest successful run is 52 min old (>= 45 min wanted at T-3.0 h)",
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.7578727838888888,
+        "last_success_age_min": 256.2109663,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+2.99h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+0.76h",
       "settle": null,
-      "started_at": "2026-11-10T21:00:27Z"
+      "started_at": "2026-11-12T23:14:31Z"
     },
     {
-      "cadence_s": 600.0,
+      "cadence_s": 420.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 106.085216,
-      "hours_to_next_tip": 2.825806435277778,
+      "duration_s": 111.279043,
+      "hours_to_next_tip": 0.641206085,
       "jobs_failed": [],
       "jobs_run": [
         "app_export",
@@ -129,29 +465,29 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1609.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1598.5,
+        "uncovered": 49
       },
       "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 2.825806435277778,
-        "last_success_age_min": 8.384947216666667,
-        "median_e2e_min": 16.15,
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.641206085,
+        "last_success_age_min": 263.21096823333335,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+2.83h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+0.64h",
       "settle": null,
-      "started_at": "2026-11-10T21:10:27Z"
+      "started_at": "2026-11-12T23:21:31Z"
     },
     {
-      "cadence_s": 600.0,
+      "cadence_s": 420.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 107.20483,
-      "hours_to_next_tip": 2.6591397361111113,
+      "duration_s": 110.62564,
+      "hours_to_next_tip": 0.5245393811111111,
       "jobs_failed": [],
       "jobs_run": [
         "app_export",
@@ -161,65 +497,65 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1599.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1591.5,
+        "uncovered": 49
       },
       "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 2.6591397361111113,
-        "last_success_age_min": 18.38494916666667,
-        "median_e2e_min": 16.15,
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.5245393811111111,
+        "last_success_age_min": 270.21097046666665,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+2.66h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+0.52h",
       "settle": null,
-      "started_at": "2026-11-10T21:20:27Z"
+      "started_at": "2026-11-12T23:28:31Z"
     },
     {
-      "cadence_s": 600.0,
+      "cadence_s": 300.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 147.564241,
-      "hours_to_next_tip": 2.4924730444444445,
+      "duration_s": 110.242379,
+      "hours_to_next_tip": 0.4078726758333333,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1584.5,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.4078726758333333,
+        "last_success_age_min": 277.2109727833333,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+0.41h",
+      "settle": null,
+      "started_at": "2026-11-12T23:35:31Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 400.681447,
+      "hours_to_next_tip": 0.32453930722222224,
       "jobs_failed": [],
       "jobs_run": [
         "context",
         "simulate",
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1589.5,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 2.4924730444444445,
-        "last_success_age_min": 28.38495066666667,
-        "median_e2e_min": 16.15,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+2.49h",
-      "settle": null,
-      "started_at": "2026-11-10T21:30:27Z"
-    },
-    {
-      "cadence_s": 600.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 108.240743,
-      "hours_to_next_tip": 2.325806344722222,
-      "jobs_failed": [],
-      "jobs_run": [
         "app_export",
         "research_export"
       ],
@@ -228,28 +564,28 @@
         "code": "OUTSIDE_WINDOW",
         "gap": false,
         "next_uncovered_in_min": 1579.5,
-        "uncovered": 54
+        "uncovered": 49
       },
       "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 2.325806344722222,
-        "last_success_age_min": 38.384952649999995,
-        "median_e2e_min": 16.15,
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.32453930722222224,
+        "last_success_age_min": 282.2109749,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+2.33h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+0.32h",
       "settle": null,
-      "started_at": "2026-11-10T21:40:27Z"
+      "started_at": "2026-11-12T23:40:31Z"
     },
     {
-      "cadence_s": 600.0,
+      "cadence_s": 300.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 374.535713,
-      "hours_to_next_tip": 2.159139648611111,
+      "duration_s": 106.034839,
+      "hours_to_next_tip": 0.21323889694444445,
       "jobs_failed": [],
       "jobs_run": [
         "app_export",
@@ -259,34 +595,128 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1569.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1572.8,
+        "uncovered": 49
       },
       "pf": {
-        "action": "dispatch",
-        "code": "REFRESH_DUE",
-        "dispatched": true,
-        "hours_to_next_tip": 2.159139648611111,
-        "last_success_age_min": 48.384954416666666,
-        "median_e2e_min": 16.15,
-        "reason": "newest successful run is 48 min old (>= 45 min wanted at T-2.2 h)",
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.21323889694444445,
+        "last_success_age_min": 288.8889995166667,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+2.16h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+0.21h",
       "settle": null,
-      "started_at": "2026-11-10T21:50:27Z"
+      "started_at": "2026-11-12T23:47:12Z"
     },
     {
-      "cadence_s": 600.0,
+      "cadence_s": 300.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 160.22444,
-      "hours_to_next_tip": 1.9924729483333332,
+      "duration_s": 109.628162,
+      "hours_to_next_tip": 0.1299055302777778,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1567.8,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.1299055302777778,
+        "last_success_age_min": 293.8890015166666,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+0.13h",
+      "settle": null,
+      "started_at": "2026-11-12T23:52:12Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 115.237357,
+      "hours_to_next_tip": 0.046572166388888885,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1562.8,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.046572166388888885,
+        "last_success_age_min": 298.88900335,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T+0.05h",
+      "settle": null,
+      "started_at": "2026-11-12T23:57:12Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 140.660555,
+      "hours_to_next_tip": 0.4632387938888889,
       "jobs_failed": [],
       "jobs_run": [
         "context",
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1557.8,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.4632387938888889,
+        "last_success_age_min": 303.8890057,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-0.04h",
+      "settle": null,
+      "started_at": "2026-11-13T00:02:12Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 138.493218,
+      "hours_to_next_tip": 0.37990542388888887,
+      "jobs_failed": [],
+      "jobs_run": [
         "simulate",
         "app_export",
         "research_export"
@@ -295,29 +725,225 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1559.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1552.8,
+        "uncovered": 49
       },
       "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 1.9924729483333332,
-        "last_success_age_min": 8.384956433333333,
-        "median_e2e_min": 12.7,
+        "action": "dispatch",
+        "code": "REFRESH_DUE",
+        "dispatched": true,
+        "hours_to_next_tip": 0.37990542388888887,
+        "last_success_age_min": 308.8890079,
+        "median_e2e_min": 12.5,
+        "reason": "newest successful run is 309 min old (>= 25 min wanted at T-0.4 h)",
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+1.99h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-0.12h",
       "settle": null,
-      "started_at": "2026-11-10T22:00:27Z"
+      "started_at": "2026-11-13T00:07:12Z"
     },
     {
-      "cadence_s": 600.0,
+      "cadence_s": 300.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 446.834211,
-      "hours_to_next_tip": 1.8258062497222223,
+      "duration_s": 113.999357,
+      "hours_to_next_tip": 0.2965720466666667,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1547.8,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.2965720466666667,
+        "last_success_age_min": 313.8890105333333,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-0.20h",
+      "settle": null,
+      "started_at": "2026-11-13T00:12:12Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 107.756591,
+      "hours_to_next_tip": 0.21323867888888887,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1542.8,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.21323867888888887,
+        "last_success_age_min": 318.8890126,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-0.29h",
+      "settle": null,
+      "started_at": "2026-11-13T00:17:12Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 128.351561,
+      "hours_to_next_tip": 0.12990528305555554,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1537.8,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.12990528305555554,
+        "last_success_age_min": 323.88901635,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-0.37h",
+      "settle": null,
+      "started_at": "2026-11-13T00:22:12Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 113.017008,
+      "hours_to_next_tip": 0.04657190722222222,
+      "jobs_failed": [],
+      "jobs_run": [
+        "context",
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1532.8,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.04657190722222222,
+        "last_success_age_min": 328.8890189,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-0.45h",
+      "settle": null,
+      "started_at": "2026-11-13T00:27:12Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 146.262497,
+      "hours_to_next_tip": 0.46323853805555554,
+      "jobs_failed": [],
+      "jobs_run": [
+        "simulate",
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1527.8,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.46323853805555554,
+        "last_success_age_min": 333.88902105,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-0.54h",
+      "settle": null,
+      "started_at": "2026-11-13T00:32:12Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 107.945043,
+      "hours_to_next_tip": 0.3799051669444445,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1522.8,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.3799051669444445,
+        "last_success_age_min": 338.8890233166667,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-0.62h",
+      "settle": null,
+      "started_at": "2026-11-13T00:37:12Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 684.996938,
+      "hours_to_next_tip": 0.2965717975,
       "jobs_failed": [],
       "jobs_run": [
         "settle",
@@ -328,70 +954,37 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1549.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1517.8,
+        "uncovered": 49
       },
       "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 1.8258062497222223,
-        "last_success_age_min": 18.384958349999998,
-        "median_e2e_min": 12.7,
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.2965717975,
+        "last_success_age_min": 343.88902548333334,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+1.83h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-0.70h",
       "settle": {
         "fresh": true,
         "games_pending": [],
         "n_player_errors": 0,
         "n_result_errors": 0
       },
-      "started_at": "2026-11-10T22:10:27Z"
+      "started_at": "2026-11-13T00:42:12Z"
     },
     {
-      "cadence_s": 600.0,
+      "cadence_s": 300.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 105.74547,
-      "hours_to_next_tip": 1.659139551111111,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1539.5,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 1.659139551111111,
-        "last_success_age_min": 28.384960266666667,
-        "median_e2e_min": 12.7,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+1.66h",
-      "settle": null,
-      "started_at": "2026-11-10T22:20:27Z"
-    },
-    {
-      "cadence_s": 420.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 149.24968,
-      "hours_to_next_tip": 1.4924728480555556,
+      "duration_s": 110.774879,
+      "hours_to_next_tip": 0.10629486361111112,
       "jobs_failed": [],
       "jobs_run": [
         "context",
-        "simulate",
         "app_export",
         "research_export"
       ],
@@ -399,65 +992,32 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1529.5,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "dispatch",
-        "code": "REFRESH_DUE",
-        "dispatched": true,
-        "hours_to_next_tip": 1.4924728480555556,
-        "last_success_age_min": 38.384962449999996,
-        "median_e2e_min": 12.7,
-        "reason": "newest successful run is 38 min old (>= 25 min wanted at T-1.5 h)",
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+1.49h",
-      "settle": null,
-      "started_at": "2026-11-10T22:30:27Z"
-    },
-    {
-      "cadence_s": 420.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 106.990851,
-      "hours_to_next_tip": 1.3758061508333335,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1522.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1506.4,
+        "uncovered": 49
       },
       "pf": {
         "action": "wait",
         "code": "IN_FLIGHT",
-        "hours_to_next_tip": 1.3758061508333335,
-        "last_success_age_min": 45.38496428333334,
-        "median_e2e_min": 12.7,
+        "hours_to_next_tip": 0.10629486361111112,
+        "last_success_age_min": 355.30564151666664,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+1.38h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-0.89h",
       "settle": null,
-      "started_at": "2026-11-10T22:37:27Z"
+      "started_at": "2026-11-13T00:53:37Z"
     },
     {
-      "cadence_s": 420.0,
+      "cadence_s": 300.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 107.628505,
-      "hours_to_next_tip": 1.2591394491666668,
+      "duration_s": 153.546057,
+      "hours_to_next_tip": 0.022961462777777778,
       "jobs_failed": [],
       "jobs_run": [
+        "simulate",
         "app_export",
         "research_export"
       ],
@@ -465,29 +1025,29 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1515.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1501.4,
+        "uncovered": 49
       },
       "pf": {
         "action": "wait",
         "code": "IN_FLIGHT",
-        "hours_to_next_tip": 1.2591394491666668,
-        "last_success_age_min": 52.384966383333335,
-        "median_e2e_min": 12.7,
+        "hours_to_next_tip": 0.022961462777777778,
+        "last_success_age_min": 360.30564556666667,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+1.26h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-0.98h",
       "settle": null,
-      "started_at": "2026-11-10T22:44:27Z"
+      "started_at": "2026-11-13T00:58:37Z"
     },
     {
       "cadence_s": 420.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 361.741115,
-      "hours_to_next_tip": 1.1424727516666666,
+      "duration_s": 120.759341,
+      "hours_to_next_tip": 0.9396280752777778,
       "jobs_failed": [],
       "jobs_run": [
         "app_export",
@@ -497,29 +1057,353 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1508.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1496.4,
+        "uncovered": 49
       },
       "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 1.1424727516666666,
-        "last_success_age_min": 7.6516349,
-        "median_e2e_min": 12.7,
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.9396280752777778,
+        "last_success_age_min": 365.3056488166667,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+1.14h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-1.06h",
       "settle": null,
-      "started_at": "2026-11-10T22:51:27Z"
+      "started_at": "2026-11-13T01:03:37Z"
     },
     {
       "cadence_s": 420.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 146.820758,
-      "hours_to_next_tip": 1.025806051388889,
+      "duration_s": 123.4296,
+      "hours_to_next_tip": 0.8229613472222223,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1489.4,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.8229613472222223,
+        "last_success_age_min": 372.3056525,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-1.18h",
+      "settle": null,
+      "started_at": "2026-11-13T01:10:37Z"
+    },
+    {
+      "cadence_s": 420.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 239.627173,
+      "hours_to_next_tip": 0.7062946383333334,
+      "jobs_failed": [],
+      "jobs_run": [
+        "context",
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1482.4,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.7062946383333334,
+        "last_success_age_min": 379.3056550333333,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-1.29h",
+      "settle": null,
+      "started_at": "2026-11-13T01:17:37Z"
+    },
+    {
+      "cadence_s": 420.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 146.475416,
+      "hours_to_next_tip": 0.5896279400000001,
+      "jobs_failed": [],
+      "jobs_run": [
+        "simulate",
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1475.4,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.5896279400000001,
+        "last_success_age_min": 386.3056569333333,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-1.41h",
+      "settle": null,
+      "started_at": "2026-11-13T01:24:37Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 107.957516,
+      "hours_to_next_tip": 0.4729612411111111,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1468.4,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.4729612411111111,
+        "last_success_age_min": 393.3056588666667,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-1.53h",
+      "settle": null,
+      "started_at": "2026-11-13T01:31:37Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 116.537945,
+      "hours_to_next_tip": 0.3896278830555555,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1463.4,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.3896278830555555,
+        "last_success_age_min": 398.30566035,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-1.61h",
+      "settle": null,
+      "started_at": "2026-11-13T01:36:37Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 117.387404,
+      "hours_to_next_tip": 0.3062945183333334,
+      "jobs_failed": [],
+      "jobs_run": [
+        "context",
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1458.4,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.3062945183333334,
+        "last_success_age_min": 403.30566223333335,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-1.69h",
+      "settle": null,
+      "started_at": "2026-11-13T01:41:37Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 147.69079,
+      "hours_to_next_tip": 0.22296114388888888,
+      "jobs_failed": [],
+      "jobs_run": [
+        "simulate",
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1453.4,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.22296114388888888,
+        "last_success_age_min": 408.3056647,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-1.78h",
+      "settle": null,
+      "started_at": "2026-11-13T01:46:37Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 380.245572,
+      "hours_to_next_tip": 0.13962777027777779,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1448.4,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.13962777027777779,
+        "last_success_age_min": 413.30566711666665,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-1.86h",
+      "settle": null,
+      "started_at": "2026-11-13T01:51:37Z"
+    },
+    {
+      "cadence_s": 300.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 106.526923,
+      "hours_to_next_tip": 0.03400399361111111,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1442.0,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.03400399361111111,
+        "last_success_age_min": 419.64309371666667,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-1.97h",
+      "settle": null,
+      "started_at": "2026-11-13T01:57:57Z"
+    },
+    {
+      "cadence_s": 420.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 126.176266,
+      "hours_to_next_tip": 0.9506706294444445,
+      "jobs_failed": [],
+      "jobs_run": [
+        "app_export",
+        "research_export"
+      ],
+      "lc": {
+        "action": "idle",
+        "code": "OUTSIDE_WINDOW",
+        "gap": false,
+        "next_uncovered_in_min": 1437.0,
+        "uncovered": 49
+      },
+      "pf": {
+        "action": "wait",
+        "code": "IN_FLIGHT",
+        "hours_to_next_tip": 0.9506706294444445,
+        "last_success_age_min": 424.64309556666666,
+        "median_e2e_min": 12.5,
+        "stages": "all"
+      },
+      "push_ok": true,
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-2.05h",
+      "settle": null,
+      "started_at": "2026-11-13T02:02:57Z"
+    },
+    {
+      "cadence_s": 420.0,
+      "capture_ok": true,
+      "captured": true,
+      "decision_ok": true,
+      "duration_s": 143.530992,
+      "hours_to_next_tip": 0.83400392,
       "jobs_failed": [],
       "jobs_run": [
         "context",
@@ -531,225 +1415,29 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1501.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1430.0,
+        "uncovered": 49
       },
       "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 1.025806051388889,
-        "last_success_age_min": 14.651636916666666,
-        "median_e2e_min": 12.7,
+        "action": "wait",
+        "code": "FAILURE_BACKOFF",
+        "hours_to_next_tip": 0.83400392,
+        "last_success_age_min": 431.64309813333335,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+1.03h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-2.17h",
       "settle": null,
-      "started_at": "2026-11-10T22:58:27Z"
+      "started_at": "2026-11-13T02:09:57Z"
     },
     {
       "cadence_s": 420.0,
       "capture_ok": true,
       "captured": true,
       "decision_ok": true,
-      "duration_s": 108.594102,
-      "hours_to_next_tip": 0.9091393536111111,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1494.5,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 0.9091393536111111,
-        "last_success_age_min": 21.651638783333333,
-        "median_e2e_min": 12.7,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+0.91h",
-      "settle": null,
-      "started_at": "2026-11-10T23:05:27Z"
-    },
-    {
-      "cadence_s": 420.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 108.775817,
-      "hours_to_next_tip": 0.7924726552777778,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1487.5,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "dispatch",
-        "code": "REFRESH_DUE",
-        "dispatched": true,
-        "hours_to_next_tip": 0.7924726552777778,
-        "last_success_age_min": 28.651640683333333,
-        "median_e2e_min": 12.7,
-        "reason": "newest successful run is 29 min old (>= 25 min wanted at T-0.8 h)",
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+0.79h",
-      "settle": null,
-      "started_at": "2026-11-10T23:12:27Z"
-    },
-    {
-      "cadence_s": 420.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 108.142476,
-      "hours_to_next_tip": 0.6758059547222223,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1480.5,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 0.6758059547222223,
-        "last_success_age_min": 5.384976050000001,
-        "median_e2e_min": 8.55,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+0.68h",
-      "settle": null,
-      "started_at": "2026-11-10T23:19:27Z"
-    },
-    {
-      "cadence_s": 420.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 156.822118,
-      "hours_to_next_tip": 0.5591392497222223,
-      "jobs_failed": [],
-      "jobs_run": [
-        "context",
-        "simulate",
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1473.5,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 0.5591392497222223,
-        "last_success_age_min": 12.38497835,
-        "median_e2e_min": 8.55,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+0.56h",
-      "settle": null,
-      "started_at": "2026-11-10T23:26:27Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 105.622341,
-      "hours_to_next_tip": 0.44247255055555557,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1466.5,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 0.44247255055555557,
-        "last_success_age_min": 19.3849803,
-        "median_e2e_min": 8.55,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+0.44h",
-      "settle": null,
-      "started_at": "2026-11-10T23:33:27Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 107.105456,
-      "hours_to_next_tip": 0.35913919111111114,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1461.5,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 0.35913919111111114,
-        "last_success_age_min": 24.384981866666667,
-        "median_e2e_min": 8.55,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+0.36h",
-      "settle": null,
-      "started_at": "2026-11-10T23:38:27Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 443.29856,
-      "hours_to_next_tip": 0.27580582722222224,
+      "duration_s": 455.066157,
+      "hours_to_next_tip": 0.7173372211111112,
       "jobs_failed": [],
       "jobs_run": [
         "settle",
@@ -760,619 +1448,57 @@
         "action": "idle",
         "code": "OUTSIDE_WINDOW",
         "gap": false,
-        "next_uncovered_in_min": 1456.5,
-        "uncovered": 54
+        "next_uncovered_in_min": 1423.0,
+        "uncovered": 49
       },
       "pf": {
-        "action": "idle",
-        "code": "TOO_LATE_FOR_PREGAME",
-        "hours_to_next_tip": 0.27580582722222224,
-        "last_success_age_min": 29.384983700000003,
-        "median_e2e_min": 8.55,
+        "action": "wait",
+        "code": "FAILURE_BACKOFF",
+        "hours_to_next_tip": 0.7173372211111112,
+        "last_success_age_min": 438.6431000666667,
+        "median_e2e_min": 12.5,
         "stages": "all"
       },
       "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+0.28h",
+      "reason": "game at 2026-11-13T00:00:00+00:00 is T-2.28h",
       "settle": {
         "fresh": true,
         "games_pending": [],
         "n_player_errors": 0,
         "n_result_errors": 0
       },
-      "started_at": "2026-11-10T23:43:27Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 404.097544,
-      "hours_to_next_tip": 0.15266733222222223,
-      "jobs_failed": [],
-      "jobs_run": [
-        "context",
-        "simulate",
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1449.2,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "TOO_LATE_FOR_PREGAME",
-        "hours_to_next_tip": 0.15266733222222223,
-        "last_success_age_min": 36.77329339999999,
-        "median_e2e_min": 8.55,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+0.15h",
-      "settle": null,
-      "started_at": "2026-11-10T23:50:50Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 104.860747,
-      "hours_to_next_tip": 0.04041800805555556,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1442.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "TOO_LATE_FOR_PREGAME",
-        "hours_to_next_tip": 0.04041800805555556,
-        "last_success_age_min": 43.50825285,
-        "median_e2e_min": 8.55,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T+0.04h",
-      "settle": null,
-      "started_at": "2026-11-10T23:57:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 106.473945,
-      "hours_to_next_tip": 0.4570846391666667,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1437.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "dispatch",
-        "code": "REFRESH_DUE",
-        "dispatched": true,
-        "hours_to_next_tip": 0.4570846391666667,
-        "last_success_age_min": 48.50825498333334,
-        "median_e2e_min": 8.55,
-        "reason": "newest successful run is 49 min old (>= 25 min wanted at T-0.5 h)",
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.04h",
-      "settle": null,
-      "started_at": "2026-11-11T00:02:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 107.380698,
-      "hours_to_next_tip": 0.37375126888888893,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1432.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 0.37375126888888893,
-        "last_success_age_min": 3.4082572,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.13h",
-      "settle": null,
-      "started_at": "2026-11-11T00:07:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 140.47809,
-      "hours_to_next_tip": 0.29041790500000003,
-      "jobs_failed": [],
-      "jobs_run": [
-        "context",
-        "simulate",
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1427.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "FRESH_ENOUGH",
-        "hours_to_next_tip": 0.29041790500000003,
-        "last_success_age_min": 8.408259033333334,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.21h",
-      "settle": null,
-      "started_at": "2026-11-11T00:12:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 105.150219,
-      "hours_to_next_tip": 0.20708453666666665,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1422.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "TOO_LATE_FOR_PREGAME",
-        "hours_to_next_tip": 0.20708453666666665,
-        "last_success_age_min": 13.408261133333333,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.29h",
-      "settle": null,
-      "started_at": "2026-11-11T00:17:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 105.618393,
-      "hours_to_next_tip": 0.12375116861111111,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1417.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "TOO_LATE_FOR_PREGAME",
-        "hours_to_next_tip": 0.12375116861111111,
-        "last_success_age_min": 18.40826321666667,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.38h",
-      "settle": null,
-      "started_at": "2026-11-11T00:22:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 105.62657,
-      "hours_to_next_tip": 0.04041780416666667,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1412.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "idle",
-        "code": "TOO_LATE_FOR_PREGAME",
-        "hours_to_next_tip": 0.04041780416666667,
-        "last_success_age_min": 23.408265083333333,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.46h",
-      "settle": null,
-      "started_at": "2026-11-11T00:27:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 107.740261,
-      "hours_to_next_tip": 0.4570844388888889,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1407.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "dispatch",
-        "code": "REFRESH_DUE",
-        "dispatched": true,
-        "hours_to_next_tip": 0.4570844388888889,
-        "last_success_age_min": 28.408267000000002,
-        "median_e2e_min": 5.525,
-        "reason": "newest successful run is 28 min old (>= 25 min wanted at T-0.5 h)",
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.54h",
-      "settle": null,
-      "started_at": "2026-11-11T00:32:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 153.40615,
-      "hours_to_next_tip": 0.3737510711111111,
-      "jobs_failed": [],
-      "jobs_run": [
-        "context",
-        "simulate",
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1402.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "wait",
-        "code": "IN_FLIGHT",
-        "hours_to_next_tip": 0.3737510711111111,
-        "last_success_age_min": 33.40826906666667,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.63h",
-      "settle": null,
-      "started_at": "2026-11-11T00:37:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 107.034665,
-      "hours_to_next_tip": 0.29041770361111113,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1397.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "wait",
-        "code": "IN_FLIGHT",
-        "hours_to_next_tip": 0.29041770361111113,
-        "last_success_age_min": 38.40827111666667,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.71h",
-      "settle": null,
-      "started_at": "2026-11-11T00:42:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 106.507757,
-      "hours_to_next_tip": 0.2070843386111111,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1392.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "wait",
-        "code": "IN_FLIGHT",
-        "hours_to_next_tip": 0.2070843386111111,
-        "last_success_age_min": 43.40827301666666,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.79h",
-      "settle": null,
-      "started_at": "2026-11-11T00:47:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 363.669583,
-      "hours_to_next_tip": 0.12375097138888888,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1387.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "wait",
-        "code": "IN_FLIGHT",
-        "hours_to_next_tip": 0.12375097138888888,
-        "last_success_age_min": 48.40827505,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.88h",
-      "settle": null,
-      "started_at": "2026-11-11T00:52:34Z"
-    },
-    {
-      "cadence_s": 300.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 105.633991,
-      "hours_to_next_tip": 0.022731636388888886,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1381.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "wait",
-        "code": "IN_FLIGHT",
-        "hours_to_next_tip": 0.022731636388888886,
-        "last_success_age_min": 54.469435149999995,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-0.98h",
-      "settle": null,
-      "started_at": "2026-11-11T00:58:38Z"
-    },
-    {
-      "cadence_s": 600.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 140.814221,
-      "hours_to_next_tip": 1.939398268888889,
-      "jobs_failed": [],
-      "jobs_run": [
-        "context",
-        "simulate",
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1376.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "wait",
-        "code": "IN_FLIGHT",
-        "hours_to_next_tip": 1.939398268888889,
-        "last_success_age_min": 59.4694372,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-1.06h",
-      "settle": null,
-      "started_at": "2026-11-11T01:03:38Z"
-    },
-    {
-      "cadence_s": 600.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 109.04728,
-      "hours_to_next_tip": 1.7727315733333333,
-      "jobs_failed": [],
-      "jobs_run": [
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1366.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "wait",
-        "code": "IN_FLIGHT",
-        "hours_to_next_tip": 1.7727315733333333,
-        "last_success_age_min": 69.46943893333334,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-1.23h",
-      "settle": null,
-      "started_at": "2026-11-11T01:13:38Z"
-    },
-    {
-      "cadence_s": 600.0,
-      "capture_ok": true,
-      "captured": true,
-      "decision_ok": true,
-      "duration_s": 447.02876,
-      "hours_to_next_tip": 1.6060648769444443,
-      "jobs_failed": [],
-      "jobs_run": [
-        "settle",
-        "app_export",
-        "research_export"
-      ],
-      "lc": {
-        "action": "idle",
-        "code": "OUTSIDE_WINDOW",
-        "gap": false,
-        "next_uncovered_in_min": 1356.4,
-        "uncovered": 54
-      },
-      "pf": {
-        "action": "wait",
-        "code": "IN_FLIGHT",
-        "hours_to_next_tip": 1.6060648769444443,
-        "last_success_age_min": 9.419440716666665,
-        "median_e2e_min": 5.525,
-        "stages": "all"
-      },
-      "push_ok": true,
-      "reason": "game at 2026-11-11T00:00:00+00:00 is T-1.39h",
-      "settle": {
-        "fresh": true,
-        "games_pending": [],
-        "n_player_errors": 0,
-        "n_result_errors": 0
-      },
-      "started_at": "2026-11-11T01:23:38Z"
+      "started_at": "2026-11-13T02:16:57Z"
     }
   ],
   "exit_reason": "planned retirement before next cadence tick",
   "fail_closed": false,
   "final_push_ok": null,
-  "generation": 306,
+  "generation": 370,
   "health": {
     "components": {
       "capture": {
-        "attempts": 40,
+        "attempts": 44,
         "disposition": "OK",
         "failed": 0,
-        "ok": 40,
+        "ok": 44,
         "trailing_failures": 0
       },
       "decision": {
-        "cycles": 40,
+        "cycles": 44,
         "unavailable": 0
       },
       "jobs": {
         "app_export": {
-          "attempts": 40,
+          "attempts": 44,
           "disposition": "OK",
           "failed": 0,
-          "ok": 40
+          "ok": 44
         },
         "context": {
-          "attempts": 11,
+          "attempts": 12,
           "disposition": "OK",
           "failed": 0,
-          "ok": 11
+          "ok": 12
         },
         "discover": {
           "attempts": 1,
@@ -1381,10 +1507,10 @@
           "ok": 1
         },
         "research_export": {
-          "attempts": 40,
+          "attempts": 44,
           "disposition": "OK",
           "failed": 0,
-          "ok": 40
+          "ok": 44
         },
         "settle": {
           "attempts": 4,
@@ -1393,15 +1519,15 @@
           "ok": 4
         },
         "simulate": {
-          "attempts": 11,
+          "attempts": 12,
           "disposition": "OK",
           "failed": 0,
-          "ok": 11
+          "ok": 12
         }
       },
       "push": {
         "cycle_push_failures": 0,
-        "cycle_pushes": 40,
+        "cycle_pushes": 44,
         "final_push_ok": null
       },
       "settlement": {
@@ -1414,18 +1540,18 @@
     },
     "failures": [],
     "notes": [],
-    "reason": "coverage alarm: 45 market(s) classified UNRESOLVED across series ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']: the ontology does not describe something on the board; coverage alarm: series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']",
+    "reason": "coverage alarm: 55 market(s) classified UNRESOLVED across series ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']: the ontology does not describe something on the board; coverage alarm: series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']",
     "state": "DEGRADED",
     "warnings": [
-      "coverage alarm: 45 market(s) classified UNRESOLVED across series ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']: the ontology does not describe something on the board",
+      "coverage alarm: 55 market(s) classified UNRESOLVED across series ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']: the ontology does not describe something on the board",
       "coverage alarm: series on the board with no ontology entry: ['KXNHLLINDSAY', 'KXNHLPSEASONGOALS']"
     ]
   },
   "n_capture_failed": 0,
-  "n_captured": 40,
-  "n_cycles": 40,
+  "n_captured": 44,
+  "n_cycles": 44,
   "n_jobs_failed": 0,
   "successor_dispatched": true,
   "successor_expected": true,
-  "worker_id": "42891508883"
+  "worker_id": "43299947056"
 }
