@@ -1,6 +1,6 @@
 # NHL THESIS CARD — RESEARCH_ONLY — status **COMPLETE**
 
-generated 2026-11-13T01:00:14Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
+generated 2026-11-13T01:26:17Z · nhl-thesis-1.1 · gate PASS · nominal bankroll $1000 (quarter Kelly; caps bet 2% / game 5% / thesis 3% / slate 15%)
 
 **Research execution (RESEARCH GOVERNANCE, not model truth):** research bankroll $250, whole-dollar stakes, max $5 per wager; ≤ 1 funded player prop per game; ≤ 2 funded player props with adjusted p < 0.30 per slate; player props 10+ pts from the Kalshi mid need corroboration. SHADOW_ONLY = $0 (logged for learning). Nothing is placed.
 
@@ -10,14 +10,14 @@ EV / median / P(profit) / percentiles use the MODEL's joint distribution at exec
 
 | portfolio | stake | EV (model) | EV adj | median | P(profit) | p10 | p05 | adj growth bp |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| A highest edges (independent) | 100.00 | +25.54 | +11.38 | +12.59 | 0.655 | -39.54 | -64.65 | 92.64 |
-| B thesis-diversified (joint) ← optimiser card | 77.57 | +18.54 | +10.17 | +9.20 | 0.604 | -26.90 | -47.54 | 88.95 |
-| C best expression per thesis | 52.50 | +8.65 | +3.43 | +1.34 | 0.541 | -21.54 | -31.10 | 30.25 |
-| R FUNDED research stakes | 7.00 | +1.25 | +0.85 | -0.91 | 0.132 | -7.00 | -7.00 | 0.00 |
+| A highest edges (independent) | 100.00 | +25.54 | +11.58 | +12.59 | 0.655 | -39.54 | -64.65 | 94.61 |
+| B thesis-diversified (joint) ← optimiser card | 61.20 | +19.15 | +10.66 | +16.81 | 0.560 | -31.17 | -34.90 | 93.08 |
+| C best expression per thesis | 52.85 | +8.76 | +3.58 | +0.99 | 0.541 | -22.26 | -31.45 | 31.50 |
+| R FUNDED research stakes | 5.00 | +1.98 | +1.36 | -5.00 | 0.346 | -5.00 | -5.00 | 0.00 |
 
-## STL @ UTA  ·  10000 joint draws  ·  436 bet sides mapped, 10 +EV candidates, 4 on card
+## STL @ UTA  ·  10000 joint draws  ·  436 bet sides mapped, 12 +EV candidates, 4 on card
 
-sportsbook moneyline consensus (5 books): home 0.459 / away 0.541
+sportsbook moneyline consensus (5 books): home 0.457 / away 0.543
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
@@ -34,29 +34,29 @@ sportsbook moneyline consensus (5 books): home 0.459 / away 0.541
 
 | bet | ask | p model | p adj | EV raw | EV adj | optimiser stake | research status | research $ | thesis | fidelity (capture) | reliability | bench |
 |---|---:|---:|---:|---:|---:|---:|---|---:|---|---|---|---|
-| Lawson Crouse: 1+ goals YES | 18 | 0.246 | 0.227 | +0.056 | +0.037 | $10.70 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | UTA:OFFENSE_4PLUS | FRAGILE (0.36) | EVIDENCE_STRONGER | D |
-| Jack McBain: 1+ goals YES | 13 | 0.182 | 0.168 | +0.044 | +0.030 | $8.13 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | UTA:OFFENSE_4PLUS | FRAGILE (0.27) | EVIDENCE_STRONGER | D |
-| Kevin Stenlund: 1+ goals YES | 8 | 0.104 | 0.097 | +0.019 | +0.012 | $3.07 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | UTA:OFFENSE_4PLUS | FRAGILE (0.17) | EVIDENCE_STRONGER | D |
-| Daniil But: 1+ goals NO | 81 | 0.846 | 0.836 | +0.025 | +0.015 | $20.00 | FUNDED_RESEARCH | $5 | UTA:SUPPRESSED | DIRECT (0.94) | EVIDENCE_STRONGER | D |
-- **Lawson Crouse: 1+ goals YES** — thesis: UTA offense succeeds (4+ goals); alternative: KXNHLAST-26NOV12STLUTA-UTABHAYTON27-1|yes; why: higher confidence-adjusted growth (18.91 vs 4.68 bp); despite a smaller raw edge (+0.056 vs +0.060/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; relationships: KXNHLGOAL-26NOV12STLUTA-UTAJMCBAIN22-1|yes: MOSTLY_INDEPENDENT (phi -0.016); KXNHLGOAL-26NOV12STLUTA-UTAKSTENLUND82-1|yes: MOSTLY_INDEPENDENT (phi -0.009); KXNHLGOAL-26NOV12STLUTA-UTADBUT19-1|no: MOSTLY_INDEPENDENT (phi -0.006); failure: UTA offense suppressed (<= 2 goals)
-- **Jack McBain: 1+ goals YES** — thesis: UTA offense succeeds (4+ goals); alternative: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes; why: second expression of the same thesis: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes has the higher standalone adjusted growth (18.91 vs 16.35 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it -0.016); they share one thesis budget; relationships: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes: MOSTLY_INDEPENDENT (phi -0.016); KXNHLGOAL-26NOV12STLUTA-UTAKSTENLUND82-1|yes: MOSTLY_INDEPENDENT (phi -0.006); KXNHLGOAL-26NOV12STLUTA-UTADBUT19-1|no: MOSTLY_INDEPENDENT (phi -0.002); failure: UTA offense suppressed (<= 2 goals)
-- **Kevin Stenlund: 1+ goals YES** — thesis: UTA offense succeeds (4+ goals); alternative: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes; why: second expression of the same thesis: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes has the higher standalone adjusted growth (18.91 vs 3.77 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it -0.009); they share one thesis budget; relationships: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes: MOSTLY_INDEPENDENT (phi -0.009); KXNHLGOAL-26NOV12STLUTA-UTAJMCBAIN22-1|yes: MOSTLY_INDEPENDENT (phi -0.006); KXNHLGOAL-26NOV12STLUTA-UTADBUT19-1|no: MOSTLY_INDEPENDENT (phi -0.023); failure: UTA offense suppressed (<= 2 goals)
-- **Daniil But: 1+ goals NO** — thesis: UTA offense suppressed (<= 2 goals); alternative: KXNHLAST-26NOV12STLUTA-UTAVTROCHECK16-1|no; why: higher confidence-adjusted growth (3.43 vs 0.86 bp); despite a smaller raw edge (+0.025 vs +0.040/contract); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; alternative not eligible: confidence-adjusted EV +0.0094 below the 0.010/contract floor; relationships: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes: MOSTLY_INDEPENDENT (phi -0.006); KXNHLGOAL-26NOV12STLUTA-UTAJMCBAIN22-1|yes: MOSTLY_INDEPENDENT (phi -0.002); KXNHLGOAL-26NOV12STLUTA-UTAKSTENLUND82-1|yes: MOSTLY_INDEPENDENT (phi -0.023); failure: UTA offense succeeds (4+ goals)
+| Lawson Crouse: 1+ goals YES | 18 | 0.246 | 0.228 | +0.056 | +0.038 | $11.13 | FUNDED_RESEARCH | $3 | UTA:OFFENSE_4PLUS | FRAGILE (0.36) | EVIDENCE_STRONGER | D |
+| Jack McBain: 1+ goals YES | 13 | 0.182 | 0.168 | +0.044 | +0.030 | $8.20 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | UTA:OFFENSE_4PLUS | FRAGILE (0.27) | EVIDENCE_STRONGER | D |
+| Ross Johnston: 1+ goals YES | 6 | 0.083 | 0.076 | +0.019 | +0.012 | $3.07 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | STL:OFFENSE_4PLUS | FRAGILE (0.13) | EVIDENCE_STRONGER | D |
+| Liam O'Brien: 1+ goals YES | 7 | 0.095 | 0.087 | +0.020 | +0.013 | $3.15 | SHADOW_ONLY — PLAYER_PROP_GAME_CAP | $0 | UTA:OFFENSE_4PLUS | FRAGILE (0.14) | EVIDENCE_STRONGER | D |
+- **Lawson Crouse: 1+ goals YES** — thesis: UTA offense succeeds (4+ goals); alternative: KXNHLAST-26NOV12STLUTA-UTAMWEEGAR52-2|yes; why: higher confidence-adjusted growth (20.21 vs 5.43 bp); evidence EVIDENCE_STRONGER vs EVIDENCE_MIXED; wins across more scripts (relative breadth 0.902 vs 0.747); relationships: KXNHLGOAL-26NOV12STLUTA-UTAJMCBAIN22-1|yes: MOSTLY_INDEPENDENT (phi -0.016); KXNHLGOAL-26NOV12STLUTA-STLRJOHNSTON49-1|yes: MOSTLY_INDEPENDENT (phi -0.007); KXNHLGOAL-26NOV12STLUTA-UTALOBRIEN38-1|yes: MOSTLY_INDEPENDENT (phi -0.013); failure: UTA offense suppressed (<= 2 goals)
+- **Jack McBain: 1+ goals YES** — thesis: UTA offense succeeds (4+ goals); alternative: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes; why: second expression of the same thesis: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes has the higher standalone adjusted growth (20.21 vs 16.35 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it -0.016); they share one thesis budget; relationships: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes: MOSTLY_INDEPENDENT (phi -0.016); KXNHLGOAL-26NOV12STLUTA-STLRJOHNSTON49-1|yes: MOSTLY_INDEPENDENT (phi -0.024); KXNHLGOAL-26NOV12STLUTA-UTALOBRIEN38-1|yes: MOSTLY_INDEPENDENT (phi -0.002); failure: UTA offense suppressed (<= 2 goals)
+- **Ross Johnston: 1+ goals YES** — thesis: STL offense succeeds (4+ goals); alternative: KXNHLGOAL-26NOV12STLUTA-STLPSUTER22-1|yes; why: higher confidence-adjusted growth (5.33 vs 0.80 bp); alternative not eligible: confidence-adjusted EV +0.0068 below the 0.010/contract floor; relationships: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes: MOSTLY_INDEPENDENT (phi -0.007); KXNHLGOAL-26NOV12STLUTA-UTAJMCBAIN22-1|yes: MOSTLY_INDEPENDENT (phi -0.024); KXNHLGOAL-26NOV12STLUTA-UTALOBRIEN38-1|yes: MOSTLY_INDEPENDENT (phi -0.001); failure: STL offense suppressed (<= 2 goals)
+- **Liam O'Brien: 1+ goals YES** — thesis: UTA offense succeeds (4+ goals); alternative: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes; why: second expression of the same thesis: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes has the higher standalone adjusted growth (20.21 vs 4.92 bp) and is also on the card; the joint optimum keeps both because their outcomes are nearly independent (phi with it -0.013); they share one thesis budget; relationships: KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes: MOSTLY_INDEPENDENT (phi -0.013); KXNHLGOAL-26NOV12STLUTA-UTAJMCBAIN22-1|yes: MOSTLY_INDEPENDENT (phi -0.002); KXNHLGOAL-26NOV12STLUTA-STLRJOHNSTON49-1|yes: MOSTLY_INDEPENDENT (phi -0.001); failure: UTA offense suppressed (<= 2 goals)
 
 **Review**: scripts balanced shots · normal event (5-7) · decided (2+) 0.12, balanced shots · normal event (5-7) · tight (1-goal/OT) 0.11, UTA shot control · normal event (5-7) · decided (2+) 0.10.
 - thesis UTA:OFFENSE_4PLUS (p 0.4237): highest fidelity KXNHLSPREAD-26NOV12STLUTA-UTA2|yes [DIRECT], best adjusted EV KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
 - thesis UTA:WINS_BY_2PLUS (p 0.312): highest fidelity KXNHLSPREAD-26NOV12STLUTA-UTA2|yes [STRUCTURAL], best adjusted EV KXNHLTEAMTOTAL-26NOV12STLUTA-UTA5|yes — the best-adjusted-EV expression is kept: the higher-fidelity one is not within one tick of its adjusted EV or is not more reliable / higher fidelity on the preference order
-- thesis UTA:SUPPRESSED (p 0.3627): highest fidelity - [-], best adjusted EV - — no eligible expression
-- KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 64% of the draws where the thesis happens; fragile player expression; opposing: failure thesis UTA:SUPPRESSED (p 0.3627, phi -0.231)
+- thesis STL:OFFENSE_4PLUS (p 0.3803): highest fidelity - [-], best adjusted EV - — no eligible expression
+- KXNHLGOAL-26NOV12STLUTA-UTALCROUSE67-1|yes: FUNDED_RESEARCH; family TRUSTED; loses 64% of the draws where the thesis happens; fragile player expression; opposing: failure thesis UTA:SUPPRESSED (p 0.3627, phi -0.231)
 - KXNHLGOAL-26NOV12STLUTA-UTAJMCBAIN22-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 73% of the draws where the thesis happens; fragile player expression; opposing: failure thesis UTA:SUPPRESSED (p 0.3627, phi -0.187)
-- KXNHLGOAL-26NOV12STLUTA-UTAKSTENLUND82-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 83% of the draws where the thesis happens; fragile player expression; opposing: failure thesis UTA:SUPPRESSED (p 0.3627, phi -0.156)
-- KXNHLGOAL-26NOV12STLUTA-UTADBUT19-1|no: FUNDED_RESEARCH; family TRUSTED; loses 6% of the draws where the thesis happens; fragile player expression; opposing: failure thesis UTA:OFFENSE_4PLUS (p 0.4237, phi -0.192)
+- KXNHLGOAL-26NOV12STLUTA-STLRJOHNSTON49-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 87% of the draws where the thesis happens; fragile player expression; opposing: failure thesis STL:SUPPRESSED (p 0.4013, phi -0.121)
+- KXNHLGOAL-26NOV12STLUTA-UTALOBRIEN38-1|yes: SHADOW_ONLY — PLAYER_PROP_GAME_CAP; family TRUSTED; loses 86% of the draws where the thesis happens; fragile player expression; opposing: failure thesis UTA:SUPPRESSED (p 0.3627, phi -0.129)
 
-portfolios: A EV +12.62 (adj +6.24) on $50.00, P(profit) 0.5801, adj growth 48.3 bp · B EV +7.07 (adj +4.64) on $41.91, P(profit) 0.4394, adj growth 40.1 bp · C EV +3.42 (adj +2.11) on $12.14, P(profit) 0.2462, adj growth 18.2 bp · R EV +0.15 (adj +0.09) on $5.00, P(profit) 0.8462, adj growth 3.3 bp
+portfolios: A EV +12.62 (adj +6.44) on $50.00, P(profit) 0.5801, adj growth 50.3 bp · B EV +7.68 (adj +5.13) on $25.54, P(profit) 0.4942, adj growth 44.2 bp · C EV +3.52 (adj +2.26) on $12.49, P(profit) 0.2462, adj growth 19.4 bp · R EV +0.88 (adj +0.60) on $3.00, P(profit) 0.2462, adj growth 20.4 bp
 
 ## NYI @ LAK  ·  10000 joint draws  ·  364 bet sides mapped, 9 +EV candidates, 4 on card
 
-sportsbook moneyline consensus (5 books): home 0.527 / away 0.473
+sportsbook moneyline consensus (5 books): home 0.526 / away 0.474
 
 **Game scripts** (shot control · environment · margin; 18 occur, top 6 shown)
 
