@@ -2,7 +2,7 @@
 
 RESEARCH_ONLY · registration: `docs/research/workload_v1/LC_PROSPECTIVE_REGISTRATION.md` · conditional on dressing · interim looks are descriptive
 
-* pregame records 6676 · late records excluded 0 · scored (dressed) 5067 · candidates who did not dress 946 · awaiting the official result 663 · paired with the incumbent's pregame forecast 4739
+* pregame records 6676 · late records excluded 0 · scored (dressed) 5137 · candidates who did not dress 957 · awaiting the official result 582 · paired with the incumbent's pregame forecast 4739
 * **verdict: INCONCLUSIVE AT n=4739 (decision look at 30000)**
 * registered looks computed so far: none
 
