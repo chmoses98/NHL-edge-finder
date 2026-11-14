@@ -1,26 +1,26 @@
 # NHL slate 2026-11-13 — RESEARCH_ONLY
 
-generated 2026-11-14T01:31:10Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
+generated 2026-11-14T01:53:47Z · model DATA_ONLY_V1 · sim nhl-sim-1.1 · 20000 sims/game
 
 games on date: 2 · simulated (not started): 2 · markets on board: 2610 · contracts joined: 446 (unjoined to any game: 1319)
-gates: {'UNSUPPORTED': 396, 'OK': 23, 'NO_EDGE': 27}
+gates: {'UNSUPPORTED': 396, 'OK': 24, 'NO_EDGE': 26}
 families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player_assists': 60, 'game_early_goal': 2, 'first_goal': 72, 'game_winner': 4, 'player_goals': 125, 'game_overtime': 2, 'player_points': 83, 'goalie_saves': 4, 'game_spread': 8, 'team_total': 20, 'game_total': 18}
 
 | game | start UTC | horizon | P(home) | P(away) | P(OT) | exp total | home G | away G | contracts (supported/unsupported) | goalies H/A |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| NYR @ VAN | 2026-11-14T02:00:00Z | T-10m | 0.419 | 0.581 | 0.172 | 6.53 | 3.01 | 3.52 | 220 (25/195) | PROJECTED/PROJECTED |
+| NYR @ VAN | 2026-11-14T02:00:00Z | T-<10m | 0.419 | 0.581 | 0.172 | 6.53 | 3.01 | 3.52 | 220 (25/195) | PROJECTED/PROJECTED |
 | NSH @ VGK | 2026-11-14T03:00:00Z | T-60m | 0.597 | 0.403 | 0.169 | 6.39 | 3.51 | 2.88 | 226 (25/201) | PROJECTED/PROJECTED |
 
 ## Contracts (research view; sorted by fee-adjusted EV of the best side; NOT recommendations)
 
 | ticker | family | P(data) | P(mkt mid) | P(anchored) | yes ask | no ask | best | EV after fee | gate |
 |---|---|---:|---:|---:|---:|---:|---|---:|---|
-| KXNHLGAME-26NOV13NYRVAN-NYR | game_winner | 0.581 | 0.665 | 0.649 | 67 | 34 | no | +0.064 | OK |
-| KXNHLGAME-26NOV13NYRVAN-VAN | game_winner | 0.419 | 0.335 | 0.351 | 34 | 67 | yes | +0.064 | OK |
 | KXNHLSPREAD-26NOV13NYRVAN-NYR3 | game_spread | 0.233 | 0.315 | 0.297 | 32 | 69 | no | +0.062 | OK |
-| KXNHLTEAMTOTAL-26NOV13NYRVAN-VAN3 | team_total | 0.578 | 0.495 | 0.512 | 50 | 51 | yes | +0.061 | OK |
 | KXNHLSPREAD-26NOV13NYRVAN-NYR2 | game_spread | 0.364 | 0.445 | 0.428 | 45 | 56 | no | +0.058 | OK |
 | KXNHLTEAMTOTAL-26NOV13NYRVAN-VAN4 | team_total | 0.368 | 0.295 | 0.309 | 30 | 71 | yes | +0.054 | OK |
+| KXNHLGAME-26NOV13NYRVAN-NYR | game_winner | 0.581 | 0.655 | 0.641 | 66 | 35 | no | +0.053 | OK |
+| KXNHLGAME-26NOV13NYRVAN-VAN | game_winner | 0.419 | 0.345 | 0.359 | 35 | 66 | yes | +0.053 | OK |
+| KXNHLTEAMTOTAL-26NOV13NYRVAN-VAN3 | team_total | 0.578 | 0.505 | 0.520 | 51 | 50 | yes | +0.051 | OK |
 | KXNHLTEAMTOTAL-26NOV13NYRVAN-VAN5 | team_total | 0.195 | 0.130 | 0.141 | 14 | 88 | yes | +0.047 | OK |
 | KXNHLTEAMTOTAL-26NOV13NYRVAN-NYR4 | team_total | 0.483 | 0.545 | 0.533 | 55 | 46 | no | +0.039 | OK |
 | KXNHLSPREAD-26NOV13NYRVAN-VAN2 | game_spread | 0.228 | 0.175 | 0.185 | 18 | 83 | yes | +0.037 | OK |
@@ -30,24 +30,26 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHLTOTAL-26NOV13NSHVGK-10 | game_total | 0.100 | 0.065 | 0.071 | 7 | 94 | yes | +0.025 | OK |
 | KXNHLTOTAL-26NOV13NSHVGK-9 | game_total | 0.204 | 0.165 | 0.172 | 17 | 84 | yes | +0.025 | OK |
 | KXNHLTEAMTOTAL-26NOV13NYRVAN-NYR3 | team_total | 0.693 | 0.735 | 0.727 | 74 | 27 | no | +0.024 | OK |
-| KXNHLTEAMTOTAL-26NOV13NYRVAN-VAN6 | team_total | 0.087 | 0.050 | 0.056 | 6 | 96 | yes | +0.023 | OK |
+| KXNHLTEAMTOTAL-26NOV13NYRVAN-VAN6 | team_total | 0.087 | 0.055 | 0.060 | 6 | 95 | yes | +0.023 | OK |
 | KXNHLTOTAL-26NOV13NSHVGK-8 | game_total | 0.285 | 0.245 | 0.253 | 25 | 76 | yes | +0.022 | OK |
 | KXNHLTOTAL-26NOV13NYRVAN-10 | game_total | 0.111 | 0.085 | 0.090 | 9 | 92 | yes | +0.015 | OK |
 | KXNHLTOTAL-26NOV13NYRVAN-8 | game_total | 0.309 | 0.275 | 0.282 | 28 | 73 | yes | +0.015 | OK |
 | KXNHLTEAMTOTAL-26NOV13NYRVAN-NYR5 | team_total | 0.284 | 0.315 | 0.309 | 32 | 69 | no | +0.011 | OK |
-| KXNHLTOTAL-26NOV13NYRVAN-9 | game_total | 0.222 | 0.190 | 0.196 | 20 | 82 | yes | +0.010 | OK |
+| KXNHLTEAMTOTAL-26NOV13NSHVGK-VGK6 | team_total | 0.138 | 0.110 | 0.115 | 12 | 90 | yes | +0.010 | OK |
 | KXNHLTOTAL-26NOV13NSHVGK-7 | game_total | 0.477 | 0.445 | 0.451 | 45 | 56 | yes | +0.009 | OK |
 | KXNHLTOTAL-26NOV13NSHVGK-6 | game_total | 0.593 | 0.565 | 0.571 | 57 | 44 | yes | +0.006 | OK |
-| KXNHLTEAMTOTAL-26NOV13NSHVGK-VGK6 | team_total | 0.138 | 0.115 | 0.119 | 13 | 90 |  | -0.000 | NO_EDGE |
+| KXNHLTOTAL-26NOV13NYRVAN-9 | game_total | 0.222 | 0.200 | 0.204 | 21 | 81 | yes | +0.000 | OK |
 | KXNHLTEAMTOTAL-26NOV13NSHVGK-VGK5 | team_total | 0.283 | 0.260 | 0.265 | 27 | 75 |  | -0.000 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV13NSHVGK-NSH5 | team_total | 0.168 | 0.145 | 0.149 | 16 | 87 |  | -0.001 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV13NSHVGK-NSH6 | team_total | 0.073 | 0.065 | 0.067 | 7 | 94 |  | -0.002 | NO_EDGE |
+| KXNHLTOTAL-26NOV13NYRVAN-2 | game_total | 0.989 | 0.985 | 0.986 | 99 | 2 |  | -0.002 | NO_EDGE |
 | KXNHLTOTAL-26NOV13NSHVGK-3 | game_total | 0.970 | 0.975 | 0.974 | 98 | 3 |  | -0.002 | NO_EDGE |
+| KXNHLTOTAL-26NOV13NYRVAN-3 | game_total | 0.971 | 0.975 | 0.974 | 98 | 3 |  | -0.003 | NO_EDGE |
 | KXNHLTOTAL-26NOV13NSHVGK-4 | game_total | 0.874 | 0.865 | 0.867 | 87 | 14 |  | -0.004 | NO_EDGE |
 | KXNHLTOTAL-26NOV13NSHVGK-2 | game_total | 0.987 | 0.985 | 0.985 | 99 | 2 |  | -0.004 | NO_EDGE |
-| KXNHLTEAMTOTAL-26NOV13NSHVGK-NSH3 | team_total | 0.553 | 0.535 | 0.539 | 54 | 47 |  | -0.004 | NO_EDGE |
+| KXNHLTEAMTOTAL-26NOV13NSHVGK-NSH3 | team_total | 0.553 | 0.530 | 0.535 | 54 | 48 |  | -0.004 | NO_EDGE |
 | KXNHLSPREAD-26NOV13NSHVGK-NSH3 | game_spread | 0.117 | 0.125 | 0.123 | 13 | 88 |  | -0.004 | NO_EDGE |
-| KXNHLTOTAL-26NOV13NYRVAN-7 | game_total | 0.503 | 0.480 | 0.485 | 49 | 53 |  | -0.005 | NO_EDGE |
+| KXNHLTOTAL-26NOV13NYRVAN-7 | game_total | 0.503 | 0.485 | 0.489 | 49 | 52 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26NOV13NYRVAN-5 | game_total | 0.804 | 0.815 | 0.813 | 82 | 19 |  | -0.005 | NO_EDGE |
 | KXNHLTOTAL-26NOV13NSHVGK-5 | game_total | 0.795 | 0.785 | 0.787 | 79 | 22 |  | -0.007 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV13NSHVGK-VGK3 | team_total | 0.688 | 0.670 | 0.674 | 68 | 34 |  | -0.007 | NO_EDGE |
@@ -59,29 +61,27 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHLTEAMTOTAL-26NOV13NSHVGK-NSH4 | team_total | 0.337 | 0.320 | 0.323 | 33 | 69 |  | -0.009 | NO_EDGE |
 | KXNHLGAME-26NOV13NSHVGK-VGK | game_winner | 0.597 | 0.585 | 0.587 | 59 | 42 |  | -0.010 | NO_EDGE |
 | KXNHLSPREAD-26NOV13NSHVGK-NSH2 | game_spread | 0.209 | 0.215 | 0.214 | 22 | 79 |  | -0.010 | NO_EDGE |
-| KXNHLTOTAL-26NOV13NYRVAN-2 | game_total | 0.989 | 0.980 | 0.982 |  | 2 |  | -0.010 | NO_EDGE |
 | KXNHLTEAMTOTAL-26NOV13NYRVAN-NYR6 | team_total | 0.142 | 0.150 | 0.148 | 16 | 86 |  | -0.011 | NO_EDGE |
-| KXNHLTOTAL-26NOV13NYRVAN-3 | game_total | 0.971 | 0.970 | 0.970 | 98 | 4 |  | -0.011 | NO_EDGE |
 | KXNHLTOTAL-26NOV13NYRVAN-6 | game_total | 0.614 | 0.605 | 0.607 | 61 | 40 |  | -0.013 | NO_EDGE |
 | KXNHLSPREAD-26NOV13NSHVGK-VGK2 | game_spread | 0.378 | 0.375 | 0.376 | 38 | 63 |  | -0.018 | NO_EDGE |
 | KXNHLGAME-26NOV13NSHVGK-NSH | game_winner | 0.403 | 0.405 | 0.405 | 41 | 60 |  | -0.020 | NO_EDGE |
 | KXNHL1P-26NOV13NYRVAN-NYR | period_winner |  | 0.415 |  | 42 | 59 |  |  | UNSUPPORTED |
 | KXNHL1P-26NOV13NYRVAN-TIE | period_winner |  | 0.315 |  | 32 | 69 |  |  | UNSUPPORTED |
 | KXNHL1P-26NOV13NYRVAN-VAN | period_winner |  | 0.265 |  | 27 | 74 |  |  | UNSUPPORTED |
-| KXNHL1PSPREAD-26NOV13NYRVAN-NYR2 | period_spread |  | 0.160 |  | 17 | 85 |  |  | UNSUPPORTED |
+| KXNHL1PSPREAD-26NOV13NYRVAN-NYR2 | period_spread |  | 0.155 |  | 16 | 85 |  |  | UNSUPPORTED |
 | KXNHL1PSPREAD-26NOV13NYRVAN-VAN2 | period_spread |  | 0.050 |  | 6 | 96 |  |  | UNSUPPORTED |
 | KXNHL1PTOTAL-26NOV13NYRVAN-1 | period_total |  | 0.850 |  | 86 | 16 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26NOV13NYRVAN-2 | period_total |  | 0.585 |  | 59 | 42 |  |  | UNSUPPORTED |
-| KXNHL1PTOTAL-26NOV13NYRVAN-3 | period_total |  | 0.285 |  | 29 | 72 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26NOV13NYRVAN-2 | period_total |  | 0.580 |  | 59 | 43 |  |  | UNSUPPORTED |
+| KXNHL1PTOTAL-26NOV13NYRVAN-3 | period_total |  | 0.295 |  | 31 | 72 |  |  | UNSUPPORTED |
 | KXNHL2P-26NOV13NYRVAN-NYR | period_winner |  | 0.435 |  | 44 | 57 |  |  | UNSUPPORTED |
-| KXNHL2P-26NOV13NYRVAN-TIE | period_winner |  | 0.290 |  | 30 | 72 |  |  | UNSUPPORTED |
+| KXNHL2P-26NOV13NYRVAN-TIE | period_winner |  | 0.295 |  | 30 | 71 |  |  | UNSUPPORTED |
 | KXNHL2P-26NOV13NYRVAN-VAN | period_winner |  | 0.270 |  | 28 | 74 |  |  | UNSUPPORTED |
-| KXNHL2PSPREAD-26NOV13NYRVAN-NYR2 | period_spread |  | 0.175 |  | 19 | 84 |  |  | UNSUPPORTED |
+| KXNHL2PSPREAD-26NOV13NYRVAN-NYR2 | period_spread |  | 0.170 |  | 18 | 84 |  |  | UNSUPPORTED |
 | KXNHL2PSPREAD-26NOV13NYRVAN-VAN2 | period_spread |  | 0.070 |  | 8 | 94 |  |  | UNSUPPORTED |
-| KXNHL2PTOTAL-26NOV13NYRVAN-1 | period_total |  | 0.905 |  | 92 | 11 |  |  | UNSUPPORTED |
+| KXNHL2PTOTAL-26NOV13NYRVAN-1 | period_total |  | 0.900 |  | 92 | 12 |  |  | UNSUPPORTED |
 | KXNHL2PTOTAL-26NOV13NYRVAN-2 | period_total |  | 0.625 |  | 63 | 38 |  |  | UNSUPPORTED |
 | KXNHL2PTOTAL-26NOV13NYRVAN-3 | period_total |  | 0.350 |  | 36 | 66 |  |  | UNSUPPORTED |
-| KXNHL3P-26NOV13NYRVAN-NYR | period_winner |  | 0.475 |  | 48 | 53 |  |  | UNSUPPORTED |
+| KXNHL3P-26NOV13NYRVAN-NYR | period_winner |  | 0.470 |  | 48 | 54 |  |  | UNSUPPORTED |
 | KXNHL3P-26NOV13NYRVAN-TIE | period_winner |  | 0.255 |  | 27 | 76 |  |  | UNSUPPORTED |
 | KXNHL3P-26NOV13NYRVAN-VAN | period_winner |  | 0.275 |  | 29 | 74 |  |  | UNSUPPORTED |
 | KXNHL3PSPREAD-26NOV13NYRVAN-NYR2 | period_spread |  | 0.220 |  | 24 | 80 |  |  | UNSUPPORTED |
@@ -89,11 +89,11 @@ families: {'period_winner': 18, 'period_spread': 12, 'period_total': 18, 'player
 | KXNHL3PTOTAL-26NOV13NYRVAN-1 | period_total |  | 0.910 |  | 93 | 11 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26NOV13NYRVAN-2 | period_total |  | 0.675 |  | 69 | 34 |  |  | UNSUPPORTED |
 | KXNHL3PTOTAL-26NOV13NYRVAN-3 | period_total |  | 0.395 |  | 41 | 62 |  |  | UNSUPPORTED |
-| KXNHLAST-26NOV13NYRVAN-NYRAFOX23-1 | player_assists |  | 0.635 |  | 64 | 37 |  |  | UNSUPPORTED |
-| KXNHLAST-26NOV13NYRVAN-NYRAFOX23-2 | player_assists |  | 0.230 |  | 24 | 78 |  |  | UNSUPPORTED |
+| KXNHLAST-26NOV13NYRVAN-NYRAFOX23-1 | player_assists |  | 0.625 |  | 63 | 38 |  |  | UNSUPPORTED |
+| KXNHLAST-26NOV13NYRVAN-NYRAFOX23-2 | player_assists |  | 0.235 |  | 25 | 78 |  |  | UNSUPPORTED |
 | KXNHLAST-26NOV13NYRVAN-NYRAFOX23-3 | player_assists |  | 0.065 |  | 8 | 95 |  |  | UNSUPPORTED |
 | KXNHLAST-26NOV13NYRVAN-NYRALAFRENIERE13-1 | player_assists |  | 0.390 |  | 40 | 62 |  |  | UNSUPPORTED |
-| KXNHLAST-26NOV13NYRVAN-NYRALAFRENIERE13-2 | player_assists |  | 0.095 |  | 11 | 92 |  |  | UNSUPPORTED |
+| KXNHLAST-26NOV13NYRVAN-NYRALAFRENIERE13-2 | player_assists |  | 0.080 |  | 9 | 93 |  |  | UNSUPPORTED |
 | KXNHLAST-26NOV13NYRVAN-NYRGPERREAULT94-1 | player_assists |  | 0.325 |  | 33 | 68 |  |  | UNSUPPORTED |
 
 ## DATA_ONLY_V2 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
@@ -108,13 +108,13 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 
 ## Thesis card (RESEARCH_ONLY): status COMPLETE · gate PASS · 7 recommended · full analysis in card.md / packet.json `thesis_card`
 
-- New York R wins by over 1.5 goals NO @ 56c · p 0.722 (adj 0.6134) · $18.59 · thesis VAN:WINS
-- Mika Zibanejad: 1+ goals NO @ 66c · p 0.7173 (adj 0.7017) · $14.46 · thesis NYR:SUPPRESSED
-- Gabe Perreault: 1+ goals NO @ 71c · p 0.7641 (adj 0.7481) · $15.54 · thesis NYR:SUPPRESSED
-- Braeden Bowman: 1+ goals YES @ 13c · p 0.1735 (adj 0.1614) · $6.21 · thesis VGK:OFFENSE_4PLUS
-- Steven Stamkos: 1+ goals NO @ 65c · p 0.7106 (adj 0.6942) · $20.0 · thesis NSH:SUPPRESSED
-- Brett Howden: 1+ goals YES @ 18c · p 0.2237 (adj 0.2115) · $5.99 · thesis VGK:OFFENSE_4PLUS
-- Victor Olofsson: 1+ goals NO @ 74c · p 0.7803 (adj 0.769) · $16.38 · thesis VGK:SUPPRESSED
+- Linus Karlsson: 1+ goals YES @ 16c · p 0.239 (adj 0.218) · $12.51 · thesis VAN:OFFENSE_4PLUS
+- New York R wins by over 1.5 goals NO @ 56c · p 0.722 (adj 0.6134) · $16.78 · thesis VAN:WINS
+- Gabe Perreault: 1+ goals NO @ 71c · p 0.7641 (adj 0.7493) · $19.11 · thesis NYR:SUPPRESSED
+- Braeden Bowman: 1+ goals YES @ 13c · p 0.1735 (adj 0.1614) · $6.26 · thesis VGK:OFFENSE_4PLUS
+- Brett Howden: 1+ goals YES @ 18c · p 0.2237 (adj 0.2115) · $6.21 · thesis VGK:OFFENSE_4PLUS
+- Ivan Barbashev: 1+ goals YES @ 21c · p 0.2554 (adj 0.2428) · $6.69 · thesis VGK:OFFENSE_4PLUS
+- Victor Olofsson: 1+ goals NO @ 74c · p 0.7803 (adj 0.769) · $16.01 · thesis VGK:SUPPRESSED
 
 ## PLAYER_SIM_V1 shadow (RESEARCH_ONLY; not a gate, not a recommendation)
 
@@ -125,11 +125,11 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | contract | P(model) | P(mkt) | yes/no ask | best EV after fee | quality |
 |---|---:|---:|---|---:|---|
 | Pavel Dorofeyev: 1+ points | 0.455 | 0.590 | 60/42 | +0.108 | STANDARD |
-| Adam Fox: 1+ assists | 0.516 | 0.635 | 64/37 | +0.098 | STANDARD |
 | Pavel Dorofeyev: 1+ goals | 0.272 | 0.385 | 39/62 | +0.091 | STANDARD |
-| Adam Fox: 2+ points | 0.215 | 0.325 | 33/68 | +0.090 | STANDARD |
-| Adam Fox: 1+ points | 0.578 | 0.680 | 69/33 | +0.076 | STANDARD |
+| Adam Fox: 1+ assists | 0.516 | 0.625 | 63/38 | +0.088 | STANDARD |
+| Adam Fox: 2+ points | 0.215 | 0.320 | 34/70 | +0.070 | STANDARD |
 | J.T. Miller: 1+ assists | 0.351 | 0.450 | 46/56 | +0.072 | STANDARD |
+| Adam Fox: 1+ points | 0.578 | 0.675 | 68/33 | +0.076 | STANDARD |
 
 **NSH @ VGK** · priced 174/175 player contracts · lineups RECENT_SHIFTS/RECENT_SHIFTS
 - VGK net: Carter Hart (PROJECTED) exp shots 25.55, exp saves 22.46 (sd 6.11), pull risk 0.048
@@ -140,9 +140,9 @@ _DATA_ONLY_V2 is a SHADOW research arm that began at this run's timestamp; it ne
 | Ivan Barbashev: 1+ points | 0.539 | 0.440 | 45/57 | +0.072 | STANDARD |
 | Ivan Barbashev: 1+ assists | 0.386 | 0.290 | 30/72 | +0.071 | STANDARD |
 | Jack Eichel: 2+ points | 0.262 | 0.355 | 36/65 | +0.072 | STANDARD |
-| Roman Josi: 1+ assists | 0.439 | 0.525 | 53/48 | +0.064 | STANDARD |
 | Jack Eichel: 1+ assists | 0.474 | 0.560 | 57/45 | +0.058 | STANDARD |
-| Mitch Marner: 1+ points | 0.597 | 0.680 | 69/33 | +0.058 | STANDARD |
+| Victor Olofsson: 1+ assists | 0.232 | 0.315 | 32/69 | +0.063 | STANDARD |
+| Jack Eichel: 1+ points | 0.636 | 0.715 | 72/29 | +0.059 | STANDARD |
 
 _PLAYER_SIM_V1 is a SHADOW research arm: joint goals / assists / points / saves / first goal from the nhl-sim-2.0 draw. It never gates, never changes V1 or V2 and carries no authority. Probabilities are conditional on the player playing._
 
